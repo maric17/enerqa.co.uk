@@ -11,6 +11,8 @@ import { Tools } from './collections/Tools'
 import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
 
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -32,6 +34,15 @@ export default buildConfig({
     Team,
   ],
   editor: lexicalEditor({}),
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
   secret: process.env.PAYLOAD_SECRET || 'fallback-secret-key-1234567890',
   db: postgresAdapter({
     pool: {

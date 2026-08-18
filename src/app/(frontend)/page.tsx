@@ -9,24 +9,19 @@ import { AboutEnerqa } from '@/components/home/AboutEnerqa'
 import { ImpactStats } from '@/components/home/ImpactStats'
 import { GlobalNetwork } from '@/components/home/GlobalNetwork'
 import { ContactCTA } from '@/components/shared/ContactCTA'
-import { Footer } from '@/components/layout/Footer'
-
 export default function HomePage() {
   return (
     <>
-      <main id="main">
-        <Hero />
-        <InsightsTeaser />
-        <KnowledgeTeaser />
-        <SustainabilityData />
-        <TransitionPriorities />
-        <Tools />
-        <AboutEnerqa />
-        <ImpactStats />
-        <GlobalNetwork />
-        <ContactCTA />
-      </main>
-      <Footer />
+      <Hero />
+      <InsightsTeaser />
+      <KnowledgeTeaser />
+      <SustainabilityData />
+      <TransitionPriorities />
+      <Tools />
+      <AboutEnerqa />
+      <ImpactStats />
+      <GlobalNetwork />
+      <ContactCTA />
     </>
   )
 }
