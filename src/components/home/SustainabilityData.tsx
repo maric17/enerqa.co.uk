@@ -77,10 +77,11 @@ export const SustainabilityData = () => {
   const info = dataHub[activeTab]
 
   return (
-    <section id="sustainability-data" className="relative bg-white pt-[100px] pb-[60px] overflow-visible">
+    <section className="band" id="sustainability-data" style={{ position: 'relative', background: '#ffffff', padding: '100px 0 60px', overflow: 'visible' }}>
       {/* Background SVG Network */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0">
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', top: 0, left: 0, opacity: 0.28 }}>
+          {/* Connection lines */}
           <line x1="-40" y1="40" x2="180" y2="10" stroke="rgba(139,21,56,0.32)" strokeWidth="1.8" />
           <line x1="180" y1="10" x2="360" y2="90" stroke="rgba(139,21,56,0.28)" strokeWidth="1.8" />
           <line x1="-40" y1="40" x2="60" y2="260" stroke="rgba(139,21,56,0.22)" strokeWidth="1.8" />
@@ -89,7 +90,7 @@ export const SustainabilityData = () => {
           <line x1="60" y1="260" x2="280" y2="220" stroke="rgba(139,21,56,0.26)" strokeWidth="1.8" />
           <line x1="280" y1="220" x2="460" y2="300" stroke="rgba(139,21,56,0.26)" strokeWidth="1.8" />
           <line x1="180" y1="10" x2="460" y2="300" stroke="rgba(139,21,56,0.18)" strokeWidth="1.2" strokeDasharray="4 4" />
-          
+          {/* Nodes */}
           <circle cx="-40" cy="40" r="8" fill="rgba(139,21,56,0.38)" />
           <circle cx="-40" cy="40" r="4" fill="rgba(139,21,56,0.75)" />
           <circle cx="180" cy="10" r="10" fill="rgba(139,21,56,0.35)" />
@@ -105,26 +106,26 @@ export const SustainabilityData = () => {
         </svg>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-6 relative z-[1]">
-        <div className="flex gap-12 flex-wrap items-start">
+      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
           
-          {/* Left Column (Description and Tabs) */}
-          <div className="flex-1 min-w-[320px] max-w-[480px] flex flex-col gap-6">
-            <h3 className="text-[clamp(28px,3.5vw,42px)] font-light text-gray-900 leading-[1.15] tracking-[-0.02em] m-0 uppercase">
-              <span className="font-extrabold">Data</span> for Sustainability
+          {/* Left Column */}
+          <div style={{ flex: 1, minWidth: '320px', maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <h3 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
+              <span style={{ fontWeight: 800 }}>Data</span> for Sustainability
             </h3>
-            <p className="text-[15px] text-gray-600 leading-[1.6] m-0">
+            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
               Access critical ESG disclosures, carbon intensity trends, policy risks, and green finance insights to drive data-led corporate transitions.
             </p>
-            <a href="/tools" className="bg-[#8B1538] hover:bg-[#72102d] text-white px-7 py-3 rounded-full text-[13.5px] font-bold w-fit transition-colors">
+            <a href="/tools" className="btn primary client-hover-btn-primary" style={{ background: '#8B1538', color: '#ffffff', padding: '12px 28px', borderRadius: '100px', fontSize: '13.5px', textDecoration: 'none', fontWeight: 700, width: 'fit-content', display: 'inline-block', transition: 'background 0.3s' }}>
               Explore Data Hub
             </a>
 
-            <div className="flex flex-col gap-2 mt-4">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-gray-400 mb-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 Explore by Focus Area
               </span>
-              <div className="flex flex-wrap gap-2.5">
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 {[
                   { key: 'emissions', label: 'Emissions' },
                   { key: 'energy', label: 'Clean Energy' },
@@ -136,7 +137,11 @@ export const SustainabilityData = () => {
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key as TabKey)}
-                    className={`px-3 py-1.5 rounded-full text-[12px] font-bold transition-all border ${activeTab === tab.key ? 'bg-white text-[#8B1538] border-[#8B1538] shadow-sm' : 'bg-transparent text-gray-500 border-gray-200 hover:border-[#8B1538] hover:text-[#8B1538]'}`}
+                    className={`data-tab-btn ${activeTab === tab.key ? 'active' : ''}`}
+                    style={activeTab === tab.key 
+                      ? { padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, border: '1.5px solid #8B1538', background: '#ffffff', color: '#8B1538', cursor: 'pointer' }
+                      : { padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, border: '1.5px solid var(--line)', background: 'transparent', color: 'var(--ink-soft)', cursor: 'pointer', transition: 'all 0.2s' }
+                    }
                   >
                     {tab.label}
                   </button>
@@ -145,43 +150,50 @@ export const SustainabilityData = () => {
             </div>
           </div>
 
-          {/* Right Column (Cards Grid & Chart Container) */}
-          <div className="flex-[1.8] min-w-[320px] lg:min-w-[480px] flex flex-col gap-9">
-            
+          {/* Right Column */}
+          <div style={{ flex: 1.8, minWidth: '480px', display: 'flex', flexDirection: 'column', gap: '36px' }}>
             {/* Cards Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-b border-[#8B1538]/10 pb-8">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', borderBottom: '1px solid rgba(139, 21, 56, 0.1)', paddingBottom: '32px' }}>
               {info.cards.map((card, idx) => (
-                <div key={idx} className="flex flex-col gap-1.5 p-4 rounded bg-gray-50/50 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{card.category}</div>
-                  <div className="text-[18px] font-extrabold text-[#8B1538] leading-none mb-1">{card.value}</div>
-                  <div className="text-[12px] text-gray-500 leading-snug">{card.text}</div>
+                <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{card.category}</div>
+                  <div style={{ fontSize: '24px', fontWeight: 800, color: '#8B1538', lineHeight: 1.1 }}>{card.value}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{card.text}</div>
                 </div>
               ))}
             </div>
 
             {/* Dynamic Graph Visualizer Card */}
-            <div className="flex flex-col gap-5">
-              <div className="flex justify-between items-center flex-wrap gap-4">
-                <h4 className="text-[15px] font-bold text-gray-900 m-0 tracking-tight">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h4 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>
                   {info.chartTitle}
                 </h4>
-                <div className="text-[11px] font-bold text-[#8B1538] flex items-center gap-1.5 uppercase tracking-wider">
-                  <span className="inline-block w-1.5 h-1.5 bg-[#8B1538] rounded-full animate-pulse"></span>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: '#8B1538', display: 'flex', alignItems: 'center', gap: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#8B1538', borderRadius: '50%' }}></span>
                   Interactive Projection
                 </div>
               </div>
 
               {/* SVG Graph Container */}
-              <div className="w-full h-[220px] relative bg-white border border-gray-100 rounded-lg p-2 shadow-sm overflow-hidden flex items-center justify-center">
-                <div className="text-gray-400 text-sm italic">
+              <div style={{ width: '100%', height: '220px', position: 'relative' }}>
+                <div style={{ color: 'var(--ink-muted)', fontSize: '13px', fontStyle: 'italic', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', border: '1px dashed var(--line)', borderRadius: 'var(--r-md)' }}>
                   [Chart Placeholder: {info.chartType} graph for {activeTab}]
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .client-hover-btn-primary:hover { background: #72102d !important; }
+        .data-tab-btn:not(.active):hover { border-color: #8B1538 !important; color: #8B1538 !important; }
+        @media (max-width: 900px) {
+          #sustainability-data .wrap > div { flex-direction: column; }
+          #sustainability-data .wrap > div > div:nth-child(2) { min-width: 100% !important; }
+        }
+      `}} />
     </section>
   )
 }
+

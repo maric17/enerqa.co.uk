@@ -18,7 +18,7 @@ const SITE_INDEX = [
 ];
 
 export function Header() {
-  const { setLanguage } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -122,8 +122,8 @@ export function Header() {
           </nav>
           <div className="header-actions">
             <div className="langswitch">
-              <button onClick={() => setLanguage('en')}>EN</button>
-              <button onClick={() => setLanguage('ar')}>AR</button>
+              <button onClick={() => setLanguage('en')} className={language === 'en' ? 'active' : ''}>EN</button>
+              <button onClick={() => setLanguage('ar')} className={language === 'ar' ? 'active' : ''}>AR</button>
             </div>
             <button className="icon-btn" onClick={() => setIsSearchOpen(true)} aria-label="Search" title="Search"
               style={{ color: 'rgba(255, 255, 255, 0.85)', background: 'transparent', fontSize: 15, borderRadius: '50%', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

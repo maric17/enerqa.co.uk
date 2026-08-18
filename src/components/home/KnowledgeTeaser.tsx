@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { KnowledgeSlider } from './KnowledgeSlider'
@@ -13,19 +12,19 @@ export const KnowledgeTeaser = async () => {
     depth: 1, // Populate the file/media relation
   })
 
-  // Map bgGradientType to actual Tailwind gradients
+  // Map bgGradientType to actual CSS gradients
   const gradientMap: Record<string, string> = {
-    'Green': 'from-[#0e3029] to-[#061915]',
-    'Red': 'from-[#8B1538] to-[#4a0a1c]',
-    'Blue': 'from-[#0f2841] to-[#06121e]',
-    'Dark': 'from-[#1b0a0f] to-[#100407]'
+    'Green': 'linear-gradient(135deg, #0e3029 0%, #061915 100%)',
+    'Red': 'linear-gradient(135deg, #8B1538 0%, #4a0a1c 100%)',
+    'Blue': 'linear-gradient(135deg, #0f2841 0%, #06121e 100%)',
+    'Dark': 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)'
   }
   
   const typeColorMap: Record<string, string> = {
-    'Advisory Note': 'text-[#a8d5cd]',
-    'Case Study': 'text-[#ffb7c5]',
-    'Technical Paper': 'text-[#c1f2e6]',
-    'Strategic Report': 'text-[#ffb7c5]'
+    'Advisory Note': 'rgba(168,213,205,0.85)',
+    'Case Study': 'rgba(255,183,197,0.85)',
+    'Technical Paper': 'rgba(193,242,230,0.85)',
+    'Strategic Report': 'rgba(255,183,197,0.85)'
   }
 
   // Fallback data if CMS is empty
@@ -33,10 +32,10 @@ export const KnowledgeTeaser = async () => {
     {
       id: '1',
       type: 'Advisory Note',
-      typeColor: 'text-[#a8d5cd]',
+      typeColor: 'rgba(168,213,205,0.85)',
       title: 'Climate Finance Checklist',
       date: 'June 2026',
-      bgGradient: 'from-[#0e3029] to-[#061915]',
+      bgGradient: 'linear-gradient(135deg, #0e3029 0%, #061915 100%)',
       heading: 'Climate Finance Readiness Checklist',
       excerpt: 'How organizations can align project criteria to successfully prepare and qualify for international green funding lines.',
       file: '/assets/publications/Climate-Finance-Advisory.pdf'
@@ -44,10 +43,10 @@ export const KnowledgeTeaser = async () => {
     {
       id: '2',
       type: 'Case Study',
-      typeColor: 'text-[#ffb7c5]',
+      typeColor: 'rgba(255,183,197,0.85)',
       title: 'ESIA Frameworks for Utility Solar',
       date: 'November 2025',
-      bgGradient: 'from-[#8B1538] to-[#4a0a1c]',
+      bgGradient: 'linear-gradient(135deg, #8B1538 0%, #4a0a1c 100%)',
       heading: 'ESIA Frameworks for Solar in Water-Stressed Areas',
       excerpt: 'Environmental & social impact assessments tailored for massive utility-scale PV deployments across highly arid environments.',
       file: '/assets/publications/Sustainable-Agriculture-Redsea.pdf'
@@ -55,10 +54,10 @@ export const KnowledgeTeaser = async () => {
     {
       id: '3',
       type: 'Technical Paper',
-      typeColor: 'text-[#c1f2e6]',
+      typeColor: 'rgba(193,242,230,0.85)',
       title: 'Distributed Energy Resources',
       date: 'September 2025',
-      bgGradient: 'from-[#0f2841] to-[#06121e]',
+      bgGradient: 'linear-gradient(135deg, #0f2841 0%, #06121e 100%)',
       heading: 'Feasibility Modelling for Distributed Resources',
       excerpt: 'Economic and grid stability viability modeling for localized behind-the-meter generation networks.',
       file: '/assets/publications/GHG-Emissions-Report.pdf'
@@ -66,10 +65,10 @@ export const KnowledgeTeaser = async () => {
     {
       id: '4',
       type: 'Strategic Report',
-      typeColor: 'text-[#ffb7c5]',
+      typeColor: 'rgba(255,183,197,0.85)',
       title: 'National Energy Transition Models',
       date: 'August 2025',
-      bgGradient: 'from-[#1b0a0f] to-[#100407]',
+      bgGradient: 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)',
       heading: 'National Grid Decarbonization Models',
       excerpt: 'Macroeconomic pathways and resource integration policies modeled to target 50% carbon reduction by 2035.',
       file: '/assets/publications/GHG-Emissions-Report.pdf'
@@ -84,10 +83,10 @@ export const KnowledgeTeaser = async () => {
     return {
       id: doc.id,
       type: doc.type,
-      typeColor: typeColorMap[doc.type] || 'text-[#ffb7c5]',
+      typeColor: typeColorMap[doc.type] || 'rgba(255,183,197,0.85)',
       title: doc.title,
       date: formattedDate,
-      bgGradient: gradientMap[doc.bgGradientType] || 'from-[#1b0a0f] to-[#100407]',
+      bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)',
       heading: doc.heading,
       excerpt: doc.excerpt,
       // @ts-ignore
@@ -96,31 +95,12 @@ export const KnowledgeTeaser = async () => {
   }) : defaultPublications
 
   return (
-    <section id="knowledge-teaser" className="bg-[#FAF7F6] py-[60px] overflow-visible relative">
-      <div className="w-full max-w-7xl mx-auto px-6">
-        
-        {/* Header Row */}
-        <div className="flex justify-between items-end mb-12 flex-wrap gap-6 relative z-10">
-          <div className="max-w-[600px] text-left">
-            <h2 className="text-[clamp(24px,3.5vw,38px)] font-light text-gray-900 leading-[1.2] tracking-[-0.02em] m-0 uppercase">
-              <span className="font-extrabold">Research</span> &amp; Publications
-            </h2>
-          </div>
-
-          <div className="flex items-center gap-5 flex-wrap">
-            <Link 
-              href="/knowledge-hub"
-              className="border-[1.5px] border-[#8B1538] text-[#8B1538] hover:bg-[#8B1538] hover:text-white bg-transparent px-6 py-2.5 rounded-full text-[13px] no-underline font-bold transition-all whitespace-nowrap inline-block"
-            >
-              More Research &amp; Publications
-            </Link>
-          </div>
-        </div>
-
+    <section className="band" id="knowledge-teaser" style={{ background: '#FAF7F6', padding: '60px 0', overflow: 'visible', position: 'relative' }}>
+      <div className="wrap">
         {/* Use Client Component for the slider interactiveness */}
         <KnowledgeSlider publications={publications} />
-
       </div>
     </section>
   )
 }
+

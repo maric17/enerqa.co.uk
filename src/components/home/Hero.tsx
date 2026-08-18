@@ -1,58 +1,55 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export const Hero = () => {
   return (
-    <section className="relative w-full min-h-[90vh] flex flex-col justify-center overflow-hidden pt-20">
-      {/* Background Image & Overlay */}
-      <div className="absolute inset-0 z-0 bg-[#8c1639]">
-        <Image src="/images/hero-bg.jpg" alt="Background" fill className="object-cover opacity-30 mix-blend-overlay" priority />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#8c1639]/90 via-[#8c1639]/70 to-[#111827]" />
-      </div>
+    <section className="hero-insights">
+      <div className="hero-insights-bg"></div>
+      <div className="hero-insights-overlay"></div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 flex flex-col items-center justify-center text-center">
-        <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#ffb7c5] mb-4">
-          Technical Advisory &amp; Knowledge Hub
-        </span>
-        
-        <h1 className="text-[clamp(34px,4.8vw,56px)] font-[800] leading-[1.15] tracking-[-0.03em] text-white max-w-4xl mb-4">
-          Sustainable decisions start with better data.
-        </h1>
-        
-        <p className="text-[clamp(15px,1.6vw,18px)] text-white/90 leading-[1.45] font-light max-w-[60ch] mb-8">
-          A resource base for climate action, carbon policy, and ESG transition parameters.
-        </p>
+      {/* Centered Hero Content */}
+      <div className="wrap" style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '24px', paddingBottom: '24px', flexGrow: 1 }}>
+        <div style={{ maxWidth: '820px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#ffb7c5', display: 'inline-block', marginBottom: '14px' }}>
+            Technical Advisory &amp; Knowledge Hub
+          </span>
+          <h1 style={{ fontSize: 'clamp(34px, 4.8vw, 56px)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.03em', color: '#ffffff', margin: '0 0 16px', textAlign: 'center' }}>
+            Sustainable decisions start with better data.
+          </h1>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255, 255, 255, 0.9)', lineHeight: 1.45, margin: '0 auto 26px', maxWidth: '60ch', fontWeight: 300, textAlign: 'center' }}>
+            A resource base for climate action, carbon policy, and ESG transition parameters.
+          </p>
 
-        {/* Large Search Bar */}
-        <div className="w-full max-w-[680px] mt-6">
-          <div className="relative flex items-center w-full bg-white rounded-full p-2 shadow-2xl">
-            <svg className="w-5 h-5 text-gray-500 ml-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" className="w-full bg-transparent border-none focus:outline-none focus:ring-0 px-4 text-[15px] text-gray-800 placeholder:text-gray-400" placeholder="Search publications, tools, and emissions dashboards..." />
-            <button className="bg-[#8c1639] hover:bg-[#72102d] text-white px-6 py-3 rounded-full text-[14px] font-bold tracking-wide transition-colors">
-              Search
-            </button>
-          </div>
+          {/* Large Search Bar */}
+          <div style={{ position: 'relative', width: '100%', maxWidth: '680px', zIndex: 5, margin: '24px auto 0' }}>
+            <div className="hero-search-wrapper">
+              <svg className="shrink-0" style={{ width: '20px', height: '20px', color: '#6b7280', marginRight: '12px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" className="hero-search-input" placeholder="Search publications, tools, and emissions dashboards..." aria-label="Search Query" />
+              <button className="hero-search-btn">
+                <span>Search</span>
+              </button>
+            </div>
 
-          {/* Trending Topics */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-            <div className="flex flex-wrap gap-2 pt-2">
-              {['Climate Finance', 'Grid Modelling', 'ESIA', 'Capacity Building', 'Monitoring & Evaluation'].map(tag => (
-                <Link key={tag} href="/knowledge-hub" className="text-[12px] text-white bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 px-3 py-1.5 rounded transition-colors">
-                  {tag}
-                </Link>
-              ))}
+            {/* Trending Topics / Quick Tags */}
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', alignSelf: 'center', marginRight: '4px' }}>Trending:</span>
+              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>GHG Inventories</Link>
+              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>Carbon Credits</Link>
+              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>ESG Disclosures</Link>
+              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>LEAP Modeling</Link>
+              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>Decarbonization</Link>
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
-        <a href="#insights-teaser" className="flex items-center justify-center w-11 h-11 rounded-full border border-white/25 bg-white/5 text-white hover:bg-white/10 transition-colors">
-          <svg className="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+
+      {/* Scroll Down Cue */}
+      <div style={{ position: 'relative', zIndex: 2, marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <a href="#insights-teaser" className="scroll-down-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.05)', color: '#ffffff', transition: 'all 0.3s ease', textDecoration: 'none' }}>
+          <svg className="scroll-arrow" style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </a>
       </div>
     </section>
   )
 }
+
