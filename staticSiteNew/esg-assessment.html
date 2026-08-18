@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG Readiness Assessment — enerQA</title>
+  <meta name="description" content="Assess your organization's Environmental, Social, and Governance performance instantly with enerQA's interactive ESG Readiness Assessment tool.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .q-card {
+      background: #ffffff;
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+    .q-card:hover {
+      border-color: rgba(139, 21, 56, 0.3);
+      box-shadow: 0 10px 25px rgba(139,21,56,0.03);
+    }
+    .opt-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-sm);
+      margin-top: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .opt-label:hover {
+      border-color: rgba(139, 21, 56, 0.4);
+      background: rgba(139, 21, 56, 0.02);
+    }
+    .opt-label input:checked + div {
+      font-weight: 600;
+    }
+    .opt-label:has(input:checked) {
+      border-color: #8B1538;
+      background: rgba(139, 21, 56, 0.05);
+    }
+    .opt-label input {
+      accent-color: #8B1538;
+      margin-top: 3px;
+    }
+    .pillar-header {
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #8B1538;
+      margin: 40px 0 20px;
+      border-bottom: 2px solid rgba(139,21,56,0.15);
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body data-lang="en">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site" style="background: #ffffff; border-bottom: 1px solid rgba(139, 21, 56, 0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+    <div class="header-main" style="max-width: var(--wrap); margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; height: 80px;">
+      <a href="index.html" class="logo-zone" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <img src="assets/images/logo-color.png" alt="enerQA Logo" style="height: 48px; width: auto; object-fit: contain;">
+      </a>
+      <nav class="primary-nav" style="display: flex; gap: 32px; align-items: center;">
+        <div class="nav-item"><a href="index.html" style="font-weight: 600;"><span class="en">Home</span><span class="ar">الرئيسية</span></a></div>
+        <div class="nav-item" style="position: relative;">
+          <a href="services.html" style="font-weight: 600; padding-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+            <span class="en">Services</span><span class="ar">الخدمات</span>
+            <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+          </a>
+          <div class="mega" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: 840px; background: #ffffff; border: 1px solid rgba(139, 21, 56, 0.15); border-radius: var(--r-md); padding: 24px; display: none; grid-template-columns: repeat(4, 1fr); gap: 20px; box-shadow: 0 10px 30px rgba(139, 21, 56, 0.08); z-index: 100;">
+            <div>
+              <h6 style="color: var(--green); font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;"><span class="en">Climate Change</span><span class="ar">تغير المناخ</span></h6>
+              <ul style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                <li><a href="services.html#climate-finance" style="color: var(--ink-soft);"><span class="en">Climate Finance</span><span class="ar">تمويل المناخ</span></a></li>
+                <li><a href="services.html#climate-action" style="color: var(--ink-soft);"><span class="en">Climate Action</span><span class="ar">العمل المناخي</span></a></li>
+                <li><a href="services.html#climate-reporting" style="color: var(--ink-soft);"><span class="en">Climate Reporting</span><span class="ar">تقارير المناخ</span></a></li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="color: var(--green); font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;"><span class="en">Energy</span><span class="ar">الطاقة</span></h6>
+              <ul style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                <li><a href="services.html#energy-management" style="color: var(--ink-soft);"><span class="en">Energy Management</span><span class="ar">إدارة الطاقة</span></a></li>
+                <li><a href="services.html#renewables-development" style="color: var(--ink-soft);"><span class="en">Renewables Dev</span><span class="ar">تطوير المتجددة</span></a></li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="color: var(--green); font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;"><span class="en">Environment</span><span class="ar">البيئة</span></h6>
+              <ul style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                <li><a href="services.html#environmental-strategic" style="color: var(--ink-soft);"><span class="en">Strategic</span><span class="ar">استراتيجي</span></a></li>
+                <li><a href="services.html#environmental-operational" style="color: var(--ink-soft);"><span class="en">Operational</span><span class="ar">تشغيلي</span></a></li>
+                <li><a href="services.html#environmental-esg" style="color: var(--ink-soft);"><span class="en">ESG Services</span><span class="ar">خدمات الحوكمة</span></a></li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="color: var(--green); font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;"><span class="en">Business Solutions</span><span class="ar">حلول الأعمال</span></h6>
+              <ul style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                <li><a href="services.html#feasibility-studies" style="color: var(--ink-soft);"><span class="en">Feasibility &amp; Plans</span><span class="ar">الجدوى والخطط</span></a></li>
+                <li><a href="services.html#supporting-studies" style="color: var(--ink-soft);"><span class="en">Supporting Studies</span><span class="ar">دراسات داعمة</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="tools.html" class="active" style="font-weight: 700; color: var(--green); border-bottom: 2px solid var(--green); padding-bottom: 4px;"><span class="en">Our Tools</span><span class="ar">أدواتنا</span></a></div>
+        <div class="nav-item"><a href="projects.html" style="font-weight: 600;"><span class="en">Projects</span><span class="ar">المشاريع</span></a></div>
+        <div class="nav-item"><a href="experts.html" style="font-weight: 600;"><span class="en">Experts</span><span class="ar">الخبراء</span></a></div>
+        <div class="nav-item"><a href="knowledge-hub.html" style="font-weight: 600;"><span class="en">Knowledge Hub</span><span class="ar">مركز المعرفة</span></a></div>
+      </nav>
+      <div class="header-actions" style="display: flex; gap: 16px; align-items: center;">
+        <div class="langswitch" style="display: flex; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--paper-alt);">
+          <button data-set-lang="en" style="padding: 6px 12px; font-size: 11px; font-weight: 700; transition: all 0.2s;">EN</button>
+          <button data-set-lang="ar" style="padding: 6px 12px; font-size: 11px; font-weight: 700; transition: all 0.2s;">AR</button>
+        </div>
+        <a href="index.html#cta" class="btn" style="background: var(--green); color: #ffffff; padding: 10px 24px; border-radius: 100px; font-size: 13px; font-weight: 700; transition: background 0.2s;"><span class="en">Contact</span><span class="ar">تواصل</span></a>
+        <button class="icon-btn menu-toggle" aria-label="Menu" style="display: none;"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================================================ HERO -->
+    <section style="background: var(--paper-alt); padding: 80px 0; border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #8B1538; letter-spacing: 0.15em; display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid rgba(139, 21, 56, 0.2); padding: 5px 14px; border-radius: 100px; width: fit-content; background: rgba(139, 21, 56, 0.04); margin-bottom: 18px;">
+          Interactive Tool
+        </span>
+        <h1 style="font-size: clamp(32px, 5vw, 48px); font-weight: 800; color: var(--ink); margin-bottom: 16px;">
+          <span class="en">ESG Readiness Tool</span>
+          <span class="ar">أداة قياس جاهزية الحوكمة</span>
+        </h1>
+        <p style="font-size: 18px; color: var(--ink-soft); max-width: 720px; line-height: 1.6; font-weight: 300;">
+          <span class="en">Instantly assess your organization's alignment with international environmental, social, and governance standards in-browser.</span>
+          <span class="ar">قم بتقييم مدى توافق مؤسستك مع المعايير البيئية والاجتماعية وحوكمة الشركات الدولية على الفور عبر المتصفح.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ TOOL INTERFACE -->
+    <section class="band" style="background: #ffffff; padding: 80px 0;">
+      <div class="wrap" style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 48px; align-items: flex-start;">
+        
+        <!-- Left: Questions -->
+        <form id="esg-form" onchange="calculateESGScore()">
+          
+          <!-- Environmental -->
+          <div class="pillar-header"><span class="en">Environmental (E)</span><span class="ar">البيئية</span></div>
+          
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q1: Greenhouse Gas Emissions Accounting &amp; Tracking</h4>
+            <div class="opt-label"><input type="radio" name="q1" value="0" checked><div>No tracking or accounting in place</div></div>
+            <div class="opt-label"><input type="radio" name="q1" value="3"><div>Drafting or planning basic emission tracking</div></div>
+            <div class="opt-label"><input type="radio" name="q1" value="6"><div>Active tracking of Scope 1 &amp; 2 emissions</div></div>
+            <div class="opt-label"><input type="radio" name="q1" value="10"><div>Comprehensive Scope 1-3 tracking with third-party audits</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q2: Renewable Energy &amp; Efficiency Optimizations</h4>
+            <div class="opt-label"><input type="radio" name="q2" value="0" checked><div>100% grid/fossil power without efficiency policies</div></div>
+            <div class="opt-label"><input type="radio" name="q2" value="3"><div>Evaluating efficiency optimizations and solar options</div></div>
+            <div class="opt-label"><input type="radio" name="q2" value="6"><div>Partial solar PV integration or energy savings policies</div></div>
+            <div class="opt-label"><input type="radio" name="q2" value="10"><div>Fully optimized energy transition with local solar integration</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q3: Waste Management &amp; Circular Economy Strategies</h4>
+            <div class="opt-label"><input type="radio" name="q3" value="0" checked><div>No waste policies; landfill only disposal</div></div>
+            <div class="opt-label"><input type="radio" name="q3" value="3"><div>Standard recycling bins and basic recycling policies</div></div>
+            <div class="opt-label"><input type="radio" name="q3" value="6"><div>Active monitoring of material recovery and circular paths</div></div>
+            <div class="opt-label"><input type="radio" name="q3" value="10"><div>Zero-waste goals and audited circular economy frameworks</div></div>
+          </div>
+
+          <!-- Social -->
+          <div class="pillar-header"><span class="en">Social (S)</span><span class="ar">الاجتماعية</span></div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q4: Labor Standards &amp; Employee Welfare</h4>
+            <div class="opt-label"><input type="radio" name="q4" value="0" checked><div>Basic compliance with local labor law</div></div>
+            <div class="opt-label"><input type="radio" name="q4" value="3"><div>Safety policies drafted; basic health insurance</div></div>
+            <div class="opt-label"><input type="radio" name="q4" value="6"><div>Regular safety training; enhanced wellness metrics</div></div>
+            <div class="opt-label"><input type="radio" name="q4" value="10"><div>Aligned with international labor standards and fair wages</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q5: Stakeholder &amp; Community Engagement</h4>
+            <div class="opt-label"><input type="radio" name="q5" value="0" checked><div>No active community programs or outreach</div></div>
+            <div class="opt-label"><input type="radio" name="q5" value="3"><div>Ad-hoc support for local community events</div></div>
+            <div class="opt-label"><input type="radio" name="q5" value="6"><div>Periodic feedback programs for community impacts</div></div>
+            <div class="opt-label"><input type="radio" name="q5" value="10"><div>Structured ESG community partnership programs in place</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q6: Professional Training &amp; Capacity Development</h4>
+            <div class="opt-label"><input type="radio" name="q6" value="0" checked><div>Basic job training only</div></div>
+            <div class="opt-label"><input type="radio" name="q6" value="3"><div>Sponsoring external courses occasionally</div></div>
+            <div class="opt-label"><input type="radio" name="q6" value="6"><div>Structured internal academies and safety programs</div></div>
+            <div class="opt-label"><input type="radio" name="q6" value="10"><div>Fully integrated capacity development (Academy model)</div></div>
+          </div>
+
+          <!-- Governance -->
+          <div class="pillar-header"><span class="en">Governance (G)</span><span class="ar">الحوكمة</span></div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q7: Corporate Ethics &amp; Board Independence</h4>
+            <div class="opt-label"><input type="radio" name="q7" value="0" checked><div>Basic corporate management structures</div></div>
+            <div class="opt-label"><input type="radio" name="q7" value="3"><div>Drafting Code of Ethics and Conduct</div></div>
+            <div class="opt-label"><input type="radio" name="q7" value="6"><div>Code of ethics implemented; independent board members</div></div>
+            <div class="opt-label"><input type="radio" name="q7" value="10"><div>Full board independence, anti-bribery policies, and whistleblower protections</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q8: Transparency &amp; ESG Reporting</h4>
+            <div class="opt-label"><input type="radio" name="q8" value="0" checked><div>No ESG disclosure reporting</div></div>
+            <div class="opt-label"><input type="radio" name="q8" value="3"><div>Drafting annual CSR report</div></div>
+            <div class="opt-label"><input type="radio" name="q8" value="6"><div>Public disclosures aligned with standard frameworks (GRI, SASB)</div></div>
+            <div class="opt-label"><input type="radio" name="q8" value="10"><div>Fully audited reports aligned with ISSB / IFRS standards</div></div>
+          </div>
+
+          <div class="q-card">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Q9: Supply Chain Compliance &amp; Due Diligence</h4>
+            <div class="opt-label"><input type="radio" name="q9" value="0" checked><div>No assessments on supply chain vendors</div></div>
+            <div class="opt-label"><input type="radio" name="q9" value="3"><div>Vendor agreements require basic legal compliance</div></div>
+            <div class="opt-label"><input type="radio" name="q9" value="6"><div>Screening tier-1 suppliers for safety and emissions data</div></div>
+            <div class="opt-label"><input type="radio" name="q9" value="10"><div>Mandatory ESG audits and ratings for all suppliers</div></div>
+          </div>
+        </form>
+
+        <!-- Right: Results Card -->
+        <div style="position: sticky; top: 120px; background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--r-md); padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 24px;" id="results-panel">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #8B1538; letter-spacing: 0.1em; display: block; margin-bottom: 8px;">Real-Time Score</span>
+            <div style="font-size: 64px; font-weight: 800; color: #8B1538; line-height: 1;" id="score-pct">0%</div>
+          </div>
+
+          <div>
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); letter-spacing: 0.1em; display: block; margin-bottom: 4px;">Performance Band</span>
+            <div style="font-size: 18px; font-weight: 700; color: var(--ink);" id="band-name">Bronze</div>
+          </div>
+
+          <div style="border-top: 1px solid var(--line); padding-top: 20px;">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 12px;">Roadmap &amp; Recommendations</h4>
+            <ul style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--ink-soft);" id="recommendations-list">
+              <li>Please complete the assessment to receive tailored recommendations.</li>
+            </ul>
+          </div>
+
+          <a href="#cta" class="btn" style="background: #8B1538; color: #ffffff; text-align: center; padding: 12px; border-radius: 100px; font-size: 13.5px; font-weight: 700; transition: background 0.2s;" onmouseover="this.style.background='#72102d'" onmouseout="this.style.background='#8B1538'">
+            Submit for Full Report
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background: #1b030a; color: #ffffff; padding: 80px 0 40px; border-top: 1px solid rgba(255,255,255,0.08);">
+    <div class="wrap" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;">
+      <div>
+        <img src="assets/images/logo-color.png" alt="enerQA" style="height: 40px; filter: brightness(0) invert(1); margin-bottom: 20px;">
+        <p style="font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;">
+          Engineering sustainable decisions through data-led technical advisory and custom compliance platforms.
+        </p>
+      </div>
+      <div>
+        <h5 style="color: #ffffff; font-size: 14px; margin-bottom: 18px;">Offices</h5>
+        <ul style="font-size: 12.5px; color: rgba(255,255,255,0.65); display: flex; flex-direction: column; gap: 8px;">
+          <li>London, United Kingdom</li>
+          <li>Doha, Qatar (MENA Office)</li>
+          <li>Muscat, Oman</li>
+          <li>Riyadh, Saudi Arabia</li>
+        </ul>
+      </div>
+      <div>
+        <h5 style="color: #ffffff; font-size: 14px; margin-bottom: 18px;">Links</h5>
+        <ul style="font-size: 12.5px; display: flex; flex-direction: column; gap: 8px;">
+          <li><a href="index.html" style="color: rgba(255,255,255,0.65); text-decoration: none;">Home</a></li>
+          <li><a href="services.html" style="color: rgba(255,255,255,0.65); text-decoration: none;">Services</a></li>
+          <li><a href="tools.html" style="color: rgba(255,255,255,0.65); text-decoration: none;">Our Tools</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 style="color: #ffffff; font-size: 14px; margin-bottom: 18px;">Contact</h5>
+        <p style="font-size: 12.5px; color: rgba(255,255,255,0.65);">
+          info@enerqa.com<br>
+          Doha, Qatar
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function calculateESGScore() {
+      const form = document.getElementById('esg-form');
+      const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+      let total = 0;
+      let recs = [];
+
+      const recTexts = {
+        q1: 'Establish Scope 1-3 GHG tracking aligned with IPCC & GHG Protocol.',
+        q2: 'Incorporate renewable PV solar integration modeling (easySOLAR).',
+        q3: 'Deploy circular economy plans and waste reduction protocols.',
+        q4: 'Formulate robust health, safety, and welfare governance frameworks.',
+        q5: 'Adopt structured local community stakeholder outreach strategies.',
+        q6: 'Build corporate capacity with custom seminars and technical academies.',
+        q7: 'Define whistleblower protection codes and board independence rules.',
+        q8: 'Formulate corporate sustainability reports aligned with ISSB criteria.',
+        q9: 'Enforce mandatory supplier ESG audits and screening programs.'
+      };
+
+      questions.forEach(q => {
+        const val = parseInt(form.elements[q].value);
+        total += val;
+        if (val <= 3) {
+          recs.push(recTexts[q]);
+        }
+      });
+
+      const scorePct = Math.round((total / 90) * 100);
+      document.getElementById('score-pct').textContent = scorePct + '%';
+
+      let band = 'Bronze';
+      if (scorePct >= 90) band = 'Platinum';
+      else if (scorePct >= 75) band = 'Gold';
+      else if (scorePct >= 50) band = 'Silver';
+
+      document.getElementById('band-name').textContent = band;
+
+      const recList = document.getElementById('recommendations-list');
+      recList.innerHTML = '';
+      if (recs.length === 0) {
+        recList.innerHTML = '<li>✓ All pillars meet gold/platinum readiness standard.</li>';
+      } else {
+        recs.forEach(r => {
+          recList.innerHTML += `<li>• ${r}</li>`;
+        });
+      }
+    }
+
+    calculateESGScore();
+  </script>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
