@@ -1,93 +1,86 @@
 import React from 'react'
-import Image from 'next/image'
 
 export const ImpactStats = () => {
-  const stats = [
-    {
-      number: '50+',
-      text: (
-        <>
-          <strong className="text-gray-900 font-bold">Successful Advisory Projects</strong> completed across MENA, Africa, and Europe, establishing a proven track record.
-        </>
-      )
-    },
-    {
-      number: '35+',
-      text: (
-        <>
-          <strong className="text-gray-900 font-bold">Multidisciplinary Experts</strong> including PhD and Master's graduates specializing in energy, climate, and ESG.
-        </>
-      )
-    },
-    {
-      number: '325+',
-      text: (
-        <>
-          <strong className="text-gray-900 font-bold">Years of Combined Experience</strong> driving impactful climate action, policy development, and strategic solutions.
-        </>
-      )
-    },
-    {
-      number: '25+',
-      text: (
-        <>
-          <strong className="text-gray-900 font-bold">Global Specialist Countries</strong> represented in our international consultancy and research network.
-        </>
-      )
-    }
-  ]
-
   return (
-    <section id="impact-stats" className="bg-white py-[60px] overflow-visible">
-      <div className="w-full max-w-7xl mx-auto px-6">
-        <div className="flex gap-16 items-center flex-wrap">
+    <section className="band" id="impact-stats" style={{ background: '#ffffff', padding: '60px 0', overflow: 'visible' }}>
+      <div className="wrap">
+        <div style={{ display: 'flex', gap: '64px', alignItems: 'center', flexWrap: 'wrap' }}>
 
           {/* Left Column (Image representing purpose/results) */}
-          <div className="flex-[1.2] min-w-[320px] relative">
-            <div className="rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(15,40,65,0.08)] border border-gray-200 h-[380px]">
-              <Image 
-                src="/images/port.jpg" 
-                alt="Strategic Maritime Port Advisory"
-                width={600}
-                height={380}
-                className="w-full h-full object-cover block"
-              />
+          <div style={{ flex: 1.2, minWidth: '320px', position: 'relative' }}>
+            <div style={{ borderRadius: 'var(--r-lg)', overflow: 'hidden', boxShadow: '0 20px 40px rgba(15,40,65,0.08)', border: '1px solid var(--line)', height: '380px' }}>
+              <img src="/assets/images/port.jpg" alt="Strategic Maritime Port Advisory" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
-            <div className="absolute -bottom-6 left-5 bg-[#8B1538] text-white p-5 px-6 rounded-lg shadow-[0_10px_25px_rgba(139,21,56,0.3)] max-w-[220px] text-left z-[2]">
-              <h5 className="text-[13px] font-extrabold uppercase tracking-[0.05em] m-0 mb-1.5">
+            <div style={{ position: 'absolute', bottom: '-24px', left: '20px', background: '#8B1538', color: '#ffffff', padding: '20px 24px', borderRadius: 'var(--r-md)', boxShadow: '0 10px 25px rgba(139,21,56,0.3)', maxWidth: '220px', textAlign: 'left', zIndex: 2 }}>
+              <h5 style={{ fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>
                 Advisory Audit
               </h5>
-              <p className="text-[12px] leading-[1.4] m-0 text-white/90 font-light">
+              <p style={{ fontSize: '12px', lineHeight: 1.4, margin: 0, color: 'rgba(255,255,255,0.9)', fontWeight: 300 }}>
                 Verified carbon reduction and technical viability across maritime corridors.
               </p>
             </div>
           </div>
 
-          {/* Right Column (Stats) */}
-          <div className="flex-[1.5] min-w-[360px] flex flex-col gap-8 text-left mt-8 md:mt-0">
+           {/* Right Column (Stats) */}
+          <div style={{ flex: 1.5, minWidth: '360px', display: 'flex', flexDirection: 'column', gap: '32px', textAlign: 'left' }}>
             <div>
-              <h3 className="text-[clamp(24px,3.5vw,38px)] font-light text-gray-900 leading-[1.2] tracking-[-0.02em] m-0 mb-4 uppercase">
-                Our <span className="font-extrabold">Impact</span>
+              <h3 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.02em', margin: '0 0 16px', textTransform: 'uppercase' }}>
+                Our <span style={{ fontWeight: 800 }}>Impact</span>
               </h3>
-              <p className="text-[15px] text-gray-600 leading-[1.6] m-0 font-light">
-                Our project evaluations and transition roadmaps deliver rigorous, audited milestones that stand up to institutional investor scrutiny and global rating standards.
+              <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0, fontWeight: 300 }}>
+                Our project evaluations and transition roadmaps deliver rigorous, audited milestones that stand up to
+                institutional investor scrutiny and global rating standards.
               </p>
             </div>
 
-            <div className="flex flex-col gap-6">
-              {stats.map((stat, idx) => (
-                <div key={idx} className="flex items-start gap-5 pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[32px] font-extrabold text-[#8B1538] leading-none tracking-[-0.03em] font-mono">
-                      {stat.number}
-                    </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#8B1538] shrink-0"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
-                  </div>
-                  <p className="text-[13.5px] text-gray-600 m-0 font-light pt-1.5">
-                    {stat.text}
-                  </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Stat Item 1 */}
+              <div className="stat-row-item">
+                <div className="stat-number">
+                  <span>50+</span>
+                  <svg style={{ width: '24px', height: '24px', color: '#8B1538', strokeWidth: '2.5px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
-              ))}
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, fontWeight: 300 }}>
+                  <strong style={{ color: 'var(--ink)' }}>Successful Advisory Projects</strong> completed across MENA,
+                  Africa, and Europe, establishing a proven track record.
+                </p>
+              </div>
+
+              {/* Stat Item 2 */}
+              <div className="stat-row-item">
+                <div className="stat-number">
+                  <span>35+</span>
+                  <svg style={{ width: '24px', height: '24px', color: '#8B1538', strokeWidth: '2.5px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </div>
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, fontWeight: 300 }}>
+                  <strong style={{ color: 'var(--ink)' }}>Multidisciplinary Experts</strong> including PhD and Master's
+                  graduates specializing in energy, climate, and ESG.
+                </p>
+              </div>
+
+              {/* Stat Item 3 */}
+              <div className="stat-row-item">
+                <div className="stat-number">
+                  <span>325+</span>
+                  <svg style={{ width: '24px', height: '24px', color: '#8B1538', strokeWidth: '2.5px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </div>
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, fontWeight: 300 }}>
+                  <strong style={{ color: 'var(--ink)' }}>Years of Combined Experience</strong> driving impactful
+                  climate action, policy development, and strategic solutions.
+                </p>
+              </div>
+
+              {/* Stat Item 4 */}
+              <div className="stat-row-item">
+                <div className="stat-number">
+                  <span>25+</span>
+                  <svg style={{ width: '24px', height: '24px', color: '#8B1538', strokeWidth: '2.5px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </div>
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, fontWeight: 300 }}>
+                  <strong style={{ color: 'var(--ink)' }}>Global Specialist Countries</strong> represented in our
+                  international consultancy and research network.
+                </p>
+              </div>
             </div>
           </div>
 

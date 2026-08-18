@@ -28,73 +28,76 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
 
   return (
     <>
-      {/* Sliding Navigation Arrows */}
-      <div className="flex gap-2">
-        <button 
-          onClick={() => scrollPublications('left')}
-          className="w-[42px] h-[42px] rounded-full border-[1.5px] border-gray-200 bg-white text-gray-500 flex items-center justify-center cursor-pointer transition-colors hover:border-[#8B1538] hover:text-[#8B1538]"
-          aria-label="Scroll left"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <button 
-          onClick={() => scrollPublications('right')}
-          className="w-[42px] h-[42px] rounded-full border-[1.5px] border-gray-200 bg-white text-gray-500 flex items-center justify-center cursor-pointer transition-colors hover:border-[#8B1538] hover:text-[#8B1538]"
-          aria-label="Scroll right"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
-      </div>
+      {/* Header Row with Title and Button / Slide Controls */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '24px' }}>
+        <div style={{ maxWidth: '600px', textAlign: 'left' }}>
+          <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
+            <span style={{ fontWeight: 800 }}>Research</span> &amp; Publications
+          </h2>
+        </div>
 
-      <div className="w-full relative mt-12">
-        {/* Slider Wrapper */}
-        <div 
-          id="publications-slider"
-          ref={sliderRef}
-          className="flex gap-14 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar absolute top-0 left-0 right-0 -mt-20 w-full pt-20"
-          style={{ position: 'relative', top: 'auto', left: 'auto', right: 'auto', marginTop: '0', paddingTop: '0' }} // Resetting the absolute styles for structure
-        >
-          {publications.map(pub => (
-            <div key={pub.id} className="flex-[0_0_calc(50%-28px)] min-w-[540px] max-[1100px]:flex-[0_0_100%] max-[1100px]:min-w-[100%] max-[580px]:flex-col max-[580px]:gap-5 snap-start flex gap-8 items-start">
-              
-              {/* Cover Image */}
-              <div 
-                className={`w-[220px] h-[290px] max-[580px]:w-[180px] max-[580px]:h-[240px] rounded-md overflow-hidden shadow-[0_16px_36px_rgba(139,21,56,0.18),0_4px_14px_rgba(0,0,0,0.12)] relative flex flex-col justify-between p-5 border border-white/10 shrink-0 bg-gradient-to-br ${pub.bgGradient}`}
-              >
-                <div className={`text-[10px] ${pub.typeColor} uppercase font-bold tracking-[0.1em]`}>
-                  {pub.type}
-                </div>
-                <div className="text-[16px] text-white font-extrabold leading-[1.35] drop-shadow-md">
-                  {pub.title}
-                </div>
-                <div className={`text-[10px] ${pub.typeColor} opacity-80 font-semibold`}>
-                  {pub.date}
-                </div>
-              </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          {/* Sliding Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={() => scrollPublications('left')} className="slider-arrow-btn" style={{ border: '1.5px solid var(--line)', background: '#ffffff', color: 'var(--ink-soft)', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>
+              <svg style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button onClick={() => scrollPublications('right')} className="slider-arrow-btn" style={{ border: '1.5px solid var(--line)', background: '#ffffff', color: 'var(--ink-soft)', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>
+              <svg style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
 
-              {/* Content */}
-              <div className="flex-1 flex flex-col text-left pt-1.5">
-                <h4 className="text-[21px] font-bold text-gray-900 leading-[1.3] m-0 mb-4 tracking-[-0.02em]">
-                  {pub.heading}
-                </h4>
-                <div className="border-b border-gray-200 mb-4 w-full"></div>
-                <p className="text-[14.5px] text-gray-600 leading-[1.6] m-0 mb-5 font-light">
-                  {pub.excerpt}
-                </p>
-                {pub.file && (
-                  <a 
-                    href={pub.file}
-                    className="text-[13px] font-bold text-[#8B1538] hover:text-[#72102d] border-b-[1.5px] border-[#8B1538] hover:border-[#72102d] pb-0.5 w-fit inline-flex items-center gap-1 transition-colors"
-                  >
-                    Read Full Report
-                  </a>
-                )}
-              </div>
-              
-            </div>
-          ))}
+          <a href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #8B1538', color: '#8B1538', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
+            More Research &amp; Publications
+          </a>
         </div>
       </div>
+
+      {/* Slider Wrapper */}
+      <div id="publications-slider" ref={sliderRef} style={{ display: 'flex', gap: '56px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollBehavior: 'smooth', paddingBottom: '24px', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+        {publications.map((pub, idx) => (
+          <div key={idx} className="publication-slide">
+            {/* Cover image */}
+            <div className="publication-cover" style={{ background: pub.bgGradient }}>
+              <div style={{ fontSize: '10px', color: pub.typeColor, textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.1em' }}>
+                {pub.type}
+              </div>
+              <div style={{ fontSize: '16px', color: '#ffffff', fontWeight: 800, lineHeight: 1.35, textShadow: '0 2px 4px rgba(0,0,0,0.35)' }}>
+                {pub.title}
+              </div>
+              <div style={{ fontSize: '10px', color: pub.typeColor, opacity: 0.8, fontWeight: 600 }}>
+                {pub.date}
+              </div>
+            </div>
+            {/* Content */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'left', paddingTop: '6px' }}>
+              <h4 style={{ fontSize: '21px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 16px', letterSpacing: '-0.02em' }}>
+                {pub.heading}
+              </h4>
+              <div style={{ borderBottom: '1px solid var(--line)', marginBottom: '16px', width: '100%' }}></div>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 20px', fontWeight: 300 }}>
+                {pub.excerpt}
+              </p>
+              {pub.file && (
+                <a href={pub.file} download className="client-read-btn" style={{ fontSize: '13px', fontWeight: 700, color: '#8B1538', textDecoration: 'none', borderBottom: '1.5px solid #8B1538', paddingBottom: '2px', width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.2s' }}>
+                  Read Full Report
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .slider-arrow-btn:hover { border-color: #8B1538 !important; color: #8B1538 !important; }
+        .client-hover-btn:hover { background: #8B1538 !important; color: #ffffff !important; }
+        .client-read-btn:hover { color: #72102d !important; border-bottom-color: #72102d !important; }
+        #publications-slider::-webkit-scrollbar { display: none; }
+        .publication-slide { flex: 0 0 calc(50% - 28px); min-width: 540px; scroll-snap-align: start; display: flex; gap: 32px; align-items: flex-start; }
+        .publication-cover { width: 220px; height: 290px; border-radius: 6px; overflow: hidden; box-shadow: 0 16px 36px rgba(139, 21, 56, 0.18), 0 4px 14px rgba(0, 0, 0, 0.12); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.08); flex-shrink: 0; }
+        @media (max-width: 1100px) { .publication-slide { flex: 0 0 100% !important; min-width: 100% !important; } }
+        @media (max-width: 580px) { .publication-slide { flex-direction: column !important; gap: 20px !important; } .publication-cover { width: 180px; height: 240px; } }
+      `}} />
     </>
   )
 }
+
