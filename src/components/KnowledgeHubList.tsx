@@ -105,7 +105,7 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
             {filteredPubs.map((pub) => (
               <div key={pub.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 p-6 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-colors bg-white shadow-sm hover:shadow-md">
                 <div className="flex flex-col items-start gap-3">
-                  <Badge variant="dark">
+                  <Badge variant="solid">
                     <span className="en">{pub.type}</span><span className="ar">{pub.type}</span>
                   </Badge>
                   <Typography variant="h3" className="text-ink m-0">

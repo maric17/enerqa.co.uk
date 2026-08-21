@@ -5,7 +5,7 @@ import "./style.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/components/LanguageProvider";
-import ScrollReveal from "@/components/ScrollReveal";
+import { SmoothScroll } from "@/components/animations/SmoothScroll";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -33,13 +33,14 @@ export default function RootLayout({
     <html lang="en" dir="ltr" className={`${inter.variable} ${alexandria.variable}`}>
       <body>
         <LanguageProvider>
-          <a className="skip-link" href="#main">Skip to content</a>
-          <Header />
-          <main id="main">
-            {children}
-          </main>
-          <ScrollReveal />
-          <Footer />
+          <SmoothScroll>
+            <a className="skip-link" href="#main">Skip to content</a>
+            <Header />
+            <main id="main">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
         </LanguageProvider>
       </body>
     </html>

@@ -90,7 +90,7 @@ export default async function InsightsPage() {
                   </p>
                   
                   <div className="mt-auto pt-2">
-                    <Badge variant="light">
+                    <Badge variant="outline">
                       {post.category}
                     </Badge>
                   </div>

@@ -102,7 +102,34 @@ export const SustainabilityData = () => {
       {/* Background SVG Network */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div ref={bgRef} className="absolute inset-x-0 -top-[25%] h-[150%] will-change-transform">
+          {/* Top Left SVG */}
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 opacity-[0.28]">
+          {/* Connection lines */}
+          <line x1="-40" y1="40" x2="180" y2="10" stroke="rgba(139,21,56,0.32)" strokeWidth="1.8" />
+          <line x1="180" y1="10" x2="360" y2="90" stroke="rgba(139,21,56,0.28)" strokeWidth="1.8" />
+          <line x1="-40" y1="40" x2="60" y2="260" stroke="rgba(139,21,56,0.22)" strokeWidth="1.8" />
+          <line x1="180" y1="10" x2="280" y2="220" stroke="rgba(139,21,56,0.22)" strokeWidth="1.8" />
+          <line x1="360" y1="90" x2="460" y2="300" stroke="rgba(139,21,56,0.22)" strokeWidth="1.8" />
+          <line x1="60" y1="260" x2="280" y2="220" stroke="rgba(139,21,56,0.26)" strokeWidth="1.8" />
+          <line x1="280" y1="220" x2="460" y2="300" stroke="rgba(139,21,56,0.26)" strokeWidth="1.8" />
+          <line x1="180" y1="10" x2="460" y2="300" stroke="rgba(139,21,56,0.18)" strokeWidth="1.2" strokeDasharray="4 4" />
+          {/* Nodes */}
+          <circle cx="-40" cy="40" r="8" fill="rgba(139,21,56,0.38)" />
+          <circle cx="-40" cy="40" r="4" fill="rgba(139,21,56,0.75)" />
+          <circle cx="180" cy="10" r="10" fill="rgba(139,21,56,0.35)" />
+          <circle cx="180" cy="10" r="5" fill="rgba(139,21,56,0.80)" />
+          <circle cx="360" cy="90" r="8" fill="rgba(139,21,56,0.38)" />
+          <circle cx="360" cy="90" r="4" fill="rgba(139,21,56,0.75)" />
+          <circle cx="60" cy="260" r="8" fill="rgba(139,21,56,0.38)" />
+          <circle cx="60" cy="260" r="4" fill="rgba(139,21,56,0.75)" />
+          <circle cx="280" cy="220" r="9" fill="rgba(139,21,56,0.35)" />
+          <circle cx="280" cy="220" r="4.5" fill="rgba(139,21,56,0.80)" />
+          <circle cx="460" cy="300" r="8" fill="rgba(139,21,56,0.38)" />
+          <circle cx="460" cy="300" r="4" fill="rgba(139,21,56,0.75)" />
+        </svg>
+
+        {/* Bottom Right SVG (Mirrored) */}
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 opacity-[0.28]" style={{ transform: 'rotate(180deg)' }}>
           {/* Connection lines */}
           <line x1="-40" y1="40" x2="180" y2="10" stroke="rgba(139,21,56,0.32)" strokeWidth="1.8" />
           <line x1="180" y1="10" x2="360" y2="90" stroke="rgba(139,21,56,0.28)" strokeWidth="1.8" />

@@ -30,8 +30,10 @@ export const Hero = () => {
 
     if (isDeleting) {
       if (displayedText.length === 0) {
-        setIsDeleting(false);
-        setTitleIndex((prev) => (prev + 1) % TITLES.length);
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setTitleIndex((prev) => (prev + 1) % TITLES.length);
+        }, 200);
       } else {
         timeout = setTimeout(() => {
           setDisplayedText(currentTitle.substring(0, displayedText.length - 1));
@@ -39,7 +41,9 @@ export const Hero = () => {
       }
     } else {
       if (displayedText.length === currentTitle.length) {
-        setIsPaused(true);
+        timeout = setTimeout(() => {
+          setIsPaused(true);
+        }, 10);
       } else {
         timeout = setTimeout(() => {
           setDisplayedText(currentTitle.substring(0, displayedText.length + 1));

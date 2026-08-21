@@ -1,4 +1,5 @@
 import React from 'react'
+import { CountUpNumber } from '../animations/CountUpNumber'
 import { Typography } from '../ui/Typography'
 import { Container } from '../ui/Container'
 
@@ -39,7 +40,7 @@ export const ImpactStats = () => {
               {/* Stat Item 1 */}
               <div className="stat-row-item">
                 <div className="stat-number">
-                  <span>50+</span>
+                  <CountUpNumber value={50} suffix="+" duration={2} delay={0.1} />
                   <svg className="w-6 h-6 text-[#8B1538] stroke-[2.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
                 <p className="text-[13.5px] text-ink-soft m-0 font-light">
@@ -51,7 +52,7 @@ export const ImpactStats = () => {
               {/* Stat Item 2 */}
               <div className="stat-row-item">
                 <div className="stat-number">
-                  <span>35+</span>
+                  <CountUpNumber value={35} suffix="+" duration={2} delay={0.2} />
                   <svg className="w-6 h-6 text-[#8B1538] stroke-[2.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
                 <p className="text-[13.5px] text-ink-soft m-0 font-light">
@@ -63,7 +64,7 @@ export const ImpactStats = () => {
               {/* Stat Item 3 */}
               <div className="stat-row-item">
                 <div className="stat-number">
-                  <span>325+</span>
+                  <CountUpNumber value={325} suffix="+" duration={2} delay={0.3} />
                   <svg className="w-6 h-6 text-[#8B1538] stroke-[2.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
                 <p className="text-[13.5px] text-ink-soft m-0 font-light">
@@ -75,7 +76,7 @@ export const ImpactStats = () => {
               {/* Stat Item 4 */}
               <div className="stat-row-item">
                 <div className="stat-number">
-                  <span>25+</span>
+                  <CountUpNumber value={25} suffix="+" duration={2} delay={0.4} />
                   <svg className="w-6 h-6 text-[#8B1538] stroke-[2.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
                 <p className="text-[13.5px] text-ink-soft m-0 font-light">
