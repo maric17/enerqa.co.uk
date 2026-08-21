@@ -1,11 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { Typography } from './ui/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faXTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { Container } from './ui/Container';
 
 export function Footer() {
   return (
     <footer className="site bg-[#1b030a] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
-      <div className="wrap">
+      <Container>
         {/* Top Row: Logo, Sister Brands, Socials */}
         <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
           <div className="flex items-center gap-6 flex-wrap">
@@ -25,10 +28,18 @@ export function Footer() {
           </div>
           {/* Socials */}
           <div className="flex gap-2">
-            <a href="https://facebook.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">f</a>
-            <a href="https://x.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">𝕏</a>
-            <a href="https://linkedin.com/company/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">in</a>
-            <a href="https://youtube.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">yt</a>
+            <a href="https://facebook.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faFacebookF} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="https://x.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faXTwitter} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="https://linkedin.com/company/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="https://youtube.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faYoutube} className="w-[14px] h-[14px]" />
+            </a>
           </div>
         </div>
 
@@ -85,7 +96,7 @@ export function Footer() {
             <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Access to Information</Link>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

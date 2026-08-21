@@ -1,10 +1,11 @@
 import React from 'react'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 export const GlobalNetwork = () => {
   return (
     <section className="bg-white py-[60px] overflow-visible" id="global-network">
-      <div className="wrap">
+      <Container>
         <div className="flex gap-16 items-center flex-wrap">
 
           {/* Left Column (Text & Offices list) */}
@@ -115,7 +116,7 @@ export const GlobalNetwork = () => {
           </div>
 
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

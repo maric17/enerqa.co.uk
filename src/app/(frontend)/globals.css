@@ -18,7 +18,7 @@
 
 /* Font configurations - easily changeable in one file */
 :root {
-  --font-en: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-en: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-ar: 'Alexandria', -apple-system, BlinkMacSystemFont, sans-serif;
   --sans: var(--font-en);
 }

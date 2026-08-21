@@ -1,10 +1,11 @@
 import React from 'react'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 export const ImpactStats = () => {
   return (
     <section className="bg-white py-[60px] overflow-visible" id="impact-stats">
-      <div className="wrap">
+      <Container>
         <div className="flex gap-16 items-center flex-wrap">
 
           {/* Left Column (Image representing purpose/results) */}
@@ -86,7 +87,7 @@ export const ImpactStats = () => {
           </div>
 
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

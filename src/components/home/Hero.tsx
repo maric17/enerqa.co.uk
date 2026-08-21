@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Container } from '../ui/Container'
 
 const TITLES = [
   "Sustainable decisions start with better data.",
@@ -64,7 +65,7 @@ export const Hero = () => {
       <div className="hero-insights-overlay"></div>
 
       {/* Centered Hero Content */}
-      <div className="wrap relative z-10 w-full flex flex-col items-center justify-center text-center py-6 grow">
+      <Container className="relative z-10 w-full flex flex-col items-center justify-center text-center py-6 grow">
         <div className="max-w-[820px] flex flex-col items-center">
           <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#ffb7c5] inline-block mb-3.5">
             Technical Advisory &amp; Knowledge Hub
@@ -100,7 +101,7 @@ export const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Scroll Down Cue */}
       <div className="relative z-10 mb-10 flex flex-col items-center justify-center w-full">

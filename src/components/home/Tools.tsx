@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 export const Tools = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -62,7 +63,7 @@ export const Tools = async () => {
 
   return (
     <section className="bg-white py-[60px]" id="tools">
-      <div className="wrap">
+      <Container>
 
         <div className="max-w-[800px] mb-12 text-left">
           <Typography variant="h2" className="text-ink uppercase mb-4">
@@ -144,7 +145,7 @@ export const Tools = async () => {
           </div>
           
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

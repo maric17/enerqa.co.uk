@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
@@ -18,7 +19,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/gas-energy.jpg')]"></div>
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
         
-        <div className="w-[90%] max-w-[1400px] mx-auto relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
+        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
             <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Contact</span><span className="ar text-white">تواصل</span>
           </div>
@@ -26,11 +27,11 @@ export default function ContactPage() {
             <span className="en block">Start a conversation.</span>
             <span className="ar block text-[0.8em] mt-3 text-white/90">ابدأ محادثة.</span>
           </Typography>
-        </div>
+        </Container>
       </section>
 
       <Section theme="light">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <div className="flex flex-col gap-8">
               <div>

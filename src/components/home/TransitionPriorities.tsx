@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 const pillars = [
   {
@@ -81,7 +82,7 @@ export const TransitionPriorities = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/80 z-10 pointer-events-none"></div>
 
         {/* Header Overlaid inside the stage */}
-        <div className="wrap absolute top-10 md:top-12 left-1/2 -translate-x-1/2 w-full z-30 pointer-events-none">
+        <Container className="absolute top-10 md:top-12 left-1/2 -translate-x-1/2 w-full z-30 pointer-events-none">
           <div className="max-w-[800px] text-left">
             <Typography variant="h2" className="text-white mb-3">
               <span className="en"><span className="font-bold">Action</span> Pillars</span>
@@ -92,7 +93,7 @@ export const TransitionPriorities = () => {
               <span className="ar text-white/65 block">اكتشف مجالات خبرتنا الأساسية التي توجه الحكومات والشركات خلال انتقالات المناخ والطاقة والحوكمة البيئية والاجتماعية والمؤسسية.</span>
             </p>
           </div>
-        </div>
+        </Container>
 
         {/* Columns — transparent, sit on top of the shared background */}
         <div className="absolute inset-0 top-[220px] md:top-[160px] z-20 flex flex-col md:flex-row w-full max-w-none md:max-w-[1400px] mx-auto h-[calc(100%-220px)] md:h-[calc(100%-160px)]">

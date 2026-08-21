@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebookF, faXTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 export const Footer = () => {
   return (
@@ -12,7 +14,7 @@ export const Footer = () => {
           <div className="flex items-center gap-6 flex-wrap">
             {/* Logo Image */}
             <Link href="/" className="no-underline inline-block">
-              <Image src="/images/logo-white.png" alt="enerQA Logo" width={120} height={38} className="h-[38px] w-auto block" />
+              <Image src="/images/logo-white.png" alt="enerQA Logo" width={120} height={38} className="h-[38px] w-auto block brightness-0 invert" />
             </Link>
             {/* Vertical Line */}
             <div className="w-[1px] h-8 bg-white/15 inline-block"></div>
@@ -26,11 +28,18 @@ export const Footer = () => {
           </div>
           {/* Socials */}
           <div className="flex gap-2">
-            {['f', 'd?', 'in', 'yt'].map((social, idx) => (
-              <a key={idx} href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[14px] transition-colors duration-300 text-white no-underline hover:bg-white/20">
-                {social}
-              </a>
-            ))}
+            <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[14px] transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faFacebookF} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[14px] transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faXTwitter} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[14px] transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[14px] transition-colors duration-300 text-white no-underline hover:bg-white/20">
+              <FontAwesomeIcon icon={faYoutube} className="w-[14px] h-[14px]" />
+            </a>
           </div>
         </div>
   

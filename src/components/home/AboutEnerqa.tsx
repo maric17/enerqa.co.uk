@@ -1,11 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 export const AboutEnerqa = () => {
   return (
     <section className="bg-[#8c1639] py-10 my-[100px] overflow-visible relative z-10" id="about-enerqa">
-      <div className="wrap relative flex items-center justify-between min-h-[260px] overflow-visible">
+      <Container className="relative flex items-center justify-between min-h-[260px] overflow-visible">
         
         {/* Left Column (Content) */}
         <div className="relative z-10 flex-[1.4] flex flex-col gap-7 text-left max-w-[52%]">
@@ -57,7 +58,7 @@ export const AboutEnerqa = () => {
           </div>
         </div>
 
-      </div>
+      </Container>
     </section>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { KnowledgeSlider } from './KnowledgeSlider'
+import { Container } from '../ui/Container'
 
 export const KnowledgeTeaser = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -96,10 +97,10 @@ export const KnowledgeTeaser = async () => {
 
   return (
     <section className="band" id="knowledge-teaser" style={{ background: '#FAF7F6', padding: '60px 0', overflow: 'visible', position: 'relative' }}>
-      <div className="wrap">
+      <Container>
         {/* Use Client Component for the slider interactiveness */}
         <KnowledgeSlider publications={publications} />
-      </div>
+      </Container>
     </section>
   )
 }

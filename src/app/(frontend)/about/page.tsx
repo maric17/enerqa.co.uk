@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
+import { Container } from '@/components/ui/Container';
 
 export default function AboutPage() {
   return (
@@ -17,7 +18,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/hero-bg.jpg')]"></div>
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
         
-        <div className="w-[90%] max-w-[1400px] mx-auto relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
+        <Container className="w-full relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12 h-full justify-center">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
             <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">About</span><span className="ar text-white">من نحن</span>
           </div>
@@ -25,11 +26,11 @@ export default function AboutPage() {
             <span className="en block">Built on field experience, run on evidence.</span>
             <span className="ar block text-[0.8em] mt-3 text-white/90">مبنيّون على خبرة ميدانية، ونعمل بالأدلة.</span>
           </Typography>
-        </div>
+        </Container>
       </section>
 
       <Section theme="light">
-        <div className="flex flex-col gap-12 max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-12 w-full">
           <Typography variant="eyebrow" className="mb-0 text-ink-muted">
             <span className="en">01 — Background</span>
             <span className="ar ml-2">01 — الخلفية</span>
@@ -55,7 +56,7 @@ export default function AboutPage() {
       </Section>
 
       <Section theme="muted">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[1px] bg-ink-muted/10 border border-ink-muted/10 overflow-hidden rounded-[var(--r-lg)]">
             <Link href="/services" className="bg-ink p-8 flex flex-col gap-4 no-underline transition-colors hover:bg-ink-muted group">
               <Typography variant="h4" className="text-white m-0 group-hover:text-white transition-colors">
@@ -102,7 +103,7 @@ export default function AboutPage() {
       </Section>
 
       <Section theme="light">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-12">
+        <div className="w-full flex flex-col gap-12">
           <Typography variant="eyebrow" className="mb-0 text-ink-muted">
             <span className="en">02 — Mission &amp; objective</span>
             <span className="ar ml-2">02 — الرسالة والهدف</span>
@@ -133,7 +134,7 @@ export default function AboutPage() {
         <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
           END SCENE
         </div>
-        <div className="max-w-[800px] w-[90%] mx-auto relative z-20 flex flex-col items-center gap-7">
+        <Container className="w-full relative z-20 flex flex-col items-center gap-7">
           <Typography variant="eyebrow" className="text-white/60 m-0 w-full text-center flex justify-center">
             <span className="en">Governance</span><span className="ar ml-2">الحوكمة</span>
           </Typography>
@@ -149,7 +150,7 @@ export default function AboutPage() {
               <span className="en">See our domains</span><span className="ar ml-2">اطّلع على مجالاتنا</span>
             </Button>
           </div>
-        </div>
+        </Container>
       </section>
     </>
   );

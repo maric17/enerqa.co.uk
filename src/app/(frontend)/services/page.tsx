@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
@@ -17,7 +18,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/port.jpg')]"></div>
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
         
-        <div className="w-[90%] max-w-[1400px] mx-auto relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
+        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
             <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Domains &amp; Services</span><span className="ar text-white">المجالات والخدمات</span>
           </div>
@@ -25,12 +26,12 @@ export default function ServicesPage() {
             <span className="en block">Four domains, tailored to your stage.</span>
             <span className="ar block text-[0.8em] mt-3 text-white/90">أربعة مجالات، مصمّمة لمرحلتك.</span>
           </Typography>
-        </div>
+        </Container>
       </section>
 
       {/* Domain 01: Climate Change */}
       <Section theme="muted">
-        <div className="flex flex-col gap-12 max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-12 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-5">
               <Typography variant="eyebrow" className="mb-0 text-ink-muted">
@@ -50,7 +51,7 @@ export default function ServicesPage() {
       </Section>
       
       <Section theme="light" id="climate" className="pt-0 md:pt-0">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-12 mt-12 md:mt-16">
+        <div className="w-full flex flex-col gap-12 mt-12 md:mt-16">
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-start py-12 border-b border-ink/10">
             <div className="text-[24px] font-bold text-ink/20 font-mono tracking-tighter w-16">01.1</div>
             <div className="flex flex-col gap-4">
@@ -139,7 +140,7 @@ export default function ServicesPage() {
 
       {/* Domain 02: Environment */}
       <Section theme="muted">
-        <div className="flex flex-col gap-12 max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-12 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-5">
               <Typography variant="eyebrow" className="mb-0 text-ink-muted">
@@ -159,7 +160,7 @@ export default function ServicesPage() {
       </Section>
       
       <Section theme="light" id="environment" className="pt-0 md:pt-0">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-12 mt-12 md:mt-16">
+        <div className="w-full flex flex-col gap-12 mt-12 md:mt-16">
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-start py-12 border-b border-ink/10">
             <div className="text-[24px] font-bold text-ink/20 font-mono tracking-tighter w-16">02.1</div>
             <div className="flex flex-col gap-4">
@@ -220,7 +221,7 @@ export default function ServicesPage() {
 
       {/* Domain 03: Energy */}
       <Section theme="muted">
-        <div className="flex flex-col gap-12 max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-12 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-5">
               <Typography variant="eyebrow" className="mb-0 text-ink-muted">
@@ -240,7 +241,7 @@ export default function ServicesPage() {
       </Section>
 
       <Section theme="light" id="energy" className="pt-0 md:pt-0">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-12 mt-12 md:mt-16">
+        <div className="w-full flex flex-col gap-12 mt-12 md:mt-16">
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-start py-12 border-b border-ink/10">
             <div className="text-[24px] font-bold text-ink/20 font-mono tracking-tighter w-16">03.1</div>
             <div className="flex flex-col gap-4">
@@ -328,7 +329,7 @@ export default function ServicesPage() {
 
       {/* Domain 04: Business Solutions */}
       <Section theme="muted">
-        <div className="flex flex-col gap-12 max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-12 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-5">
               <Typography variant="eyebrow" className="mb-0 text-ink-muted">
@@ -348,7 +349,7 @@ export default function ServicesPage() {
       </Section>
 
       <Section theme="light" id="business" className="pt-0 md:pt-0">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-12 mt-12 md:mt-16">
+        <div className="w-full flex flex-col gap-12 mt-12 md:mt-16">
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-start py-12 border-b border-ink/10">
             <div className="text-[24px] font-bold text-ink/20 font-mono tracking-tighter w-16">04.1</div>
             <div className="flex flex-col gap-4">
@@ -414,7 +415,7 @@ export default function ServicesPage() {
         <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
           END SCENE
         </div>
-        <div className="max-w-[800px] w-[90%] mx-auto relative z-20 flex flex-col items-center gap-7">
+        <div className="w-full max-w-[800px] mx-auto relative z-20 flex flex-col items-center gap-7">
           <Typography variant="eyebrow" className="text-white/60 m-0 w-full text-center flex justify-center">
             <span className="en">Not sure where to start?</span><span className="ar ml-2">لست متأكدًا من أين تبدأ؟</span>
           </Typography>

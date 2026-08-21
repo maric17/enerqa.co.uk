@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Typography } from '../ui/Typography'
+import { Container } from '../ui/Container'
 
 const dataHub = {
   emissions: {
@@ -74,6 +75,25 @@ type TabKey = keyof typeof dataHub
 
 export const SustainabilityData = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('emissions')
+  const bgRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!bgRef.current || !bgRef.current.parentElement) return
+      const rect = bgRef.current.parentElement.getBoundingClientRect()
+      // Only animate if element is in viewport
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        // Calculate difference from center of viewport to center of element
+        const diff = (window.innerHeight / 2) - (rect.top + rect.height / 2)
+        // Apply parallax factor (e.g. 0.15)
+        bgRef.current.style.transform = `translateY(${diff * 0.15}px)`
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Init
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   
   const info = dataHub[activeTab]
 
@@ -81,7 +101,8 @@ export const SustainabilityData = () => {
     <section className="bg-white py-[60px] pt-[100px] overflow-visible relative" id="sustainability-data">
       {/* Background SVG Network */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 opacity-[0.28]">
+        <div ref={bgRef} className="absolute inset-x-0 -top-[25%] h-[150%] will-change-transform">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 opacity-[0.28]">
           {/* Connection lines */}
           <line x1="-40" y1="40" x2="180" y2="10" stroke="rgba(139,21,56,0.32)" strokeWidth="1.8" />
           <line x1="180" y1="10" x2="360" y2="90" stroke="rgba(139,21,56,0.28)" strokeWidth="1.8" />
@@ -105,9 +126,10 @@ export const SustainabilityData = () => {
           <circle cx="460" cy="300" r="8" fill="rgba(139,21,56,0.38)" />
           <circle cx="460" cy="300" r="4" fill="rgba(139,21,56,0.75)" />
         </svg>
+        </div>
       </div>
 
-      <div className="wrap relative z-10">
+      <Container className="relative z-10">
         <div className="flex gap-12 flex-wrap items-start">
           
           {/* Left Column */}
@@ -185,7 +207,7 @@ export const SustainabilityData = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

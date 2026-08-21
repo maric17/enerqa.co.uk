@@ -1,9 +1,11 @@
 import React, { HTMLAttributes } from 'react';
+import { Container } from './Container';
 
 export interface SectionProps extends HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
   containerClassName?: string;
   fullWidth?: boolean;
+  theme?: string;
 }
 
 export function Section({ 
@@ -15,9 +17,15 @@ export function Section({
 }: SectionProps) {
   return (
     <section className={`py-12 md:py-24 ${className}`} {...props}>
-      <div className={fullWidth ? 'w-full' : `max-w-[1280px] mx-auto px-10 ${containerClassName}`}>
-        {children}
-      </div>
+      {fullWidth ? (
+        <div className="w-full">
+          {children}
+        </div>
+      ) : (
+        <Container className={containerClassName}>
+          {children}
+        </Container>
+      )}
     </section>
   );
 }

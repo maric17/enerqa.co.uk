@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search, Menu, X } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
+import { Container } from './ui/Container';
 
 const SITE_INDEX = [
   { title:'Home', url:'/' },
@@ -73,7 +74,7 @@ export function Header() {
   return (
     <>
       <header className={`site ${isScrolled ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
-        <div className="header-main">
+        <Container className="header-main !px-6 md:!px-10">
           <Link href="/" className="logo-zone">
             <div className="logo-mark">eQ</div>
             <div className="logo-word">enerQA<small><span className="en">Knowledge &amp; Advisory</span><span className="ar">المعرفة والاستشارات</span></small></div>
@@ -135,7 +136,7 @@ export function Header() {
               <Menu className="w-5 h-5" />
             </button>
           </div>
-        </div>
+        </Container>
       </header>
 
       <div className={`search-overlay ${isSearchOpen ? 'open' : ''}`} onClick={(e) => { if(e.target === e.currentTarget) setIsSearchOpen(false); }}>

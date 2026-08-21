@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
+import { Container } from '../ui/Container'
 
 export const InsightsTeaser = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -48,7 +49,7 @@ export const InsightsTeaser = async () => {
 
   return (
     <section className="band panel" id="insights-teaser" style={{ background: '#ffffff', padding: '80px 0' }}>
-      <div className="wrap">
+      <Container>
         {/* Header with View All Button */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '48px', paddingBottom: '0', textAlign: 'left' }}>
           <div>
@@ -84,7 +85,7 @@ export const InsightsTeaser = async () => {
             </Link>
           ))}
         </div>
-      </div>
+      </Container>
       {/* We add a small inline style block for hovers since React doesn't support inline onMouseOver on Server Components nicely */}
       <style dangerouslySetInnerHTML={{__html: `
         .client-hover-btn:hover { background: #8B1538 !important; color: #ffffff !important; }
