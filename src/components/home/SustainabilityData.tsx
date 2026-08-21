@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { Typography } from '../ui/Typography'
 
 const dataHub = {
   emissions: {
@@ -77,10 +78,10 @@ export const SustainabilityData = () => {
   const info = dataHub[activeTab]
 
   return (
-    <section className="band" id="sustainability-data" style={{ position: 'relative', background: '#ffffff', padding: '100px 0 60px', overflow: 'visible' }}>
+    <section className="bg-white py-[60px] pt-[100px] overflow-visible relative" id="sustainability-data">
       {/* Background SVG Network */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', top: 0, left: 0, opacity: 0.28 }}>
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 opacity-[0.28]">
           {/* Connection lines */}
           <line x1="-40" y1="40" x2="180" y2="10" stroke="rgba(139,21,56,0.32)" strokeWidth="1.8" />
           <line x1="180" y1="10" x2="360" y2="90" stroke="rgba(139,21,56,0.28)" strokeWidth="1.8" />
@@ -106,26 +107,26 @@ export const SustainabilityData = () => {
         </svg>
       </div>
 
-      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div className="wrap relative z-10">
+        <div className="flex gap-12 flex-wrap items-start">
           
           {/* Left Column */}
-          <div style={{ flex: 1, minWidth: '320px', maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <h3 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
-              <span style={{ fontWeight: 800 }}>Data</span> for Sustainability
-            </h3>
-            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <div className="flex-1 min-w-[320px] max-w-[480px] flex flex-col gap-6">
+            <Typography variant="h3" className="uppercase text-ink m-0">
+              <span className="font-extrabold">Data</span> for Sustainability
+            </Typography>
+            <p className="text-[15px] text-ink-soft leading-[1.6] m-0 font-light">
               Access critical ESG disclosures, carbon intensity trends, policy risks, and green finance insights to drive data-led corporate transitions.
             </p>
-            <a href="/tools" className="btn primary client-hover-btn-primary" style={{ background: '#8B1538', color: '#ffffff', padding: '12px 28px', borderRadius: '100px', fontSize: '13.5px', textDecoration: 'none', fontWeight: 700, width: 'fit-content', display: 'inline-block', transition: 'background 0.3s' }}>
+            <a href="/tools" className="bg-[#8B1538] text-white py-3 px-7 rounded-full text-[13.5px] no-underline font-bold w-fit inline-block transition-colors hover:bg-[#72102d]">
               Explore Data Hub
             </a>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+            <div className="flex flex-col gap-2 mt-4">
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-ink-muted mb-2">
                 Explore by Focus Area
               </span>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              <div className="flex flex-wrap gap-2.5">
                 {[
                   { key: 'emissions', label: 'Emissions' },
                   { key: 'energy', label: 'Clean Energy' },
@@ -137,11 +138,11 @@ export const SustainabilityData = () => {
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key as TabKey)}
-                    className={`data-tab-btn ${activeTab === tab.key ? 'active' : ''}`}
-                    style={activeTab === tab.key 
-                      ? { padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, border: '1.5px solid #8B1538', background: '#ffffff', color: '#8B1538', cursor: 'pointer' }
-                      : { padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, border: '1.5px solid var(--line)', background: 'transparent', color: 'var(--ink-soft)', cursor: 'pointer', transition: 'all 0.2s' }
-                    }
+                    className={`py-2 px-4 rounded-full text-xs font-bold border-[1.5px] cursor-pointer transition-all duration-200 ${
+                      activeTab === tab.key 
+                        ? 'border-[#8B1538] bg-white text-[#8B1538]'
+                        : 'border-line bg-transparent text-ink-soft hover:border-[#8B1538] hover:text-[#8B1538]'
+                    }`}
                   >
                     {tab.label}
                   </button>
@@ -151,33 +152,33 @@ export const SustainabilityData = () => {
           </div>
 
           {/* Right Column */}
-          <div style={{ flex: 1.8, minWidth: '480px', display: 'flex', flexDirection: 'column', gap: '36px' }}>
+          <div className="flex-[1.8] min-w-full md:min-w-[480px] flex flex-col gap-9">
             {/* Cards Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', borderBottom: '1px solid rgba(139, 21, 56, 0.1)', paddingBottom: '32px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-b border-[#8B1538]/10 pb-8">
               {info.cards.map((card, idx) => (
-                <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{card.category}</div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: '#8B1538', lineHeight: 1.1 }}>{card.value}</div>
-                  <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{card.text}</div>
+                <div key={idx} className="flex flex-col gap-1.5">
+                  <div className="text-[10.5px] font-bold text-ink-muted uppercase tracking-[0.08em]">{card.category}</div>
+                  <div className="text-[24px] font-extrabold text-[#8B1538] leading-[1.1]">{card.value}</div>
+                  <div className="text-[13px] text-ink-soft leading-[1.5] font-light">{card.text}</div>
                 </div>
               ))}
             </div>
 
             {/* Dynamic Graph Visualizer Card */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h4 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>
+            <div className="flex flex-col gap-5">
+              <div className="flex justify-between items-center flex-wrap gap-2">
+                <h4 className="text-[15px] font-bold text-ink m-0 tracking-[-0.01em]">
                   {info.chartTitle}
                 </h4>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: '#8B1538', display: 'flex', alignItems: 'center', gap: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#8B1538', borderRadius: '50%' }}></span>
+                <div className="text-[11px] font-bold text-[#8B1538] flex items-center gap-1.5 uppercase tracking-[0.05em]">
+                  <span className="inline-block w-1.5 h-1.5 bg-[#8B1538] rounded-full"></span>
                   Interactive Projection
                 </div>
               </div>
 
               {/* SVG Graph Container */}
-              <div style={{ width: '100%', height: '220px', position: 'relative' }}>
-                <div style={{ color: 'var(--ink-muted)', fontSize: '13px', fontStyle: 'italic', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', border: '1px dashed var(--line)', borderRadius: 'var(--r-md)' }}>
+              <div className="w-full h-[220px] relative">
+                <div className="text-ink-muted text-[13px] italic flex items-center justify-center h-full border border-dashed border-line rounded-[var(--r-md)]">
                   [Chart Placeholder: {info.chartType} graph for {activeTab}]
                 </div>
               </div>
@@ -185,15 +186,6 @@ export const SustainabilityData = () => {
           </div>
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{__html: `
-        .client-hover-btn-primary:hover { background: #72102d !important; }
-        .data-tab-btn:not(.active):hover { border-color: #8B1538 !important; color: #8B1538 !important; }
-        @media (max-width: 900px) {
-          #sustainability-data .wrap > div { flex-direction: column; }
-          #sustainability-data .wrap > div > div:nth-child(2) { min-width: 100% !important; }
-        }
-      `}} />
     </section>
   )
 }
-

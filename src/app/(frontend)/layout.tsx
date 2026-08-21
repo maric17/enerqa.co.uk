@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, Alexandria } from 'next/font/google';
 import "./globals.css";
 import "./style.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import ScrollReveal from "@/components/ScrollReveal";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-en',
+  display: 'swap',
+});
+
+const alexandria = Alexandria({
+  subsets: ['arabic', 'latin'],
+  variable: '--font-ar',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "enerQA - Engineering Sustainable Decisions",
@@ -17,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" className={`${plusJakartaSans.variable} ${alexandria.variable}`}>
       <body>
         <LanguageProvider>
           <a className="skip-link" href="#main">Skip to content</a>

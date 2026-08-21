@@ -1,95 +1,91 @@
 import React from 'react';
 import Link from 'next/link';
+import { Typography } from './ui/Typography';
 
 export function Footer() {
   return (
-    <footer className="site" style={{ background: '#1b030a', color: '#ffffff', padding: '60px 0 40px', borderTop: '1px solid rgba(255,255,255,0.08)', fontFamily: 'var(--sans)' }}>
+    <footer className="site bg-[#1b030a] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
       <div className="wrap">
         {/* Top Row: Logo, Sister Brands, Socials */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 32, borderBottom: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap', gap: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+        <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
+          <div className="flex items-center gap-6 flex-wrap">
             {/* Logo Image */}
-            <Link href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-              <img src="/images/header-logo-white.webp" alt="enerQA Logo" style={{ height: 38, width: 'auto', display: 'block' }} />
+            <Link href="/" className="no-underline inline-block">
+              <img src="/images/header-logo-white.webp" alt="enerQA Logo" className="h-[38px] w-auto block" />
             </Link>
             {/* Vertical Line */}
-            <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.15)', display: 'inline-block' }}></div>
+            <div className="w-px h-8 bg-white/15 hidden md:inline-block"></div>
             {/* Sister Brands */}
-            <div style={{ display: 'flex', gap: 16, fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)', flexWrap: 'wrap' }}>
-              <Link href="/services#climate" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.8)' }}>Climate Change</Link>
-              <Link href="/services#environment" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.8)' }}>Environment &amp; ESG</Link>
-              <Link href="/services#energy" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.8)' }}>Energy</Link>
-              <Link href="/services#business" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.8)' }}>Business Solutions</Link>
+            <div className="flex gap-4 text-[11px] font-bold tracking-[0.05em] uppercase text-white/80 flex-wrap">
+              <Link href="/services#climate" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Change</Link>
+              <Link href="/services#environment" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment &amp; ESG</Link>
+              <Link href="/services#energy" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy</Link>
+              <Link href="/services#business" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Business Solutions</Link>
             </div>
           </div>
           {/* Socials */}
-          <div style={{ display: 'flex', gap: 8 }}>
-            <a href="https://facebook.com/enerqa" target="_blank" rel="noopener noreferrer" className="footer-social-hover" style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transition: 'background 0.3s', color: '#ffffff', textDecoration: 'none' }}>f</a>
-            <a href="https://x.com/enerqa" target="_blank" rel="noopener noreferrer" className="footer-social-hover" style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transition: 'background 0.3s', color: '#ffffff', textDecoration: 'none' }}>𝕏</a>
-            <a href="https://linkedin.com/company/enerqa" target="_blank" rel="noopener noreferrer" className="footer-social-hover" style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transition: 'background 0.3s', color: '#ffffff', textDecoration: 'none' }}>in</a>
-            <a href="https://youtube.com/enerqa" target="_blank" rel="noopener noreferrer" className="footer-social-hover" style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transition: 'background 0.3s', color: '#ffffff', textDecoration: 'none' }}>yt</a>
+          <div className="flex gap-2">
+            <a href="https://facebook.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">f</a>
+            <a href="https://x.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">𝕏</a>
+            <a href="https://linkedin.com/company/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">in</a>
+            <a href="https://youtube.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">yt</a>
           </div>
         </div>
 
         {/* Middle Row: Grid Lists */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40, padding: '48px 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-10 py-12 border-b border-white/10">
           {/* Col 1 */}
           <div>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14, listStyle: 'none', padding: 0, margin: 0 }}>
-              <li><Link href="/about" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Who we are</Link></li>
-              <li><Link href="/insights" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>News &amp; Insights</Link></li>
-              <li><Link href="/contact#careers" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Careers</Link></li>
-              <li><Link href="/contact" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Contacts</Link></li>
+            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
+              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Who we are</Link></li>
+              <li><Link href="/insights" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">News &amp; Insights</Link></li>
+              <li><Link href="/contact#careers" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Careers</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Contacts</Link></li>
             </ul>
           </div>
           {/* Col 2 */}
           <div>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14, listStyle: 'none', padding: 0, margin: 0 }}>
-              <li><Link href="/services" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Services Overview</Link></li>
-              <li><Link href="/projects" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Projects &amp; Operations</Link></li>
-              <li><Link href="/knowledge-hub" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Research &amp; Publications</Link></li>
+            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
+              <li><Link href="/services" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Services Overview</Link></li>
+              <li><Link href="/projects" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Projects &amp; Operations</Link></li>
+              <li><Link href="/knowledge-hub" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Research &amp; Publications</Link></li>
             </ul>
           </div>
           {/* Col 3 */}
           <div>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14, listStyle: 'none', padding: 0, margin: 0 }}>
-              <li><Link href="/knowledge-hub#tools" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Interactive Tools</Link></li>
-              <li><Link href="/about#approach" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Our Approach</Link></li>
-              <li><Link href="/team" className="footer-hover" style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s', textDecoration: 'none' }}>Experts &amp; Team</Link></li>
+            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
+              <li><Link href="/knowledge-hub#tools" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Interactive Tools</Link></li>
+              <li><Link href="/about#approach" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Our Approach</Link></li>
+              <li><Link href="/team" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Experts &amp; Team</Link></li>
             </ul>
           </div>
           {/* Col 4 (Call to Action) */}
-          <div style={{ borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: 40, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16 }}>
-            <h5 style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#ffffff', margin: 0, lineHeight: 1.35, maxWidth: '24ch' }}>
+          <div className="md:border-l md:border-white/10 md:pl-10 flex flex-col justify-center gap-4">
+            <h5 className="text-sm font-bold tracking-[0.05em] uppercase text-white m-0 leading-[1.35] max-w-[24ch]">
               STAY CURRENT WITH OUR LATEST DATA &amp; INSIGHTS
             </h5>
-            <Link href="/contact" className="btn" style={{ background: '#ffffff', color: '#1b030a', fontWeight: 700, borderRadius: 100, padding: '12px 32px', fontSize: 13.5, border: 'none', width: 'fit-content', textAlign: 'center', display: 'inline-block', textDecoration: 'none' }}>
+            <Link href="/contact" className="bg-white text-[#1b030a] font-bold rounded-full py-3 px-8 text-[13.5px] border-none w-fit text-center inline-block no-underline hover:bg-gray-100 transition-colors">
               Sign Up
             </Link>
           </div>
         </div>
 
         {/* Bottom Row: Copyright & Legal */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 32, flexWrap: 'wrap', gap: 24, fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#3b0b18', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: 14 }}>
+        <div className="flex justify-between items-center pt-8 flex-wrap gap-6 text-xs text-white/50">
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-full bg-[#3b0b18] flex items-center justify-center text-white text-sm">
               ♿
             </div>
             <span>© 2026 enerQA Ltd. All Rights Reserved.</span>
           </div>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link href="/contact" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.5)' }}>Legal</Link>
-            <Link href="/contact" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.5)' }}>Privacy Notice</Link>
-            <Link href="/contact" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.5)' }}>Site Accessibility</Link>
-            <Link href="/contact" className="footer-hover" style={{ transition: 'color 0.2s', textDecoration: 'none', color: 'rgba(255,255,255,0.5)' }}>Access to Information</Link>
+          <div className="flex gap-4 flex-wrap">
+            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Legal</Link>
+            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Privacy Notice</Link>
+            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Site Accessibility</Link>
+            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Access to Information</Link>
           </div>
         </div>
-
       </div>
-      <style dangerouslySetInnerHTML={{__html: `
-        .footer-hover:hover { color: #ffffff !important; }
-        .footer-social-hover:hover { background: rgba(255,255,255,0.2) !important; }
-      `}} />
     </footer>
   );
 }

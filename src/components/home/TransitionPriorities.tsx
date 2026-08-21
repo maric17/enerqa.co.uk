@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { Typography } from '../ui/Typography'
 
 const pillars = [
   {
@@ -59,11 +60,10 @@ export const TransitionPriorities = () => {
   }, [isHovering])
 
   return (
-    <section className="band agenda-section" id="transition-priorities" style={{ padding: '0 !important' }}>
+    <section className="p-0 m-0 w-full overflow-hidden" id="transition-priorities">
       {/* Full-bleed crossfade stage */}
       <div 
-        className="agenda-stage" 
-        style={{ marginTop: 0, height: '620px' }}
+        className="relative w-full h-auto min-h-[700px] md:min-h-[620px] flex items-center justify-center m-0" 
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -72,57 +72,59 @@ export const TransitionPriorities = () => {
         {pillars.map((pillar, idx) => (
           <div 
             key={pillar.id}
-            className={`agenda-bg ${idx === activeIndex ? 'active' : ''}`}
-            data-bg={idx}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-[1200ms] ease-in-out z-0 ${idx === activeIndex ? 'opacity-100' : 'opacity-0'}`}
             style={{ backgroundImage: `url('${pillar.bgImage}')` }}
           />
         ))}
 
         {/* Unified dark gradient overlay */}
-        <div className="agenda-stage-overlay" style={{ background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%)' }}></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/80 z-10 pointer-events-none"></div>
 
         {/* Header Overlaid inside the stage */}
-        <div className="wrap" style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 3, width: '100%', pointerEvents: 'none' }}>
-          <div className="agenda-header" style={{ position: 'static', marginBottom: 0, maxWidth: '800px', textAlign: 'left' }}>
-            <h2 className="agenda-title" style={{ marginBottom: '12px', color: '#ffffff !important' }}>
-              <span className="en"><span style={{ fontWeight: 700 }}>Action</span> Pillars</span>
-              <span className="ar" style={{ color: 'rgba(255,255,255,0.7)', display: 'block' }}>أولوياتنا الانتقالية</span>
-            </h2>
-            <p style={{ fontSize: '15.5px', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.6, margin: 0, fontWeight: 300 }}>
-              <span className="en" style={{ display: 'block', marginBottom: '4px' }}>Explore our core domains of expertise guiding governments and corporations through climate, energy, and ESG transitions.</span>
-              <span className="ar" style={{ color: 'rgba(255,255,255,0.65)', display: 'block' }}>اكتشف مجالات خبرتنا الأساسية التي توجه الحكومات والشركات خلال انتقالات المناخ والطاقة والحوكمة البيئية والاجتماعية والمؤسسية.</span>
+        <div className="wrap absolute top-10 md:top-12 left-1/2 -translate-x-1/2 w-full z-30 pointer-events-none">
+          <div className="max-w-[800px] text-left">
+            <Typography variant="h2" className="text-white mb-3">
+              <span className="en"><span className="font-bold">Action</span> Pillars</span>
+              <span className="ar text-white/70 block mt-1">أولوياتنا الانتقالية</span>
+            </Typography>
+            <p className="text-[15.5px] text-white/80 leading-[1.6] m-0 font-light">
+              <span className="en block mb-1">Explore our core domains of expertise guiding governments and corporations through climate, energy, and ESG transitions.</span>
+              <span className="ar text-white/65 block">اكتشف مجالات خبرتنا الأساسية التي توجه الحكومات والشركات خلال انتقالات المناخ والطاقة والحوكمة البيئية والاجتماعية والمؤسسية.</span>
             </p>
           </div>
         </div>
 
         {/* Columns — transparent, sit on top of the shared background */}
-        <div className="agenda-grid">
+        <div className="absolute inset-0 top-[220px] md:top-[160px] z-20 flex flex-col md:flex-row w-full max-w-none md:max-w-[1400px] mx-auto h-[calc(100%-220px)] md:h-[calc(100%-160px)]">
           {pillars.map((pillar, idx) => {
             const isActive = idx === activeIndex
             return (
               <Link
                 key={pillar.id}
                 href={pillar.link}
-                className={`agenda-col ${isActive ? 'active' : ''}`}
+                className={`flex-1 flex flex-col justify-end border-b md:border-b-0 md:border-r border-white/10 last:border-r-0 relative overflow-hidden transition-all duration-[600ms] ease-in-out group no-underline cursor-pointer ${isActive ? 'bg-black/10 md:flex-[1.2]' : 'bg-transparent'}`}
                 data-index={idx}
                 onMouseEnter={() => setActiveIndex(idx)}
               >
-                <div className="agenda-col-content">
-                  <div className="agenda-col-meta">
-                    <span className="agenda-col-tag">{pillar.tag}</span>
+                <div className={`p-6 md:p-10 transition-transform duration-[600ms] ${isActive ? 'translate-y-0' : 'translate-y-0 md:translate-y-12'} flex flex-col gap-2 md:gap-4 relative z-10 w-full h-full md:h-auto justify-end`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] md:text-xs font-bold text-white/50 tracking-[0.2em]">{pillar.tag}</span>
                   </div>
-                  <h3 className="agenda-col-title">
-                    <span className="en">{pillar.titleEn}</span>
-                    <span className="ar">{pillar.titleAr}</span>
+                  <h3 className="text-lg md:text-2xl font-bold text-white m-0 leading-tight">
+                    <span className="en block">{pillar.titleEn}</span>
+                    <span className="ar block text-[0.8em] mt-1 text-white/90">{pillar.titleAr}</span>
                   </h3>
-                  <p className="agenda-col-desc">
+                  <p className={`text-[12px] md:text-[14px] text-white/70 font-light leading-[1.5] m-0 transition-opacity duration-[600ms] ${isActive ? 'opacity-100 max-h-[100px]' : 'opacity-100 md:opacity-0 max-h-[100px] md:max-h-0 overflow-hidden md:m-0'}`}>
                     <span className="en">{pillar.descEn}</span>
                   </p>
-                  <div className="agenda-discover">
-                    <span className="en">Discover</span>
-                    <svg style={{ width: '14px', height: '14px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  <div className={`hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.1em] mt-2 transition-all duration-[400ms] ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+                    <span className="en text-white group-hover:text-[#8B1538] transition-colors">Discover</span>
+                    <svg className="w-3.5 h-3.5 text-white group-hover:text-[#8B1538] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                   </div>
                 </div>
+                
+                {/* Active hover indicator strip */}
+                <div className={`absolute bottom-0 left-0 w-full md:h-[4px] h-[2px] bg-[#8B1538] transition-transform duration-[600ms] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}></div>
               </Link>
             )
           })}

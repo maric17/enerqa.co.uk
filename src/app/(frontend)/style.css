@@ -22,7 +22,7 @@
   --line:       rgba(17, 24, 39, 0.08);
   --line-dark:  rgba(255, 255, 255, 0.08);
 
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
 
   --wrap: 1280px;
   --ease: cubic-bezier(.22,.68,.19,1);
@@ -1577,6 +1577,27 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .hero-insights:hover .hero-insights-bg {
   transform: scale(1.03);
 }
+.hero-insights-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  display: block; /* Show on desktop */
+}
+
+@media (max-width: 768px) {
+  .hero-insights-video {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .hero-insights-bg {
+    display: none;
+  }
+}
+
 .hero-insights-overlay {
   position: absolute;
   inset: 0;

@@ -125,16 +125,14 @@ export function Header() {
               <button onClick={() => setLanguage('en')} className={language === 'en' ? 'active' : ''}>EN</button>
               <button onClick={() => setLanguage('ar')} className={language === 'ar' ? 'active' : ''}>AR</button>
             </div>
-            <button className="icon-btn" onClick={() => setIsSearchOpen(true)} aria-label="Search" title="Search"
-              style={{ color: 'rgba(255, 255, 255, 0.85)', background: 'transparent', fontSize: 15, borderRadius: '50%', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Search style={{ width: 17, height: 17 }} />
+            <button className="icon-btn flex items-center justify-center text-white/85 bg-transparent text-[15px] rounded-full transition-all duration-200" onClick={() => setIsSearchOpen(true)} aria-label="Search" title="Search">
+              <Search className="w-[17px] h-[17px]" />
             </button>
-            <Link href="/contact" className="btn on-dark" style={{ padding: '10px 20px', fontSize: 13 }}>
+            <Link href="/contact" className="btn on-dark px-5 py-2.5 text-[13px]">
               <span className="en">Contact</span><span className="ar">تواصل</span>
             </Link>
-            <button className="icon-btn menu-toggle" onClick={() => setIsMobileNavOpen(true)} aria-label="Menu"
-              style={{ color: 'rgba(255, 255, 255, 0.85)', background: 'transparent', borderRadius: '50%', transition: 'all 0.2s' }}>
-              <Menu style={{ width: 20, height: 20 }} />
+            <button className="icon-btn menu-toggle text-white/85 bg-transparent rounded-full transition-all duration-200" onClick={() => setIsMobileNavOpen(true)} aria-label="Menu">
+              <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -143,8 +141,8 @@ export function Header() {
       <div className={`search-overlay ${isSearchOpen ? 'open' : ''}`} onClick={(e) => { if(e.target === e.currentTarget) setIsSearchOpen(false); }}>
         <div className="search-panel">
           <form onSubmit={(e) => e.preventDefault()}>
-            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Search style={{ width: 20, height: 20, color: 'var(--ink-soft)' }} />
+            <span className="flex items-center justify-center">
+              <Search className="w-5 h-5 text-[var(--ink-soft)]" />
             </span>
             <input type="text" placeholder="Search enerQA…" aria-label="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} autoFocus={isSearchOpen} />
             <button type="button" className="close-search" onClick={() => setIsSearchOpen(false)}>ESC</button>
