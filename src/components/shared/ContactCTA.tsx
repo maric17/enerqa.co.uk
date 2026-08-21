@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react'
+import { Container } from '../ui/Container'
 
 export const ContactCTA = () => {
   return (
     <section className="band" id="cta" style={{ background: '#ffffff', padding: '60px 0 100px' }}>
-      <div className="wrap">
+      <Container>
         <div style={{ position: 'relative', borderRadius: 'var(--r-sm)', overflow: 'hidden', background: 'linear-gradient(135deg, #8B1538 0%, #4a071a 100%)', padding: '80px 60px', boxShadow: '0 20px 60px rgba(139,21,56,0.2)', display: 'flex', alignItems: 'center', gap: '48px', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 
           {/* Subtle maroon texture overlay */}
@@ -55,7 +56,7 @@ export const ContactCTA = () => {
           </div>
 
         </div>
-      </div>
+        </Container>
       <style dangerouslySetInnerHTML={{__html: `
         .client-hover-btn-submit:hover { background: #f3e8ea !important; color: #72102d !important; }
         @media (max-width: 600px) {

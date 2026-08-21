@@ -1,29 +1,93 @@
-import React from 'react'
+"use client"
+
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Container } from '../ui/Container'
+
+const TITLES = [
+  "Sustainable decisions start with better data.",
+  "Empowering climate action with insights.",
+  "Driving ESG transition through knowledge."
+];
 
 export const Hero = () => {
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const currentTitle = TITLES[titleIndex];
+    let timeout: NodeJS.Timeout;
+
+    if (isPaused) {
+      timeout = setTimeout(() => {
+        setIsPaused(false);
+        setIsDeleting(true);
+      }, 2500);
+      return () => clearTimeout(timeout);
+    }
+
+    if (isDeleting) {
+      if (displayedText.length === 0) {
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setTitleIndex((prev) => (prev + 1) % TITLES.length);
+        }, 200);
+      } else {
+        timeout = setTimeout(() => {
+          setDisplayedText(currentTitle.substring(0, displayedText.length - 1));
+        }, 30);
+      }
+    } else {
+      if (displayedText.length === currentTitle.length) {
+        timeout = setTimeout(() => {
+          setIsPaused(true);
+        }, 10);
+      } else {
+        timeout = setTimeout(() => {
+          setDisplayedText(currentTitle.substring(0, displayedText.length + 1));
+        }, 70);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, isDeleting, isPaused, titleIndex]);
+
   return (
     <section className="hero-insights">
       <div className="hero-insights-bg"></div>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="hero-insights-video"
+      >
+        <source src="/videos/video-banner.mp4" type="video/mp4" />
+      </video>
       <div className="hero-insights-overlay"></div>
 
       {/* Centered Hero Content */}
-      <div className="wrap" style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '24px', paddingBottom: '24px', flexGrow: 1 }}>
-        <div style={{ maxWidth: '820px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#ffb7c5', display: 'inline-block', marginBottom: '14px' }}>
+      <Container className="relative z-10 w-full flex flex-col items-center justify-center text-center py-6 grow">
+        <div className="max-w-[820px] flex flex-col items-center">
+          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#ffb7c5] inline-block mb-3.5">
             Technical Advisory &amp; Knowledge Hub
           </span>
-          <h1 style={{ fontSize: 'clamp(34px, 4.8vw, 56px)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.03em', color: '#ffffff', margin: '0 0 16px', textAlign: 'center' }}>
-            Sustainable decisions start with better data.
+          <h1 className="text-[clamp(34px,4.8vw,56px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-white m-0 mb-4 text-center min-h-[3.45em] sm:min-h-[2.3em] lg:min-h-[1.15em] flex items-center justify-center">
+            <span>
+              {displayedText}
+              <span className="animate-pulse inline-block ml-[4px] font-light text-white/80">|</span>
+            </span>
           </h1>
-          <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255, 255, 255, 0.9)', lineHeight: 1.45, margin: '0 auto 26px', maxWidth: '60ch', fontWeight: 300, textAlign: 'center' }}>
+          <p className="text-[clamp(15px,1.6vw,18px)] text-white/90 leading-[1.45] mx-auto mb-6 max-w-[60ch] font-light text-center">
             A resource base for climate action, carbon policy, and ESG transition parameters.
           </p>
 
           {/* Large Search Bar */}
-          <div style={{ position: 'relative', width: '100%', maxWidth: '680px', zIndex: 5, margin: '24px auto 0' }}>
+          <div className="relative w-full max-w-[680px] z-20 mx-auto mt-6">
             <div className="hero-search-wrapper">
-              <svg className="shrink-0" style={{ width: '20px', height: '20px', color: '#6b7280', marginRight: '12px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <svg className="shrink-0 w-5 h-5 text-gray-500 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               <input type="text" className="hero-search-input" placeholder="Search publications, tools, and emissions dashboards..." aria-label="Search Query" />
               <button className="hero-search-btn">
                 <span>Search</span>
@@ -31,22 +95,22 @@ export const Hero = () => {
             </div>
 
             {/* Trending Topics / Quick Tags */}
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
-              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', alignSelf: 'center', marginRight: '4px' }}>Trending:</span>
-              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>GHG Inventories</Link>
-              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>Carbon Credits</Link>
-              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>ESG Disclosures</Link>
-              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>LEAP Modeling</Link>
-              <Link href="/knowledge-hub" className="search-tag-link" style={{ fontSize: '12px', color: '#ffffff', background: 'rgba(255,255,255,0.08)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s ease' }}>Decarbonization</Link>
+            <div className="flex gap-2 justify-center flex-wrap mt-6">
+              <span className="text-xs text-white/60 self-center mr-1">Trending:</span>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">GHG Inventories</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">Carbon Credits</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">ESG Disclosures</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">LEAP Modeling</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">Decarbonization</Link>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Scroll Down Cue */}
-      <div style={{ position: 'relative', zIndex: 2, marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <a href="#insights-teaser" className="scroll-down-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.05)', color: '#ffffff', transition: 'all 0.3s ease', textDecoration: 'none' }}>
-          <svg className="scroll-arrow" style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      <div className="relative z-10 mb-10 flex flex-col items-center justify-center w-full">
+        <a href="#insights-teaser" className="scroll-down-btn flex items-center justify-center w-11 h-11 rounded-full border border-white/25 bg-white/5 text-white transition-all duration-300 no-underline">
+          <svg className="scroll-arrow w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </a>
       </div>
     </section>

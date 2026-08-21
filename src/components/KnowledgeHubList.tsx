@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Typography } from '@/components/ui/Typography';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
 
 type Publication = {
   id: string;
@@ -35,64 +38,126 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
   });
 
   return (
-    <div className="kh-layout" style={{ marginTop: 16 }}>
-      <aside className="filter-matrix reveal">
-        <h5><span className="en">Refine results</span><span className="ar">تصفية النتائج</span></h5>
-        <div className="f-group">
-          <label className="f-label en">Keyword</label><label className="f-label ar">كلمة مفتاحية</label>
-          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search title or topic…" />
+    <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 mt-4">
+      <aside className="flex flex-col gap-8 h-fit bg-[#FAFBFB] p-6 rounded-[16px] border border-ink/10 shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
+        <Typography variant="h3" className="text-ink m-0">
+          <span className="en block">Refine results</span>
+          <span className="ar block mt-1">تصفية النتائج</span>
+        </Typography>
+        
+        <div className="flex flex-col gap-2">
+          <label className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink">
+            <span className="en">Keyword</span><span className="ar ml-2">كلمة مفتاحية</span>
+          </label>
+          <input 
+            type="text" 
+            value={searchQuery} 
+            onChange={(e) => setSearchQuery(e.target.value)} 
+            placeholder="Search title or topic…" 
+            className="w-full bg-white border border-ink/10 rounded-md px-4 py-2.5 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors"
+          />
         </div>
-        <div className="f-group checks">
-          <label className="f-label en">Publication type</label><label className="f-label ar">نوع المنشور</label>
-          <label><input type="checkbox" value="Advisory Note" checked={types.includes('Advisory Note')} onChange={handleTypeChange} /><span className="en">Advisory Note</span></label>
-          <label><input type="checkbox" value="Case Study" checked={types.includes('Case Study')} onChange={handleTypeChange} /><span className="en">Case Study</span></label>
-          <label><input type="checkbox" value="Technical Paper" checked={types.includes('Technical Paper')} onChange={handleTypeChange} /><span className="en">Technical Paper</span></label>
-          <label><input type="checkbox" value="Strategic Report" checked={types.includes('Strategic Report')} onChange={handleTypeChange} /><span className="en">Strategic Report</span></label>
+        
+        <div className="flex flex-col gap-3">
+          <label className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink">
+            <span className="en">Publication type</span><span className="ar ml-2">نوع المنشور</span>
+          </label>
+          <div className="flex flex-col gap-2">
+            {[
+              { val: 'Advisory Note', en: 'Advisory Note', ar: 'مذكرة استشارية' },
+              { val: 'Case Study', en: 'Case Study', ar: 'دراسة حالة' },
+              { val: 'Technical Paper', en: 'Technical Paper', ar: 'ورقة فنية' },
+              { val: 'Strategic Report', en: 'Strategic Report', ar: 'تقرير استراتيجي' }
+            ].map(type => (
+              <label key={type.val} className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  type="checkbox" 
+                  value={type.val} 
+                  checked={types.includes(type.val)} 
+                  onChange={handleTypeChange} 
+                  className="w-4 h-4 accent-ink"
+                />
+                <span className="text-[14px] text-ink group-hover:text-ink-soft transition-colors">
+                  <span className="en">{type.en}</span><span className="ar hidden group-[[data-lang=ar]]:inline-block">{type.ar || type.en}</span>
+                </span>
+              </label>
+            ))}
+          </div>
         </div>
-        <button className="btn" onClick={() => { setSearchQuery(''); setTypes([]); }}>
-          <span className="en">Clear filters</span><span className="ar">مسح عوامل التصفية</span>
-        </button>
+        
+        <Button 
+          variant="outline" 
+          onClick={() => { setSearchQuery(''); setTypes([]); }}
+          className="w-full justify-center"
+        >
+          <span className="en">Clear filters</span><span className="ar ml-2">مسح عوامل التصفية</span>
+        </Button>
       </aside>
 
-      <div>
+      <div className="flex flex-col gap-8">
         {filteredPubs.length === 0 ? (
-          <div style={{ padding: '40px 0', textAlign: 'center', color: 'var(--ink-soft)' }}>
-            <span className="en">No publications match your filters.</span><span className="ar">لا توجد منشورات مطابقة لعوامل التصفية.</span>
+          <div className="py-10 text-center text-ink-soft bg-[#FAFBFB] rounded-[16px] border border-ink/10">
+            <span className="en block">No publications match your filters.</span>
+            <span className="ar block mt-2">لا توجد منشورات مطابقة لعوامل التصفية.</span>
           </div>
         ) : (
-          filteredPubs.map((pub) => (
-            <div key={pub.id} className="pub-row reveal in">
-              <div className="pub-main">
-                <span className="tag on en">{pub.type}</span><span className="tag on ar">{pub.type}</span>
-                <h4><span className="en">{pub.title}</span><span className="ar">{pub.title}</span></h4>
-                <div className="pub-meta en">{new Date(pub.date).toLocaleDateString('en-GB')}</div><div className="pub-meta ar">{new Date(pub.date).toLocaleDateString('ar-EG')}</div>
+          <div className="flex flex-col gap-4">
+            {filteredPubs.map((pub) => (
+              <div key={pub.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 p-6 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-colors bg-white shadow-sm hover:shadow-md">
+                <div className="flex flex-col items-start gap-3">
+                  <Badge variant="solid">
+                    <span className="en">{pub.type}</span><span className="ar">{pub.type}</span>
+                  </Badge>
+                  <Typography variant="h3" className="text-ink m-0">
+                    <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
+                  </Typography>
+                  <div className="text-[14px] text-ink-soft mt-1">
+                    <span className="en">{new Date(pub.date).toLocaleDateString('en-GB')}</span>
+                    <span className="ar hidden group-[[data-lang=ar]]:inline-block">{new Date(pub.date).toLocaleDateString('ar-EG')}</span>
+                  </div>
+                </div>
+                <div className="flex items-center md:items-start justify-start md:justify-end">
+                  {pub.file && typeof pub.file !== 'string' && pub.file.url ? (
+                    <Button href={pub.file.url} variant="outline" className="flex items-center gap-2">
+                      <span>↓</span> <span className="en">Download PDF</span><span className="ar ml-2">تحميل</span>
+                    </Button>
+                  ) : (
+                    <span className="text-[13px] text-ink/40">
+                      <span className="en">No file available</span><span className="ar hidden group-[[data-lang=ar]]:inline-block">لا يوجد ملف متاح</span>
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="dl-flags">
-                {pub.file && typeof pub.file !== 'string' && pub.file.url ? (
-                  <a href={pub.file.url} download>↓ <span className="en">Download PDF</span><span className="ar">تحميل</span></a>
-                ) : (
-                  <span className="en" style={{opacity: 0.5}}>No file available</span>
-                )}
-              </div>
-            </div>
-          ))
+            ))}
+          </div>
         )}
 
-        <div className="tools-env reveal in" id="tools">
-          <span className="eyebrow"><span className="en">Tools overview</span><span className="ar">نظرة على الأدوات</span></span>
-          <h4><span className="en">Interactive tools &amp; API environment</span><span className="ar">أدوات تفاعلية وبيئة برمجية (API)</span></h4>
-          <p>
-            <span className="en">Today: a downloadable ESG Readiness Assessment tool. This container is reserved for forthcoming self-serve calculators, data dashboards and API-connected client portals.</span>
-            <span className="ar">حاليًا: أداة تقييم جاهزية الحوكمة البيئية قابلة للتحميل. هذا القسم مخصص لأدوات حاسبة ذاتية الخدمة ولوحات بيانات وبوابات عملاء متصلة بواجهات برمجية قادمة.</span>
-          </p>
-          <div className="hero-cta" style={{ justifyContent: 'center', marginBottom: 18 }}>
-            <Link href="/contact" className="btn"><span className="en">Download ESG Readiness Tool (.xlsx)</span><span className="ar">تحميل أداة جاهزية الحوكمة (.xlsx)</span></Link>
-          </div>
-          <div className="stub-icons">
-            <span title="Energy modelling tool">⚙</span>
-            <span title="Emissions calculator">∑</span>
-            <span title="Data dashboard">▤</span>
-            <span title="API access">⟡</span>
+        <div className="mt-8 bg-ink text-white p-8 md:p-12 rounded-[16px] overflow-hidden relative" id="tools">
+          <div className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity bg-[url('/assets/images/gas-energy.jpg')]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/90"></div>
+          <div className="relative z-10 flex flex-col gap-6">
+            <Typography variant="eyebrow" className="text-white/60 mb-0">
+              <span className="en">Tools overview</span><span className="ar ml-2">نظرة على الأدوات</span>
+            </Typography>
+            <Typography variant="h2" className="text-white m-0">
+              <span className="en block">Interactive tools &amp; API environment</span>
+              <span className="ar block text-[0.8em] mt-2 text-white/90">أدوات تفاعلية وبيئة برمجية (API)</span>
+            </Typography>
+            <p className="text-[15px] md:text-[17px] leading-[1.6] text-white/80 max-w-[700px] m-0">
+              <span className="en block">Today: a downloadable ESG Readiness Assessment tool. This container is reserved for forthcoming self-serve calculators, data dashboards and API-connected client portals.</span>
+              <span className="ar block mt-3">حاليًا: أداة تقييم جاهزية الحوكمة البيئية قابلة للتحميل. هذا القسم مخصص لأدوات حاسبة ذاتية الخدمة ولوحات بيانات وبوابات عملاء متصلة بواجهات برمجية قادمة.</span>
+            </p>
+            <div className="flex flex-wrap gap-4 mt-4">
+              <Button href="/contact" variant="primary">
+                <span className="en">Download ESG Readiness Tool (.xlsx)</span><span className="ar ml-2">تحميل أداة جاهزية الحوكمة (.xlsx)</span>
+              </Button>
+            </div>
+            <div className="flex gap-4 mt-8 text-[24px] text-white/40">
+              <span title="Energy modelling tool">⚙</span>
+              <span title="Emissions calculator">∑</span>
+              <span title="Data dashboard">▤</span>
+              <span title="API access">⟡</span>
+            </div>
           </div>
         </div>
       </div>

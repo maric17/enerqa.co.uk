@@ -1,6 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-ink: #1b030a;
+  --color-ink-soft: #4a2a33;
+  --color-ink-muted: #8c6b73;
+  --color-paper: #ffffff;
+  --color-paper-alt: #f8f3f4;
+  --color-card: #ffffff;
+  --color-dark: #1b030a;
+  --color-dark-soft: #3a1c24;
+  --color-green: #8c1639;
+  --color-green-deep: #72102d;
+  --color-green-ink: #ffffff;
+}
+
 @import "./style.css";
+
+/* Font configurations - easily changeable in one file */
+:root {
+  --font-en: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ar: 'Alexandria', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: var(--font-en);
+}
+
+body[data-lang="ar"] {
+  --sans: var(--font-ar);
+}
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

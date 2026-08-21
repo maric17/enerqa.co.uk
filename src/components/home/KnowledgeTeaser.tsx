@@ -2,6 +2,9 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { KnowledgeSlider } from './KnowledgeSlider'
+import { Container } from '../ui/Container'
+
+import { ParticleGalaxy } from '../animations/ParticleGalaxy'
 
 export const KnowledgeTeaser = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -95,11 +98,13 @@ export const KnowledgeTeaser = async () => {
   }) : defaultPublications
 
   return (
-    <section className="band" id="knowledge-teaser" style={{ background: '#FAF7F6', padding: '60px 0', overflow: 'visible', position: 'relative' }}>
-      <div className="wrap">
+    <section className="band" id="knowledge-teaser" style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
+      <ParticleGalaxy />
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(10, 2, 5, 0.4)', zIndex: 1, pointerEvents: 'none' }}></div>
+      <Container style={{ position: 'relative', zIndex: 2 }}>
         {/* Use Client Component for the slider interactiveness */}
         <KnowledgeSlider publications={publications} />
-      </div>
+      </Container>
     </section>
   )
 }
