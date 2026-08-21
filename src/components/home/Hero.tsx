@@ -1,59 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { Container } from '../ui/Container'
-
-const TITLES = [
-  "Sustainable decisions start with better data.",
-  "Empowering climate action with insights.",
-  "Driving ESG transition through knowledge."
-];
+import { TypeAnimation } from 'react-type-animation'
 
 export const Hero = () => {
-  const [titleIndex, setTitleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const currentTitle = TITLES[titleIndex];
-    let timeout: NodeJS.Timeout;
-
-    if (isPaused) {
-      timeout = setTimeout(() => {
-        setIsPaused(false);
-        setIsDeleting(true);
-      }, 2500);
-      return () => clearTimeout(timeout);
-    }
-
-    if (isDeleting) {
-      if (displayedText.length === 0) {
-        timeout = setTimeout(() => {
-          setIsDeleting(false);
-          setTitleIndex((prev) => (prev + 1) % TITLES.length);
-        }, 200);
-      } else {
-        timeout = setTimeout(() => {
-          setDisplayedText(currentTitle.substring(0, displayedText.length - 1));
-        }, 30);
-      }
-    } else {
-      if (displayedText.length === currentTitle.length) {
-        timeout = setTimeout(() => {
-          setIsPaused(true);
-        }, 10);
-      } else {
-        timeout = setTimeout(() => {
-          setDisplayedText(currentTitle.substring(0, displayedText.length + 1));
-        }, 70);
-      }
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, isPaused, titleIndex]);
-
   return (
     <section className="hero-insights">
       <div className="hero-insights-bg"></div>
@@ -75,10 +27,19 @@ export const Hero = () => {
             Technical Advisory &amp; Knowledge Hub
           </span>
           <h1 className="text-[clamp(34px,4.8vw,56px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-white m-0 mb-4 text-center min-h-[3.45em] sm:min-h-[2.3em] lg:min-h-[1.15em] flex items-center justify-center">
-            <span>
-              {displayedText}
-              <span className="animate-pulse inline-block ml-[4px] font-light text-white/80">|</span>
-            </span>
+            <TypeAnimation
+              sequence={[
+                'Sustainable decisions start with better data.',
+                2500,
+                'Empowering climate action with insights.',
+                2500,
+                'Driving ESG transition through knowledge.',
+                2500,
+              ]}
+              wrapper="span"
+              speed={50}
+              repeat={Infinity}
+            />
           </h1>
           <p className="text-[clamp(15px,1.6vw,18px)] text-white/90 leading-[1.45] mx-auto mb-6 max-w-[60ch] font-light text-center">
             A resource base for climate action, carbon policy, and ESG transition parameters.
