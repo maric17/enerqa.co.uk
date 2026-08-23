@@ -47,7 +47,9 @@ export default async function ProjectsPage() {
           
           <div className="flex flex-col gap-12 md:gap-16 relative before:content-[''] before:absolute before:left-[11px] md:before:left-[43px] before:top-2 before:bottom-2 before:w-[2px] before:bg-ink/10">
             {projects.docs.length > 0 ? (
-              projects.docs.map((project, index) => (
+              projects.docs.map((project, index) => {
+                const imageUrl = project.image && typeof project.image === 'object' && project.image !== null && 'url' in project.image ? project.image.url : null;
+                return (
                 <div key={project.id} className="relative flex flex-col md:flex-row gap-6 md:gap-12 md:pl-24 pl-10 group">
                   <div className="absolute left-0 md:left-4 top-2 w-[24px] h-[24px] rounded-full bg-white border-4 border-ink/20 group-hover:border-ink/50 transition-colors z-10"></div>
                   
@@ -79,12 +81,12 @@ export default async function ProjectsPage() {
                         </div>
                       )}
                     </div>
-                    {project.image && typeof project.image !== 'string' && project.image.url && (
-                      <div className="w-full h-[140px] md:h-full min-h-[140px] rounded-[12px] bg-cover bg-center border border-ink/10" style={{ backgroundImage: `url(${project.image.url})` }}></div>
+                    {imageUrl && (
+                      <div className="w-full h-[140px] md:h-full min-h-[140px] rounded-[12px] bg-cover bg-center border border-ink/10" style={{ backgroundImage: `url(${imageUrl})` }}></div>
                     )}
                   </div>
                 </div>
-              ))
+              )})
             ) : (
               <div className="py-10 text-ink-soft text-center w-full">
                 <span className="en block">No projects available yet.</span><span className="ar block mt-2">لا توجد مشاريع متاحة بعد.</span>
