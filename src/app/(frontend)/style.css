@@ -2232,3 +2232,33 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 
 
+
+/* RichText Spacing & Typography */
+.prose p, .richtext p,
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6,
+.richtext h1, .richtext h2, .richtext h3, .richtext h4, .richtext h5, .richtext h6 {
+  margin-bottom: 0.55em !important;
+}
+
+.prose h1, .richtext h1 { font-size: 28px !important; }
+.prose h2, .richtext h2 { font-size: 25px !important; }
+.prose h3, .richtext h3 { font-size: 22px !important; }
+.prose h4, .richtext h4 { font-size: 20px !important; }
+.prose h5, .richtext h5 { font-size: 18px !important; }
+
+/* Lists */
+.prose ul, .richtext ul, .list-bullet {
+  list-style-type: disc;
+  margin-bottom: 1em;
+  padding-inline-start: 1.5em;
+}
+
+.prose ol, .richtext ol, .list-number {
+  list-style-type: decimal;
+  margin-bottom: 1em;
+  padding-inline-start: 1.5em;
+}
+
+.prose li, .richtext li, .list-bullet li, .list-number li {
+  margin-bottom: 0.25em;
+}

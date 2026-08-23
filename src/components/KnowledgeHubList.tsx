@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -13,7 +12,7 @@ type Publication = {
   date: string;
   heading: string;
   excerpt: string;
-  file?: any;
+  file?: { url?: string } | string;
   bgGradientType: string;
 };
 
@@ -133,8 +132,8 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
         )}
 
         <div className="mt-8 bg-ink text-white p-8 md:p-12 rounded-[16px] overflow-hidden relative" id="tools">
-          <div className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity bg-[url('/assets/images/gas-energy.jpg')]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/90"></div>
+          <div className="absolute inset-0 bg-cover bg-center bg-[url('/assets/images/gas-energy.jpg')]"></div>
+          <div className="hero-insights-overlay z-10 opacity-80"></div>
           <div className="relative z-10 flex flex-col gap-6">
             <Typography variant="eyebrow" className="text-white/60 mb-0">
               <span className="en">Tools overview</span><span className="ar ml-2">نظرة على الأدوات</span>

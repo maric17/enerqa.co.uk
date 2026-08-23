@@ -8,13 +8,30 @@ import { Badge } from '@/components/ui/Badge';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import SubscribeForm from '@/components/SubscribeForm';
+import { Insight, Category } from '@/payload-types';
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
-export default async function InsightsPage() {
+export default async function InsightsPage({ searchParams }: Props) {
+  const resolvedSearchParams = await searchParams
+  const pageParam = typeof resolvedSearchParams.page === 'string' ? resolvedSearchParams.page : '1'
+  const page = parseInt(pageParam, 10) || 1
+
   const payload = await getPayload({ config: configPromise });
   const insights = await payload.find({
     collection: 'insights',
-    sort: '-createdAt',
+    where: {
+      _status: {
+        equals: 'published'
+      },
+      publishDate: {
+        less_than_equal: new Date().toISOString()
+      }
+    },
+    sort: '-publishDate',
     limit: 6,
+    page: page,
   });
 
   return (
@@ -26,8 +43,8 @@ export default async function InsightsPage() {
         <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
           SCENE 06 — INSIGHTS
         </div>
-        <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/solar.jpg')]"></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/images/banners/default-banner-insights.jpeg')]"></div>
+        <div className="hero-insights-overlay z-10 opacity-80"></div>
         
         <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
@@ -40,30 +57,6 @@ export default async function InsightsPage() {
         </Container>
       </section>
 
-      <Section theme="light">
-        <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="w-full aspect-[4/3] rounded-[18px] bg-line-dark bg-cover bg-center overflow-hidden bg-[url('/assets/images/port.jpg')]"></div>
-            <div className="flex flex-col gap-4">
-              <Typography variant="eyebrow" className="text-ink-muted mb-0">
-                <span className="en">Featured</span><span className="ar ml-2">مقال مميز</span>
-              </Typography>
-              <Typography variant="h2" className="text-ink m-0">
-                <span className="en block">DPSIR and the Case for Structured Climate Thinking</span>
-                <span className="ar block text-[0.8em] mt-3 text-ink/90">إطار DPSIR وأهمية التفكير المناخي المنظّم</span>
-              </Typography>
-              <p className="text-[17px] md:text-[19px] leading-[1.6] text-ink font-light m-0 mt-2">
-                <span className="en block">Why the Drivers–Pressures–State–Impact–Response model is proving useful far beyond its original ecological context — and what it offers Gulf aquaculture policy today.</span>
-                <span className="ar block mt-4">لماذا يثبت نموذج المحركات-الضغوط-الحالة-الأثر-الاستجابة فائدته خارج سياقه البيئي الأصلي — وما الذي يقدمه لسياسات الاستزراع المائي الخليجية اليوم.</span>
-              </p>
-              <Link href="/insights" className="text-[15px] font-bold text-ink hover:text-ink-soft transition-colors mt-2 inline-block">
-                <span className="en">Read the field note →</span><span className="ar">‹ اقرأ المذكرة الميدانية</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Section>
-
       <Section theme="muted">
         <div className="w-full flex flex-col gap-10">
           <Typography variant="eyebrow" className="text-ink-muted mb-0">
@@ -72,13 +65,31 @@ export default async function InsightsPage() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {insights.docs.length > 0 ? (
-              insights.docs.map((post) => (
-                <Link key={post.id} href="/insights" className="flex flex-col gap-4 bg-white p-5 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-all hover:shadow-md group no-underline">
-                  <div className="w-full aspect-[16/10] rounded-[8px] bg-line bg-cover bg-center overflow-hidden" style={post.image && typeof post.image !== 'string' && post.image.url ? { backgroundImage: `url(${post.image.url})` } : {}}></div>
+              insights.docs.map((post: Insight) => {
+                const authors = Array.isArray(post.authors) ? post.authors : [];
+                const authorNames = authors
+                  .map((author: any) => (typeof author === 'object' && author !== null && 'name' in author ? author.name : null))
+                  .filter(Boolean)
+                  .join(', ');
                   
-                  <div className="text-[13px] text-ink-soft">
-                    <span className="en">{new Date(post.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
-                    <span className="ar hidden group-[[data-lang=ar]]:inline-block">{new Date(post.createdAt).toLocaleDateString('ar-EG', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+                return (
+                <Link key={post.id} href={`/insights/${post.slug}`} className="flex flex-col gap-4 bg-white p-5 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-all hover:shadow-md group no-underline">
+                  <div className="w-full aspect-[16/10] rounded-[8px] bg-line bg-cover bg-center overflow-hidden" style={post.image && typeof post.image === 'object' && 'url' in post.image && post.image.url ? { backgroundImage: `url(${post.image.url})` } : {}}></div>
+                  
+                  <div className="text-[13px] text-ink-soft flex items-center justify-between">
+                    <div>
+                      <span className="en">
+                        {authorNames ? `${authorNames} • ` : ''}
+                        {new Date(post.publishDate || post.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+                      </span>
+                      <span className="ar hidden group-[[data-lang=ar]]:inline-block">
+                        {authorNames ? `${authorNames} • ` : ''}
+                        {new Date(post.publishDate || post.createdAt).toLocaleDateString('ar-EG', { day: '2-digit', month: 'long', year: 'numeric' })}
+                      </span>
+                    </div>
+                    {post.type && (
+                      <span className="uppercase text-[10px] tracking-wider font-bold bg-ink/5 px-2 py-1 rounded">{post.type}</span>
+                    )}
                   </div>
 
                   <Typography variant="h4" className="text-ink m-0 group-hover:text-ink/80 transition-colors">
@@ -89,13 +100,15 @@ export default async function InsightsPage() {
                     <span className="en line-clamp-3">{post.excerpt}</span><span className="ar hidden group-[[data-lang=ar]]:-webkit-box line-clamp-3">{post.excerpt}</span>
                   </p>
                   
-                  <div className="mt-auto pt-2">
-                    <Badge variant="outline">
-                      {post.category}
-                    </Badge>
+                  <div className="mt-auto pt-2 flex flex-wrap gap-2">
+                    {post.category && Array.isArray(post.category) && post.category.map((cat: Category | number) => (
+                      <Badge key={typeof cat === 'object' && cat !== null ? cat.id : String(cat)} variant="outline">
+                        {typeof cat === 'object' && cat !== null ? cat.title : String(cat)}
+                      </Badge>
+                    ))}
                   </div>
                 </Link>
-              ))
+              ); })
             ) : (
               <div className="col-span-full py-10 text-ink-soft text-center">
                 <span className="en">No insights published yet.</span>
@@ -109,6 +122,35 @@ export default async function InsightsPage() {
               <span className="en">Browse the full Knowledge Hub</span><span className="ar ml-2">تصفح مركز المعرفة بالكامل</span>
             </Button>
           </div>
+
+          {insights.totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-ink/10">
+              {insights.hasPrevPage ? (
+                <Link href={`/insights?page=${insights.prevPage}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
+                  <span className="en">Previous</span><span className="ar">السابق</span>
+                </Link>
+              ) : (
+                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink/40 cursor-not-allowed">
+                  <span className="en">Previous</span><span className="ar">السابق</span>
+                </span>
+              )}
+              
+              <div className="text-[13px] font-bold text-ink-soft">
+                <span className="en">Page {insights.page} of {insights.totalPages}</span>
+                <span className="ar ml-2">صفحة {insights.page} من {insights.totalPages}</span>
+              </div>
+
+              {insights.hasNextPage ? (
+                <Link href={`/insights?page=${insights.nextPage}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
+                  <span className="en">Next</span><span className="ar">التالي</span>
+                </Link>
+              ) : (
+                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink/40 cursor-not-allowed">
+                  <span className="en">Next</span><span className="ar">التالي</span>
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </Section>
 

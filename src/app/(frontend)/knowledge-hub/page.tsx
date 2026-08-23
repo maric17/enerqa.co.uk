@@ -24,8 +24,8 @@ export default async function KnowledgeHubPage() {
         <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
           SCENE 05 — KNOWLEDGE HUB
         </div>
-        <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/port.jpg')]"></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/port.jpg')]"></div>
+        <div className="hero-insights-overlay z-10 opacity-80"></div>
         
         <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
