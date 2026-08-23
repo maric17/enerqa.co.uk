@@ -56,7 +56,7 @@ export const Tools = async () => {
     category: doc.category,
     title: doc.title,
     desc: doc.desc,
-    image: doc.image?.url || '/assets/images/ghg365.png',
+    image: (doc.image && typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image && doc.image.url) ? (doc.image.url as string) : '/assets/images/ghg365.png',
     link: doc.link
   })) : defaultTools
 

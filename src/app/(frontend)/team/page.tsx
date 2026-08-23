@@ -52,9 +52,11 @@ export default async function TeamPage() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 mt-4">
             {team.docs.length > 0 ? (
-              team.docs.map((member) => (
+              team.docs.map((member) => {
+                const imageUrl = member.image && typeof member.image === 'object' && member.image !== null && 'url' in member.image ? member.image.url : null;
+                return (
                 <div key={member.id} className="flex flex-col items-start gap-4 group">
-                  <div className="w-full aspect-[4/5] rounded-[16px] bg-[#FAFBFB] bg-cover bg-center overflow-hidden border border-ink/10 group-hover:border-ink/20 transition-colors" style={member.image && typeof member.image !== 'string' && member.image.url ? { backgroundImage: `url(${member.image.url})` } : {}}></div>
+                  <div className="w-full aspect-[4/5] rounded-[16px] bg-[#FAFBFB] bg-cover bg-center overflow-hidden border border-ink/10 group-hover:border-ink/20 transition-colors" style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : {}}></div>
                   <div className="flex flex-col gap-1 w-full">
                     <Typography variant="h4" className="text-ink m-0 group-hover:text-ink/80 transition-colors">
                       {member.name}
@@ -67,7 +69,7 @@ export default async function TeamPage() {
                     </p>
                   </div>
                 </div>
-              ))
+              )})
             ) : (
               <div className="col-span-full py-10 text-ink-soft">
                 <span className="en">No team members listed yet.</span><span className="ar ml-2">لا يوجد أعضاء في الفريق بعد.</span>
