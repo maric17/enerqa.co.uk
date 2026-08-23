@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Typography } from '../ui/Typography'
@@ -55,7 +56,6 @@ export const Tools = async () => {
     category: doc.category,
     title: doc.title,
     desc: doc.desc,
-    // @ts-ignore
     image: doc.image?.url || '/assets/images/ghg365.png',
     link: doc.link
   })) : defaultTools
@@ -83,7 +83,7 @@ export const Tools = async () => {
             <div>
               {/* Overlapping Banner */}
               <div className="bg-[#FAFBFB] h-[140px] border-[1.5px] border-[#8B1538]/10 rounded-[var(--r-sm)] flex items-center justify-center -mt-[76px] mb-6 shadow-[0_12px_28px_rgba(139,21,56,0.06)] relative z-10 overflow-hidden p-4">
-                <img src="/assets/images/esg-logo.webp" alt="ESG Logo" className="max-w-full max-h-full object-contain" />
+                <Image src="/assets/images/esg-logo.webp" alt="ESG Logo" width={200} height={100} className="max-w-full max-h-full object-contain" />
               </div>
               <span className="text-[10px] font-bold uppercase text-[#8B1538] tracking-[0.1em] block mb-1.5">
                 Flagship Application
@@ -125,7 +125,7 @@ export const Tools = async () => {
               <div key={tool.id} className="group bg-white border border-[#8B1538]/10 rounded-[var(--r-md)] p-6 flex flex-col justify-between gap-4 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.02)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(139,21,56,0.06)] hover:border-[#8B1538]/20">
                 <div>
                   <div className="bg-[#FAFBFB] h-[110px] rounded-[var(--r-sm)] flex items-center justify-center mb-4 border border-[#8B1538]/10 overflow-hidden p-3 transition-colors group-hover:bg-white">
-                    <img src={tool.image} alt={tool.title} className="max-w-full max-h-full object-contain" />
+                    <Image src={tool.image} alt={tool.title} width={200} height={100} className="max-w-full max-h-full object-contain" />
                   </div>
                   <span className="text-[10px] font-bold uppercase text-[#8B1538] tracking-[0.05em] block mb-1.5">
                     {tool.category}

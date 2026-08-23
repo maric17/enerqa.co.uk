@@ -1,6 +1,6 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { standardEditor } from './editorConfig'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -10,13 +10,19 @@ import { Publications } from './collections/Publications'
 import { Tools } from './collections/Tools'
 import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
-
+import { Categories } from './collections/Categories'
+import { Authors } from './collections/Authors'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  localization: {
+    locales: ['en', 'ar'],
+    defaultLocale: 'en',
+    fallback: true,
+  },
   admin: {
     user: 'users',
   },
@@ -32,8 +38,10 @@ export default buildConfig({
     Tools,
     Projects,
     Team,
+    Categories,
+    Authors,
   ],
-  editor: lexicalEditor({}),
+  editor: standardEditor,
   plugins: [
     vercelBlobStorage({
       enabled: true,

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Container } from '../ui/Container'
+import { Insight } from '@/payload-types'
 
 export const InsightsTeaser = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -38,14 +39,28 @@ export const InsightsTeaser = async () => {
     }
   ]
 
-  const insights = insightsData.length > 0 ? insightsData.map(doc => ({
-    id: doc.id,
-    title: doc.title,
-    excerpt: doc.excerpt,
-    category: doc.category,
-    // @ts-ignore
-    image: doc.image?.url || '/assets/images/port.jpg'
-  })) : defaultInsights
+  const insights = insightsData.length > 0 ? insightsData.map((doc: Insight) => {
+    // Safely extract category title from the hasMany relation
+    let catTitle = 'Insight'
+    if (Array.isArray(doc.category) && doc.category.length > 0) {
+      const firstCat = doc.category[0]
+      if (typeof firstCat === 'object' && firstCat !== null && 'title' in firstCat) {
+        catTitle = firstCat.title
+      } else if (typeof firstCat === 'string') {
+        catTitle = firstCat // fallback if unpopulated
+      }
+    } else if (typeof doc.category === 'string') {
+      catTitle = doc.category
+    }
+
+    return {
+      id: doc.id,
+      title: doc.title,
+      excerpt: doc.excerpt,
+      category: catTitle,
+      image: (typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image ? doc.image.url : null) || '/assets/images/port.jpg'
+    }
+  }) : defaultInsights
 
   return (
     <section className="band panel" id="insights-teaser" style={{ background: '#ffffff', padding: '80px 0' }}>

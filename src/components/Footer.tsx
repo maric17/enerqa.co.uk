@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Typography } from './ui/Typography';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faXTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { Container } from './ui/Container';
@@ -14,7 +14,7 @@ export function Footer() {
           <div className="flex items-center gap-6 flex-wrap">
             {/* Logo Image */}
             <Link href="/" className="no-underline inline-block">
-              <img src="/images/logo-white.png" alt="enerQA Logo" className="h-[38px] w-auto block" />
+              <Image src="/images/logo-white.png" alt="enerQA Logo" width={150} height={38} className="h-[38px] w-auto block" />
             </Link>
             {/* Vertical Line */}
             <div className="w-px h-8 bg-white/15 hidden md:inline-block"></div>

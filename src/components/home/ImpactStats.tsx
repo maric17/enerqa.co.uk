@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { CountUpNumber } from '../animations/CountUpNumber'
 import { Typography } from '../ui/Typography'
 import { Container } from '../ui/Container'
@@ -12,7 +13,7 @@ export const ImpactStats = () => {
           {/* Left Column (Image representing purpose/results) */}
           <div className="flex-[1.2] min-w-[320px] relative">
             <div className="rounded-[var(--r-lg)] overflow-hidden shadow-[0_20px_40px_rgba(15,40,65,0.08)] border border-line h-[380px]">
-              <img src="/assets/images/port.jpg" alt="Strategic Maritime Port Advisory" className="w-full h-full object-cover block" />
+              <Image src="/assets/images/port.jpg" alt="Strategic Maritime Port Advisory" width={800} height={600} className="w-full h-full object-cover block" />
             </div>
             <div className="absolute -bottom-6 left-5 bg-[#8B1538] text-white py-5 px-6 rounded-[var(--r-md)] shadow-[0_10px_25px_rgba(139,21,56,0.3)] max-w-[220px] text-left z-10">
               <h5 className="text-[13px] font-extrabold uppercase tracking-[0.05em] m-0 mb-1.5">
@@ -56,7 +57,7 @@ export const ImpactStats = () => {
                   <svg className="w-6 h-6 text-[#8B1538] stroke-[2.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                 </div>
                 <p className="text-[13.5px] text-ink-soft m-0 font-light">
-                  <strong className="text-ink">Multidisciplinary Experts</strong> including PhD and Master's
+                  <strong className="text-ink">Multidisciplinary Experts</strong> including PhD and Master&apos;s
                   graduates specializing in energy, climate, and ESG.
                 </p>
               </div>

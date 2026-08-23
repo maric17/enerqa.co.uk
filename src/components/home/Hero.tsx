@@ -1,11 +1,22 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Container } from '../ui/Container'
 import { TypeAnimation } from 'react-type-animation'
 
 export const Hero = () => {
+  const [query, setQuery] = useState('')
+  const router = useRouter()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+    }
+  }
+
   return (
     <section className="hero-insights">
       <div className="hero-insights-bg"></div>
@@ -47,13 +58,13 @@ export const Hero = () => {
 
           {/* Large Search Bar */}
           <div className="relative w-full max-w-[680px] z-20 mx-auto mt-6">
-            <div className="hero-search-wrapper">
+            <form onSubmit={handleSearch} className="hero-search-wrapper w-full flex items-center">
               <svg className="shrink-0 w-5 h-5 text-gray-500 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" className="hero-search-input" placeholder="Search publications, tools, and emissions dashboards..." aria-label="Search Query" />
-              <button className="hero-search-btn">
+              <input type="text" className="hero-search-input flex-1" placeholder="Search publications, tools, and emissions dashboards..." aria-label="Search Query" value={query} onChange={(e) => setQuery(e.target.value)} />
+              <button type="submit" className="hero-search-btn">
                 <span>Search</span>
               </button>
-            </div>
+            </form>
 
             {/* Trending Topics / Quick Tags */}
             <div className="flex gap-2 justify-center flex-wrap mt-6">

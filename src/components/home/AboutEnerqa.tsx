@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Typography } from '../ui/Typography'
 import { Container } from '../ui/Container'
 
@@ -54,7 +55,7 @@ export const AboutEnerqa = () => {
             {/* Dark arc ring behind the image */}
             <div className="absolute -inset-3 rounded-full bg-[#0a0205]/55 z-0"></div>
             <div className="absolute -inset-6 rounded-full bg-[#0a0205]/25 z-0"></div>
-            <img src="/assets/images/gas-energy.jpg" alt="About enerQA" className="w-full h-full object-cover rounded-full relative z-[101] block" />
+            <Image src="/assets/images/gas-energy.jpg" alt="About enerQA" width={460} height={460} className="w-full h-full object-cover rounded-full relative z-[101] block" />
           </div>
         </div>
 

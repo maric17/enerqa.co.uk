@@ -15,8 +15,8 @@ export default function AboutPage() {
         <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
           SCENE 02 — ABOUT
         </div>
-        <div className="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-luminosity bg-[url('/assets/images/hero-bg.jpg')]"></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink via-ink/30 to-ink/70"></div>
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/hero-bg.jpg')]"></div>
+        <div className="hero-insights-overlay z-10 opacity-80"></div>
         
         <Container className="w-full relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12 h-full justify-center">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <span className="ar block text-[0.8em] mt-3 text-ink/90">مجموعة من الممارسين، لا مجرد عرض تقديمي.</span>
               </Typography>
               <p className="text-[17px] md:text-[19px] leading-[1.6] text-ink font-light m-0 mt-3">
-                <span className="en block">Building on the professional heritage of its founders and anchored by a diverse group of experienced professionals committed to environmental responsibility, enerQA sees itself as a driving force in shaping a sustainable future. We don't just deliver solutions — we build collaborative partnerships tailored to the challenges faced by a broad range of stakeholders, from startups to established institutions and government agencies.</span>
+                <span className="en block">Building on the professional heritage of its founders and anchored by a diverse group of experienced professionals committed to environmental responsibility, enerQA sees itself as a driving force in shaping a sustainable future. We don&apos;t just deliver solutions — we build collaborative partnerships tailored to the challenges faced by a broad range of stakeholders, from startups to established institutions and government agencies.</span>
                 <span className="ar block mt-4">بالاستناد إلى الإرث المهني لمؤسسيها ومجموعة متنوعة من المتخصصين ذوي الخبرة الملتزمين بالمسؤولية البيئية، ترى إنيرقا نفسها قوة دافعة في تشكيل مستقبل مستدام. نحن لا نكتفي بتقديم الحلول، بل نبني شراكات تعاونية مصممة خصيصًا للتحديات التي تواجه طيفًا واسعًا من أصحاب المصلحة، من الشركات الناشئة إلى المؤسسات الراسخة والجهات الحكومية.</span>
               </p>
               <p className="text-[15px] leading-[1.6] text-ink-soft m-0 mt-2">
@@ -74,7 +74,7 @@ export default function AboutPage() {
                 <span className="ar block mt-1 text-[0.9em] opacity-90">خدمات مرنة وقابلة للتخصيص</span>
               </Typography>
               <p className="text-[13.5px] leading-[1.5] text-white/70 m-0">
-                <span className="en block">Scoped engagements that flex to the client's stage, from feasibility to full delivery.</span>
+                <span className="en block">Scoped engagements that flex to the client&apos;s stage, from feasibility to full delivery.</span>
                 <span className="ar block mt-2 opacity-80">تكليفات مرنة تتكيف مع مرحلة العميل، من الجدوى إلى التسليم الكامل.</span>
               </p>
             </Link>

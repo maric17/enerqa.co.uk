@@ -119,6 +119,7 @@ export function Header() {
             </div>
             <div className="nav-item"><Link href="/projects" className={pathname === '/projects' ? 'active' : ''}><span className="en">Projects</span><span className="ar">المشاريع</span></Link></div>
             <div className="nav-item"><Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''}><span className="en">Knowledge Hub</span><span className="ar">مركز المعرفة</span></Link></div>
+            <div className="nav-item"><Link href="/insights" className={pathname === '/insights' ? 'active' : ''}><span className="en">Insights</span><span className="ar">رؤى</span></Link></div>
             <div className="nav-item"><Link href="/about" className={pathname === '/about' ? 'active' : ''}><span className="en">About</span><span className="ar">من نحن</span></Link></div>
           </nav>
           <div className="header-actions">

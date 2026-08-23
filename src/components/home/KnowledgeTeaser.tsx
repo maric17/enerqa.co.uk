@@ -90,7 +90,6 @@ export const KnowledgeTeaser = async () => {
       bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)',
       heading: doc.heading,
       excerpt: doc.excerpt,
-      // @ts-ignore
       file: doc.file?.url || ''
     }
   }) : defaultPublications
