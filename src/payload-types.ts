@@ -76,6 +76,10 @@ export interface Config {
     team: Team;
     categories: Category;
     authors: Author;
+    datasets: Dataset;
+    'learning-materials': LearningMaterial;
+    glossary: Glossary;
+    faqs: Faq;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +96,10 @@ export interface Config {
     team: TeamSelect<false> | TeamSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    datasets: DatasetsSelect<false> | DatasetsSelect<true>;
+    'learning-materials': LearningMaterialsSelect<false> | LearningMaterialsSelect<true>;
+    glossary: GlossarySelect<false> | GlossarySelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -101,8 +109,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'ar') | ('en' | 'ar')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'knowledge-hub-config': KnowledgeHubConfig;
+  };
+  globalsSelect: {
+    'knowledge-hub-config': KnowledgeHubConfigSelect<false> | KnowledgeHubConfigSelect<true>;
+  };
   locale: 'en' | 'ar';
   widgets: {
     collections: CollectionsWidget;
@@ -251,7 +263,8 @@ export interface Author {
  */
 export interface Publication {
   id: number;
-  type: 'Advisory Note' | 'Case Study' | 'Technical Paper' | 'Strategic Report';
+  type: 'White Paper' | 'Case Study' | 'Article' | 'Research';
+  topic?: (number | Category)[] | null;
   title: string;
   date: string;
   heading: string;
@@ -267,11 +280,24 @@ export interface Publication {
  */
 export interface Tool {
   id: number;
+  slug: string;
   category: string;
+  type: 'interactive' | 'informational';
   title: string;
   desc: string;
   image: number | Media;
-  link: string;
+  /**
+   * External link or native route (e.g. /tools/carbon-calculator)
+   */
+  link?: string | null;
+  /**
+   * URL to embed if this is an external interactive tool (e.g. Tableau dashboard)
+   */
+  iframeUrl?: string | null;
+  /**
+   * PDF or document download for informational guides
+   */
+  file?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -307,6 +333,85 @@ export interface Team {
   role: string;
   bio: string;
   image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "datasets".
+ */
+export interface Dataset {
+  id: number;
+  title: string;
+  /**
+   * Brief insights or summary for this dataset.
+   */
+  description: string;
+  file?: (number | null) | Media;
+  /**
+   * Optional path for API access (e.g. /api/climate/emissions)
+   */
+  apiEndpoint?: string | null;
+  topic?: (number | Category)[] | null;
+  date: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "learning-materials".
+ */
+export interface LearningMaterial {
+  id: number;
+  title: string;
+  type: 'PDF' | 'Video' | 'Course' | 'Toolkit' | 'Presentation';
+  description: string;
+  /**
+   * Author or Organization (e.g., "UN CC:Learn", "Qatar University")
+   */
+  source?: string | null;
+  level?: ('Beginner' | 'Intermediate' | 'Advanced') | null;
+  file?: (number | null) | Media;
+  /**
+   * External link or video embed URL.
+   */
+  url?: string | null;
+  topic?: (number | Category)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "glossary".
+ */
+export interface Glossary {
+  id: number;
+  term: string;
+  /**
+   * Arabic translation or transliteration of the term.
+   */
+  termAr?: string | null;
+  definition: string;
+  /**
+   * e.g., Science, Policy, Finance
+   */
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  category: string;
+  /**
+   * Optional sort order.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -369,6 +474,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'authors';
         value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'datasets';
+        value: number | Dataset;
+      } | null)
+    | ({
+        relationTo: 'learning-materials';
+        value: number | LearningMaterial;
+      } | null)
+    | ({
+        relationTo: 'glossary';
+        value: number | Glossary;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -481,6 +602,7 @@ export interface InsightsSelect<T extends boolean = true> {
  */
 export interface PublicationsSelect<T extends boolean = true> {
   type?: T;
+  topic?: T;
   title?: T;
   date?: T;
   heading?: T;
@@ -495,11 +617,15 @@ export interface PublicationsSelect<T extends boolean = true> {
  * via the `definition` "tools_select".
  */
 export interface ToolsSelect<T extends boolean = true> {
+  slug?: T;
   category?: T;
+  type?: T;
   title?: T;
   desc?: T;
   image?: T;
   link?: T;
+  iframeUrl?: T;
+  file?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -556,6 +682,60 @@ export interface AuthorsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "datasets_select".
+ */
+export interface DatasetsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  file?: T;
+  apiEndpoint?: T;
+  topic?: T;
+  date?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "learning-materials_select".
+ */
+export interface LearningMaterialsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  description?: T;
+  source?: T;
+  level?: T;
+  file?: T;
+  url?: T;
+  topic?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "glossary_select".
+ */
+export interface GlossarySelect<T extends boolean = true> {
+  term?: T;
+  termAr?: T;
+  definition?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -593,6 +773,56 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "knowledge-hub-config".
+ */
+export interface KnowledgeHubConfig {
+  id: number;
+  heroTitle: string;
+  heroTitleAr: string;
+  publicationsEyebrow: string;
+  publicationsEyebrowAr: string;
+  learningMaterialsEyebrow: string;
+  learningMaterialsEyebrowAr: string;
+  glossaryEyebrow: string;
+  glossaryEyebrowAr: string;
+  glossaryTitle: string;
+  glossaryTitleAr?: string | null;
+  glossaryDescription: string;
+  glossaryDescriptionAr?: string | null;
+  faqsEyebrow: string;
+  faqsEyebrowAr: string;
+  faqsTitle: string;
+  faqsTitleAr?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "knowledge-hub-config_select".
+ */
+export interface KnowledgeHubConfigSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroTitleAr?: T;
+  publicationsEyebrow?: T;
+  publicationsEyebrowAr?: T;
+  learningMaterialsEyebrow?: T;
+  learningMaterialsEyebrowAr?: T;
+  glossaryEyebrow?: T;
+  glossaryEyebrowAr?: T;
+  glossaryTitle?: T;
+  glossaryTitleAr?: T;
+  glossaryDescription?: T;
+  glossaryDescriptionAr?: T;
+  faqsEyebrow?: T;
+  faqsEyebrowAr?: T;
+  faqsTitle?: T;
+  faqsTitleAr?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

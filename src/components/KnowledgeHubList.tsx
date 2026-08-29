@@ -5,6 +5,11 @@ import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 
+type Category = {
+  id: string;
+  title: string;
+};
+
 type Publication = {
   id: string;
   type: string;
@@ -14,11 +19,13 @@ type Publication = {
   excerpt: string;
   file?: { url?: string } | string;
   bgGradientType: string;
+  topic?: Category[] | string[];
 };
 
-export default function KnowledgeHubList({ publications }: { publications: Publication[] }) {
+export default function KnowledgeHubList({ publications, categories = [] }: { publications: Publication[], categories?: Category[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [types, setTypes] = useState<string[]>([]);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -29,11 +36,27 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
     }
   };
 
+  const handleTopicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedTopics([...selectedTopics, value]);
+    } else {
+      setSelectedTopics(selectedTopics.filter(t => t !== value));
+    }
+  };
+
   const filteredPubs = publications.filter(pub => {
-    const searchable = `${pub.title} ${pub.heading} ${pub.type}`.toLowerCase();
+    const pubTopics = pub.topic?.map(t => typeof t === 'string' ? t : t.id) || [];
+    
+    // Check if pub topics map to category titles in our search string
+    const topicTitles = pubTopics.map(id => categories.find(c => c.id === id)?.title).filter(Boolean).join(' ');
+    const searchable = `${pub.title} ${pub.heading} ${pub.type} ${topicTitles}`.toLowerCase();
+    
     const matchSearch = searchable.includes(searchQuery.toLowerCase());
     const matchType = types.length === 0 || types.includes(pub.type);
-    return matchSearch && matchType;
+    const matchTopic = selectedTopics.length === 0 || pubTopics.some(id => selectedTopics.includes(id));
+    
+    return matchSearch && matchType && matchTopic;
   });
 
   return (
@@ -63,10 +86,10 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
           </label>
           <div className="flex flex-col gap-2">
             {[
-              { val: 'Advisory Note', en: 'Advisory Note', ar: 'مذكرة استشارية' },
+              { val: 'White Paper', en: 'White Paper', ar: 'ورقة بيضاء' },
               { val: 'Case Study', en: 'Case Study', ar: 'دراسة حالة' },
-              { val: 'Technical Paper', en: 'Technical Paper', ar: 'ورقة فنية' },
-              { val: 'Strategic Report', en: 'Strategic Report', ar: 'تقرير استراتيجي' }
+              { val: 'Article', en: 'Article', ar: 'مقال' },
+              { val: 'Research', en: 'Research', ar: 'بحث' }
             ].map(type => (
               <label key={type.val} className="flex items-center gap-3 cursor-pointer group">
                 <input 
@@ -83,10 +106,34 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
             ))}
           </div>
         </div>
+
+        {categories && categories.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <label className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink">
+              <span className="en">Topic</span><span className="ar ml-2">موضوع</span>
+            </label>
+            <div className="flex flex-col gap-2">
+              {categories.map(category => (
+                <label key={category.id} className="flex items-center gap-3 cursor-pointer group">
+                  <input 
+                    type="checkbox" 
+                    value={category.id} 
+                    checked={selectedTopics.includes(category.id)} 
+                    onChange={handleTopicChange} 
+                    className="w-4 h-4 accent-ink"
+                  />
+                  <span className="text-[14px] text-ink group-hover:text-ink-soft transition-colors">
+                    {category.title}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
         
         <Button 
           variant="outline" 
-          onClick={() => { setSearchQuery(''); setTypes([]); }}
+          onClick={() => { setSearchQuery(''); setTypes([]); setSelectedTopics([]); }}
           className="w-full justify-center"
         >
           <span className="en">Clear filters</span><span className="ar ml-2">مسح عوامل التصفية</span>
@@ -108,7 +155,15 @@ export default function KnowledgeHubList({ publications }: { publications: Publi
                     <span className="en">{pub.type}</span><span className="ar">{pub.type}</span>
                   </Badge>
                   <Typography variant="h3" className="text-ink m-0">
-                    <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
+                    {pub.file && typeof pub.file !== 'string' && pub.file.url ? (
+                      <a href={pub.file.url} target="_blank" rel="noopener noreferrer" className="hover:text-ink-soft transition-colors no-underline text-inherit block">
+                        <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
+                      </a>
+                    ) : (
+                      <>
+                        <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
+                      </>
+                    )}
                   </Typography>
                   <div className="text-[14px] text-ink-soft mt-1">
                     <span className="en">{new Date(pub.date).toLocaleDateString('en-GB')}</span>

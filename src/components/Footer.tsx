@@ -20,10 +20,10 @@ export function Footer() {
             <div className="w-px h-8 bg-white/15 hidden md:inline-block"></div>
             {/* Sister Brands */}
             <div className="flex gap-4 text-[11px] font-bold tracking-[0.05em] uppercase text-white/80 flex-wrap">
-              <Link href="/services#climate" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Change</Link>
-              <Link href="/services#environment" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment &amp; ESG</Link>
-              <Link href="/services#energy" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy</Link>
-              <Link href="/services#business" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Business Solutions</Link>
+              <Link href="/services/climate-change" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Change</Link>
+              <Link href="/services/environment-esg" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment &amp; ESG</Link>
+              <Link href="/services/energy" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy</Link>
+              <Link href="/services/business-solutions" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Business Solutions</Link>
             </div>
           </div>
           {/* Socials */}
@@ -47,27 +47,31 @@ export function Footer() {
         <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-10 py-12 border-b border-white/10">
           {/* Col 1 */}
           <div>
+            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Navigation</h6>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Who we are</Link></li>
-              <li><Link href="/insights" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">News &amp; Insights</Link></li>
-              <li><Link href="/contact#careers" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Careers</Link></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Contacts</Link></li>
+              <li><Link href="/" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Home</Link></li>
+              <li><Link href="/services" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Domains and Industries</Link></li>
+              <li><Link href="/knowledge-hub" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Knowledge Hub</Link></li>
             </ul>
           </div>
           {/* Col 2 */}
           <div>
+            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider opacity-0 hidden md:block">Navigation Continued</h6>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/services" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Services Overview</Link></li>
-              <li><Link href="/projects" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Projects &amp; Operations</Link></li>
-              <li><Link href="/knowledge-hub" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Research &amp; Publications</Link></li>
+              <li><Link href="/data-portal" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Data Portal</Link></li>
+              <li><Link href="/tools" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Tools</Link></li>
+              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">About Us</Link></li>
             </ul>
           </div>
           {/* Col 3 */}
           <div>
+            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Supporting/Utility</h6>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/knowledge-hub#tools" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Interactive Tools</Link></li>
-              <li><Link href="/about#approach" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Our Approach</Link></li>
-              <li><Link href="/team" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Experts &amp; Team</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Contact</Link></li>
+              <li><Link href="/faq" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">FAQ</Link></li>
+              <li><Link href="/contact#careers" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Careers</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Legal</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Privacy Notice</Link></li>
             </ul>
           </div>
           {/* Col 4 (Call to Action) */}

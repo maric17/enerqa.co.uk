@@ -47,13 +47,18 @@ export default async function InsightsPage({ searchParams }: Props) {
         <div className="hero-insights-overlay z-10 opacity-80"></div>
         
         <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Insights</span><span className="ar text-white">رؤى</span>
+          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Insights</span><span className="ar text-white">رؤى</span>
           </div>
           <Typography variant="h1" className="text-white m-0 max-w-[900px]">
             <span className="en block">Notes from the field, as they happen.</span>
             <span className="ar block text-[0.8em] mt-3 text-white/90">ملاحظات من الميدان، أولًا بأول.</span>
           </Typography>
+          <div className="mt-2">
+            <Button href="/data-portal" variant="primary" className="bg-white text-ink hover:bg-white/90">
+              <span className="en">Explore Data Portal</span><span className="ar ml-2">استكشف بوابة البيانات</span>
+            </Button>
+          </div>
         </Container>
       </section>
 
@@ -117,9 +122,12 @@ export default async function InsightsPage({ searchParams }: Props) {
             )}
           </div>
           
-          <div className="text-center mt-6">
+          <div className="text-center mt-6 flex flex-wrap gap-4 justify-center">
             <Button href="/knowledge-hub" variant="outline">
               <span className="en">Browse the full Knowledge Hub</span><span className="ar ml-2">تصفح مركز المعرفة بالكامل</span>
+            </Button>
+            <Button href="/data-portal" variant="primary">
+              <span className="en">Explore Data Portal</span><span className="ar ml-2">استكشف بوابة البيانات</span>
             </Button>
           </div>
 
@@ -130,7 +138,7 @@ export default async function InsightsPage({ searchParams }: Props) {
                   <span className="en">Previous</span><span className="ar">السابق</span>
                 </Link>
               ) : (
-                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink/40 cursor-not-allowed">
+                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink-muted cursor-not-allowed">
                   <span className="en">Previous</span><span className="ar">السابق</span>
                 </span>
               )}
@@ -145,7 +153,7 @@ export default async function InsightsPage({ searchParams }: Props) {
                   <span className="en">Next</span><span className="ar">التالي</span>
                 </Link>
               ) : (
-                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink/40 cursor-not-allowed">
+                <span className="px-4 py-2 border border-ink/10 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink-muted cursor-not-allowed">
                   <span className="en">Next</span><span className="ar">التالي</span>
                 </span>
               )}
@@ -156,7 +164,7 @@ export default async function InsightsPage({ searchParams }: Props) {
 
       <section className="relative w-full py-[120px] flex flex-col items-center justify-center bg-ink text-white overflow-hidden text-center border-t border-white/10">
         <div className="max-w-[600px] w-[90%] mx-auto relative z-20 flex flex-col items-center gap-7">
-          <Typography variant="eyebrow" className="text-white/60 m-0 w-full text-center flex justify-center">
+          <Typography variant="eyebrow" className="text-white/80 m-0 w-full text-center flex justify-center">
             <span className="en">Stay up to date</span><span className="ar ml-2">ابقَ على اطّلاع</span>
           </Typography>
           <Typography variant="h2" className="text-white m-0 text-center">

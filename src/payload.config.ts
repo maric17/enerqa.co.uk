@@ -12,6 +12,11 @@ import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
 import { Categories } from './collections/Categories'
 import { Authors } from './collections/Authors'
+import { Datasets } from './collections/Datasets'
+import { LearningMaterials } from './collections/LearningMaterials'
+import { Glossary } from './collections/Glossary'
+import { FAQs } from './collections/FAQs'
+import { KnowledgeHubConfig } from './globals/KnowledgeHubConfig'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
@@ -40,6 +45,13 @@ export default buildConfig({
     Team,
     Categories,
     Authors,
+    Datasets,
+    LearningMaterials,
+    Glossary,
+    FAQs,
+  ],
+  globals: [
+    KnowledgeHubConfig,
   ],
   editor: standardEditor,
   plugins: [

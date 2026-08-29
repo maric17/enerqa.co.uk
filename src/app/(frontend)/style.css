@@ -216,6 +216,10 @@ header.site.hidden-footer {
   pointer-events: none;
 }
 
+body.header-hidden .jump-links-nav {
+  top: 0 !important;
+}
+
 .header-main {
   width: 100%; padding: 0 40px;
   height: 50px; /* Increased from 40px */
@@ -333,6 +337,9 @@ header.site.scrolled .nav-item > a.active::after {
 header.site.scrolled .header-actions .btn.on-dark {
   background: var(--ink) !important; /* Button swaps to dark layout on white background scroll */
   color: #ffffff !important;
+}
+header.site.scrolled .header-actions .btn.on-dark:hover {
+  color: var(--ink) !important;
 }
 
 header.site.scrolled .header-actions .icon-btn[data-open-search] {
@@ -1617,7 +1624,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .hero-insights-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(139, 21, 56, 0.95) 0%, rgba(139, 21, 56, 0.8) 55%, rgba(20, 5, 10, 0.5) 100%);
+  background: linear-gradient(180deg, rgba(27, 3, 10, 0.7) 0%, rgba(139, 21, 56, 0.85) 50%, rgba(20, 5, 10, 0.8) 100%);
   z-index: 1;
 }
 .hero-search-wrapper {
