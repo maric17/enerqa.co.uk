@@ -14,11 +14,18 @@ export const Publications: CollectionConfig = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Advisory Note', value: 'Advisory Note' },
+        { label: 'White Paper', value: 'White Paper' },
         { label: 'Case Study', value: 'Case Study' },
-        { label: 'Technical Paper', value: 'Technical Paper' },
-        { label: 'Strategic Report', value: 'Strategic Report' },
+        { label: 'Article', value: 'Article' },
+        { label: 'Research', value: 'Research' },
       ],
+    },
+    {
+      name: 'topic',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      required: false,
     },
     {
       name: 'title',

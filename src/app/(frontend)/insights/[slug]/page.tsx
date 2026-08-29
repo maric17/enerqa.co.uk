@@ -62,7 +62,7 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
       }
 
       return (
-        <figure className={containerClasses} style={figureStyles}>
+        <span className={containerClasses} style={figureStyles}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src={data.url} 
@@ -71,11 +71,11 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
             className="h-auto max-w-full object-cover"
           />
           {captionText && (
-            <figcaption className="text-center text-sm text-ink-muted mt-2" style={{ display: 'table-caption', captionSide: 'bottom' }}>
+            <span className="text-center text-sm text-ink-muted mt-2 block" style={{ display: 'table-caption', captionSide: 'bottom' }}>
               {captionText}
-            </figcaption>
+            </span>
           )}
-        </figure>
+        </span>
       );
     }
   ,

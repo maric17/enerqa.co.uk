@@ -9,13 +9,11 @@ import { Container } from './ui/Container';
 
 const SITE_INDEX = [
   { title:'Home', url:'/' },
-  { title:'About', url:'/about' },
-  { title:'Domains & Services', url:'/services' },
-  { title:'Projects', url:'/projects' },
+  { title:'Domains and Industries', url:'/services' },
   { title:'Knowledge Hub', url:'/knowledge-hub' },
-  { title:'Insights', url:'/insights' },
-  { title:'Team', url:'/team' },
-  { title:'Contact', url:'/contact' },
+  { title:'Data Portal', url:'/data-portal' },
+  { title:'Tools', url:'/tools' },
+  { title:'About Us', url:'/about' },
 ];
 
 export function Header() {
@@ -35,7 +33,13 @@ export function Header() {
       const footer = document.querySelector('footer.site');
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
-        setIsHiddenFooter(footerTop < window.innerHeight + 10);
+        const isHidden = footerTop < window.innerHeight + 10;
+        setIsHiddenFooter(isHidden);
+        if (isHidden) {
+          document.body.classList.add('header-hidden');
+        } else {
+          document.body.classList.remove('header-hidden');
+        }
       }
     };
     
@@ -84,43 +88,34 @@ export function Header() {
               <Link href="/" className={pathname === '/' ? 'active' : ''}><span className="en">Home</span><span className="ar">الرئيسية</span></Link>
             </div>
             <div className="nav-item">
-              <Link href="/services" className={pathname === '/services' ? 'active' : ''}><span className="en">Domains &amp; Services</span><span className="ar">المجالات والخدمات</span></Link>
-              <div className="mega">
-                <div>
-                  <h6><span className="en">Climate Change</span><span className="ar">تغيّر المناخ</span></h6>
+              <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
+              <div className="mega" style={{ minWidth: '280px' }}>
+                <div style={{ width: '100%' }}>
                   <ul>
-                    <li><Link href="/services#climate-finance"><span className="en">Climate Finance</span><span className="ar">تمويل المناخ</span></Link></li>
-                    <li><Link href="/services#climate-action"><span className="en">Climate Action</span><span className="ar">العمل المناخي</span></Link></li>
-                    <li><Link href="/services#transparency"><span className="en">Transparency &amp; Reporting</span><span className="ar">الشفافية والإبلاغ</span></Link></li>
-                  </ul>
-                </div>
-                <div>
-                  <h6><span className="en">Environment</span><span className="ar">البيئة</span></h6>
-                  <ul>
-                    <li><Link href="/services#esg"><span className="en">ESG Reporting</span><span className="ar">تقارير الحوكمة</span></Link></li>
-                    <li><Link href="/services#assessments"><span className="en">Environmental Assessments</span><span className="ar">التقييمات البيئية</span></Link></li>
-                  </ul>
-                </div>
-                <div>
-                  <h6><span className="en">Energy</span><span className="ar">الطاقة</span></h6>
-                  <ul>
-                    <li><Link href="/services#energy-mgmt"><span className="en">Energy Management</span><span className="ar">إدارة الطاقة</span></Link></li>
-                    <li><Link href="/services#renewables"><span className="en">Renewable Energy Projects</span><span className="ar">مشاريع الطاقة المتجددة</span></Link></li>
-                  </ul>
-                </div>
-                <div>
-                  <h6><span className="en">Business Solutions</span><span className="ar">حلول الأعمال</span></h6>
-                  <ul>
-                    <li><Link href="/services#credit-lines"><span className="en">Green Credit Lines</span><span className="ar">خطوط الائتمان الأخضر</span></Link></li>
-                    <li><Link href="/services#studies"><span className="en">Supporting Studies &amp; M&amp;E</span><span className="ar">دراسات داعمة ومتابعة وتقييم</span></Link></li>
+                    <li><Link href="/services/climate-change"><span className="en">Climate Change</span><span className="ar">تغير المناخ</span></Link></li>
+                    <li><Link href="/services/environment-esg"><span className="en">Environment &amp; ESG</span><span className="ar">البيئة والحوكمة البيئية والاجتماعية والمؤسسية</span></Link></li>
+                    <li><Link href="/services/energy"><span className="en">Energy</span><span className="ar">الطاقة</span></Link></li>
+                    <li><Link href="/services/business-solutions"><span className="en">Business Solutions</span><span className="ar">حلول الأعمال</span></Link></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div className="nav-item"><Link href="/projects" className={pathname === '/projects' ? 'active' : ''}><span className="en">Projects</span><span className="ar">المشاريع</span></Link></div>
             <div className="nav-item"><Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''}><span className="en">Knowledge Hub</span><span className="ar">مركز المعرفة</span></Link></div>
-            <div className="nav-item"><Link href="/insights" className={pathname === '/insights' ? 'active' : ''}><span className="en">Insights</span><span className="ar">رؤى</span></Link></div>
-            <div className="nav-item"><Link href="/about" className={pathname === '/about' ? 'active' : ''}><span className="en">About</span><span className="ar">من نحن</span></Link></div>
+            <div className="nav-item"><Link href="/data-portal" className={pathname === '/data-portal' ? 'active' : ''}><span className="en">Data Portal</span><span className="ar">بوابة البيانات</span></Link></div>
+            <div className="nav-item"><Link href="/tools" className={pathname === '/tools' ? 'active' : ''}><span className="en">Tools</span><span className="ar">الأدوات</span></Link></div>
+            <div className="nav-item">
+              <Link href="/about" className={pathname === '/about' ? 'active' : ''}><span className="en">About Us</span><span className="ar">من نحن</span></Link>
+              <div className="mega" style={{ minWidth: '280px' }}>
+                <div style={{ width: '100%' }}>
+                  <ul>
+                    <li><Link href="/about#overview"><span className="en">Company Overview / Mission</span><span className="ar">نظرة عامة / مهمتنا</span></Link></li>
+                    <li><Link href="/about#approach"><span className="en">Approach / Methodology</span><span className="ar">النهج / المنهجية</span></Link></li>
+                    <li><Link href="/about#network"><span className="en">Enerqa's Network (Partners)</span><span className="ar">شبكة شركاء إنيرقا</span></Link></li>
+                    <li><Link href="/about#offices"><span className="en">Offices &amp; Branches</span><span className="ar">المكاتب والفروع</span></Link></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </nav>
           <div className="header-actions">
             <div className="langswitch">
@@ -167,13 +162,11 @@ export function Header() {
           <button className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label="Close"><X /></button>
         </div>
         <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Home</Link>
-        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About</Link>
-        <Link href="/services" className={pathname === '/services' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains &amp; Services</Link>
-        <Link href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Projects</Link>
+        <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
         <Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Knowledge Hub</Link>
-        <Link href="/insights" className={pathname === '/insights' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Insights</Link>
-        <Link href="/team" className={pathname === '/team' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Team</Link>
-        <Link href="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Contact</Link>
+        <Link href="/data-portal" className={pathname === '/data-portal' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Data Portal</Link>
+        <Link href="/tools" className={pathname === '/tools' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Tools</Link>
+        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About Us</Link>
       </div>
     </>
   );

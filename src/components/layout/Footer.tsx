@@ -12,9 +12,8 @@ export const Footer = () => {
         {/* Top Row: Logo, Sister Brands, Socials */}
         <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
           <div className="flex items-center gap-6 flex-wrap">
-            {/* Logo Image */}
             <Link href="/" className="no-underline inline-block">
-              <Image src="/images/logo-white.png" alt="enerQA Logo" width={120} height={38} className="h-[38px] w-auto block brightness-0 invert" />
+              <Image src="/images/logo-white.png" alt="enerQA Logo" width={120} height={38} className="block brightness-0 invert" style={{ width: 'auto', height: '38px' }} />
             </Link>
             {/* Vertical Line */}
             <div className="w-[1px] h-8 bg-white/15 inline-block"></div>
