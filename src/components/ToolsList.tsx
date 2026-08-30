@@ -1,5 +1,5 @@
-import { resolveMediaUrl } from "@/lib/utils";
 'use client';
+import { resolveMediaUrl } from '@/lib/utils';
 
 import React, { useState } from 'react';
 import { Typography } from '@/components/ui/Typography';

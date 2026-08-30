@@ -1,5 +1,5 @@
-import { resolveMediaUrl } from "@/lib/utils";
 'use client';
+import { resolveMediaUrl } from '@/lib/utils';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
