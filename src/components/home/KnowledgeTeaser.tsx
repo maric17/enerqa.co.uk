@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
@@ -90,7 +91,7 @@ export const KnowledgeTeaser = async () => {
       bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)',
       heading: doc.heading,
       excerpt: doc.excerpt,
-      file: (doc.file && typeof doc.file === 'object' && doc.file !== null && 'url' in doc.file && doc.file.url) ? (doc.file.url as string) : ''
+      file: (doc.file && typeof doc.file === 'object' && doc.file !== null && 'url' in doc.file && resolveMediaUrl(doc.file.url)) ? (resolveMediaUrl(doc.file.url) as string) : ''
     }
   }) : defaultPublications
 

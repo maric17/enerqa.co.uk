@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -75,12 +76,12 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ slu
           )}
 
           {/* Informational Guide (PDF Download) */}
-          {tool.type === 'informational' && tool.file && typeof tool.file === 'object' && 'url' in tool.file && typeof tool.file.url === 'string' && (
+          {tool.type === 'informational' && tool.file && typeof tool.file === 'object' && 'url' in tool.file && typeof resolveMediaUrl(tool.file.url) === 'string' && (
             <div className="mt-8 p-8 bg-[#FAFBFB] rounded-[16px] border border-ink/10 flex flex-col items-center justify-center gap-6 text-center shadow-sm">
               <Typography variant="h3" className="text-ink m-0">
                 <span className="en">Download this Toolkit</span>
               </Typography>
-              <Button href={tool.file.url} variant="outline" target="_blank" rel="noopener noreferrer">
+              <Button href={resolveMediaUrl(tool.file.url)} variant="outline" target="_blank" rel="noopener noreferrer">
                 <span className="en">Download PDF</span>
               </Button>
             </div>

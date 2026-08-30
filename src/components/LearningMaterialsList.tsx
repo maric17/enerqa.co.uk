@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 'use client';
 
 import React, { useState } from 'react';
@@ -128,7 +129,7 @@ export default function LearningMaterialsList({ materials, categories = [] }: { 
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredMaterials.map((m) => {
-              const fileUrl = m.file && typeof m.file !== 'string' && m.file.url ? m.file.url : m.url;
+              const fileUrl = m.file && typeof m.file !== 'string' && resolveMediaUrl(m.file.url) ? m.file.url : resolveMediaUrl(m.url);
               
               return (
                 <div key={m.id} className="flex flex-col gap-4 p-6 rounded-[16px] border border-ink/10 bg-white shadow-sm hover:shadow-md transition-shadow">

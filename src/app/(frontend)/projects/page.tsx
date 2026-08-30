@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveMediaUrl } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
@@ -48,7 +49,7 @@ export default async function ProjectsPage() {
           <div className="flex flex-col gap-12 md:gap-16 relative before:content-[''] before:absolute before:left-[11px] md:before:left-[43px] before:top-2 before:bottom-2 before:w-[2px] before:bg-ink/10">
             {projects.docs.length > 0 ? (
               projects.docs.map((project, index) => {
-                const imageUrl = project.image && typeof project.image === 'object' && project.image !== null && 'url' in project.image ? project.image.url : null;
+                const imageUrl = project.image && typeof project.image === 'object' && project.image !== null && 'url' in project.image ? resolveMediaUrl(project.image.url) : null;
                 return (
                 <div key={project.id} className="relative flex flex-col md:flex-row gap-6 md:gap-12 md:pl-24 pl-10 group">
                   <div className="absolute left-0 md:left-4 top-2 w-[24px] h-[24px] rounded-full bg-white border-4 border-ink/20 group-hover:border-ink/50 transition-colors z-10"></div>
