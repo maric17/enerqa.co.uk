@@ -342,7 +342,13 @@ header.site.scrolled .header-actions .btn.on-dark:hover {
   color: var(--ink) !important;
 }
 
-header.site.scrolled .header-actions .icon-btn[data-open-search] {
+header.site .header-actions .icon-btn {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+header.site.scrolled .header-actions .icon-btn {
+  color: var(--ink-soft) !important;
+}
+header.site.scrolled .header-actions .icon-btn:hover {
   color: var(--ink) !important;
 }
 
