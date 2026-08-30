@@ -25,28 +25,32 @@ export const LatestNews = async () => {
       title: 'enerQA announces strategic partnership with MENA renewable initiative',
       publishDate: new Date('2024-03-10').toISOString(),
       excerpt: 'New collaboration aims to accelerate solar deployment across the region by providing advanced data analytics.',
-      slug: 'strategic-partnership-mena-renewable'
+      slug: 'strategic-partnership-mena-renewable',
+      type: 'news'
     },
     {
       id: 'n2',
       title: 'Our Q1 2024 Climate Policy Report is now available',
       publishDate: new Date('2024-03-05').toISOString(),
       excerpt: 'Read our latest analysis on shifting regulatory frameworks and their implications for heavy industry.',
-      slug: 'q1-2024-climate-policy-report'
+      slug: 'q1-2024-climate-policy-report',
+      type: 'news'
     },
     {
       id: 'n3',
       title: 'enerQA CEO to speak at Global Sustainability Summit',
       publishDate: new Date('2024-02-28').toISOString(),
       excerpt: 'Join us next month as we discuss the future of ESG reporting standards.',
-      slug: 'ceo-speaking-global-sustainability-summit'
+      slug: 'ceo-speaking-global-sustainability-summit',
+      type: 'news'
     },
     {
       id: 'n4',
       title: 'New API features added to the Data Portal',
       publishDate: new Date('2024-02-15').toISOString(),
       excerpt: 'Developers can now access high-resolution emission tracking metrics programmatically.',
-      slug: 'new-api-features-data-portal'
+      slug: 'new-api-features-data-portal',
+      type: 'news'
     }
   ]
 
@@ -66,7 +70,7 @@ export const LatestNews = async () => {
             <p className="text-white/70 text-[15px] leading-relaxed max-w-[400px]">
               <span className="en">Stay informed with the latest announcements, policy updates, and milestones from enerQA and the wider energy sector.</span>
             </p>
-            <Link href="/insights" className="mt-4 border border-white/20 text-white hover:bg-white hover:text-ink px-6 py-3 text-[13px] uppercase tracking-wider font-bold rounded-[4px] transition-colors">
+            <Link href="/insights?type=news" className="mt-4 border border-white/20 text-white hover:bg-white hover:text-ink px-6 py-3 text-[13px] uppercase tracking-wider font-bold rounded-[4px] transition-colors">
               <span className="en">All News</span>
             </Link>
           </div>

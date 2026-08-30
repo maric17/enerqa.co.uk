@@ -19,17 +19,32 @@ export default async function InsightsPage({ searchParams }: Props) {
   const pageParam = typeof resolvedSearchParams.page === 'string' ? resolvedSearchParams.page : '1'
   const page = parseInt(pageParam, 10) || 1
 
+  const typeParam = typeof resolvedSearchParams.type === 'string' ? resolvedSearchParams.type : undefined;
+  const queryParam = typeof resolvedSearchParams.q === 'string' ? resolvedSearchParams.q : undefined;
+
+  const whereClause: any = {
+    _status: {
+      equals: 'published'
+    },
+    publishDate: {
+      less_than_equal: new Date().toISOString()
+    }
+  };
+
+  if (typeParam) {
+    whereClause.type = { equals: typeParam };
+  }
+  if (queryParam) {
+    whereClause.or = [
+      { title: { like: queryParam } },
+      { excerpt: { like: queryParam } }
+    ];
+  }
+
   const payload = await getPayload({ config: configPromise });
   const insights = await payload.find({
     collection: 'insights',
-    where: {
-      _status: {
-        equals: 'published'
-      },
-      publishDate: {
-        less_than_equal: new Date().toISOString()
-      }
-    },
+    where: whereClause,
     sort: '-publishDate',
     limit: 6,
     page: page,
@@ -56,7 +71,7 @@ export default async function InsightsPage({ searchParams }: Props) {
             <span className="ar block text-[0.8em] mt-3 text-white/90">ملاحظات من الميدان، أولًا بأول.</span>
           </Typography>
           <div className="mt-2">
-            <Button href="/data-portal" variant="primary" className="bg-white text-ink hover:bg-white/90">
+            <Button href="/data-portal" variant="primary" className="bg-white !text-ink hover:bg-white/90">
               <span className="en">Explore Data Portal</span><span className="ar ml-2">استكشف بوابة البيانات</span>
             </Button>
           </div>
@@ -69,6 +84,32 @@ export default async function InsightsPage({ searchParams }: Props) {
             <span className="en">Latest</span><span className="ar ml-2">الأحدث</span>
           </Typography>
           
+          <form method="GET" action="/insights" className="flex flex-col sm:flex-row gap-4 mb-2">
+            <div className="relative flex-1">
+              <input 
+                type="text" 
+                name="q" 
+                placeholder="Search insights..." 
+                defaultValue={queryParam}
+                className="w-full px-5 py-3 border border-ink/20 rounded-[100px] bg-transparent text-ink placeholder:text-ink/50 focus:outline-none focus:border-ink/50"
+              />
+            </div>
+            <select 
+              name="type" 
+              defaultValue={typeParam || ""}
+              className="px-5 py-3 border border-ink/20 rounded-[100px] bg-transparent text-ink focus:outline-none focus:border-ink/50 w-full sm:w-auto appearance-none cursor-pointer pr-10"
+              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2325050f\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1em' }}
+            >
+              <option value="">All Types</option>
+              <option value="insight">Insights</option>
+              <option value="news">News</option>
+              <option value="blog">Blog</option>
+            </select>
+            <Button type="submit" variant="primary">
+              <span className="en">Search</span><span className="ar ml-2">بحث</span>
+            </Button>
+          </form>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {insights.docs.length > 0 ? (
               insights.docs.map((post: Insight) => {
@@ -124,7 +165,7 @@ export default async function InsightsPage({ searchParams }: Props) {
           </div>
           
           <div className="text-center mt-6 flex flex-wrap gap-4 justify-center">
-            <Button href="/knowledge-hub" variant="outline">
+            <Button href="/knowledge-hub" variant="outline" className="!border-ink !text-ink hover:!bg-ink hover:!text-white">
               <span className="en">Browse the full Knowledge Hub</span><span className="ar ml-2">تصفح مركز المعرفة بالكامل</span>
             </Button>
             <Button href="/data-portal" variant="primary">
@@ -135,7 +176,7 @@ export default async function InsightsPage({ searchParams }: Props) {
           {insights.totalPages > 1 && (
             <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-ink/10">
               {insights.hasPrevPage ? (
-                <Link href={`/insights?page=${insights.prevPage}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
+                <Link href={`/insights?page=${insights.prevPage}${typeParam ? `&type=${typeParam}` : ''}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
                   <span className="en">Previous</span><span className="ar">السابق</span>
                 </Link>
               ) : (
@@ -150,7 +191,7 @@ export default async function InsightsPage({ searchParams }: Props) {
               </div>
 
               {insights.hasNextPage ? (
-                <Link href={`/insights?page=${insights.nextPage}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
+                <Link href={`/insights?page=${insights.nextPage}${typeParam ? `&type=${typeParam}` : ''}`} className="px-4 py-2 border border-ink/20 rounded-full text-[13px] font-bold uppercase tracking-wider text-ink hover:bg-ink/5 transition-colors no-underline">
                   <span className="en">Next</span><span className="ar">التالي</span>
                 </Link>
               ) : (

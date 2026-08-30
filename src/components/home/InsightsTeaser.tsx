@@ -11,6 +11,9 @@ export const InsightsTeaser = async () => {
   
   const { docs: insightsData } = await payload.find({
     collection: 'insights',
+    where: {
+      type: { equals: 'insight' }
+    },
     limit: 3,
     depth: 1, // Populate the media relation
   })
@@ -19,6 +22,7 @@ export const InsightsTeaser = async () => {
   const defaultInsights = [
     {
       id: '1',
+      slug: 'ghg-emissions-burden-on-our-planet',
       title: 'GHG Emissions: The Burden on Our Planet',
       excerpt: 'How human activity has driven the sharp rise in greenhouse gases — and the case for urgent action.',
       category: 'GHG Emissions',
@@ -26,6 +30,7 @@ export const InsightsTeaser = async () => {
     },
     {
       id: '2',
+      slug: 'climate-forcers-drivers-of-warming',
       title: 'Climate Forcers: Drivers of Warming',
       excerpt: "Beyond CO₂ — how short-lived pollutants like black carbon shape the planet's trajectory.",
       category: 'Climate Forcers',
@@ -33,6 +38,7 @@ export const InsightsTeaser = async () => {
     },
     {
       id: '3',
+      slug: 'weathering-the-storm-climate-resilience-in-supply-chains',
       title: 'Climate Resilience in Supply Chains',
       excerpt: 'What recent disruption reveals about exposure — and how to design for resilience in logistics.',
       category: 'Supply Chains',
@@ -56,10 +62,11 @@ export const InsightsTeaser = async () => {
 
     return {
       id: doc.id,
+      slug: doc.slug || doc.id,
       title: doc.title,
       excerpt: doc.excerpt,
       category: catTitle,
-      image: (typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image ? doc.image.url : null) || '/assets/images/port.jpg'
+      image: (typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image ? resolveMediaUrl(doc.image.url as string) : null) || '/assets/images/port.jpg'
     }
   }) : defaultInsights
 
@@ -74,7 +81,7 @@ export const InsightsTeaser = async () => {
             </h2>
           </div>
           <div>
-            <Link href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #8B1538', color: '#8B1538', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
+            <Link href="/insights" className="client-hover-btn" style={{ border: '1.5px solid #8B1538', color: '#8B1538', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
               More Insights
             </Link>
           </div>
@@ -82,7 +89,7 @@ export const InsightsTeaser = async () => {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
           {insights.map((insight) => (
-            <Link key={insight.id} href="/knowledge-hub" className="post-card client-hover-card" style={{ position: 'relative', background: '#25050f', borderTop: '4px solid #8c1639', borderLeft: '1.5px solid rgba(139,21,56,0.15)', borderRight: '1.5px solid rgba(139,21,56,0.15)', borderBottom: '1.5px solid rgba(139,21,56,0.15)', borderRadius: 'var(--r-md)', overflow: 'hidden', display: 'flex', flexDirection: 'column', textDecoration: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.15)', height: '420px', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}>
+            <Link key={insight.id} href={`/insights/${insight.slug}`} className="post-card client-hover-card" style={{ position: 'relative', background: '#25050f', borderTop: '4px solid #8c1639', borderLeft: '1.5px solid rgba(139,21,56,0.15)', borderRight: '1.5px solid rgba(139,21,56,0.15)', borderBottom: '1.5px solid rgba(139,21,56,0.15)', borderRadius: 'var(--r-md)', overflow: 'hidden', display: 'flex', flexDirection: 'column', textDecoration: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.15)', height: '420px', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '260px', overflow: 'hidden', zIndex: 1 }}>
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: `url('${insight.image}')`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform 0.5s' }} className="card-bg"></div>
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 65%, #25050f 100%)' }}></div>
