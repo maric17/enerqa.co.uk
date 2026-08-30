@@ -168,7 +168,7 @@ export default async function InsightsPage({ searchParams }: Props) {
             <Button href="/knowledge-hub" variant="outline" className="!border-ink !text-ink hover:!bg-ink hover:!text-white">
               <span className="en">Browse the full Knowledge Hub</span><span className="ar ml-2">تصفح مركز المعرفة بالكامل</span>
             </Button>
-            <Button href="/data-portal" variant="primary">
+            <Button href="/data-portal" variant="primary" className="bg-white !text-ink hover:bg-white/90">
               <span className="en">Explore Data Portal</span><span className="ar ml-2">استكشف بوابة البيانات</span>
             </Button>
           </div>
