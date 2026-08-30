@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveMediaUrl } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/Typography';
@@ -53,7 +54,7 @@ export default async function TeamPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 mt-4">
             {team.docs.length > 0 ? (
               team.docs.map((member) => {
-                const imageUrl = member.image && typeof member.image === 'object' && member.image !== null && 'url' in member.image ? member.image.url : null;
+                const imageUrl = member.image && typeof member.image === 'object' && member.image !== null && 'url' in member.image ? resolveMediaUrl(member.image.url) : null;
                 return (
                 <div key={member.id} className="flex flex-col items-start gap-4 group">
                   <div className="w-full aspect-[4/5] rounded-[16px] bg-[#FAFBFB] bg-cover bg-center overflow-hidden border border-ink/10 group-hover:border-ink/20 transition-colors" style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : {}}></div>

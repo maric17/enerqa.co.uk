@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 'use client';
 
 import React, { useState } from 'react';
@@ -107,7 +108,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
         ) : (
           <div className="flex flex-col gap-4">
             {filteredDatasets.map((ds) => {
-              const fileUrl = ds.file && typeof ds.file !== 'string' && ds.file.url ? ds.file.url : undefined;
+              const fileUrl = ds.file && typeof ds.file !== 'string' && resolveMediaUrl(ds.file.url) ? ds.file.url : undefined;
               
               return (
                 <div key={ds.id} className="flex flex-col gap-4 p-6 rounded-[16px] border border-ink/10 bg-white shadow-sm hover:shadow-md transition-shadow">

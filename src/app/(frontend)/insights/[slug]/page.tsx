@@ -8,6 +8,7 @@ import { Section } from '@/components/ui/Section';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
 import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react';
+import { resolveMediaUrl } from '@/lib/utils';
 
 const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
@@ -61,11 +62,13 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
         }
       }
 
+      const imageUrl = resolveMediaUrl(data.url);
+
       return (
         <span className={containerClasses} style={figureStyles}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src={data.url} 
+            src={imageUrl} 
             alt={data.alt || 'Image'} 
             style={imgStyles}
             className="h-auto max-w-full object-cover"
@@ -132,7 +135,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: post.metaTitle?.en || post.title?.en || post.title,
       description: post.metaDescription?.en || post.excerpt?.en || post.excerpt,
-      images: post.ogImage && typeof post.ogImage === 'object' && post.ogImage !== null && 'url' in post.ogImage && post.ogImage.url ? [post.ogImage.url] : [],
+      images: post.ogImage && typeof post.ogImage === 'object' && post.ogImage !== null && 'url' in post.ogImage && resolveMediaUrl(post.ogImage.url) ? [resolveMediaUrl(post.ogImage.url)] : [],
     },
   };
 }
@@ -165,7 +168,7 @@ export default async function InsightSinglePage({ params }: Props) {
   }
 
   const categories = Array.isArray(post.category) ? post.category : [];
-  const bannerUrl = (post.bannerImage && typeof post.bannerImage === 'object' && post.bannerImage !== null && 'url' in post.bannerImage && post.bannerImage.url) 
+  const bannerUrl = (post.bannerImage && typeof post.bannerImage === 'object' && post.bannerImage !== null && 'url' in post.bannerImage && resolveMediaUrl(post.bannerImage.url)) 
     ? post.bannerImage.url 
     : '/images/banners/default-banner-insights.jpeg';
     

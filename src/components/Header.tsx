@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 'use client';
 
 import React, { useState, useEffect } from 'react';

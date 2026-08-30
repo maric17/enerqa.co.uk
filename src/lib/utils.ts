@@ -1,0 +1,1 @@
+export function resolveMediaUrl(url: string | null | undefined): string { if (!url) return ''; if (url.startsWith('/api/media/file/')) return url.replace('/api/media/file/', 'https://imdzu9d3if2xyauw.public.blob.vercel-storage.com/'); return url; }

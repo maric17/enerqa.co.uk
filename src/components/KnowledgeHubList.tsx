@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 'use client';
 
 import React, { useState } from 'react';
@@ -155,8 +156,8 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
                     <span className="en">{pub.type}</span><span className="ar">{pub.type}</span>
                   </Badge>
                   <Typography variant="h3" className="text-ink m-0">
-                    {pub.file && typeof pub.file !== 'string' && pub.file.url ? (
-                      <a href={pub.file.url} target="_blank" rel="noopener noreferrer" className="hover:text-ink-soft transition-colors no-underline text-inherit block">
+                    {pub.file && typeof pub.file !== 'string' && resolveMediaUrl(pub.file.url) ? (
+                      <a href={resolveMediaUrl(pub.file.url)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-soft transition-colors no-underline text-inherit block">
                         <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
                       </a>
                     ) : (
@@ -171,8 +172,8 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
                   </div>
                 </div>
                 <div className="flex items-center md:items-start justify-start md:justify-end">
-                  {pub.file && typeof pub.file !== 'string' && pub.file.url ? (
-                    <Button href={pub.file.url} variant="outline" className="flex items-center gap-2">
+                  {pub.file && typeof pub.file !== 'string' && resolveMediaUrl(pub.file.url) ? (
+                    <Button href={resolveMediaUrl(pub.file.url)} variant="outline" className="flex items-center gap-2">
                       <span>↓</span> <span className="en">Download PDF</span><span className="ar ml-2">تحميل</span>
                     </Button>
                   ) : (

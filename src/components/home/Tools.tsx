@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -56,7 +57,7 @@ export const Tools = async () => {
     category: doc.category,
     title: doc.title,
     desc: doc.desc,
-    image: (doc.image && typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image && doc.image.url) ? (doc.image.url as string) : '/assets/images/ghg365.png',
+    image: (doc.image && typeof doc.image === 'object' && doc.image !== null && 'url' in doc.image && resolveMediaUrl(doc.image.url)) ? (resolveMediaUrl(doc.image.url) as string) : '/assets/images/ghg365.png',
     link: doc.link || (doc.slug ? `/tools/${doc.slug}` : '/tools')
   })) : defaultTools
 

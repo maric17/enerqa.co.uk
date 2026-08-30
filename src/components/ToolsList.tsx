@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 'use client';
 
 import React, { useState } from 'react';
@@ -140,9 +141,9 @@ export default function ToolsList({ tools }: { tools: Tool[] }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredTools.map((tool) => (
               <div key={tool.id} className="flex flex-col gap-4 p-6 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-colors bg-white shadow-sm hover:shadow-md h-full">
-                {tool.image && typeof tool.image !== 'string' && tool.image.url && (
+                {tool.image && typeof tool.image !== 'string' && resolveMediaUrl(tool.image.url) && (
                   <div className="relative w-full h-48 rounded-lg overflow-hidden bg-ink/5 mb-2">
-                    <Image src={tool.image.url} alt={tool.image.alt || tool.title} fill className="object-cover" />
+                    <Image src={resolveMediaUrl(tool.image.url)} alt={tool.image.alt || tool.title} fill className="object-cover" />
                   </div>
                 )}
                 <div className="flex items-start gap-2">

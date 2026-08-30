@@ -1,3 +1,4 @@
+import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react';
 import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
@@ -79,7 +80,7 @@ export default async function InsightsPage({ searchParams }: Props) {
                   
                 return (
                 <Link key={post.id} href={`/insights/${post.slug}`} className="flex flex-col gap-4 bg-white p-5 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-all hover:shadow-md group no-underline">
-                  <div className="w-full aspect-[16/10] rounded-[8px] bg-line bg-cover bg-center overflow-hidden" style={post.image && typeof post.image === 'object' && 'url' in post.image && post.image.url ? { backgroundImage: `url(${post.image.url})` } : {}}></div>
+                  <div className="w-full aspect-[16/10] rounded-[8px] bg-line bg-cover bg-center overflow-hidden" style={post.image && typeof post.image === 'object' && 'url' in post.image && resolveMediaUrl(post.image.url) ? { backgroundImage: `url(${resolveMediaUrl(post.image.url)})` } : {}}></div>
                   
                   <div className="text-[13px] text-ink-soft flex items-center justify-between">
                     <div>
