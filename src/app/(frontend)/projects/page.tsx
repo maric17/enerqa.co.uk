@@ -113,7 +113,7 @@ export default async function ProjectsPage() {
             <span className="ar block mt-3 text-white/90">لنحدد نطاق مشروعك معًا.</span>
           </Typography>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
-            <Button href="/contact" variant="primary">
+            <Button href="/contact" variant="primary" className="bg-white !text-ink hover:bg-white/90">
               <span className="en">Start an inquiry</span><span className="ar ml-2">ابدأ استفسارًا</span>
             </Button>
           </div>

@@ -193,7 +193,7 @@ export default function ClimateChangePage() {
             <span className="en block">Start your journey toward a sustainable future today.</span>
           </Typography>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
-            <Button href="/contact" variant="primary">
+            <Button href="/contact" variant="primary" className="bg-white !text-ink hover:bg-white/90">
               <span className="en">Get in touch</span>
             </Button>
           </div>

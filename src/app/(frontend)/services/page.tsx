@@ -149,7 +149,7 @@ export default function ServicesPage() {
             <span className="ar block mt-3 text-white/90">صف التحدي — وسنوجّهه إلى المتخصص المناسب.</span>
           </Typography>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
-            <Button href="/contact" variant="primary">
+            <Button href="/contact" variant="primary" className="bg-white !text-ink hover:bg-white/90">
               <span className="en">Start an inquiry</span><span className="ar ml-2">ابدأ استفسارًا</span>
             </Button>
           </div>
