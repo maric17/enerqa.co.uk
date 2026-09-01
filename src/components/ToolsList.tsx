@@ -123,7 +123,7 @@ export default function ToolsList({ tools }: { tools: Tool[] }) {
         )}
         
         <Button 
-          variant="outline" 
+          variant="secondary" 
           onClick={() => { setSearchQuery(''); setCategories([]); setTypes([]); }}
           className="w-full justify-center"
         >
@@ -162,8 +162,8 @@ export default function ToolsList({ tools }: { tools: Tool[] }) {
                   {tool.desc}
                 </p>
                 <div className="mt-4">
-                  <Button href={`/tools/${tool.slug}`} variant="outline" className="w-full justify-center">
-                    <span className="en">View Details</span><span className="ar ml-2">عرض التفاصيل</span>
+                  <Button href={`/tools/${tool.slug}`} variant="secondary" className="w-full justify-center">
+                    <span className="en">Launch Tool</span><span className="ar ml-2">تشغيل الأداة</span>
                   </Button>
                 </div>
               </div>

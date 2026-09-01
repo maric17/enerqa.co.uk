@@ -112,7 +112,7 @@ export default function LearningMaterialsList({ materials, categories = [] }: { 
         </div>
         
         <Button 
-          variant="outline" 
+          variant="secondary" 
           onClick={() => { setSearchQuery(''); setSelectedTypes([]); setSelectedLevel(''); }}
           className="w-full justify-center"
         >
@@ -160,7 +160,7 @@ export default function LearningMaterialsList({ materials, categories = [] }: { 
                   
                   {fileUrl && (
                     <div className="mt-4 pt-4 border-t border-ink/10">
-                      <Button href={fileUrl} variant="outline" className="w-full justify-center text-[13px]">
+                      <Button href={fileUrl} variant="secondary" className="w-full justify-center text-[13px]">
                         {m.type === 'Video' || m.type === 'Course' ? (
                           <><span className="en">View Online</span><span className="ar ml-2">عرض على الانترنت</span></>
                         ) : (

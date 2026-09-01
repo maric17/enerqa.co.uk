@@ -91,7 +91,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
         )}
         
         <Button 
-          variant="outline" 
+          variant="secondary" 
           onClick={() => { setSearchQuery(''); setSelectedTopics([]); }}
           className="w-full justify-center"
         >
@@ -131,7 +131,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
                       )}
                       
                       {fileUrl && (
-                        <Button href={fileUrl} variant="outline" className="flex items-center justify-center gap-2 w-full sm:w-auto">
+                        <Button href={fileUrl} variant="secondary" className="flex items-center justify-center gap-2 w-full sm:w-auto">
                           <span>↓</span> <span className="en">Download CSV</span><span className="ar ml-2">تحميل</span>
                         </Button>
                       )}

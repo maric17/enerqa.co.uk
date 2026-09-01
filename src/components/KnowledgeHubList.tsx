@@ -133,7 +133,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
         )}
         
         <Button 
-          variant="outline" 
+          variant="secondary" 
           onClick={() => { setSearchQuery(''); setTypes([]); setSelectedTopics([]); }}
           className="w-full justify-center"
         >
@@ -173,7 +173,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
                 </div>
                 <div className="flex items-center md:items-start justify-start md:justify-end">
                   {pub.file && typeof pub.file !== 'string' && resolveMediaUrl(pub.file.url) ? (
-                    <Button href={resolveMediaUrl(pub.file.url)} variant="outline" className="flex items-center gap-2">
+                    <Button href={resolveMediaUrl(pub.file.url)} variant="secondary" className="flex items-center gap-2">
                       <span>↓</span> <span className="en">Download PDF</span><span className="ar ml-2">تحميل</span>
                     </Button>
                   ) : (
@@ -203,7 +203,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
               <span className="ar block mt-3">حاليًا: أداة تقييم جاهزية الحوكمة البيئية قابلة للتحميل. هذا القسم مخصص لأدوات حاسبة ذاتية الخدمة ولوحات بيانات وبوابات عملاء متصلة بواجهات برمجية قادمة.</span>
             </p>
             <div className="flex flex-wrap gap-4 mt-4">
-              <Button href="/contact" variant="primary">
+              <Button href="/contact" variant="outline">
                 <span className="en">Download ESG Readiness Tool (.xlsx)</span><span className="ar ml-2">تحميل أداة جاهزية الحوكمة (.xlsx)</span>
               </Button>
             </div>
