@@ -15,6 +15,7 @@ export default async function DataExplorerPage() {
     collection: 'datasets',
     sort: '-date',
     limit: 50,
+    depth: 2,
   });
 
   const categories = await payload.find({
@@ -25,10 +26,10 @@ export default async function DataExplorerPage() {
   return (
     <>
       <section className="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center bg-ink text-white overflow-hidden py-[100px]">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/world-map.svg')] opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/90 to-ink z-10"></div>
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/data-portal-banner.jpg')] opacity-60 mix-blend-screen"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink/60 to-ink z-10"></div>
         
-        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0">
+        <Container className="relative z-20 flex flex-col gap-6 items-start mt-24 md:mt-32">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
             <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> 
             {' '}/{' '}

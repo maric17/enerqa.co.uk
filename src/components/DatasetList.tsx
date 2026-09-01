@@ -6,17 +6,17 @@ import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
 
 type Category = {
-  id: string;
+  id: string | number;
   title: string;
 };
 
 type Dataset = {
-  id: string;
+  id: string | number;
   title: string;
   description: string;
   apiEndpoint?: string;
   file?: { url?: string } | string;
-  topic?: Category[] | string[];
+  topic?: Category[] | string[] | number[];
   date: string;
 };
 
@@ -34,8 +34,8 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
   };
 
   const filteredDatasets = datasets.filter(ds => {
-    const dsTopics = ds.topic?.map(t => typeof t === 'string' ? t : t.id) || [];
-    const topicTitles = dsTopics.map(id => categories.find(c => c.id === id)?.title).filter(Boolean).join(' ');
+    const dsTopics = ds.topic?.map(t => typeof t === 'object' && t !== null ? String(t.id) : String(t)) || [];
+    const topicTitles = dsTopics.map(id => categories.find(c => String(c.id) === id)?.title).filter(Boolean).join(' ');
     
     const searchable = `${ds.title} ${ds.description} ${topicTitles}`.toLowerCase();
     const matchSearch = searchable.includes(searchQuery.toLowerCase());
@@ -77,7 +77,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
                   <input 
                     type="checkbox" 
                     value={category.id} 
-                    checked={selectedTopics.includes(category.id)} 
+                    checked={selectedTopics.includes(String(category.id))} 
                     onChange={handleTopicChange} 
                     className="w-4 h-4 accent-ink"
                   />
@@ -91,7 +91,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
         )}
         
         <Button 
-          variant="outline" 
+          variant="secondary" 
           onClick={() => { setSearchQuery(''); setSelectedTopics([]); }}
           className="w-full justify-center"
         >
@@ -131,7 +131,7 @@ export default function DatasetList({ datasets, categories = [] }: { datasets: D
                       )}
                       
                       {fileUrl && (
-                        <Button href={fileUrl} variant="outline" className="flex items-center justify-center gap-2 w-full sm:w-auto">
+                        <Button href={fileUrl} variant="secondary" className="flex items-center justify-center gap-2 w-full sm:w-auto">
                           <span>↓</span> <span className="en">Download CSV</span><span className="ar ml-2">تحميل</span>
                         </Button>
                       )}
