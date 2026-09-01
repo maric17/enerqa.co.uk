@@ -21,11 +21,13 @@ export default async function KnowledgeHubPage() {
     collection: 'publications',
     sort: '-date',
     limit: 50,
+    depth: 2,
   });
 
   const materials = await payload.find({
     collection: 'learning-materials',
     limit: 50,
+    depth: 2,
   });
 
   const glossary = await payload.find({
