@@ -263,12 +263,47 @@ export interface Author {
  */
 export interface Publication {
   id: number;
-  type: 'White Paper' | 'Case Study' | 'Article' | 'Research';
-  topic?: (number | Category)[] | null;
   title: string;
-  date: string;
+  /**
+   * URL slug for the dedicated page
+   */
+  slug: string;
   heading: string;
   excerpt: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * SEO Title
+   */
+  metaTitle?: string | null;
+  /**
+   * SEO Description
+   */
+  metaDescription?: string | null;
+  /**
+   * SEO Keywords
+   */
+  metaKeywords?: string | null;
+  /**
+   * SEO Open Graph Image
+   */
+  ogImage?: (number | null) | Media;
+  type: 'White Paper' | 'Case Study' | 'Article' | 'Research';
+  topic?: (number | Category)[] | null;
+  date: string;
   file?: (number | null) | Media;
   bgGradientType: 'Green' | 'Red' | 'Blue' | 'Dark';
   updatedAt: string;
@@ -601,12 +636,18 @@ export interface InsightsSelect<T extends boolean = true> {
  * via the `definition` "publications_select".
  */
 export interface PublicationsSelect<T extends boolean = true> {
-  type?: T;
-  topic?: T;
   title?: T;
-  date?: T;
+  slug?: T;
   heading?: T;
   excerpt?: T;
+  content?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  metaKeywords?: T;
+  ogImage?: T;
+  type?: T;
+  topic?: T;
+  date?: T;
   file?: T;
   bgGradientType?: T;
   updatedAt?: T;
