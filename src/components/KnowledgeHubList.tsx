@@ -1,6 +1,6 @@
 'use client';
 import { resolveMediaUrl } from '@/lib/utils';
-
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
@@ -21,12 +21,15 @@ type Publication = {
   file?: { url?: string } | string;
   bgGradientType: string;
   topic?: Category[] | string[];
+  slug?: string;
 };
 
 export default function KnowledgeHubList({ publications, categories = [] }: { publications: Publication[], categories?: Category[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [types, setTypes] = useState<string[]>([]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -35,6 +38,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
     } else {
       setTypes(types.filter(t => t !== value));
     }
+    setCurrentPage(1);
   };
 
   const handleTopicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +48,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
     } else {
       setSelectedTopics(selectedTopics.filter(t => t !== value));
     }
+    setCurrentPage(1);
   };
 
   const filteredPubs = publications.filter(pub => {
@@ -60,6 +65,9 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
     return matchSearch && matchType && matchTopic;
   });
 
+  const totalPages = Math.ceil(filteredPubs.length / itemsPerPage);
+  const paginatedPubs = filteredPubs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 mt-4">
       <aside className="flex flex-col gap-8 h-fit bg-[#FAFBFB] p-6 rounded-[16px] border border-ink/10 shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
@@ -75,7 +83,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
           <input 
             type="text" 
             value={searchQuery} 
-            onChange={(e) => setSearchQuery(e.target.value)} 
+            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} 
             placeholder="Search title or topic…" 
             className="w-full bg-white border border-ink/10 rounded-md px-4 py-2.5 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors"
           />
@@ -134,7 +142,7 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
         
         <Button 
           variant="secondary" 
-          onClick={() => { setSearchQuery(''); setTypes([]); setSelectedTopics([]); }}
+          onClick={() => { setSearchQuery(''); setTypes([]); setSelectedTopics([]); setCurrentPage(1); }}
           className="w-full justify-center"
         >
           <span className="en">Clear filters</span><span className="ar ml-2">مسح عوامل التصفية</span>
@@ -148,15 +156,19 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
             <span className="ar block mt-2">لا توجد منشورات مطابقة لعوامل التصفية.</span>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
-            {filteredPubs.map((pub) => (
+          <div className="flex flex-col gap-4" id="publications">
+            {paginatedPubs.map((pub) => (
               <div key={pub.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 p-6 rounded-[16px] border border-ink/10 hover:border-ink/30 transition-colors bg-white shadow-sm hover:shadow-md">
                 <div className="flex flex-col items-start gap-3">
                   <Badge variant="solid">
                     <span className="en">{pub.type}</span><span className="ar">{pub.type}</span>
                   </Badge>
                   <Typography variant="h3" className="text-ink m-0">
-                    {pub.file && typeof pub.file !== 'string' && resolveMediaUrl(pub.file.url) ? (
+                    {pub.slug ? (
+                      <Link href={`/knowledge-hub/${pub.slug}`} className="hover:text-ink-soft transition-colors no-underline text-inherit block">
+                        <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
+                      </Link>
+                    ) : pub.file && typeof pub.file !== 'string' && resolveMediaUrl(pub.file.url) ? (
                       <a href={resolveMediaUrl(pub.file.url)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-soft transition-colors no-underline text-inherit block">
                         <span className="en block">{pub.title}</span><span className="ar block mt-1">{pub.title}</span>
                       </a>
@@ -184,6 +196,37 @@ export default function KnowledgeHubList({ publications, categories = [] }: { pu
                 </div>
               </div>
             ))}
+            
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between gap-4 mt-6 pt-6 border-t border-ink/10">
+                <Button
+                  variant="secondary"
+                  disabled={currentPage === 1}
+                  onClick={() => {
+                    setCurrentPage(p => Math.max(1, p - 1));
+                    document.getElementById('publications')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  <span className="en">Previous</span><span className="ar ml-2">السابق</span>
+                </Button>
+                <span className="text-[14px] font-medium text-ink/60">
+                  <span className="en">Page {currentPage} of {totalPages}</span>
+                  <span className="ar hidden group-[[data-lang=ar]]:inline-block">صفحة {currentPage} من {totalPages}</span>
+                </span>
+                <Button
+                  variant="secondary"
+                  disabled={currentPage === totalPages}
+                  onClick={() => {
+                    setCurrentPage(p => Math.min(totalPages, p + 1));
+                    document.getElementById('publications')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  <span className="en">Next</span><span className="ar ml-2">التالي</span>
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
