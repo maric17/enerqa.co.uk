@@ -16,7 +16,7 @@ export const LatestNews = async () => {
   let newsItems: NewsArticle[] = []
 
   try {
-    const res = await fetch(`https://newsapi.org/v2/everything?q="climate change"&language=en&sortBy=publishedAt&pageSize=12&apiKey=${process.env.NEWS_API_KEY}`, {
+    const res = await fetch(`https://newsapi.org/v2/everything?q="climate change"&domains=bloomberg.com,cnn.com&language=en&sortBy=publishedAt&pageSize=12&apiKey=${process.env.NEWS_API_KEY}`, {
       next: { revalidate: 3600 }
     })
     

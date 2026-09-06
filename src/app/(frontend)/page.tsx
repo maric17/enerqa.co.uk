@@ -2,6 +2,7 @@ import React from 'react'
 import { Hero } from '@/components/home/Hero'
 import { InsightsTeaser } from '@/components/home/InsightsTeaser'
 import { LatestNews } from '@/components/home/LatestNews'
+import { LiveFeeds } from '@/components/home/LiveFeeds'
 import { KnowledgeTeaser } from '@/components/home/KnowledgeTeaser'
 import { SustainabilityData } from '@/components/home/SustainabilityData'
 import { fetchOpenAQData } from '@/lib/api/openaq'
@@ -43,6 +44,9 @@ export default async function HomePage() {
         <LatestNews />
       </FadeIn>
       <FadeIn delay={0.1}>
+        <LiveFeeds />
+      </FadeIn>
+      <FadeIn delay={0.1}>
         <KnowledgeTeaser />
       </FadeIn>
       <FadeIn delay={0.1}>
@@ -60,9 +64,9 @@ export default async function HomePage() {
       <FadeIn delay={0.1}>
         <ImpactStats />
       </FadeIn>
-      <FadeIn delay={0.1}>
+      {/* <FadeIn delay={0.1}>
         <GlobalNetwork />
-      </FadeIn>
+      </FadeIn> */}
       <FadeIn delay={0.1}>
         <ContactCTA />
       </FadeIn>
