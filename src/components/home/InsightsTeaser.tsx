@@ -77,24 +77,27 @@ export const InsightsTeaser = async () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '48px', paddingBottom: '0', textAlign: 'left' }}>
           <div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
-              <span style={{ fontWeight: 800 }}>Latest</span> Insights
+              <span style={{ fontWeight: 800 }}>Enerqa</span> Publication
             </h2>
+            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', marginTop: '12px', maxWidth: '600px', lineHeight: 1.5 }}>
+              Research, analysis and practical perspectives on the systems, decisions and projects shaping a more sustainable future.
+            </p>
           </div>
           <div>
-            <Link href="/insights" className="client-hover-btn" style={{ border: '1.5px solid #8B1538', color: '#8B1538', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
-              More Insights
+            <Link href="/insights" className="client-hover-btn" style={{ border: '1.5px solid var(--green)', color: 'var(--green)', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
+              Explore Enerqa Publication
             </Link>
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
           {insights.map((insight) => (
-            <Link key={insight.id} href={`/insights/${insight.slug}`} className="post-card client-hover-card" style={{ position: 'relative', background: '#25050f', borderTop: '4px solid #8c1639', borderLeft: '1.5px solid rgba(139,21,56,0.15)', borderRight: '1.5px solid rgba(139,21,56,0.15)', borderBottom: '1.5px solid rgba(139,21,56,0.15)', borderRadius: 'var(--r-md)', overflow: 'hidden', display: 'flex', flexDirection: 'column', textDecoration: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.15)', height: '420px', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}>
+            <Link key={insight.id} href={`/insights/${insight.slug}`} className="post-card client-hover-card" style={{ position: 'relative', background: 'var(--ink-soft)', borderTop: '4px solid var(--green)', borderLeft: '1.5px solid rgba(0, 207, 200, 0.15)', borderRight: '1.5px solid rgba(0, 207, 200, 0.15)', borderBottom: '1.5px solid rgba(0, 207, 200, 0.15)', borderRadius: 'var(--r-md)', overflow: 'hidden', display: 'flex', flexDirection: 'column', textDecoration: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.15)', height: '420px', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '260px', overflow: 'hidden', zIndex: 1 }}>
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: `url('${insight.image}')`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform 0.5s' }} className="card-bg"></div>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 65%, #25050f 100%)' }}></div>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 65%, var(--ink-soft) 100%)' }}></div>
               </div>
-              <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', fontWeight: 700, color: '#8B1538', background: 'rgba(255,255,255,0.95)', padding: '4px 12px', borderRadius: '100px', zIndex: 5, border: '1px solid rgba(139,21,56,0.15)' }}>
+              <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)', background: 'rgba(255,255,255,0.95)', padding: '4px 12px', borderRadius: '100px', zIndex: 5, border: '1px solid rgba(0, 207, 200, 0.15)' }}>
                 {insight.category}
               </span>
               <div style={{ marginTop: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative', zIndex: 2 }}>
@@ -111,10 +114,10 @@ export const InsightsTeaser = async () => {
       </Container>
       {/* We add a small inline style block for hovers since React doesn't support inline onMouseOver on Server Components nicely */}
       <style dangerouslySetInnerHTML={{__html: `
-        .client-hover-btn:hover { background: #8B1538 !important; color: #ffffff !important; }
-        .client-hover-card:hover { transform: translateY(-6px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important; border-color: rgba(140,22,57,0.35) !important; }
+        .client-hover-btn:hover { background: var(--green) !important; color: #ffffff !important; }
+        .client-hover-card:hover { transform: translateY(-6px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important; border-color: rgba(0,207,200,0.35) !important; }
         .client-hover-card:hover .card-bg { transform: scale(1.05); }
-        .client-hover-card:hover .card-title { color: #ffb7c5 !important; }
+        .client-hover-card:hover .card-title { color: var(--green) !important; }
       `}} />
     </section>
   )

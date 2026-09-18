@@ -6,20 +6,20 @@
 
 /* ---------------------------------------------------------------- tokens */
 :root {
-  --ink:        #1b030a; /* Deep burgundy replacing charcoal */
-  --ink-soft:   #4a2a33; /* Soft burgundy */
-  --ink-muted:  #8c6b73; /* Muted burgundy */
+  --ink:        #0A192F; /* Deep navy replacing charcoal/burgundy */
+  --ink-soft:   #1C2A3D; /* Soft navy */
+  --ink-muted:  #6B7A90; /* Muted navy/slate */
   --paper:      #FFFFFF; /* Cleaner, pure white background */
-  --paper-alt:  #F8F3F4; /* Very light burgundy tinted grey */
+  --paper-alt:  #F4F7FA; /* Very light slate tinted grey */
   --card:       #FFFFFF;
-  --dark:       #1b030a; /* Deep burgundy replacing navy */
-  --dark-soft:  #3a1c24; /* Lighter burgundy helper */
+  --dark:       #0A192F; /* Deep navy */
+  --dark-soft:  #112240; /* Lighter navy helper */
 
-  --green:      #8c1639; /* Redefined green to maroon to remove green accents completely! */
-  --green-deep: #72102d;
-  --green-ink:  #ffffff;
+  --green:      #00cfc8; /* Teal */
+  --green-deep: #00a5a0;
+  --green-ink:  #0A192F;
 
-  --line:       rgba(17, 24, 39, 0.08);
+  --line:       rgba(10, 25, 47, 0.08);
   --line-dark:  rgba(255, 255, 255, 0.08);
 
 
@@ -190,7 +190,7 @@ header.site {
   width: calc(100% - 80px); 
   max-width: var(--wrap);
   z-index: 100;
-  background: rgba(139, 21, 56, 0.15); /* Translucent brand maroon matching hero overlay */
+  background: rgba(10, 25, 47, 0.15); /* Translucent deep navy */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--r-lg); /* Using var(--r-lg) which is 14px for a softer squarish layout */
@@ -202,9 +202,9 @@ header.site {
 
 header.site.scrolled {
   top: 12px;
-  border-color: rgba(139, 21, 56, 0.08);
-  box-shadow: 0 10px 35px rgba(139, 21, 56, 0.08);
-  background: rgba(255, 255, 255, 0.92); /* Translucent clean white */
+  border-color: rgba(10, 25, 47, 0.08);
+  box-shadow: 0 10px 35px rgba(10, 25, 47, 0.08);
+  background: rgba(255, 255, 255, 0.98); /* Less translucent to prevent text overlap */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   padding: 10px 16px;
@@ -327,11 +327,11 @@ header.site.scrolled .nav-item > a:hover {
   background: rgba(12, 12, 12, 0.05);
 }
 header.site.scrolled .nav-item > a.active {
-  color: #8B1538 !important;
+  color: var(--green) !important;
   background: transparent !important;
 }
 header.site.scrolled .nav-item > a.active::after {
-  background: #8B1538;
+  background: var(--green);
 }
 
 header.site.scrolled .header-actions .btn.on-dark {
@@ -389,8 +389,8 @@ header.site.scrolled .header-divider {
 }
 
 header.site.scrolled .langswitch {
-  background: rgba(139, 21, 56, 0.06);
-  border-color: rgba(139, 21, 56, 0.04);
+  background: rgba(10, 25, 47, 0.06);
+  border-color: rgba(10, 25, 47, 0.04);
 }
 header.site.scrolled .langswitch button {
   color: var(--ink-soft);
@@ -1630,7 +1630,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .hero-insights-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(27, 3, 10, 0.7) 0%, rgba(139, 21, 56, 0.85) 50%, rgba(20, 5, 10, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(27, 3, 10, 0.7) 0%, rgba(0, 207, 200, 0.6) 50%, rgba(20, 5, 10, 0.8) 100%);
   z-index: 1;
 }
 .hero-search-wrapper {
@@ -1647,8 +1647,8 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .hero-search-wrapper:focus-within {
   background: #ffffff;
-  border-color: #8B1538;
-  box-shadow: 0 12px 36px rgba(139, 21, 56, 0.25), 0 0 0 4px rgba(139, 21, 56, 0.08);
+  border-color: var(--green);
+  box-shadow: 0 12px 36px rgba(0, 207, 200, 0.25), 0 0 0 4px rgba(0, 207, 200, 0.08);
 }
 .hero-search-input {
   background: none;
@@ -1664,8 +1664,8 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   color: #6b7280;
 }
 .hero-search-btn {
-  background: #8B1538;
-  color: #ffffff;
+  background: var(--green);
+  color: #0A192F;
   border: none;
   font-weight: 700;
   border-radius: 100px;
@@ -1678,13 +1678,13 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(139, 21, 56, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 207, 200, 0.2);
 }
 .hero-search-btn:hover {
-  background: #72102d;
-  color: #ffffff;
+  background: var(--green-deep);
+  color: #0A192F;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(139, 21, 56, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 207, 200, 0.3);
 }
 .hero-search-btn:active {
   transform: translateY(0);

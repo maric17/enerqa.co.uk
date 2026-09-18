@@ -34,17 +34,17 @@ export const Hero = () => {
       {/* Centered Hero Content */}
       <Container className="relative z-10 w-full flex flex-col items-center justify-center text-center py-6 grow">
         <div className="max-w-[820px] flex flex-col items-center">
-          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#ffb7c5] inline-block mb-3.5">
-            Technical Advisory &amp; Knowledge Hub
+          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-primary)] inline-block mb-3.5">
+            Project Development for a Sustainable Future
           </span>
           <h1 className="text-[clamp(34px,4.8vw,56px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-white m-0 mb-4 text-center min-h-[3.45em] sm:min-h-[2.3em] lg:min-h-[1.15em] flex items-center justify-center">
             <TypeAnimation
               sequence={[
-                'Sustainable decisions start with better data.',
+                'From an initial idea to feasibility...',
                 2500,
-                'Empowering climate action with insights.',
+                '...finance and implementation.',
                 2500,
-                'Driving ESG transition through knowledge.',
+                'Enerqa develops projects across climate action.',
                 2500,
               ]}
               wrapper="span"
@@ -53,14 +53,14 @@ export const Hero = () => {
             />
           </h1>
           <p className="text-[clamp(15px,1.6vw,18px)] text-white/90 leading-[1.45] mx-auto mb-6 max-w-[60ch] font-light text-center">
-            A resource base for climate action, carbon policy, and ESG transition parameters.
+            Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.
           </p>
 
           {/* Large Search Bar */}
           <div className="relative w-full max-w-[680px] z-20 mx-auto mt-6">
             <form onSubmit={handleSearch} className="hero-search-wrapper w-full flex items-center">
               <svg className="shrink-0 w-5 h-5 text-gray-500 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" className="hero-search-input flex-1" placeholder="Search publications, tools, and emissions dashboards..." aria-label="Search Query" value={query} onChange={(e) => setQuery(e.target.value)} />
+              <input type="text" className="hero-search-input flex-1" placeholder="Ask a question or explore a topic." aria-label="Search Query" value={query} onChange={(e) => setQuery(e.target.value)} />
               <button type="submit" className="hero-search-btn">
                 <span>Search</span>
               </button>
@@ -69,11 +69,9 @@ export const Hero = () => {
             {/* Trending Topics / Quick Tags */}
             <div className="flex gap-2 justify-center flex-wrap mt-6">
               <span className="text-xs text-white/60 self-center mr-1">Trending:</span>
-              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">GHG Inventories</Link>
-              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">Carbon Credits</Link>
-              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">ESG Disclosures</Link>
-              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">LEAP Modeling</Link>
-              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">Decarbonization</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">How can a climate project attract finance?</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">Explore renewable-energy feasibility</Link>
+              <Link href="/knowledge-hub" className="search-tag-link text-xs text-white bg-white/10 px-3 py-1.5 rounded border border-white/10 transition-all duration-200">What does ESG readiness involve?</Link>
             </div>
           </div>
         </div>

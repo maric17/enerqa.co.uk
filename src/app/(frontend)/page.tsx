@@ -16,8 +16,6 @@ import { fetchUnOchaData } from '@/lib/api/unOcha'
 import { TransitionPriorities } from '@/components/home/TransitionPriorities'
 import { Tools } from '@/components/home/Tools'
 import { AboutEnerqa } from '@/components/home/AboutEnerqa'
-import { ImpactStats } from '@/components/home/ImpactStats'
-import { GlobalNetwork } from '@/components/home/GlobalNetwork'
 import { ContactCTA } from '@/components/shared/ContactCTA'
 import { FadeIn } from '@/components/animations/FadeIn'
 
@@ -61,12 +59,6 @@ export default async function HomePage() {
       <FadeIn delay={0.1}>
         <AboutEnerqa />
       </FadeIn>
-      <FadeIn delay={0.1}>
-        <ImpactStats />
-      </FadeIn>
-      {/* <FadeIn delay={0.1}>
-        <GlobalNetwork />
-      </FadeIn> */}
       <FadeIn delay={0.1}>
         <ContactCTA />
       </FadeIn>

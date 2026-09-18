@@ -9,37 +9,37 @@ const pillars = [
   {
     id: 'climate',
     tag: '01',
-    titleEn: 'Climate Change',
-    titleAr: 'تغير المناخ',
-    descEn: 'Supporting governments and institutions with GHG inventories, NDC tracking, and climate finance modeling.',
-    link: '/services#climate',
+    titleEn: 'Climate Action & Carbon Management',
+    titleAr: 'العمل المناخي وإدارة الكربون',
+    descEn: 'From national climate targets to corporate decarbonisation and carbon-credit project development.',
+    link: '/domains/climate-action-carbon-management',
     bgImage: '/assets/images/hero-bg.jpg'
   },
   {
     id: 'energy',
     tag: '02',
-    titleEn: 'Energy Advisory',
-    titleAr: 'استشارات الطاقة',
-    descEn: 'Feasibility studies for solar, wind, and grids, alongside energy audits and transition strategies.',
-    link: '/services#energy',
+    titleEn: 'Energy Systems & Transition',
+    titleAr: 'أنظمة الطاقة والتحول',
+    descEn: 'Reshaping how energy is produced, managed and consumed without compromising reliability or commercial performance.',
+    link: '/domains/energy-systems-transition',
     bgImage: '/assets/images/solar.jpg'
   },
   {
     id: 'environment',
     tag: '03',
-    titleEn: 'Environment & ESG',
-    titleAr: 'البيئة والحوكمة (ESG)',
-    descEn: 'Integrating ESG principles into operations, gap assessments, and environmental impact assessments.',
-    link: '/services#environment',
+    titleEn: 'Environment, Nature & Circularity',
+    titleAr: 'البيئة والطبيعة والاقتصاد الدائري',
+    descEn: 'Managing impacts, meeting safeguards and improving project design through early environmental understanding.',
+    link: '/domains/environment-nature-circularity',
     bgImage: '/assets/images/port.jpg'
   },
   {
     id: 'business',
     tag: '04',
-    titleEn: 'Business Solutions',
-    titleAr: 'حلول الأعمال',
-    descEn: 'Elevating projects with robust business planning, green scoring, and long-term viability analysis.',
-    link: '/services#business',
+    titleEn: 'Sustainable Business, ESG & Finance',
+    titleAr: 'الأعمال المستدامة والحوكمة والتمويل',
+    descEn: 'Creating lasting value by embedding sustainability into strategy, governance, investment and operations.',
+    link: '/domains/sustainable-business-esg-finance',
     bgImage: '/assets/images/gas-energy.jpg'
   }
 ]

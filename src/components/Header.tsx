@@ -9,12 +9,12 @@ import { useLanguage } from './LanguageProvider';
 import { Container } from './ui/Container';
 
 const SITE_INDEX = [
-  { title:'Home', url:'/' },
-  { title:'Domains and Industries', url:'/services' },
+  { title:'Homepage', url:'/' },
+  { title:'Domains and Industries', url:'/domains-and-industries' },
   { title:'Knowledge Hub', url:'/knowledge-hub' },
   { title:'Data Portal', url:'/data-portal' },
   { title:'Tools', url:'/tools' },
-  { title:'About Us', url:'/about' },
+  { title:'About', url:'/about' },
 ];
 
 export function Header() {
@@ -34,7 +34,7 @@ export function Header() {
       const footer = document.querySelector('footer.site');
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
-        const isHidden = footerTop < window.innerHeight + 10;
+        const isHidden = footerTop < window.innerHeight + 10 && scrollY > 100;
         setIsHiddenFooter(isHidden);
         if (isHidden) {
           document.body.classList.add('header-hidden');
@@ -78,7 +78,7 @@ export function Header() {
 
   return (
     <>
-      <header className={`site ${isScrolled ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
+      <header className={`site ${isScrolled || pathname !== '/' ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
         <Container className="header-main !px-6 md:!px-10">
           <Link href="/" className="logo-zone">
             <div className="logo-mark">eQ</div>
@@ -89,15 +89,43 @@ export function Header() {
               <Link href="/" className={pathname === '/' ? 'active' : ''}><span className="en">Home</span><span className="ar">الرئيسية</span></Link>
             </div>
             <div className="nav-item">
-              <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
-              <div className="mega" style={{ minWidth: '280px' }}>
-                <div style={{ width: '100%' }}>
+              <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') || pathname.startsWith('/domains') || pathname.startsWith('/industries') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
+              <div className="mega" style={{ minWidth: '800px', display: 'flex', gap: '2rem', padding: '1.5rem' }}>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-bold mb-2">Domains</h3>
                   <ul>
-                    <li><Link href="/services/climate-change"><span className="en">Climate Change</span><span className="ar">تغير المناخ</span></Link></li>
-                    <li><Link href="/services/environment-esg"><span className="en">Environment &amp; ESG</span><span className="ar">البيئة والحوكمة البيئية والاجتماعية والمؤسسية</span></Link></li>
-                    <li><Link href="/services/energy"><span className="en">Energy</span><span className="ar">الطاقة</span></Link></li>
-                    <li><Link href="/services/business-solutions"><span className="en">Business Solutions</span><span className="ar">حلول الأعمال</span></Link></li>
+                    <li><Link href="/domains/climate-action-carbon-management"><span className="en">Climate Action &amp; Carbon Management</span><span className="ar">العمل المناخي وإدارة الكربون</span></Link></li>
+                    <li><Link href="/domains/energy-systems-transition"><span className="en">Energy Systems &amp; Transition</span><span className="ar">أنظمة الطاقة والتحول</span></Link></li>
+                    <li><Link href="/domains/environment-nature-circularity"><span className="en">Environment, Nature &amp; Circularity</span><span className="ar">البيئة والطبيعة والاقتصاد الدائري</span></Link></li>
+                    <li><Link href="/domains/sustainable-business-esg-finance"><span className="en">Sustainable Business, ESG &amp; Finance</span><span className="ar">الأعمال المستدامة والحوكمة والتمويل</span></Link></li>
                   </ul>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-bold mb-2">Industries</h3>
+                  <ul>
+                    <li><Link href="/industries/government-regulators-public-institutions"><span className="en">Government, Regulators &amp; Public Institutions</span></Link></li>
+                    <li><Link href="/industries/financial-institutions-investors-development-finance"><span className="en">Financial Institutions, Investors &amp; Development Finance</span></Link></li>
+                    <li><Link href="/industries/energy-utilities"><span className="en">Energy &amp; Utilities</span></Link></li>
+                    <li><Link href="/industries/oil-gas-petrochemicals"><span className="en">Oil, Gas &amp; Petrochemicals</span></Link></li>
+                    <li><Link href="/industries/industry-manufacturing-materials"><span className="en">Industry, Manufacturing &amp; Materials</span></Link></li>
+                    <li><Link href="/industries/infrastructure-real-estate-industrial-zones"><span className="en">Infrastructure, Real Estate &amp; Industrial Zones</span></Link></li>
+                    <li><Link href="/industries/transport-logistics-mobility"><span className="en">Transport, Logistics &amp; Mobility</span></Link></li>
+                  </ul>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-bold mb-2">Industries continued</h3>
+                  <ul>
+                    <li><Link href="/industries/water-waste-circular-economy"><span className="en">Water, Waste &amp; Circular Economy</span></Link></li>
+                    <li><Link href="/industries/agriculture-food-aquaculture"><span className="en">Agriculture, Food &amp; Aquaculture</span></Link></li>
+                    <li><Link href="/industries/mining-natural-resources"><span className="en">Mining &amp; Natural Resources</span></Link></li>
+                    <li><Link href="/industries/tourism-hospitality-destinations"><span className="en">Tourism, Hospitality &amp; Destinations</span></Link></li>
+                    <li><Link href="/industries/technology-telecoms-data-infrastructure"><span className="en">Technology, Telecoms &amp; Data Infrastructure</span></Link></li>
+                    <li><Link href="/industries/healthcare-education-institutional-estates"><span className="en">Healthcare, Education &amp; Institutional Estates</span></Link></li>
+                  </ul>
+                </div>
+                <div style={{ width: '100%', marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
+                  <Link href="/project-development" className="font-bold block mb-2"><span className="en">Project Development and Lifecycle Support</span></Link>
+                  <Link href="/domains-and-industries" className="text-sm"><span className="en">View All Domains and Industries</span></Link>
                 </div>
               </div>
             </div>
@@ -162,12 +190,12 @@ export function Header() {
           <div className="logo-word">enerQA</div>
           <button className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label="Close"><X /></button>
         </div>
-        <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Home</Link>
-        <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
+        <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Homepage</Link>
+        <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
         <Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Knowledge Hub</Link>
         <Link href="/data-portal" className={pathname === '/data-portal' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Data Portal</Link>
         <Link href="/tools" className={pathname === '/tools' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Tools</Link>
-        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About Us</Link>
+        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About</Link>
       </div>
     </>
   );

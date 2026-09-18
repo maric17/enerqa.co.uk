@@ -29,11 +29,17 @@ export const NewsSlider = ({ newsItems }: { newsItems: NewsArticle[] }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '24px' }}>
         <div style={{ maxWidth: '600px', textAlign: 'left' }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 300, color: '#0f172a', lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
-            <span style={{ fontWeight: 800 }}>Latest</span> Updates
+            <span style={{ fontWeight: 800 }}>Global</span> News
           </h2>
+          <p style={{ fontSize: '16px', color: 'rgba(15,23,42,0.7)', marginTop: '12px', lineHeight: 1.5 }}>
+            Follow developments in climate action, energy, environment, nature, circularity, sustainable business and finance.
+          </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          <a href="/knowledge-hub/global-intelligence" style={{ fontSize: '13px', fontWeight: 700, color: '#059669', textDecoration: 'none', borderBottom: '1.5px solid #059669', paddingBottom: '2px', transition: 'color 0.2s' }}>
+            View All News
+          </a>
           {/* Sliding Navigation Arrows */}
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={() => scroll('left')} className="news-slider-arrow-btn" style={{ border: '1.5px solid rgba(15,23,42,0.2)', background: 'transparent', color: '#0f172a', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>

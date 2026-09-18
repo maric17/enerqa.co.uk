@@ -20,10 +20,10 @@ export function Footer() {
             <div className="w-px h-8 bg-white/15 hidden md:inline-block"></div>
             {/* Sister Brands */}
             <div className="flex gap-4 text-[11px] font-bold tracking-[0.05em] uppercase text-white/80 flex-wrap">
-              <Link href="/services/climate-change" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Change</Link>
-              <Link href="/services/environment-esg" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment &amp; ESG</Link>
-              <Link href="/services/energy" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy</Link>
-              <Link href="/services/business-solutions" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Business Solutions</Link>
+              <Link href="/domains/climate-action-carbon-management" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Action</Link>
+              <Link href="/domains/energy-systems-transition" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy Systems</Link>
+              <Link href="/domains/environment-nature-circularity" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment</Link>
+              <Link href="/domains/sustainable-business-esg-finance" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Sustainable Business</Link>
             </div>
           </div>
           {/* Socials */}
@@ -49,8 +49,8 @@ export function Footer() {
           <div>
             <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Navigation</h6>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Home</Link></li>
-              <li><Link href="/services" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Domains and Industries</Link></li>
+              <li><Link href="/" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Homepage</Link></li>
+              <li><Link href="/domains-and-industries" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Domains and Industries</Link></li>
               <li><Link href="/knowledge-hub" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Knowledge Hub</Link></li>
             </ul>
           </div>
@@ -60,18 +60,18 @@ export function Footer() {
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
               <li><Link href="/data-portal" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Data Portal</Link></li>
               <li><Link href="/tools" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Tools</Link></li>
-              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">About Us</Link></li>
+              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">About</Link></li>
             </ul>
           </div>
           {/* Col 3 */}
           <div>
-            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Supporting/Utility</h6>
+            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Contact &amp; Legal</h6>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
+              <li><a href="mailto:info@enerqa.co.uk" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">info@enerqa.co.uk</a></li>
               <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Contact</Link></li>
-              <li><Link href="/faq" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">FAQ</Link></li>
-              <li><Link href="/contact#careers" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Careers</Link></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Legal</Link></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Privacy Notice</Link></li>
+              <li><Link href="/data-portal/sources" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Data Sources Attribution</Link></li>
+              <li><Link href="/privacy" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Privacy Notice</Link></li>
+              <li><Link href="/terms" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Terms of Use</Link></li>
             </ul>
           </div>
           {/* Col 4 (Call to Action) */}
@@ -94,10 +94,10 @@ export function Footer() {
             <span>© 2026 enerQA Ltd. All Rights Reserved.</span>
           </div>
           <div className="flex gap-4 flex-wrap">
-            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Legal</Link>
-            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Privacy Notice</Link>
-            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Site Accessibility</Link>
-            <Link href="/contact" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Access to Information</Link>
+            <Link href="/terms" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Terms of Use</Link>
+            <Link href="/privacy" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Privacy Notice</Link>
+            <Link href="/cookie-choices" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Cookie Choices</Link>
+            <Link href="/accessibility" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Accessibility Statement</Link>
           </div>
         </div>
       </Container>

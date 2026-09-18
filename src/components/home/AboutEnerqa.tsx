@@ -6,46 +6,24 @@ import { Container } from '../ui/Container'
 
 export const AboutEnerqa = () => {
   return (
-    <section className="bg-[#8c1639] py-10 my-[100px] overflow-visible relative z-10" id="about-enerqa">
+    <section className="bg-[var(--color-dark)] py-10 my-[100px] overflow-visible relative z-10" id="about-enerqa">
       <Container className="relative flex items-center justify-between min-h-[260px] overflow-visible">
         
         {/* Left Column (Content) */}
         <div className="relative z-10 flex-[1.4] flex flex-col gap-7 text-left max-w-[52%]">
           <div>
-            <Typography variant="eyebrow" className="mb-2 text-white/70">
-              About enerQA
+            <Typography variant="eyebrow" className="mb-2 text-[var(--color-primary)]">
+              About Enerqa
             </Typography>
-            <h3 className="text-[clamp(20px,2.6vw,32px)] font-light text-white leading-[1.15] tracking-[-0.02em] m-0 mb-3">
-              ENGINEERING<br/><span className="font-extrabold">SUSTAINABLE DECISIONS</span>
+            <h3 className="text-[clamp(20px,2.6vw,32px)] font-light text-white leading-[1.15] tracking-[-0.02em] m-0 mb-4">
+              Connecting priorities with<br/><span className="font-extrabold text-[var(--color-primary)]">practical decisions.</span>
             </h3>
-            <p className="text-[13.5px] text-white/85 leading-[1.6] m-0 font-light">
-              A multidisciplinary advisory firm at the crossroads of engineering and environmental strategy — helping
-              governments and corporations navigate the energy transition.
+            <p className="text-[14.5px] text-white/85 leading-[1.6] m-0 font-light max-w-lg mb-8">
+              Enerqa is a multidisciplinary project-development and consultancy company connecting climate, energy, environmental and business priorities with practical decisions and viable initiatives.
             </p>
-          </div>
-
-          <div className="flex gap-10 flex-wrap mt-2 border-t border-white/15 pt-8">
-            {/* Column 1 */}
-            <div className="flex-1 min-w-[200px] border-r border-white/15 pr-10">
-              <h5 className="text-[13px] font-bold text-white m-0 mb-2">Engineering Precision</h5>
-              <p className="text-xs text-white/75 leading-[1.55] m-0 mb-3 font-light">
-                Technical audits, energy models, and infrastructure assessments.
-              </p>
-              <Link href="/about" className="text-white text-xs font-bold no-underline border-b-[1.5px] border-white pb-0.5">
-                Our Approach
-              </Link>
-            </div>
-
-            {/* Column 2 */}
-            <div className="flex-1 min-w-[200px]">
-              <h5 className="text-[13px] font-bold text-white m-0 mb-2">ESG Intelligence</h5>
-              <p className="text-xs text-white/75 leading-[1.55] m-0 mb-3 font-light">
-                Governance frameworks, impact measurement, and disclosure readiness.
-              </p>
-              <Link href="/about" className="text-white text-[12.5px] font-bold no-underline border-b-[1.5px] border-white pb-0.5">
-                Meet the Team
-              </Link>
-            </div>
+            <Link href="/about" className="text-[var(--color-primary)] text-[13px] font-bold no-underline border-b-[1.5px] border-[var(--color-primary)] pb-0.5 inline-block transition-opacity hover:opacity-80">
+              About Enerqa
+            </Link>
           </div>
         </div>
 
