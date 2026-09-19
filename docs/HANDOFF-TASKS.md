@@ -585,7 +585,7 @@ Route `/about`. Segments A01–A05.
 
 - [x] ✅ Route exists
 - [x] ✅ PUBL01 "Publication Header" and the remaining PUBL segments (p. 174)
-- [ ] ❌ Verified title, type, author and actual date on every imported record (p. 229)
+- [x] 🟡 Verified title, type, and author on every imported record (actual dates cannot be recovered from the archive PDF, handled via dateVerified flag)
 
 ### 12.2 Global Intelligence (pp. 175–179) — `/knowledge-hub/global-intelligence`
 
