@@ -187,7 +187,14 @@ export default async function PublicationSinglePage({ params }: Props) {
           <div className="flex gap-4 items-center text-white/80 text-sm mt-4">
             <span>
               {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+              {post.dateVerified === false && ' (date unverified)'}
             </span>
+            {post.author && (
+              <>
+                <span className="text-white/40">|</span>
+                <span>By {post.author}</span>
+              </>
+            )}
             {post.type && (
               <Badge variant="outline" className="text-white border-white/30 uppercase text-[10px] tracking-wider">
                 {post.type}

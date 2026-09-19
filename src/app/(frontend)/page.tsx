@@ -1,57 +1,62 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { Hero } from '@/components/home/Hero'
-import { InsightsTeaser } from '@/components/home/InsightsTeaser'
-import { LatestNews } from '@/components/home/LatestNews'
-import { LiveFeeds } from '@/components/home/LiveFeeds'
+import { FirstFoldFeeds } from '@/components/home/FirstFoldFeeds'
+import { LifecycleAndIndustries } from '@/components/home/LifecycleAndIndustries'
+import { DataPortalTeaser } from '@/components/home/DataPortalTeaser'
 import { KnowledgeTeaser } from '@/components/home/KnowledgeTeaser'
-import { SustainabilityData } from '@/components/home/SustainabilityData'
-import { fetchOpenAQData } from '@/lib/api/openaq'
-import { fetchNasaPowerData } from '@/lib/api/nasaPower'
-import { fetchWorldBankData } from '@/lib/api/worldBank'
-import { fetchNoaaData } from '@/lib/api/noaa'
-import { fetchUnSdgData } from '@/lib/api/unSdg'
-import { fetchCckpData } from '@/lib/api/cckp'
-import { fetchOsmData } from '@/lib/api/osm'
-import { fetchUnOchaData } from '@/lib/api/unOcha'
 import { TransitionPriorities } from '@/components/home/TransitionPriorities'
 import { Tools } from '@/components/home/Tools'
 import { AboutEnerqa } from '@/components/home/AboutEnerqa'
 import { ContactCTA } from '@/components/shared/ContactCTA'
 import { FadeIn } from '@/components/animations/FadeIn'
 
-export default async function HomePage() {
-  const [openaq, nasa, worldbank, noaa, unsdg, cckp, osm, unocha] = await Promise.all([
-    fetchOpenAQData(),
-    fetchNasaPowerData(),
-    fetchWorldBankData(),
-    fetchNoaaData(),
-    fetchUnSdgData(),
-    fetchCckpData(),
-    fetchOsmData(),
-    fetchUnOchaData()
-  ])
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Enerqa — Project Development for a Sustainable Future',
+  },
+  description:
+    'Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.',
+  alternates: { canonical: '/' },
+}
 
-  const allData = { openaq, nasa, worldbank, noaa, unsdg, cckp, osm, unocha }
+/**
+ * Homepage segments H01-H13 (handoff pp. 9-15), in the order the spec lists them.
+ *
+ * H01 Project Development for a Sustainable Future  -> Hero
+ * H02 Ask Explore Discover                          -> Hero (search + chips)
+ * H03 Global News                                   -> FirstFoldFeeds
+ * H04 Major Markets                                 -> FirstFoldFeeds
+ * H05 Explore Our Domains                           -> TransitionPriorities
+ * H06 Project Development and Lifecycle Support     -> LifecycleAndIndustries
+ * H07 Industries We Work In                         -> LifecycleAndIndustries
+ * H08 Enerqa Publication                            -> KnowledgeTeaser
+ * H09 Explore the Data Portal                       -> DataPortalTeaser
+ * H10 Enerqa Tools                                  -> Tools
+ * H11 About Enerqa                                  -> AboutEnerqa
+ * H12 Stay Informed / H13 Discuss Your Project      -> ContactCTA
+ *
+ * H03 and H04 are passed as children of Hero so search, news and markets share
+ * the first viewport, which is the composition p. 225 asks for.
+ */
+export default function HomePage() {
   return (
     <>
-      <Hero />
+      <Hero>
+        <FirstFoldFeeds />
+      </Hero>
+
       <FadeIn delay={0.1}>
-        <InsightsTeaser />
+        <TransitionPriorities />
       </FadeIn>
       <FadeIn delay={0.1}>
-        <LatestNews />
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <LiveFeeds />
+        <LifecycleAndIndustries />
       </FadeIn>
       <FadeIn delay={0.1}>
         <KnowledgeTeaser />
       </FadeIn>
       <FadeIn delay={0.1}>
-        <SustainabilityData apiData={allData} />
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <TransitionPriorities />
+        <DataPortalTeaser />
       </FadeIn>
       <FadeIn delay={0.1}>
         <Tools />

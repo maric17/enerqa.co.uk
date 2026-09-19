@@ -2,21 +2,95 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, ArrowRight, Filter, ExternalLink, FileText } from 'lucide-react';
+import { Search, ArrowRight, Filter, FileText, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+
+// K03 filter groups (handoff p. 155). Options are derived from the publications
+// actually present, so a filter never offers a value that returns nothing.
+type FacetKey = 'type' | 'year' | 'language' | 'author' | 'archiveCategory';
+
+const FACET_LABELS: Record<FacetKey, string> = {
+  type: 'Publication Type',
+  year: 'Year',
+  language: 'Language',
+  author: 'Author',
+  archiveCategory: 'Topic',
+};
+
+const LANGUAGE_LABELS: Record<string, string> = { en: 'English', ar: 'Arabic' };
+const ARCHIVE_LABELS: Record<string, string> = {
+  'climate-science-and-impacts': 'Climate Science and Impacts',
+  'energy-technology-and-finance': 'Energy, Technology and Finance',
+  'environment-and-society': 'Environment and Society',
+  'frameworks-and-methodologies': 'Frameworks and Methodologies',
+};
+
+const valueOf = (pub: any, key: FacetKey): string | null => {
+  if (key === 'year') return pub.date ? String(new Date(pub.date).getFullYear()) : null;
+  return pub[key] || null;
+};
+
+const displayValue = (key: FacetKey, value: string) => {
+  if (key === 'language') return LANGUAGE_LABELS[value] ?? value;
+  if (key === 'archiveCategory') return ARCHIVE_LABELS[value] ?? value;
+  return value;
+};
 
 export default function KnowledgeHubClient({ publications }: { publications: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  
-  // Filter logic
-  const filteredPublications = useMemo(() => {
-    return publications.filter(pub => {
-      const matchesSearch = pub.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            pub.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSearch;
+  // One set of selected values per facet. Empty set = that facet is not filtering.
+  const [selected, setSelected] = useState<Record<FacetKey, string[]>>({
+    type: [], year: [], language: [], author: [], archiveCategory: [],
+  });
+
+  // Build the option lists from the real data rather than hard-coding them.
+  const facets = useMemo(() => {
+    const out = {} as Record<FacetKey, string[]>;
+    (Object.keys(FACET_LABELS) as FacetKey[]).forEach((key) => {
+      const values = new Set<string>();
+      publications.forEach((pub) => {
+        const v = valueOf(pub, key);
+        if (v) values.add(v);
+      });
+      out[key] = [...values].sort((a, b) => (key === 'year' ? b.localeCompare(a) : a.localeCompare(b)));
     });
-  }, [searchQuery, publications, activeFilters]);
+    return out;
+  }, [publications]);
+
+  const toggle = (key: FacetKey, value: string) =>
+    setSelected((prev) => ({
+      ...prev,
+      [key]: prev[key].includes(value) ? prev[key].filter((v) => v !== value) : [...prev[key], value],
+    }));
+
+  const clearAll = () =>
+    setSelected({ type: [], year: [], language: [], author: [], archiveCategory: [] });
+
+  // Flat list of active selections, for the removable chips above the results.
+  const activeChips = (Object.keys(FACET_LABELS) as FacetKey[]).flatMap((key) =>
+    selected[key].map((value) => ({ key, value })),
+  );
+
+  // K03: search across title, summary and approved article text.
+  const filteredPublications = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return publications.filter((pub) => {
+      const matchesSearch =
+        !q ||
+        pub.title?.toLowerCase().includes(q) ||
+        pub.excerpt?.toLowerCase().includes(q) ||
+        pub.author?.toLowerCase().includes(q);
+
+      // Within a facet the selected values are OR'd; across facets they are AND'd.
+      const matchesFacets = (Object.keys(FACET_LABELS) as FacetKey[]).every((key) => {
+        if (selected[key].length === 0) return true;
+        const v = valueOf(pub, key);
+        return v !== null && selected[key].includes(v);
+      });
+
+      return matchesSearch && matchesFacets;
+    });
+  }, [searchQuery, publications, selected]);
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
@@ -58,36 +132,47 @@ export default function KnowledgeHubClient({ publications }: { publications: any
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
             
-            {/* Filters Sidebar */}
+            {/* K03 Find a Publication - filters (handoff p. 155).
+                Topic, Publication Type, Year, Language and Author. Domain and
+                Industry join this list once publications carry those tags. */}
             <div className="lg:col-span-1 space-y-8">
-              <h2 className="font-bold text-[var(--color-dark)] text-lg mb-4 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-400" /> Filters
-              </h2>
-              
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Topic</h3>
-                  <div className="space-y-2">
-                    {['Climate Strategy', 'Energy Modelling', 'Biodiversity', 'Sustainable Finance'].map(t => (
-                      <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                        <span className="text-sm">{t}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-bold text-[var(--color-dark)] text-lg flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-gray-400" /> Filters
+                </h2>
+                {activeChips.length > 0 && (
+                  <button
+                    onClick={clearAll}
+                    className="text-sm text-[var(--color-secondary)] hover:underline font-medium"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
 
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Publication Type</h3>
-                  <div className="space-y-2">
-                    {['Analysis', 'Briefing', 'Report', 'Case Study'].map(t => (
-                      <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                        <span className="text-sm">{t}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+              <div className="space-y-6">
+                {(Object.keys(FACET_LABELS) as FacetKey[]).map((key) =>
+                  facets[key].length === 0 ? null : (
+                    <fieldset key={key} className="border-0 p-0 m-0">
+                      <legend className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
+                        {FACET_LABELS[key]}
+                      </legend>
+                      <div className="space-y-2">
+                        {facets[key].map((value) => (
+                          <label key={value} className="flex items-center gap-2 cursor-pointer text-gray-700">
+                            <input
+                              type="checkbox"
+                              className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                              checked={selected[key].includes(value)}
+                              onChange={() => toggle(key, value)}
+                            />
+                            <span className="text-sm">{displayValue(key, value)}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ),
+                )}
               </div>
             </div>
 
@@ -105,14 +190,38 @@ export default function KnowledgeHubClient({ publications }: { publications: any
                   />
                 </form>
                 
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-sm text-gray-500 font-medium">Showing {filteredPublications.length} results</div>
-                  {activeFilters.length > 0 && (
-                    <button onClick={() => setActiveFilters([])} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
+                {/* K03: result count, removable active-filter chips and Clear All */}
+                <div className="mt-4 flex items-center justify-between gap-4">
+                  <div className="text-sm text-gray-500 font-medium" aria-live="polite">
+                    Showing {filteredPublications.length} of {publications.length} publications
+                  </div>
+                  {activeChips.length > 0 && (
+                    <button
+                      onClick={clearAll}
+                      className="text-sm text-[var(--color-secondary)] hover:underline font-medium whitespace-nowrap"
+                    >
                       Clear all filters
                     </button>
                   )}
                 </div>
+
+                {activeChips.length > 0 && (
+                  <ul className="mt-3 flex flex-wrap gap-2 list-none p-0 m-0">
+                    {activeChips.map(({ key, value }) => (
+                      <li key={`${key}-${value}`}>
+                        <button
+                          onClick={() => toggle(key, value)}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium bg-[var(--color-paper-alt)] text-[var(--color-dark)] border border-gray-300 rounded-full py-1.5 pl-3 pr-2 hover:border-[var(--color-dark)] transition-colors"
+                          aria-label={`Remove filter ${FACET_LABELS[key]}: ${displayValue(key, value)}`}
+                        >
+                          <span className="text-gray-500">{FACET_LABELS[key]}:</span>
+                          {displayValue(key, value)}
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               {/* K04 Dynamic Results */}
@@ -124,9 +233,16 @@ export default function KnowledgeHubClient({ publications }: { publications: any
                         <div className="flex flex-wrap gap-2 mb-4 text-xs font-bold uppercase tracking-wider">
                           <span className="text-[var(--color-secondary)]">{pub.type || 'Publication'}</span>
                           <span className="text-gray-400">|</span>
-                          <span className="text-gray-600">English</span>
+                          <span className="text-gray-600">{LANGUAGE_LABELS[pub.language] ?? 'English'}</span>
                           <span className="text-gray-400">|</span>
-                          <span className="text-gray-600">{new Date(pub.date).toLocaleDateString()}</span>
+                          {/* p. 226: a date must not be presented as verified when it is not.
+                              The 2024 import gave every record the same placeholder date. */}
+                          <span className="text-gray-600">
+                            {pub.date ? new Date(pub.date).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Date not confirmed'}
+                            {pub.date && !pub.dateVerified && (
+                              <span className="ml-1 normal-case font-normal text-gray-400" title="Publication date not yet verified against the original source">(date unverified)</span>
+                            )}
+                          </span>
                         </div>
                         <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-3">{pub.title}</h3>
                         <p className="text-gray-600 mb-4 line-clamp-3">{pub.excerpt}</p>
@@ -148,7 +264,7 @@ export default function KnowledgeHubClient({ publications }: { publications: any
                   ))
                 ) : (
                   <div className="py-20 text-center text-gray-500">
-                    No publications found.
+                    No relevant updates are available.
                   </div>
                 )}
               </div>

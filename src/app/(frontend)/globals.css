@@ -15,8 +15,6 @@
   --color-secondary-dark: #075a93;
 }
 
-@import "./style.css";
-
 /* Font configurations - easily changeable in one file */
 :root {
   --font-en: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;

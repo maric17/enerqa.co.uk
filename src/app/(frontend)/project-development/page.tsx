@@ -1,6 +1,17 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+// Handoff p. 227: this stays the ONE canonical lifecycle page - every
+// contextual lifecycle module elsewhere on the site points back here, so the
+// canonical URL matters more than usual.
+export const metadata: Metadata = {
+  title: 'Project Development and Lifecycle Support',
+  description:
+    'From needs assessment and feasibility to finance, delivery and MRV - the ten-stage lifecycle Enerqa applies across climate, energy, environment and ESG projects.',
+  alternates: { canonical: '/project-development' },
+};
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 
 export default function ProjectDevelopmentPage() {
@@ -66,7 +77,7 @@ export default function ProjectDevelopmentPage() {
                 <span className="text-[var(--color-primary)] font-bold">06</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Design, Tendering and Procurement Support</span>
               </a>
               <a href="#implementation-management" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">07</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Implementation and Project Management Support</span>
+                <span className="text-[var(--color-primary)] font-bold">07</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Implementation and Project-Management Support</span>
               </a>
               <a href="#mrv-monitoring" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
                 <span className="text-[var(--color-primary)] font-bold">08</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">MRV, Monitoring and Evaluation</span>
@@ -138,7 +149,7 @@ export default function ProjectDevelopmentPage() {
             {/* Step 7 */}
             <div id="implementation-management" className="scroll-mt-24 relative">
               <div className="absolute -left-[41px] top-0 w-8 h-8 rounded-full bg-white border-2 border-[var(--color-primary)] text-[var(--color-dark)] font-bold flex items-center justify-center text-sm z-10">07</div>
-              <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-4">Implementation and Project Management Support</h3>
+              <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-4">Implementation and Project-Management Support</h3>
               <p className="text-gray-600 mb-4 leading-relaxed">Implementation turns the developed concept into functioning assets, systems or programmes. Effective project management coordinates scope, schedules, budgets, contractors, partners, approvals and stakeholder responsibilities while maintaining oversight of quality, risk and agreed outcomes.</p>
               <p className="text-gray-600 mb-4 leading-relaxed">Progress reviews, issue tracking, change control and structured reporting allow emerging challenges to be addressed before they undermine delivery. Environmental, social, technical and financial commitments established during project preparation should remain visible throughout implementation.</p>
               <p className="text-gray-600 leading-relaxed">Support may continue through construction, system deployment, commissioning, operational readiness, handover and the transition into routine operation.</p>

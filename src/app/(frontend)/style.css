@@ -224,17 +224,13 @@ body.header-hidden .jump-links-nav {
   width: 100%; padding: 0 40px;
   height: 50px; /* Increased from 40px */
   display: flex; align-items: center; justify-content: space-between;
+  position: relative;
 }
 
 .logo-zone {
   display: block;
   width: 140px; /* Increased from 110px */
   height: 34px; /* Increased from 26px */
-  background-image: url('/images/logo-white.png') !important; /* White logo by default over hero image background */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: left center;
-  transition: background-image 0.3s ease;
 }
 body[data-lang="ar"] .logo-zone {
   background-position: right center;
@@ -307,14 +303,8 @@ body[data-lang="ar"] .logo-zone {
   opacity: 0.95;
 }
 
-/* White logo over translucent glass container by default */
-.logo-zone {
-  background-image: url('/images/logo-white.png') !important;
-}
-
-header.site.scrolled .logo-zone {
-  background-image: url('/images/color-logo.png') !important; /* Swaps to color logo on scroll */
-}
+/* Swaps to color logo on scroll */
+/* (Handled by next/image in Header component) */
 header.site.scrolled .primary-nav {
   background: transparent;
   border: none;
@@ -327,11 +317,11 @@ header.site.scrolled .nav-item > a:hover {
   background: rgba(12, 12, 12, 0.05);
 }
 header.site.scrolled .nav-item > a.active {
-  color: var(--green) !important;
+  color: var(--color-secondary) !important;
   background: transparent !important;
 }
 header.site.scrolled .nav-item > a.active::after {
-  background: var(--green);
+  background: var(--color-secondary);
 }
 
 header.site.scrolled .header-actions .btn.on-dark {
@@ -509,12 +499,8 @@ body[data-lang="ar"] .mobile-nav { right: auto; left: 0; transform: translateX(-
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;
 }
 .mn-top .logo-zone {
-  background-image: url('/images/logo-white.png');
   width: 140px;
   height: 40px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: left center;
   display: block !important;
 }
 .mn-top .logo-word { display: none !important; }
@@ -1593,6 +1579,36 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   font-family: var(--sans);
   padding: 110px 0 0;
 }
+/* Compact first fold (handoff p. 225).
+   The hero keeps its video backdrop and glass styling but stops filling the
+   viewport, so H03 Global News and H04 Major Markets are meaningfully visible
+   without scrolling at the 1366x768 reference viewport.
+   70px sticky header + 698px fold = the hero must stay under ~700px tall. */
+.hero-insights.hero-compact {
+  height: auto;
+  min-height: 0;
+  /* 104 top clears the 76px sticky header; 24 bottom keeps the whole
+     composition inside the 768px reference fold (measured, not guessed). */
+  padding: 96px 0 20px;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  /* p. 228: the first-fold brief is a laptop target, never a reason to
+     compress mobile content into one screen. Let it breathe on small widths. */
+  .hero-insights.hero-compact {
+    padding: 96px 0 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* p. 228 requires reduced-motion support. A looping background video is
+     exactly the kind of motion this setting is meant to stop. */
+  .hero-insights-video {
+    display: none;
+  }
+}
+
 .hero-insights-bg {
   position: absolute;
   inset: 0;
@@ -1631,6 +1647,13 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(27, 3, 10, 0.7) 0%, rgba(0, 207, 200, 0.6) 50%, rgba(20, 5, 10, 0.8) 100%);
+  z-index: 1;
+}
+
+.hero-domain-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10, 25, 47, 0.9) 0%, rgba(9, 114, 184, 0.8) 50%, rgba(0, 207, 200, 0.65) 100%);
   z-index: 1;
 }
 .hero-search-wrapper {
@@ -2274,4 +2297,166 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 
 .prose li, .richtext li, .list-bullet li, .list-number li {
   margin-bottom: 0.25em;
+}
+
+/* Mega Menu Redesign */
+.nav-item-static {
+  position: static !important;
+}
+
+.mega-redesign {
+  min-width: 1100px !important;
+  left: 50% !important;
+  transform: translate(-50%, 8px) !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* Ensure the hover bridge is tall enough to cover the gap between nav-item and mega */
+.mega-redesign::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+}
+
+.nav-item:hover .mega-redesign, .nav-item:focus-within .mega-redesign {
+  transform: translate(-50%, 0) !important;
+}
+
+.mega-top {
+  display: flex;
+  padding: 30px;
+  gap: 40px;
+  background: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.mega-columns {
+  flex: 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.mega-col-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+}
+
+.mega-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mega-list li {
+  margin: 0 !important;
+      line-height: 1.15;
+      margin-bottom: 10px!important;
+}
+
+.mega-list a {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ink-soft) !important;
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1.15;
+}
+
+.mega-list a:hover {
+  color: var(--ink) !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.mega-featured {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(0,0,0,0.08);
+  padding-left: 40px;
+}
+
+.featured-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.featured-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+}
+.featured-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+  pointer-events: none;
+}
+.featured-content {
+  position: relative;
+  z-index: 10;
+  padding: 16px;
+  color: white;
+}
+.featured-content h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.mega-cta {
+  background-color: var(--color-secondary);
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.mega-cta p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 15px;
+}
+.btn-cta {
+  background: white !important;
+  color: var(--color-secondary) !important;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.btn-cta:hover {
+  opacity: 0.9;
 }

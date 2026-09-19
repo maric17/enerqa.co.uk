@@ -12,6 +12,8 @@ import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
 import { Categories } from './collections/Categories'
 import { Authors } from './collections/Authors'
+import { Domains } from './collections/Domains'
+import { Industries } from './collections/Industries'
 import { Datasets } from './collections/Datasets'
 import { LearningMaterials } from './collections/LearningMaterials'
 import { Glossary } from './collections/Glossary'
@@ -45,6 +47,8 @@ export default buildConfig({
     Team,
     Categories,
     Authors,
+    Domains,
+    Industries,
     Datasets,
     LearningMaterials,
     Glossary,

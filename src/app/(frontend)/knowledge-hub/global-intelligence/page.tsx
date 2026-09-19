@@ -1,73 +1,97 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Search, ArrowRight, Filter, ExternalLink, Loader2 } from 'lucide-react';
+import { Search, ExternalLink } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import {
+  searchNews,
+  NEWS_BASKETS,
+  NEWS_DELAY_HOURS,
+  type NewsBasketKey,
+} from '@/lib/api/news';
 
-export default function GlobalIntelligencePage() {
-  const [searchQuery, setSearchQuery] = useState('climate OR energy');
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [articles, setArticles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+export const metadata: Metadata = {
+  title: 'Global Intelligence',
+  description:
+    'Open-access news, research and official updates on climate, energy, environment, nature, circularity, ESG and finance, from sources that can be read without payment or registration.',
+  alternates: { canonical: '/knowledge-hub/global-intelligence' },
+};
 
-  useEffect(() => {
-    async function fetchNews() {
-      setLoading(true);
-      try {
-        // Fallback to a predefined query if empty
-        const q = searchQuery.trim() || 'climate OR energy';
-        const res = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&sortBy=publishedAt&language=en&pageSize=6`, {
-          headers: {
-            'X-Api-Key': process.env.NEXT_PUBLIC_NEWS_API_KEY || 'fa78e2e520db4f52ab0f2b7597f8e188'
-          }
-        });
-        const data = await res.json();
-        if (data.articles) {
-          setArticles(data.articles);
-        }
-      } catch (e) {
-        console.error("Failed to fetch news", e);
-      }
-      setLoading(false);
-    }
-    
-    // Debounce search slightly
-    const timeoutId = setTimeout(() => {
-      fetchNews();
-    }, 500);
-    
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
-  
+/**
+ * K05 Global Intelligence (handoff p. 155 and pp. 209-211).
+ *
+ * This was a Client Component that called newsapi.org on every keystroke with
+ * an API key hardcoded into the bundle. Three things changed:
+ *
+ *  1. It is now a Server Component. No credential can reach the browser
+ *     (p. 226, p. 228), and one cached fetch serves every visitor instead of
+ *     one request per visitor per keystroke.
+ *  2. newsapi.org is gone. Its free tier is development-only, which fails the
+ *     "free access must permit public corporate use" test on p. 209.
+ *  3. Search filters what is already in the shared cache. p. 210 is explicit:
+ *     "Use a shared feed cache rather than upstream per-user keyword search."
+ *     A visitor's keystrokes must never spend provider credits.
+ *
+ * The filter form is a plain GET form, so it works without JavaScript and each
+ * result set has its own shareable URL.
+ */
+
+function isBasketKey(value: unknown): value is NewsBasketKey {
+  return typeof value === 'string' && NEWS_BASKETS.some((b) => b.key === value);
+}
+
+function first(value: string | string[] | undefined): string {
+  return (Array.isArray(value) ? value[0] : value) ?? '';
+}
+
+export default async function GlobalIntelligencePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const query = first(params.q).slice(0, 120);
+  const themeParam = first(params.theme);
+  const theme: NewsBasketKey = isBasketKey(themeParam) ? themeParam : 'all';
+
+  const result = await searchNews(query, theme, 24);
+
+  const retrievedLabel = new Date(result.retrievedAt).toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  });
+
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
-      
-      {/* K01 Knowledge Hub Intro */}
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+    <div className="flex min-h-screen flex-col bg-[var(--color-paper)] pt-[70px]">
+      {/* K01 Knowledge Hub intro */}
+      <section className="border-b border-gray-800 bg-[var(--color-dark)] py-20 text-white">
         <Container>
           <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Knowledge Hub</h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-6">
+            <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">Knowledge Hub</h1>
+            <p className="mb-6 text-xl leading-relaxed text-gray-300">
               Explore original Enerqa analysis alongside open-access news, research and official updates from around the world. Choose Enerqa Publication for our own work, or Global Intelligence for external evidence relevant to climate, energy, environment, nature, circularity, ESG and finance.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* K02 Collection Switcher */}
-      <section className="bg-white border-b border-gray-200 sticky top-[70px] z-30">
+      {/* K02 Collection switcher */}
+      <section className="sticky top-[70px] z-30 border-b border-gray-200 bg-white">
         <Container>
           <div className="flex space-x-8">
-            <Link 
-              href="/knowledge-hub" 
-              className="py-4 border-b-2 border-transparent text-gray-500 hover:text-[var(--color-dark)] font-medium transition-colors whitespace-nowrap"
+            <Link
+              href="/knowledge-hub"
+              className="whitespace-nowrap border-b-2 border-transparent py-4 font-medium text-gray-500 transition-colors hover:text-[var(--color-dark)]"
             >
               Enerqa Publication
             </Link>
-            <Link 
-              href="/knowledge-hub/global-intelligence" 
-              className="py-4 border-b-2 border-[var(--color-primary)] text-[var(--color-dark)] font-bold whitespace-nowrap"
+            <Link
+              href="/knowledge-hub/global-intelligence"
+              className="whitespace-nowrap border-b-2 border-[var(--color-primary)] py-4 font-bold text-[var(--color-dark)]"
             >
               Global Intelligence
             </Link>
@@ -75,141 +99,178 @@ export default function GlobalIntelligencePage() {
         </Container>
       </section>
 
-      {/* K05 Global Intelligence Search & Results */}
+      {/* K05 search and results */}
       <section className="py-16">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            
-            {/* Filters Sidebar */}
-            <div className="lg:col-span-1 space-y-8">
-              <h2 className="font-bold text-[var(--color-dark)] text-lg mb-4 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-400" /> Filters
-              </h2>
-              
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Content Type</h3>
-                  <div className="space-y-2">
-                    {['News', 'Research and Articles', 'Policy & Official Updates', 'Corporate Disclosures'].map(t => (
-                      <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                        <span className="text-sm">{t}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
+            {/* Filters. Only filters backed by real data are offered - the
+                previous version showed Content Type, Region and Date Range
+                checkboxes that were wired to nothing. */}
+            <aside className="lg:col-span-1">
+              <h2 className="mb-4 text-lg font-bold text-[var(--color-dark)]">Topic</h2>
+              <nav aria-label="Filter by topic" className="flex flex-col gap-1">
+                {NEWS_BASKETS.map((basket) => {
+                  const active = basket.key === theme;
+                  const href = new URLSearchParams();
+                  if (basket.key !== 'all') href.set('theme', basket.key);
+                  if (query) href.set('q', query);
+                  const qs = href.toString();
 
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Topic</h3>
-                  <div className="space-y-2">
-                    {['Climate Policy', 'Renewable Energy', 'Biodiversity', 'Green Finance'].map(t => (
-                      <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                        <span className="text-sm">{t}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+                  return (
+                    <Link
+                      key={basket.key}
+                      href={`/knowledge-hub/global-intelligence${qs ? `?${qs}` : ''}`}
+                      aria-current={active ? 'true' : undefined}
+                      className={`rounded-lg px-3 py-2 text-sm no-underline transition-colors ${
+                        active
+                          ? 'bg-[var(--color-dark)] font-bold text-white'
+                          : 'text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      {basket.label}
+                    </Link>
+                  );
+                })}
+              </nav>
 
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Continent / Region</h3>
-                  <div className="space-y-2">
-                    {['Global', 'Europe', 'North America', 'MENA', 'Asia'].map(t => (
-                      <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                        <span className="text-sm">{t}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Date Range</h3>
-                  <select className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none">
-                    <option>Past 24 hours</option>
-                    <option>Past week</option>
-                    <option>Past month</option>
-                    <option>Past year</option>
-                    <option>All time</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Search and Results */}
-            <div className="lg:col-span-3">
-              <div className="mb-8">
-                <form className="relative max-w-2xl" onSubmit={(e) => e.preventDefault()}>
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input 
-                    type="text" 
-                    placeholder="Search global intelligence by keyword, topic or region" 
-                    className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-300 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </form>
-                
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-sm text-gray-500 font-medium">Showing 150+ external results</div>
-                  {activeFilters.length > 0 && (
-                    <button onClick={() => setActiveFilters([])} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
-                      Clear all filters
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* External Content Cards (X03) */}
-              <div className="space-y-6">
-                {loading ? (
-                  <div className="py-20 flex justify-center items-center">
-                    <Loader2 className="w-10 h-10 text-[var(--color-primary)] animate-spin" />
-                  </div>
-                ) : articles.length > 0 ? (
-                  articles.map((article, i) => (
-                    <div key={i} className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 hover:border-[var(--color-primary)] transition-all flex flex-col md:flex-row gap-6">
-                      <div className="flex-1">
-                        <div className="flex flex-wrap gap-2 mb-4 text-xs font-bold uppercase tracking-wider">
-                          <span className="text-[var(--color-primary)]">{article.source.name}</span>
-                          <span className="text-gray-400">|</span>
-                          <span className="text-gray-600">News</span>
-                          <span className="text-gray-400">|</span>
-                          <span className="text-gray-600">{new Date(article.publishedAt).toLocaleDateString()}</span>
-                        </div>
-                        <h3 className="text-xl font-bold text-[var(--color-dark)] mb-3">{article.title}</h3>
-                        <p className="text-gray-600 mb-4 line-clamp-2">{article.description}</p>
-                        <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-[var(--color-secondary)] font-bold hover:underline inline-flex items-center gap-1">
-                          Read Full Article <ExternalLink className="w-4 h-4 ml-1" />
+              {result.sources.length > 0 && (
+                <div className="mt-8 border-t border-gray-200 pt-6">
+                  <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-500">
+                    Sources in these results
+                  </h3>
+                  <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                    {result.sources.map((source) => (
+                      <li key={source.id}>
+                        <a
+                          href={source.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-[var(--color-secondary)] hover:underline"
+                        >
+                          {source.label}
                         </a>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="py-20 text-center text-gray-500">
-                    No articles found for "{searchQuery}".
-                  </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </aside>
+
+            <div className="lg:col-span-3">
+              {/* A GET form: no JavaScript needed, and every result set is a
+                  shareable URL. The hidden field keeps the chosen topic when
+                  a search is submitted. */}
+              <form action="/knowledge-hub/global-intelligence" method="get" className="mb-8">
+                {theme !== 'all' && <input type="hidden" name="theme" value={theme} />}
+                <div className="relative max-w-2xl">
+                  <label htmlFor="gi-search" className="sr-only">
+                    Search global intelligence by keyword
+                  </label>
+                  <Search
+                    className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="gi-search"
+                    name="q"
+                    type="search"
+                    defaultValue={query}
+                    placeholder="Search these results by keyword"
+                    className="w-full rounded-xl border border-gray-300 py-4 pl-12 pr-24 outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-dark)] px-4 py-2 text-sm font-bold text-white"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+
+              {/* A real count of what is on screen, not a fabricated "150+". */}
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-sm">
+                <p className="m-0 font-medium text-gray-600">
+                  {result.items.length === 0
+                    ? 'No results'
+                    : `Showing ${result.items.length} result${result.items.length === 1 ? '' : 's'}`}
+                  {query && <> for &ldquo;{query}&rdquo;</>}
+                </p>
+                {(query || theme !== 'all') && (
+                  <Link
+                    href="/knowledge-hub/global-intelligence"
+                    className="font-medium text-[var(--color-secondary)] hover:underline"
+                  >
+                    Clear filters
+                  </Link>
                 )}
               </div>
 
-              {/* Pagination */}
-              <div className="mt-10 flex justify-center">
-                <nav className="flex items-center gap-2">
-                  <button className="px-4 py-2 border border-gray-200 rounded-md text-gray-500 disabled:opacity-50" disabled>Previous</button>
-                  <button className="w-10 h-10 bg-[var(--color-dark)] text-white rounded-md font-bold">1</button>
-                  <button className="w-10 h-10 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-md">2</button>
-                  <button className="w-10 h-10 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-md">3</button>
-                  <span className="text-gray-400 px-2">...</span>
-                  <button className="w-10 h-10 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-md">42</button>
-                  <button className="px-4 py-2 border border-gray-200 rounded-md text-[var(--color-dark)] font-medium hover:bg-gray-50">Next</button>
-                </nav>
+              {/* X03 external content cards */}
+              <div className="space-y-6">
+                {result.items.length === 0 ? (
+                  <div className="rounded-xl border border-dashed border-gray-300 bg-white py-20 text-center">
+                    <p className="m-0 font-medium text-gray-600">No relevant updates are available.</p>
+                    <p className="m-0 mt-2 text-sm text-gray-500">
+                      {query
+                        ? 'Try a broader keyword, or clear the filters.'
+                        : 'External sources returned nothing for this topic. Nothing on this page is generated by Enerqa.'}
+                    </p>
+                  </div>
+                ) : (
+                  result.items.map((item) => (
+                    <article
+                      key={item.id}
+                      className="rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-[var(--color-primary)] md:p-8"
+                    >
+                      <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider">
+                        <span className="text-[var(--color-primary)]">{item.publisher}</span>
+                        <span className="text-gray-400" aria-hidden="true">|</span>
+                        <span className="text-gray-600">News</span>
+                        {item.publishedAt && (
+                          <>
+                            <span className="text-gray-400" aria-hidden="true">|</span>
+                            <time dateTime={item.publishedAt} className="text-gray-600">
+                              {new Date(item.publishedAt).toLocaleDateString('en-GB', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric',
+                              })}
+                            </time>
+                          </>
+                        )}
+                      </div>
+
+                      <h3 className="mb-3 text-xl font-bold text-[var(--color-dark)]">{item.title}</h3>
+
+                      {/* Only shown where the provider licenses a description.
+                          We never write one on a publisher's behalf. */}
+                      {item.summary && <p className="mb-4 text-gray-600">{item.summary}</p>}
+
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-bold text-[var(--color-secondary)] hover:underline"
+                      >
+                        Read full article <ExternalLink className="ml-1 h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </article>
+                  ))
+                )}
               </div>
 
+              {/* Provenance line (pp. 226, 229): retrieval time is labelled
+                  separately from the articles' own publication dates. */}
+              <p className="mt-10 text-xs leading-relaxed text-gray-500">
+                Retrieved {retrievedLabel} UTC.
+                {result.hasDelayedSource &&
+                  ` Some items reach the free feed up to ${NEWS_DELAY_HOURS} hours after publication.`}{' '}
+                Sources are limited to publishers whose articles can be opened without payment, subscription or registration. Links open the original publisher; Enerqa does not host or endorse their content.
+              </p>
             </div>
           </div>
         </Container>
       </section>
-
     </div>
   );
 }

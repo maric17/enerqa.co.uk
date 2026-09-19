@@ -3,6 +3,7 @@ import { resolveMediaUrl } from '@/lib/utils';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Search, Menu, X } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
@@ -80,52 +81,78 @@ export function Header() {
     <>
       <header className={`site ${isScrolled || pathname !== '/' ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
         <Container className="header-main !px-6 md:!px-10">
-          <Link href="/" className="logo-zone">
-            <div className="logo-mark">eQ</div>
-            <div className="logo-word">enerQA<small><span className="en">Knowledge &amp; Advisory</span><span className="ar">المعرفة والاستشارات</span></small></div>
+          <Link href="/" className="logo-zone relative">
+            <Image 
+              src={isScrolled || pathname !== '/' ? "/images/logo-color.svg" : "/images/logo-white.svg"} 
+              alt="enerQA Logo" 
+              fill 
+              className="object-contain object-left transition-opacity duration-300"
+              priority
+            />
           </Link>
           <nav className="primary-nav">
-            <div className="nav-item">
-              <Link href="/" className={pathname === '/' ? 'active' : ''}><span className="en">Home</span><span className="ar">الرئيسية</span></Link>
-            </div>
-            <div className="nav-item">
+
+            <div className="nav-item nav-item-static">
               <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') || pathname.startsWith('/domains') || pathname.startsWith('/industries') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
-              <div className="mega" style={{ minWidth: '800px', display: 'flex', gap: '2rem', padding: '1.5rem' }}>
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-bold mb-2">Domains</h3>
-                  <ul>
-                    <li><Link href="/domains/climate-action-carbon-management"><span className="en">Climate Action &amp; Carbon Management</span><span className="ar">العمل المناخي وإدارة الكربون</span></Link></li>
-                    <li><Link href="/domains/energy-systems-transition"><span className="en">Energy Systems &amp; Transition</span><span className="ar">أنظمة الطاقة والتحول</span></Link></li>
-                    <li><Link href="/domains/environment-nature-circularity"><span className="en">Environment, Nature &amp; Circularity</span><span className="ar">البيئة والطبيعة والاقتصاد الدائري</span></Link></li>
-                    <li><Link href="/domains/sustainable-business-esg-finance"><span className="en">Sustainable Business, ESG &amp; Finance</span><span className="ar">الأعمال المستدامة والحوكمة والتمويل</span></Link></li>
-                  </ul>
+              <div className="mega mega-redesign">
+                <div className="mega-top">
+                  <div className="mega-columns">
+                    {/* Col 1 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title">Domains</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/domains/climate-action-carbon-management">Climate Action &amp; Carbon Management</Link></li>
+                        <li><Link href="/domains/energy-systems-transition">Energy Systems &amp; Transition</Link></li>
+                        <li><Link href="/domains/environment-nature-circularity">Environment, Nature &amp; Circularity</Link></li>
+                        <li><Link href="/domains/sustainable-business-esg-finance">Sustainable Business, ESG &amp; Finance</Link></li>
+                      </ul>
+                    </div>
+                    {/* Col 2 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title">Industries</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/industries/government-regulators-public-institutions">Government, Regulators &amp; Public Institutions</Link></li>
+                        <li><Link href="/industries/financial-institutions-investors-development-finance">Financial Institutions, Investors &amp; Development Finance</Link></li>
+                        <li><Link href="/industries/energy-utilities">Energy &amp; Utilities</Link></li>
+                        <li><Link href="/industries/oil-gas-petrochemicals">Oil, Gas &amp; Petrochemicals</Link></li>
+                        <li><Link href="/industries/industry-manufacturing-materials">Industry, Manufacturing &amp; Materials</Link></li>
+                        <li><Link href="/industries/infrastructure-real-estate-industrial-zones">Infrastructure, Real Estate &amp; Industrial Zones</Link></li>
+                        <li><Link href="/industries/transport-logistics-mobility">Transport, Logistics &amp; Mobility</Link></li>
+                      </ul>
+                    </div>
+                    {/* Col 3 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title invisible">Industries</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/industries/water-waste-circular-economy">Water, Waste &amp; Circular Economy</Link></li>
+                        <li><Link href="/industries/agriculture-food-aquaculture">Agriculture, Food &amp; Aquaculture</Link></li>
+                        <li><Link href="/industries/mining-natural-resources">Mining &amp; Natural Resources</Link></li>
+                        <li><Link href="/industries/tourism-hospitality-destinations">Tourism, Hospitality &amp; Destinations</Link></li>
+                        <li><Link href="/industries/technology-telecoms-data-infrastructure">Technology, Telecoms &amp; Data Infrastructure</Link></li>
+                        <li><Link href="/industries/healthcare-education-institutional-estates">Healthcare, Education &amp; Institutional Estates</Link></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div className="mega-featured">
+                    <span className="featured-label">Featured</span>
+                    <Link href="/knowledge-hub" className="featured-card mb-6">
+                      <Image src="/images/about_practitioners.jpg" alt="Featured Team" fill className="object-cover" />
+                      <div className="featured-content">
+                        <h5>Explore our Knowledge &amp; Advisory Hub</h5>
+                      </div>
+                    </Link>
+                    
+                    <div className="mt-auto pt-4 border-t border-gray-100">
+                      <Link href="/project-development" className="block text-[13px] font-bold text-ink mb-2 transition-opacity hover:opacity-80">Project Development and Lifecycle Support</Link>
+                      <Link href="/domains-and-industries" className="block text-[13px] font-bold transition-opacity hover:opacity-80" style={{ color: 'var(--color-secondary)' }}>View All Domains and Industries &rarr;</Link>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-bold mb-2">Industries</h3>
-                  <ul>
-                    <li><Link href="/industries/government-regulators-public-institutions"><span className="en">Government, Regulators &amp; Public Institutions</span></Link></li>
-                    <li><Link href="/industries/financial-institutions-investors-development-finance"><span className="en">Financial Institutions, Investors &amp; Development Finance</span></Link></li>
-                    <li><Link href="/industries/energy-utilities"><span className="en">Energy &amp; Utilities</span></Link></li>
-                    <li><Link href="/industries/oil-gas-petrochemicals"><span className="en">Oil, Gas &amp; Petrochemicals</span></Link></li>
-                    <li><Link href="/industries/industry-manufacturing-materials"><span className="en">Industry, Manufacturing &amp; Materials</span></Link></li>
-                    <li><Link href="/industries/infrastructure-real-estate-industrial-zones"><span className="en">Infrastructure, Real Estate &amp; Industrial Zones</span></Link></li>
-                    <li><Link href="/industries/transport-logistics-mobility"><span className="en">Transport, Logistics &amp; Mobility</span></Link></li>
-                  </ul>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-bold mb-2">Industries continued</h3>
-                  <ul>
-                    <li><Link href="/industries/water-waste-circular-economy"><span className="en">Water, Waste &amp; Circular Economy</span></Link></li>
-                    <li><Link href="/industries/agriculture-food-aquaculture"><span className="en">Agriculture, Food &amp; Aquaculture</span></Link></li>
-                    <li><Link href="/industries/mining-natural-resources"><span className="en">Mining &amp; Natural Resources</span></Link></li>
-                    <li><Link href="/industries/tourism-hospitality-destinations"><span className="en">Tourism, Hospitality &amp; Destinations</span></Link></li>
-                    <li><Link href="/industries/technology-telecoms-data-infrastructure"><span className="en">Technology, Telecoms &amp; Data Infrastructure</span></Link></li>
-                    <li><Link href="/industries/healthcare-education-institutional-estates"><span className="en">Healthcare, Education &amp; Institutional Estates</span></Link></li>
-                  </ul>
-                </div>
-                <div style={{ width: '100%', marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
-                  <Link href="/project-development" className="font-bold block mb-2"><span className="en">Project Development and Lifecycle Support</span></Link>
-                  <Link href="/domains-and-industries" className="text-sm"><span className="en">View All Domains and Industries</span></Link>
+
+                <div className="mega-cta">
+                  <p>Every business starts somewhere different. Tell us where you're starting from.</p>
+                  <Link href="/contact" className="btn btn-cta">Contact Us</Link>
                 </div>
               </div>
             </div>
@@ -187,10 +214,12 @@ export function Header() {
 
       <div className={`mobile-nav ${isMobileNavOpen ? 'open' : ''}`}>
         <div className="mn-top">
-          <div className="logo-word">enerQA</div>
+          <Link href="/" className="logo-zone relative block w-[140px] h-[34px]" onClick={() => setIsMobileNavOpen(false)}>
+            <Image src="/images/logo-white.svg" alt="enerQA Logo" fill className="object-contain object-left" priority />
+          </Link>
           <button className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label="Close"><X /></button>
         </div>
-        <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Homepage</Link>
+
         <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
         <Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Knowledge Hub</Link>
         <Link href="/data-portal" className={pathname === '/data-portal' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Data Portal</Link>

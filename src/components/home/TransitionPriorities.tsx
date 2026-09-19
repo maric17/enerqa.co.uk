@@ -85,11 +85,11 @@ export const TransitionPriorities = () => {
         <Container className="absolute top-10 md:top-12 left-1/2 -translate-x-1/2 w-full z-30 pointer-events-none">
           <div className="max-w-[800px] text-left">
             <Typography variant="h2" className="text-white mb-3">
-              <span className="en"><span className="font-bold">Action</span> Pillars</span>
-              <span className="ar text-white/70 block mt-1">أولوياتنا الانتقالية</span>
+              <span className="en"><span className="font-bold">Explore Our</span> Domains</span>
+              <span className="ar text-white/70 block mt-1">استكشف مجالاتنا</span>
             </Typography>
             <p className="text-[15.5px] text-white/80 leading-[1.6] m-0 font-light">
-              <span className="en block mb-1">Explore our core domains of expertise guiding governments and corporations through climate, energy, and ESG transitions.</span>
+              <span className="en block mb-1">Four interconnected domains combine technical analysis, project development and investment thinking.</span>
               <span className="ar text-white/65 block">اكتشف مجالات خبرتنا الأساسية التي توجه الحكومات والشركات خلال انتقالات المناخ والطاقة والحوكمة البيئية والاجتماعية والمؤسسية.</span>
             </p>
           </div>

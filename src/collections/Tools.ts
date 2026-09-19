@@ -73,5 +73,15 @@ export const Tools: CollectionConfig = {
         description: 'PDF or document download for informational guides',
       },
     },
+    {
+      name: 'industries',
+      label: 'Industry',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
 }

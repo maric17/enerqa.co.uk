@@ -52,11 +52,10 @@ export const Tools = async () => {
 
         <div className="max-w-[800px] mb-12 text-left">
           <Typography variant="h2" className="text-ink uppercase mb-4">
-            PROPRIETARY <span className="font-extrabold">Tools</span>
+            Enerqa <span className="font-extrabold">Tools</span>
           </Typography>
           <p className="text-[15.5px] text-ink-soft leading-[1.6] m-0 font-light">
-            We leverage a suite of proprietary algorithms, dashboards, and structured templates to guide sustainable
-            decisions and carbon reduction pathways.
+            Practical tools that support assessment, screening and reporting. Availability and access are stated on each tool page.
           </p>
         </div>
 
@@ -99,7 +98,7 @@ export const Tools = async () => {
               </div>
             </div>
 
-            <Link href="/tools/esg-readiness" className="bg-[var(--color-secondary)] text-white text-center py-3.5 px-6 rounded-full text-[13px] font-bold block transition-colors shadow-[0_4px_14px_rgba(9,114,184,0.25)] no-underline hover:bg-[#075a93]">
+            <Link href="/tools" className="bg-[var(--color-secondary)] text-white text-center py-3.5 px-6 rounded-full text-[13px] font-bold block transition-colors shadow-[0_4px_14px_rgba(9,114,184,0.25)] no-underline hover:bg-[#075a93]">
               Request Access
             </Link>
           </div>

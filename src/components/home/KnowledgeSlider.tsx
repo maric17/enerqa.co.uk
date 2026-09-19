@@ -32,7 +32,7 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '24px' }}>
         <div style={{ maxWidth: '600px', textAlign: 'left' }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 300, color: '#ffffff', lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase' }}>
-            <span style={{ fontWeight: 800 }}>Research</span> &amp; Publications
+            <span style={{ fontWeight: 800 }}>Enerqa</span> Publication
           </h2>
         </div>
 
@@ -48,7 +48,7 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
           </div>
 
           <a href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #ffb7c5', color: '#ffb7c5', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
-            More Research &amp; Publications
+            Explore Enerqa Publication
           </a>
         </div>
       </div>

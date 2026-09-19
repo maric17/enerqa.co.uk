@@ -20,7 +20,13 @@ const alexandria = Alexandria({
 });
 
 export const metadata: Metadata = {
-  title: "enerQA - Engineering Sustainable Decisions",
+  // `template` appends " | Enerqa" to whatever title a child page sets, so each page
+  // only declares its own unique part. `default` is used when a page sets no title.
+  // Handoff p. 227 requires a unique descriptive title on every substantive page.
+  title: {
+    default: "enerQA - Engineering Sustainable Decisions",
+    template: "%s | Enerqa",
+  },
   description: "Climate, Energy & ESG Advisory",
 };
 

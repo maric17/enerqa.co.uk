@@ -76,6 +76,8 @@ export interface Config {
     team: Team;
     categories: Category;
     authors: Author;
+    domains: Domain;
+    industries: Industry;
     datasets: Dataset;
     'learning-materials': LearningMaterial;
     glossary: Glossary;
@@ -96,6 +98,8 @@ export interface Config {
     team: TeamSelect<false> | TeamSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    domains: DomainsSelect<false> | DomainsSelect<true>;
+    industries: IndustriesSelect<false> | IndustriesSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     'learning-materials': LearningMaterialsSelect<false> | LearningMaterialsSelect<true>;
     glossary: GlossarySelect<false> | GlossarySelect<true>;
@@ -301,7 +305,37 @@ export interface Publication {
    * SEO Open Graph Image
    */
   ogImage?: (number | null) | Media;
-  type: 'White Paper' | 'Case Study' | 'Article' | 'Research';
+  /**
+   * Case Study was removed: handoff p. 229 requires that no Case Study surface appears anywhere.
+   */
+  type: 'White Paper' | 'Article' | 'Research' | 'Conference Paper';
+  /**
+   * Approved byline, exactly as it should be published.
+   */
+  author?: string | null;
+  /**
+   * Drives the K03 Language filter. Do not label a publication Arabic until a real translation exists (p. 227).
+   */
+  language?: ('en' | 'ar') | null;
+  /**
+   * Optional secondary tag carried over from the 2024 archive.
+   */
+  archiveCategory?:
+    | (
+        | 'climate-science-and-impacts'
+        | 'energy-technology-and-finance'
+        | 'environment-and-society'
+        | 'frameworks-and-methodologies'
+      )
+    | null;
+  /**
+   * Only Article records appear in the public Enerqa Publication collection.
+   */
+  recordKind: 'article' | 'category-heading' | 'biography';
+  /**
+   * Tick once this publication's real publication date has been confirmed against the original source.
+   */
+  dateVerified?: boolean | null;
   topic?: (number | Category)[] | null;
   date: string;
   file?: (number | null) | Media;
@@ -333,6 +367,77 @@ export interface Tool {
    * PDF or document download for informational guides
    */
   file?: (number | null) | Media;
+  industries?: (number | Industry)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries".
+ */
+export interface Industry {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Optional. Background image for the industry hero banner. Falls back to brand gradient if empty.
+   */
+  heroImage?: (number | null) | Media;
+  heroNarrative: string;
+  /**
+   * Text for the call to action button (e.g. Discuss Your Project)
+   */
+  ctaText?: string | null;
+  /**
+   * Short industry-specific lifecycle narrative (module I01L).
+   */
+  lifecycleNarrative?: string | null;
+  /**
+   * Relevant Domains and Work Areas (3-4 contextual links to domain capability anchors)
+   */
+  workAreas?:
+    | {
+        title: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tools mapped to this industry in the handoff. Use approved availability labels - do not assume a tool is publicly launched.
+   */
+  relevantTools?:
+    | {
+        label: string;
+        /**
+         * Internal path, e.g. /tools/esg-readiness
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Provider IDs recommended for this industry, with the handoff note on what each covers and its limits.
+   */
+  dataSources?:
+    | {
+        provider: string;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * SEO Title
+   */
+  metaTitle?: string | null;
+  /**
+   * SEO Description
+   */
+  metaDescription?: string | null;
+  /**
+   * SEO Keywords
+   */
+  metaKeywords?: string | null;
+  ogImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -368,6 +473,67 @@ export interface Team {
   role: string;
   bio: string;
   image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains".
+ */
+export interface Domain {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Optional. Background image for the domain hero banner. Falls back to brand gradient if empty.
+   */
+  heroImage?: (number | null) | Media;
+  heroNarrative: string;
+  ctaText?: string | null;
+  capabilities?:
+    | {
+        heading: string;
+        /**
+         * Stable, heading-derived anchor (handoff p. 227). Becomes the #anchor on the domain page - changing it breaks existing links.
+         */
+        slug: string;
+        narrative: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Industries where this domain applies. Selected through the shared domain/industry taxonomy (handoff p. 28). Leave empty until the mapping is agreed.
+   */
+  relevantIndustries?: (number | Industry)[] | null;
+  policyUpdates?: {
+    /**
+     * Exact website heading for this domain, e.g. "Policy and Official Updates" (climate) or "Corporate Disclosures and Finance Updates" (ESG). Handoff pp. 29, 37, 48, 59.
+     */
+    heading?: string | null;
+    narrative?: string | null;
+    /**
+     * Editor-facing note on which verified open-access providers feed this module. Shown to visitors as the source line.
+     */
+    sourceNote?: string | null;
+  };
+  relevantTools?:
+    | {
+        label: string;
+        /**
+         * Internal path, e.g. /tools/esg-readiness
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Unique page title (handoff p. 227). Falls back to the domain title. " | Enerqa" is appended automatically.
+   */
+  metaTitle?: string | null;
+  /**
+   * Unique meta description, roughly 150-160 characters.
+   */
+  metaDescription?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -511,6 +677,14 @@ export interface PayloadLockedDocument {
         value: number | Author;
       } | null)
     | ({
+        relationTo: 'domains';
+        value: number | Domain;
+      } | null)
+    | ({
+        relationTo: 'industries';
+        value: number | Industry;
+      } | null)
+    | ({
         relationTo: 'datasets';
         value: number | Dataset;
       } | null)
@@ -646,6 +820,11 @@ export interface PublicationsSelect<T extends boolean = true> {
   metaKeywords?: T;
   ogImage?: T;
   type?: T;
+  author?: T;
+  language?: T;
+  archiveCategory?: T;
+  recordKind?: T;
+  dateVerified?: T;
   topic?: T;
   date?: T;
   file?: T;
@@ -667,6 +846,7 @@ export interface ToolsSelect<T extends boolean = true> {
   link?: T;
   iframeUrl?: T;
   file?: T;
+  industries?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -718,6 +898,83 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface AuthorsSelect<T extends boolean = true> {
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains_select".
+ */
+export interface DomainsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroImage?: T;
+  heroNarrative?: T;
+  ctaText?: T;
+  capabilities?:
+    | T
+    | {
+        heading?: T;
+        slug?: T;
+        narrative?: T;
+        id?: T;
+      };
+  relevantIndustries?: T;
+  policyUpdates?:
+    | T
+    | {
+        heading?: T;
+        narrative?: T;
+        sourceNote?: T;
+      };
+  relevantTools?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries_select".
+ */
+export interface IndustriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroImage?: T;
+  heroNarrative?: T;
+  ctaText?: T;
+  lifecycleNarrative?: T;
+  workAreas?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        id?: T;
+      };
+  relevantTools?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  dataSources?:
+    | T
+    | {
+        provider?: T;
+        note?: T;
+        id?: T;
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  metaKeywords?: T;
+  ogImage?: T;
   updatedAt?: T;
   createdAt?: T;
 }

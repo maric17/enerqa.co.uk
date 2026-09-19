@@ -13,7 +13,7 @@ export const Footer = () => {
         <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
           <div className="flex items-center gap-6 flex-wrap">
             <Link href="/" className="no-underline inline-block">
-              <Image src="/images/logo-white.png" alt="enerQA Logo" width={120} height={38} className="block brightness-0 invert" style={{ width: 'auto', height: '38px' }} />
+              <Image src="/images/logo-white.svg" alt="enerQA Logo" width={120} height={38} className="block brightness-0 invert" style={{ width: 'auto', height: '38px' }} />
             </Link>
             {/* Vertical Line */}
             <div className="w-[1px] h-8 bg-white/15 inline-block"></div>
@@ -22,7 +22,7 @@ export const Footer = () => {
               <Link href="#domains" className="transition-colors duration-200 no-underline hover:text-white">Climate Change</Link>
               <Link href="#domains" className="transition-colors duration-200 no-underline hover:text-white">Environment &amp; ESG</Link>
               <Link href="#domains" className="transition-colors duration-200 no-underline hover:text-white">Energy</Link>
-              <Link href="/services#business" className="transition-colors duration-200 no-underline hover:text-white">Business Solutions</Link>
+              <Link href="/domains/sustainable-business-esg-finance" className="transition-colors duration-200 no-underline hover:text-white">Business Solutions</Link>
             </div>
           </div>
           {/* Socials */}
@@ -66,8 +66,7 @@ export const Footer = () => {
             <ul className="flex flex-col gap-3 text-[14px] list-none p-0 m-0">
               <li><Link href="/knowledge-hub#tools" className="text-white/70 transition-colors duration-200 no-underline hover:text-white">Interactive Tools</Link></li>
               <li><Link href="/about#approach" className="text-white/70 transition-colors duration-200 no-underline hover:text-white">Our Approach</Link></li>
-              <li><Link href="/team" className="text-white/70 transition-colors duration-200 no-underline hover:text-white">Experts &amp; Team</Link></li>
-            </ul>
+                          </ul>
           </div>
           {/* Col 4 (Call to Action) */}
           <div className="lg:border-l lg:border-white/10 lg:pl-10 flex flex-col justify-center gap-4">

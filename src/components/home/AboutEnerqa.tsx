@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Typography } from '../ui/Typography'
 import { Container } from '../ui/Container'
 
 export const AboutEnerqa = () => {
@@ -12,12 +11,12 @@ export const AboutEnerqa = () => {
         {/* Left Column (Content) */}
         <div className="relative z-10 flex-[1.4] flex flex-col gap-7 text-left max-w-[52%]">
           <div>
-            <Typography variant="eyebrow" className="mb-2 text-[var(--color-primary)]">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-primary)] m-0 mb-2">
               About Enerqa
-            </Typography>
-            <h3 className="text-[clamp(20px,2.6vw,32px)] font-light text-white leading-[1.15] tracking-[-0.02em] m-0 mb-4">
+            </h2>
+            <p className="text-[clamp(20px,2.6vw,32px)] font-light text-white leading-[1.15] tracking-[-0.02em] m-0 mb-4">
               Connecting priorities with<br/><span className="font-extrabold text-[var(--color-primary)]">practical decisions.</span>
-            </h3>
+            </p>
             <p className="text-[14.5px] text-white/85 leading-[1.6] m-0 font-light max-w-lg mb-8">
               Enerqa is a multidisciplinary project-development and consultancy company connecting climate, energy, environmental and business priorities with practical decisions and viable initiatives.
             </p>

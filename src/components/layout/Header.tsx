@@ -9,7 +9,7 @@ export const Header = () => {
         
         {/* Logo Zone */}
         <Link href="/" className="block relative w-[140px] h-[34px]">
-          <Image src="/images/logo-white.png" alt="enerQA" fill className="object-contain object-left" />
+          <Image src="/images/logo-white.svg" alt="enerQA" fill className="object-contain object-left" />
         </Link>
 
         {/* Primary Navigation */}

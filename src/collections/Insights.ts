@@ -8,7 +8,7 @@ export const Insights: CollectionConfig = {
     defaultColumns: ['title', 'type', 'category', 'publishDate', '_status'],
     preview: (doc) => {
       if (doc?.slug) {
-        return `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/insights/${doc.slug}`
+        return `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/knowledge-hub/${doc.slug}`
       }
       return null
     },
