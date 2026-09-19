@@ -18,6 +18,7 @@ import { Datasets } from './collections/Datasets'
 import { LearningMaterials } from './collections/LearningMaterials'
 import { Glossary } from './collections/Glossary'
 import { FAQs } from './collections/FAQs'
+import { Enquiries } from './collections/Enquiries'
 import { KnowledgeHubConfig } from './globals/KnowledgeHubConfig'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
@@ -53,6 +54,7 @@ export default buildConfig({
     LearningMaterials,
     Glossary,
     FAQs,
+    Enquiries,
   ],
   globals: [
     KnowledgeHubConfig,
