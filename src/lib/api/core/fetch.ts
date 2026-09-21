@@ -111,7 +111,9 @@ export async function fetchFromProvider<T>(
   } catch (error) {
     // A timeout lands here too, which is the point: a slow provider must not
     // hold up a page render.
-    console.warn(`[${providerId}] request failed:`, error);
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    const cause = error instanceof Error && (error.cause as Error)?.message ? ` - ${(error.cause as Error).message}` : '';
+    console.warn(`[${providerId}] request failed: ${msg}${cause}`);
     return fail(providerId, 'unavailable', `${provider.name} could not be reached.`);
   }
 }

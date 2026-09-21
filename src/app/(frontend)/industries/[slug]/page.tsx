@@ -41,7 +41,16 @@ async function getIndustryNews(title: string) {
     .replace(/[,&]/g, ' ')
     .split(/\s+/)
     .map((word) => word.trim())
-    .filter((word) => word.length > 2 && !STOPWORDS.has(word));
+    .filter((word) => word.length > 2 && !STOPWORDS.has(word))
+    .map((word) => {
+      // Prevent "regulators" from becoming a strict match for "regulators(s)",
+      // by converting it to "regulator*" which matches singular and plural.
+      // We skip short words like 'gas' and words ending in 'ss' like 'business'.
+      if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss')) {
+        return word.slice(0, -1) + '*';
+      }
+      return word;
+    });
 
   const result = await fetchNewsForKeywords(keywords, 4);
   return result.items;

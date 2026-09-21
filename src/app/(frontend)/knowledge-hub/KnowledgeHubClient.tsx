@@ -150,27 +150,27 @@ export default function KnowledgeHubClient({ publications }: { publications: any
                 )}
               </div>
 
-              <div className="space-y-6">
+              <div className="flex flex-col gap-8">
                 {(Object.keys(FACET_LABELS) as FacetKey[]).map((key) =>
                   facets[key].length === 0 ? null : (
-                    <fieldset key={key} className="border-0 p-0 m-0">
-                      <legend className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
+                    <div key={key} role="group" aria-labelledby={`filter-group-${key}`} className="flex flex-col">
+                      <div id={`filter-group-${key}`} className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
                         {FACET_LABELS[key]}
-                      </legend>
-                      <div className="space-y-2">
+                      </div>
+                      <div className="flex flex-col gap-2">
                         {facets[key].map((value) => (
-                          <label key={value} className="flex items-center gap-2 cursor-pointer text-gray-700">
+                          <label key={value} className="flex items-start gap-2 cursor-pointer text-gray-700 group">
                             <input
                               type="checkbox"
-                              className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                              className="mt-0.5 rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] cursor-pointer"
                               checked={selected[key].includes(value)}
                               onChange={() => toggle(key, value)}
                             />
-                            <span className="text-sm">{displayValue(key, value)}</span>
+                            <span className="text-sm group-hover:text-[var(--color-dark)] transition-colors">{displayValue(key, value)}</span>
                           </label>
                         ))}
                       </div>
-                    </fieldset>
+                    </div>
                   ),
                 )}
               </div>

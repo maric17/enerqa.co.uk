@@ -50,6 +50,7 @@ export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all', limit = 1
       // p. 211 suggests 1-2 hours. One cached fetch serves every visitor,
       // which is also what keeps us inside GDELT's request shedding.
       next: { revalidate: 5400, tags: ['news', 'gdelt'] },
+      signal: AbortSignal.timeout(5000),
     });
 
     if (!res.ok) {
@@ -95,7 +96,9 @@ export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all', limit = 1
       ];
     });
   } catch (error) {
-    console.warn(`[gdelt] fetch failed for basket "${basket.key}":`, error);
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    const cause = error instanceof Error && (error.cause as Error)?.message ? ` - ${(error.cause as Error).message}` : '';
+    console.warn(`[gdelt] fetch failed for basket "${basket.key}": ${msg}${cause}`);
     return [];
   }
 }

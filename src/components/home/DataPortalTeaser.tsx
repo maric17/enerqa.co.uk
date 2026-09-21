@@ -44,7 +44,7 @@ export const DataPortalTeaser = () => (
           </div>
           <Link
             href="/data-portal"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--green)] px-7 py-3 text-[15px] font-bold text-white no-underline shadow-sm transition-colors hover:bg-[var(--green-deep)]"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-7 py-3 text-[15px] font-bold text-white no-underline shadow-sm transition-colors hover:bg-[var(--ink-soft)]"
           >
             Explore the Data Portal <ArrowRight className="h-4 w-4" />
           </Link>
