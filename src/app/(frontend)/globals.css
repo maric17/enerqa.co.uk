@@ -1,20 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #1b030a;
-  --color-ink-soft: #4a2a33;
-  --color-ink-muted: #8c6b73;
+  --color-ink: #082C45;
+  --color-ink-soft: #123C5A;
+  --color-ink-muted: #56738C;
   --color-paper: #ffffff;
-  --color-paper-alt: #f8f3f4;
+  --color-paper-alt: #F4F7FA;
   --color-card: #ffffff;
-  --color-dark: #1b030a;
-  --color-dark-soft: #3a1c24;
-  --color-green: #8c1639;
-  --color-green-deep: #72102d;
-  --color-green-ink: #ffffff;
+  --color-dark: #082C45;
+  --color-dark-soft: #0C3A5C;
+  --color-primary: #00cfc8;
+  --color-secondary: #0972b8;
+  --color-primary-dark: #00a5a0;
+  --color-secondary-dark: #075a93;
 }
-
-@import "./style.css";
 
 /* Font configurations - easily changeable in one file */
 :root {

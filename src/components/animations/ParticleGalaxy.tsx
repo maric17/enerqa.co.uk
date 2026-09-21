@@ -1,9 +1,11 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
+import { useReducedMotion } from 'framer-motion'
 
 export const ParticleGalaxy = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -112,7 +114,10 @@ export const ParticleGalaxy = () => {
     const animate = () => {
       if (!ctx) return
       ctx.clearRect(0, 0, width, height)
-      angle += config.rotationSpeed
+      
+      if (!shouldReduceMotion) {
+        angle += config.rotationSpeed
+      }
 
       particles.forEach(p => {
         p.tempZ = p.z3d * Math.cos(angle) + p.x3d * Math.sin(angle)
@@ -125,16 +130,20 @@ export const ParticleGalaxy = () => {
         p.draw()
       })
 
-      animationFrameId = requestAnimationFrame(animate)
+      if (!shouldReduceMotion) {
+        animationFrameId = requestAnimationFrame(animate)
+      }
     }
 
     animate()
 
     return () => {
       window.removeEventListener('resize', resize)
-      cancelAnimationFrame(animationFrameId)
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
     }
-  }, [])
+  }, [shouldReduceMotion])
 
   return (
     <div className="absolute inset-0 w-full h-full bg-[#111] z-0 overflow-hidden">

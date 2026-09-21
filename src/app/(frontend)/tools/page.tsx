@@ -1,53 +1,316 @@
 import React from 'react';
-import { Container } from '@/components/ui/Container';
 import Link from 'next/link';
-import { Typography } from '@/components/ui/Typography';
-import { Section } from '@/components/ui/Section';
+import { ArrowRight, Settings, Sun, Factory, CheckCircle2, ChevronRight, FileText, Database, ShieldAlert, Key } from 'lucide-react';
+import { Container } from '@/components/ui/Container';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
-import ToolsList from '@/components/ToolsList';
+
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Tools & Applications',
+  description: 'Access Enerqa\'s suite of analytical tools and applications for energy systems modeling, lifecycle assessments, and carbon management.',
+};
 
 export default async function ToolsPage() {
   const payload = await getPayload({ config: configPromise });
-  const tools = await payload.find({
+  const result = await payload.find({
     collection: 'tools',
-    sort: 'title',
     limit: 100,
   });
 
+  const tools = result.docs;
+
   return (
-    <>
-      <section className="relative w-full h-[65vh] min-h-[500px] flex items-center justify-center bg-ink text-white overflow-hidden py-[100px]">
-        <div className="absolute top-10 left-10 md:top-14 md:left-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0">
-          enerQA / reel 06
-        </div>
-        <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
-          SCENE 06 — TOOLS & SOLUTIONS
-        </div>
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/solar.jpg')]"></div>
-        <div className="absolute inset-0 bg-ink/70 z-10"></div>
-        
-        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Tools</span><span className="ar text-white">الأدوات</span>
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+      
+      {/* T01 Our Tools Intro */}
+      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+        <Container>
+          <div className="max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Digital Tools and Calculators</h1>
+            <p className="text-xl text-gray-300 leading-relaxed mb-6">
+              Enerqa develops proprietary digital platforms and calculators to support project development, ESG strategy and technical decision-making. These tools provide rapid preliminary assessments, diagnostic insights and structured data to inform the development lifecycle.
+            </p>
           </div>
-          <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            <span className="en block">Interactive tools &amp; resources for climate action.</span>
-            <span className="ar block text-[0.8em] mt-3 text-white/90">أدوات وموارد تفاعلية للعمل المناخي.</span>
-          </Typography>
         </Container>
       </section>
 
-      <Section theme="light">
-        <div className="w-full flex flex-col gap-12">
-          <Typography variant="eyebrow" className="text-ink-muted mb-0">
-            <span className="en">Explore our solutions</span>
-            <span className="ar ml-2">استكشف حلولنا</span>
-          </Typography>
+      {/* T02 ESG Readiness Tool */}
+      <section className="py-24 bg-white border-b border-gray-200">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <h2 className="text-3xl font-bold text-[var(--color-dark)]">ESG Readiness Diagnostic</h2>
+              </div>
+              <div className="prose prose-lg text-gray-600 max-w-none">
+                <p className="mb-6 leading-relaxed">
+                  Navigating the expanding landscape of mandatory sustainability reporting (including CSRD, IFRS S1/S2 and regional taxonomies) requires a clear understanding of current capabilities and data gaps.
+                </p>
+                <p className="mb-8 leading-relaxed">
+                  The ESG Readiness Diagnostic provides a structured assessment of your organisation's reporting maturity, governance structures and data availability against principal international standards. The output helps prioritize actions before engaging in formal assurance or compliance exercises.
+                </p>
+                <Link href="/tools/esg-readiness" className="inline-flex items-center gap-2 bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors">
+                  Access ESG Readiness Tool <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 bg-[var(--color-paper-alt)] rounded-2xl p-8 border border-gray-100 flex flex-col justify-center h-full min-h-[300px] relative overflow-hidden shadow-sm">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-primary)]/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+              <div className="relative z-10 space-y-4">
+                {/* Mock UI Element */}
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
+                  <span className="font-medium text-[var(--color-dark)]">Governance &amp; Strategy</span>
+                  <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-bold">Developing</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
+                  <span className="font-medium text-[var(--color-dark)]">Metrics &amp; Targets (GHG)</span>
+                  <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded font-bold">Advanced</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
+                  <span className="font-medium text-[var(--color-dark)]">Value Chain Assessment</span>
+                  <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded font-bold">Initial</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* T03 easySOLAR */}
+      <section className="py-24 bg-[var(--color-paper-alt)] border-b border-gray-200">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="bg-white rounded-2xl p-8 border border-gray-100 flex flex-col justify-center h-full min-h-[300px] relative overflow-hidden shadow-sm">
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500/5 rounded-full -ml-32 -mb-32 blur-3xl" />
+              <div className="relative z-10">
+                {/* Mock UI Element */}
+                <div className="space-y-6">
+                  <div className="flex justify-between items-end border-b border-gray-100 pb-4">
+                    <div>
+                      <div className="text-sm text-gray-500 mb-1">Estimated System Size</div>
+                      <div className="text-2xl font-bold text-[var(--color-dark)]">250 kWp</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-gray-500 mb-1">Annual Generation</div>
+                      <div className="text-xl font-bold text-[var(--color-primary)]">380 MWh</div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-end border-b border-gray-100 pb-4">
+                    <div>
+                      <div className="text-sm text-gray-500 mb-1">Payback Period</div>
+                      <div className="text-xl font-bold text-[var(--color-dark)]">4.2 Years</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-gray-500 mb-1">IRR (20yr)</div>
+                      <div className="text-xl font-bold text-green-600">18.5%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center">
+                  <Sun className="w-5 h-5" />
+                </div>
+                <h2 className="text-3xl font-bold text-[var(--color-dark)]">easySOLAR</h2>
+              </div>
+              <div className="prose prose-lg text-gray-600 max-w-none">
+                <p className="mb-6 leading-relaxed">
+                  Assessing the commercial and technical viability of commercial and industrial (C&amp;I) rooftop solar requires rapid processing of load profiles, solar resource data and local tariff structures.
+                </p>
+                <p className="mb-8 leading-relaxed">
+                  easySOLAR is a preliminary sizing and financial calculator for distributed generation and battery energy storage systems (BESS). It helps facility owners and developers establish an initial business case, optimize system sizing for self-consumption, and compare financing options before committing to detailed engineering design.
+                </p>
+                <Link href="/tools/easysolar" className="inline-flex items-center gap-2 bg-[var(--color-dark)] text-white font-bold py-3 px-6 rounded-full hover:bg-gray-800 transition-colors">
+                  Try easySOLAR Calculator <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* T04 GreenScale Pro */}
+      <section className="py-24 bg-white border-b border-gray-200">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center">
+                  <Factory className="w-5 h-5" />
+                </div>
+                <h2 className="text-3xl font-bold text-[var(--color-dark)]">GreenScale Pro</h2>
+              </div>
+              <div className="prose prose-lg text-gray-600 max-w-none">
+                <p className="mb-6 leading-relaxed">
+                  Industrial decarbonisation often involves complex trade-offs between energy efficiency, electrification, alternative fuels (such as green hydrogen) and carbon capture.
+                </p>
+                <p className="mb-8 leading-relaxed">
+                  GreenScale Pro is a scenario-modelling platform designed for industrial facility operators and project developers. It allows users to compare different abatement pathways based on their marginal abatement cost, technology readiness, and impact on production economics over a defined transition period.
+                </p>
+                <Link href="/contact?intent=greenscale" className="inline-flex items-center gap-2 bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors">
+                  Request GreenScale Demo <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 bg-[var(--color-dark)] rounded-2xl p-8 border border-gray-800 flex flex-col justify-center h-full min-h-[300px] relative overflow-hidden shadow-sm text-white">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-primary)]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+              <div className="relative z-10">
+                {/* Mock UI Element */}
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span>Energy Efficiency</span>
+                      <span className="text-[var(--color-primary)]">-15% Emissions</span>
+                    </div>
+                    <div className="w-full bg-gray-800 rounded-full h-2">
+                      <div className="bg-[var(--color-primary)] h-2 rounded-full" style={{ width: '45%' }}></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span>Electrification (Heat Pumps)</span>
+                      <span className="text-[var(--color-primary)]">-40% Emissions</span>
+                    </div>
+                    <div className="w-full bg-gray-800 rounded-full h-2">
+                      <div className="bg-[var(--color-primary)] h-2 rounded-full" style={{ width: '80%' }}></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span>Green Hydrogen Substitution</span>
+                      <span className="text-[var(--color-primary)]">-35% Emissions</span>
+                    </div>
+                    <div className="w-full bg-gray-800 rounded-full h-2">
+                      <div className="bg-[var(--color-primary)] h-2 rounded-full" style={{ width: '20%' }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+      
+      {/* T03 Other Enerqa Tools */}
+      <section className="py-24 bg-[var(--color-paper-alt)] border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-dark)] mb-6">Other Enerqa Tools</h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              In addition to our flagship platforms, we offer a range of specialized calculators and assessment tools covering specific domains from greenhouse gas accounting to project scoring.
+            </p>
+          </div>
           
-          <ToolsList tools={tools.docs as any} />
-        </div>
-      </Section>
-    </>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {tools.map((tool) => (
+              <div key={tool.id} className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                    {tool.type === 'interactive' ? <Database className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
+                  </div>
+                  <h3 className="text-2xl font-bold text-[var(--color-dark)]">{tool.title}</h3>
+                </div>
+                <p className="text-gray-600 mb-6 flex-grow">{tool.desc}</p>
+                <div className="flex items-center justify-between mt-auto pt-6 border-t border-gray-100">
+                  <span className="text-sm font-medium text-gray-500">
+                    Access: {tool.access as string}
+                  </span>
+                  <Link href={`/tools/${tool.slug}`} className="inline-flex items-center gap-2 text-[var(--color-secondary)] font-bold hover:text-[var(--color-primary)] transition-colors">
+                    View Details <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+            
+            {tools.length === 0 && (
+              <div className="col-span-1 md:col-span-2 text-center py-12 text-gray-500">
+                More tools are currently in development. Check back soon.
+              </div>
+            )}
+          </div>
+        </Container>
+      </section>
+
+      {/* T04 Using the Tools */}
+      <section className="py-24 bg-white border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center">
+                <Settings className="w-6 h-6" />
+              </div>
+              <h2 className="text-3xl font-bold text-[var(--color-dark)]">Using the Tools</h2>
+            </div>
+            
+            <div className="prose prose-lg text-gray-600 max-w-none">
+              <p>
+                Enerqa's tools are designed to complement our advisory services and provide scalable, repeatable insights for common energy and sustainability challenges.
+              </p>
+              <ul>
+                <li><strong>Preliminary Assessment:</strong> Use our public tools for initial high-level scoping to determine if a project is viable before committing significant resources to detailed engineering.</li>
+                <li><strong>Methodology Transparency:</strong> Every tool includes detailed documentation on its inputs, outputs, and underlying methodology to ensure results can be verified and trusted.</li>
+                <li><strong>Data Security:</strong> We do not store sensitive user input data from our public calculators. Any data processed is handled strictly in accordance with our Privacy Policy.</li>
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* T05 Request Tool Access */}
+      <section className="py-24 bg-[var(--color-paper-alt)] border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-10 border border-gray-200 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 text-gray-100 pointer-events-none">
+              <Key className="w-32 h-32" />
+            </div>
+            
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Request Tool Access</h2>
+              <p className="text-lg text-gray-600 mb-8 max-w-2xl">
+                Some of our advanced diagnostic tools and proprietary models are restricted to enterprise clients and ongoing project partners.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                  <h3 className="font-bold text-[var(--color-dark)] mb-2">Public Tools</h3>
+                  <p className="text-sm text-gray-600">Available immediately to all users. No registration required for basic calculations and informational toolkits.</p>
+                </div>
+                <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                  <h3 className="font-bold text-[var(--color-dark)] mb-2">Enterprise Access</h3>
+                  <p className="text-sm text-gray-600">Requires an active service agreement or bespoke assessment contract. We will provision dedicated tenant access upon approval.</p>
+                </div>
+              </div>
+              
+              <Link href="/contact?intent=tool-access" className="inline-flex items-center gap-2 bg-[var(--color-secondary)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors">
+                Contact Us for Access <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Custom Tool Development CTA */}
+      <section className="py-20 bg-[var(--color-dark)] text-white mt-auto">
+        <Container>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6">Custom Tool Development</h2>
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              If your project or organisation requires a bespoke data model, monitoring platform or assessment tool, our digital and technical teams can develop a tailored solution.
+            </p>
+            <Link href="/contact?intent=custom-tool" className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-[var(--color-dark)] font-bold py-4 px-8 rounded-full hover:bg-[var(--color-primary-dark)] transition-colors">
+              Discuss Custom Development <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </Container>
+      </section>
+
+    </div>
   );
 }

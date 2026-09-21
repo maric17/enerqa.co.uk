@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { standardEditor } from '../editorConfig'
 
 export const Tools: CollectionConfig = {
   slug: 'tools',
@@ -44,7 +45,10 @@ export const Tools: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      // Optional: the tools list already renders without artwork
+      // (ToolsList.tsx guards with `tool.image && ...`), and the tool
+      // detail page never reads it. Requiring it blocked every seed.
+      required: false,
     },
     {
       name: 'link',
@@ -73,5 +77,31 @@ export const Tools: CollectionConfig = {
         description: 'PDF or document download for informational guides',
       },
     },
+    {
+      name: 'industries',
+      label: 'Industry',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    { name: 'version', type: 'text' },
+    {
+      name: 'access',
+      type: 'select',
+      defaultValue: 'Request Access',
+      options: [
+        { label: 'Request Access', value: 'Request Access' },
+        { label: 'Public', value: 'Public' },
+        { label: 'Enterprise', value: 'Enterprise' },
+      ],
+    },
+    { name: 'purpose', type: 'richText', editor: standardEditor },
+    { name: 'inputs', type: 'richText', editor: standardEditor },
+    { name: 'outputs', type: 'richText', editor: standardEditor },
+    { name: 'method', type: 'richText', editor: standardEditor },
+    { name: 'privacy', type: 'richText', editor: standardEditor },
   ],
 }

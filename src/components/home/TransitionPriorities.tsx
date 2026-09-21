@@ -9,37 +9,37 @@ const pillars = [
   {
     id: 'climate',
     tag: '01',
-    titleEn: 'Climate Change',
-    titleAr: 'تغير المناخ',
-    descEn: 'Supporting governments and institutions with GHG inventories, NDC tracking, and climate finance modeling.',
-    link: '/services#climate',
+    titleEn: 'Climate Action & Carbon Management',
+    titleAr: 'العمل المناخي وإدارة الكربون',
+    descEn: 'From national climate targets to corporate decarbonisation and carbon-credit project development.',
+    link: '/domains/climate-action-carbon-management',
     bgImage: '/assets/images/hero-bg.jpg'
   },
   {
     id: 'energy',
     tag: '02',
-    titleEn: 'Energy Advisory',
-    titleAr: 'استشارات الطاقة',
-    descEn: 'Feasibility studies for solar, wind, and grids, alongside energy audits and transition strategies.',
-    link: '/services#energy',
+    titleEn: 'Energy Systems & Transition',
+    titleAr: 'أنظمة الطاقة والتحول',
+    descEn: 'Reshaping how energy is produced, managed and consumed without compromising reliability or commercial performance.',
+    link: '/domains/energy-systems-transition',
     bgImage: '/assets/images/solar.jpg'
   },
   {
     id: 'environment',
     tag: '03',
-    titleEn: 'Environment & ESG',
-    titleAr: 'البيئة والحوكمة (ESG)',
-    descEn: 'Integrating ESG principles into operations, gap assessments, and environmental impact assessments.',
-    link: '/services#environment',
+    titleEn: 'Environment, Nature & Circularity',
+    titleAr: 'البيئة والطبيعة والاقتصاد الدائري',
+    descEn: 'Managing impacts, meeting safeguards and improving project design through early environmental understanding.',
+    link: '/domains/environment-nature-circularity',
     bgImage: '/assets/images/port.jpg'
   },
   {
     id: 'business',
     tag: '04',
-    titleEn: 'Business Solutions',
-    titleAr: 'حلول الأعمال',
-    descEn: 'Elevating projects with robust business planning, green scoring, and long-term viability analysis.',
-    link: '/services#business',
+    titleEn: 'Sustainable Business, ESG & Finance',
+    titleAr: 'الأعمال المستدامة والحوكمة والتمويل',
+    descEn: 'Creating lasting value by embedding sustainability into strategy, governance, investment and operations.',
+    link: '/domains/sustainable-business-esg-finance',
     bgImage: '/assets/images/gas-energy.jpg'
   }
 ]
@@ -85,11 +85,11 @@ export const TransitionPriorities = () => {
         <Container className="absolute top-10 md:top-12 left-1/2 -translate-x-1/2 w-full z-30 pointer-events-none">
           <div className="max-w-[800px] text-left">
             <Typography variant="h2" className="text-white mb-3">
-              <span className="en"><span className="font-bold">Action</span> Pillars</span>
-              <span className="ar text-white/70 block mt-1">أولوياتنا الانتقالية</span>
+              <span className="en"><span className="font-bold">Explore Our</span> Domains</span>
+              <span className="ar text-white/70 block mt-1">استكشف مجالاتنا</span>
             </Typography>
             <p className="text-[15.5px] text-white/80 leading-[1.6] m-0 font-light">
-              <span className="en block mb-1">Explore our core domains of expertise guiding governments and corporations through climate, energy, and ESG transitions.</span>
+              <span className="en block mb-1">Four interconnected domains combine technical analysis, project development and investment thinking.</span>
               <span className="ar text-white/65 block">اكتشف مجالات خبرتنا الأساسية التي توجه الحكومات والشركات خلال انتقالات المناخ والطاقة والحوكمة البيئية والاجتماعية والمؤسسية.</span>
             </p>
           </div>
@@ -119,13 +119,13 @@ export const TransitionPriorities = () => {
                     <span className="en">{pillar.descEn}</span>
                   </p>
                   <div className={`hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.1em] mt-2 transition-all duration-[400ms] ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-                    <span className="en text-white group-hover:text-[#8B1538] transition-colors">Discover</span>
-                    <svg className="w-3.5 h-3.5 text-white group-hover:text-[#8B1538] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <span className="en text-white group-hover:text-[#00cfc8] transition-colors">Discover</span>
+                    <svg className="w-3.5 h-3.5 text-white group-hover:text-[#00cfc8] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                   </div>
                 </div>
                 
                 {/* Active hover indicator strip */}
-                <div className={`absolute bottom-0 left-0 w-full md:h-[4px] h-[2px] bg-[#8B1538] transition-transform duration-[600ms] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}></div>
+                <div className={`absolute bottom-0 left-0 w-full md:h-[4px] h-[2px] bg-[#0972b8] transition-transform duration-[600ms] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}></div>
               </Link>
             )
           })}

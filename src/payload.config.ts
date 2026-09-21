@@ -5,18 +5,21 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
-import { Insights } from './collections/Insights'
 import { Publications } from './collections/Publications'
 import { Tools } from './collections/Tools'
-import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
 import { Categories } from './collections/Categories'
 import { Authors } from './collections/Authors'
+import { Domains } from './collections/Domains'
+import { Industries } from './collections/Industries'
 import { Datasets } from './collections/Datasets'
-import { LearningMaterials } from './collections/LearningMaterials'
+import { Dashboards } from './collections/Dashboards'
+import { ExternalItems } from './collections/ExternalItems'
 import { Glossary } from './collections/Glossary'
 import { FAQs } from './collections/FAQs'
+import { Enquiries } from './collections/Enquiries'
 import { KnowledgeHubConfig } from './globals/KnowledgeHubConfig'
+import { DataPortalSourcesConfig } from './globals/DataPortalSourcesConfig'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
@@ -38,20 +41,23 @@ export default buildConfig({
       fields: [],
     },
     Media,
-    Insights,
     Publications,
     Tools,
-    Projects,
     Team,
     Categories,
     Authors,
+    Domains,
+    Industries,
     Datasets,
-    LearningMaterials,
+    Dashboards,
+    ExternalItems,
     Glossary,
     FAQs,
+    Enquiries,
   ],
   globals: [
     KnowledgeHubConfig,
+    DataPortalSourcesConfig,
   ],
   editor: standardEditor,
   plugins: [

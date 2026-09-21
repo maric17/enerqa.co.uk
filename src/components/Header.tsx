@@ -3,18 +3,19 @@ import { resolveMediaUrl } from '@/lib/utils';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Search, Menu, X } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 import { Container } from './ui/Container';
 
 const SITE_INDEX = [
-  { title:'Home', url:'/' },
-  { title:'Domains and Industries', url:'/services' },
+  { title:'Homepage', url:'/' },
+  { title:'Domains and Industries', url:'/domains-and-industries' },
   { title:'Knowledge Hub', url:'/knowledge-hub' },
   { title:'Data Portal', url:'/data-portal' },
   { title:'Tools', url:'/tools' },
-  { title:'About Us', url:'/about' },
+  { title:'About', url:'/about' },
 ];
 
 export function Header() {
@@ -34,7 +35,7 @@ export function Header() {
       const footer = document.querySelector('footer.site');
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
-        const isHidden = footerTop < window.innerHeight + 10;
+        const isHidden = footerTop < window.innerHeight + 10 && scrollY > 100;
         setIsHiddenFooter(isHidden);
         if (isHidden) {
           document.body.classList.add('header-hidden');
@@ -78,26 +79,80 @@ export function Header() {
 
   return (
     <>
-      <header className={`site ${isScrolled ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
+      <header className={`site ${isScrolled || pathname !== '/' ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
         <Container className="header-main !px-6 md:!px-10">
-          <Link href="/" className="logo-zone">
-            <div className="logo-mark">eQ</div>
-            <div className="logo-word">enerQA<small><span className="en">Knowledge &amp; Advisory</span><span className="ar">المعرفة والاستشارات</span></small></div>
+          <Link href="/" className="logo-zone relative">
+            <Image 
+              src={isScrolled || pathname !== '/' ? "/images/logo-color.svg" : "/images/logo-white.svg"} 
+              alt="enerQA Logo" 
+              fill 
+              className="object-contain object-left transition-opacity duration-300"
+              priority
+            />
           </Link>
           <nav className="primary-nav">
-            <div className="nav-item">
-              <Link href="/" className={pathname === '/' ? 'active' : ''}><span className="en">Home</span><span className="ar">الرئيسية</span></Link>
-            </div>
-            <div className="nav-item">
-              <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
-              <div className="mega" style={{ minWidth: '280px' }}>
-                <div style={{ width: '100%' }}>
-                  <ul>
-                    <li><Link href="/services/climate-change"><span className="en">Climate Change</span><span className="ar">تغير المناخ</span></Link></li>
-                    <li><Link href="/services/environment-esg"><span className="en">Environment &amp; ESG</span><span className="ar">البيئة والحوكمة البيئية والاجتماعية والمؤسسية</span></Link></li>
-                    <li><Link href="/services/energy"><span className="en">Energy</span><span className="ar">الطاقة</span></Link></li>
-                    <li><Link href="/services/business-solutions"><span className="en">Business Solutions</span><span className="ar">حلول الأعمال</span></Link></li>
-                  </ul>
+
+            <div className="nav-item nav-item-static">
+              <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') || pathname.startsWith('/domains') || pathname.startsWith('/industries') ? 'active' : ''}><span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span></Link>
+              <div className="mega mega-redesign">
+                <div className="mega-top">
+                  <div className="mega-columns">
+                    {/* Col 1 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title">Domains</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/domains/climate-action-carbon-management">Climate Action &amp; Carbon Management</Link></li>
+                        <li><Link href="/domains/energy-systems-transition">Energy Systems &amp; Transition</Link></li>
+                        <li><Link href="/domains/environment-nature-circularity">Environment, Nature &amp; Circularity</Link></li>
+                        <li><Link href="/domains/sustainable-business-esg-finance">Sustainable Business, ESG &amp; Finance</Link></li>
+                      </ul>
+                    </div>
+                    {/* Col 2 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title">Industries</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/industries/government-regulators-public-institutions">Government, Regulators &amp; Public Institutions</Link></li>
+                        <li><Link href="/industries/financial-institutions-investors-development-finance">Financial Institutions, Investors &amp; Development Finance</Link></li>
+                        <li><Link href="/industries/energy-utilities">Energy &amp; Utilities</Link></li>
+                        <li><Link href="/industries/oil-gas-petrochemicals">Oil, Gas &amp; Petrochemicals</Link></li>
+                        <li><Link href="/industries/industry-manufacturing-materials">Industry, Manufacturing &amp; Materials</Link></li>
+                        <li><Link href="/industries/infrastructure-real-estate-industrial-zones">Infrastructure, Real Estate &amp; Industrial Zones</Link></li>
+                        <li><Link href="/industries/transport-logistics-mobility">Transport, Logistics &amp; Mobility</Link></li>
+                      </ul>
+                    </div>
+                    {/* Col 3 */}
+                    <div className="mega-col">
+                      <h3 className="mega-col-title invisible">Industries</h3>
+                      <ul className="mega-list">
+                        <li><Link href="/industries/water-waste-circular-economy">Water, Waste &amp; Circular Economy</Link></li>
+                        <li><Link href="/industries/agriculture-food-aquaculture">Agriculture, Food &amp; Aquaculture</Link></li>
+                        <li><Link href="/industries/mining-natural-resources">Mining &amp; Natural Resources</Link></li>
+                        <li><Link href="/industries/tourism-hospitality-destinations">Tourism, Hospitality &amp; Destinations</Link></li>
+                        <li><Link href="/industries/technology-telecoms-data-infrastructure">Technology, Telecoms &amp; Data Infrastructure</Link></li>
+                        <li><Link href="/industries/healthcare-education-institutional-estates">Healthcare, Education &amp; Institutional Estates</Link></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div className="mega-featured">
+                    <span className="featured-label">Featured</span>
+                    <Link href="/knowledge-hub" className="featured-card mb-6">
+                      <Image src="/images/about_practitioners.jpg" alt="Featured Team" fill className="object-cover" />
+                      <div className="featured-content">
+                        <h5>Explore our Knowledge &amp; Advisory Hub</h5>
+                      </div>
+                    </Link>
+                    
+                    <div className="mt-auto pt-4 border-t border-gray-100">
+                      <Link href="/project-development" className="block text-[13px] font-bold text-ink mb-2 transition-opacity hover:opacity-80">Project Development and Lifecycle Support</Link>
+                      <Link href="/domains-and-industries" className="block text-[13px] font-bold transition-opacity hover:opacity-80" style={{ color: 'var(--color-secondary)' }}>View All Domains and Industries &rarr;</Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mega-cta">
+                  <p>Every business starts somewhere different. Tell us where you're starting from.</p>
+                  <Link href="/contact" className="btn btn-cta">Contact Us</Link>
                 </div>
               </div>
             </div>
@@ -159,15 +214,17 @@ export function Header() {
 
       <div className={`mobile-nav ${isMobileNavOpen ? 'open' : ''}`}>
         <div className="mn-top">
-          <div className="logo-word">enerQA</div>
+          <Link href="/" className="logo-zone relative block w-[140px] h-[34px]" onClick={() => setIsMobileNavOpen(false)}>
+            <Image src="/images/logo-white.svg" alt="enerQA Logo" fill className="object-contain object-left" priority />
+          </Link>
           <button className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label="Close"><X /></button>
         </div>
-        <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Home</Link>
-        <Link href="/services" className={pathname.startsWith('/services') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
+
+        <Link href="/domains-and-industries" className={pathname.startsWith('/domains-and-industries') ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Domains and Industries</Link>
         <Link href="/knowledge-hub" className={pathname === '/knowledge-hub' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Knowledge Hub</Link>
         <Link href="/data-portal" className={pathname === '/data-portal' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Data Portal</Link>
         <Link href="/tools" className={pathname === '/tools' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>Tools</Link>
-        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About Us</Link>
+        <Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setIsMobileNavOpen(false)}>About</Link>
       </div>
     </>
   );

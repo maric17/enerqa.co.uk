@@ -1,149 +1,173 @@
 'use client';
-import React from 'react';
-import { Container } from '@/components/ui/Container';
+
+import React, { useActionState } from 'react';
 import Link from 'next/link';
-import { Typography } from '@/components/ui/Typography';
-import { Section } from '@/components/ui/Section';
-import { Button } from '@/components/ui/Button';
+import { Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Container } from '@/components/ui/Container';
+import { submitContactForm, FormState } from './actions';
+
+const initialState: FormState = {
+  success: false,
+};
 
 export default function ContactPage() {
+  const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
+
   return (
-    <>
-      <section className="relative w-full h-[65vh] min-h-[500px] flex items-center justify-center bg-ink text-white overflow-hidden py-[100px]">
-        <div className="absolute top-10 left-10 md:top-14 md:left-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0">
-          enerQA / reel 08
-        </div>
-        <div className="absolute bottom-10 right-10 md:bottom-14 md:right-14 z-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 m-0 text-right">
-          SCENE 08 — CONTACT
-        </div>
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/gas-energy.jpg')]"></div>
-        <div className="hero-insights-overlay z-10 opacity-80"></div>
-        
-        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Contact</span><span className="ar text-white">تواصل</span>
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+      
+      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+        <Container>
+          <div className="max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Contact Enerqa</h1>
+            <p className="text-xl text-gray-300 leading-relaxed">
+              Whether you are discussing a new project, exploring our digital tools or seeking technical advice, we welcome the opportunity to connect.
+            </p>
           </div>
-          <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            <span className="en block">Start a conversation.</span>
-            <span className="ar block text-[0.8em] mt-3 text-white/90">ابدأ محادثة.</span>
-          </Typography>
         </Container>
       </section>
 
-      <Section theme="light">
-        <div className="w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            <div className="flex flex-col gap-8">
+      <section className="py-20">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            {/* Contact Info */}
+            <div className="lg:col-span-4 space-y-10">
               <div>
-                <Typography variant="h2" className="text-ink m-0">
-                  <span className="en block">Tell us where you sit today.</span>
-                  <span className="ar block text-[0.8em] mt-3 text-ink/90">أخبرنا أين تقف اليوم.</span>
-                </Typography>
-                <p className="text-[17px] md:text-[19px] leading-[1.6] text-ink font-light m-0 mt-4">
-                  <span className="en block">We'll route your inquiry to the right advisory lead — usually within two business days.</span>
-                  <span className="ar block mt-4">سنوجّه استفسارك إلى المستشار المناسب — عادة خلال يومي عمل.</span>
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-3 mt-4">
-                <label className="flex items-start gap-4 p-5 rounded-[12px] border border-ink/10 cursor-pointer hover:border-ink/30 transition-colors bg-white">
-                  <div className="flex-1">
-                    <div className="text-[15px] font-bold text-ink"><span className="en">General inquiry</span><span className="ar">استفسار عام</span></div>
-                    <div className="text-[14px] text-ink-soft mt-1"><span className="en">Questions about our work or capabilities</span><span className="ar">أسئلة حول عملنا أو قدراتنا</span></div>
+                <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-6">Get in Touch</h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <Mail className="w-6 h-6 text-[var(--color-primary)] mt-1" />
+                    <div>
+                      <div className="font-bold text-[var(--color-dark)] mb-1">Email</div>
+                      <a href="mailto:info@enerqa.co.uk" className="text-gray-600 hover:text-[var(--color-secondary)] transition-colors">info@enerqa.co.uk</a>
+                    </div>
                   </div>
-                  <input type="radio" name="tier" defaultChecked className="mt-1 w-4 h-4 accent-ink" />
-                </label>
-                <label className="flex items-start gap-4 p-5 rounded-[12px] border border-ink/10 cursor-pointer hover:border-ink/30 transition-colors bg-white">
-                  <div className="flex-1">
-                    <div className="text-[15px] font-bold text-ink"><span className="en">Project / consulting request</span><span className="ar">طلب مشروع / استشارة</span></div>
-                    <div className="text-[14px] text-ink-soft mt-1"><span className="en">Scoped engagement or proposal request</span><span className="ar">طلب تكليف محدد النطاق أو مقترح</span></div>
+                  <div className="flex items-start gap-4">
+                    <MapPin className="w-6 h-6 text-[var(--color-primary)] mt-1" />
+                    <div>
+                      <div className="font-bold text-[var(--color-dark)] mb-1">Office</div>
+                      <p className="text-gray-600 leading-relaxed">
+                        London, United Kingdom<br />
+                        (Full address provided upon engagement)
+                      </p>
+                    </div>
                   </div>
-                  <input type="radio" name="tier" className="mt-1 w-4 h-4 accent-ink" />
-                </label>
-                <label className="flex items-start gap-4 p-5 rounded-[12px] border border-ink/10 cursor-pointer hover:border-ink/30 transition-colors bg-white">
-                  <div className="flex-1">
-                    <div className="text-[15px] font-bold text-ink"><span className="en">Media &amp; partnerships</span><span className="ar">الإعلام والشراكات</span></div>
-                    <div className="text-[14px] text-ink-soft mt-1"><span className="en">Press, speaking, or institutional partnership</span><span className="ar">صحافة أو مشاركة أو شراكة مؤسسية</span></div>
-                  </div>
-                  <input type="radio" name="tier" className="mt-1 w-4 h-4 accent-ink" />
-                </label>
-                <label className="flex items-start gap-4 p-5 rounded-[12px] border border-ink/10 cursor-pointer hover:border-ink/30 transition-colors bg-white" id="careers">
-                  <div className="flex-1">
-                    <div className="text-[15px] font-bold text-ink"><span className="en">Careers</span><span className="ar">الوظائف</span></div>
-                    <div className="text-[14px] text-ink-soft mt-1"><span className="en">Roles, internships and applications</span><span className="ar">الوظائف والتدريب والطلبات</span></div>
-                  </div>
-                  <input type="radio" name="tier" className="mt-1 w-4 h-4 accent-ink" />
-                </label>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mt-4 border-t border-ink/10">
-                <div>
-                  <h6 className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink/50 m-0 mb-1"><span className="en">Office</span><span className="ar">المكتب</span></h6>
-                  <p className="text-[14px] text-ink font-medium m-0"><span className="en">London, United Kingdom</span><span className="ar">لندن، المملكة المتحدة</span></p>
-                </div>
-                <div>
-                  <h6 className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink/50 m-0 mb-1"><span className="en">Email</span><span className="ar">البريد الإلكتروني</span></h6>
-                  <p className="text-[14px] text-ink font-medium m-0">info@enerqa.co.uk</p>
-                </div>
-                <div>
-                  <h6 className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink/50 m-0 mb-1"><span className="en">Response time</span><span className="ar">وقت الرد</span></h6>
-                  <p className="text-[14px] text-ink font-medium m-0"><span className="en">Within 2 business days</span><span className="ar">خلال يومي عمل</span></p>
-                </div>
+              <div className="bg-[var(--color-paper-alt)] p-8 rounded-xl border border-gray-200">
+                <h3 className="text-xl font-bold text-[var(--color-dark)] mb-4">Project Development</h3>
+                <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+                  To help us direct your enquiry to the right team, please provide a brief overview of the project's sector, location and current stage of development.
+                </p>
+                <Link href="/projects" className="text-[var(--color-secondary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
+                  Learn about our approach <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
-            <form className="flex flex-col gap-5 p-8 rounded-[16px] bg-[#FAFBFB] border border-ink/10 shadow-[0_10px_30px_rgba(0,0,0,0.02)] h-fit" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="c-name" className="text-[13px] font-bold text-ink"><span className="en">Full name</span><span className="ar">الاسم الكامل</span></label>
-                  <input type="text" id="c-name" className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors" />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="c-org" className="text-[13px] font-bold text-ink"><span className="en">Organisation</span><span className="ar">الجهة</span></label>
-                  <input type="text" id="c-org" className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="c-email" className="text-[13px] font-bold text-ink"><span className="en">Email</span><span className="ar">البريد الإلكتروني</span></label>
-                  <input type="email" id="c-email" className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors" />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="c-country" className="text-[13px] font-bold text-ink"><span className="en">Country</span><span className="ar">الدولة</span></label>
-                  <input type="text" id="c-country" className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="c-msg" className="text-[13px] font-bold text-ink"><span className="en">Message</span><span className="ar">الرسالة</span></label>
-                <textarea id="c-msg" placeholder="Tell us about your context and objectives" rows={5} className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors resize-none en"></textarea>
-                <textarea id="c-msg-ar" placeholder="أخبرنا عن سياق عملك وأهدافك" rows={5} className="w-full bg-white border border-ink/10 rounded-md px-4 py-3 text-[14px] text-ink outline-none focus:border-ink/30 transition-colors resize-none ar"></textarea>
-              </div>
-              <Button variant="primary" className="justify-center mt-2 py-3">
-                <span className="en">Submit inquiry</span><span className="ar">إرسال الاستفسار</span>
-              </Button>
-            </form>
-          </div>
-        </div>
-      </Section>
+            {/* Contact Form */}
+            <div className="lg:col-span-8">
+              <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm">
+                <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Send an Enquiry</h2>
+                
+                {state.success ? (
+                  <div className="bg-green-50 text-green-800 p-8 rounded-xl border border-green-200 text-center">
+                    <h3 className="text-2xl font-bold mb-4">Thank You</h3>
+                    <p className="mb-6">{state.message}</p>
+                    <button onClick={() => window.location.reload()} className="text-green-800 font-bold hover:underline">Send another message</button>
+                  </div>
+                ) : (
+                  <form className="space-y-6" action={formAction}>
+                    {/* F04 Delivery Error State */}
+                    {state.message && !state.success && !state.errors && (
+                      <div className="bg-red-50 text-red-800 p-4 rounded-lg border border-red-200 font-medium">
+                        {state.message}
+                      </div>
+                    )}
+                    
+                    {/* Honeypot for spam protection */}
+                    <div className="hidden" aria-hidden="true">
+                      <label>Leave this field empty</label>
+                      <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+                    </div>
 
-      <Section theme="muted">
-        <div className="max-w-[800px] mx-auto text-center flex flex-col items-center gap-6">
-          <Typography variant="eyebrow" className="text-ink-muted m-0 flex justify-center w-full">
-            <span className="en">Prefer to browse first?</span><span className="ar">تفضّل التصفّح أولًا؟</span>
-          </Typography>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
-            <Button href="/services" variant="outline">
-              <span className="en">See our domains</span><span className="ar ml-2">اطّلع على مجالاتنا</span>
-            </Button>
-            <Button href="/knowledge-hub" variant="outline">
-              <span className="en">Browse publications</span><span className="ar ml-2">تصفح المنشورات</span>
-            </Button>
-            <Button href="/projects" variant="outline">
-              <span className="en">Read case studies</span><span className="ar ml-2">اقرأ دراسات الحالة</span>
-            </Button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">First Name *</label>
+                        <input type="text" name="firstName" required className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none ${state.errors?.firstName ? 'border-red-500' : 'border-gray-300'}`} />
+                        {state.errors?.firstName && <p className="text-red-500 text-xs mt-1">{state.errors.firstName[0]}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Last Name *</label>
+                        <input type="text" name="lastName" required className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none ${state.errors?.lastName ? 'border-red-500' : 'border-gray-300'}`} />
+                        {state.errors?.lastName && <p className="text-red-500 text-xs mt-1">{state.errors.lastName[0]}</p>}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Email Address *</label>
+                        <input type="email" name="email" required className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none ${state.errors?.email ? 'border-red-500' : 'border-gray-300'}`} />
+                        {state.errors?.email && <p className="text-red-500 text-xs mt-1">{state.errors.email[0]}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Organisation / Company</label>
+                        <input type="text" name="company" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">Nature of Enquiry *</label>
+                      <select name="natureOfEnquiry" required className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none bg-white ${state.errors?.natureOfEnquiry ? 'border-red-500' : 'border-gray-300'}`}>
+                        <option value="">Please select...</option>
+                        <option value="project">Project Development Support</option>
+                        <option value="tools">Digital Tools (ESG Readiness, easySOLAR, etc.)</option>
+                        <option value="data">Data Portal &amp; Knowledge Hub</option>
+                        <option value="media">Media or Research Enquiry</option>
+                        <option value="general">General Enquiry</option>
+                      </select>
+                      {state.errors?.natureOfEnquiry && <p className="text-red-500 text-xs mt-1">{state.errors.natureOfEnquiry[0]}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">Message *</label>
+                      <textarea name="message" required rows={6} className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none resize-none ${state.errors?.message ? 'border-red-500' : 'border-gray-300'}`}></textarea>
+                      {state.errors?.message && <p className="text-red-500 text-xs mt-1">{state.errors.message[0]}</p>}
+                    </div>
+
+                    <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                      <div className="flex items-center h-5 mt-0.5">
+                        <input type="checkbox" name="marketingConsent" id="marketingConsent" className="w-4 h-4 text-[var(--color-primary)] bg-white border-gray-300 rounded focus:ring-[var(--color-primary)]" />
+                      </div>
+                      <div className="text-sm">
+                        <label htmlFor="marketingConsent" className="font-medium text-gray-700">Keep me updated</label>
+                        <p className="text-gray-500 mt-1">I would like to receive occasional updates about Enerqa's tools, datasets, and insights. You can unsubscribe at any time.</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 flex items-center justify-between">
+                      <button 
+                        type="submit" 
+                        disabled={isPending}
+                        className="bg-[var(--color-secondary)] text-white font-bold py-4 px-10 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isPending ? 'Submitting...' : 'Submit Enquiry'} {isPending ? null : <ArrowRight className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-4">
+                      By submitting this form, you agree to our <Link href="/privacy" className="underline hover:text-[var(--color-dark)]">Privacy Policy</Link>.
+                    </p>
+                  </form>
+                )}
+              </div>
+            </div>
+
           </div>
-        </div>
-      </Section>
-    </>
+        </Container>
+      </section>
+
+    </div>
   );
 }

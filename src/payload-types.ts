@@ -69,17 +69,19 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    insights: Insight;
     publications: Publication;
     tools: Tool;
-    projects: Project;
     team: Team;
     categories: Category;
     authors: Author;
+    domains: Domain;
+    industries: Industry;
     datasets: Dataset;
-    'learning-materials': LearningMaterial;
+    dashboards: Dashboard;
+    'external-items': ExternalItem;
     glossary: Glossary;
     faqs: Faq;
+    enquiries: Enquiry;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -89,17 +91,19 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    insights: InsightsSelect<false> | InsightsSelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
     tools: ToolsSelect<false> | ToolsSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    domains: DomainsSelect<false> | DomainsSelect<true>;
+    industries: IndustriesSelect<false> | IndustriesSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
-    'learning-materials': LearningMaterialsSelect<false> | LearningMaterialsSelect<true>;
+    dashboards: DashboardsSelect<false> | DashboardsSelect<true>;
+    'external-items': ExternalItemsSelect<false> | ExternalItemsSelect<true>;
     glossary: GlossarySelect<false> | GlossarySelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
+    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -111,9 +115,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'ar') | ('en' | 'ar')[];
   globals: {
     'knowledge-hub-config': KnowledgeHubConfig;
+    'data-portal-sources-config': DataPortalSourcesConfig;
   };
   globalsSelect: {
     'knowledge-hub-config': KnowledgeHubConfigSelect<false> | KnowledgeHubConfigSelect<true>;
+    'data-portal-sources-config': DataPortalSourcesConfigSelect<false> | DataPortalSourcesConfigSelect<true>;
   };
   locale: 'en' | 'ar';
   widgets: {
@@ -189,76 +195,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "insights".
- */
-export interface Insight {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * SEO Title
-   */
-  metaTitle?: string | null;
-  /**
-   * SEO Description
-   */
-  metaDescription?: string | null;
-  /**
-   * SEO Keywords
-   */
-  metaKeywords?: string | null;
-  /**
-   * SEO Open Graph Image
-   */
-  ogImage?: (number | null) | Media;
-  type: 'insight' | 'news' | 'blog';
-  category: (number | Category)[];
-  authors?: (number | Author)[] | null;
-  publishDate?: string | null;
-  image: number | Media;
-  bannerImage?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "authors".
- */
-export interface Author {
-  id: number;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publications".
  */
 export interface Publication {
@@ -301,11 +237,51 @@ export interface Publication {
    * SEO Open Graph Image
    */
   ogImage?: (number | null) | Media;
-  type: 'White Paper' | 'Case Study' | 'Article' | 'Research';
+  /**
+   * Case Study was removed: handoff p. 229 requires that no Case Study surface appears anywhere.
+   */
+  type: 'White Paper' | 'Article' | 'Research' | 'Conference Paper';
+  /**
+   * Approved byline, exactly as it should be published.
+   */
+  author?: string | null;
+  /**
+   * Drives the K03 Language filter. Do not label a publication Arabic until a real translation exists (p. 227).
+   */
+  language?: ('en' | 'ar') | null;
+  /**
+   * Optional secondary tag carried over from the 2024 archive.
+   */
+  archiveCategory?:
+    | (
+        | 'climate-science-and-impacts'
+        | 'energy-technology-and-finance'
+        | 'environment-and-society'
+        | 'frameworks-and-methodologies'
+      )
+    | null;
+  /**
+   * Only Article records appear in the public Enerqa Publication collection.
+   */
+  recordKind: 'article' | 'category-heading' | 'biography';
+  /**
+   * Tick once this publication's real publication date has been confirmed against the original source.
+   */
+  dateVerified?: boolean | null;
   topic?: (number | Category)[] | null;
   date: string;
   file?: (number | null) | Media;
   bgGradientType: 'Green' | 'Red' | 'Blue' | 'Dark';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -320,7 +296,7 @@ export interface Tool {
   type: 'interactive' | 'informational';
   title: string;
   desc: string;
-  image: number | Media;
+  image?: (number | null) | Media;
   /**
    * External link or native route (e.g. /tools/carbon-calculator)
    */
@@ -333,28 +309,154 @@ export interface Tool {
    * PDF or document download for informational guides
    */
   file?: (number | null) | Media;
+  industries?: (number | Industry)[] | null;
+  version?: string | null;
+  access?: ('Request Access' | 'Public' | 'Enterprise') | null;
+  purpose?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  inputs?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  outputs?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  method?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  privacy?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
+ * via the `definition` "industries".
  */
-export interface Project {
+export interface Industry {
   id: number;
   title: string;
-  client: string;
-  date: string;
-  status: string;
-  description: string;
-  impact?:
+  slug: string;
+  /**
+   * Optional. Background image for the industry hero banner. Falls back to brand gradient if empty.
+   */
+  heroImage?: (number | null) | Media;
+  heroNarrative: string;
+  /**
+   * Text for the call to action button (e.g. Discuss Your Project)
+   */
+  ctaText?: string | null;
+  /**
+   * Short industry-specific lifecycle narrative (module I01L).
+   */
+  lifecycleNarrative?: string | null;
+  /**
+   * Relevant Domains and Work Areas (3-4 contextual links to domain capability anchors)
+   */
+  workAreas?:
     | {
-        metric?: string | null;
+        title: string;
+        url: string;
         id?: string | null;
       }[]
     | null;
-  image?: (number | null) | Media;
-  color?: ('default' | 'green' | 'dark') | null;
+  /**
+   * Tools mapped to this industry in the handoff. Use approved availability labels - do not assume a tool is publicly launched.
+   */
+  relevantTools?:
+    | {
+        label: string;
+        /**
+         * Internal path, e.g. /tools/esg-readiness
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Provider IDs recommended for this industry, with the handoff note on what each covers and its limits.
+   */
+  dataSources?:
+    | {
+        provider: string;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * SEO Title
+   */
+  metaTitle?: string | null;
+  /**
+   * SEO Description
+   */
+  metaDescription?: string | null;
+  /**
+   * SEO Keywords
+   */
+  metaKeywords?: string | null;
+  ogImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -373,10 +475,82 @@ export interface Team {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains".
+ */
+export interface Domain {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Optional. Background image for the domain hero banner. Falls back to brand gradient if empty.
+   */
+  heroImage?: (number | null) | Media;
+  heroNarrative: string;
+  ctaText?: string | null;
+  capabilities?:
+    | {
+        heading: string;
+        /**
+         * Stable, heading-derived anchor (handoff p. 227). Becomes the #anchor on the domain page - changing it breaks existing links.
+         */
+        slug: string;
+        narrative: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Industries where this domain applies. Selected through the shared domain/industry taxonomy (handoff p. 28). Leave empty until the mapping is agreed.
+   */
+  relevantIndustries?: (number | Industry)[] | null;
+  policyUpdates?: {
+    /**
+     * Exact website heading for this domain, e.g. "Policy and Official Updates" (climate) or "Corporate Disclosures and Finance Updates" (ESG). Handoff pp. 29, 37, 48, 59.
+     */
+    heading?: string | null;
+    narrative?: string | null;
+    /**
+     * Editor-facing note on which verified open-access providers feed this module. Shown to visitors as the source line.
+     */
+    sourceNote?: string | null;
+  };
+  relevantTools?:
+    | {
+        label: string;
+        /**
+         * Internal path, e.g. /tools/esg-readiness
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Unique page title (handoff p. 227). Falls back to the domain title. " | Enerqa" is appended automatically.
+   */
+  metaTitle?: string | null;
+  /**
+   * Unique meta description, roughly 150-160 characters.
+   */
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "datasets".
  */
 export interface Dataset {
   id: number;
+  slug: string;
   title: string;
   /**
    * Brief insights or summary for this dataset.
@@ -389,29 +563,179 @@ export interface Dataset {
   apiEndpoint?: string | null;
   topic?: (number | Category)[] | null;
   date: string;
+  /**
+   * Organization or entity that produced the dataset.
+   */
+  provider?: string | null;
+  /**
+   * Series or dataset identifier.
+   */
+  identifier?: string | null;
+  /**
+   * Version or release.
+   */
+  version?: string | null;
+  licence?: string | null;
+  licenceUrl?: string | null;
+  originalUnit?: string | null;
+  /**
+   * Geographic scope or level (e.g. Global, Europe, United States).
+   */
+  geographicLevel?: string | null;
+  /**
+   * Time period covered by the dataset (e.g. 2010 - 2026).
+   */
+  observationPeriod?: string | null;
+  retrievalTime?: string | null;
+  /**
+   * Ungated free anonymous download link.
+   */
+  datasetDownloadUrl?: string | null;
+  accessStatus?: ('free' | 'restricted') | null;
+  accessCheckedAt?: string | null;
+  accessEvidence?: string | null;
+  corporateReuse?: boolean | null;
+  redistribution?: boolean | null;
+  attribution?: string | null;
+  /**
+   * Iframe URL for interactive charts/maps (Tableau, PowerBI, Observable).
+   */
+  embedUrl?: string | null;
+  /**
+   * Ready-to-copy citation format.
+   */
+  citation?: string | null;
+  /**
+   * Detailed sources and methodology.
+   */
+  methodology?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedDatasets?: (number | Dataset)[] | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "learning-materials".
+ * via the `definition` "dashboards".
  */
-export interface LearningMaterial {
+export interface Dashboard {
   id: number;
+  slug: string;
   title: string;
-  type: 'PDF' | 'Video' | 'Course' | 'Toolkit' | 'Presentation';
+  /**
+   * High level overview of the dashboard.
+   */
   description: string;
   /**
-   * Author or Organization (e.g., "UN CC:Learn", "Qatar University")
+   * URL of the Tableau, PowerBI, or Observable dashboard to embed.
    */
-  source?: string | null;
-  level?: ('Beginner' | 'Intermediate' | 'Advanced') | null;
-  file?: (number | null) | Media;
+  embedUrl: string;
   /**
-   * External link or video embed URL.
+   * Instructions on how to use the dashboard controls/filters.
    */
-  url?: string | null;
-  topic?: (number | Category)[] | null;
+  controlsInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Key takeaways and interpretation of the data.
+   */
+  interpretation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Internal datasets that power this dashboard.
+   */
+  underlyingDatasets?: (number | Dataset)[] | null;
+  /**
+   * Attributions for external data sources not tracked in Datasets.
+   */
+  externalSources?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "external-items".
+ */
+export interface ExternalItem {
+  id: number;
+  /**
+   * Headline or title of the external item
+   */
+  title: string;
+  provider: string;
+  source?: string | null;
+  date: string;
+  /**
+   * e.g., Report, News, Press Release
+   */
+  type: string;
+  url: string;
+  /**
+   * Covered geography (distinct from publisher location)
+   */
+  geography?: string | null;
+  /**
+   * Proof of open access or licensing rights
+   */
+  accessEvidence?: string | null;
+  /**
+   * Copyright/distribution rights
+   */
+  rights?: string | null;
+  domains?: (number | Domain)[] | null;
+  industries?: (number | Industry)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -452,6 +776,24 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries".
+ */
+export interface Enquiry {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  company?: string | null;
+  natureOfEnquiry?: string | null;
+  message?: string | null;
+  marketingConsent?: boolean | null;
+  toolRequested?: (number | null) | Tool;
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -483,20 +825,12 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'insights';
-        value: number | Insight;
-      } | null)
-    | ({
         relationTo: 'publications';
         value: number | Publication;
       } | null)
     | ({
         relationTo: 'tools';
         value: number | Tool;
-      } | null)
-    | ({
-        relationTo: 'projects';
-        value: number | Project;
       } | null)
     | ({
         relationTo: 'team';
@@ -511,12 +845,24 @@ export interface PayloadLockedDocument {
         value: number | Author;
       } | null)
     | ({
+        relationTo: 'domains';
+        value: number | Domain;
+      } | null)
+    | ({
+        relationTo: 'industries';
+        value: number | Industry;
+      } | null)
+    | ({
         relationTo: 'datasets';
         value: number | Dataset;
       } | null)
     | ({
-        relationTo: 'learning-materials';
-        value: number | LearningMaterial;
+        relationTo: 'dashboards';
+        value: number | Dashboard;
+      } | null)
+    | ({
+        relationTo: 'external-items';
+        value: number | ExternalItem;
       } | null)
     | ({
         relationTo: 'glossary';
@@ -525,6 +871,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'faqs';
         value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'enquiries';
+        value: number | Enquiry;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -610,29 +960,6 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "insights_select".
- */
-export interface InsightsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  content?: T;
-  metaTitle?: T;
-  metaDescription?: T;
-  metaKeywords?: T;
-  ogImage?: T;
-  type?: T;
-  category?: T;
-  authors?: T;
-  publishDate?: T;
-  image?: T;
-  bannerImage?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publications_select".
  */
 export interface PublicationsSelect<T extends boolean = true> {
@@ -646,6 +973,11 @@ export interface PublicationsSelect<T extends boolean = true> {
   metaKeywords?: T;
   ogImage?: T;
   type?: T;
+  author?: T;
+  language?: T;
+  archiveCategory?: T;
+  recordKind?: T;
+  dateVerified?: T;
   topic?: T;
   date?: T;
   file?: T;
@@ -667,27 +999,14 @@ export interface ToolsSelect<T extends boolean = true> {
   link?: T;
   iframeUrl?: T;
   file?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
- */
-export interface ProjectsSelect<T extends boolean = true> {
-  title?: T;
-  client?: T;
-  date?: T;
-  status?: T;
-  description?: T;
-  impact?:
-    | T
-    | {
-        metric?: T;
-        id?: T;
-      };
-  image?: T;
-  color?: T;
+  industries?: T;
+  version?: T;
+  access?: T;
+  purpose?: T;
+  inputs?: T;
+  outputs?: T;
+  method?: T;
+  privacy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -723,31 +1042,148 @@ export interface AuthorsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains_select".
+ */
+export interface DomainsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroImage?: T;
+  heroNarrative?: T;
+  ctaText?: T;
+  capabilities?:
+    | T
+    | {
+        heading?: T;
+        slug?: T;
+        narrative?: T;
+        id?: T;
+      };
+  relevantIndustries?: T;
+  policyUpdates?:
+    | T
+    | {
+        heading?: T;
+        narrative?: T;
+        sourceNote?: T;
+      };
+  relevantTools?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries_select".
+ */
+export interface IndustriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroImage?: T;
+  heroNarrative?: T;
+  ctaText?: T;
+  lifecycleNarrative?: T;
+  workAreas?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        id?: T;
+      };
+  relevantTools?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  dataSources?:
+    | T
+    | {
+        provider?: T;
+        note?: T;
+        id?: T;
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  metaKeywords?: T;
+  ogImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "datasets_select".
  */
 export interface DatasetsSelect<T extends boolean = true> {
+  slug?: T;
   title?: T;
   description?: T;
   file?: T;
   apiEndpoint?: T;
   topic?: T;
   date?: T;
+  provider?: T;
+  identifier?: T;
+  version?: T;
+  licence?: T;
+  licenceUrl?: T;
+  originalUnit?: T;
+  geographicLevel?: T;
+  observationPeriod?: T;
+  retrievalTime?: T;
+  datasetDownloadUrl?: T;
+  accessStatus?: T;
+  accessCheckedAt?: T;
+  accessEvidence?: T;
+  corporateReuse?: T;
+  redistribution?: T;
+  attribution?: T;
+  embedUrl?: T;
+  citation?: T;
+  methodology?: T;
+  relatedDatasets?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "learning-materials_select".
+ * via the `definition` "dashboards_select".
  */
-export interface LearningMaterialsSelect<T extends boolean = true> {
+export interface DashboardsSelect<T extends boolean = true> {
+  slug?: T;
   title?: T;
-  type?: T;
   description?: T;
+  embedUrl?: T;
+  controlsInfo?: T;
+  interpretation?: T;
+  underlyingDatasets?: T;
+  externalSources?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "external-items_select".
+ */
+export interface ExternalItemsSelect<T extends boolean = true> {
+  title?: T;
+  provider?: T;
   source?: T;
-  level?: T;
-  file?: T;
+  date?: T;
+  type?: T;
   url?: T;
-  topic?: T;
+  geography?: T;
+  accessEvidence?: T;
+  rights?: T;
+  domains?: T;
+  industries?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -772,6 +1208,23 @@ export interface FaqsSelect<T extends boolean = true> {
   answer?: T;
   category?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries_select".
+ */
+export interface EnquiriesSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  company?: T;
+  natureOfEnquiry?: T;
+  message?: T;
+  marketingConsent?: T;
+  toolRequested?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -842,6 +1295,87 @@ export interface KnowledgeHubConfig {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "data-portal-sources-config".
+ */
+export interface DataPortalSourcesConfig {
+  id: number;
+  /**
+   * Introductory text for the Data Portal Sources and Methodology page.
+   */
+  s01_intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Directory of primary data sources.
+   */
+  s02_directory?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Policies on attribution and data reuse.
+   */
+  s03_attribution?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Definitions, statistical limits, or context on data smoothing.
+   */
+  s04_understanding?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "knowledge-hub-config_select".
  */
 export interface KnowledgeHubConfigSelect<T extends boolean = true> {
@@ -861,6 +1395,19 @@ export interface KnowledgeHubConfigSelect<T extends boolean = true> {
   faqsEyebrowAr?: T;
   faqsTitle?: T;
   faqsTitleAr?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "data-portal-sources-config_select".
+ */
+export interface DataPortalSourcesConfigSelect<T extends boolean = true> {
+  s01_intro?: T;
+  s02_directory?: T;
+  s03_attribution?: T;
+  s04_understanding?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
