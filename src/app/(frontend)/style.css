@@ -6,20 +6,20 @@
 
 /* ---------------------------------------------------------------- tokens */
 :root {
-  --ink:        #0A192F; /* Deep navy replacing charcoal/burgundy */
-  --ink-soft:   #1C2A3D; /* Soft navy */
-  --ink-muted:  #6B7A90; /* Muted navy/slate */
+  --ink:        #082C45; /* Deep navy replacing charcoal/burgundy */
+  --ink-soft:   #123C5A; /* Soft navy */
+  --ink-muted:  #56738C; /* Muted navy/slate */
   --paper:      #FFFFFF; /* Cleaner, pure white background */
   --paper-alt:  #F4F7FA; /* Very light slate tinted grey */
   --card:       #FFFFFF;
-  --dark:       #0A192F; /* Deep navy */
-  --dark-soft:  #112240; /* Lighter navy helper */
+  --dark:       #082C45; /* Deep navy */
+  --dark-soft:  #0C3A5C; /* Lighter navy helper */
 
   --green:      #00cfc8; /* Teal */
   --green-deep: #00a5a0;
-  --green-ink:  #0A192F;
+  --green-ink:  #082C45;
 
-  --line:       rgba(10, 25, 47, 0.08);
+  --line:       rgba(8, 44, 69, 0.08);
   --line-dark:  rgba(255, 255, 255, 0.08);
 
 
@@ -72,6 +72,11 @@
 /* Language */
 body[data-lang="en"] .ar,
 body[data-lang="ar"] .en { display: none !important; }
+.ar {
+  display: inline-block;
+  white-space: normal;
+  word-break: break-word;
+}
 body[data-lang="ar"] { direction: rtl; }
 
 /* Skip link */
@@ -202,8 +207,8 @@ header.site {
 
 header.site.scrolled {
   top: 12px;
-  border-color: rgba(10, 25, 47, 0.08);
-  box-shadow: 0 10px 35px rgba(10, 25, 47, 0.08);
+  border-color: rgba(8, 44, 69, 0.08);
+  box-shadow: 0 10px 35px rgba(8, 44, 69, 0.08);
   background: rgba(255, 255, 255, 0.98); /* Less translucent to prevent text overlap */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -1569,7 +1574,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   margin-right: -50vw;
   height: 100vh;
   min-height: 700px;
-  background: #14050a;
+  background: #082C45;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -1585,11 +1590,13 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
    without scrolling at the 1366x768 reference viewport.
    70px sticky header + 698px fold = the hero must stay under ~700px tall. */
 .hero-insights.hero-compact {
+  /* Full-screen hero. The 100vh line is the fallback; 100svh (small viewport
+     height) wins where supported and stops a mobile browser's collapsing URL
+     bar from making the hero taller than the screen actually is. */
   height: auto;
-  min-height: 0;
-  /* 104 top clears the 76px sticky header; 24 bottom keeps the whole
-     composition inside the 768px reference fold (measured, not guessed). */
-  padding: 96px 0 20px;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 120px 0 72px;
   justify-content: center;
 }
 
@@ -1597,7 +1604,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   /* p. 228: the first-fold brief is a laptop target, never a reason to
      compress mobile content into one screen. Let it breathe on small widths. */
   .hero-insights.hero-compact {
-    padding: 96px 0 56px;
+    padding: 104px 0 64px;
   }
 }
 
@@ -1646,7 +1653,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .hero-insights-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(27, 3, 10, 0.7) 0%, rgba(0, 207, 200, 0.6) 50%, rgba(20, 5, 10, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(8, 44, 69, 0.7) 0%, rgba(0, 207, 200, 0.6) 50%, rgba(8, 44, 69, 0.8) 100%);
   z-index: 1;
 }
 
@@ -1688,7 +1695,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .hero-search-btn {
   background: var(--green);
-  color: #0A192F;
+  color: #082C45;
   border: none;
   font-weight: 700;
   border-radius: 100px;
@@ -1705,7 +1712,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .hero-search-btn:hover {
   background: var(--green-deep);
-  color: #0A192F;
+  color: #082C45;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0, 207, 200, 0.3);
 }
@@ -1773,15 +1780,15 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   outline: none;
 }
 .data-tab-btn:hover {
-  color: #8B1538;
+  color: #0972b8;
   border-color: rgba(139, 21, 56, 0.4);
   background: rgba(139, 21, 56, 0.03);
   box-shadow: 0 4px 10px rgba(139, 21, 56, 0.08);
 }
 .data-tab-btn.active {
-  background: #8B1538;
+  background: #0972b8;
   color: #ffffff;
-  border-color: #8B1538;
+  border-color: #0972b8;
   box-shadow: 0 4px 12px rgba(139, 21, 56, 0.2);
   font-weight: 700;
 }
@@ -1838,12 +1845,12 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .priority-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(20, 5, 10, 0.1) 0%, rgba(20, 5, 10, 0.85) 100%);
+  background: linear-gradient(to bottom, rgba(8, 44, 69, 0.1) 0%, rgba(8, 44, 69, 0.85) 100%);
   z-index: 1;
   transition: background 0.6s ease;
 }
 .priority-card.active .priority-overlay {
-  background: linear-gradient(to bottom, rgba(139, 21, 56, 0.15) 0%, rgba(20, 5, 10, 0.95) 100%);
+  background: linear-gradient(to bottom, rgba(139, 21, 56, 0.15) 0%, rgba(8, 44, 69, 0.95) 100%);
 }
 .priority-content {
   position: absolute;
@@ -1893,7 +1900,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   flex-shrink: 0;
 }
 .priority-card.active .priority-icon {
-  background: #8B1538;
+  background: #0972b8;
   transform: rotate(45deg);
 }
 
@@ -1968,7 +1975,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .stat-number {
   font-size: 38px;
   font-weight: 800;
-  color: #8B1538;
+  color: #0972b8;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1978,7 +1985,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 
 /* ── NEWSLETTER SIGNUP BANNER ──────────────────── */
 .newsletter-banner {
-  background: #fbf0f2;
+  background: #eef6fb;
   border: 1px solid rgba(139, 21, 56, 0.1);
   border-radius: var(--r-lg);
   padding: 40px 48px;
@@ -2008,10 +2015,10 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   transition: border-color 0.2s;
 }
 .newsletter-input:focus {
-  border-color: #8B1538;
+  border-color: #0972b8;
 }
 .newsletter-btn {
-  background: #8B1538;
+  background: #0972b8;
   color: #ffffff;
   padding: 12px 28px;
   border-radius: 100px;
@@ -2022,7 +2029,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   transition: background 0.2s;
 }
 .newsletter-btn:hover {
-  background: #72102d;
+  background: #075a93;
 }
 
 @media (max-width: 990px) {

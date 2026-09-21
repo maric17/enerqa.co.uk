@@ -25,7 +25,7 @@ export function Typography({
     h6: "text-base font-bold leading-[1.4] m-0",
     lede: "text-[clamp(15px,1.6vw,18px)] leading-[1.65] font-light",
     body: "text-base leading-[1.6]",
-    eyebrow: "text-[11px] font-bold uppercase tracking-[0.15em] text-[#ffb7c5] inline-block",
+    eyebrow: "text-[11px] font-bold uppercase tracking-[0.15em] text-[#00cfc8] inline-block",
     small: "text-sm leading-[1.5] text-ink-soft"
   };
 

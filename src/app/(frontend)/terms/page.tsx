@@ -1,54 +1,66 @@
 import React from 'react';
 import { Container } from '@/components/ui/Container';
+import { Typography } from '@/components/ui/Typography';
+import { Section } from '@/components/ui/Section';
+import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms of Use - Enerqa',
+};
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white pt-[70px]">
-      
-      <section className="py-20 bg-[var(--color-paper-alt)] border-b border-gray-200">
+    <div className="bg-white min-h-screen pt-[70px]">
+      <section className="bg-gray-50 border-b border-gray-200 py-20">
         <Container>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-dark)]">Terms of Use</h1>
-            <p className="text-xl text-gray-600">Last updated: September 2026</p>
+          <div className="max-w-3xl mx-auto text-center">
+            <Typography variant="h1" className="text-[var(--color-dark)] m-0">
+              Terms of Use
+            </Typography>
+            <p className="text-gray-500 mt-4">Last Updated: September 2026</p>
           </div>
         </Container>
       </section>
 
-      <section className="py-20">
+      <Section theme="light" className="py-20">
         <Container>
-          <div className="max-w-3xl prose prose-lg text-gray-600 max-w-none">
+          <div className="max-w-3xl mx-auto prose prose-lg text-gray-700">
+            <h2>1. Acceptance of Terms</h2>
             <p>
-              By accessing and using the Enerqa website, Knowledge Hub, Data Portal, and Digital Tools, you agree to comply with and be bound by the following Terms of Use.
+              By accessing and using this website, including our Data Portal, Knowledge Hub, and proprietary Tools, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
             </p>
             
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">1. Use of Content</h2>
+            <h2>2. Intellectual Property Rights</h2>
             <p>
-              The content provided on this website, including original Enerqa Publications, analysis, and methodologies, is for informational purposes. While we strive for accuracy, the information should not be construed as formal financial, legal, or engineering advice without a dedicated consulting agreement.
+              The Site and its original content, features, datasets, analysis, and functionality are owned by Enerqa and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
+            </p>
+            <p>
+              Data procured from third parties and published on our platform remains the property of the original provider, and must be attributed appropriately as outlined in our <Link href="/data-portal/sources">Sources and Methodology</Link> guidelines.
             </p>
 
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">2. Digital Tools and Calculators</h2>
+            <h2>3. Use of Data and Tools</h2>
             <p>
-              Tools such as easySOLAR and the ESG Readiness Diagnostic provide preliminary assessments based on the parameters you input. Outputs are indicative estimates meant to support early-stage decision-making and do not constitute a detailed feasibility study or guaranteed financial return.
+              Unless otherwise explicitly stated under a separate Master Services Agreement (MSA) or specific licensing tier:
+            </p>
+            <ul>
+              <li>You may not reproduce, distribute, or publicly display our datasets for commercial gain without explicit written permission.</li>
+              <li>You may not attempt to reverse engineer, scrape, or extract source code, algorithms, or bulk data from our interactive tools.</li>
+              <li>You must cite Enerqa when referencing insights or visualizations derived from our platform in public reports or presentations.</li>
+            </ul>
+
+            <h2>4. Disclaimer of Warranties</h2>
+            <p>
+              The information provided on this website is for general informational purposes only. While we strive to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.
             </p>
 
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">3. External Data and Global Intelligence</h2>
+            <h2>5. Changes to Terms</h2>
             <p>
-              The Data Portal and Global Intelligence sections aggregate external, open-access information and third-party news. Enerqa is not responsible for the accuracy of external datasets or the content of third-party websites linked through our platform. All external data remains subject to its original provider's license (e.g., CC BY 4.0, Public Domain).
-            </p>
-
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">4. Intellectual Property</h2>
-            <p>
-              Original content, logos, tool interfaces, and proprietary models (such as GreenScale Pro methodologies) are the intellectual property of Enerqa. They may not be reproduced or commercially exploited without our express written permission.
-            </p>
-
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">5. Contact</h2>
-            <p>
-              For legal enquiries regarding these terms, please contact <a href="mailto:legal@enerqa.co.uk" className="text-[var(--color-primary)] hover:underline">legal@enerqa.co.uk</a>.
+              Enerqa reserves the right, in its sole discretion, to change the Terms under which this website is offered. The most current version of the Terms will supersede all previous versions.
             </p>
           </div>
         </Container>
-      </section>
-
+      </Section>
     </div>
   );
 }

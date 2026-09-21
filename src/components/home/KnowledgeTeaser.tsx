@@ -21,9 +21,9 @@ export const KnowledgeTeaser = async () => {
   // Map bgGradientType to actual CSS gradients
   const gradientMap: Record<string, string> = {
     'Green': 'linear-gradient(135deg, #0e3029 0%, #061915 100%)',
-    'Red': 'linear-gradient(135deg, #8B1538 0%, #4a0a1c 100%)',
+    'Red': 'linear-gradient(135deg, #0972b8 0%, #075a93 100%)',
     'Blue': 'linear-gradient(135deg, #0f2841 0%, #06121e 100%)',
-    'Dark': 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)'
+    'Dark': 'linear-gradient(135deg, #0C3A5C 0%, #082C45 100%)'
   }
   
   const typeColorMap: Record<string, string> = {
@@ -44,7 +44,7 @@ export const KnowledgeTeaser = async () => {
       typeColor: typeColorMap[doc.type] || 'rgba(255,183,197,0.85)',
       title: doc.title,
       date: formattedDate,
-      bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #1b0a0f 0%, #100407 100%)',
+      bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #0C3A5C 0%, #082C45 100%)',
       heading: doc.heading,
       excerpt: doc.excerpt,
       file: (doc.file && typeof doc.file === 'object' && doc.file !== null && 'url' in doc.file && resolveMediaUrl(doc.file.url)) ? (resolveMediaUrl(doc.file.url) as string) : ''
@@ -62,7 +62,7 @@ export const KnowledgeTeaser = async () => {
         backgroundAttachment: 'fixed',
         zIndex: 0
       }}></div>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(10, 2, 5, 0.4)', zIndex: 1, pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(4, 25, 43, 0.4)', zIndex: 1, pointerEvents: 'none' }}></div>
       <Container style={{ position: 'relative', zIndex: 2 }}>
         {/* Use Client Component for the slider interactiveness */}
         <KnowledgeSlider publications={publications} />

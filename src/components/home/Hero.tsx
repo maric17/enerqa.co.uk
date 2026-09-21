@@ -18,6 +18,10 @@ import { Container } from '../ui/Container'
  *
  * The video backdrop, glass search pill and chip styling are deliberately kept
  * so the page still looks like itself.
+ *
+ * H03 Global News and H04 Major Markets used to render inside this section as
+ * children. They now have their own band below it (see FirstFoldFeeds), which
+ * is why the hero only carries the heading, narrative, search and chips.
  */
 
 // Exactly the three chips specified on p. 13.
@@ -27,7 +31,7 @@ const SUGGESTED_QUERIES = [
   'What does ESG readiness involve?',
 ]
 
-export const Hero = ({ children }: { children?: React.ReactNode }) => {
+export const Hero = () => {
   const [query, setQuery] = useState('')
   // H02 requires a visible loading state on submit.
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -102,9 +106,6 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => {
             </p>
           </div>
         </div>
-
-        {/* H03 + H04 render here so search, news and markets share the fold */}
-        {children}
       </Container>
     </section>
   )

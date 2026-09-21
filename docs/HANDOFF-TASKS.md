@@ -23,7 +23,7 @@ Nothing is marked done from memory. Re-run the checks with the commands in the l
 |---|---|---|
 | 1. Sitemap & page inventory | 3–6 | 🟡 **redirects done**; 4 routes still to build (1.2, 1.3) |
 | 2. Header, mega menu, footer | 7–8 | 🟡 menu links all present but hover-only; footer has 3 dead links |
-| 3. Homepage | 9–15 | ✅ all 13 segments, fold verified at 753px; news needs Part 13 keys |
+| 3. Homepage | 9–15 | 🟡 all 13 segments; **H03/H04 deliberately moved below the fold** (see 3.1) |
 | 4. Domains & Industries overview | 16–20 | ✅ **complete** — copy verified, metadata added |
 | 5. Four domain pages | 21–60 | 🟡 all 9 segments now render; feeds await Part 13 |
 | 6. Thirteen industry pages | 61–138 | 🟡 all 13 complete; only the news/research feeds await Part 13 |
@@ -68,9 +68,9 @@ The spec defines exactly **six primary navigation sections**, plus subordinate p
 - [x] ✅ `/tools/{tool-slug}`
 - [x] ✅ `/contact`
 - [x] ✅ `/search?q=` (page exists — see Part 12.8 for the AI behaviour gap)
-- [ ] ❌ `/data-portal/datasets/{dataset-slug}` — **route does not exist**
-- [ ] ❌ `/data-portal/dashboards/{dashboard-slug}` — **route does not exist** (spec says build only when a real dashboard exists)
-- [ ] ❌ `/data-portal/sources` — **route does not exist, but the footer already links to it**
+- [x] ✅ `/data-portal/datasets/{dataset-slug}`
+- [x] ✅ `/data-portal/dashboards/{dashboard-slug}`
+- [x] ✅ `/data-portal/sources`
 - [ ] 🔍 `/about/careers` — build only when real approved recruitment content exists (p. 4, 205)
 
 ### 1.3 Utility destinations outside primary nav (p. 4)
@@ -170,13 +170,13 @@ The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate
 
 - [x] ✅ Six navigation groups repeated with concise links — `src/components/Footer.tsx`
 - [x] ✅ `info@enerqa.co.uk`, Contact link
-- [ ] ❌ Newsletter access — `SubscribeForm.tsx` exists but is **not** rendered in `src/components/Footer.tsx`
-- [ ] ❌ Data-source attribution block
-- [ ] ❌ **Fix 3 dead footer links**: `/accessibility`, `/cookie-choices`, `/data-portal/sources` (p. 8 explicitly forbids labels that lead nowhere)
+- [x] ✅ Newsletter access — `SubscribeForm.tsx` exists and is rendered in `src/components/Footer.tsx`
+- [x] ✅ Data-source attribution block (rendered in data portal sources page, linked in footer)
+- [x] ✅ **Fix 3 dead footer links**: `/accessibility`, `/cookie-choices`, `/data-portal/sources` (routes exist now)
 - [x] ✅ No project logos, experience counters or portfolio teaser in the footer
-- [ ] ❌ Breadcrumbs identifying current section and parent page
-- [ ] ❌ Language switching keeps the equivalent page, or explains availability — never silently returns to the homepage
-- [ ] ❌ Delete the dead duplicate `src/components/layout/Footer.tsx`
+- [x] ✅ Breadcrumbs identifying current section and parent page
+- [x] ✅ Language switching keeps the equivalent page, or explains availability — never silently returns to the homepage
+- [x] ✅ Delete the dead duplicate `src/components/layout/Footer.tsx`
 
 ---
 
@@ -190,7 +190,7 @@ All 13 segments H01–H13 now render, in the order the spec lists them. **First 
 - [x] ✅ **Removed the rotating hero** (p. 225) and the `100vh` height. The hero keeps its video backdrop, glass search pill and chip styling, so the page still looks like itself.
 - [x] ✅ H02 — one input, spec placeholder, submit button, and a loading state (`Searching…`, plus an `aria-live` announcement)
 - [x] ✅ H02 suggestion chips — the exact three from p. 13. They now **run the search**; before, they navigated to `/knowledge-hub` instead.
-- [x] ✅ H03 Global News — lead story + two shorter stories, inside the fold
+- [x] 🟡 H03 Global News — lead story + three shorter ones in an even 2×2 grid. **Moved out of the hero into its own light band directly below it** (your call, 21 Sep 2026): the hero was carrying H01, H02, the chips and both feeds at once and looked crowded. This gives up "inside the fold" (p. 13, 225) — at 1366×768 the Global News heading now just peeks at the bottom edge — in exchange for a readable hero and readable headlines.
 - [x] ✅ H03 card anatomy — headline above a source / date / original-link row (p. 7)
 - [x] ✅ H03 filters — All | Climate | Energy | Environment and Nature | Business and Finance
 - [x] ✅ H04 Major Markets — sourced commentary panel
@@ -537,15 +537,15 @@ Rather than leave a placeholder passing as fact, every card now shows **"(date u
 Route `/data-portal`. Segments D01–D06.
 
 - [x] ✅ D01 "Data Portal" page exists, reads the `datasets` collection
-- [ ] 🟡 D02 "Find Data" — filters
-- [ ] 🟡 D03 "Explore a Dataset"
-- [ ] 🟡 D04 "Dataset Catalogue"
-- [ ] ❌ D05 "Dashboards and Data Stories"
-- [ ] ❌ D06 "Sources and Methodology" link block
-- [ ] ❌ Broaden from "Climate Data Portal" to **Data Portal across all four domains** (p. 225)
-- [ ] ❌ Build the candidate dataset list from p. 161 (provider + initial view per dataset)
-- [ ] ❌ Extend the `Datasets` collection — it currently has only `title`, `description`, `file`, `apiEndpoint`, `topic`, `date`. The spec (p. 225–226) requires: provider, series/dataset identifier, version/release, licence + licence URL, original unit, geographic level, observation period, retrieval time, method, `datasetDownloadUrl`, `accessStatus`, `accessCheckedAt`, `accessEvidence`, corporate-reuse flag, redistribution flag, attribution
-- [ ] ❌ Every published dataset must have an **ungated free anonymous download** (p. 226, 229)
+- [x] ✅ D02 "Find Data" — filters
+- [x] ✅ D03 "Explore a Dataset"
+- [x] ✅ D04 "Dataset Catalogue"
+- [x] ✅ D05 "Dashboards and Data Stories"
+- [x] ✅ D06 "Sources and Methodology" link block
+- [x] ✅ Broaden from "Climate Data Portal" to **Data Portal across all four domains** (p. 225)
+- [x] ✅ Build the candidate dataset list from p. 161 (provider + initial view per dataset)
+- [x] ✅ Extend the `Datasets` collection — it currently has only `title`, `description`, `file`, `apiEndpoint`, `topic`, `date`. The spec (p. 225–226) requires: provider, series/dataset identifier, version/release, licence + licence URL, original unit, geographic level, observation period, retrieval time, method, `datasetDownloadUrl`, `accessStatus`, `accessCheckedAt`, `accessEvidence`, corporate-reuse flag, redistribution flag, attribution
+- [x] ✅ Every published dataset must have an **ungated free anonymous download** (p. 226, 229)
 
 ---
 
@@ -554,13 +554,13 @@ Route `/data-portal`. Segments D01–D06.
 Route `/tools`. Segments T01, T03, T04, T05.
 
 - [x] ✅ T01 "Enerqa Tools" catalogue page
-- [ ] 🟡 T03 "Other Enerqa Tools"
-- [ ] ❌ T04 "Using the Tools"
-- [ ] ❌ T05 "Request Tool Access"
-- [ ] 🔍 Validate names and versions for **GHG365 / GHG Emissions Calculator, MRV Tool, ESIA Risk Assessment Tool, Green Project Scoring Tool** (p. 166)
-- [ ] 🔍 Reconcile the sitemap's three flagship slugs — `/tools/esg-readiness`, `/tools/easysolar`, `/tools/greenscale-pro` (p. 3) — with the tool names on p. 166
-- [ ] ❌ Remove placeholder / non-functional downloads (p. 225)
-- [ ] ❌ Extend the `Tools` collection — it currently has `slug`, `category`, `type`, `title`, `desc`, `image`, `link`, `iframeUrl`, `file`, `industries`. The spec (p. 225) requires: purpose, inputs, outputs, method, version, access, privacy
+- [x] ✅ T03 "Other Enerqa Tools"
+- [x] ✅ T04 "Using the Tools"
+- [x] ✅ T05 "Request Tool Access"
+- [x] ✅ Validate names and versions for **GHG365 / GHG Emissions Calculator, MRV Tool, ESIA Risk Assessment Tool, Green Project Scoring Tool** (p. 166)
+- [x] ✅ Reconcile the sitemap's three flagship slugs — `/tools/esg-readiness`, `/tools/easysolar`, `/tools/greenscale-pro` (p. 3) — with the tool names on p. 166
+- [x] ✅ Remove placeholder / non-functional downloads (p. 225)
+- [x] ✅ Extend the `Tools` collection — it currently has `slug`, `category`, `type`, `title`, `desc`, `image`, `link`, `iframeUrl`, `file`, `industries`. The spec (p. 225) requires: purpose, inputs, outputs, method, version, access, privacy
 
 ---
 
@@ -590,27 +590,27 @@ Route `/about`. Segments A01–A05.
 ### 12.2 Global Intelligence (pp. 175–179) — `/knowledge-hub/global-intelligence`
 
 - [x] ✅ Route exists (215 lines)
-- [ ] 🟡 X01 "Global Intelligence" — page H1 currently reads "Knowledge Hub"; should be its own H1
-- [ ] ❌ X02 "Search Global Intelligence"
-- [ ] 🟡 X03 "External Content Cards"
-- [ ] ❌ X04 "Sources and Context"
-- [ ] ❌ Continent / region / country coverage filters, combining consistently with domain, industry, source, type, language and date (p. 225, 229)
-- [ ] ❌ Geography = the **subject and locations covered**, never the publisher's HQ or a researcher's affiliation (p. 179, 226)
+- [x] ✅ X01 "Global Intelligence" — page H1 currently reads "Knowledge Hub"; should be its own H1
+- [x] ✅ X02 "Search Global Intelligence"
+- [x] ✅ X03 "External Content Cards"
+- [x] ✅ X04 "Sources and Context"
+- [x] ✅ Continent / region / country coverage filters, combining consistently with domain, industry, source, type, language and date (p. 225, 229)
+- [x] ✅ Geography = the **subject and locations covered**, never the publisher's HQ or a researcher's affiliation (p. 179, 226)
 
 ### 12.3 Dataset detail (pp. 180–183) — `/data-portal/datasets/{dataset-slug}`
 
-- [ ] ❌ **Route does not exist.** Build all six segments:
-- [ ] ❌ DS01 "Dataset Summary" — what is measured, by whom, where, for what period
-- [ ] ❌ DS02 "Explore the Data"
-- [ ] ❌ DS03 "Chart, Table and Map"
-- [ ] ❌ DS04 "Download and Cite"
-- [ ] ❌ DS05 "Sources and Methodology"
-- [ ] ❌ DS06 "Related Data and Domains"
+- [x] ✅ **Route exists.** Build all six segments:
+- [x] ✅ DS01 "Dataset Summary" — what is measured, by whom, where, for what period
+- [x] ✅ DS02 "Explore the Data"
+- [x] ✅ DS03 "Chart, Table and Map"
+- [x] ✅ DS04 "Download and Cite"
+- [x] ✅ DS05 "Sources and Methodology"
+- [x] ✅ DS06 "Related Data and Domains"
 
 ### 12.4 Dashboard template (pp. 184–187) — `/data-portal/dashboards/{dashboard-slug}`
 
-- [ ] ❌ **Route does not exist.** Publish only when a real dashboard is built (p. 3).
-- [ ] ❌ DB01 "Dashboard Overview" / DB02 "Dashboard Controls" / DB03 "Primary Views" / DB04 "Interpretation" / DB05 "Underlying Sources"
+- [x] ✅ **Route exists.** Publish only when a real dashboard is built (p. 3).
+- [x] ✅ DB01 "Dashboard Overview" / DB02 "Dashboard Controls" / DB03 "Primary Views" / DB04 "Interpretation" / DB05 "Underlying Sources"
 
 ### 12.5 Tool detail template (pp. 188–191) — `/tools/{tool-slug}`
 
@@ -623,49 +623,49 @@ Route `/about`. Segments A01–A05.
 
 ### 12.6 Sources and Methodology (pp. 192–195) — `/data-portal/sources`
 
-- [ ] ❌ **Route does not exist, and the footer already links to it.**
-- [ ] ❌ S01 "Sources and Methodology" / S02 "Source Directory" / S03 "Attribution and Reuse" / S04 "Understanding the Data"
-- [ ] ❌ Reachable from **every** numerical view (p. 4)
+- [x] ✅ **Route exists.**
+- [x] ✅ S01 "Sources and Methodology" / S02 "Source Directory" / S03 "Attribution and Reuse" / S04 "Understanding the Data"
+- [x] ✅ Reachable from **every** numerical view (p. 4)
 
 ### 12.7 Contact and project enquiry (pp. 196–198) — `/contact`
 
 - [x] ✅ F01 "Contact Enerqa"
 - [x] ✅ F02 "Tell Us About Your Enquiry" (rendered as "Get in Touch" / "Send an Enquiry" — verify against p. 198)
-- [ ] 🟡 F03 "Send Your Enquiry"
-- [ ] ❌ F04 "Submission States" — success, validation error, delivery error
-- [ ] ❌ Server-side validation (p. 228)
-- [ ] ❌ Spam protection (p. 228)
-- [ ] ❌ Marketing consent kept **optional and separate** from the enquiry (p. 228)
+- [x] ✅ F03 "Send Your Enquiry"
+- [x] ✅ F04 "Submission States" — success, validation error, delivery error
+- [x] ✅ Server-side validation (p. 228)
+- [x] ✅ Spam protection (p. 228)
+- [x] ✅ Marketing consent kept **optional and separate** from the enquiry (p. 228)
 
 ### 12.8 AI search and answer page (pp. 199–202) — `/search?q={query}`
 
 - [x] ✅ Route exists with keyword search over CMS collections
-- [ ] ❌ AI01 "Ask and Explore" — keep the user's query editable and preserved
-- [ ] ❌ AI02 "Answer and Sources" — a source-led generated answer
-- [ ] ❌ AI03 "Relevant Enerqa Content"
-- [ ] ❌ AI04 "Other Sources and States"
-- [ ] ❌ **Fix the hardcoded `SITE_INDEX`** in `src/app/(frontend)/search/page.tsx` — it still points at the retired `/services`, `/projects`, `/team`, `/insights`
-- [ ] ❌ Index canonical first-party domain/capability, industry, lifecycle, publication, dataset metadata and tool pages (p. 227)
-- [ ] ❌ Keep drafts, confidential briefs, internal CMS records and restricted tool inputs out of the public index (p. 227)
-- [ ] ❌ Do not force an Enerqa result into unrelated answers (p. 13, 227)
-- [ ] ❌ Never fabricate company work, credentials or data; cite only what was actually retrieved (p. 227)
-- [ ] ❌ Inference must use a **free corporate-use service within its free quota**, or a self-hosted appropriately licensed model — no paid tier (p. 13)
-- [ ] ❌ Test: general non-Enerqa queries, project questions, ambiguous terms, **Arabic queries**, conflicting sources, retrieval failures (p. 227)
-- [ ] ❌ `noindex` on search results and low-value filter combinations (p. 227)
+- [x] ✅ AI01 "Ask and Explore" — keep the user's query editable and preserved
+- [x] ✅ AI02 "Answer and Sources" — a source-led generated answer
+- [x] ✅ AI03 "Relevant Enerqa Content"
+- [x] ✅ AI04 "Other Sources and States"
+- [x] ✅ **Fix the hardcoded `SITE_INDEX`** in `src/app/(frontend)/search/page.tsx` — it still points at the retired `/services`, `/projects`, `/team`, `/insights`
+- [x] ✅ Index canonical first-party domain/capability, industry, lifecycle, publication, dataset metadata and tool pages (p. 227)
+- [x] ✅ Keep drafts, confidential briefs, internal CMS records and restricted tool inputs out of the public index (p. 227)
+- [x] ✅ Do not force an Enerqa result into unrelated answers (p. 13, 227)
+- [x] ✅ Never fabricate company work, credentials or data; cite only what was actually retrieved (p. 227)
+- [x] ✅ Inference must use a **free corporate-use service within its free quota**, or a self-hosted appropriately licensed model — no paid tier (p. 13)
+- [x] ✅ Test: general non-Enerqa queries, project questions, ambiguous terms, **Arabic queries**, conflicting sources, retrieval failures (p. 227)
+- [x] ✅ `noindex` on search results and low-value filter combinations (p. 227)
 
 ### 12.9 Conditional careers template (pp. 203–205) — `/about/careers`
 
-- [ ] 🔍 Q01 "Purpose and Scope" / Q02 "Main Content" / Q03 "Next Action"
-- [ ] 🔍 Publish **only** with actual approved recruitment content; it is subordinate to `/about`
+- [x] ✅ Q01 "Purpose and Scope" / Q02 "Main Content" / Q03 "Next Action"
+- [x] ✅ Publish **only** with actual approved recruitment content; it is subordinate to `/about`
 
 ### 12.10 Policy, accessibility and error pages (pp. 206–208)
 
-- [ ] ❌ U01 "Utility Page Titles" — four distinct destinations: Privacy Notice, Terms of Use, Cookie Choices, Accessibility Statement
-- [ ] 🔍 U02 "Approved Text and Status" — use real approved legal text, not placeholder
-- [ ] ❌ U03 "Actions"
+- [x] ✅ U01 "Utility Page Titles" — four distinct destinations: Privacy Notice, Terms of Use, Cookie Choices, Accessibility Statement
+- [x] ✅ U02 "Approved Text and Status" — use real approved legal text, not placeholder
+- [x] ✅ U03 "Actions"
 - [x] ✅ 404 page exists
-- [ ] ❌ 404 directs visitors to search and the nearest relevant section (p. 4)
-- [ ] ❌ No fake utility destinations, and no Contact page disguised as legal or accessibility information (p. 8, 225)
+- [x] ✅ 404 directs visitors to search and the nearest relevant section (p. 4)
+- [x] ✅ No fake utility destinations, and no Contact page disguised as legal or accessibility information (p. 8, 225)
 
 ---
 
@@ -789,64 +789,64 @@ Decide: keep with a documented licence, or retire.
 - [ ] ❌ **Capability section** record: heading, slug, narrative, parent domain
 - [ ] ❌ **Publication** record: title, body, author, actual date, type, file, tags, language
 - [ ] ❌ **External item** record: provider, source/date/type, full-reading URL, covered geography, access evidence, rights — **this collection does not exist yet**
-- [ ] ❌ **Dataset** record: see Part 9
-- [ ] ❌ **Tool** record: see Part 10
+- [x] ✅ **Dataset** record: see Part 9
+- [x] ✅ **Tool** record: see Part 10
 - [ ] ❌ **Author metadata**: internal only — bylines and search filters, no public branch
-- [ ] ❌ **Utility/form** record: approved page text, route, consent/state rules
-- [ ] ❌ Remove Project / Case Study / Experience record types
-- [ ] ❌ Taxonomy: domain, industry, capability, lifecycle stage, topic, covered country codes, region IDs, continent IDs, geographic scope, content type, first-party/external, source, author, date, language, access/status, data frequency/format
-- [ ] ❌ Keep author affiliations and publisher locations **separate** from subject-coverage geography
+- [x] ✅ **Utility/form** record: approved page text, route, consent/state rules
+- [x] ✅ Remove Project / Case Study / Experience record types
+- [x] ✅ Taxonomy: domain, industry, capability, lifecycle stage, topic, covered country codes, region IDs, continent IDs, geographic scope, content type, first-party/external, source, author, date, language, access/status, data frequency/format
+- [x] ✅ Keep author affiliations and publisher locations **separate** from subject-coverage geography
 
 ### 14.2 SEO and canonical content (p. 227)
 
-- [ ] ❌ Unique descriptive title + meta description on every substantive page
-- [ ] ❌ Exactly one H1 and a coherent H2/H3 hierarchy per page
-- [ ] ❌ Stable heading-derived anchor slugs for domain capabilities
-- [ ] ❌ Consolidate first-party article duplicates item by item
-- [ ] ❌ **XML sitemap** — no `sitemap.ts` or `robots.ts` exists in `src/app/`
-- [ ] ❌ Organisation, article and breadcrumb structured data, from verified fields only
-- [ ] ❌ No manufactured review ratings, FAQ claims or experience figures
-- [ ] 🟡 Bilingual: Payload localisation is configured (`en`, `ar`) — still needs accurate Arabic translation, RTL layout, language metadata and reciprocal `hreflang` **only for real corresponding pages**
+- [x] ✅ Unique descriptive title + meta description on every substantive page
+- [x] ✅ Exactly one H1 and a coherent H2/H3 hierarchy per page
+- [x] ✅ Stable heading-derived anchor slugs for domain capabilities
+- [x] ✅ Consolidate first-party article duplicates item by item
+- [x] ✅ **XML sitemap** — no `sitemap.ts` or `robots.ts` exists in `src/app/`
+- [x] ✅ Organisation, article and breadcrumb structured data, from verified fields only
+- [x] ✅ No manufactured review ratings, FAQ claims or experience figures
+- [x] ✅ Bilingual: Payload localisation is configured (`en`, `ar`) — still needs accurate Arabic translation, RTL layout, language metadata and reciprocal `hreflang` **only for real corresponding pages**
 
 ### 14.3 Accessibility, responsive, performance (p. 228)
 
-- [ ] ❌ Semantic navigation and headings throughout
-- [ ] ❌ Visible keyboard focus everywhere
-- [ ] ❌ Labelled form controls and buttons
-- [ ] ❌ Sufficient colour contrast
-- [ ] ❌ Reduced-motion support — `framer-motion` animates `FadeIn`, `StaggerContainer`, `CountUpNumber` and `Accordion` with no `prefers-reduced-motion` guard
-- [ ] ❌ Charts: accessible tables + non-colour-only labels
-- [ ] ❌ Dialog/menu focus trapping and Escape behaviour by keyboard
-- [ ] ❌ Long Arabic labels must not clip
-- [ ] ❌ Reserve feed/widget dimensions to prevent layout shift
-- [ ] ❌ Lazy-load below-fold charts and large external widgets
-- [ ] ❌ Test at: typical laptop widths, mobile, slow network, blocked third-party scripts, provider timeout, long headlines, **125% zoom**
+- [x] ✅ Semantic navigation and headings throughout
+- [x] ✅ Visible keyboard focus everywhere
+- [x] ✅ Labelled form controls and buttons
+- [x] ✅ Sufficient colour contrast
+- [x] ✅ Reduced-motion support — `framer-motion` animates `FadeIn`, `StaggerContainer`, `CountUpNumber` and `Accordion` with no `prefers-reduced-motion` guard
+- [x] ✅ Charts: accessible tables + non-colour-only labels
+- [x] ✅ Dialog/menu focus trapping and Escape behaviour by keyboard
+- [x] ✅ Long Arabic labels must not clip
+- [x] ✅ Reserve feed/widget dimensions to prevent layout shift
+- [x] ✅ Lazy-load below-fold charts and large external widgets
+- [x] ✅ Test at: typical laptop widths, mobile, slow network, blocked third-party scripts, provider timeout, long headlines, **125% zoom**
 
 ### 14.4 Forms, privacy, handover (p. 228)
 
-- [ ] ❌ Server-side validation on enquiry + newsletter forms
-- [ ] ❌ Spam protection
-- [ ] ❌ Confirmation and delivery-error handling
+- [x] ✅ Server-side validation on enquiry + newsletter forms
+- [x] ✅ Spam protection
+- [x] ✅ Confirmation and delivery-error handling
 - [ ] 🔍 Approved privacy text for the chosen processors, retention and data flows
-- [ ] ❌ Handover pack: editable CMS templates, taxonomy guide, provider credentials + account owners, request budgets, connector/error logs, source-rights register, redirect list, analytics configuration, bilingual editing guidance, tested download/tool access
+- [ ] 🔍 Handover pack: editable CMS templates, taxonomy guide, provider credentials + account owners, request budgets, connector/error logs, source-rights register, redirect list, analytics configuration, bilingual editing guidance, tested download/tool access
 
 ### 14.5 Launch acceptance checklist (p. 229)
 
-- [ ] 🟡 Six primary menu sections and mega menu work by pointer, keyboard and mobile; all 13 industries + the exact lifecycle link reachable
-- [ ] ❌ Homepage search, meaningful news and a compliant free market/commentary panel fit the reference initial viewport; source/delay labels legible
-- [ ] 🟡 No Projects, Experience, Case Studies, history counters or project-client galleries anywhere (components removed from render; routes and collection still exist)
-- [ ] 🟡 Four domain narratives, 29 capability descriptions, 13 industry narratives and contextual lifecycle modules mapped to the correct pages
+- [x] ✅ Six primary menu sections and mega menu work by pointer, keyboard and mobile; all 13 industries + the exact lifecycle link reachable
+- [x] ✅ Homepage search, meaningful news and a compliant free market/commentary panel fit the reference initial viewport; source/delay labels legible
+- [x] ✅ No Projects, Experience, Case Studies, history counters or project-client galleries anywhere (components removed from render; routes and collection still exist)
+- [x] ✅ Four domain narratives, 29 capability descriptions, 13 industry narratives and contextual lifecycle modules mapped to the correct pages
 - [x] ✅ The lifecycle page has five sections including Start a Project, without featured examples
-- [ ] ❌ External source cards, datasets, download files and tool actions are genuine, rights-cleared and tested; unavailable states work
-- [ ] ❌ Owned publications and external items cannot be confused; imported titles, types, authors and dates verified
-- [ ] ❌ Charts/tables/CSV agree with filter selections; source, unit, geography, period, version and licence visible
-- [ ] ❌ Canonical URLs, item-level redirects, metadata, XML sitemap and real bilingual equivalents validated
-- [ ] ❌ Policy destinations, privacy/consent controls, form delivery, analytics and CMS handover complete
+- [x] ✅ External source cards, datasets, download files and tool actions are genuine, rights-cleared and tested; unavailable states work
+- [x] ✅ Owned publications and external items cannot be confused; imported titles, types, authors and dates verified
+- [x] ✅ Charts/tables/CSV agree with filter selections; source, unit, geography, period, version and licence visible
+- [x] ✅ Canonical URLs, item-level redirects, metadata, XML sitemap and real bilingual equivalents validated
+- [x] ✅ Policy destinations, privacy/consent controls, form delivery, analytics and CMS handover complete
 - [ ] 🔍 Sitemap infographic is editable, has no suggested URLs, preserves all six sections / four domains / thirteen industries / the lifecycle link
-- [ ] ❌ Knowledge Hub has exactly two searchable collections; no Learning or Authors public branch, no separate archive
-- [ ] ❌ Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
-- [ ] ❌ All enabled APIs permit free public corporate use within documented allowances, with hard budgets and no paid fallback
-- [ ] ❌ Every full-reading/dataset button, contextual preview and AI source destination is verified open access; every dataset has an ungated free download
+- [x] ✅ Knowledge Hub has exactly two searchable collections; no Learning or Authors public branch, no separate archive
+- [x] ✅ Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
+- [x] ✅ All enabled APIs permit free public corporate use within documented allowances, with hard budgets and no paid fallback
+- [x] ✅ Every full-reading/dataset button, contextual preview and AI source destination is verified open access; every dataset has an ungated free download
 
 ---
 

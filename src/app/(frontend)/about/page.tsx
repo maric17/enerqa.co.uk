@@ -3,6 +3,13 @@ import Link from 'next/link';
 import { ArrowRight, Globe, BarChart2, Mail } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Enerqa',
+  description: 'Learn about Enerqa, a multidisciplinary project-development and consultancy company working across climate action, energy systems, environment, and sustainable business.',
+};
+
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">

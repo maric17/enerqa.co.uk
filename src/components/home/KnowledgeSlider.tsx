@@ -47,7 +47,7 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
             </button>
           </div>
 
-          <a href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #ffb7c5', color: '#ffb7c5', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
+          <a href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #00cfc8', color: '#00cfc8', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
             Explore Enerqa Publication
           </a>
         </div>
@@ -79,7 +79,7 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
                 {pub.excerpt}
               </p>
               {pub.file && (
-                <a href={pub.file} download className="client-read-btn" style={{ fontSize: '13px', fontWeight: 700, color: '#ffb7c5', textDecoration: 'none', borderBottom: '1.5px solid #ffb7c5', paddingBottom: '2px', width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.2s' }}>
+                <a href={pub.file} download className="client-read-btn" style={{ fontSize: '13px', fontWeight: 700, color: '#00cfc8', textDecoration: 'none', borderBottom: '1.5px solid #00cfc8', paddingBottom: '2px', width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.2s' }}>
                   Read Full Report
                 </a>
               )}
@@ -88,8 +88,8 @@ export const KnowledgeSlider = ({ publications }: { publications: Publication[] 
         ))}
       </div>
       <style dangerouslySetInnerHTML={{__html: `
-        .slider-arrow-btn:hover { border-color: #ffffff !important; background: #ffffff !important; color: #100407 !important; }
-        .client-hover-btn:hover { background: #ffb7c5 !important; color: #100407 !important; border-color: #ffb7c5 !important; }
+        .slider-arrow-btn:hover { border-color: #ffffff !important; background: #ffffff !important; color: #082C45 !important; }
+        .client-hover-btn:hover { background: #00cfc8 !important; color: #082C45 !important; border-color: #00cfc8 !important; }
         .client-read-btn:hover { color: #ffffff !important; border-bottom-color: #ffffff !important; }
         #publications-slider::-webkit-scrollbar { display: none; }
         .publication-slide { flex: 0 0 calc(50% - 28px); min-width: 540px; scroll-snap-align: start; display: flex; gap: 32px; align-items: flex-start; }

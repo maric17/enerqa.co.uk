@@ -1,9 +1,16 @@
 'use client'
 
-import React from 'react'
+import React, { useActionState } from 'react'
 import { Container } from '../ui/Container'
+import { submitNewsletterForm, NewsletterFormState } from '@/app/(frontend)/actions/newsletter'
+
+const initialState: NewsletterFormState = {
+  success: false,
+}
 
 export const ContactCTA = () => {
+  const [state, formAction, isPending] = useActionState(submitNewsletterForm, initialState);
+
   return (
     <section className="band" id="cta" style={{ background: '#ffffff', padding: '60px 0 100px' }}>
       <Container>
@@ -38,18 +45,28 @@ export const ContactCTA = () => {
               <span className="en">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</span>
             </p>
             
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '14px', width: '100%' }} onSubmit={(e) => e.preventDefault()}>
+            <form style={{ display: 'flex', flexDirection: 'column', gap: '14px', width: '100%' }} action={formAction}>
+              {state.message && (
+                <div style={{ background: state.success ? 'rgba(0,207,200,0.1)' : 'rgba(255,0,0,0.1)', color: state.success ? 'var(--color-primary-dark)' : 'red', padding: '12px 16px', borderRadius: '8px', fontSize: '14px', fontWeight: 500 }}>
+                  {state.message}
+                </div>
+              )}
+              {/* Honeypot for spam protection */}
+              <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+              
               {/* Input Row */}
               <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.97)', borderRadius: '100px', overflow: 'hidden', alignItems: 'center', width: '100%', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }} className="cta-input-row">
-                <input type="email" placeholder="* Your email address" required style={{ flex: 1, minWidth: 0, padding: '14px 24px', border: 'none', background: 'transparent', color: '#1c1c1c', fontSize: '14px', outline: 'none' }} />
-                <button type="submit" className="btn" style={{ background: 'var(--color-dark)', color: '#ffffff', fontWeight: 700, border: 'none', borderRadius: '100px', padding: '14px 32px', fontSize: '13.5px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'background 0.2s', whiteSpace: 'nowrap' }}>
-                  <span>Subscribe</span> 
+                <input type="email" name="email" placeholder="* Your email address" required style={{ flex: 1, minWidth: 0, padding: '14px 24px', border: 'none', background: 'transparent', color: '#1c1c1c', fontSize: '14px', outline: 'none' }} disabled={state.success || isPending} />
+                <button type="submit" disabled={state.success || isPending} className="btn" style={{ background: 'var(--color-dark)', color: '#ffffff', fontWeight: 700, border: 'none', borderRadius: '100px', padding: '14px 32px', fontSize: '13.5px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'background 0.2s', whiteSpace: 'nowrap', opacity: (state.success || isPending) ? 0.7 : 1 }}>
+                  <span>{isPending ? 'Subscribing...' : 'Subscribe'}</span> 
                 </button>
               </div>
 
               {/* Consent Checkbox */}
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '8px' }}>
-                <input type="checkbox" id="consent" required style={{ width: '16px', height: '16px', borderRadius: '4px', border: '1.5px solid rgba(10,25,47,0.4)', background: 'transparent', accentColor: 'var(--color-dark)', cursor: 'pointer', marginTop: '2px' }} />
+                <input type="checkbox" id="consent" name="consent" required disabled={state.success || isPending} style={{ width: '16px', height: '16px', borderRadius: '4px', border: '1.5px solid rgba(10,25,47,0.4)', background: 'transparent', accentColor: 'var(--color-dark)', cursor: 'pointer', marginTop: '2px' }} />
                 <label htmlFor="consent" style={{ fontSize: '12px', color: 'rgba(10,25,47,0.7)', lineHeight: 1.45, cursor: 'pointer' }}>
                   I agree with the terms of the <a href="/privacy" style={{ color: 'var(--color-dark)', textDecoration: 'underline', fontWeight: 600 }}>Privacy Notice</a> and consent to my personal data being processed.
                 </label>

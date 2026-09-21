@@ -147,7 +147,7 @@ export default function ToolsList({ tools }: { tools: Tool[] }) {
                   </div>
                 )}
                 <div className="flex items-start gap-2">
-                  <Badge variant="solid" className={tool.type === 'interactive' ? 'bg-[#A8192E] text-white' : 'bg-ink text-white'}>
+                  <Badge variant="solid" className={tool.type === 'interactive' ? 'bg-[#0972b8] text-white' : 'bg-ink text-white'}>
                     <span className="en">{tool.type === 'interactive' ? 'Interactive Tool' : 'Informational Guide'}</span>
                     <span className="ar hidden group-[[data-lang=ar]]:inline-block">{tool.type === 'interactive' ? 'أداة تفاعلية' : 'دليل إعلامي'}</span>
                   </Badge>

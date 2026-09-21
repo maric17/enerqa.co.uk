@@ -24,7 +24,10 @@ export function RequestAccessForm({ toolId }: { toolId: string }) {
   return (
     <form action={action} className="flex flex-col gap-4 max-w-md mt-6">
       <h3 className="text-xl font-bold">Request Access</h3>
-      <input type="text" name="name" placeholder="Full Name" required className="border p-2 rounded" />
+      <div className="flex gap-2">
+        <input type="text" name="firstName" placeholder="First Name" required className="border p-2 rounded w-full" />
+        <input type="text" name="lastName" placeholder="Last Name" required className="border p-2 rounded w-full" />
+      </div>
       <input type="email" name="email" placeholder="Work Email" required className="border p-2 rounded" />
       <input type="text" name="company" placeholder="Company" required className="border p-2 rounded" />
       <textarea name="message" placeholder="How do you plan to use this tool? (Optional)" className="border p-2 rounded" rows={3}></textarea>

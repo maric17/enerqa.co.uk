@@ -53,8 +53,13 @@ export default async function GlobalIntelligencePage({
   const query = first(params.q).slice(0, 120);
   const themeParam = first(params.theme);
   const theme: NewsBasketKey = isBasketKey(themeParam) ? themeParam : 'all';
+  
+  const region = first(params.region);
+  const source = first(params.source);
+  const language = first(params.language);
+  const dateRange = first(params.dateRange);
 
-  const result = await searchNews(query, theme, 24);
+  const result = await searchNews(query, theme, { region, source, language, dateRange }, 24);
 
   const retrievedLabel = new Date(result.retrievedAt).toLocaleString('en-GB', {
     day: 'numeric',
@@ -71,9 +76,9 @@ export default async function GlobalIntelligencePage({
       <section className="border-b border-gray-800 bg-[var(--color-dark)] py-20 text-white">
         <Container>
           <div className="max-w-4xl">
-            <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">Knowledge Hub</h1>
+            <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">Global Intelligence</h1>
             <p className="mb-6 text-xl leading-relaxed text-gray-300">
-              Explore original Enerqa analysis alongside open-access news, research and official updates from around the world. Choose Enerqa Publication for our own work, or Global Intelligence for external evidence relevant to climate, energy, environment, nature, circularity, ESG and finance.
+              Explore open-access news, research and official updates from around the world, specifically curated for relevance to climate, energy, environment, nature, circularity, ESG and finance.
             </p>
           </div>
         </Container>
@@ -133,56 +138,104 @@ export default async function GlobalIntelligencePage({
                 })}
               </nav>
 
-              {result.sources.length > 0 && (
-                <div className="mt-8 border-t border-gray-200 pt-6">
-                  <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-500">
-                    Sources in these results
-                  </h3>
-                  <ul className="m-0 flex list-none flex-col gap-2 p-0">
-                    {result.sources.map((source) => (
-                      <li key={source.id}>
-                        <a
-                          href={source.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-[var(--color-secondary)] hover:underline"
-                        >
-                          {source.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {/* X04: The Sources overview is moved to the bottom */}
             </aside>
 
             <div className="lg:col-span-3">
               {/* A GET form: no JavaScript needed, and every result set is a
-                  shareable URL. The hidden field keeps the chosen topic when
-                  a search is submitted. */}
-              <form action="/knowledge-hub/global-intelligence" method="get" className="mb-8">
-                {theme !== 'all' && <input type="hidden" name="theme" value={theme} />}
-                <div className="relative max-w-2xl">
+                  shareable URL. */}
+              <form action="/knowledge-hub/global-intelligence" method="get" className="mb-8 rounded-xl bg-white p-6 shadow-sm border border-gray-200">
+                <div className="mb-6">
                   <label htmlFor="gi-search" className="sr-only">
                     Search global intelligence by keyword
                   </label>
-                  <Search
-                    className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <input
-                    id="gi-search"
-                    name="q"
-                    type="search"
-                    defaultValue={query}
-                    placeholder="Search these results by keyword"
-                    className="w-full rounded-xl border border-gray-300 py-4 pl-12 pr-24 outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]"
-                  />
+                  <div className="relative w-full">
+                    <Search
+                      className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    <input
+                      id="gi-search"
+                      name="q"
+                      type="search"
+                      defaultValue={query}
+                      placeholder="Search global intelligence by keyword..."
+                      className="w-full rounded-xl border border-gray-300 py-4 pl-12 pr-4 outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]"
+                    />
+                  </div>
+                </div>
+
+                {/* X02 Extended Filters */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                  {theme !== 'all' && <input type="hidden" name="theme" value={theme} />}
+                  
+                  <div>
+                    <label htmlFor="region-filter" className="mb-1 block text-sm font-medium text-gray-700">Geography</label>
+                    <select
+                      id="region-filter"
+                      name="region"
+                      defaultValue={region}
+                      className="w-full rounded-lg border border-gray-300 p-2.5 text-sm outline-none focus:border-[var(--color-primary)]"
+                    >
+                      <option value="">All Regions</option>
+                      {result.availableRegions.map(r => (
+                        <option key={r} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="source-filter" className="mb-1 block text-sm font-medium text-gray-700">Source</label>
+                    <select
+                      id="source-filter"
+                      name="source"
+                      defaultValue={source}
+                      className="w-full rounded-lg border border-gray-300 p-2.5 text-sm outline-none focus:border-[var(--color-primary)]"
+                    >
+                      <option value="">All Sources</option>
+                      {result.sources.map(s => (
+                        <option key={s.id} value={s.id}>{s.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="language-filter" className="mb-1 block text-sm font-medium text-gray-700">Language</label>
+                    <select
+                      id="language-filter"
+                      name="language"
+                      defaultValue={language}
+                      className="w-full rounded-lg border border-gray-300 p-2.5 text-sm outline-none focus:border-[var(--color-primary)]"
+                    >
+                      <option value="">All Languages</option>
+                      {result.availableLanguages.map(l => (
+                        <option key={l} value={l}>{l.toUpperCase()}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="date-filter" className="mb-1 block text-sm font-medium text-gray-700">Timeframe</label>
+                    <select
+                      id="date-filter"
+                      name="dateRange"
+                      defaultValue={dateRange}
+                      className="w-full rounded-lg border border-gray-300 p-2.5 text-sm outline-none focus:border-[var(--color-primary)]"
+                    >
+                      <option value="">Any Time</option>
+                      <option value="24h">Past 24 Hours</option>
+                      <option value="7d">Past 7 Days</option>
+                      <option value="30d">Past 30 Days</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end">
                   <button
                     type="submit"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-dark)] px-4 py-2 text-sm font-bold text-white"
+                    className="rounded-lg bg-[var(--color-dark)] px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-black"
                   >
-                    Search
+                    Apply Filters
                   </button>
                 </div>
               </form>
@@ -238,6 +291,14 @@ export default async function GlobalIntelligencePage({
                             </time>
                           </>
                         )}
+                        {item.regions && item.regions.length > 0 && item.regions[0] !== 'Global' && (
+                          <>
+                            <span className="text-gray-400" aria-hidden="true">|</span>
+                            <span className="text-gray-600 font-medium">
+                              {item.regions.join(', ')}
+                            </span>
+                          </>
+                        )}
                       </div>
 
                       <h3 className="mb-3 text-xl font-bold text-[var(--color-dark)]">{item.title}</h3>
@@ -259,15 +320,56 @@ export default async function GlobalIntelligencePage({
                 )}
               </div>
 
-              {/* Provenance line (pp. 226, 229): retrieval time is labelled
-                  separately from the articles' own publication dates. */}
-              <p className="mt-10 text-xs leading-relaxed text-gray-500">
-                Retrieved {retrievedLabel} UTC.
-                {result.hasDelayedSource &&
-                  ` Some items reach the free feed up to ${NEWS_DELAY_HOURS} hours after publication.`}{' '}
-                Sources are limited to publishers whose articles can be opened without payment, subscription or registration. Links open the original publisher; Enerqa does not host or endorse their content.
-              </p>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* X04 Sources and Context */}
+      <section className="border-t border-gray-200 bg-white py-16">
+        <Container>
+          <div className="max-w-4xl">
+            <h2 className="mb-6 text-2xl font-bold text-[var(--color-dark)]">Sources and Context</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="mb-2 text-lg font-bold text-gray-800">Provenance and Delays</h3>
+                <p className="text-sm leading-relaxed text-gray-600 mb-4">
+                  Retrieved {retrievedLabel} UTC.
+                  {result.hasDelayedSource &&
+                    ` Some items reach the free feed up to ${NEWS_DELAY_HOURS} hours after publication.`}
+                </p>
+                <p className="text-sm leading-relaxed text-gray-600">
+                  Enerqa utilizes open-access data to monitor global intelligence. 
+                  Sources are limited to publishers whose articles can be opened without payment, 
+                  subscription, or registration.
+                </p>
+              </div>
+              <div>
+                <h3 className="mb-2 text-lg font-bold text-gray-800">Included Sources</h3>
+                <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                  {result.sources.length === 0 ? (
+                    <li className="text-sm text-gray-500">No sources contributed to these results.</li>
+                  ) : (
+                    result.sources.map((source) => (
+                      <li key={source.id}>
+                        <a
+                          href={source.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-medium text-[var(--color-secondary)] hover:underline"
+                        >
+                          {source.label}
+                        </a>
+                      </li>
+                    ))
+                  )}
+                </ul>
+              </div>
+            </div>
+            <p className="mt-8 text-xs text-gray-500">
+              Links open the original publisher; Enerqa does not host or endorse their content. 
+              Geography tags are inferred from article subjects and may not represent the publisher's headquarters.
+            </p>
           </div>
         </Container>
       </section>

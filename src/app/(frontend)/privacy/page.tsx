@@ -1,55 +1,72 @@
 import React from 'react';
 import { Container } from '@/components/ui/Container';
+import { Typography } from '@/components/ui/Typography';
+import { Section } from '@/components/ui/Section';
+import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Notice - Enerqa',
+};
 
 export default function PrivacyPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white pt-[70px]">
-      
-      <section className="py-20 bg-[var(--color-paper-alt)] border-b border-gray-200">
+    <div className="bg-white min-h-screen pt-[70px]">
+      <section className="bg-gray-50 border-b border-gray-200 py-20">
         <Container>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[var(--color-dark)]">Privacy Policy</h1>
-            <p className="text-xl text-gray-600">Last updated: September 2026</p>
+          <div className="max-w-3xl mx-auto text-center">
+            <Typography variant="h1" className="text-[var(--color-dark)] m-0">
+              Privacy Notice
+            </Typography>
+            <p className="text-gray-500 mt-4">Last Updated: September 2026</p>
           </div>
         </Container>
       </section>
 
-      <section className="py-20">
+      <Section theme="light" className="py-20">
         <Container>
-          <div className="max-w-3xl prose prose-lg text-gray-600 max-w-none">
+          <div className="max-w-3xl mx-auto prose prose-lg text-gray-700">
+            <h2>1. Introduction</h2>
             <p>
-              This Privacy Policy explains how Enerqa collects, uses, and protects your personal data when you use our website, digital tools and services.
+              Enerqa respects your privacy and is committed to protecting your personal data. This privacy notice will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.
             </p>
             
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">1. Data Collection</h2>
+            <h2>2. The Data We Collect About You</h2>
             <p>
-              We collect information you provide directly to us when you submit an enquiry, subscribe to publications, or use our digital calculators (such as easySOLAR or the ESG Readiness Diagnostic). This may include your name, email address, organisation, and project-specific data submitted for calculation purposes.
+              Personal data, or personal information, means any information about an individual from which that person can be identified. It does not include data where the identity has been removed (anonymous data).
             </p>
-
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">2. Use of Information</h2>
-            <p>
-              We use the information we collect to:
-            </p>
-            <ul className="list-disc pl-6 mb-6">
-              <li>Respond to your project development and technical enquiries.</li>
-              <li>Provide access to and results from our digital tools.</li>
-              <li>Send requested publications and updates on global intelligence.</li>
-              <li>Improve the functionality of the Knowledge Hub and Data Portal.</li>
+            <ul>
+              <li><strong>Identity Data</strong> includes first name, last name, username or similar identifier, title, and company affiliation.</li>
+              <li><strong>Contact Data</strong> includes email address and telephone numbers.</li>
+              <li><strong>Technical Data</strong> includes internet protocol (IP) address, browser type and version, time zone setting and location, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.</li>
+              <li><strong>Usage Data</strong> includes information about how you use our website, tools, and datasets.</li>
             </ul>
 
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">3. Tool Data and Confidentiality</h2>
+            <h2>3. How We Use Your Personal Data</h2>
             <p>
-              Data inputted into our calculators and diagnostic tools is processed solely to provide you with the requested outputs. We do not use your project data for public datasets or share it with third parties unless explicitly authorised by you during a formal consulting engagement.
+              We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+            </p>
+            <ul>
+              <li>Where we need to perform the contract we are about to enter into or have entered into with you (e.g., granting access to proprietary datasets).</li>
+              <li>Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.</li>
+              <li>Where we need to comply with a legal obligation.</li>
+            </ul>
+
+            <h2>4. Data Security</h2>
+            <p>
+              We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors, and other third parties who have a business need to know. They will only process your personal data on our instructions and they are subject to a duty of confidentiality.
             </p>
 
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mt-10 mb-4">4. Contact Us</h2>
+            <h2>5. Your Legal Rights</h2>
             <p>
-              If you have any questions about this Privacy Policy or how we handle your data, please contact us at <a href="mailto:privacy@enerqa.co.uk" className="text-[var(--color-primary)] hover:underline">privacy@enerqa.co.uk</a>.
+              Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, to portability of data, and (where the lawful ground of processing is consent) to withdraw consent.
+            </p>
+            <p>
+              If you wish to exercise any of the rights set out above, please <Link href="/contact">contact us</Link>.
             </p>
           </div>
         </Container>
-      </section>
-
+      </Section>
     </div>
   );
 }

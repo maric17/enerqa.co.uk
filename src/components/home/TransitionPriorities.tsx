@@ -119,13 +119,13 @@ export const TransitionPriorities = () => {
                     <span className="en">{pillar.descEn}</span>
                   </p>
                   <div className={`hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.1em] mt-2 transition-all duration-[400ms] ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-                    <span className="en text-white group-hover:text-[#8B1538] transition-colors">Discover</span>
-                    <svg className="w-3.5 h-3.5 text-white group-hover:text-[#8B1538] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <span className="en text-white group-hover:text-[#00cfc8] transition-colors">Discover</span>
+                    <svg className="w-3.5 h-3.5 text-white group-hover:text-[#00cfc8] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                   </div>
                 </div>
                 
                 {/* Active hover indicator strip */}
-                <div className={`absolute bottom-0 left-0 w-full md:h-[4px] h-[2px] bg-[#8B1538] transition-transform duration-[600ms] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}></div>
+                <div className={`absolute bottom-0 left-0 w-full md:h-[4px] h-[2px] bg-[#0972b8] transition-transform duration-[600ms] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}></div>
               </Link>
             )
           })}

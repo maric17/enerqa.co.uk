@@ -5,18 +5,24 @@ import Link from 'next/link';
 import { Search, Filter, Download, ArrowRight, Table, BarChart2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 
-export default function DataPortalClient({ datasets }: { datasets: any[] }) {
+export default function DataPortalClient({ datasets, dashboards = [], categories = [] }: { datasets: any[], dashboards?: any[], categories?: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [activeTopics, setActiveTopics] = useState<string[]>([]);
+  const [activeDomains, setActiveDomains] = useState<string[]>([]);
+  const [selectedTopic, setSelectedTopic] = useState<string>('All Topics');
   
   // Filter logic
   const filteredDatasets = useMemo(() => {
     return datasets.filter(ds => {
       const matchesSearch = ds.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             ds.description?.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSearch;
+      
+      const matchesDomain = activeDomains.length === 0 || activeDomains.some(d => ds.topic?.some((t: any) => t.title === d));
+      const matchesTopic = selectedTopic === 'All Topics' || ds.topic?.some((t: any) => t.title === selectedTopic);
+
+      return matchesSearch && matchesDomain && matchesTopic;
     });
-  }, [searchQuery, datasets, activeFilters]);
+  }, [searchQuery, datasets, activeDomains, selectedTopic]);
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
@@ -27,11 +33,33 @@ export default function DataPortalClient({ datasets }: { datasets: any[] }) {
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Data Portal</h1>
             <p className="text-xl text-gray-300 leading-relaxed mb-6">
-              Explore open-access data relevant to climate, energy, environment, nature, circularity, business and finance. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
+              Explore open-access data across all four domains: Climate Action, Energy Systems, Environment, and Sustainable Business. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
             </p>
           </div>
         </Container>
       </section>
+
+      {/* D05 Dashboards and Data Stories */}
+      {dashboards && dashboards.length > 0 && (
+        <section className="py-16 bg-gray-50 border-b border-gray-200">
+          <Container>
+            <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-8">Dashboards and Data Stories</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {dashboards.map((db, idx) => (
+                <Link key={idx} href={`/data-portal/dashboards/${db.slug}`} className="block group">
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-full transition-all group-hover:border-[var(--color-primary)] group-hover:shadow-md">
+                    <h3 className="text-xl font-bold text-[var(--color-dark)] mb-3 group-hover:text-[var(--color-primary)] transition-colors">{db.title}</h3>
+                    <p className="text-gray-600 line-clamp-3 mb-4">{db.description}</p>
+                    <span className="text-[var(--color-secondary)] font-bold inline-flex items-center gap-1">
+                      View Dashboard <ArrowRight className="w-4 h-4 ml-1" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* D02 & D04 Find Data & Catalogue */}
       <section className="py-16">
@@ -50,7 +78,15 @@ export default function DataPortalClient({ datasets }: { datasets: any[] }) {
                   <div className="space-y-2">
                     {['Climate Action', 'Energy Systems', 'Environment', 'Sustainable Business'].map(t => (
                       <label key={t} className="flex items-center gap-2 cursor-pointer text-gray-700">
-                        <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
+                        <input 
+                          type="checkbox" 
+                          checked={activeDomains.includes(t)}
+                          onChange={(e) => {
+                            if (e.target.checked) setActiveDomains([...activeDomains, t]);
+                            else setActiveDomains(activeDomains.filter(d => d !== t));
+                          }}
+                          className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" 
+                        />
                         <span className="text-sm">{t}</span>
                       </label>
                     ))}
@@ -59,12 +95,15 @@ export default function DataPortalClient({ datasets }: { datasets: any[] }) {
 
                 <div>
                   <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Topic</h3>
-                  <select className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none">
-                    <option>All Topics</option>
-                    <option>Emissions</option>
-                    <option>Finance</option>
-                    <option>Biodiversity</option>
-                    <option>Electricity</option>
+                  <select 
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                    value={selectedTopic}
+                    onChange={(e) => setSelectedTopic(e.target.value)}
+                  >
+                    <option value="All Topics">All Topics</option>
+                    {categories.map((cat: any) => (
+                      <option key={cat.id} value={cat.title}>{cat.title}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -86,8 +125,8 @@ export default function DataPortalClient({ datasets }: { datasets: any[] }) {
                 
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-sm text-gray-500 font-medium">Showing {filteredDatasets.length} datasets</div>
-                  {activeFilters.length > 0 && (
-                    <button onClick={() => setActiveFilters([])} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
+                  {(activeDomains.length > 0 || selectedTopic !== 'All Topics') && (
+                    <button onClick={() => { setActiveDomains([]); setSelectedTopic('All Topics'); }} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
                       Clear all filters
                     </button>
                   )}
@@ -104,17 +143,38 @@ export default function DataPortalClient({ datasets }: { datasets: any[] }) {
                           <span className="text-[var(--color-primary)]">{ds.apiEndpoint ? 'API Source' : 'Dataset'}</span>
                           <span className="text-gray-400">|</span>
                           <span className="text-gray-600">Updated: {new Date(ds.date).toLocaleDateString()}</span>
+                          {ds.version && (
+                            <>
+                              <span className="text-gray-400">|</span>
+                              <span className="text-gray-600">v{ds.version}</span>
+                            </>
+                          )}
                         </div>
                         <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-3">{ds.title}</h3>
                         <p className="text-gray-600 mb-4 line-clamp-2">{ds.description}</p>
+                        
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4 text-sm text-gray-600">
+                          {ds.provider && (
+                            <div><span className="font-bold text-gray-800">Provider:</span> {ds.provider}</div>
+                          )}
+                          {ds.licence && (
+                            <div><span className="font-bold text-gray-800">Licence:</span> {ds.licenceUrl ? <a href={ds.licenceUrl} target="_blank" className="hover:underline text-[var(--color-primary)]">{ds.licence}</a> : ds.licence}</div>
+                          )}
+                        </div>
+
                         <div className="flex gap-4">
-                          <Link href={`/data-portal/datasets/${ds.id}`} className="text-[var(--color-secondary)] font-bold hover:underline inline-flex items-center gap-1">
+                          <Link href={`/data-portal/datasets/${ds.slug || ds.id}`} className="text-[var(--color-secondary)] font-bold hover:underline inline-flex items-center gap-1">
                             Explore Dataset <ArrowRight className="w-4 h-4 ml-1" />
                           </Link>
                         </div>
                       </div>
                       <div className="w-full md:w-48 bg-[var(--color-paper-alt)] rounded-lg p-4 flex flex-col items-center justify-center gap-2 border border-gray-100 flex-shrink-0">
-                        {ds.file?.url ? (
+                        {ds.datasetDownloadUrl ? (
+                           <>
+                             <Download className="w-8 h-8 text-[var(--color-primary)]" />
+                             <a href={ds.datasetDownloadUrl} target="_blank" className="text-xs text-center text-gray-500 font-medium hover:underline hover:text-[var(--color-dark)]">Free Download</a>
+                           </>
+                        ) : ds.file?.url ? (
                            <>
                              <Download className="w-8 h-8 text-[var(--color-primary)]" />
                              <a href={ds.file.url} target="_blank" className="text-xs text-center text-gray-500 font-medium hover:underline hover:text-[var(--color-dark)]">Download File</a>

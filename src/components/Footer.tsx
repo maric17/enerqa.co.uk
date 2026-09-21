@@ -4,12 +4,15 @@ import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faXTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { Container } from './ui/Container';
+import SubscribeForm from './SubscribeForm';
+import FooterBreadcrumbs from './FooterBreadcrumbs';
 
 export function Footer() {
   return (
-    <footer className="site bg-[#1b030a] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
+    <footer className="site bg-[#082C45] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
       <Container>
         {/* Top Row: Logo, Sister Brands, Socials */}
+        <FooterBreadcrumbs />
         <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
           <div className="flex items-center gap-6 flex-wrap">
             {/* Logo Image */}
@@ -74,21 +77,18 @@ export function Footer() {
               <li><Link href="/terms" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Terms of Use</Link></li>
             </ul>
           </div>
-          {/* Col 4 (Call to Action) */}
           <div className="md:border-l md:border-white/10 md:pl-10 flex flex-col justify-center gap-4">
             <h5 className="text-sm font-bold tracking-[0.05em] uppercase text-white m-0 leading-[1.35] max-w-[24ch]">
               STAY CURRENT WITH OUR LATEST DATA &amp; INSIGHTS
             </h5>
-            <Link href="/contact" className="bg-white text-[#1b030a] font-bold rounded-full py-3 px-8 text-[13.5px] border-none w-fit text-center inline-block no-underline hover:bg-gray-100 transition-colors">
-              Sign Up
-            </Link>
+            <SubscribeForm />
           </div>
         </div>
 
         {/* Bottom Row: Copyright & Legal */}
         <div className="flex justify-between items-center pt-8 flex-wrap gap-6 text-xs text-white/50">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full bg-[#3b0b18] flex items-center justify-center text-white text-sm">
+            <div className="w-7 h-7 rounded-full bg-[#0C3A5C] flex items-center justify-center text-white text-sm">
               ♿
             </div>
             <span>© 2026 enerQA Ltd. All Rights Reserved.</span>

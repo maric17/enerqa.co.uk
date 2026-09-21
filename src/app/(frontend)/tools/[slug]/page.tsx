@@ -12,7 +12,31 @@ import CarbonCalculator from '@/components/tools/CarbonCalculator';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { RequestAccessForm } from '@/components/tools/RequestAccessForm';
 
-export default async function ToolDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+import { Metadata } from 'next';
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
+    collection: 'tools',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  });
+
+  const tool = result.docs[0];
+  if (!tool) return { title: 'Not Found' };
+
+  return {
+    title: String(tool.title),
+    description: tool.desc ? String(tool.desc) : undefined,
+  };
+}
+
+export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params;
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
@@ -38,6 +62,32 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ slu
   return (
     <>
       <section className="relative w-full py-32 bg-ink text-white overflow-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'SoftwareApplication',
+                name: tool.title,
+                description: tool.desc,
+                applicationCategory: 'BusinessApplication',
+                operatingSystem: 'Any',
+                url: `https://enerqa.co.uk/tools/${tool.slug}`,
+                softwareVersion: tool.version || undefined,
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://enerqa.co.uk/' },
+                  { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://enerqa.co.uk/tools' },
+                  { '@type': 'ListItem', position: 3, name: tool.title }
+                ]
+              }
+            ])
+          }}
+        />
         <Container className="relative z-20 flex flex-col gap-6 items-start mt-24">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
             <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / 

@@ -10,11 +10,12 @@ export async function submitToolRequest(formData: FormData) {
     await payload.create({
       collection: 'enquiries',
       data: {
-        name: formData.get('name') as string,
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
         email: formData.get('email') as string,
         company: formData.get('company') as string,
         message: formData.get('message') as string,
-        toolRequested: formData.get('toolId') as string,
+        toolRequested: parseInt(formData.get('toolId') as string, 10),
         source: 'Tool Request',
       }
     })

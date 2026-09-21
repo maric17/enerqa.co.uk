@@ -30,8 +30,8 @@ export const AboutEnerqa = () => {
         <div className="absolute right-0 top-1/2 -translate-y-1/2 z-[100]">
           <div className="relative w-[460px] h-[460px] overflow-visible z-[100]">
             {/* Dark arc ring behind the image */}
-            <div className="absolute -inset-3 rounded-full bg-[#0a0205]/55 z-0"></div>
-            <div className="absolute -inset-6 rounded-full bg-[#0a0205]/25 z-0"></div>
+            <div className="absolute -inset-3 rounded-full bg-[#04192b]/55 z-0"></div>
+            <div className="absolute -inset-6 rounded-full bg-[#04192b]/25 z-0"></div>
             <Image src="/assets/images/gas-energy.jpg" alt="About enerQA" width={460} height={460} className="w-full h-full object-cover rounded-full relative z-[101] block" />
           </div>
         </div>

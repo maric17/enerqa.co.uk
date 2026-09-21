@@ -18,9 +18,30 @@ export default function NotFound() {
             <Link href="/" className="inline-flex justify-center items-center gap-2 bg-[var(--color-dark)] text-white font-bold py-4 px-8 rounded-full hover:bg-gray-800 transition-colors">
               <Home className="w-5 h-5" /> Return to Homepage
             </Link>
-            <Link href="/knowledge-hub" className="inline-flex justify-center items-center gap-2 bg-white text-[var(--color-dark)] font-bold py-4 px-8 rounded-full border border-gray-300 hover:border-[var(--color-dark)] transition-colors">
-              <Search className="w-5 h-5" /> Search Knowledge Hub
+            <Link href="/search" className="inline-flex justify-center items-center gap-2 bg-white text-[var(--color-dark)] font-bold py-4 px-8 rounded-full border border-gray-300 hover:border-[var(--color-dark)] transition-colors">
+              <Search className="w-5 h-5" /> Search Enerqa
             </Link>
+          </div>
+
+          <div className="mt-16 pt-10 border-t border-gray-200 relative z-10 max-w-lg mx-auto text-left">
+            <h3 className="text-lg font-bold text-[var(--color-dark)] mb-4">Or explore our main sections:</h3>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <Link href="/data-portal" className="text-[var(--color-primary)] hover:underline font-medium inline-flex items-center gap-2">
+                  <ArrowRight className="w-4 h-4" /> Data Portal &amp; Datasets
+                </Link>
+              </li>
+              <li>
+                <Link href="/tools" className="text-[var(--color-primary)] hover:underline font-medium inline-flex items-center gap-2">
+                  <ArrowRight className="w-4 h-4" /> Proprietary Tools
+                </Link>
+              </li>
+              <li>
+                <Link href="/knowledge-hub" className="text-[var(--color-primary)] hover:underline font-medium inline-flex items-center gap-2">
+                  <ArrowRight className="w-4 h-4" /> Knowledge Hub
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </Container>

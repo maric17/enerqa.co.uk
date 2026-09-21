@@ -36,15 +36,19 @@ export const metadata: Metadata = {
  * H11 About Enerqa                                  -> AboutEnerqa
  * H12 Stay Informed / H13 Discuss Your Project      -> ContactCTA
  *
- * H03 and H04 are passed as children of Hero so search, news and markets share
- * the first viewport, which is the composition p. 225 asks for.
+ * H03 and H04 sit in their own light band directly below the hero rather than
+ * inside it. The hero was holding H01, H02, the chips and both feeds at once,
+ * which left the first viewport crowded and squeezed the headlines. This moves
+ * the feeds out of the reference 768px fold (p. 13, 225) in exchange for a
+ * readable hero and readable news - a deliberate trade, not an oversight.
  */
 export default function HomePage() {
   return (
     <>
-      <Hero>
-        <FirstFoldFeeds />
-      </Hero>
+      <Hero />
+
+      {/* H03 Global News + H04 Major Markets */}
+      <FirstFoldFeeds />
 
       <FadeIn delay={0.1}>
         <TransitionPriorities />

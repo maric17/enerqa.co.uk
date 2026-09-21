@@ -164,7 +164,25 @@ export default async function PublicationSinglePage({ params }: Props) {
 
   return (
     <>
+      {/* A01 Article Intro */}
       <section className="relative w-full h-[60vh] min-h-[400px] flex items-end pb-16 bg-ink text-white overflow-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: post.title,
+              description: post.excerpt,
+              datePublished: post.date,
+              dateModified: post.updatedAt,
+              author: post.author ? {
+                '@type': 'Person',
+                name: (post.author as any).name,
+              } : undefined,
+            }),
+          }}
+        />
         <div className="absolute inset-0 bg-cover bg-center bg-[url('/assets/images/gas-energy.jpg')]"></div>
         <div className="hero-insights-overlay z-10 opacity-80"></div>
         

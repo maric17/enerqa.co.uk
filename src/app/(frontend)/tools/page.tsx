@@ -1,9 +1,26 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Settings, Sun, Factory, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Settings, Sun, Factory, CheckCircle2, ChevronRight, FileText, Database, ShieldAlert, Key } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { getPayload } from 'payload';
+import configPromise from '@payload-config';
 
-export default function ToolsPage() {
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Tools & Applications',
+  description: 'Access Enerqa\'s suite of analytical tools and applications for energy systems modeling, lifecycle assessments, and carbon management.',
+};
+
+export default async function ToolsPage() {
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
+    collection: 'tools',
+    limit: 100,
+  });
+
+  const tools = result.docs;
+
   return (
     <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
       
@@ -176,6 +193,104 @@ export default function ToolsPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+      
+      {/* T03 Other Enerqa Tools */}
+      <section className="py-24 bg-[var(--color-paper-alt)] border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-dark)] mb-6">Other Enerqa Tools</h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              In addition to our flagship platforms, we offer a range of specialized calculators and assessment tools covering specific domains from greenhouse gas accounting to project scoring.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {tools.map((tool) => (
+              <div key={tool.id} className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                    {tool.type === 'interactive' ? <Database className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
+                  </div>
+                  <h3 className="text-2xl font-bold text-[var(--color-dark)]">{tool.title}</h3>
+                </div>
+                <p className="text-gray-600 mb-6 flex-grow">{tool.desc}</p>
+                <div className="flex items-center justify-between mt-auto pt-6 border-t border-gray-100">
+                  <span className="text-sm font-medium text-gray-500">
+                    Access: {tool.access as string}
+                  </span>
+                  <Link href={`/tools/${tool.slug}`} className="inline-flex items-center gap-2 text-[var(--color-secondary)] font-bold hover:text-[var(--color-primary)] transition-colors">
+                    View Details <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+            
+            {tools.length === 0 && (
+              <div className="col-span-1 md:col-span-2 text-center py-12 text-gray-500">
+                More tools are currently in development. Check back soon.
+              </div>
+            )}
+          </div>
+        </Container>
+      </section>
+
+      {/* T04 Using the Tools */}
+      <section className="py-24 bg-white border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center">
+                <Settings className="w-6 h-6" />
+              </div>
+              <h2 className="text-3xl font-bold text-[var(--color-dark)]">Using the Tools</h2>
+            </div>
+            
+            <div className="prose prose-lg text-gray-600 max-w-none">
+              <p>
+                Enerqa's tools are designed to complement our advisory services and provide scalable, repeatable insights for common energy and sustainability challenges.
+              </p>
+              <ul>
+                <li><strong>Preliminary Assessment:</strong> Use our public tools for initial high-level scoping to determine if a project is viable before committing significant resources to detailed engineering.</li>
+                <li><strong>Methodology Transparency:</strong> Every tool includes detailed documentation on its inputs, outputs, and underlying methodology to ensure results can be verified and trusted.</li>
+                <li><strong>Data Security:</strong> We do not store sensitive user input data from our public calculators. Any data processed is handled strictly in accordance with our Privacy Policy.</li>
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* T05 Request Tool Access */}
+      <section className="py-24 bg-[var(--color-paper-alt)] border-b border-gray-200">
+        <Container>
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-10 border border-gray-200 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 text-gray-100 pointer-events-none">
+              <Key className="w-32 h-32" />
+            </div>
+            
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Request Tool Access</h2>
+              <p className="text-lg text-gray-600 mb-8 max-w-2xl">
+                Some of our advanced diagnostic tools and proprietary models are restricted to enterprise clients and ongoing project partners.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                  <h3 className="font-bold text-[var(--color-dark)] mb-2">Public Tools</h3>
+                  <p className="text-sm text-gray-600">Available immediately to all users. No registration required for basic calculations and informational toolkits.</p>
+                </div>
+                <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                  <h3 className="font-bold text-[var(--color-dark)] mb-2">Enterprise Access</h3>
+                  <p className="text-sm text-gray-600">Requires an active service agreement or bespoke assessment contract. We will provision dedicated tenant access upon approval.</p>
+                </div>
+              </div>
+              
+              <Link href="/contact?intent=tool-access" className="inline-flex items-center gap-2 bg-[var(--color-secondary)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors">
+                Contact Us for Access <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </Container>
