@@ -33,10 +33,25 @@ export type NewsItem = {
   providerLabel: string;
   /** When Enerqa retrieved it. p. 226 keeps this separate from publishedAt. */
   retrievedAt: string;
+  /**
+   * How often the query that found it is refreshed, in seconds, where that
+   * differs from the provider's usual interval (NewsData page baskets: 12 h).
+   * The stale notice is judged against this.
+   */
+  refreshSeconds?: number;
+  /**
+   * The page "News query baskets" (as NewsData queries) that returned this
+   * item. NewsData matches a query against the full article text, which we
+   * are not licensed to see, so this is how a page knows the article matched
+   * its own basket when the headline and teaser do not repeat the phrase.
+   */
+  matchedQueries?: string[];
   /** Short rights note kept with the record for the provenance trail. */
   rights: string;
   /** Extracted geographic regions (e.g. 'North America', 'Europe'). */
   regions: string[];
+  /** An official feed's own label for the item ("Press release", "Publication"). */
+  docType?: string;
 };
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
@@ -45,12 +60,20 @@ export type NewsBasket = {
   key: NewsBasketKey;
   /** Filter labels exactly as approved on p. 13. */
   label: string;
-  /** GDELT boolean syntax. */
+  /**
+   * GDELT boolean syntax. Kept short and broad: GDELT rejects a long query
+   * ("too short or too long", see gdelt.ts), and every page matches its own
+   * baskets against the shared pool afterwards, so the query only has to
+   * gather the site's subject matter, not pick stories.
+   */
   gdeltQuery: string;
   /**
    * NewsData `q` value. The free plan caps a query at 100 characters (p. 210),
-   * so these are deliberately short. `all` is null because we merge the four
-   * topic baskets instead of spending a fifth credit on it.
+   * so these are deliberately short. They are broad for the same reason as the
+   * GDELT queries: the narrow phrase-only versions returned 0-20 articles per
+   * basket, too few for any page's own baskets to match (L443, L539). The
+   * relevance gate below still decides what is shown. `all` is null because
+   * we merge the four topic baskets instead of spending a fifth credit on it.
    */
   newsdataQuery: string | null;
   /** Lower-case terms used to score relevance after ingestion. */
@@ -62,15 +85,15 @@ const TOPIC_BASKETS: NewsBasket[] = [
   {
     key: 'climate',
     label: 'Climate',
-    gdeltQuery: '("climate change" OR "climate policy" OR "NDC" OR "carbon markets")',
-    newsdataQuery: '"climate policy" OR "carbon market" OR "climate adaptation"',
+    gdeltQuery: '(climate OR emissions OR "carbon market")',
+    newsdataQuery: 'climate OR emissions OR "net zero" OR decarbonisation OR "carbon market"',
     keywords: ['climate', 'carbon', 'emission', 'greenhouse', 'net zero', 'net-zero', 'adaptation', 'decarbon*'],
   },
   {
     key: 'energy',
     label: 'Energy',
-    gdeltQuery: '("energy transition" OR "renewable energy" OR "power grid" OR "energy efficiency")',
-    newsdataQuery: '"energy transition" OR "renewable energy" OR "power grid"',
+    gdeltQuery: '(energy OR renewable OR electricity)',
+    newsdataQuery: 'energy OR renewable OR electricity OR "power grid" OR hydrogen OR solar',
     // Covers fossil as well as renewables: a crude-oil production forecast is
     // energy news, and leaving 'oil' or 'lng' out silently dropped real stories.
     keywords: [
@@ -84,15 +107,15 @@ const TOPIC_BASKETS: NewsBasket[] = [
   {
     key: 'environment',
     label: 'Environment and Nature',
-    gdeltQuery: '("biodiversity" OR "circular economy" OR "pollution" OR "nature restoration")',
-    newsdataQuery: '"biodiversity" OR "circular economy" OR "pollution" OR "water"',
+    gdeltQuery: '(biodiversity OR pollution OR "circular economy")',
+    newsdataQuery: 'biodiversity OR pollution OR "circular economy" OR recycling OR water OR nature',
     keywords: ['environment*', 'biodiversity', 'nature', 'ecosystem', 'pollution', 'pollutant', 'circular', 'waste', 'water', 'forest', 'species', 'recycling'],
   },
   {
     key: 'business',
     label: 'Business and Finance',
-    gdeltQuery: '("sustainable finance" OR "ESG" OR "green bonds" OR "climate finance")',
-    newsdataQuery: '"sustainable finance" OR "climate finance" OR "green bond" OR "ESG"',
+    gdeltQuery: '("sustainable finance" OR "climate finance" OR "green bond")',
+    newsdataQuery: 'ESG OR "sustainable finance" OR "climate finance" OR "green bond" OR sustainability',
     // 'invest' is listed without a star on purpose: 'invest*' would also
     // match 'investigation', which is how an unrelated news story gets onto a
     // finance panel.
@@ -112,7 +135,7 @@ const TOPIC_BASKETS: NewsBasket[] = [
 const ALL_BASKET: NewsBasket = {
   key: 'all',
   label: 'All',
-  gdeltQuery: '("climate policy" OR "energy transition" OR "sustainable finance")',
+  gdeltQuery: '(climate OR energy OR biodiversity OR "sustainable finance")',
   // null because "All" merges the four cached topic baskets rather than
   // spending a fifth NewsData credit on its own query.
   newsdataQuery: null,
@@ -273,6 +296,11 @@ export function containsAny(haystack: string, terms: string[]): boolean {
   return terms.some((term) => termMatcher(term).test(haystack));
 }
 
+/** Test 1 below on its own: the HEADLINE is about the site's subject matter. */
+export function isOnSiteTopic(item: Pick<NewsItem, 'title'>): boolean {
+  return containsAny(item.title, CORE_TOPIC_TERMS);
+}
+
 /**
  * Relevance filtering (p. 226). Two tests, both of which must pass:
  *   1. the HEADLINE is about our subject matter, and
@@ -292,7 +320,7 @@ export function containsAny(haystack: string, terms: string[]): boolean {
  * curated for its own subject, not for whichever basket we borrow it for.
  */
 export function matchesBasket(item: NewsItem, basket: NewsBasket): boolean {
-  if (!containsAny(item.title, CORE_TOPIC_TERMS)) return false;
+  if (!isOnSiteTopic(item)) return false;
   if (basket.keywords.length === 0) return true;
   return containsAny(`${item.title} ${item.summary ?? ''}`, basket.keywords);
 }

@@ -102,13 +102,20 @@ export async function fetchIssuerFilings(options: {
         // The UI keys off this to label the card "Corporate disclosure".
         kind: 'disclosure',
         peerReviewed: false,
+        organisation: issuerName,
+        // p. 217: "Label as corporate disclosure, not news or Enerqa analysis."
+        // The form stays visible because p. 59 asks to "Identify issuer, form
+        // and filing date".
+        docType: `Corporate disclosure, Form ${form}`,
         provenance: buildProvenance('sec-edgar', {
+          retrievedAt: res.retrievedAt,
           sourceUrl: url,
           sourceId: accession,
           sourceReleasedAt: filingDate,
           observationPeriod: recent.reportDate?.[i] ?? null,
-          accessStatus: 'verified_open',
-          accessEvidence: 'EDGAR archive documents are public and require no registration.',
+          // Documented only; verified_open waits for the anonymous check (p. 217 "Validate public access").
+          accessStatus: 'unknown',
+          accessEvidence: 'Documented public filing: EDGAR archive documents are public and require no registration.',
           transformations: [`Filtered to ${[...RELEVANT_FORMS].join(', ')} filings from a curated issuer watchlist`],
         }),
       });

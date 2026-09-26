@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { seriesToCsv } from './csv';
+import { commentLine, escapeCell, seriesToCsv } from './csv';
 import { buildProvenance, isPublishable, publishableOnly, sourceLabel } from './provenance';
 import { providerKey } from './fetch';
-import { PROVIDERS, enabledProviders } from './registry';
+import { PROVIDERS, enabledProviders, providerEnabled } from './registry';
 import { isDoiResolver, preferredReadUrl } from './urls';
 import type { DataSeries } from './types';
 
@@ -71,6 +71,78 @@ describe('CSV export (p. 227)', () => {
   });
 });
 
+describe('CSV formula injection (L1077)', () => {
+  const hostile: DataSeries = {
+    ...series,
+    label: '=HYPERLINK("http://x","click")',
+    area: '@SUM(1+1)',
+    measureNote: '\tcmd',
+    observations: [
+      { period: '2020', value: -3.5 },
+      { period: '+2021', value: -0 },
+    ],
+  };
+  const out = seriesToCsv([hostile], 'countries=QAT, =1+1, -2+3, @x');
+  const rows = out.split('\n');
+
+  /** RFC 4180 cells of one line, the way a spreadsheet reads them. */
+  function cells(line: string): string[] {
+    const out: string[] = [];
+    let cur = '';
+    let quoted = false;
+    for (let i = 0; i < line.length; i += 1) {
+      const ch = line[i];
+      if (quoted) {
+        if (ch === '"' && line[i + 1] === '"') { cur += '"'; i += 1; }
+        else if (ch === '"') quoted = false;
+        else cur += ch;
+      } else if (ch === '"') quoted = true;
+      else if (ch === ',') { out.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    return [...out, cur];
+  }
+
+  it('neutralises cells that would start a formula', () => {
+    for (const line of rows.filter(Boolean)) {
+      for (const cell of cells(line)) {
+        // Every cell a spreadsheet sees either is a plain number or does not
+        // start with = + - @ tab or CR.
+        if (/^[=+\-@\t\r]/.test(cell)) expect(cell, line).toMatch(/^[+-]?\d+(\.\d+)?$/);
+      }
+    }
+    expect(out).toContain(`"'=HYPERLINK(""http://x"",""click"")"`);
+    expect(out).toContain(`'@SUM(1+1)`);
+  });
+
+  it('never alters a negative number in the value column', () => {
+    expect(out).toContain(',2020,-3.5,');
+    expect(escapeCell(-12.25)).toBe('-12.25');
+    expect(escapeCell('-12.25')).toBe('-12.25');
+    expect(escapeCell('-1+2')).toBe("'-1+2");
+  });
+
+  it('neutralises formula text smuggled in through the filter description', () => {
+    const filterLine = rows.find((l) => l.startsWith('# Filter applied'))!;
+    expect(filterLine).toContain(" '=1+1");
+    expect(filterLine).toContain(" '-2+3");
+    expect(filterLine).toContain(" '@x");
+    // A quote could open a quoted cell, so none survive in a comment line.
+    expect(commentLine('a, "=1"')).not.toContain('"');
+  });
+});
+
+describe('CSV stale-data line (p. 227)', () => {
+  it('adds a stale notice when the cached release is past its refresh interval', () => {
+    const old = {
+      ...series,
+      provenance: { ...series.provenance, retrievedAt: new Date(Date.now() - 5 * 24 * 3600 * 1000).toISOString() },
+    };
+    expect(seriesToCsv([old])).toContain('# Stale data: World Bank Indicators API v2 could not be refreshed.');
+    expect(seriesToCsv([series])).not.toContain('Stale data');
+  });
+});
+
 describe('access gating (p. 227)', () => {
   it('publishes only verified_open records', () => {
     const open = { provenance: buildProvenance('openalex', { sourceUrl: 'https://x', accessStatus: 'verified_open' }) };
@@ -111,9 +183,24 @@ describe('provider registry (p. 227)', () => {
 
   it('records when each provider was last reviewed', () => {
     for (const provider of Object.values(PROVIDERS)) {
-      expect(provider.accessReviewedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      // An unreviewed provider (Gemini) may carry no date, but only while it
+      // is switched off (p. 224: "must pass review before enabling").
+      if (provider.accessReviewedOn === null) {
+        expect(provider.enabled, provider.id).toBe(false);
+        expect(providerEnabled(provider.id)).toBe(false);
+      } else {
+        expect(provider.accessReviewedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
       expect(provider.attribution.length).toBeGreaterThan(0);
     }
+  });
+
+  it('registers the news providers and the AI answer so each has an off switch (L1023)', () => {
+    for (const id of ['newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'gemini'] as const) {
+      expect(PROVIDERS[id]?.id).toBe(id);
+    }
+    // p. 224: Gemini has not passed review, so it is off.
+    expect(providerEnabled('gemini')).toBe(false);
   });
 
   it('never names a browser-exposed environment variable for a key', () => {

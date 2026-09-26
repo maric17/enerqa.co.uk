@@ -1,3 +1,5 @@
+import { fetchFromProvider, providerKey, type BodyRejection } from '../core/fetch';
+import { fail, ok, type ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
 import { getBasket, hostnameOf, normaliseUrl } from './types';
 import { extractRegions } from './geography';
@@ -12,8 +14,18 @@ import { extractRegions } from './geography';
  *   100-character search query · 12-hour delay · no full article text
  *
  * Credit arithmetic (the spec does this sum on p. 210 and lands on 48):
- *   4 topic baskets x 1 credit, refreshed every 2 hours = 4 x 12 = 48 credits
- *   per day, leaving the rest of the 200 for retries and other pages.
+ *   4 topic baskets x 1 credit, refreshed every 2 hours = 4 x 12 = 48/day
+ *   38 page baskets (pp. 30, 38, 49, 60 and 66-138: 3 per domain, 2 per
+ *   industry) x 1 credit, refreshed every 12 hours   = 38 x 2 = 76/day
+ *   total 124/day, under the internal budget of 150 in core/health.ts and the
+ *   provider's 200. The page baskets are the spec's own "News query baskets";
+ *   the 12-hour refresh matches the free plan's 12-hour delay, so a faster one
+ *   would buy nothing. Their results join the one shared pool (p. 210 "Reuse
+ *   one cached pool across all pages").
+ *
+ * The budget, backoff and cache live in core/fetch.ts like every other
+ * provider. The old in-file budget counted a credit on every render, cache
+ * hits included, and switched NewsData off after ~30 page views (L379).
  *
  * The "All" filter is a merge of the four cached baskets, not a fifth query,
  * so it costs nothing extra.
@@ -23,6 +35,12 @@ const ENDPOINT = 'https://newsdata.io/api/1/latest';
 
 /** p. 210: free plan, 12-hour delay. Both facts are shown to the reader. */
 export const NEWSDATA_DELAY_HOURS = 12;
+
+/** p. 210 suggests a shared refresh every 2 hours. */
+const REVALIDATE_SECONDS = 7200;
+
+/** Page baskets: every 12 hours, the free plan's own delay (see above). */
+export const PAGE_BASKET_SECONDS = 12 * 3600;
 
 /**
  * Sent as `domainurl` purely to stop us spending credits on articles the
@@ -41,28 +59,6 @@ const PREFILTER_DOMAINS = ['reuters.com', 'theguardian.com', 'iea.org', 'worldba
 
 const RIGHTS =
   'Metadata discovery under the NewsData.io free commercial plan. Headline, supplied description and link only; publisher retains article and image rights.';
-
-/**
- * Per-provider request budget (p. 226). This is a per-server-instance
- * safeguard, not a global ledger - it resets on restart and each instance
- * counts separately. It exists to make a runaway loop cheap to notice, not to
- * be the only thing standing between us and the daily cap; the shared fetch
- * cache does that job.
- */
-const DAILY_CREDIT_BUDGET = 120;
-let creditsUsed = 0;
-let budgetDay = '';
-
-function withinBudget(): boolean {
-  const today = new Date().toISOString().slice(0, 10);
-  if (today !== budgetDay) {
-    budgetDay = today;
-    creditsUsed = 0;
-  }
-  if (creditsUsed >= DAILY_CREDIT_BUDGET) return false;
-  creditsUsed += 1;
-  return true;
-}
 
 /** NewsData sends "2026-09-18 22:30:52" plus a separate timezone field. */
 function toIso(pubDate: unknown, tz: unknown): string | null {
@@ -83,103 +79,119 @@ function firstString(value: unknown): string | null {
   return null;
 }
 
-/**
- * Fetch one topic basket. `all` returns [] because it is assembled from the
- * other four in the aggregator rather than costing its own credit.
- */
-export async function fetchNewsdataBasket(basketKey: NewsBasketKey): Promise<NewsItem[]> {
-  const basket = getBasket(basketKey);
-  if (!basket.newsdataQuery) return [];
+type NewsdataPage = { status?: string; results?: unknown; nextPage?: string | null };
 
+/**
+ * NewsData answers errors with HTTP 200 and status:"error". Such a body is
+ * rejected before it can be cached, and a rate-limit code trips the backoff.
+ */
+export function rejectNewsdataBody(body: unknown): BodyRejection | null {
+  const page = body as NewsdataPage & { results?: { code?: string; message?: string } };
+  if (page?.status === 'success' && Array.isArray(page.results)) return null;
+  const code = !Array.isArray(page?.results) ? page?.results?.code : undefined;
+  const message = !Array.isArray(page?.results) ? page?.results?.message : undefined;
+  return {
+    reason: code && /rate|limit/i.test(code) ? 'rate_limited' : 'unavailable',
+    message: `non-success payload${code ? ` (${code}${message ? `: ${message}` : ''})` : ''}`,
+  };
+}
+
+export function mapNewsdataResults(results: unknown[], retrievedAt: string): NewsItem[] {
+  return results.flatMap((raw) => {
+    const a = raw as Record<string, unknown>;
+    const url = typeof a.link === 'string' ? a.link : '';
+    const title = typeof a.title === 'string' ? a.title.trim() : '';
+    if (!url || !title) return [];
+
+    // The free plan returns no full article text; `description` is the
+    // provider-supplied teaser we are permitted to show. `content` and the
+    // ai_* fields are paid-plan features and are deliberately ignored.
+    const description = typeof a.description === 'string' ? a.description.trim() : '';
+
+    return [
+      {
+        id: normaliseUrl(url),
+        title,
+        summary: description || null,
+        url,
+        // Gate on the hostname of the ARTICLE link, not `source_url`. p. 210
+        // asks us to validate the actual reading destination, and a feed can
+        // list a publisher's homepage while linking somewhere else entirely.
+        domain: hostnameOf(url),
+        publisher: (typeof a.source_name === 'string' && a.source_name) || hostnameOf(url),
+        publishedAt: toIso(a.pubDate, a.pubDateTZ),
+        language: firstString(a.language) ?? 'en',
+        provider: 'newsdata',
+        providerLabel: 'NewsData.io',
+        retrievedAt,
+        rights: RIGHTS,
+        regions: extractRegions(title, description || null),
+      } satisfies NewsItem,
+    ];
+  });
+}
+
+/**
+ * One OR'd basket of the spec's phrases as a NewsData query: phrases in
+ * quotes, joined with OR. All 38 page baskets come to 80 characters or less,
+ * inside the 100-character cap (p. 210).
+ */
+export function basketQuery(phrases: string[]): string {
+  return phrases.map((p) => (/\s/.test(p) ? `"${p}"` : p)).join(' OR ');
+}
+
+/** One cached NewsData query: 10 articles, one credit, one shared copy for every visitor. */
+export async function fetchNewsdataQuery(
+  query: string,
+  revalidate = REVALIDATE_SECONDS,
+): Promise<ConnectorResult<NewsItem[]>> {
   // Read at call time, not module load, so a missing key is a quiet skip
   // rather than a crash at import.
-  const apiKey = process.env.NEWSDATA_API_KEY;
-  if (!apiKey) {
-    console.warn('[newsdata] NEWSDATA_API_KEY is not set - skipping this provider');
-    return [];
-  }
+  const apiKey = providerKey('newsdata');
+  if (!apiKey) return fail('newsdata', 'not_configured', 'NEWSDATA_API_KEY is not set.');
 
   // p. 210 caps the free-plan query at 100 characters. Failing loudly in
   // development is better than a silent 422 in production.
-  if (basket.newsdataQuery.length > 100) {
-    console.warn(`[newsdata] basket "${basket.key}" query exceeds the 100-character free-plan cap`);
-    return [];
-  }
-
-  if (!withinBudget()) {
-    console.warn('[newsdata] daily request budget reached - skipping this provider');
-    return [];
+  if (query.length > 100) {
+    console.warn(`[newsdata] query "${query.slice(0, 40)}..." exceeds the 100-character free-plan cap`);
+    return fail('newsdata', 'unavailable', 'Query exceeds the free-plan length cap.');
   }
 
   const params = new URLSearchParams({
     apikey: apiKey,
-    q: basket.newsdataQuery,
+    q: query,
     language: 'en',
     domainurl: PREFILTER_DOMAINS.join(','),
     // 10 articles is exactly one credit. Asking for more costs more credits.
     size: '10',
   });
 
-  try {
-    const res = await fetch(`${ENDPOINT}?${params.toString()}`, {
-      headers: { 'User-Agent': 'enerqa.co.uk/1.0 (+https://enerqa.co.uk)' },
-      // p. 210 suggests a shared server-side fetch every 2 hours. One cached
-      // response serves every visitor - we never request per visitor.
-      next: { revalidate: 7200, tags: ['news', 'newsdata'] },
-    });
+  const res = await fetchFromProvider<NewsdataPage>('newsdata', `${ENDPOINT}?${params.toString()}`, {
+    revalidate,
+    tags: ['news'],
+    // A broad basket took 11 s to answer on 25 Sep 2026. The call runs
+    // behind a Suspense boundary, so waiting does not block the page.
+    timeoutMs: 25000,
+    rejectBody: rejectNewsdataBody,
+  });
+  if (!res.ok) return res;
 
-    if (!res.ok) {
-      // 429 means we are over the 30-credits-per-15-minutes window. Returning
-      // nothing lets the RSS and GDELT sources carry the panel instead.
-      console.warn(`[newsdata] HTTP ${res.status} for basket "${basket.key}"`);
-      return [];
-    }
+  const results = Array.isArray(res.data.results) ? res.data.results : [];
+  const items = mapNewsdataResults(results, res.retrievedAt).map((item) => ({
+    ...item,
+    refreshSeconds: revalidate,
+    matchedQueries: [query],
+  }));
+  return ok('newsdata', items, res.retrievedAt, res.stale);
+}
 
-    const data = (await res.json()) as { status?: string; results?: unknown };
-
-    // NewsData answers errors with HTTP 200 and status:"error", so the body
-    // has to be checked as well as the status code.
-    if (data.status !== 'success' || !Array.isArray(data.results)) {
-      console.warn(`[newsdata] non-success payload for basket "${basket.key}"`);
-      return [];
-    }
-
-    const retrievedAt = new Date().toISOString();
-
-    return data.results.flatMap((raw) => {
-      const a = raw as Record<string, unknown>;
-      const url = typeof a.link === 'string' ? a.link : '';
-      const title = typeof a.title === 'string' ? a.title.trim() : '';
-      if (!url || !title) return [];
-
-      // The free plan returns no full article text; `description` is the
-      // provider-supplied teaser we are permitted to show. `content` and the
-      // ai_* fields are paid-plan features and are deliberately ignored.
-      const description = typeof a.description === 'string' ? a.description.trim() : '';
-
-      return [
-        {
-          id: normaliseUrl(url),
-          title,
-          summary: description || null,
-          url,
-          // Gate on the hostname of the ARTICLE link, not `source_url`. p. 210
-          // asks us to validate the actual reading destination, and a feed can
-          // list a publisher's homepage while linking somewhere else entirely.
-          domain: hostnameOf(url),
-          publisher: (typeof a.source_name === 'string' && a.source_name) || hostnameOf(url),
-          publishedAt: toIso(a.pubDate, a.pubDateTZ),
-          language: firstString(a.language) ?? 'en',
-          provider: 'newsdata',
-          providerLabel: 'NewsData.io',
-          retrievedAt,
-          rights: RIGHTS,
-          regions: extractRegions(title, description || null),
-        } satisfies NewsItem,
-      ];
-    });
-  } catch (error) {
-    console.warn(`[newsdata] fetch failed for basket "${basket.key}":`, error);
-    return [];
-  }
+/**
+ * Fetch one topic basket. `all` returns an empty success because it is
+ * assembled from the other four in the aggregator rather than costing its own
+ * credit.
+ */
+export async function fetchNewsdataBasket(basketKey: NewsBasketKey): Promise<ConnectorResult<NewsItem[]>> {
+  const basket = getBasket(basketKey);
+  if (!basket.newsdataQuery) return ok('newsdata', []);
+  return fetchNewsdataQuery(basket.newsdataQuery, REVALIDATE_SECONDS);
 }

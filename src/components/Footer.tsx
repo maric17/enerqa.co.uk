@@ -2,103 +2,143 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faXTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { Container } from './ui/Container';
 import SubscribeForm from './SubscribeForm';
 import FooterBreadcrumbs from './FooterBreadcrumbs';
+
+// p. 8: "Repeat the six navigation groups with concise links". The groups
+// mirror the header; labels are the sitemap names (p. 3). The four domains are
+// repeated here rather than imported from Header.tsx: that is a client module,
+// and a server component cannot read plain data out of one.
+const FOOTER_GROUPS: { title: string; links: { label: string; href: string }[] }[] = [
+  {
+    title: 'Homepage',
+    links: [
+      { label: 'Home', href: '/' },
+      { label: 'Search', href: '/search' },
+    ],
+  },
+  {
+    title: 'Domains and Industries',
+    links: [
+      { label: 'Overview', href: '/domains-and-industries' },
+      { label: 'Climate Action & Carbon Management', href: '/domains/climate-action-carbon-management' },
+      { label: 'Energy Systems & Transition', href: '/domains/energy-systems-transition' },
+      { label: 'Environment, Nature & Circularity', href: '/domains/environment-nature-circularity' },
+      { label: 'Sustainable Business, ESG & Finance', href: '/domains/sustainable-business-esg-finance' },
+      { label: 'Industries', href: '/domains-and-industries#industries' },
+      { label: 'Project Development and Lifecycle Support', href: '/project-development' },
+    ],
+  },
+  {
+    title: 'Knowledge Hub',
+    links: [
+      { label: 'Enerqa Publication', href: '/knowledge-hub' },
+      { label: 'Global Intelligence', href: '/knowledge-hub/global-intelligence' },
+    ],
+  },
+  {
+    title: 'Data Portal',
+    links: [
+      { label: 'Overview', href: '/data-portal' },
+      { label: 'Sources and Methodology', href: '/data-portal/sources' },
+    ],
+  },
+  {
+    // The three flagship tools named in the sitemap (p. 3); others only after validation.
+    title: 'Tools',
+    links: [
+      { label: 'All Tools', href: '/tools' },
+      { label: 'ESG Readiness Tool', href: '/tools/esg-readiness' },
+      { label: 'easySOLAR', href: '/tools/easysolar' },
+      { label: 'GreenScale Pro', href: '/tools/greenscale-pro' },
+    ],
+  },
+  {
+    title: 'About',
+    links: [
+      { label: 'About Enerqa', href: '/about' },
+      { label: 'Our Approach', href: '/about#approach' },
+      { label: 'People and Organisation', href: '/about#people' },
+    ],
+  },
+];
+
+const linkClass = 'text-white/70 hover:text-white transition-colors duration-200 no-underline';
+const groupTitleClass = 'text-white font-semibold mb-4 text-[15px] leading-snug';
 
 export function Footer() {
   return (
     <footer className="site bg-[#082C45] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
       <Container>
-        {/* Top Row: Logo, Sister Brands, Socials */}
         <FooterBreadcrumbs />
+
+        {/* Top row: logo and the one social account the current enerqa.co.uk
+            footer links to. Facebook, X and YouTube were unverified (p. 227:
+            verified fields only) - youtube.com/enerqa is not even a channel URL. */}
         <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
-          <div className="flex items-center gap-6 flex-wrap">
-            {/* Logo Image */}
-            <Link href="/" className="no-underline inline-block">
-              <Image src="/images/logo-white.svg" alt="enerQA Logo" width={150} height={38} className="h-[38px] w-auto block" />
-            </Link>
-            {/* Vertical Line */}
-            <div className="w-px h-8 bg-white/15 hidden md:inline-block"></div>
-            {/* Sister Brands */}
-            <div className="flex gap-4 text-[11px] font-bold tracking-[0.05em] uppercase text-white/80 flex-wrap">
-              <Link href="/domains/climate-action-carbon-management" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Climate Action</Link>
-              <Link href="/domains/energy-systems-transition" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Energy Systems</Link>
-              <Link href="/domains/environment-nature-circularity" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Environment</Link>
-              <Link href="/domains/sustainable-business-esg-finance" className="transition-colors duration-200 no-underline text-white/80 hover:text-white">Sustainable Business</Link>
-            </div>
-          </div>
-          {/* Socials */}
-          <div className="flex gap-2">
-            <a href="https://facebook.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
-              <FontAwesomeIcon icon={faFacebookF} className="w-[14px] h-[14px]" />
-            </a>
-            <a href="https://x.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
-              <FontAwesomeIcon icon={faXTwitter} className="w-[14px] h-[14px]" />
-            </a>
-            <a href="https://linkedin.com/company/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
-              <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" />
-            </a>
-            <a href="https://youtube.com/enerqa" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20">
-              <FontAwesomeIcon icon={faYoutube} className="w-[14px] h-[14px]" />
-            </a>
-          </div>
+          <Link href="/" className="no-underline inline-block" aria-label="Enerqa home">
+            <Image src="/images/logo-white.svg" alt="" width={150} height={38} className="h-[38px] w-auto block" />
+          </Link>
+          <a
+            href="https://www.linkedin.com/company/enerqa"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Enerqa on LinkedIn (opens in a new tab)"
+            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20"
+          >
+            <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" aria-hidden="true" />
+          </a>
         </div>
 
-        {/* Middle Row: Grid Lists */}
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-10 py-12 border-b border-white/10">
-          {/* Col 1 */}
+        {/* Six labelled groups inside one footer landmark. Real h2s, visible,
+            with no skipped levels (the old h6/h5 set included an invisible
+            "Navigation Continued" heading). */}
+        <nav aria-label="Footer" className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-8 gap-y-10 py-12 border-b border-white/10">
+          {FOOTER_GROUPS.map((group, index) => (
+            <div key={group.title}>
+              <h2 id={`footer-group-${index}`} className={groupTitleClass}>{group.title}</h2>
+              <ul aria-labelledby={`footer-group-${index}`} className="flex flex-col gap-3 text-sm list-none p-0 m-0">
+                {group.links.map((link) => (
+                  <li key={link.href}><Link href={link.href} className={linkClass}>{link.label}</Link></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        {/* p. 8: then info@enerqa.co.uk, Contact and newsletter access. */}
+        <div className="grid md:grid-cols-2 gap-10 py-12 border-b border-white/10">
           <div>
-            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Navigation</h6>
+            <h2 className={groupTitleClass}>Contact</h2>
             <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Homepage</Link></li>
-              <li><Link href="/domains-and-industries" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Domains and Industries</Link></li>
-              <li><Link href="/knowledge-hub" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Knowledge Hub</Link></li>
+              <li><a href="mailto:info@enerqa.co.uk" className={linkClass}>info@enerqa.co.uk</a></li>
+              <li><Link href="/contact" className={linkClass}>Contact</Link></li>
             </ul>
           </div>
-          {/* Col 2 */}
-          <div>
-            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider opacity-0 hidden md:block">Navigation Continued</h6>
-            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><Link href="/data-portal" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Data Portal</Link></li>
-              <li><Link href="/tools" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Tools</Link></li>
-              <li><Link href="/about" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">About</Link></li>
-            </ul>
-          </div>
-          {/* Col 3 */}
-          <div>
-            <h6 className="text-white font-bold mb-4 text-[13px] uppercase tracking-wider">Contact &amp; Legal</h6>
-            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><a href="mailto:info@enerqa.co.uk" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">info@enerqa.co.uk</a></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Contact</Link></li>
-              <li><Link href="/data-portal/sources" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Data Sources Attribution</Link></li>
-              <li><Link href="/privacy" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Privacy Notice</Link></li>
-              <li><Link href="/terms" className="text-white/70 hover:text-white transition-colors duration-200 no-underline">Terms of Use</Link></li>
-            </ul>
-          </div>
-          <div className="md:border-l md:border-white/10 md:pl-10 flex flex-col justify-center gap-4">
-            <h5 className="text-sm font-bold tracking-[0.05em] uppercase text-white m-0 leading-[1.35] max-w-[24ch]">
-              STAY CURRENT WITH OUR LATEST DATA &amp; INSIGHTS
-            </h5>
+          <div className="flex flex-col gap-4 max-w-md">
+            {/* Heading from the handoff's newsletter blocks (pp. 15, 156). */}
+            <h2 className={`${groupTitleClass} m-0`}>Stay Informed</h2>
             <SubscribeForm />
           </div>
         </div>
 
-        {/* Bottom Row: Copyright & Legal */}
-        <div className="flex justify-between items-center pt-8 flex-wrap gap-6 text-xs text-white/50">
+        {/* Bottom row: copyright, data-source attribution and the four policy
+            destinations (p. 8). */}
+        <div className="flex justify-between items-center pt-8 flex-wrap gap-6 text-xs text-white/60">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full bg-[#0C3A5C] flex items-center justify-center text-white text-sm">
+            <div className="w-7 h-7 rounded-full bg-[#005fcc] flex items-center justify-center text-white text-sm shadow-sm" aria-hidden="true">
               ♿
             </div>
             <span>© 2026 enerQA Ltd. All Rights Reserved.</span>
           </div>
-          <div className="flex gap-4 flex-wrap">
-            <Link href="/terms" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Terms of Use</Link>
-            <Link href="/privacy" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Privacy Notice</Link>
-            <Link href="/cookie-choices" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Cookie Choices</Link>
-            <Link href="/accessibility" className="transition-colors duration-200 no-underline text-white/50 hover:text-white">Accessibility Statement</Link>
-          </div>
+          <ul className="flex gap-5 flex-wrap list-none p-0 m-0">
+            <li><Link href="/terms" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Terms of Use</Link></li>
+            <li><Link href="/privacy" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Privacy Notice</Link></li>
+            <li><Link href="/cookie-choices" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Cookie Choices</Link></li>
+            <li><Link href="/accessibility" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Accessibility Statement</Link></li>
+          </ul>
         </div>
       </Container>
     </footer>

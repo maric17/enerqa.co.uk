@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Search, ExternalLink } from 'lucide-react';
@@ -9,6 +9,12 @@ import {
   NEWS_DELAY_HOURS,
   type NewsBasketKey,
 } from '@/lib/api/news';
+import { getPayload } from 'payload';
+import configPromise from '@payload-config';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
+import { ResearchFeed } from '@/components/feeds/ResearchFeed';
+import { OfficialFeed } from '@/components/feeds/OfficialFeed';
+import { FeedSkeleton } from '@/components/feeds/feedParts';
 
 export const metadata: Metadata = {
   title: 'Global Intelligence',
@@ -51,15 +57,51 @@ export default async function GlobalIntelligencePage({
 }) {
   const params = await searchParams;
   const query = first(params.q).slice(0, 120);
+  // Context from the domain and industry pages' "View All News", "Explore
+  // Research" and "View All Updates" links (pp. 29, 37, 48, 59, 66). Unknown
+  // slugs are ignored rather than producing an empty page.
+  const domainSlug = first(params.domain);
+  const industrySlug = first(params.industry);
+  const domainFeed = DOMAIN_FEEDS[domainSlug];
+  const industryFeed = INDUSTRY_FEEDS[industrySlug];
+  const contextFeed = domainFeed ?? industryFeed;
+  const contextKind = domainFeed ? 'domains' : industryFeed ? 'industries' : null;
+  const mode = first(params.type) === 'research' && contextFeed
+    ? 'research'
+    : first(params.type) === 'official' && domainFeed
+      ? 'official'
+      : 'news';
+
   const themeParam = first(params.theme);
-  const theme: NewsBasketKey = isBasketKey(themeParam) ? themeParam : 'all';
+  // A domain's news comes from its own topic basket unless the visitor picks another.
+  const theme: NewsBasketKey = isBasketKey(themeParam) ? themeParam : domainFeed?.newsBasket ?? 'all';
   
   const region = first(params.region);
   const source = first(params.source);
   const language = first(params.language);
   const dateRange = first(params.dateRange);
 
-  const result = await searchNews(query, theme, { region, source, language, dateRange }, 24);
+  const result = await searchNews(
+    query,
+    theme,
+    { region, source, language, dateRange, phrases: contextFeed ? newsPhrases(contextFeed) : undefined },
+    24,
+  );
+
+  // The page title of the domain or industry, for the context banner.
+  let contextTitle: string | null = null;
+  if (contextKind) {
+    const payload = await getPayload({ config: configPromise });
+    const { docs } = await payload.find({
+      collection: contextKind,
+      where: { slug: { equals: contextKind === 'domains' ? domainSlug : industrySlug } },
+      limit: 1,
+      depth: 0,
+      select: { title: true },
+    });
+    contextTitle = docs[0]?.title ?? null;
+  }
+  const contextParam = domainFeed ? `domain=${domainSlug}` : industryFeed ? `industry=${industrySlug}` : '';
 
   const retrievedLabel = new Date(result.retrievedAt).toLocaleString('en-GB', {
     day: 'numeric',
@@ -85,7 +127,7 @@ export default async function GlobalIntelligencePage({
       </section>
 
       {/* K02 Collection switcher */}
-      <section className="sticky top-[70px] z-30 border-b border-gray-200 bg-white">
+      <section className="sticky top-[84px] z-30 border-b border-gray-200 bg-white">
         <Container>
           <div className="flex space-x-8">
             <Link
@@ -142,6 +184,47 @@ export default async function GlobalIntelligencePage({
             </aside>
 
             <div className="lg:col-span-3">
+              {contextTitle && (
+                <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5">
+                  <p className="m-0 text-sm text-gray-700">
+                    Showing {mode === 'research' ? 'research' : mode === 'official' ? 'official updates' : 'news'} matched to{' '}
+                    <strong>{contextTitle}</strong> using that page&rsquo;s topic configuration.{' '}
+                    <Link href="/knowledge-hub/global-intelligence" className="font-semibold text-[var(--color-secondary)] hover:underline">
+                      Show all Global Intelligence
+                    </Link>
+                  </p>
+                  {/* Switch between this page's news, research and official feeds. */}
+                  <nav aria-label="Content type" className="mt-3 flex flex-wrap gap-2 text-sm">
+                    {([
+                      ['news', 'News'],
+                      ['research', 'Research'],
+                      ...(domainFeed ? [['official', 'Official updates']] : []),
+                    ] as [string, string][]).map(([key, label]) => (
+                      <Link
+                        key={key}
+                        href={`/knowledge-hub/global-intelligence?${contextParam}${key === 'news' ? '' : `&type=${key}`}`}
+                        aria-current={mode === key ? 'page' : undefined}
+                        className={`rounded-full border px-3 py-1 no-underline ${mode === key ? 'border-[var(--color-dark)] bg-[var(--color-dark)] text-white' : 'border-gray-300 text-gray-700 hover:border-[var(--color-dark)]'}`}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              )}
+
+              {mode === 'research' && contextFeed && (
+                <Suspense fallback={<FeedSkeleton cards={6} columns="md:grid-cols-2" cardHeight="h-[240px]" />}>
+                  <ResearchFeed themes={contextFeed.researchThemes} limit={12} nearest={{ href: '/knowledge-hub', label: 'browse Enerqa Publication' }} />
+                </Suspense>
+              )}
+              {mode === 'official' && domainFeed && (
+                <Suspense fallback={<FeedSkeleton cards={6} columns="" cardHeight="h-[96px]" />}>
+                  <OfficialFeed feed={domainFeed} limit={12} nearest={{ href: '/knowledge-hub', label: 'browse Enerqa Publication' }} />
+                </Suspense>
+              )}
+
+              {mode === 'news' && (<>
               {/* A GET form: no JavaScript needed, and every result set is a
                   shareable URL. */}
               <form action="/knowledge-hub/global-intelligence" method="get" className="mb-8 rounded-xl bg-white p-6 shadow-sm border border-gray-200">
@@ -168,6 +251,8 @@ export default async function GlobalIntelligencePage({
                 {/* X02 Extended Filters */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                   {theme !== 'all' && <input type="hidden" name="theme" value={theme} />}
+                  {domainFeed && <input type="hidden" name="domain" value={domainSlug} />}
+                  {industryFeed && <input type="hidden" name="industry" value={industrySlug} />}
                   
                   <div>
                     <label htmlFor="region-filter" className="mb-1 block text-sm font-medium text-gray-700">Geography</label>
@@ -248,7 +333,7 @@ export default async function GlobalIntelligencePage({
                     : `Showing ${result.items.length} result${result.items.length === 1 ? '' : 's'}`}
                   {query && <> for &ldquo;{query}&rdquo;</>}
                 </p>
-                {(query || theme !== 'all') && (
+                {(query || theme !== 'all' || contextFeed) && (
                   <Link
                     href="/knowledge-hub/global-intelligence"
                     className="font-medium text-[var(--color-secondary)] hover:underline"
@@ -275,31 +360,7 @@ export default async function GlobalIntelligencePage({
                       key={item.id}
                       className="rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-[var(--color-primary)] md:p-8"
                     >
-                      <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider">
-                        <span className="text-[var(--color-primary)]">{item.publisher}</span>
-                        <span className="text-gray-400" aria-hidden="true">|</span>
-                        <span className="text-gray-600">News</span>
-                        {item.publishedAt && (
-                          <>
-                            <span className="text-gray-400" aria-hidden="true">|</span>
-                            <time dateTime={item.publishedAt} className="text-gray-600">
-                              {new Date(item.publishedAt).toLocaleDateString('en-GB', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric',
-                              })}
-                            </time>
-                          </>
-                        )}
-                        {item.regions && item.regions.length > 0 && item.regions[0] !== 'Global' && (
-                          <>
-                            <span className="text-gray-400" aria-hidden="true">|</span>
-                            <span className="text-gray-600 font-medium">
-                              {item.regions.join(', ')}
-                            </span>
-                          </>
-                        )}
-                      </div>
+
 
                       <h3 className="mb-3 text-xl font-bold text-[var(--color-dark)]">{item.title}</h3>
 
@@ -307,18 +368,46 @@ export default async function GlobalIntelligencePage({
                           We never write one on a publisher's behalf. */}
                       {item.summary && <p className="mb-4 text-gray-600">{item.summary}</p>}
 
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 font-bold text-[var(--color-secondary)] hover:underline"
-                      >
-                        Read full article <ExternalLink className="ml-1 h-4 w-4" aria-hidden="true" />
-                      </a>
+                      <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider">
+                          <span className="text-[var(--color-primary)]">{item.publisher}</span>
+                          <span className="text-gray-400" aria-hidden="true">|</span>
+                          <span className="text-gray-600">News</span>
+                          {item.publishedAt && (
+                            <>
+                              <span className="text-gray-400" aria-hidden="true">|</span>
+                              <time dateTime={item.publishedAt} className="text-gray-600">
+                                {new Date(item.publishedAt).toLocaleDateString('en-GB', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric',
+                                })}
+                              </time>
+                            </>
+                          )}
+                          {item.regions && item.regions.length > 0 && item.regions[0] !== 'Global' && (
+                            <>
+                              <span className="text-gray-400" aria-hidden="true">|</span>
+                              <span className="text-gray-600 font-medium">
+                                {item.regions.join(', ')}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-bold text-[var(--color-secondary)] hover:underline shrink-0"
+                        >
+                          Read full article <ExternalLink className="ml-1 h-4 w-4" aria-hidden="true" />
+                        </a>
+                      </div>
                     </article>
                   ))
                 )}
               </div>
+              </>)}
 
             </div>
           </div>

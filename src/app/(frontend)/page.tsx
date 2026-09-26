@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { Hero } from '@/components/home/Hero'
 import { FirstFoldFeeds } from '@/components/home/FirstFoldFeeds'
@@ -9,7 +9,6 @@ import { TransitionPriorities } from '@/components/home/TransitionPriorities'
 import { Tools } from '@/components/home/Tools'
 import { AboutEnerqa } from '@/components/home/AboutEnerqa'
 import { ContactCTA } from '@/components/shared/ContactCTA'
-import { FadeIn } from '@/components/animations/FadeIn'
 
 export const metadata: Metadata = {
   title: {
@@ -34,13 +33,19 @@ export const metadata: Metadata = {
  * H09 Explore the Data Portal                       -> DataPortalTeaser
  * H10 Enerqa Tools                                  -> Tools
  * H11 About Enerqa                                  -> AboutEnerqa
- * H12 Stay Informed / H13 Discuss Your Project      -> ContactCTA
+ * H12 Stay Informed / H13 Discuss Your Project      -> ContactCTA (H12 first)
  *
- * H03 and H04 sit in their own light band directly below the hero rather than
- * inside it. The hero was holding H01, H02, the chips and both feeds at once,
- * which left the first viewport crowded and squeezed the headlines. This moves
- * the feeds out of the reference 768px fold (p. 13, 225) in exchange for a
- * readable hero and readable news - a deliberate trade, not an oversight.
+ * First fold (p. 15, 229): at 1366x768 the header, H01, H02, H03 and H04 must
+ * all be visible without scrolling. H03 and H04 sit in their own compact light
+ * band directly below a compact hero, and that band ends around y 720.
+ *
+ * No per-section fade-in: eight identical entrance animations added motion
+ * without meaning, and the page reads calmer without them.
+ *
+ * Streaming: FirstFoldFeeds wraps its provider calls in <Suspense> itself. The
+ * CMS-backed sections below the fold get their own boundaries so a slow CMS
+ * query never holds back the hero and search either. Their fallbacks reserve
+ * roughly the loaded height (p. 226, 228).
  */
 export default function HomePage() {
   return (
@@ -50,27 +55,19 @@ export default function HomePage() {
       {/* H03 Global News + H04 Major Markets */}
       <FirstFoldFeeds />
 
-      <FadeIn delay={0.1}>
-        <TransitionPriorities />
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <LifecycleAndIndustries />
-      </FadeIn>
-      <FadeIn delay={0.1}>
+      <TransitionPriorities />
+      <LifecycleAndIndustries />
+      <Suspense fallback={<div aria-hidden="true" className="min-h-[560px] bg-[var(--color-dark)]" />}>
         <KnowledgeTeaser />
-      </FadeIn>
-      <FadeIn delay={0.1}>
+      </Suspense>
+      <Suspense fallback={<div aria-hidden="true" className="min-h-[420px] bg-[var(--paper-alt)]" />}>
         <DataPortalTeaser />
-      </FadeIn>
-      <FadeIn delay={0.1}>
+      </Suspense>
+      <Suspense fallback={<div aria-hidden="true" className="min-h-[520px] bg-white" />}>
         <Tools />
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <AboutEnerqa />
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <ContactCTA />
-      </FadeIn>
+      </Suspense>
+      <AboutEnerqa />
+      <ContactCTA />
     </>
   )
 }

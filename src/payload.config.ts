@@ -4,6 +4,7 @@ import { standardEditor } from './editorConfig'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import { Capabilities } from './collections/Capabilities'
 import { Media } from './collections/Media'
 import { Publications } from './collections/Publications'
 import { Tools } from './collections/Tools'
@@ -18,6 +19,7 @@ import { ExternalItems } from './collections/ExternalItems'
 import { Glossary } from './collections/Glossary'
 import { FAQs } from './collections/FAQs'
 import { Enquiries } from './collections/Enquiries'
+import { Policies } from './collections/Policies'
 import { KnowledgeHubConfig } from './globals/KnowledgeHubConfig'
 import { DataPortalSourcesConfig } from './globals/DataPortalSourcesConfig'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -48,12 +50,14 @@ export default buildConfig({
     Authors,
     Domains,
     Industries,
+    Capabilities,
     Datasets,
     Dashboards,
     ExternalItems,
     Glossary,
     FAQs,
     Enquiries,
+    Policies,
   ],
   globals: [
     KnowledgeHubConfig,
@@ -69,11 +73,12 @@ export default buildConfig({
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
   ],
-  secret: process.env.PAYLOAD_SECRET || 'fallback-secret-key-1234567890',
+  secret: process.env.PAYLOAD_SECRET || (process.env.NODE_ENV === 'production' ? (() => { throw new Error('PAYLOAD_SECRET is not set. Refusing to run in production with the public development fallback, which would let anyone forge admin sessions.') })() : 'fallback-secret-key-1234567890'), // The fallback is public (it is in the repo), so it is for local development only.
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || 'postgres://127.0.0.1:5432/enerqa',
-    }
+    },
+    push: true,
   }),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

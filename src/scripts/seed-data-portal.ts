@@ -56,6 +56,7 @@ async function run() {
         'Our World in Data, "CO2 emissions by source", based on the Global Carbon Budget. Licensed CC BY 4.0.',
       topic: [getCategory('Emissions'), getCategory('Climate Action')].filter(Boolean),
       date: checkedAt,
+      status: 'verified_open',
     },
     {
       title: 'Renewable Electricity Capacity and Generation',
@@ -81,6 +82,7 @@ async function run() {
       attribution: 'Ember, "Yearly Electricity Data". Licensed CC BY 4.0.',
       topic: [getCategory('Electricity'), getCategory('Energy Systems')].filter(Boolean),
       date: checkedAt,
+      status: 'verified_open',
     },
     {
       title: 'Adjusted Net Savings by Country',
@@ -107,6 +109,7 @@ async function run() {
         'World Bank, World Development Indicators - "Adjusted net savings, including particulate emission damage (% of GNI)". Licensed CC BY 4.0.',
       topic: [getCategory('Finance'), getCategory('Sustainable Business')].filter(Boolean),
       date: checkedAt,
+      status: 'verified_open',
     },
   ];
 

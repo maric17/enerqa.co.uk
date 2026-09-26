@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/knowledge-hub' },
 };
 
+// Static page: ?domain= / ?industry= are read in the browser by the client
+// component, so this does not become a per-request database query.
 export default async function KnowledgeHubPage() {
   const payload = await getPayload({ config: configPromise });
 
@@ -26,6 +28,13 @@ export default async function KnowledgeHubPage() {
     where: { recordKind: { equals: 'article' } },
     limit: 200,
     depth: 1,
+    // The Domain/Industry facets need only a slug and a label. Without this,
+    // every publication would ship its full domain and industry records
+    // (narratives included) to the browser.
+    populate: {
+      domains: { slug: true, title: true },
+      industries: { slug: true, title: true },
+    },
     sort: '-date',
   });
 

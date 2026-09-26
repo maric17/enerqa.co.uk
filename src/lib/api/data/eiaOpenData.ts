@@ -120,6 +120,7 @@ export async function fetchEiaSeries(options: {
       area: null,
       observations: sorted,
       provenance: buildProvenance('eia-open-data', {
+        retrievedAt: res.retrievedAt,
         sourceUrl: `https://www.eia.gov/opendata/browser/${route}`,
         sourceId: `${route}:${dataColumn}:${label}`,
         observationPeriod: sorted.length ? `${sorted[0].period}–${sorted[sorted.length - 1].period}` : null,

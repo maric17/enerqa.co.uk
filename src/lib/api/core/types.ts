@@ -23,7 +23,14 @@ export type ProviderId =
   | 'reliefweb'
   | 'osti'
   | 'gbif-literature'
-  | 'sec-edgar';
+  | 'sec-edgar'
+  // News (pp. 210-216). Same ids as `NewsProvider` in news/types.ts.
+  | 'newsdata'
+  | 'gdelt'
+  | 'eia_rss'
+  | 'eea_rss'
+  // AI answers on /search. Registered only so it has an off switch (L1023).
+  | 'gemini';
 
 /**
  * p. 227: "only `verified_open` records publish". Everything else is an
@@ -116,10 +123,46 @@ export type ResearchItem = {
    * open-access copy over the generic DOI or publisher landing page.
    */
   readUrl: string;
+  /**
+   * Other open copies of the same work, in preference order. Tried in turn
+   * when `readUrl` fails the anonymous access check (p. 209: "A vetted
+   * alternative OA copy can replace a gated publisher/DOI destination").
+   */
+  altCopies?: { url: string; licence?: string | null; version?: string | null }[];
   /** What kind of record this is, so the UI never mislabels it. */
   kind: 'research' | 'report' | 'disclosure';
   /** True only where the provider states peer review. Never inferred. */
   peerReviewed: boolean | null;
+  /**
+   * The issuing or publishing organisation, as the provider states it (p. 29:
+   * "organisation, document type and publication date clearly identified").
+   * Null when the provider does not say - never the provider's own name.
+   */
+  organisation?: string | null;
+  /**
+   * The provider's own document type, e.g. OSTI "Technical Report" or GBIF
+   * "Working paper". SEC filings carry "Corporate disclosure" (p. 217).
+   */
+  docType?: string | null;
+  /**
+   * The article's own licence where the provider returns one (pp. 212-213).
+   * Separate from `provenance.licence`, which covers the metadata record.
+   */
+  articleLicence?: string | null;
+  /** Published version, accepted manuscript or submitted version, as stated (p. 212). */
+  articleVersion?: string | null;
+  /** True where the provider types the work as a preprint (p. 212 "preprint labels"). */
+  preprint?: boolean;
+  /** The journal's ISSN, where the provider gives one (DOAJ licence lookup). */
+  issn?: string | null;
+  /** ISO 639-1 language code, as the provider states it (p. 226 language tags). */
+  language?: string | null;
+  /**
+   * p. 216: study-focus geography and researcher affiliation are different
+   * things and must stay apart. Only GBIF literature supplies both today.
+   */
+  countriesOfCoverage?: string[];
+  countriesOfResearcher?: string[];
   provenance: Provenance;
 };
 
@@ -151,8 +194,13 @@ export type ConnectorSuccess<T> = {
 
 export type ConnectorResult<T> = ConnectorSuccess<T> | ConnectorFailure;
 
-export function ok<T>(providerId: ProviderId, data: T, retrievedAt = new Date().toISOString()): ConnectorSuccess<T> {
-  return { ok: true, providerId, data, stale: false, retrievedAt };
+export function ok<T>(
+  providerId: ProviderId,
+  data: T,
+  retrievedAt = new Date().toISOString(),
+  stale = false
+): ConnectorSuccess<T> {
+  return { ok: true, providerId, data, stale, retrievedAt };
 }
 
 export function fail(
@@ -161,6 +209,17 @@ export function fail(
   message: string,
 ): ConnectorFailure {
   return { ok: false, providerId, reason, message };
+}
+
+/**
+ * p. 226 tells "no relevant updates" apart from "unavailable". True only when
+ * every provider we could actually ask failed (unreachable or rate limited).
+ * One that is off by design - disabled, not registered, not requested - is not
+ * a failure, and "no results" is an answer, not an outage.
+ */
+export function allAskedFailed(results: { ok: boolean; reason?: string }[]): boolean {
+  const asked = results.filter((r) => r.ok || (r.reason !== 'disabled' && r.reason !== 'not_configured'));
+  return asked.length > 0 && asked.every((r) => !r.ok && (r.reason === 'unavailable' || r.reason === 'rate_limited'));
 }
 
 /** Reader-facing text for a failure. Never invents a number or a headline. */

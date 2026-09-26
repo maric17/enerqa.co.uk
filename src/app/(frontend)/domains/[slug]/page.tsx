@@ -1,4 +1,4 @@
-import React, { cache } from 'react';
+import React, { cache, Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -7,6 +7,16 @@ import { Typography } from '@/components/ui/Typography';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
+import { DOMAIN_FEEDS, newsPhrases, SPECIALIST_PROVIDER } from '@/lib/feeds/contextual';
+import { providerEnabled } from '@/lib/api/core/registry';
+import { NewsFeed } from '@/components/feeds/NewsFeed';
+import { ResearchFeed } from '@/components/feeds/ResearchFeed';
+import { OfficialFeed } from '@/components/feeds/OfficialFeed';
+import { RelatedPublications } from '@/components/feeds/RelatedPublications';
+import { RelatedDataset } from '@/components/feeds/RelatedDataset';
+import { CuratedSources } from '@/components/feeds/CuratedSources';
+import { FeedSkeleton } from '@/components/feeds/feedParts';
+import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 
 /**
  * Fetch one domain by slug.
@@ -68,7 +78,19 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
     relevantIndustries,
     policyUpdates,
     relevantTools,
+    lifecycleNarrative,
+    topicPhrase,
   } = domain;
+
+  // Per-domain news baskets, research themes and official sources from the
+  // handoff's "Contextual API and link configuration" (pp. 30, 38, 49, 60).
+  const feed = DOMAIN_FEEDS[slug];
+  // Where a failed feed sends the visitor instead (p. 4).
+  const nearest = { href: `/knowledge-hub/global-intelligence?domain=${slug}`, label: 'browse Global Intelligence' };
+  // CP's only feed (ReliefWeb) is switched off until its appname is
+  // registered, so its module always resolves to the empty state; the
+  // skeleton reserves that height rather than three cards (L516).
+  const officialLive = Boolean(feed?.specialistFeeds.some((f) => providerEnabled(SPECIALIST_PROVIDER[f])));
 
   const heroImageUrl =
     heroImage && typeof heroImage === 'object' && 'url' in heroImage ? heroImage.url : null;
@@ -213,9 +235,11 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
         <Container>
           <div className="max-w-4xl border-l-4 border-[var(--color-secondary)] pl-8 lg:pl-12">
             <h2 className="text-3xl font-bold text-[var(--ink)] mb-6">Project Development and Lifecycle Support</h2>
-            <p className="text-lg text-[var(--ink-soft)] mb-8 leading-relaxed">
-              Our comprehensive lifecycle approach ensures environmental and commercial integrity from earliest concept through operation, adaptation, and exit. Learn how our lifecycle methodology connects with this domain&apos;s unique requirements.
-            </p>
+            {/* The approved domain-specific paragraph (pp. 28, 37, 47, 58). The
+                old generic sentence here was not in the handoff. */}
+            {lifecycleNarrative && (
+              <p className="text-lg text-[var(--ink-soft)] mb-8 leading-relaxed">{lifecycleNarrative}</p>
+            )}
             <Link href="/project-development" className="inline-flex items-center gap-2 text-[var(--color-secondary)] font-semibold hover:text-[var(--color-secondary-dark)] transition-colors">
               Explore Our Project Development Approach <ArrowRight className="w-5 h-5" />
             </Link>
@@ -223,39 +247,55 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
         </Container>
       </section>
 
-      {/* CN + CR - LATEST NEWS AND RESEARCH.
-          Separately labelled modules, as required by handoff p. 21. */}
-      <section className="py-20 bg-[var(--paper)] border-y border-[var(--line)]">
+      {/* CN - LATEST NEWS (pp. 29, 37, 48, 58). Separately labelled from
+          research, as p. 21 requires. Streams in behind a same-size skeleton so
+          a slow provider never blocks the page or shifts its layout (p. 226). */}
+      <section className="py-20 bg-[var(--paper)] border-t border-[var(--line)]">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* CN - Latest News */}
-            <div>
-              <div className="flex justify-between items-end mb-8">
-                <h2 className="text-3xl font-bold text-[var(--ink)]">Latest News</h2>
-                <Link href={`/knowledge-hub/global-intelligence?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
-                  View All News
-                </Link>
-              </div>
-              {/* Empty state uses the exact wording required by handoff p. 226.
-                  min-height reserves the card dimensions to prevent layout shift. */}
-              <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px]">
-                <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-              </div>
-            </div>
-
-            {/* CR - Research and Articles */}
-            <div>
-              <div className="flex justify-between items-end mb-8">
-                <h2 className="text-3xl font-bold text-[var(--ink)]">Research and Articles</h2>
-                <Link href={`/knowledge-hub/global-intelligence?type=research&domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
-                  Explore Research
-                </Link>
-              </div>
-              <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px]">
-                <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-              </div>
-            </div>
+          <div className="flex justify-between items-end gap-6 mb-4">
+            <h2 className="text-3xl font-bold text-[var(--ink)]">Latest News</h2>
+            <Link href={`/knowledge-hub/global-intelligence?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+              View All News
+            </Link>
           </div>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Follow developments in {topicPhrase}. Headlines are selected for relevance to this domain and linked to their original publishers.
+            </p>
+          )}
+          {feed ? (
+            // L516: on one column, reserve one card - the empty state is the
+            // same height - rather than three stacked cards that rarely all arrive.
+            <Suspense fallback={<FeedSkeleton cards={3} mobileCards={1} />}>
+              <NewsFeed phrases={newsPhrases(feed)} baskets={feed.newsBaskets} limit={3} nearest={nearest} />
+            </Suspense>
+          ) : (
+            <SourceUnavailable className="min-h-[220px]" />
+          )}
+        </Container>
+      </section>
+
+      {/* CR - RESEARCH AND ARTICLES: OpenAlex (is_oa) first, DOAJ supplementary. */}
+      <section className="py-20 bg-[var(--paper)] border-b border-[var(--line)]">
+        <Container>
+          <div className="flex justify-between items-end gap-6 mb-4">
+            <h2 className="text-3xl font-bold text-[var(--ink)]">Research and Articles</h2>
+            <Link href={`/knowledge-hub/global-intelligence?type=research&domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+              Explore Research
+            </Link>
+          </div>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Explore research and technical publications that inform decisions in {topicPhrase}. Each record identifies its authors, publication source and date, with a link to the original work.
+            </p>
+          )}
+          {feed ? (
+            <Suspense fallback={<FeedSkeleton cards={4} mobileCards={2} columns="md:grid-cols-2" cardHeight="h-[240px]" />}>
+              <ResearchFeed themes={feed.researchThemes} limit={4} nearest={nearest} />
+            </Suspense>
+          ) : (
+            <SourceUnavailable className="min-h-[240px]" />
+          )}
         </Container>
       </section>
 
@@ -279,8 +319,18 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               </p>
             )}
 
-            <div className="bg-[var(--paper)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px] max-w-4xl">
-              <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
+            <div className="max-w-4xl">
+              {feed ? (
+                <Suspense
+                  fallback={
+                    officialLive ? <FeedSkeleton cards={3} columns="" cardHeight="h-[96px]" /> : <FeedSkeleton cards={1} columns="" cardHeight="h-[200px]" />
+                  }
+                >
+                  <OfficialFeed feed={feed} limit={3} nearest={nearest} />
+                </Suspense>
+              ) : (
+                <SourceUnavailable className="min-h-[200px]" />
+              )}
             </div>
 
             {/* Handoff p. 29: organisation, document type and publication date must
@@ -290,6 +340,12 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
                 {policyUpdates.sourceNote}
               </p>
             )}
+
+            {/* pp. 29, 48, 59: the curated official source links beside the live
+                feed. Static, so outside the Suspense boundary. */}
+            <div className="max-w-4xl">
+              <CuratedSources domainSlug={slug} />
+            </div>
           </Container>
         </section>
       )}
@@ -303,9 +359,12 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               Explore Related Data
             </Link>
           </div>
-          <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[300px] max-w-4xl">
-            <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-          </div>
+          <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+            Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.
+          </p>
+          {/* p. 29: one dataset card, or the canonical catalogue links of the
+              domain's recommended numerical sources (pp. 29, 38, 49, 59). */}
+          <RelatedDataset field="domains" id={domain.id} sources={feed?.dataSources ?? []} />
         </Container>
       </section>
 
@@ -349,8 +408,13 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               Explore Enerqa Publication
             </Link>
           </div>
-          <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[200px] max-w-4xl">
-            <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Read Enerqa&rsquo;s analysis and practical perspectives related to {topicPhrase}.
+            </p>
+          )}
+          <div className="max-w-4xl">
+            <RelatedPublications field="domains" id={domain.id} limit={3} />
           </div>
         </Container>
       </section>
@@ -366,7 +430,7 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
             href={`/contact?domain=${slug}`}
             className="inline-flex items-center gap-2 bg-[var(--green)] text-[var(--ink)] font-bold py-4 px-10 rounded-full hover:bg-[var(--paper)] hover:text-[var(--ink)] transition-colors text-lg"
           >
-            Contact Enerqa
+            Discuss Your Project
             <ArrowRight className="w-5 h-5" />
           </Link>
         </Container>

@@ -31,7 +31,11 @@ export type ProviderRecord = {
   publishedLimits: string;
   /** Set to false to take the provider off the site pending review (p. 227). */
   enabled: boolean;
-  accessReviewedOn: string;
+  /**
+   * Null means the free terms have never been reviewed, and a provider in that
+   * state must stay disabled (p. 224: "must pass review before enabling").
+   */
+  accessReviewedOn: string | null;
   /** Anything that would otherwise be rediscovered painfully. */
   note?: string;
 };
@@ -252,13 +256,115 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     accessReviewedOn: '2026-09-19',
     note: 'p. 217: this is a watchlist, not keyword ESG search. Label results "Corporate disclosure", never news or a market quote.',
   },
+
+  // News (pp. 210-216). The connectors live in src/lib/api/news and check
+  // `enabled` through `providerEnabled()` below, so these switch off the same
+  // way as the rows above (L1023).
+  newsdata: {
+    id: 'newsdata',
+    name: 'NewsData.io',
+    purpose: 'Global environment, climate, energy, technology, business and finance headlines.',
+    homepage: 'https://newsdata.io/',
+    docsUrl: 'https://newsdata.io/documentation',
+    licence: 'Free plan allowed for commercial purposes; publishers retain article and image rights',
+    licenceUrl: 'https://newsdata.io/terms',
+    attribution: 'NewsData.io',
+    keyEnvVar: 'NEWSDATA_API_KEY',
+    revalidate: 2 * HOUR,
+    publishedLimits: '200 credits/day; 10 articles/credit; 30 credits/15 minutes; 100-character search query; 12-hour delay; no full article content.',
+    enabled: true,
+    // p. 209: the handoff's own review date. Not rechecked against the provider since.
+    accessReviewedOn: '2026-09-14',
+    note: 'p. 210: four topic baskets every 2 hours (48 credits/day) plus the 38 page baskets every 12 hours (76/day). The internal budget (core/health.ts: 150/day, 25 per 15 minutes) counts only real upstream requests, never cache hits.',
+  },
+  gdelt: {
+    id: 'gdelt',
+    name: 'GDELT Project DOC 2.0 (legacy)',
+    purpose: 'Broader geographical and language news coverage, and discovery of official and publisher source links.',
+    homepage: 'https://www.gdeltproject.org/',
+    docsUrl: 'https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/',
+    licence: 'GDELT released datasets: academic, commercial and government use without fee; cite and link to GDELT. Publishers retain article and image rights.',
+    licenceUrl: 'https://www.gdeltproject.org/about.html',
+    attribution: 'The GDELT Project',
+    keyEnvVar: null,
+    revalidate: 5400,
+    publishedLimits: 'Article-list maximum 250; no fixed public numeric quota or SLA. A 2026 notice describes legacy request shedding.',
+    enabled: true,
+    accessReviewedOn: '2026-09-14',
+    note: 'p. 211: answers rate limits and query errors with plain text (on HTTP 200 or 429), which is never cached as data. Queries are held to 180 characters: the old 15-domain query was refused as "too short or too long". Requests are spaced 5.5 s apart. GDELT Cloud is a different product and stays excluded.',
+  },
+  eia_rss: {
+    id: 'eia_rss',
+    name: 'U.S. EIA Today in Energy RSS',
+    purpose: 'Energy markets, generation, fuels, consumption, technology and policy-context analysis.',
+    homepage: 'https://www.eia.gov/todayinenergy/',
+    docsUrl: 'https://www.eia.gov/tools/rssfeeds/',
+    licence: 'U.S. Government public domain (EIA-owned text); third-party content, photos and trademarks excluded',
+    licenceUrl: 'https://www.eia.gov/about/copyrights_reuse.php',
+    attribution: 'U.S. Energy Information Administration',
+    keyEnvVar: null,
+    revalidate: 6 * HOUR,
+    publishedLimits: 'No numeric RSS quota located; reasonable cached polling.',
+    enabled: true,
+    accessReviewedOn: '2026-09-14',
+    note: 'p. 214: acknowledge EIA and the publication date; do not reuse photos or the EIA logo. Strong U.S. focus.',
+  },
+  eea_rss: {
+    id: 'eea_rss',
+    name: 'European Environment Agency RSS',
+    purpose: 'European environment, biodiversity, ecosystems, pollution, water, waste, resource use and circular economy.',
+    homepage: 'https://www.eea.europa.eu/',
+    docsUrl: 'https://www.eea.europa.eu/en/newsroom/rss-feeds',
+    licence: 'EEA-owned material CC BY, attribution required and meaning retained; third-party content and logo excluded',
+    licenceUrl: 'https://www.eea.europa.eu/en/legal-notice',
+    attribution: 'European Environment Agency',
+    keyEnvVar: null,
+    revalidate: 6 * HOUR,
+    publishedLimits: 'No fixed numeric RSS quota located.',
+    enabled: true,
+    accessReviewedOn: '2026-09-14',
+    note: 'p. 216: Europe-focused and labelled as such. Feed URLs come from the official directory above, never guessed.',
+  },
+
+  // AI answers on /search (AI02, p. 202). Registered only so it has an off
+  // switch in the same place as every other provider (L1023). Gemini is not
+  // the provider p. 224 names, and its free tier has not been reviewed, so it
+  // stays off: "Model licence, privacy, input handling, public-use terms and
+  // capacity must pass review before enabling inference" (p. 224).
+  gemini: {
+    id: 'gemini',
+    name: 'Google Gemini API',
+    purpose: 'Generated answers on the site search.',
+    homepage: 'https://ai.google.dev/',
+    docsUrl: 'https://ai.google.dev/gemini-api/docs',
+    licence: 'Not reviewed',
+    licenceUrl: 'https://ai.google.dev/gemini-api/terms',
+    attribution: 'Google Gemini',
+    keyEnvVar: 'GEMINI_API_KEY',
+    // Answers are per question, not a shared feed, so there is nothing to cache.
+    revalidate: 0,
+    publishedLimits: 'Free tier not confirmed. p. 224 requires a conservative internal hard budget and no paid fallback.',
+    enabled: false,
+    accessReviewedOn: null,
+    note: 'NOT APPROVED: p. 224 names Cloudflare Workers AI (Free plan) as the candidate. Review licence, privacy and free-tier terms before setting enabled to true.',
+  },
 };
 
 export function getProvider(id: ProviderId): ProviderRecord {
   return PROVIDERS[id];
 }
 
+/**
+ * The one check every caller should use, including code that does not go
+ * through `fetchFromProvider` (the news connectors, the AI answer). An
+ * unreviewed provider is never on, whatever its flag says (p. 224).
+ */
+export function providerEnabled(id: ProviderId): boolean {
+  const provider = PROVIDERS[id];
+  return Boolean(provider?.enabled && provider.accessReviewedOn);
+}
+
 /** Providers currently switched on. Used by the UI to list live sources. */
 export function enabledProviders(): ProviderRecord[] {
-  return Object.values(PROVIDERS).filter((p) => p.enabled);
+  return Object.values(PROVIDERS).filter((p) => providerEnabled(p.id));
 }

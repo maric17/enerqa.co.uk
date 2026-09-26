@@ -1,3 +1,5 @@
+import { fetchFromProvider, type BodyRejection } from '../core/fetch';
+import { fail, ok, type ConnectorResult } from '../core/types';
 import { XMLParser } from 'fast-xml-parser';
 import type { NewsItem, NewsProvider } from './types';
 import { hostnameOf, normaliseUrl } from './types';
@@ -24,6 +26,8 @@ export type RssSource = {
   language: string;
   /** Seconds between refreshes. Both feeds suggest 6 hours. */
   revalidate: number;
+  /** What the channel carries, in its own words ("Press release", "Publication"). */
+  docType?: string;
 };
 
 // fast-xml-parser returns a string for simple nodes, but an object with a
@@ -80,68 +84,73 @@ const parser = new XMLParser({
   trimValues: true,
 });
 
+/** A feed URL that answers with an HTML error page (or nothing) is not a feed, and is not cached. */
+export function rejectFeedBody(body: unknown): BodyRejection | null {
+  const text = typeof body === 'string' ? body : '';
+  return /<rss[\s>]|<feed[\s>]|<rdf:RDF/i.test(text.slice(0, 2000)) ? null : { reason: 'unavailable', message: 'reply is not an RSS document' };
+}
+
+export function mapRssEntries(xml: string, source: RssSource, retrievedAt: string): NewsItem[] {
+  const doc = parser.parse(xml) as {
+    rss?: { channel?: { item?: unknown } };
+  };
+
+  const raw = doc?.rss?.channel?.item;
+  // A feed with exactly one entry parses to an object, not an array.
+  const entries: unknown[] = Array.isArray(raw) ? raw : raw ? [raw] : [];
+
+  return entries.flatMap((entry) => {
+    const node = entry as Record<string, unknown>;
+    const url = text(node.link);
+    const title = toPlainText(text(node.title), 300);
+    if (!url || !title) return [];
+
+    const summary = toPlainText(text(node.description));
+
+    return [
+      {
+        id: normaliseUrl(url),
+        title,
+        summary: summary || null,
+        url,
+        domain: hostnameOf(url),
+        publisher: source.publisher,
+        publishedAt: toIso(text(node.pubDate)),
+        language: source.language,
+        provider: source.provider,
+        providerLabel: source.providerLabel,
+        retrievedAt,
+        rights: source.rights,
+        regions: extractRegions(title, summary || null),
+        ...(source.docType ? { docType: source.docType } : {}),
+      } satisfies NewsItem,
+    ];
+  });
+}
+
 /**
- * Read one RSS feed and map it to NewsItems.
+ * Read one RSS feed and map it to NewsItems, through the same shared cache,
+ * budget and backoff as every other provider (core/fetch.ts).
  *
- * Returns [] on any failure. p. 226: a failed call becomes an honest empty
- * state, never invented content and never a thrown error that takes the
- * homepage down with it.
+ * p. 226: a failed call becomes an honest failure result, never invented
+ * content and never a thrown error that takes the homepage down with it.
  */
-export async function fetchRssFeed(source: RssSource): Promise<NewsItem[]> {
+export async function fetchRssFeed(source: RssSource): Promise<ConnectorResult<NewsItem[]>> {
+  const res = await fetchFromProvider<string>(source.provider, source.url, {
+    revalidate: source.revalidate,
+    tags: ['news'],
+    timeoutMs: 10000,
+    asText: true,
+    // p. 215 asks for a descriptive User-Agent (fetchFromProvider sends it) so
+    // the publisher can see who is polling them.
+    headers: { Accept: 'application/rss+xml, application/xml, text/xml' },
+    rejectBody: rejectFeedBody,
+  });
+  if (!res.ok) return res;
+
   try {
-    const res = await fetch(source.url, {
-      headers: {
-        // p. 215 asks for a descriptive User-Agent so the publisher can see
-        // who is polling them and contact us instead of silently blocking.
-        'User-Agent': 'enerqa.co.uk/1.0 (+https://enerqa.co.uk)',
-        Accept: 'application/rss+xml, application/xml, text/xml',
-      },
-      next: { revalidate: source.revalidate, tags: ['news', source.provider] },
-    });
-
-    if (!res.ok) {
-      console.warn(`[${source.provider}] HTTP ${res.status} for ${source.url}`);
-      return [];
-    }
-
-    const xml = await res.text();
-    const doc = parser.parse(xml) as {
-      rss?: { channel?: { item?: unknown } };
-    };
-
-    const raw = doc?.rss?.channel?.item;
-    // A feed with exactly one entry parses to an object, not an array.
-    const entries: unknown[] = Array.isArray(raw) ? raw : raw ? [raw] : [];
-    const retrievedAt = new Date().toISOString();
-
-    return entries.flatMap((entry) => {
-      const node = entry as Record<string, unknown>;
-      const url = text(node.link);
-      const title = toPlainText(text(node.title), 300);
-      if (!url || !title) return [];
-
-      const summary = toPlainText(text(node.description));
-
-      return [
-        {
-          id: normaliseUrl(url),
-          title,
-          summary: summary || null,
-          url,
-          domain: hostnameOf(url),
-          publisher: source.publisher,
-          publishedAt: toIso(text(node.pubDate)),
-          language: source.language,
-          provider: source.provider,
-          providerLabel: source.providerLabel,
-          retrievedAt,
-          rights: source.rights,
-          regions: extractRegions(title, summary || null),
-        } satisfies NewsItem,
-      ];
-    });
-  } catch (error) {
-    console.warn(`[${source.provider}] feed failed:`, error);
-    return [];
+    return ok(source.provider, mapRssEntries(res.data, source, res.retrievedAt), res.retrievedAt, res.stale);
+  } catch {
+    return fail(source.provider, 'unavailable', 'The feed could not be parsed.');
   }
 }

@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, ArrowRight, Filter, FileText, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import SubscribeForm from '@/components/SubscribeForm';
 
 // K03 filter groups (handoff p. 155). Options are derived from the publications
 // actually present, so a filter never offers a value that returns nothing.
-type FacetKey = 'type' | 'year' | 'language' | 'author' | 'archiveCategory';
+type FacetKey = 'type' | 'year' | 'language' | 'author' | 'archiveCategory' | 'domain' | 'industry';
 
 const FACET_LABELS: Record<FacetKey, string> = {
   type: 'Publication Type',
@@ -15,6 +16,12 @@ const FACET_LABELS: Record<FacetKey, string> = {
   language: 'Language',
   author: 'Author',
   archiveCategory: 'Topic',
+  domain: 'Domain',
+  industry: 'Industry',
+};
+
+const EMPTY_SELECTION: Record<FacetKey, string[]> = {
+  type: [], year: [], language: [], author: [], archiveCategory: [], domain: [], industry: [],
 };
 
 const LANGUAGE_LABELS: Record<string, string> = { en: 'English', ar: 'Arabic' };
@@ -25,37 +32,69 @@ const ARCHIVE_LABELS: Record<string, string> = {
   'frameworks-and-methodologies': 'Frameworks and Methodologies',
 };
 
-const valueOf = (pub: any, key: FacetKey): string | null => {
-  if (key === 'year') return pub.date ? String(new Date(pub.date).getFullYear()) : null;
-  return pub[key] || null;
-};
-
-const displayValue = (key: FacetKey, value: string) => {
-  if (key === 'language') return LANGUAGE_LABELS[value] ?? value;
-  if (key === 'archiveCategory') return ARCHIVE_LABELS[value] ?? value;
-  return value;
+// Every facet yields a list, because a publication can be tagged with several
+// domains or industries. Single-valued facets return a one-item list.
+const valuesOf = (pub: any, key: FacetKey): string[] => {
+  if (key === 'year') return pub.date ? [String(new Date(pub.date).getFullYear())] : [];
+  if (key === 'domain' || key === 'industry') {
+    const related = key === 'domain' ? pub.domains : pub.industries;
+    return (Array.isArray(related) ? related : [])
+      .filter((r: any) => r && typeof r === 'object' && r.slug)
+      .map((r: any) => r.slug as string);
+  }
+  return pub[key] ? [pub[key]] : [];
 };
 
 export default function KnowledgeHubClient({ publications }: { publications: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
-  // One set of selected values per facet. Empty set = that facet is not filtering.
-  const [selected, setSelected] = useState<Record<FacetKey, string[]>>({
-    type: [], year: [], language: [], author: [], archiveCategory: [],
-  });
+
+  // Slug -> title for the Domain and Industry facets.
+  const relatedTitles = useMemo(() => {
+    const titles = new Map<string, string>();
+    publications.forEach((pub) =>
+      [...(pub.domains ?? []), ...(pub.industries ?? [])].forEach((r: any) => {
+        if (r && typeof r === 'object' && r.slug) titles.set(r.slug, r.title ?? r.slug);
+      }),
+    );
+    return titles;
+  }, [publications]);
+
+  const displayValue = (key: FacetKey, value: string) => {
+    if (key === 'language') return LANGUAGE_LABELS[value] ?? value;
+    if (key === 'archiveCategory') return ARCHIVE_LABELS[value] ?? value;
+    if (key === 'domain' || key === 'industry') return relatedTitles.get(value) ?? value;
+    return value;
+  };
 
   // Build the option lists from the real data rather than hard-coding them.
   const facets = useMemo(() => {
     const out = {} as Record<FacetKey, string[]>;
     (Object.keys(FACET_LABELS) as FacetKey[]).forEach((key) => {
       const values = new Set<string>();
-      publications.forEach((pub) => {
-        const v = valueOf(pub, key);
-        if (v) values.add(v);
-      });
+      publications.forEach((pub) => valuesOf(pub, key).forEach((v) => values.add(v)));
       out[key] = [...values].sort((a, b) => (key === 'year' ? b.localeCompare(a) : a.localeCompare(b)));
     });
     return out;
   }, [publications]);
+
+  // One set of selected values per facet. Empty set = that facet is not filtering.
+  const [selected, setSelected] = useState<Record<FacetKey, string[]>>(EMPTY_SELECTION);
+
+  // ?domain= and ?industry= come from the domain pages' "Explore Enerqa
+  // Publication" link (p. 29) and the industry pages' "Explore Related
+  // Publications" link. Read after load so the page itself stays static. A value
+  // is applied only if some publication carries it, so a link from an untagged
+  // domain never lands on an empty list.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const domain = params.get('domain');
+    const industry = params.get('industry');
+    setSelected((prev) => ({
+      ...prev,
+      domain: domain && facets.domain.includes(domain) ? [domain] : prev.domain,
+      industry: industry && facets.industry.includes(industry) ? [industry] : prev.industry,
+    }));
+  }, [facets]);
 
   const toggle = (key: FacetKey, value: string) =>
     setSelected((prev) => ({
@@ -63,8 +102,7 @@ export default function KnowledgeHubClient({ publications }: { publications: any
       [key]: prev[key].includes(value) ? prev[key].filter((v) => v !== value) : [...prev[key], value],
     }));
 
-  const clearAll = () =>
-    setSelected({ type: [], year: [], language: [], author: [], archiveCategory: [] });
+  const clearAll = () => setSelected(EMPTY_SELECTION);
 
   // Flat list of active selections, for the removable chips above the results.
   const activeChips = (Object.keys(FACET_LABELS) as FacetKey[]).flatMap((key) =>
@@ -84,8 +122,7 @@ export default function KnowledgeHubClient({ publications }: { publications: any
       // Within a facet the selected values are OR'd; across facets they are AND'd.
       const matchesFacets = (Object.keys(FACET_LABELS) as FacetKey[]).every((key) => {
         if (selected[key].length === 0) return true;
-        const v = valueOf(pub, key);
-        return v !== null && selected[key].includes(v);
+        return valuesOf(pub, key).some((v) => selected[key].includes(v));
       });
 
       return matchesSearch && matchesFacets;
@@ -108,7 +145,7 @@ export default function KnowledgeHubClient({ publications }: { publications: any
       </section>
 
       {/* K02 Collection Switcher */}
-      <section className="bg-white border-b border-gray-200 sticky top-[70px] z-30">
+      <section className="bg-white border-b border-gray-200 sticky top-[84px] z-30">
         <Container>
           <div className="flex space-x-8">
             <Link 
@@ -133,8 +170,8 @@ export default function KnowledgeHubClient({ publications }: { publications: any
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
             
             {/* K03 Find a Publication - filters (handoff p. 155).
-                Topic, Publication Type, Year, Language and Author. Domain and
-                Industry join this list once publications carry those tags. */}
+                Each facet appears only once a publication carries a value for
+                it, so Domain and Industry show up as editors tag publications. */}
             <div className="lg:col-span-1 space-y-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-bold text-[var(--color-dark)] text-lg flex items-center gap-2">
@@ -280,10 +317,9 @@ export default function KnowledgeHubClient({ publications }: { publications: any
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
               <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-3">Stay Informed</h3>
               <p className="text-gray-600 mb-6">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</p>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" placeholder="Your email address" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" required />
-                <button type="submit" className="w-full bg-[var(--color-dark)] text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition-colors">Subscribe</button>
-              </form>
+              {/* The same working form as the footer. This one used to only call
+                  preventDefault(), so nothing was ever saved. */}
+              <SubscribeForm tone="light" />
             </div>
             <div className="bg-[var(--color-dark)] p-8 rounded-2xl shadow-sm border border-gray-800 text-white flex flex-col justify-center">
               <h3 className="text-2xl font-bold mb-3">Discuss Your Project</h3>

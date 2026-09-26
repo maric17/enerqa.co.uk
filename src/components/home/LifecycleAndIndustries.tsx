@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '../ui/Container';
+import { Typography } from '../ui/Typography'
 
 /**
  * H06 Project Development and Lifecycle Support + H07 Industries We Work In
@@ -9,6 +10,9 @@ import { Container } from '../ui/Container';
  *
  * H06 also closes the last of the six inbound links p. 145 requires to the
  * canonical lifecycle page - the homepage was the only one still missing it.
+ *
+ * Copy is H06's and H07's own text from p. 14, verbatim. (Both used to carry
+ * the Domains and Industries overview's O04 / O03 text from pp. 19-20.)
  *
  * Styling follows the existing page rhythm: a dark band using --ink for the
  * lifecycle module, then a light --paper band for the industry list, matching
@@ -34,20 +38,20 @@ const INDUSTRIES = [
 export const LifecycleAndIndustries = () => (
   <>
     {/* ---------- H06 Project Development and Lifecycle Support ---------- */}
-    <section className="bg-[var(--ink)] py-16 text-white lg:py-20">
+    <section className="bg-[var(--color-paper-alt)] py-16 text-[var(--color-ink)] lg:py-24">
       <Container>
-        <div className="max-w-4xl border-l-4 border-[var(--green)] pl-8 lg:pl-12">
-          <h2 className="mb-5 text-[clamp(24px,3vw,34px)] font-bold leading-tight">
+        <div className="max-w-4xl border-l-4 border-[var(--color-primary)] pl-8 lg:pl-12">
+          <Typography variant="h2" className="home-h2 mb-5 text-[var(--color-ink)]">
             Project Development and Lifecycle Support
-          </h2>
-          <p className="mb-8 text-[17px] font-light leading-relaxed text-white/80">
-            A project can begin with a need, an idea, an existing study or an operating asset. Concept development, feasibility, financing, delivery and performance measurement connect technical analysis with the decisions required at each stage.
+          </Typography>
+          <p className="mb-8 text-[17px] leading-relaxed text-[var(--color-ink-soft)]">
+            Ideas become practical projects when the opportunity is clearly defined, tested and structured. Concept development, feasibility studies, business and financial modelling, finance preparation and implementation support connect each stage. Clients can engage Enerqa at any point in the lifecycle.
           </p>
           <Link
             href="/project-development"
-            className="inline-flex items-center gap-2 font-semibold text-[var(--green)] no-underline transition-colors hover:text-white"
+            className="inline-flex items-center gap-2 font-semibold text-[var(--color-primary-deep)] no-underline transition-colors hover:text-[var(--color-secondary)]"
           >
-            Explore Our Project Development Approach <ArrowRight className="h-5 w-5" />
+            Explore Our Project Development Approach <ArrowRight aria-hidden="true" className="h-5 w-5" />
           </Link>
         </div>
       </Container>
@@ -57,12 +61,19 @@ export const LifecycleAndIndustries = () => (
     <section className="bg-[var(--paper)] py-16 lg:py-20">
       <Container>
         <div className="mb-10 max-w-3xl">
-          <h2 className="mb-4 text-[clamp(24px,3vw,34px)] font-bold leading-tight text-[var(--ink)]">
+          <Typography variant="h2" className="home-h2 mb-4 text-[var(--color-ink)]">
             Industries We Work In
-          </h2>
+          </Typography>
           <p className="m-0 text-[17px] font-light leading-relaxed text-[var(--ink-soft)]">
-            The same development discipline can be applied across different sectors, with the evidence, risks and delivery requirements adapted to the industry.
+            Different industries face different operational, resource and investment challenges. Our domains can be applied to public institutions, financial organisations, productive sectors, infrastructure and essential services.
           </p>
+          {/* p. 14 H07 action; p. 7 puts the main action below the narrative. */}
+          <Link
+            href="/domains-and-industries#industries"
+            className="mt-5 inline-flex items-center gap-2 font-semibold text-[var(--color-secondary)] no-underline transition-colors hover:text-[var(--ink)]"
+          >
+            Explore All Industries <ArrowRight aria-hidden="true" className="h-5 w-5" />
+          </Link>
         </div>
 
         {/* p. 7: every one of the 13 industry pages stays directly reachable,
@@ -75,11 +86,12 @@ export const LifecycleAndIndustries = () => (
                 className="group flex h-full items-center justify-between gap-3 rounded-[var(--r-md)] border border-[var(--line)] bg-[var(--paper-alt)] px-5 py-4 no-underline transition-colors hover:border-[var(--green)]"
               >
                 <span className="text-[14px] font-semibold leading-snug text-[var(--ink)]">{name}</span>
-                <ArrowRight className="h-4 w-4 shrink-0 text-[var(--ink-muted)] transition-colors group-hover:text-[var(--green)]" />
+                <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-[var(--ink-muted)] transition-colors group-hover:text-[var(--green)]" />
               </Link>
             </li>
           ))}
         </ul>
+
       </Container>
     </section>
   </>

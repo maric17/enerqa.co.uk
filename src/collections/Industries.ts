@@ -55,23 +55,13 @@ export const Industries: CollectionConfig = {
               }
             },
             {
-              name: 'workAreas',
-              type: 'array',
+              name: 'relatedCapabilities',
+              type: 'relationship',
+              relationTo: 'capabilities',
+              hasMany: true,
               admin: {
-                description: 'Relevant Domains and Work Areas (3-4 contextual links to domain capability anchors)',
-              },
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  required: true,
-                },
-                {
-                  name: 'url',
-                  type: 'text',
-                  required: true,
-                }
-              ]
+                description: 'Related capability links (3-4 contextual links to domain capability anchors)',
+              }
             },
             // I{nn}T - Relevant Enerqa Tools (handoff pp. 66, 72, 78, ...).
             // Only publish a tool once its name, endpoint and access are tested;

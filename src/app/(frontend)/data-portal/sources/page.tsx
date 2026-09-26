@@ -6,7 +6,14 @@ import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import type { Metadata } from 'next';
+import { enabledProviders } from '@/lib/api/core/registry';
 
+export const metadata: Metadata = {
+  title: 'Sources and Methodology',
+  description: 'Directory of primary sources and core principles guiding Enerqa\'s data publication.',
+  alternates: { canonical: '/data-portal/sources' },
+};
 export default async function DataPortalSourcesPage() {
   const payload = await getPayload({ config: configPromise });
   
@@ -61,8 +68,23 @@ export default async function DataPortalSourcesPage() {
                   <RichText data={config.s02_directory as any} />
                 </div>
               ) : (
-                <div className="bg-gray-50 border border-gray-200 p-8 rounded-xl text-center text-gray-500">
-                  Source directory is currently being updated.
+                <div className="grid gap-6">
+                  {enabledProviders().map((provider) => (
+                    <div key={provider.id} className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:border-[var(--color-primary)] transition-colors">
+                      <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
+                        <h3 className="text-xl font-bold text-[var(--color-dark)] m-0">{provider.name}</h3>
+                        <a href={provider.homepage} target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] hover:underline text-sm font-medium">
+                          Visit Provider Website
+                        </a>
+                      </div>
+                      <p className="text-gray-700 mb-4">{provider.purpose}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                        <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
+                        <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>
+                        {provider.accessReviewedOn && <div><strong className="text-gray-800 block mb-1">Access Reviewed:</strong> {provider.accessReviewedOn}</div>}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -100,7 +122,7 @@ export default async function DataPortalSourcesPage() {
                 </div>
               ) : (
                 <div className="bg-gray-50 border border-gray-200 p-8 rounded-xl text-gray-600 prose max-w-none">
-                  <p>Our dashboards and datasets often include smoothed trends and moving averages to clarify long-term trajectories. Always consult the dataset methodology notes for details on statistical limitations, imputation of missing values, and reporting delays.</p>
+                  <p>Our dashboards and datasets display raw provider values exactly as reported by the primary sources. We do not apply smoothed trends, moving averages, or imputation of missing values. Missing data points are left blank to preserve the integrity of the original source.</p>
                 </div>
               )}
             </div>

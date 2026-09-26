@@ -8,6 +8,7 @@ import { Section } from '@/components/ui/Section';
 import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { Info, Database } from 'lucide-react';
+import DataPortalD03 from '@/components/data/DataPortalD03';
 
 export default async function DashboardDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -69,17 +70,12 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
               )}
 
               {/* Embed Container */}
-              <div className="w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md min-h-[600px] lg:h-[800px]">
-                {dashboard.embedUrl ? (
-                  <iframe 
-                    src={dashboard.embedUrl as string} 
-                    className="w-full h-full border-none"
-                    title={dashboard.title}
-                    allowFullScreen
-                  />
+              <div className="w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md min-h-[600px]">
+                {dashboard.datasetConnector ? (
+                  <DataPortalD03 />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-400">
-                    <p>Dashboard visualization is currently unavailable.</p>
+                  <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 text-gray-400">
+                    <p>Dashboard visualization is currently unavailable. No dataset connector configured.</p>
                   </div>
                 )}
               </div>

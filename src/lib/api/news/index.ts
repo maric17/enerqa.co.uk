@@ -1,19 +1,26 @@
+import { allAskedFailed, type ConnectorFailure, type ConnectorResult } from '../core/types';
+import { firstVerified, type AccessVerdict } from '../core/accessCheck';
+import { isStaleAge } from '../core/health';
+import { normaliseLanguage } from '../core/language';
 import type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 import {
   applyGate,
   byNewest,
   containsAny,
   getBasket,
+  isOnSiteTopic,
   matchesBasket,
+  normaliseUrl,
   NEWS_BASKETS,
   PROVIDER_META,
 } from './types';
-import { fetchNewsdataBasket, NEWSDATA_DELAY_HOURS } from './newsdata';
+import { basketQuery, fetchNewsdataBasket, fetchNewsdataQuery, NEWSDATA_DELAY_HOURS, PAGE_BASKET_SECONDS } from './newsdata';
 import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews } from './gdelt';
+import { REGION_ORDER } from './geography';
 
-export type { NewsItem, NewsBasketKey } from './types';
+export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
 export { NEWSDATA_DELAY_HOURS } from './newsdata';
 
@@ -35,21 +42,54 @@ export { NEWSDATA_DELAY_HOURS } from './newsdata';
  * it says a provider going chargeable must disable that connector alone.
  */
 
+export type ProviderOutcome = 'ok' | ConnectorFailure['reason'];
+
 export type NewsResult = {
   items: NewsItem[];
   /** Only the providers that actually contributed a displayed item. */
   sources: { id: NewsProvider; label: string; href: string }[];
   /** Regions present in the fetched items before filtering. */
   availableRegions: string[];
-  /** Languages present in the fetched items before filtering. */
+  /** Languages present in the fetched items before filtering (ISO 639-1 codes). */
   availableLanguages: string[];
   /** When this set was assembled. Kept separate from publication dates (p. 226). */
   retrievedAt: string;
   /** True when every provider returned nothing usable. */
   unavailable: boolean;
+  /**
+   * True when no provider returned anything at all, before relevance
+   * filtering. p. 226 tells these apart: "No relevant updates are available"
+   * when the sources answered but nothing fitted, an honest unavailable state
+   * when the sources themselves failed.
+   */
+  sourcesFailed: boolean;
+  /**
+   * The same judgement made on PAGE_NEWS_PROVIDERS alone (NewsData and GDELT).
+   * A panel that shows only those two - the homepage H03/H04, CN/EN/NN/BN,
+   * I{nn}N - must say "unavailable" when both failed, even if the EIA and EEA
+   * feeds in the same pool answered.
+   */
+  newsSourcesFailed: boolean;
+  /** How each provider asked for this result answered: "ok" or its failure reason. */
+  providerStatus: Partial<Record<NewsProvider, ProviderOutcome>>;
   /** True when a displayed item came from the delayed NewsData free plan. */
   hasDelayedSource: boolean;
+  /**
+   * True when a displayed item is older than its provider's refresh interval,
+   * i.e. the shared cache could not be refreshed. p. 227: show the cached items
+   * with a stale-data notice rather than nothing.
+   */
+  stale: boolean;
 };
+
+/**
+ * The news-page providers. pp. 28, 37, 48, 58 and every industry page (e.g.
+ * p. 64) name the same two for CN/EN/NN/BN and I{nn}N: "NewsData.io is
+ * primary; legacy GDELT supplies additional geographic coverage". The EIA and
+ * EEA feeds are official analysis and belong in the official-updates modules
+ * (pp. 37, 48 and the industry specialist feeds), not in "news".
+ */
+export const PAGE_NEWS_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt'];
 
 /**
  * Ranking used only while deduplicating. If the same article arrives from two
@@ -66,27 +106,109 @@ const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
   gdelt: 3,
 };
 
-async function collect(basketKey: NewsBasketKey): Promise<NewsItem[]> {
+/**
+ * Each provider's shared refresh interval, in seconds. These mirror the
+ * `revalidate` values in the connectors (p. 210: 2 hours, p. 211: 1-2 hours,
+ * pp. 214-216: 6 hours). An item older than this means a refresh failed.
+ */
+const REFRESH_SECONDS: Record<NewsProvider, number> = {
+  newsdata: 7200,
+  gdelt: 5400,
+  eia_rss: 21600,
+  eea_rss: 21600,
+};
+
+/** p. 227 stale notice: the same rule as every other connector (`isStaleAge`). */
+export function isNewsItemStale(item: NewsItem, now = Date.now()): boolean {
+  return isStaleAge(item.provider, item.retrievedAt, item.refreshSeconds ?? REFRESH_SECONDS[item.provider], now);
+}
+
+/**
+ * H03 / CN "short permitted description" (pp. 13, 28). NewsData sometimes
+ * returns the opening of the article body as its description - 1,285
+ * characters in one Guardian record - and a CSS line-clamp only hides that, it
+ * still ships in the HTML. So the text is cut here, on a word boundary, before
+ * any page sees it. The words are the publisher's; only the length changes.
+ */
+export const TEASER_MAX_CHARS = 200;
+
+export function toTeaser(text: string | null, max = TEASER_MAX_CHARS): string | null {
+  if (!text) return null;
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (!clean) return null;
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  const base = lastSpace > max / 2 ? cut.slice(0, lastSpace) : cut;
+  return `${base.replace(/[\s,;:.–—-]+$/, '')}…`;
+}
+
+export { normaliseLanguage } from '../core/language';
+
+/** The normalisation every item gets, whichever connector produced it. */
+function normalise(item: NewsItem): NewsItem {
+  return {
+    ...item,
+    summary: toTeaser(item.summary),
+    language: normaliseLanguage(item.language),
+  };
+}
+
+type Collected = { items: NewsItem[]; status: Partial<Record<NewsProvider, ProviderOutcome>> };
+
+/** Record a provider's answer, merging several calls (four NewsData baskets) into one outcome. */
+function note(status: Collected['status'], provider: NewsProvider, result: ConnectorResult<unknown>): void {
+  const outcome: ProviderOutcome = result.ok ? 'ok' : result.reason;
+  // One basket answering is enough for the provider to have answered.
+  if (status[provider] !== 'ok') status[provider] = outcome;
+}
+
+async function collect(
+  basketKey: NewsBasketKey,
+  providers: readonly NewsProvider[],
+  pageBaskets: string[][] = [],
+): Promise<Collected> {
   const basket = getBasket(basketKey);
+  const wants = (p: NewsProvider) => providers.includes(p);
 
   // NewsData charges a credit per query, so "All" reuses the four cached topic
-  // baskets instead of paying for a fifth (p. 210).
-  const newsdataCalls =
-    basketKey === 'all'
+  // baskets instead of paying for a fifth (p. 210). A domain or industry page
+  // adds its own "News query baskets", each cached for 12 hours (newsdata.ts
+  // has the credit sum).
+  const newsdataCalls = !wants('newsdata')
+    ? []
+    : basketKey === 'all'
       ? NEWS_BASKETS.filter((b) => b.newsdataQuery).map((b) => fetchNewsdataBasket(b.key))
       : [fetchNewsdataBasket(basketKey)];
+  const pageCalls = wants('newsdata')
+    ? pageBaskets.map((phrases) => fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS))
+    : [];
 
-  const wantsEia = EIA_BASKETS.includes(basketKey);
-  const wantsEea = EEA_BASKETS.includes(basketKey);
+  const wantsEia = wants('eia_rss') && EIA_BASKETS.includes(basketKey);
+  const wantsEea = wants('eea_rss') && EEA_BASKETS.includes(basketKey);
 
-  // Every provider function already resolves to [] on failure, so one source
+  // Every connector returns a typed result rather than throwing, so one source
   // being down cannot reject the whole batch.
-  const [newsdataResults, eia, eea, gdelt] = await Promise.all([
+  const [newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
     Promise.all(newsdataCalls),
-    wantsEia ? fetchEiaNews() : Promise.resolve([]),
-    wantsEea ? fetchEeaNews() : Promise.resolve([]),
-    fetchGdeltNews(basketKey),
+    Promise.all(pageCalls),
+    wantsEia ? fetchEiaNews() : null,
+    wantsEea ? fetchEeaNews() : null,
+    wants('gdelt') ? fetchGdeltNews(basketKey) : null,
   ]);
+
+  const status: Collected['status'] = {};
+  const raw: NewsItem[] = [];
+  for (const [provider, result] of [
+    ...newsdataResults.map((r) => ['newsdata', r] as const),
+    ['gdelt', gdelt] as const,
+    ['eia_rss', eia] as const,
+    ['eea_rss', eea] as const,
+  ]) {
+    if (!result) continue;
+    note(status, provider, result);
+    if (result.ok) raw.push(...result.data);
+  }
 
   /**
    * Relevance filtering (p. 226), applied to every provider.
@@ -101,44 +223,131 @@ async function collect(basketKey: NewsBasketKey): Promise<NewsItem[]> {
    * EIA's energy-market analysis belongs in Business and Finance only when the
    * individual article is actually about markets or prices.
    */
-  return [...newsdataResults.flat(), ...gdelt, ...eia, ...eea].filter((item) =>
-    matchesBasket(item, basket),
-  );
+  const relevant = raw.filter((item) => matchesBasket(item, basket));
+
+  // A page basket's results are already about the page's own phrases (the
+  // page matches them again before showing any); they only need the site-wide
+  // test that the headline is about our subject (p. 64: "the industry and
+  // related sustainability themes together").
+  for (const result of pageResults) {
+    note(status, 'newsdata', result);
+    if (result.ok) relevant.push(...result.data.filter(isOnSiteTopic));
+  }
+
+  return { items: relevant.map(normalise), status };
 }
 
-export async function fetchNews(
-  basketKey: NewsBasketKey = 'all',
-  limit = 6,
-  opts: { maxPerPublisher?: number } = {},
-): Promise<NewsResult> {
-  const collected = await collect(basketKey);
+/**
+ * p. 226 "service failures ... an honest unavailable state": true only when
+ * every provider that could be asked failed. One switched off or awaiting a
+ * key is not asked; "nothing relevant" is an answer, not an outage. Same rule
+ * as the research modules.
+ */
+export function sourcesFailedFor(result: Pick<NewsResult, 'providerStatus'>, providers: readonly NewsProvider[]): boolean {
+  const asked = providers
+    .map((p) => result.providerStatus[p])
+    .filter((o): o is ProviderOutcome => Boolean(o))
+    .map((o) => (o === 'ok' ? { ok: true } : { ok: false, reason: o }));
+  return allAskedFailed(asked);
+}
 
-  // Sort by provider richness FIRST so the gate's URL dedupe keeps the copy
-  // with a summary, then re-sort the survivors into newest-first order.
-  const deduped = applyGate(
-    [...collected].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
-    opts,
-  );
-
-  const items = deduped.sort(byNewest).slice(0, limit);
-
+function buildResult(items: NewsItem[], status: Collected['status']): NewsResult {
   const sources = [...new Set(items.map((i) => i.provider))].map((id) => ({
     id,
     ...PROVIDER_META[id],
   }));
 
-  const availableRegions = [...new Set(items.flatMap((i) => i.regions || []))].sort();
+  const availableRegions = REGION_ORDER.filter((r) => items.some((i) => i.regions?.includes(r)));
   const availableLanguages = [...new Set(items.map((i) => i.language).filter((l): l is string => Boolean(l)))].sort();
+  const all = Object.keys(status) as NewsProvider[];
 
   return {
     items,
     sources,
     availableRegions,
     availableLanguages,
-    retrievedAt: new Date().toISOString(),
+    // The oldest displayed item is the honest age of this set: with the shared
+    // cache, "assembled now" can hide hours-old data (p. 226).
+    retrievedAt: oldestRetrieval(items),
     unavailable: items.length === 0,
+    sourcesFailed: sourcesFailedFor({ providerStatus: status }, all),
+    newsSourcesFailed: sourcesFailedFor({ providerStatus: status }, PAGE_NEWS_PROVIDERS),
+    providerStatus: status,
     hasDelayedSource: items.some((i) => i.provider === 'newsdata'),
+    stale: items.some((i) => isNewsItemStale(i)),
   };
+}
+
+export type NewsOptions = {
+  maxPerPublisher?: number;
+  /**
+   * Only ask these providers, and judge `sourcesFailed` on them alone. A panel
+   * limited to PAGE_NEWS_PROVIDERS should pass them here rather than filtering
+   * afterwards, so EIA and EEA are neither fetched nor counted.
+   */
+  providers?: readonly NewsProvider[];
+  /** For tests: the access check to run instead of the real one. */
+  check?: (url: string) => Promise<AccessVerdict>;
+  /** A page's own "News query baskets" (pp. 30 ... 138), fetched into the shared pool. */
+  pageBaskets?: string[][];
+};
+
+const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
+
+/**
+ * The shared pool for a basket, gated (allowlist, dates, URL dedupe,
+ * publisher cap) and newest first, BEFORE the access check. Callers narrow it
+ * and then check only what they will show.
+ */
+async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<{ items: NewsItem[]; status: Collected['status'] }> {
+  const { items: collected, status } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
+
+  // The same article can arrive from a topic basket and a page basket; the
+  // surviving copy keeps every query that found it.
+  const queries = new Map<string, Set<string>>();
+  for (const item of collected) {
+    for (const q of item.matchedQueries ?? []) {
+      const key = normaliseUrl(item.url);
+      queries.set(key, (queries.get(key) ?? new Set()).add(q));
+    }
+  }
+
+  // Sort by provider richness FIRST so the gate's URL dedupe keeps the copy
+  // with a summary, then re-sort the survivors into newest-first order.
+  const deduped = applyGate(
+    [...collected].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
+    { maxPerPublisher: opts.maxPerPublisher },
+  ).map((item) => {
+    const found = queries.get(normaliseUrl(item.url));
+    return found ? { ...item, matchedQueries: [...found] } : item;
+  });
+  return { items: deduped.sort(byNewest), status };
+}
+
+/**
+ * pp. 209, 227: news goes through the same verified_open gate as research.
+ * The allowlist is the vetted official-source list p. 209 allows; the
+ * anonymous check of each article's destination is the second half. Items
+ * are checked in display order and the walk stops at `limit`, so nothing that
+ * could not be shown is checked.
+ */
+async function verified(items: NewsItem[], limit: number, check?: NewsOptions['check']): Promise<NewsItem[]> {
+  const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check });
+  return passed.map(({ item }) => item);
+}
+
+export async function fetchNews(
+  basketKey: NewsBasketKey = 'all',
+  limit = 6,
+  opts: NewsOptions = {},
+): Promise<NewsResult> {
+  const { items, status } = await pool(basketKey, opts);
+  return buildResult(await verified(items, limit, opts.check), status);
+}
+
+function oldestRetrieval(items: NewsItem[]): string {
+  const times = items.map((i) => i.retrievedAt).filter(Boolean).sort();
+  return times[0] ?? new Date().toISOString();
 }
 
 /**
@@ -154,6 +363,8 @@ export interface SearchFilters {
   source?: string;
   language?: string;
   dateRange?: string; // e.g. '24h', '7d', '30d'
+  /** A domain or industry page's handoff baskets, from ?domain= / ?industry=. */
+  phrases?: string[];
 }
 
 export async function searchNews(
@@ -162,9 +373,10 @@ export async function searchNews(
   filters: SearchFilters = {},
   limit = 24,
 ): Promise<NewsResult> {
-  const result = await fetchNews(basketKey, 80, { maxPerPublisher: 10 });
-  
-  let items = result.items;
+  const { items: pooled, status } = await pool(basketKey, { maxPerPublisher: 10 });
+  const result = buildResult(pooled, status);
+
+  let items = pooled;
 
   // Apply filters
   if (filters.region) {
@@ -174,7 +386,9 @@ export async function searchNews(
     items = items.filter((item) => item.provider === filters.source);
   }
   if (filters.language) {
-    items = items.filter((item) => item.language === filters.language);
+    // Old shared links may still say ?language=english.
+    const wanted = normaliseLanguage(filters.language);
+    items = items.filter((item) => item.language === wanted);
   }
   if (filters.dateRange) {
     const now = Date.now();
@@ -182,12 +396,18 @@ export async function searchNews(
     if (filters.dateRange === '24h') maxAgeMs = 24 * 60 * 60 * 1000;
     else if (filters.dateRange === '7d') maxAgeMs = 7 * 24 * 60 * 60 * 1000;
     else if (filters.dateRange === '30d') maxAgeMs = 30 * 24 * 60 * 60 * 1000;
-    
+
     items = items.filter((item) => {
       if (!item.publishedAt) return false;
       const age = now - Date.parse(item.publishedAt);
       return age <= maxAgeMs;
     });
+  }
+
+  // Same whole-word matching as the domain and industry modules, so "View All
+  // News" shows the same kind of stories as the page it came from.
+  if (filters.phrases && filters.phrases.length > 0) {
+    items = items.filter((item) => containsAny(`${item.title} ${item.summary ?? ''}`, filters.phrases!));
   }
 
   const needle = query.trim().toLowerCase();
@@ -199,34 +419,85 @@ export async function searchNews(
     });
   }
 
-  return withItems(result, items.slice(0, limit));
+  return withItems(result, await verified(items, limit));
 }
 
 /**
- * Industry and domain pages reuse the same cached pool rather than making
- * their own provider calls - p. 226: "Reuse filtered records across home,
- * domains, industries and Global Intelligence." An industry page therefore
- * costs zero extra API requests.
+ * CN/EN/NN/BN "Latest News" and I{nn}N "Industry News".
  *
- * `keywords` are matched case-insensitively against the headline and summary;
- * an item needs to match any one of them.
+ * Every page reads the SAME shared pool - all four cached topic baskets - and
+ * keeps the items that match its own handoff baskets (p. 226: "Reuse filtered
+ * records across home, domains, industries and Global Intelligence"). A page
+ * therefore costs zero extra API requests.
+ *
+ * Two things this fixes compared with the earlier version:
+ *  - A domain used to read only its own topic basket (10 NewsData records), so
+ *    "climate finance" stories fetched by the Business basket never reached
+ *    the Climate page. The whole pool is now matched against every page.
+ *  - The one-outlet cap was applied BEFORE phrase matching, so most Guardian
+ *    stories were discarded before anyone asked whether they matched. It is now
+ *    applied to the matched set.
+ *
+ * `keywords` are matched as whole phrases in the headline and summary; an item
+ * needs to match any one of them.
  */
 export async function fetchNewsForKeywords(
   keywords: string[],
   limit = 4,
-  basketKey: NewsBasketKey = 'all',
+  opts: { providers?: NewsProvider[]; maxPerPublisher?: number; check?: NewsOptions['check']; baskets?: string[][] } = {},
 ): Promise<NewsResult> {
-  const result = await fetchNews(basketKey, 80, { maxPerPublisher: 10 });
+  const { providers = PAGE_NEWS_PROVIDERS, maxPerPublisher = 10, baskets = [] } = opts;
+  // Only the page's own providers are asked. A high cap for the pool: the real
+  // cap is applied after matching, below.
+  const { items: pooled, status } = await pool('all', { maxPerPublisher: 500, providers, pageBaskets: baskets });
   const terms = keywords.map((k) => k.trim()).filter(Boolean);
-  if (terms.length === 0) return withItems(result, result.items.slice(0, limit));
 
   // Word-boundary matching, the same as the basket filter uses, so an industry
   // called "Mining" does not pick up every headline containing "determining".
-  const items = result.items
-    .filter((item) => containsAny(`${item.title} ${item.summary ?? ''}`, terms))
-    .slice(0, limit);
+  // An item that NewsData returned for one of this page's own basket queries
+  // matched it in the full text (which we may not show), so it counts too -
+  // its headline has already passed the site-topic test in collect().
+  const ownQueries = new Set(baskets.map(basketQuery));
+  const matched = pooled.filter(
+    (item) =>
+      terms.length === 0 ||
+      containsAny(`${item.title} ${item.summary ?? ''}`, terms) ||
+      (item.matchedQueries ?? []).some((q) => ownQueries.has(q)),
+  );
 
-  return withItems(result, items);
+  const perPublisher = new Map<string, number>();
+  const capped: NewsItem[] = [];
+  for (const item of matched) {
+    const used = perPublisher.get(item.domain) ?? 0;
+    if (used >= maxPerPublisher) continue;
+    perPublisher.set(item.domain, used + 1);
+    capped.push(item);
+  }
+
+  // "Sources failed" is judged on this page's own providers only (p. 226).
+  return withItems(buildResult(pooled, status), await verified(capped, limit, opts.check));
+}
+
+/**
+ * One official RSS feed (EIA p. 214, EEA pp. 215-216) through the same
+ * relevance check, teaser cut and gate as everything else, for the
+ * official-updates modules. `basketKey` decides relevance: EIA analysis is
+ * checked against Energy, EEA updates against Environment and Nature.
+ */
+export async function fetchOfficialNews(
+  provider: 'eia_rss' | 'eea_rss',
+  basketKey: Exclude<NewsBasketKey, 'all'>,
+): Promise<NewsResult> {
+  const result = provider === 'eia_rss' ? await fetchEiaNews() : await fetchEeaNews();
+  const status: Collected['status'] = {};
+  note(status, provider, result);
+  const raw = result.ok ? result.data : [];
+  const basket = getBasket(basketKey);
+  const relevant = raw.filter((item) => matchesBasket(item, basket)).map(normalise);
+  // Not access-checked here: the official-updates module checks the items it
+  // is about to show, across all of its feeds at once (lib/feeds/official.ts).
+  const items = applyGate(relevant, { maxPerPublisher: 500 }).sort(byNewest);
+  return buildResult(items, status);
 }
 
 /** Rebuild a result around a narrowed item list so the labels stay truthful. */
@@ -235,12 +506,14 @@ function withItems(result: NewsResult, items: NewsItem[]): NewsResult {
   return {
     ...result,
     items,
-    // Note: We intentionally don't filter `availableRegions` and `availableLanguages` 
-    // so the UI dropdowns can still show siblings. But `sources` is updated to reflect 
+    retrievedAt: items.length > 0 ? oldestRetrieval(items) : result.retrievedAt,
+    // Note: We intentionally don't filter `availableRegions` and `availableLanguages`
+    // so the UI dropdowns can still show siblings. But `sources` is updated to reflect
     // what's actually contributing to the current displayed result.
     sources: result.sources.filter((s) => ids.has(s.id)),
     unavailable: items.length === 0,
     hasDelayedSource: items.some((i) => i.provider === 'newsdata'),
+    stale: items.some((i) => isNewsItemStale(i)),
   };
 }
 

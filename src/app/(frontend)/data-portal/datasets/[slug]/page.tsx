@@ -172,7 +172,7 @@ export default async function DatasetDetailPage({ params }: Props) {
                   
                   {dataset.attribution && (
                     <div className="bg-blue-50 border border-blue-100 p-6 rounded-xl text-blue-900 mb-4">
-                      <h4 className="font-bold mb-2">Attribution & Usage Notes</h4>
+                      <h3 className="font-bold mb-2">Attribution & Usage Notes</h3>
                       <div className="whitespace-pre-wrap text-sm">{dataset.attribution as string}</div>
                     </div>
                   )}

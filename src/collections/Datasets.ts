@@ -7,7 +7,10 @@ export const Datasets: CollectionConfig = {
     useAsTitle: 'title',
   },
   access: {
-    read: () => true,
+    read: ({ req: { user } }) => {
+      if (user) return true;
+      return { status: { equals: 'verified_open' } };
+    },
   },
   fields: [
     {
@@ -117,8 +120,16 @@ export const Datasets: CollectionConfig = {
       name: 'accessStatus',
       type: 'select',
       options: [
-        { label: 'Free', value: 'free' },
-        { label: 'Restricted', value: 'restricted' },
+        { label: 'Verified Open', value: 'verified_open' },
+        { label: 'Unknown', value: 'unknown' },
+        { label: 'Gated', value: 'gated' },
+        { label: 'Broken', value: 'broken' },
+        { label: 'Embargoed', value: 'embargoed' },
+        // Legacy values still held by the 3 existing rows. Kept so the dev
+        // schema push doesn't drop them from the enum (data-loss prompt).
+        // Neither counts as publishable; re-check those rows, then remove.
+        { label: 'Free (legacy, unverified)', value: 'free' },
+        { label: 'Restricted (legacy)', value: 'restricted' },
       ],
     },
     {
@@ -140,6 +151,34 @@ export const Datasets: CollectionConfig = {
     {
       name: 'attribution',
       type: 'textarea',
+    },
+    {
+      name: 'sourceReleaseDate',
+      type: 'date',
+      admin: {
+        description: 'When the provider released this version of the data.',
+      },
+    },
+    {
+      name: 'frequency',
+      type: 'text',
+      admin: {
+        description: 'Update frequency (e.g. Annual, Monthly).',
+      },
+    },
+    {
+      name: 'format',
+      type: 'text',
+      admin: {
+        description: 'Data format (e.g. CSV, JSON, NetCDF).',
+      },
+    },
+    {
+      name: 'modificationPermission',
+      type: 'checkbox',
+      admin: {
+        description: 'Whether the licence allows derivative works or modifications.',
+      },
     },
     {
       name: 'embedUrl',
@@ -168,6 +207,36 @@ export const Datasets: CollectionConfig = {
       type: 'relationship',
       relationTo: 'datasets',
       hasMany: true,
+    },
+    {
+      name: 'domains',
+      type: 'relationship',
+      relationTo: 'domains',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'industries',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'draft',
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Verified Open', value: 'verified_open' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }

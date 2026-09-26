@@ -33,6 +33,30 @@ const INTERPRETATION =
   'Modelled estimates from Climate TRACE. Not an official UNFCCC submission, not a verified organisational GHG inventory, and not Scope 1/2/3 or carbon-credit verification. Recent months may be revised.';
 
 /**
+ * p. 218: "Keep the free public API candidate, beta/reliability warning".
+ * The provider's own words are "Public API (Beta)" and that production
+ * availability is not guaranteed.
+ */
+export const BETA_WARNING = 'Climate TRACE Public API (Beta): the provider does not guarantee production availability.';
+
+/**
+ * p. 218: "API version v7 is not the inventory release version", and the
+ * inventory release has to be recorded. Neither API answers with a release:
+ * the v6 emissions responses carry no version field or header, and the v7
+ * OpenAPI document declares only its own API version (7.2.0). So no release is
+ * recorded (provenance `version` stays null) rather than one guessed from the
+ * spec's 5.10.0 of August 2026; what IS known goes into the transformation
+ * notes.
+ */
+const VERSION_NOTE = 'Values from the Climate TRACE v6 API emissions routes; the API does not state the inventory release version';
+
+/**
+ * Each year is one upstream call (the API returns one total per call), so a
+ * wide range fans out: 1960-2100 was 141 calls from one download (L1050).
+ */
+export const MAX_YEARS = 10;
+
+/**
  * Annual emissions for one or more countries in a sector.
  *
  * Returns one series per country so a chart can compare them without the
@@ -48,6 +72,9 @@ export async function fetchCountryEmissions(options: {
 }): Promise<ConnectorResult<DataSeries[]>> {
   const { countries, since, to, sector, horizon = '100yr' } = options;
   if (countries.length === 0) return fail('climate-trace', 'no_results', 'No countries requested.');
+  if (to < since || to - since + 1 > MAX_YEARS) {
+    return fail('climate-trace', 'no_results', `Climate TRACE requests are limited to ${MAX_YEARS} years at a time.`);
+  }
 
   // The API returns one total per country per call, so one call per year keeps
   // the annual shape. Ranges here are small and cached for a week.
@@ -95,6 +122,11 @@ export async function fetchCountryEmissions(options: {
     ? `https://climatetrace.org/explore?sector=${encodeURIComponent(sector)}`
     : 'https://climatetrace.org/explore';
 
+  // Several yearly responses feed one series; the oldest is the honest age.
+  const retrievedAt = perYear
+    .flatMap((p) => (p.res.ok ? [p.res.retrievedAt] : []))
+    .sort()[0];
+
   const series: DataSeries[] = [...byCountry.entries()]
     .filter(([, observations]) => observations.length > 0)
     .map(([country, observations]) => ({
@@ -103,18 +135,21 @@ export async function fetchCountryEmissions(options: {
       unit: 'tonnes CO2e',
       frequency: 'annual' as const,
       // The horizon is part of the measure note, never left implicit (p. 218).
-      measureNote: `CO2e, ${horizon === '100yr' ? '100-year' : '20-year'} global warming potential. ${INTERPRETATION}`,
+      measureNote: `CO2e, ${horizon === '100yr' ? '100-year' : '20-year'} global warming potential. ${INTERPRETATION} ${BETA_WARNING}`,
       area: country,
       observations: observations.sort((a, b) => a.period.localeCompare(b.period)),
       provenance: buildProvenance('climate-trace', {
+        retrievedAt,
         sourceUrl,
         sourceId: `${country}:${sector ?? 'all'}`,
         observationPeriod: since === to ? String(since) : `${since}–${to}`,
         accessStatus: 'verified_open',
         accessEvidence: 'Climate TRACE explorer and API are open without registration; checked 2026-09-19.',
+        version: null,
         transformations: [
           `Selected the ${measure} field from the provider response`,
           'Combined single-year API responses into one annual series',
+          VERSION_NOTE,
         ],
       }),
     }));

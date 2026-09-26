@@ -162,6 +162,15 @@ export default async function PublicationSinglePage({ params }: Props) {
 
   const topics = Array.isArray(post.topic) ? post.topic : [];
 
+  const related = await payload.find({
+    collection: 'publications',
+    where: {
+      id: { not_equals: post.id },
+      ...(topics.length > 0 ? { topic: { in: topics.map(t => typeof t === 'object' ? t.id : t) } } : {})
+    },
+    limit: 3,
+  });
+
   return (
     <>
       {/* A01 Article Intro */}
@@ -174,11 +183,11 @@ export default async function PublicationSinglePage({ params }: Props) {
               '@type': 'Article',
               headline: post.title,
               description: post.excerpt,
-              datePublished: post.date,
+              datePublished: post.dateVerified === false ? undefined : post.date,
               dateModified: post.updatedAt,
               author: post.author ? {
                 '@type': 'Person',
-                name: (post.author as any).name,
+                name: typeof post.author === 'string' ? post.author : (post.author as any).name || 'Enerqa',
               } : undefined,
             }),
           }}
@@ -234,15 +243,73 @@ export default async function PublicationSinglePage({ params }: Props) {
             <Typography variant="h3" className="mb-6">{post.heading}</Typography>
           )}
           
+          {/* PUBL02 Summary and Tags */}
+          <div className="mb-10 p-6 bg-gray-50 border border-gray-200 rounded-xl">
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Executive Summary</h2>
+            <p className="text-gray-700 font-medium mb-4">{post.excerpt}</p>
+            {topics.length > 0 && (
+              <div className="flex gap-2 flex-wrap mt-4">
+                {topics.map((t: any) => (
+                  <span key={typeof t === 'object' ? t.id : String(t)} className="bg-white border border-gray-200 px-3 py-1 rounded-full text-xs font-bold text-gray-600">
+                    {typeof t === 'object' ? t.title : String(t)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+          
           <div className="prose prose-lg prose-ink max-w-none">
             {post.content ? (
               <RichText data={post.content} converters={jsxConverters} />
-            ) : (
-              <p>{post.excerpt}</p>
-            )}
+            ) : null}
           </div>
+
+          {/* PUBL04 References and Downloads. Only real actions render (p. 225:
+              no placeholder buttons) - a Cite action needs a citation field first. */}
+          {((post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url)) || post.originalUrl) && (
+            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-wrap gap-4 items-center justify-center">
+              {post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url) && (
+                <Button href={resolveMediaUrl(post.file.url)} variant="secondary" className="gap-2">
+                  Download Report
+                </Button>
+              )}
+              {post.originalUrl && (
+                <Button href={post.originalUrl} variant="outline" className="gap-2 text-[var(--color-dark)]" target="_blank">
+                  Read Original
+                </Button>
+              )}
+            </div>
+          )}
         </Container>
       </Section>
+
+      {/* PUBL05 Related Content */}
+      {related.docs.length > 0 && (
+        <section className="py-20 bg-[var(--color-paper-alt)] border-t border-gray-200">
+          <Container>
+             <h2 className="text-3xl font-bold text-center mb-10 text-[var(--color-dark)]">Related Content</h2>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {related.docs.map((item: any) => (
+                 <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                   <h3 className="text-xl font-bold text-[var(--color-dark)] mb-3">{item.title}</h3>
+                   <p className="text-gray-600 line-clamp-3 mb-4">{item.excerpt}</p>
+                   <Link href={`/knowledge-hub/${item.slug}`} className="text-[var(--color-primary)] font-bold hover:underline text-sm">
+                     Read Article →
+                   </Link>
+                 </div>
+               ))}
+             </div>
+          </Container>
+        </section>
+      )}
+
+      {/* PUBL06 Continue Exploring */}
+      <section className="py-16 bg-white border-t border-gray-200 text-center">
+        <Container>
+           <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-6">Continue Exploring</h2>
+           <Button href="/knowledge-hub">Back to Knowledge Hub</Button>
+        </Container>
+      </section>
     </>
   );
 }

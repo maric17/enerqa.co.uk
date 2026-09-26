@@ -72,12 +72,31 @@ async function fetchLicenceCatalogue(apiKey: string): Promise<Map<number, Licenc
 }
 
 /**
- * A licence is usable only if the provider explicitly says commercial use AND
- * redistribution are allowed. Anything undefined is treated as "no".
+ * p. 223: "Require commercialUseAllowed=true and redistributionAllowed=true,
+ * plus modificationAllowed=true for derived/transformed exports". Everything
+ * this site publishes from OpenAQ is transformed - fields are selected and
+ * reshaped for a table and a CSV - so all three flags must be explicitly true
+ * (L1062). Anything undefined is treated as "no" ("resolve licence-field
+ * inconsistencies conservatively"). Exported for tests.
  */
-function isUsable(licence: LicenceRecord | undefined): boolean {
+export function isUsable(licence: LicenceRecord | undefined): boolean {
   if (!licence) return false;
-  return licence.commercialUseAllowed === true && licence.redistributionAllowed === true;
+  return (
+    licence.commercialUseAllowed === true &&
+    licence.redistributionAllowed === true &&
+    licence.modificationAllowed === true
+  );
+}
+
+/**
+ * p. 223: "satisfy attribution/share-alike where applicable". A share-alike
+ * source is still usable, but the obligation has to travel with the data, so
+ * it is written into the licence line every card and CSV prints.
+ */
+export function licenceLine(licences: LicenceRecord[]): string {
+  const names = licences.map((l) => l.name).join(', ');
+  const shareAlike = licences.some((l) => l.shareAlikeRequired === true);
+  return shareAlike ? `${names} (share-alike: derived data must carry the same licence)` : names;
 }
 
 export async function fetchStations(options: {
@@ -120,7 +139,7 @@ export async function fetchStations(options: {
 
     const lastUtc = location.datetimeLast?.utc ?? null;
     const attributionParts = [location.provider?.name, location.owner?.name].filter(Boolean) as string[];
-    const licenceName = usable.map((l) => l!.name).join(', ');
+    const licenceName = licenceLine(usable as LicenceRecord[]);
 
     stations.push({
       id: location.id,
@@ -141,6 +160,7 @@ export async function fetchStations(options: {
       licence: licenceName,
       attribution: ['OpenAQ', ...attributionParts].join(' / '),
       provenance: buildProvenance('openaq-v3', {
+        retrievedAt: res.retrievedAt,
         sourceUrl: `https://explore.openaq.org/locations/${location.id}`,
         sourceId: String(location.id),
         observationPeriod: lastUtc,
@@ -148,8 +168,8 @@ export async function fetchStations(options: {
         licenceUrl: usable[0]?.sourceUrl ?? null,
         attribution: ['OpenAQ', ...attributionParts].join(' / '),
         accessStatus: 'verified_open',
-        accessEvidence: `Source licence "${licenceName}" is flagged commercialUseAllowed and redistributionAllowed by OpenAQ.`,
-        transformations: ['Excluded sources whose licence flags do not permit commercial use and redistribution'],
+        accessEvidence: `Source licence "${licenceName}" is flagged commercialUseAllowed, redistributionAllowed and modificationAllowed by OpenAQ.`,
+        transformations: ['Excluded sources whose licence flags do not permit commercial use, redistribution and modification'],
       }),
     });
   }

@@ -129,6 +129,7 @@ export async function fetchIndicator(options: {
         flag: row.obs_status || null,
       })),
       provenance: buildProvenance('world-bank-indicators', {
+        retrievedAt: res.retrievedAt,
         sourceUrl: `https://data.worldbank.org/indicator/${meta.code}?locations=${iso3}`,
         sourceId: `${meta.code}:${iso3}`,
         observationPeriod: first && last ? (first === last ? first : `${first}–${last}`) : null,

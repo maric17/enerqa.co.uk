@@ -1,198 +1,183 @@
 import { getPayload } from 'payload';
 import configPromise from '../payload.config.ts';
 
-// Payload stores rich text as a Lexical tree. These seeds only ever need a
-// single paragraph, so wrap the plain string once instead of repeating the
-// nine lines of boilerplate for every field.
-const lexical = (text: string) => ({
+// Payload stores rich text as a Lexical tree. Each block is plain text, a
+// [bold label, rest] pair (the company profile's "Label: text" style), or a
+// list whose items may carry one nested bullet list (the profile's feature lists).
+type ListItem = string | { text: string; items: string[] };
+type Block = string | [string, string] | { list: 'number' | 'bullet'; items: ListItem[] };
+const base = { version: 1, direction: 'ltr', format: '', indent: 0 };
+const textNode = (text: string, bold = false) => ({
+  type: 'text', version: 1, text, format: bold ? 1 : 0, detail: 0, mode: 'normal', style: '',
+});
+const listNode = (listType: 'number' | 'bullet', items: ListItem[]): Record<string, unknown> => ({
+  ...base,
+  type: 'list',
+  listType,
+  tag: listType === 'number' ? 'ol' : 'ul',
+  start: 1,
+  // A nested list sits in its own list item, as the Lexical editor saves it;
+  // it repeats its parent's `value` so the visible numbering stays 1, 2, 3.
+  children: items.flatMap((item, i) =>
+    typeof item === 'string'
+      ? [{ ...base, type: 'listitem', value: i + 1, children: [textNode(item)] }]
+      : [
+          { ...base, type: 'listitem', value: i + 1, children: [textNode(item.text)] },
+          { ...base, type: 'listitem', value: i + 1, children: [listNode('bullet', item.items)] },
+        ],
+  ),
+});
+const lexical = (...blocks: Block[]) => ({
   root: {
+    ...base,
     type: 'root',
-    children: [{ type: 'paragraph', children: [{ type: 'text', text, version: 1 }] }],
-    direction: 'ltr',
-    format: '',
-    indent: 0,
-    version: 1,
+    children: blocks.map((b) =>
+      typeof b === 'string' || Array.isArray(b)
+        ? {
+            ...base,
+            type: 'paragraph',
+            textFormat: 0,
+            children: typeof b === 'string' ? [textNode(b)] : [textNode(b[0], true), textNode(b[1])],
+          }
+        : listNode(b.list, b.items),
+    ),
   },
 });
+
+// All copy is verbatim: flagship `desc`/`purpose` from handoff p. 165 (T02),
+// everything else from the company profile (pp. 15-23). Nothing is invented:
+// no versions are on record (p. 191 asks for confirmed ones), so `version` is
+// null, and every tool defaults to Request Access (p. 191). Only the three
+// flagships are validated for publication (pp. 3, 166); the other four stay
+// hidden until the company confirms their names and versions.
+const P165_ESG =
+  'A structured assessment helps organisations understand how their current practices address environmental, social and governance priorities. The ESG Readiness Tool uses criteria and guiding questions to identify readiness gaps and areas for improvement, providing a starting point for a more focused ESG strategy and action plan.';
+const P165_EASYSOLAR =
+  'Early solar-energy decisions depend on the relationship between available irradiance, electricity demand, system configuration and costs. easySOLAR brings solar PV and battery-storage sizing together with capital and operating costs, financial performance, expected savings and avoided GHG emissions. Its assumptions and uncertainty need to remain visible so that an initial assessment can inform, rather than replace, detailed project feasibility and design.';
+const P165_GREENSCALE =
+  'Sustainability and resilience in buildings and infrastructure require a structured view of the factors affecting design and performance. GreenScale Pro provides an assessment framework for examining sustainability and resilience criteria and identifying priorities for further development.';
+const GHG365 =
+  'GHG365 is a comprehensive carbon footprint assessment tool designed to help organizations measure, manage, and mitigate their greenhouse gas (GHG) emissions.';
+const MRV = 'Facilitating robust data management and transparent reporting.';
+const ESIA = 'Identifying and mitigating environmental and social impacts.';
+const GREEN_SCORING = 'Determining eligibility for "Green Finance" initiatives.';
+
+// Fields a re-run clears, so earlier invented copy cannot survive an update.
+const EMPTY = { version: null, inputs: null, outputs: null, method: null, assumptions: null, privacy: null };
 
 async function run() {
   const payload = await getPayload({ config: configPromise });
 
   const tools = [
     {
+      ...EMPTY,
       title: 'GHG365 / GHG Emissions Calculator',
       slug: 'ghg365',
       category: 'Emissions Management',
       type: 'interactive',
-      desc: 'A comprehensive greenhouse gas (GHG) calculator for Scope 1, 2, and 3 emissions tracking.',
-      version: 'v2.1',
+      validated: false,
       access: 'Request Access',
-      purpose: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'GHG365 is designed to help organisations systematically measure, report, and manage their carbon footprint across all three scopes in alignment with the GHG Protocol.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      },
-      inputs: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'Fuel consumption, electricity usage, value chain data (purchased goods, business travel).', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      },
-      outputs: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'Carbon equivalent (CO2e) emissions by scope and category, baseline comparisons, and projected reduction pathways.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      },
-      method: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'Uses IPCC assessment report global warming potentials and local grid emission factors.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      },
-      privacy: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'All data is stored in isolated tenant environments.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      }
+      desc: GHG365,
+      purpose: lexical(GHG365),
+      inputs: lexical('Built on international standards such as IPCC guidelines and the GHG Protocol, the tool allows users to input various activity data—including fuel consumption, electricity usage, transportation, waste, and more—to generate detailed emissions reports across Scope 1, 2, and 3 categories.'),
     },
     {
+      ...EMPTY,
       title: 'MRV Tool',
       slug: 'mrv-tool',
       category: 'Monitoring',
       type: 'interactive',
-      desc: 'Monitoring, Reporting and Verification tool for carbon credit projects.',
-      version: '1.0',
-      access: 'Enterprise',
-      purpose: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'To digitize the MRV lifecycle for nature-based and technological carbon removal projects.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      }
+      validated: false,
+      access: 'Request Access',
+      desc: MRV,
+      purpose: lexical(MRV),
     },
     {
+      ...EMPTY,
       title: 'ESIA Risk Assessment Tool',
       slug: 'esia-risk',
       category: 'Risk Management',
       type: 'informational',
-      desc: 'Toolkit for screening Environmental and Social Impact Assessment risks for infrastructure projects.',
-      version: '2024 Release',
-      access: 'Public',
-      purpose: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'Helps developers identify red-flag ESG risks early in the site-selection phase.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      }
+      validated: false,
+      access: 'Request Access',
+      desc: ESIA,
+      purpose: lexical('Enerqa has developed a Risk Assessment Tool that integrates qualitative and quantitative methodologies to systematically evaluate environmental and social risks across all project phases. This tool is particularly instrumental in Environmental and Social Impact Assessment (ESIA) studies and other environmental and climate-related projects.'),
     },
     {
+      ...EMPTY,
       title: 'Green Project Scoring Tool',
       slug: 'green-project-scoring',
       category: 'Sustainable Finance',
       type: 'interactive',
-      desc: 'Aligns projects with green taxonomy criteria for sustainable finance eligibility.',
-      version: '1.2',
+      validated: false,
       access: 'Request Access',
-      purpose: {
-        root: {
-          type: 'root',
-          children: [{
-            type: 'paragraph',
-            children: [{ type: 'text', text: 'Evaluates capital projects against the EU Taxonomy and other regional green finance frameworks.', version: 1 }]
-          }],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1
-        }
-      }
+      desc: GREEN_SCORING,
+      purpose: lexical(GREEN_SCORING),
     },
     {
-      // Copy below is taken verbatim from the approved marketing sections on
-      // /tools (T02, T03, T04). `version` is deliberately left unset: the
-      // handoff (p. 166) requires validated versions, and these three have
-      // none yet. `access` defaults to Request Access per p. 188 (TD01).
-      title: 'ESG Readiness Diagnostic',
+      ...EMPTY,
+      // pp. 3, 165: "ESG Readiness Tool" (was "ESG Readiness Diagnostic").
+      title: 'ESG Readiness Tool',
       slug: 'esg-readiness',
       category: 'ESG and Reporting',
       type: 'interactive',
-      desc: 'A structured assessment of reporting maturity, governance and data availability against the principal international sustainability standards.',
+      validated: true,
       access: 'Request Access',
-      purpose: lexical('Navigating the expanding landscape of mandatory sustainability reporting (including CSRD, IFRS S1/S2 and regional taxonomies) requires a clear understanding of current capabilities and data gaps. The ESG Readiness Diagnostic provides a structured assessment of your organisation\'s reporting maturity, governance structures and data availability against principal international standards.'),
-      outputs: lexical('A maturity rating across Governance & Strategy, Metrics & Targets (GHG) and Value Chain Assessment, with a prioritised action list to work through before formal assurance or compliance exercises.'),
+      desc: P165_ESG,
+      purpose: lexical(P165_ESG),
+      inputs: lexical(
+        'The tool simplifies the evaluation of Environmental, Social, and Governance pillars through structured criteria and guiding questions, allowing users to input their practices, score their readiness, and receive tailored recommendations for improvement.',
+        'The tool’s Excel format makes it accessible and customizable, enabling organizations of all sizes, especially SMEs, to adapt it to their specific needs without requiring additional software or expertise.',
+      ),
     },
     {
+      ...EMPTY,
       title: 'easySOLAR',
       slug: 'easysolar',
       category: 'Energy Systems',
       type: 'interactive',
-      desc: 'Preliminary sizing and financial calculator for commercial and industrial rooftop solar and battery energy storage systems.',
+      validated: true,
       access: 'Request Access',
-      purpose: lexical('Assessing the commercial and technical viability of commercial and industrial (C&I) rooftop solar requires rapid processing of load profiles, solar resource data and local tariff structures. easySOLAR helps facility owners and developers establish an initial business case, optimise system sizing for self-consumption, and compare financing options before committing to detailed engineering design.'),
-      inputs: lexical('Site load profile, local solar resource data and applicable electricity tariff structure.'),
-      outputs: lexical('Estimated system size, annual generation, payback period and 20-year IRR.'),
+      desc: P165_EASYSOLAR,
+      purpose: lexical(P165_EASYSOLAR),
+      inputs: lexical(['User-Friendly Interface', ': Features drop-down menus for selections, buttons for data pulling (e.g., irradiance), and default values for quick assessments. Includes guides on Monte Carlo analysis for uncertainty (mentioned in "Explanation" sheet).']),
+      outputs: lexical(['Outputs and Visualizations', ': Summarizes results in dedicated sheets (e.g., "Summary of Results" for overview, charts for long-term energy/GHG/cash flows).']),
+      // Profile p. 23, "easySOLAR tool's Features". The profile's "(CAPEX and
+      // OPE)" after Cost Estimation is left out rather than guessing at the typo.
+      method: lexical({
+        list: 'number',
+        items: [
+          'User Input and Configuration',
+          { text: 'Technical Sizing and Optimization', items: ['Location and Irradiance Data', 'Load and Consumption Profiling', 'Solar PV Array Sizing', 'Inverter Selection and Sizing', 'BESS Sizing', 'Long-Term Energy Assessment'] },
+          { text: 'Financial Analysis', items: ['Cost Estimation', 'Economic Metrics', 'Savings Calculation'] },
+          'Environmental Impact Assessment and GHG Emissions Avoidance Calculations',
+          { text: 'Data Sources and Assumptions', items: ['Regional Databases', 'Uncertainty and Margins', 'Reference Data'] },
+        ],
+      }),
+      assumptions: lexical(
+        ['Limitations', ': Assumes 25-year project life; does not handle real-time data or advanced simulations; regional costs are estimates and may require updates.'],
+        ['Scope', ': Primarily for residential/commercial applications, with utility-scale considerations via technology choices.'],
+      ),
     },
     {
+      ...EMPTY,
       title: 'GreenScale Pro',
       slug: 'greenscale-pro',
-      category: 'Decarbonisation',
+      // Was 'Decarbonisation'; p. 165 scopes it to sustainability and resilience.
+      category: 'Sustainability and Resilience',
       type: 'interactive',
-      desc: 'Scenario-modelling platform for industrial facility operators and project developers comparing decarbonisation pathways.',
+      validated: true,
       access: 'Request Access',
-      purpose: lexical('Industrial decarbonisation often involves complex trade-offs between energy efficiency, electrification, alternative fuels (such as green hydrogen) and carbon capture. GreenScale Pro allows users to compare abatement pathways based on their marginal abatement cost, technology readiness, and impact on production economics over a defined transition period.'),
-      outputs: lexical('Comparative pathways across energy efficiency, electrification (heat pumps) and green hydrogen substitution, ranked by marginal abatement cost and technology readiness.'),
+      desc: P165_GREENSCALE,
+      purpose: lexical(P165_GREENSCALE),
+      // Profile p. 22, the buildings/infrastructure sustainability-and-resilience
+      // tool (p. 165's GreenScale Pro). Scoring method only; nothing implies
+      // third-party certification (p. 191).
+      inputs: lexical('Enter project data and evidence, score each indicator, and instantly generate:', {
+        list: 'number',
+        items: ['overall ESRQ score', 'category performance', 'confidence-adjusted results', 'a prioritized action roadmap'],
+      }),
+      method: lexical('This tool quantifies sustainability and climate resilience performance for buildings and infrastructure using Enerqa’s weighted indicator framework.'),
     },
   ];
 

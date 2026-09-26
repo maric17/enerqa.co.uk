@@ -19,21 +19,27 @@ const alexandria = Alexandria({
   display: 'swap',
 });
 
+// Production origin - the same source robots.ts and sitemap.ts use.
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://enerqa.co.uk';
+
 export const metadata: Metadata = {
+  // Without this every relative canonical (`alternates.canonical: '/about'`)
+  // rendered as a relative URL.
+  metadataBase: new URL(SITE_URL),
   // `template` appends " | Enerqa" to whatever title a child page sets, so each page
   // only declares its own unique part. `default` is used when a page sets no title.
   // Handoff p. 227 requires a unique descriptive title on every substantive page.
   title: {
-    default: "enerQA - Engineering Sustainable Decisions",
+    default: "Enerqa",
     template: "%s | Enerqa",
   },
-  description: "Climate, Energy & ESG Advisory",
-  alternates: {
-    languages: {
-      'en': 'https://enerqa.co.uk',
-      'ar': 'https://enerqa.co.uk', // Since this is a client-side switch for now
-    },
-  },
+  // The homepage H01 narrative (p. 13) - the handoff's own summary of the site.
+  // Replaces the legacy "Climate, Energy & ESG Advisory".
+  description:
+    "From an initial idea to feasibility, finance and implementation, Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.",
+  // No `alternates.languages` here: it sent hreflang en AND ar (both to the
+  // homepage) on every page without its own metadata, but no Arabic page exists.
+  // p. 227: reciprocal hreflang only for real corresponding pages.
 };
 
 export default function RootLayout({
@@ -44,8 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" className={`${inter.variable} ${alexandria.variable}`}>
       {/* data-lang must be present on the FIRST paint: style.css hides the
-          inactive language with `body[data-lang="en"] .ar`. LanguageProvider
-          overwrites this on mount if the visitor has chosen Arabic. */}
+          inactive language with `body[data-lang="en"] .ar`. */}
       <body data-lang="en">
         <LanguageProvider>
           <SmoothScroll>
@@ -58,12 +63,13 @@ export default function RootLayout({
                   '@context': 'https://schema.org',
                   '@type': 'Organization',
                   name: 'Enerqa',
-                  url: 'https://enerqa.co.uk',
-                  logo: 'https://enerqa.co.uk/images/logo.png',
-                  sameAs: [
-                    'https://www.linkedin.com/company/enerqa',
-                    'https://twitter.com/enerqa',
-                  ],
+                  url: SITE_URL,
+                  // Was /images/logo.png, which does not exist (404).
+                  logo: `${SITE_URL}/images/color-logo.png`,
+                  // p. 227: verified fields only. LinkedIn is the one account the
+                  // current enerqa.co.uk site links to; the twitter.com handle
+                  // was unverified.
+                  sameAs: ['https://www.linkedin.com/company/enerqa'],
                 }),
               }}
             />

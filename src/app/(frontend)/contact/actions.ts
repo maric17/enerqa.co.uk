@@ -3,74 +3,82 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { z } from 'zod'
+import {
+  EMPTY_CONTACT_VALUES,
+  checkChoices,
+  contactSchema,
+  enquiryTypeLabel,
+  readContactForm,
+  splitName,
+  type ContactFormState,
+} from '@/lib/forms/contact'
+import { loadContactChoices } from '@/lib/forms/contactChoices'
+import { allowSubmission, enquiryLimiter } from '@/lib/forms/limits'
+import { getClientKey } from '@/lib/forms/clientKey'
 
-const contactSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Invalid email address'),
-  company: z.string().optional(),
-  natureOfEnquiry: z.string().min(1, 'Nature of enquiry is required'),
-  message: z.string().min(10, 'Message must be at least 10 characters long'),
-  marketingConsent: z.boolean().default(false),
-  // Honeypot field - should be empty
-  website: z.string().max(0, 'Spam detected').optional(),
-})
+/**
+ * Contact enquiry (p. 198 F02-F04, p. 228 form handling).
+ *
+ * Every non-success reply carries the submitted `values`: React 19 resets a
+ * form after its action runs, and p. 198 says to "preserve input on
+ * recoverable errors". The success wording is p. 198's own and is true of what
+ * happens - the enquiry is saved in the CMS for staff. No email is sent (there
+ * is no email adapter), so nothing here claims one was.
+ */
+export async function submitContactForm(prevState: ContactFormState, formData: FormData): Promise<ContactFormState> {
+  const attempt = prevState.attempt + 1
 
-export type FormState = {
-  success: boolean;
-  message?: string;
-  errors?: Record<string, string[]>;
-}
-
-export async function submitContactForm(prevState: FormState, formData: FormData): Promise<FormState> {
-  // Validate honeypot first
-  const website = formData.get('website');
-  if (website) {
-    // Silently reject if honeypot is filled
-    return { success: true, message: 'Thanks! Your message has been sent.' };
+  // A filled honeypot is a bot: show the normal success state so it learns
+  // nothing, and store nothing.
+  if (formData.get('website')) {
+    return { status: 'success', attempt, values: EMPTY_CONTACT_VALUES }
   }
 
-  const rawData = {
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    email: formData.get('email'),
-    company: formData.get('company'),
-    natureOfEnquiry: formData.get('natureOfEnquiry'),
-    message: formData.get('message'),
-    marketingConsent: formData.get('marketingConsent') === 'on',
-    website: formData.get('website'),
+  const values = readContactForm(formData)
+  const parsed = contactSchema.safeParse(values)
+  if (!parsed.success) {
+    return { status: 'invalid', attempt, values, errors: z.flattenError(parsed.error).fieldErrors }
   }
+  const data = parsed.data
 
-  const validatedFields = contactSchema.safeParse(rawData)
-
-  if (!validatedFields.success) {
-    return {
-      success: false,
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Please fix the errors in the form.'
-    }
-  }
-
-  const payload = await getPayload({ config: configPromise })
-  
   try {
+    const payload = await getPayload({ config: configPromise })
+    const { ids, ...choices } = await loadContactChoices(payload)
+
+    const choiceErrors = checkChoices(data, choices)
+    if (choiceErrors) return { status: 'invalid', attempt, values, errors: choiceErrors }
+
+    // Counted only once the submission is valid, so correcting a mistake never
+    // locks a visitor out. Over the limit gets the ordinary F04 error.
+    if (!allowSubmission(enquiryLimiter, await getClientKey())) {
+      return { status: 'error', attempt, values }
+    }
+
+    const { firstName, lastName } = splitName(data.name)
     await payload.create({
       collection: 'enquiries',
       data: {
-        firstName: validatedFields.data.firstName,
-        lastName: validatedFields.data.lastName,
-        email: validatedFields.data.email,
-        company: validatedFields.data.company,
-        natureOfEnquiry: validatedFields.data.natureOfEnquiry,
-        message: validatedFields.data.message,
-        marketingConsent: validatedFields.data.marketingConsent,
+        firstName,
+        lastName,
+        email: data.email,
+        company: data.organisation || undefined,
+        natureOfEnquiry: enquiryTypeLabel(data.enquiryType),
+        message: data.message,
+        // p. 198: newsletter consent is separate, optional and never a
+        // condition of the enquiry.
+        marketingConsent: data.newsletterConsent,
+        toolRequested: data.enquiryType === 'tool' && data.tool ? ids[`tool:${data.tool}`] : undefined,
+        domain: data.domain ? ids[`domain:${data.domain}`] : undefined,
+        industry: data.industry ? ids[`industry:${data.industry}`] : undefined,
+        projectLocation: data.projectLocation || undefined,
+        currentStage: data.currentStage || undefined,
         source: 'Contact Page',
-      }
+      },
     })
-    
-    return { success: true, message: 'Your message has been successfully sent. A member of the Enerqa team will be in touch shortly.' }
   } catch (error) {
-    console.error('Failed to submit contact form:', error)
-    return { success: false, message: 'An unexpected error occurred while saving your enquiry. Please try again later.' }
+    console.error('Failed to save contact enquiry:', error)
+    return { status: 'error', attempt, values }
   }
+
+  return { status: 'success', attempt, values: EMPTY_CONTACT_VALUES }
 }

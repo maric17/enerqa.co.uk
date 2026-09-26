@@ -15,9 +15,30 @@
   --dark:       #082C45; /* Deep navy */
   --dark-soft:  #0C3A5C; /* Lighter navy helper */
 
-  --green:      #00cfc8; /* Teal */
-  --green-deep: #00a5a0;
+  --green:      #00cfc8; /* Teal - for fills and for text/rings on dark navy only (1.95:1 on white) */
+  /* Teal for text and small UI on white: 5.2:1 on #fff, 4.8:1 on a 10% teal tint.
+     Was #00a5a0 (3.05:1 on white; the "Open access" badge measured 2.82:1). p. 228. */
+  --green-deep: #007a75;
   --green-ink:  #082C45;
+
+  /* Focus ring (p. 228: visible keyboard focus). #00cfc8 was ~1.9:1 on the white
+     panel and scrolled header, below the 3:1 non-text minimum. This default is
+     >= 3.3:1 on white, the light tints AND navy, so page sections nobody has
+     listed below (e.g. the navy template heroes) still pass. Known surfaces get
+     a stronger ring below: bright teal on navy (7.4:1), deep teal on white (5.2:1). */
+  --focus-color: #009792;
+
+  /* Fixed header geometry (the header rules below use these, so they cannot
+     drift). --header-offset is where the header ends once the page has
+     scrolled: top gap + 2 borders + padding + bar = 84px at every width. Use it
+     to pad content clear of the header. Sticky bars use --sticky-top, e.g.
+     `top: var(--sticky-top)`: the same value, but 0 while the header slides
+     away near the footer (body.header-hidden). */
+  --header-top: 12px;
+  --header-pad-y: 10px;
+  --header-bar-h: 50px;
+  --header-offset: calc(var(--header-top) + 2 * var(--header-pad-y) + var(--header-bar-h) + 2px);
+  --sticky-top: var(--header-offset);
 
   --line:       rgba(8, 44, 69, 0.08);
   --line-dark:  rgba(255, 255, 255, 0.08);
@@ -38,6 +59,8 @@
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+  /* p. 228 reduced motion: anchor jumps are instant too (Lenis is off then). */
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
     margin: 0;
     background: var(--paper);
@@ -87,7 +110,25 @@ body[data-lang="ar"] { direction: rtl; }
 }
 .skip-link:focus { left: 16px; top: 16px; }
 
-:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--focus-color); outline-offset: 3px; border-radius: 4px; }
+/* Dark surfaces take the bright teal ring (7.4:1 on navy); white surfaces,
+   including the panels inside the dark header, take deep teal (5.2:1). */
+header.site:not(.scrolled), footer.site, .mobile-nav { --focus-color: var(--green); }
+header.site.scrolled, .mega, .lang-notice, .search-panel { --focus-color: var(--green-deep); }
+
+/* Visually hidden spam honeypot (p. 228 spam protection). It is clipped where it
+   stands: the old `position:absolute; left:-9999px` pushed the page ~10,000px
+   wide whenever it ran right-to-left. Put it on the wrapper, with aria-hidden
+   on the wrapper and tabIndex={-1} + autoComplete="off" on the input. */
+.honeypot {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 40px; }
 
@@ -206,13 +247,13 @@ header.site {
 }
 
 header.site.scrolled {
-  top: 12px;
+  top: var(--header-top); /* tokens: keep --header-offset true */
   border-color: rgba(8, 44, 69, 0.08);
   box-shadow: 0 10px 35px rgba(8, 44, 69, 0.08);
   background: rgba(255, 255, 255, 0.98); /* Less translucent to prevent text overlap */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  padding: 10px 16px;
+  padding: var(--header-pad-y) 16px;
 }
 
 header.site.hidden-footer {
@@ -224,10 +265,13 @@ header.site.hidden-footer {
 body.header-hidden .jump-links-nav {
   top: 0 !important;
 }
+/* The header slides away near the footer, so sticky bars can use the top edge.
+   Only --sticky-top changes: padding built on --header-offset must not jump. */
+body.header-hidden { --sticky-top: 0px; }
 
 .header-main {
   width: 100%; padding: 0 40px;
-  height: 50px; /* Increased from 40px */
+  height: var(--header-bar-h);
   display: flex; align-items: center; justify-content: space-between;
   position: relative;
 }
@@ -236,6 +280,8 @@ body.header-hidden .jump-links-nav {
   display: block;
   width: 140px; /* Increased from 110px */
   height: 34px; /* Increased from 26px */
+  /* Never give up width to the nav: at 390px it used to shrink to 0px. */
+  flex-shrink: 0;
 }
 body[data-lang="ar"] .logo-zone {
   background-position: right center;
@@ -253,7 +299,7 @@ body[data-lang="ar"] .logo-zone {
   position: relative;
 }
 
-.nav-item > a {
+.nav-item > a, .nav-item > button {
   display: block;
   padding: 8px 16px; /* Increased padding from 6px 12px */
   font-size: 14px; /* Increased from 12.5px */
@@ -261,18 +307,30 @@ body[data-lang="ar"] .logo-zone {
   border-radius: var(--r-sm);
   color: rgba(255, 255, 255, 0.8); /* White over dark hero background */
   transition: all .2s ease;
+  /* One line per label. Below the width where six fit, the menu button takes
+     over (see "Header breakpoints") instead of labels wrapping to 2-3 lines. */
+  white-space: nowrap;
 }
-.nav-item > a:hover {
+/* The mega-menu triggers are <button>s (handoff p. 7: click + keyboard, not
+   hover alone). Strip the browser's button chrome so they match the links. */
+.nav-item > button {
+  background: none;
+  border: 0;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+.nav-item > a:hover, .nav-item > button:hover {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }
-.nav-item > a.active {
+.nav-item > a.active, .nav-item > button.active {
   color: #ffffff;
   background: transparent;
   position: relative;
   font-weight: 700;
 }
-.nav-item > a.active::after {
+.nav-item > a.active::after, .nav-item > button.active::after {
   content: '';
   position: absolute;
   bottom: 0px;
@@ -314,18 +372,18 @@ header.site.scrolled .primary-nav {
   background: transparent;
   border: none;
 }
-header.site.scrolled .nav-item > a {
+header.site.scrolled .nav-item > a, header.site.scrolled .nav-item > button {
   color: var(--ink-soft); /* Dark links on white background scroll */
 }
-header.site.scrolled .nav-item > a:hover {
+header.site.scrolled .nav-item > a:hover, header.site.scrolled .nav-item > button:hover {
   color: var(--ink);
   background: rgba(12, 12, 12, 0.05);
 }
-header.site.scrolled .nav-item > a.active {
+header.site.scrolled .nav-item > a.active, header.site.scrolled .nav-item > button.active {
   color: var(--color-secondary) !important;
   background: transparent !important;
 }
-header.site.scrolled .nav-item > a.active::after {
+header.site.scrolled .nav-item > a.active::after, header.site.scrolled .nav-item > button.active::after {
   background: var(--color-secondary);
 }
 
@@ -394,6 +452,30 @@ header.site.scrolled .langswitch button:hover {
   color: var(--ink);
 }
 
+/* "Arabic is not available yet" notice (p. 8: explain availability). The live
+   region is always mounted but takes no room in the action row, and the card
+   drops below the header, aligned to its end edge. */
+.header-actions { position: relative; }
+.lang-notice-live {
+  position: absolute; top: calc(100% + 14px); inset-inline-end: 0; z-index: 70;
+}
+.lang-notice {
+  display: flex; align-items: flex-start; gap: 10px;
+  width: max-content; max-width: min(320px, calc(100vw - 32px));
+  padding: 12px 12px 12px 16px;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  box-shadow: 0 12px 32px rgba(8, 44, 69, 0.12);
+  font-size: 13px; font-weight: 500; line-height: 1.45;
+}
+.lang-notice button {
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; margin-block-start: -4px; margin-inline-end: -2px;
+  border-radius: var(--r-sm);
+  color: var(--ink-soft);
+}
+.lang-notice button:hover { background: var(--paper-alt); color: var(--ink); }
+
 
 /* mega dropdown */
 .mega {
@@ -402,19 +484,18 @@ header.site.scrolled .langswitch button:hover {
   padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px;
   box-shadow: 0 20px 60px rgba(12,12,12,.12);
   opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity .25s var(--ease-soft), transform .25s var(--ease-soft), visibility .25s;
+  /* visibility waits for the fade-out when closing (the delay), but flips at
+     once when opening (below): a transitioning hidden->visible panel is still
+     hidden on its first frame, so focus moved into it on open would be lost. */
+  transition: opacity .25s var(--ease-soft), transform .25s var(--ease-soft), visibility 0s linear .25s;
   z-index: 60;
 }
-.mega::before {
-  content: "";
-  position: absolute;
-  top: -24px;
-  left: 0;
-  width: 100%;
-  height: 24px;
-}
-.nav-item:hover .mega, .nav-item:focus-within .mega {
+/* No ::before "hover bridge" over the gap above the panel: it overlapped the
+   bottom of the trigger, so clicks there hit the (open) panel instead of the
+   button. Header.tsx delays the hover close instead (HOVER_CLOSE_DELAY_MS). */
+.nav-item.mega-open .mega {
   opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0);
+  transition-delay: 0s;
 }
 .mega h6 {
   font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
@@ -459,9 +540,12 @@ header.site.scrolled .langswitch {
   position: fixed; inset: 0; z-index: 200; background: rgba(12,12,12,.5);
   backdrop-filter: blur(8px);
   display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh;
-  opacity: 0; visibility: hidden; transition: opacity .3s var(--ease-soft), visibility .3s;
+  opacity: 0; visibility: hidden;
+  /* Same pattern as .mega: visibility flips immediately on open, so the
+     effect in Header.tsx can move focus into the input (p. 228). */
+  transition: opacity .3s var(--ease-soft), visibility 0s linear .3s;
 }
-.search-overlay.open { opacity: 1; visibility: visible; }
+.search-overlay.open { opacity: 1; visibility: visible; transition-delay: 0s; }
 .search-panel {
   width: min(600px, 90vw); background: var(--card); border-radius: var(--r-lg); padding: 24px;
   transform: translateY(-12px) scale(.98); transition: transform .35s var(--ease);
@@ -477,7 +561,9 @@ header.site.scrolled .langswitch {
   flex: 1; background: none; border: none; font-size: 18px; font-weight: 600; color: var(--ink);
 }
 .search-panel input::placeholder { color: var(--ink-muted); }
-.search-panel input:focus { outline: none; }
+/* The old `outline: none` here hid keyboard focus in the search dialog
+   (p. 228). The global :focus-visible ring applies; this only spaces it out. */
+.search-panel input:focus-visible { outline-offset: 6px; }
 .close-search {
   font-size: 11px; font-weight: 700; letter-spacing: .04em;
   border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px;
@@ -516,6 +602,36 @@ body[data-lang="ar"] .mobile-nav { right: auto; left: 0; transform: translateX(-
   transition: color .2s, padding .2s;
 }
 .mobile-nav a:hover { color: var(--green); padding-inline-start: 6px; }
+/* The panel now holds every domain and industry, so it must scroll. */
+.mobile-nav { overflow-y: auto; overscroll-behavior: contain; }
+
+/* Labelled expandable group (handoff p. 7). Styled like a top-level link. */
+.mobile-nav .mn-group { border-bottom: 1px solid var(--line-dark); }
+.mobile-nav .mn-group > summary {
+  padding: 14px 0;
+  font-size: 20px; font-weight: 700; letter-spacing: -0.02em;
+  color: rgba(247,247,244,.8);
+  cursor: pointer;
+  list-style: none;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mobile-nav .mn-group > summary::-webkit-details-marker { display: none; }
+/* A plain chevron that rotates when open, so the state is visible without colour. */
+.mobile-nav .mn-group > summary::after { content: '+'; font-weight: 400; }
+.mobile-nav .mn-group[open] > summary::after { content: '−'; }
+.mobile-nav .mn-group > summary:focus-visible,
+.mobile-nav a:focus-visible,
+.mobile-nav button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.mobile-nav .mn-sub { display: flex; flex-direction: column; padding: 0 0 12px; }
+.mobile-nav .mn-sub a {
+  font-size: 15px; font-weight: 500; padding: 9px 0; border-bottom: 0;
+}
+.mobile-nav .mn-sub a.active { color: var(--green); }
+.mobile-nav .mn-sub-label {
+  margin: 14px 0 4px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: rgba(247,247,244,.5);
+}
 
 /* ============================================================================
    HERO — full-viewport immersive
@@ -877,10 +993,22 @@ body[data-lang="ar"] .mobile-nav { right: auto; left: 0; transform: translateX(-
 .band.dark .link-under:hover, .band.forest .link-under:hover { color: var(--green-deep); }
 /* CTA band: white background with high-contrast inner card */
 #cta { background: var(--paper); }
-#cta h2, #cta h2 em { color: #ffffff !important; } /* White headers inside full-bleed dark CTA overlay card */
+/* (A `#cta h2 { color: #fff !important }` rule sat here. It forced the H12
+   heading white on the teal card, about 2:1. Each card now sets its own colour.) */
 #cta .eyebrow { color: var(--ink-soft); }
 
 .band h2 { font-size: clamp(32px, 4.5vw, 56px); line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; }
+
+/* One size for every homepage section heading (H03-H13), clearly below the
+   H01 hero title, so the page has a single loud element. `h2.home-h2` also
+   out-ranks the legacy `.band h2` rule above. */
+h2.home-h2,
+.band h2.home-h2 {
+  font-size: clamp(28px, 2.5vw, 38px);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
 .band h3 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
 
 /* section header row */
@@ -1469,7 +1597,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 @media (max-width: 760px) {
   .primary-nav, .header-actions .icon-btn[data-open-search] { display: none; }
   .menu-toggle { display: flex; }
-  .header-main { padding: 0 20px; height: 60px; }
+  /* Header sizing for small screens is under "Header breakpoints". The bar
+     keeps --header-bar-h (50px) so --header-offset stays true on phones, and
+     the header stays near p. 7's ~70px. */
   .wrap { padding: 0 20px; }
   /* immersive hero mobile */
   .hero-immersive { min-height: 100svh; }
@@ -1578,25 +1708,25 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: var(--sans);
   padding: 110px 0 0;
 }
-/* Compact first fold (handoff p. 225).
-   The hero keeps its video backdrop and glass styling but stops filling the
-   viewport, so H03 Global News and H04 Major Markets are meaningfully visible
-   without scrolling at the 1366x768 reference viewport.
-   70px sticky header + 698px fold = the hero must stay under ~700px tall. */
+/* Compact first fold (handoff p. 225, p. 15, p. 229).
+   The hero keeps its glass styling but must NOT fill the viewport: at the
+   1366x768 reference, header + H01 + H02 + the H03/H04 band all have to fit,
+   with the band ending around y 720 (p. 15). So the hero sizes to its content
+   (~380px tall), with no min-height. Do not put 100vh/100svh back here - that
+   pushed H03 and H04 entirely below the fold.
+   The top padding clears the floating header (bottom edge ~y 96). */
 .hero-insights.hero-compact {
-  /* Full-screen hero. The 100vh line is the fallback; 100svh (small viewport
-     height) wins where supported and stops a mobile browser's collapsing URL
-     bar from making the hero taller than the screen actually is. */
   height: auto;
-  min-height: 100vh;
-  min-height: 100svh;
-  padding: 120px 0 72px;
+  min-height: 0;
+  /* 122px clears the floating header (bottom ~y 96); with the heading's line
+     spacing that reads as ~34px, the same as the space under the chips. */
+  padding: 122px 0 32px;
   justify-content: center;
 }
 
@@ -1604,8 +1734,34 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   /* p. 228: the first-fold brief is a laptop target, never a reason to
      compress mobile content into one screen. Let it breathe on small widths. */
   .hero-insights.hero-compact {
-    padding: 104px 0 64px;
+    padding: 112px 0 44px;
   }
+}
+
+/* H01: the page's single loud element. Two balanced lines on laptops. */
+.hero-title {
+  font-size: clamp(34px, 3.4vw, 54px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+/* H02 suggestion chips: quiet outlined pills on the photo. */
+.hero-chip {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(8, 44, 69, 0.28);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.hero-chip:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1686,7 +1842,8 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   color: #111827;
   font-size: 16px;
   width: 100%;
-  outline: none;
+  /* No `outline: none`: the wrapper's only focus cue was a 1px #00cfc8 border
+     (1.95:1 on white). The global :focus-visible ring (p. 228) shows instead. */
   padding: 10px 0;
   font-family: var(--sans);
 }
@@ -1711,7 +1868,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   box-shadow: 0 4px 12px rgba(0, 207, 200, 0.2);
 }
 .hero-search-btn:hover {
-  background: var(--green-deep);
+  /* Not --green-deep: that is now a text teal (#007a75), and navy on it is
+     2.8:1. #00a5a0 keeps the navy label at 4.7:1 (p. 228). */
+  background: var(--color-primary-dark);
   color: #082C45;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0, 207, 200, 0.3);
@@ -1742,21 +1901,18 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
     min-height: auto;
     padding: 120px 0 80px;
   }
+  /* Phones keep the input and its button on one row: the stacked version
+     left the icon on a line of its own above the input. */
   .hero-search-wrapper {
-    flex-direction: column;
-    border-radius: 24px;
-    padding: 16px;
-    gap: 16px;
-    align-items: stretch;
+    padding: 5px 5px 5px 16px;
   }
   .hero-search-input {
-    padding: 4px 0;
-    text-align: center;
+    padding: 8px 0;
+    font-size: 16px; /* 16px stops iOS zooming into the field */
   }
   .hero-search-btn {
-    margin-left: 0;
-    justify-content: center;
-    padding: 14px;
+    margin-left: 8px;
+    padding: 11px 20px;
   }
   .hero-search-hint {
     padding-left: 0;
@@ -2312,7 +2468,14 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 
 .mega-redesign {
-  min-width: 1100px !important;
+  /* Was `min-width: 1100px !important`, which pushed the panel past both screen
+     edges below ~1130px (at 1024px it spanned -38 to 1062px). Now it is capped
+     at the viewport with a 16px margin, and never taller than the space under
+     the header (p. 228: laptop widths and 125% zoom). */
+  width: min(1100px, calc(100vw - 32px)) !important;
+  max-height: calc(100vh - var(--header-offset) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   left: 50% !important;
   transform: translate(-50%, 8px) !important;
   padding: 0 !important;
@@ -2321,18 +2484,12 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   display: flex !important;
   flex-direction: column;
 }
+.mega-redesign > * { flex-shrink: 0; }
 
-/* Ensure the hover bridge is tall enough to cover the gap between nav-item and mega */
-.mega-redesign::before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: 0;
-  width: 100%;
-  height: 40px;
-}
+/* The old ::before hover bridge (top -40px) sat over the lower half of the
+   trigger, so a click there landed on the panel. Removed - see `.mega`. */
 
-.nav-item:hover .mega-redesign, .nav-item:focus-within .mega-redesign {
+.nav-item.mega-open .mega-redesign {
   transform: translate(-50%, 0) !important;
 }
 
@@ -2432,7 +2589,8 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   padding: 16px;
   color: white;
 }
-.featured-content h5 {
+/* A <p>, not an <h5>: the mega panel sits before every page's <h1>. */
+.featured-content p {
   margin: 0;
   font-size: 14px;
   font-weight: 700;
@@ -2466,4 +2624,61 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .btn-cta:hover {
   opacity: 0.9;
+}
+
+/* Accessibility Focus Rings. --focus-color, not the brand teal: #00cfc8 was
+   ~1.9:1 on the white panel and the scrolled header (p. 228, 3:1 minimum). */
+.nav-item > a:focus-visible,
+.nav-item > button:focus-visible,
+.mega-list a:focus-visible,
+.mega-cta .btn:focus-visible,
+.header-actions button:focus-visible,
+.header-actions a:focus-visible {
+  outline: 2px solid var(--focus-color) !important;
+  outline-offset: 2px;
+}
+/* The CTA strip is mid-blue (#0972b8): white is 5.1:1 there, teal is not. */
+.mega-cta { --focus-color: #ffffff; }
+
+/* Mega panel below ~1100px: the columns stack above the lifecycle and overview
+   links. The Featured card repeats the main nav's Knowledge Hub link, so it is
+   the part that goes. */
+@media (max-width: 1100px) {
+  .mega-top { flex-direction: column; gap: 20px; padding: 24px; }
+  .mega-columns { gap: 24px; }
+  .mega-featured {
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid rgba(0,0,0,0.08); padding-top: 16px;
+  }
+  .mega-featured .featured-label, .mega-featured .featured-card { display: none; }
+  .mega-featured-links { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 0; padding-top: 0; border-top: 0; }
+  .mega-featured-links a { margin-bottom: 0; }
+}
+
+/* ============================================================================
+   Header breakpoints (p. 7 layout; p. 228 laptop widths and 125% zoom)
+   ============================================================================ */
+/* Tighter spacing keeps logo, six links and actions on one line down to
+   1000px - a 1280px laptop at 125% zoom is 1024 CSS px wide. (Full spacing
+   leaves ~2px between logo and nav at 1241px, so this starts below 1280px.) */
+@media (max-width: 1279px) {
+  header.site { width: calc(100% - 32px); }
+  .header-main { padding: 0 8px; }
+  .primary-nav { gap: 2px; }
+  .nav-item > a, .nav-item > button { padding: 8px 10px; font-size: 13px; }
+  .logo-zone { width: 120px; }
+}
+/* Below that, the menu button and the labelled mobile groups take over (p. 7). */
+@media (max-width: 999px) {
+  .primary-nav { display: none; }
+  .menu-toggle { display: flex; }
+}
+@media (max-width: 760px) {
+  header.site { width: calc(100% - 24px); }
+  .header-main { padding: 0 4px; }
+}
+/* Phones: Contact moves into the menu (it is the menu's last link) so the logo
+   keeps its full size next to language, search and the menu button. */
+@media (max-width: 560px) {
+  .header-contact { display: none; }
 }

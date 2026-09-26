@@ -362,6 +362,20 @@ async function seed() {
 
   const skippedTools = new Set<string>();
 
+  // I{nn}02 links are now relationships to Capability records, so a link can
+  // never point at an anchor that does not exist. Build a lookup of
+  // "domain-slug#capability-slug" -> capability, from the database. Run
+  // seed-domains.ts first: it creates the capability records.
+  const allCaps = await payload.find({ collection: 'capabilities', limit: 500, depth: 1 });
+  const capByAnchor = new Map<string, { id: number; heading: string }>();
+  for (const cap of allCaps.docs) {
+    const domainSlug = typeof cap.domain === 'object' && cap.domain ? cap.domain.slug : null;
+    if (domainSlug) capByAnchor.set(`${domainSlug}#${cap.slug}`, { id: cap.id, heading: cap.heading });
+  }
+  if (capByAnchor.size === 0) {
+    throw new Error('No capability records found. Run scripts/seed-domains.ts first.');
+  }
+
   for (const industry of industries) {
     console.log(`Processing industry: ${industry.title}`);
 
@@ -372,7 +386,21 @@ async function seed() {
       return false;
     });
 
-    const data = { ...industry, relevantTools: resolvableTools };
+    // Turn each verified "/domains/{domain}#{anchor}" link into a capability id.
+    // Stop on any mismatch rather than silently dropping a link: all 52 were
+    // verified against the PDF, so a miss means the data has drifted.
+    const relatedCapabilities = industry.workAreas.map((area) => {
+      const key = area.url.replace(/^\/domains\//, '');
+      const cap = capByAnchor.get(key);
+      if (!cap) throw new Error(`${industry.slug}: no capability for ${area.url}`);
+      if (cap.heading !== area.title) {
+        throw new Error(`${industry.slug}: "${area.title}" does not match capability heading "${cap.heading}"`);
+      }
+      return cap.id;
+    });
+
+    const { workAreas: _verifiedLinks, ...industryFields } = industry;
+    const data = { ...industryFields, relevantTools: resolvableTools, relatedCapabilities };
 
     const existing = await payload.find({
       collection: 'industries',
