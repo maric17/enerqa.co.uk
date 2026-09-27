@@ -1,0 +1,68 @@
+
+Artisanal and small-scale gold mining (ASGM) is a crucial livelihood activity for many in Sudan, contributing significantly to the local economy (Ibrahim, 2015). However, the prevalent use of mercury in this sector introduces severe environmental and health hazards. The risks posed by mercury have been exacerbated by recent heavy rains and floods, particularly in mining markets where both milling and burning of mercury-amalgamated gold occur (Carsten, 2016). Figure-1 shows the Geographical distribution of artisanal mining activities
+
+This article examines the environmental impacts of mercury in ASGM in Sudan, emphasizing the intensification of these effects due to extreme weather events.
+
+ASGM is a significant economic activity across Africa, providing livelihoods for millions. However, the sector's extensive use of mercury poses severe environmental and health risks. Globally, ASGM is the largest source of anthropogenic mercury emissions, releasing over 2,000 tonnes annually.
+
+In Africa, ASGM is prevalent in countries such as Ghana, Mali, Burkina Faso, Tanzania, and Zimbabwe. The mercury-to-gold ratio used in these operations varies, often ranging from 1.32 to 3.23 grams of mercury per gram of gold produced.
+
+This indicates that for every gram of gold, up to 3.23 grams of mercury may be released into the environment. The lack of regulation and awareness exacerbates mercury pollution, leading to significant environmental degradation and health issues among mining communities.
+
+Sudan has emerged as one of Africa's leading gold producers, with ASGM playing a crucial role in its economy. However, the sector's reliance on mercury has led to substantial environmental and health concerns. Figure 2 shows the Estimated mercury consumption for ASGM and estimated number of ASGM miners by country t/y. Carsten, 2016)
+
+## The Process of Gold Extraction Using Mercury
+1. Crushing and Grinding
+    - Gold-bearing ore is crushed and ground into fine particles using rudimentary tools or mechanical mills.
+2. Amalgamation
+    - Mercury is mixed with the ground ore to form an amalgam. The mercury binds to the gold particles, separating them from other materials.
+    - The mercury-to-gold ratio can range from 1.3:1 to 3.5:1, with substantial mercury losses into the environment.
+3. Squeezing and Filtration
+    - The gold-mercury amalgam is collected and squeezed through a cloth to remove excess mercury. This step often exposes workers to direct skin contact with mercury.
+4. Burning the Amalgam
+    - The amalgam is heated, often using open flames or rudimentary furnaces, to vaporize the mercury, leaving behind purified gold.
+    - Mercury vapors released during this process are highly toxic and contaminate the air, soil, and water.
+
+A field study by the author was conducted in one of the artisanal mining hub in Northern Sudan. The study included investigating a lot of samples from different miners and integrating statistical analysis to obtain range of results. The following figure shows the Mercury to Gold Ratio loss during crushing operation.
+
+While figure- 4 shows Mercury-to-Gold Ratio (X Hg:1 Au) Loss During the Burning of Concentrated Amalgam (Marsa) Operation
+
+The extensive use of mercury in ASGM across Africa, and particularly in Sudan, presents critical environmental and public health challenges.
+
+## 1. Soil Contamination
+
+Mercury contamination of soil is a critical issue in ASGM. During gold extraction, mercury can spill during milling or be deposited atmospherically during amalgam combustion, leading to widespread soil pollution (Ibrahim, 2015). The mercury-to-gold ratio observed in milling operations often ranges from 1.48 to 3.48 grams, indicating significant mercury loss into the environment (Carsten, 2016). The recent floods have further worsened this contamination by dispersing mercury-laden soil into agricultural and residential areas, rendering land infertile and threatening microbial biodiversity (Ibrahim, 2015).
+
+## 2. Water Pollution
+
+Nearby water bodies are particularly vulnerable to mercury pollution from ASGM. Mercury spills and runoff contaminate surface and groundwater, transforming into methylmercury — a highly toxic compound that bioaccumulates in aquatic organisms (Carsten, 2016). Flooding exacerbates this by washing mercury from mining sites into rivers, streams, and groundwater systems, significantly increasing the contamination zone and associated health risks (Ibrahim, 2015).
+
+## 3. Air Quality Degradation
+
+The burning of mercury-amalgamated gold releases toxic mercury vapors into the atmosphere, posing health risks through inhalation (Carsten, 2016). The mercury-to-gold ratio during this phase ranges from 1.32 to 3.23 grams, with an average of 2.14 grams of mercury released per gram of gold burned (Carsten, 2016). Flood-related turbulence spreads mercury vapors further afield, increasing the risk of atmospheric deposition in previously unaffected regions.
+
+## 4. Impact on Vegetation
+
+Mercury contamination adversely impacts vegetation, stunting growth and reducing agricultural productivity (Ibrahim, 2015). Plants absorb mercury through their roots, entering the food chain and posing risks to herbivores and predators alike. The spread of mercury-contaminated soil and water by floodwaters threatens crop safety and ecosystem stability, with severe implications for local food security (Carsten, 2016).
+
+## 5. Threats to Wildlife
+
+Mercury bioaccumulates in aquatic life, disrupting ecosystems and causing reproductive and behavioral issues in wildlife (Carsten, 2016). Floodwaters exacerbate these risks by concentrating mercury in aquatic habitats and creating contamination hotspots as waters recede. This has cascading effects on biodiversity, threatening species survival and ecosystem balance.
+
+## 6. Human Health Hazards
+
+The health impacts of mercury exposure in ASGM are severe, particularly for miners and nearby communities. Chronic mercury poisoning can cause neurological and cognitive impairments, respiratory problems, and developmental issues, especially in vulnerable populations such as children and pregnant women (Ibrahim, 2015). Flooding increases exposure risks by spreading mercury into residential areas, contaminating food and water sources.
+
+The following photos show the recent (August, 2024) heavy rains and floods in the areas of artisanal mining Northern Sudan.
+
+## Conclusion
+
+The environmental and health consequences of mercury use in Sudan's ASGM sector are amplified by extreme weather events, such as heavy rains and floods. Addressing these challenges necessitates a combination of reducing mercury use, adopting safer alternatives, and implementing robust environmental and health protection measures. Balancing the economic benefits of ASGM with the urgent need for sustainability is essential for mitigating its long-term impacts in a changing climate (Carsten, 2016; Ibrahim, 2015).
+
+## References
+#. Carsten, S. (2016). Mercury Use and Impacts in Artisanal and Small-Scale Gold Mining: Global Assessment and Implications. United Nations Environment Programme.
+#. Ibrahim, M. E. (2015). Artisanal Mining in Sudan - Opportunities, Challenges and Impacts. Sudan University of Science and Technology.
+#. UNEP Global Mercury Partnership (n.d.). Artisanal and Small-Scale Gold Mining (ASGM).
+#. MDPI (2023). Mercury Contamination in Artisanal Mining Areas in Sudan.
+#. Sudan Transparency Initiative (2023). Mercury Use and Environmental Challenges in Sudan's Artisanal Mining Sector.
+#. Enerqa Consultancy (n.d.). Artisanal Gold Mining and Environmental Impacts of Mercury Use in Sudan.

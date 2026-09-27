@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Premium Hero Design</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: #0b1120;
+      color: #fff;
+      height: 100vh;
+      overflow: hidden; /* enforce first fold */
+      display: flex;
+      flex-direction: column;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top, rgba(11,17,32,0.4) 0%, rgba(11,17,32,0.85) 80%);
+      z-index: 1;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1366px;
+      margin: 0 auto;
+      height: 768px; /* Target laptop height */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .logo { font-weight: 700; font-size: 1.25rem; letter-spacing: 1px; color: #34d399; }
+    
+    nav { display: flex; gap: 1.5rem; font-size: 0.9rem; font-weight: 400; color: rgba(255,255,255,0.8); }
+    nav span { cursor: pointer; transition: color 0.2s; }
+    nav span:hover { color: #fff; }
+
+    .header-actions { font-size: 0.85rem; color: rgba(255,255,255,0.8); display: flex; gap: 1.5rem; align-items: center;}
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+
+    /* H01 - Title & Positioning */
+    .hero-h01 {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .hero-h01 h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      line-height: 1.2;
+      background: linear-gradient(to right, #ffffff, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero-h01 p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* H02 - Search Area */
+    .hero-h02 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .search-box {
+      display: flex;
+      width: 100%;
+      max-width: 750px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 99px;
+      padding: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+    .search-box:focus-within {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(52,211,153,0.5);
+      box-shadow: 0 4px 30px rgba(52,211,153,0.15);
+    }
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.5rem 1.5rem;
+      outline: none;
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.4); }
+    .search-btn {
+      background: #34d399;
+      color: #064e3b;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-btn:hover { background: #10b981; color: white;}
+    
+    .chips {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+    }
+    .chip:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    /* Feeds Area: H03 & H04 */
+    .feeds-container {
+      display: flex;
+      gap: 1.5rem;
+      flex: 1;
+      height: 280px; /* Constrain height to keep it above fold */
+    }
+
+    .glass-panel {
+      background: rgba(11, 17, 32, 0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.75rem;
+    }
+    .panel-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* H03 - Global News (Left, Wider) */
+    .h03-news {
+      flex: 2;
+    }
+    .news-list {
+      display: flex;
+      gap: 1rem;
+      overflow: hidden;
+      height: 100%;
+    }
+    .news-card {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .news-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .news-meta { font-size: 0.75rem; color: #34d399; text-transform: uppercase; letter-spacing: 0.5px;}
+    .news-card h4 { font-size: 0.95rem; font-weight: 500; line-height: 1.4; color: #fff;}
+    .news-source { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: auto;}
+
+    /* H04 - Major Markets (Right, Narrower) */
+    .h04-markets {
+      flex: 1;
+    }
+    .market-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .market-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+    }
+    .market-name { font-size: 0.9rem; font-weight: 500;}
+    .market-value { font-family: monospace; font-size: 1rem;}
+    .market-up { color: #34d399; }
+    .market-down { color: #f87171; }
+
+  </style>
+</head>
+<body>
+  
+  <div class="overlay"></div>
+
+  <div class="wrapper">
+    <!-- Header -->
+    <header>
+      <div class="logo">ENERQA</div>
+      <nav>
+        <span>Home</span>
+        <span>Domains and Industries</span>
+        <span>Knowledge Hub</span>
+        <span>Data Portal</span>
+        <span>Tools</span>
+        <span>About</span>
+      </nav>
+      <div class="header-actions">
+        <span>EN / AR</span>
+        <span style="background: rgba(255,255,255,0.1); padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer;">Contact</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- H01: Title & Positioning -->
+      <section class="hero-h01">
+        <h1>Project Development for a Sustainable Future</h1>
+        <p>From an initial idea to feasibility, finance and implementation, Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.</p>
+      </section>
+
+      <!-- H02: Search & Chips -->
+      <section class="hero-h02">
+        <div class="search-box">
+          <svg style="margin-left: 1rem; margin-top: 0.6rem; color: rgba(255,255,255,0.5);" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" class="search-input" placeholder="Ask a question or explore a topic...">
+          <button class="search-btn">Ask</button>
+        </div>
+        <div class="chips">
+          <span class="chip">How can a climate project attract finance?</span>
+          <span class="chip">Explore renewable-energy feasibility</span>
+          <span class="chip">What does ESG readiness involve?</span>
+        </div>
+      </section>
+
+      <!-- Feeds Area (H03 left, H04 right) -->
+      <section class="feeds-container">
+        <!-- H03: Global News -->
+        <div class="glass-panel h03-news">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+              Global News
+            </span>
+            <span style="font-size: 0.8rem; color: rgba(255,255,255,0.5);">Updated Just Now</span>
+          </div>
+          <div class="news-list">
+            <div class="news-card">
+              <span class="news-meta">Energy Transition</span>
+              <h4>New Framework for Renewable Energy Finance Released</h4>
+              <span class="news-source">NewsData.io • 2h ago</span>
+            </div>
+            <div class="news-card">
+              <span class="news-meta">Climate Action</span>
+              <h4>Global Carbon Markets See Unprecedented Growth in Q3</h4>
+              <span class="news-source">GDELT • 4h ago</span>
+            </div>
+            <div class="news-card" style="opacity: 0.6; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px dashed rgba(255,255,255,0.2);">
+              <span style="font-size: 0.85rem;">View All News &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- H04: Major Markets -->
+        <div class="glass-panel h04-markets">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Major Markets
+            </span>
+            <span style="font-size: 0.8rem; color: rgba(255,255,255,0.5);">Delayed 15m</span>
+          </div>
+          <div class="market-list">
+            <div class="market-row">
+              <span class="market-name">EUA Carbon</span>
+              <span class="market-value market-up">€84.20 &uarr;</span>
+            </div>
+            <div class="market-row">
+              <span class="market-name">Brent Crude</span>
+              <span class="market-value market-down">$76.45 &darr;</span>
+            </div>
+            <div class="market-row">
+              <span class="market-name">TTF Gas</span>
+              <span class="market-value market-up">€32.10 &uarr;</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

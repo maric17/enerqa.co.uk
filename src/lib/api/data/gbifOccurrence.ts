@@ -42,14 +42,48 @@ export type OccurrenceRecord = {
   datasetKey: string | null;
   basisOfRecord: string | null;
   licence: string;
+  /** The publishing dataset's DOI, for citation (p. 223). Null when GBIF lists none. */
+  datasetDoi: string | null;
 };
+
+/** One contributing dataset, as GBIF asks it to be cited. */
+export type OccurrenceDataset = { key: string; title: string | null; doi: string | null };
 
 export type OccurrenceResult = {
   records: OccurrenceRecord[];
   /** GBIF's total for the filtered query. A count of RECORDS, not of organisms. */
   recordCount: number;
+  /** p. 223: the dataset DOIs behind the records shown, for citation. */
+  datasets: OccurrenceDataset[];
   provenance: Provenance;
 };
+
+/** At most this many datasets are looked up per query; each lookup is cached for a week. */
+const MAX_DATASET_LOOKUPS = 10;
+
+/**
+ * p. 223 asks for a "download DOI/ZIP or dataset DOI". A download DOI needs
+ * GBIF's asynchronous download API, which requires an account's credentials,
+ * so it is not used here; each contributing dataset's own DOI is recorded
+ * instead, from the public dataset endpoint (L1060).
+ */
+export async function fetchDatasetDois(keys: string[]): Promise<OccurrenceDataset[]> {
+  const unique = [...new Set(keys.filter((k) => /^[0-9a-f-]{36}$/i.test(k)))].slice(0, MAX_DATASET_LOOKUPS);
+  return Promise.all(
+    unique.map(async (key) => {
+      const res = await fetchFromProvider<{ title?: string; doi?: string }>(
+        'gbif-occurrence',
+        `https://api.gbif.org/v1/dataset/${key}`,
+        { revalidate: 7 * 86400, timeoutMs: 15000 },
+      );
+      return {
+        key,
+        title: res.ok ? (str(res.data.title) ?? null) : null,
+        doi: res.ok ? (str(res.data.doi) ?? null) : null,
+      };
+    }),
+  );
+}
 
 type GbifResponse = {
   count?: number;
@@ -104,6 +138,7 @@ export async function fetchOccurrences(options: {
       datasetKey: str(row.datasetKey),
       basisOfRecord: str(row.basisOfRecord),
       licence: str(row.license) ?? '',
+      datasetDoi: null as string | null,
     }))
     // The second pass. Anything whose licence we cannot positively read as
     // CC0 or CC BY is dropped, including records with no licence at all.
@@ -115,10 +150,17 @@ export async function fetchOccurrences(options: {
 
   const sourceUrl = `https://www.gbif.org/occurrence/search?${params.toString()}`;
 
+  const datasets = await fetchDatasetDois(records.map((r) => r.datasetKey ?? ''));
+  const doiOf = new Map(datasets.map((d) => [d.key, d.doi]));
+  for (const record of records) record.datasetDoi = record.datasetKey ? (doiOf.get(record.datasetKey) ?? null) : null;
+  const cited = datasets.filter((d) => d.doi);
+
   return ok('gbif-occurrence', {
     records,
     recordCount: res.data.count ?? records.length,
+    datasets,
     provenance: buildProvenance('gbif-occurrence', {
+      retrievedAt: res.retrievedAt,
       sourceUrl,
       sourceId: country ? `country:${country}` : 'occurrence-search',
       observationPeriod: yearFrom && yearTo ? `${yearFrom}–${yearTo}` : null,
@@ -127,6 +169,7 @@ export async function fetchOccurrences(options: {
       transformations: [
         'Restricted to CC0 and CC BY licensed records, in the query and again on the response',
         'Kept the provider coordinate uncertainty rather than presenting points as exact',
+        ...(cited.length > 0 ? [`Contributing dataset DOIs: ${cited.map((d) => `https://doi.org/${d.doi}`).join(' ')}`] : []),
       ],
     }),
   });

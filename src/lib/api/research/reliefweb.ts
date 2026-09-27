@@ -32,7 +32,31 @@ type ReliefWebFields = {
   theme?: { name?: string }[];
   country?: { name?: string }[];
   body?: string;
+  file?: { url?: string; mimetype?: string; filename?: string }[];
+  format?: { name?: string }[];
 };
+
+/**
+ * Below this, a ReliefWeb page is a summary pointing elsewhere, not the report
+ * (roughly two screen paragraphs of text).
+ */
+const MIN_HOSTED_TEXT = 1500;
+
+/**
+ * p. 214: "Publish only ... reports with complete anonymously accessible
+ * report text or attachments. Prefer ReliefWeb-hosted complete report/PDF ...
+ * Reject summary-only or gated originals." So the reading destination is the
+ * hosted PDF where there is one, else the ReliefWeb page when it carries the
+ * whole text. A page that only summarises and links out is rejected.
+ * Exported for tests.
+ */
+export function reliefWebDestination(f: Pick<ReliefWebFields, 'url' | 'body' | 'file'>): string | null {
+  const pdf = (f.file ?? []).find((x) => x.url && (x.mimetype === 'application/pdf' || /\.pdf($|\?)/i.test(x.url)));
+  if (pdf?.url) return pdf.url;
+  const text = (f.body ?? '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (f.url && text.length >= MIN_HOSTED_TEXT) return f.url;
+  return null;
+}
 
 type ReliefWebEntry = { id?: string; fields?: ReliefWebFields };
 
@@ -62,6 +86,11 @@ export async function fetchReliefWebReports(options: {
   params.append('fields[include][]', 'source.name');
   params.append('fields[include][]', 'theme.name');
   params.append('fields[include][]', 'country.name');
+  // Needed to tell a complete report from a summary-only page (p. 214).
+  params.append('fields[include][]', 'body');
+  params.append('fields[include][]', 'file.url');
+  params.append('fields[include][]', 'file.mimetype');
+  params.append('fields[include][]', 'format.name');
   params.set('sort[]', 'date.created:desc');
   for (const theme of themes) params.append('filter[conditions][0][value][]', theme);
   params.set('filter[conditions][0][field]', 'theme.name');
@@ -77,28 +106,35 @@ export async function fetchReliefWebReports(options: {
   for (const entry of res.data.data ?? []) {
     const f = entry.fields;
     const title = f?.title?.trim();
-    const url = f?.url;
-    if (!title || !url) continue;
+    if (!title || !f) continue;
+    const readUrl = reliefWebDestination(f);
+    if (!readUrl) continue;
+    const organisation = f.source?.[0]?.name ?? null;
 
     items.push({
-      id: entry.id ?? url,
+      id: entry.id ?? readUrl,
       title,
       summary: null,
       authors: [],
-      source: f?.source?.[0]?.name ?? 'ReliefWeb',
-      publishedAt: f?.date?.created ?? null,
+      source: organisation,
+      publishedAt: f.date?.created ?? null,
       doi: null,
-      readUrl: url,
+      readUrl,
       kind: 'report',
       peerReviewed: false,
+      organisation,
+      // ReliefWeb's own format label ("Analysis", "Situation Report" ...).
+      docType: f.format?.[0]?.name ?? null,
       provenance: buildProvenance('reliefweb', {
-        sourceUrl: url,
+        retrievedAt: res.retrievedAt,
+        sourceUrl: f.url ?? readUrl,
         sourceId: entry.id ?? null,
-        sourceReleasedAt: f?.date?.created ?? null,
-        attribution: `ReliefWeb / ${f?.source?.[0]?.name ?? 'publishing organisation'}`,
-        accessStatus: 'verified_open',
-        accessEvidence: 'ReliefWeb hosts the full report without registration.',
-        transformations: ['Restricted to adaptation, resilience, water and food-security themes'],
+        sourceReleasedAt: f.date?.created ?? null,
+        attribution: `ReliefWeb / ${organisation ?? 'publishing organisation'}`,
+        // Documented only; verified_open waits for the anonymous check (p. 209).
+        accessStatus: 'unknown',
+        accessEvidence: readUrl === f.url ? 'ReliefWeb hosts the complete report text.' : 'ReliefWeb hosts the report PDF.',
+        transformations: ['Restricted to adaptation, resilience, water and food-security themes', 'Rejected summary-only reports'],
       }),
     });
   }

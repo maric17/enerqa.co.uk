@@ -39,30 +39,43 @@ export const Domains: CollectionConfig = {
       type: 'text',
       defaultValue: 'Discuss Your Project',
     },
+    // CL / EL / NL / BL - the short, domain-specific lifecycle module (pp. 28,
+    // 37, 47, 58). Mirrors the Industries field of the same name. The complete
+    // lifecycle narrative stays on /project-development only (p. 227).
+    {
+      name: 'lifecycleNarrative',
+      type: 'textarea',
+      admin: {
+        description: 'Short domain-specific lifecycle paragraph. Links back to the canonical Project Development page.',
+      },
+    },
+    // The handoff words the News, Research and Publication intros for each
+    // domain around one topic phrase, e.g. "Follow developments in {topics}."
+    {
+      name: 'topicPhrase',
+      type: 'text',
+      admin: {
+        description:
+          'Exact topic phrase from the handoff, e.g. "energy systems, technology, energy efficiency and energy markets". Used in the News, Research and Publication intros.',
+      },
+    },
     {
       name: 'capabilities',
-      type: 'array',
-      fields: [
-        {
-          name: 'heading',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'slug',
-          type: 'text',
-          required: true,
-          admin: {
-            description:
-              'Stable, heading-derived anchor (handoff p. 227). Becomes the #anchor on the domain page - changing it breaks existing links.',
-          },
-        },
-        {
-          name: 'narrative',
-          type: 'textarea',
-          required: true,
-        },
-      ],
+      type: 'relationship',
+      relationTo: 'capabilities',
+      hasMany: true,
+      admin: {
+        description: 'Capability sections belonging to this domain',
+      }
+    },
+    {
+      name: 'tags',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      admin: {
+        description: 'Domain tags',
+      }
     },
     // CI / EI / NI / BI - "Relevant Industries" (handoff p. 28).
     // A relationship, not free text, so industry links always resolve to a real

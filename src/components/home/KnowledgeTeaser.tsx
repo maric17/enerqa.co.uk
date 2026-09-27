@@ -2,12 +2,24 @@ import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
-import { KnowledgeSlider } from './KnowledgeSlider'
+import { KnowledgeSlider, type SliderPublication } from './KnowledgeSlider'
+import { usableExcerpt } from './publicationExcerpt'
 import { Container } from '../ui/Container'
 
+/**
+ * H08 Enerqa Publication (handoff p. 14).
+ *
+ * "First-party CMS content, not a news API. Show real publication type,
+ * author, title and actual publication date. Do not import archive headings or
+ * biographies as articles."
+ *
+ * The 2024 import gave every record the same placeholder date, so a date is
+ * labelled "(date unverified)" until an editor ticks `dateVerified` (p. 225
+ * "recover true dates"), the same rule the Knowledge Hub applies.
+ */
 export const KnowledgeTeaser = async () => {
   const payload = await getPayload({ config: configPromise })
-  
+
   const { docs: publicationsData } = await payload.find({
     collection: 'publications',
     // Only real articles. The 2024 import brought in category separators and a
@@ -15,7 +27,8 @@ export const KnowledgeTeaser = async () => {
     where: { recordKind: { equals: 'article' } },
     limit: 6,
     depth: 1, // Populate the file/media relation
-    sort: '-date',
+    // Many records share the placeholder date; the id keeps the order stable.
+    sort: ['-date', 'id'],
   })
 
   // Map bgGradientType to actual CSS gradients
@@ -25,44 +38,52 @@ export const KnowledgeTeaser = async () => {
     'Blue': 'linear-gradient(135deg, #0f2841 0%, #06121e 100%)',
     'Dark': 'linear-gradient(135deg, #0C3A5C 0%, #082C45 100%)'
   }
-  
+
+  // Keyed by the collection's real `type` options. "Case Study" is gone: p. 229
+  // allows no Case Study surface anywhere.
   const typeColorMap: Record<string, string> = {
-    'Advisory Note': 'rgba(168,213,205,0.85)',
-    'Case Study': 'rgba(255,183,197,0.85)',
-    'Technical Paper': 'rgba(193,242,230,0.85)',
-    'Strategic Report': 'rgba(255,183,197,0.85)'
+    'Article': 'rgba(168,213,205,0.85)',
+    'White Paper': 'rgba(193,242,230,0.85)',
+    'Research': 'rgba(193,242,230,0.85)',
+    'Conference Paper': 'rgba(168,213,205,0.85)',
   }
 
-  const publications = publicationsData.length > 0 ? publicationsData.map(doc => {
-    // Format date nicely (e.g. "August 2025")
-    const dateObj = new Date(doc.date)
-    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    
+  const publications: SliderPublication[] = publicationsData.map(doc => {
+    // Month and year only: the day in the imported dates is a placeholder.
+    const formattedDate = doc.date
+      ? new Date(doc.date).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' })
+      : null
+    const fileUrl =
+      doc.file && typeof doc.file === 'object' && 'url' in doc.file ? resolveMediaUrl(doc.file.url) : null
+
     return {
       id: doc.id,
+      slug: doc.slug,
       type: doc.type,
-      typeColor: typeColorMap[doc.type] || 'rgba(255,183,197,0.85)',
+      typeColor: typeColorMap[doc.type] || 'rgba(168,213,205,0.85)',
       title: doc.title,
+      author: doc.author || null,
       date: formattedDate,
+      dateVerified: Boolean(doc.dateVerified),
       bgGradient: gradientMap[doc.bgGradientType] || 'linear-gradient(135deg, #0C3A5C 0%, #082C45 100%)',
-      heading: doc.heading,
-      excerpt: doc.excerpt,
-      file: (doc.file && typeof doc.file === 'object' && doc.file !== null && 'url' in doc.file && resolveMediaUrl(doc.file.url)) ? (resolveMediaUrl(doc.file.url) as string) : ''
+      excerpt: usableExcerpt(doc.excerpt, doc.title),
+      file: fileUrl || null,
     }
-  }) : []
+  })
 
   return (
-    <section className="band" id="knowledge-teaser" style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
+    <section className="band" id="knowledge-teaser" aria-labelledby="h08-enerqa-publication" style={{ padding: '60px 0', overflow: 'hidden', position: 'relative' }}>
       <div style={{
         position: 'absolute',
         inset: 0,
         backgroundImage: 'url(/images/research-banner.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
         zIndex: 0
       }}></div>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(4, 25, 43, 0.4)', zIndex: 1, pointerEvents: 'none' }}></div>
+      {/* The photo is texture only. At 0.4 the light chart image left white text
+          near 2.5:1; 0.86 navy keeps it above 4.5:1 wherever it falls (p. 228). */}
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(8, 44, 69, 0.86)', zIndex: 1, pointerEvents: 'none' }}></div>
       <Container style={{ position: 'relative', zIndex: 2 }}>
         {/* Use Client Component for the slider interactiveness */}
         <KnowledgeSlider publications={publications} />
@@ -70,4 +91,3 @@ export const KnowledgeTeaser = async () => {
     </section>
   )
 }
-

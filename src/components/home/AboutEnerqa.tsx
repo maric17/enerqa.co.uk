@@ -35,7 +35,6 @@ export const AboutEnerqa = () => {
             <Image src="/assets/images/gas-energy.jpg" alt="About enerQA" width={460} height={460} className="w-full h-full object-cover rounded-full relative z-[101] block" />
           </div>
         </div>
-
       </Container>
     </section>
   )

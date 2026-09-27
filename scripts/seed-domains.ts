@@ -5,12 +5,18 @@ const domains = [
   {
     title: 'Climate Action & Carbon Management',
     slug: 'climate-action-carbon-management',
+    // CL lifecycle module and the News/Research/Publication topic phrase (p. 28).
+    lifecycleNarrative: `Climate opportunities may begin with an emissions baseline, a policy priority or an identified climate risk. From there, concepts can be tested through feasibility studies, carbon-market assessment and climate-finance preparation before progressing towards implementation. MRV and monitoring frameworks establish how emissions reductions, resilience outcomes and progress against climate commitments will be measured.`,
+    topicPhrase: 'climate policy, carbon management, adaptation, resilience and climate finance',
     metaDescription: `Climate strategy, GHG inventories, MRV, decarbonisation pathways, climate risk, carbon markets and climate finance, grounded in reliable emissions data.`,
     // CP / EP / NP / BP - official-updates module (handoff pp. 29, 37, 48, 59)
     policyUpdates: {
       heading: 'Policy and Official Updates',
       narrative: `Follow original-source reports and updates relevant to this domain, with their organisation, document type and publication date clearly identified.`,
-      sourceNote: `Sources: ReliefWeb, plus curated verified open-access UNFCCC NDC and BTR submissions, IPCC releases and climate-finance institutions. Submission dates and source links are preserved.`,
+      // p. 29, verbatim. The curated UNFCCC/IPCC/finance links are listed on
+      // the page itself (lib/feeds/curated.ts), so the note no longer
+      // promises them (L441, L524).
+      sourceNote: `ReliefWeb is used only for relevant openly readable eligible reports.`,
     },
     // CT / ET / NT / BT - only the tools the handoff names for this domain.
     // Validate each tool's name, endpoint and access before publishing (p. 29).
@@ -63,12 +69,17 @@ Where carbon markets or climate finance form part of the solution, the same path
   {
     title: 'Energy Systems & Transition',
     slug: 'energy-systems-transition',
+    // EL lifecycle module and the News/Research/Publication topic phrase (p. 37).
+    lifecycleNarrative: `Energy projects begin by understanding demand, available resources and the performance required from a proposed solution. Audits, modelling and resource assessment inform concepts that can be tested through technical and financial feasibility. As an opportunity develops, the focus moves to financing, design, procurement and implementation, followed by monitoring of energy performance, costs and emissions.`,
+    topicPhrase: 'energy systems, technology, energy efficiency and energy markets',
     metaDescription: `Energy audits, ISO 50001, energy modelling and policy analysis, renewable-energy project development, storage and grids, and industrial decarbonisation.`,
     // CP / EP / NP / BP - official-updates module (handoff pp. 29, 37, 48, 59)
     policyUpdates: {
       heading: 'Official Energy Analysis and Research',
       narrative: `Follow original-source reports and updates relevant to this domain, with their organisation, document type and publication date clearly identified.`,
-      sourceNote: `Sources: U.S. EIA Today in Energy RSS for official energy analysis and DOE OSTI for energy research metadata, plus source-filtered national energy authorities and regulators. Technical reports are distinguished from market news.`,
+      // p. 37, verbatim. National authorities and regulators are not built,
+      // so they are no longer claimed (L452).
+      sourceNote: `EIA RSS supplies official energy analysis and OSTI supplies energy research metadata.`,
     },
     // CT / ET / NT / BT - only the tools the handoff names for this domain.
     // Validate each tool's name, endpoint and access before publishing (p. 29).
@@ -117,12 +128,17 @@ Renewable energy project development, energy storage, power systems, clean techn
   {
     title: 'Environment, Nature & Circularity',
     slug: 'environment-nature-circularity',
+    // NL lifecycle module and the News/Research/Publication topic phrase (p. 47).
+    lifecycleNarrative: `Environmental, nature and circular-economy opportunities develop from an understanding of ecological conditions, resource flows and regulatory requirements. Baseline assessment and feasibility studies help shape practical solutions for restoration, pollution prevention, water management and resource recovery. Permitting, safeguards and delivery arrangements carry those solutions into implementation, while monitoring, rehabilitation and closure planning address their longer-term responsibilities.`,
+    topicPhrase: 'environmental assessment, biodiversity, ecosystems, pollution and circular economy',
     metaDescription: `ESIA and safeguards, environmental permitting, pollution control, biodiversity and natural capital, nature-based solutions, circular economy, and closure.`,
     // CP / EP / NP / BP - official-updates module (handoff pp. 29, 37, 48, 59)
     policyUpdates: {
       heading: 'Environment and Nature Updates',
       narrative: `Follow original-source reports and updates relevant to this domain, with their organisation, document type and publication date clearly identified.`,
-      sourceNote: `Sources: EEA RSS for environment, nature, pollution and circularity, and GBIF literature for biodiversity research, plus curated CBD, UNEP and national environment-authority links.`,
+      // p. 48, verbatim. The curated CBD/UNEP links are listed on the page
+      // (lib/feeds/curated.ts); national authorities are not claimed (L463).
+      sourceNote: `EEA RSS covers environment, nature, pollution and circularity; GBIF literature adds biodiversity research.`,
     },
     // CT / ET / NT / BT - only the tools the handoff names for this domain.
     // Validate each tool's name, endpoint and access before publishing (p. 29).
@@ -187,12 +203,17 @@ Technology assessment, feasibility studies, circular business models and investm
   {
     title: 'Sustainable Business, ESG & Finance',
     slug: 'sustainable-business-esg-finance',
+    // BL lifecycle module and the News/Research/Publication topic phrase (p. 58).
+    lifecycleNarrative: `ESG and sustainable-finance initiatives begin by identifying material priorities, organisational readiness and investment requirements. These findings can develop into strategies, green-finance mechanisms or individual project opportunities supported by feasibility studies and business and financial models. Implementation arrangements, reporting systems and impact frameworks then connect sustainability objectives with accountable delivery and measurable performance.`,
+    topicPhrase: 'ESG, sustainable business, sustainable finance and responsible investment',
     metaDescription: `ESG strategy and reporting, materiality, climate and ESG risk, responsible supply chains, sustainable finance, taxonomies and feasibility studies.`,
     // CP / EP / NP / BP - official-updates module (handoff pp. 29, 37, 48, 59)
     policyUpdates: {
       heading: 'Corporate Disclosures and Finance Updates',
       narrative: `Follow original-source reports and updates relevant to this domain, with their organisation, document type and publication date clearly identified.`,
-      sourceNote: `Sources: SEC EDGAR filings for selected issuers, identified by issuer, form and filing date, plus curated verified open-access finance-regulator and taxonomy sources.`,
+      // p. 59, verbatim. The curated regulator and taxonomy links are listed
+      // on the page (lib/feeds/curated.ts) (L474).
+      sourceNote: `SEC EDGAR is a selected-issuer disclosure feed, not a global ESG news search.`,
     },
     // CT / ET / NT / BT - only the tools the handoff names for this domain.
     // Validate each tool's name, endpoint and access before publishing (p. 29).
@@ -283,33 +304,60 @@ async function seed() {
       return false;
     });
 
-    const data = { ...domain, relevantTools: resolvableTools };
+    // Capabilities are their own records (handoff pp. 225-226: "Capability
+    // section record: heading, slug, narrative, parent domain"), so they are
+    // written separately below and linked back by id.
+    const { capabilities, ...domainFields } = domain;
+    const data = { ...domainFields, relevantTools: resolvableTools };
 
-    // Check if domain exists
     const existing = await payload.find({
       collection: 'domains',
-      where: {
-        slug: { equals: domain.slug }
-      }
+      where: { slug: { equals: domain.slug } },
+      limit: 1,
+      depth: 0,
     });
 
-    if (existing.docs.length > 0) {
-      console.log(`Updating ${domain.title}...`);
-      await payload.update({
-        collection: 'domains',
-        id: existing.docs[0].id,
-        data,
+    const domainId =
+      existing.docs.length > 0
+        ? (await payload.update({ collection: 'domains', id: existing.docs[0].id, data })).id
+        : (await payload.create({ collection: 'domains', data })).id;
+    console.log(`${existing.docs.length > 0 ? 'Updated' : 'Created'} ${domain.title}`);
+
+    // Upsert each capability by (domain, slug). The slug is the public #anchor
+    // (p. 227), so matching on it keeps existing links stable across re-runs.
+    const capabilityIds: number[] = [];
+    for (const cap of capabilities) {
+      const found = await payload.find({
+        collection: 'capabilities',
+        where: { and: [{ slug: { equals: cap.slug } }, { domain: { equals: domainId } }] },
+        limit: 1,
+        depth: 0,
       });
-    } else {
-      console.log(`Creating ${domain.title}...`);
-      await payload.create({
-        collection: 'domains',
-        data,
-      });
+      const capData = { ...cap, domain: domainId };
+      const saved =
+        found.docs.length > 0
+          ? await payload.update({ collection: 'capabilities', id: found.docs[0].id, data: capData })
+          : await payload.create({ collection: 'capabilities', data: capData });
+      capabilityIds.push(saved.id);
     }
+
+    // The relationship order is the display order on the domain page, so it
+    // follows the handoff's segment order (C02-C08 etc.).
+    await payload.update({ collection: 'domains', id: domainId, data: { capabilities: capabilityIds } });
+    console.log(`  linked ${capabilityIds.length} capabilities`);
   }
 
   console.log('Done seeding domains!');
+
+  // Acceptance check (p. 229): 29 capability descriptions across the four
+  // domains. Fail loudly if the database disagrees with the seed.
+  const expected = domains.reduce((sum, d) => sum + d.capabilities.length, 0);
+  const { totalDocs } = await payload.count({ collection: 'capabilities' });
+  if (totalDocs !== expected) {
+    console.error(`\nCAPABILITY COUNT MISMATCH: database has ${totalDocs}, seed defines ${expected}.`);
+    process.exit(1);
+  }
+  console.log(`Capability count verified: ${totalDocs}/${expected}`);
 
   if (skippedTools.size > 0) {
     console.log('\nSKIPPED TOOL LINKS - no matching record in the tools collection:');

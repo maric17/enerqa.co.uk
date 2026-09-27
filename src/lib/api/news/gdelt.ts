@@ -1,5 +1,7 @@
+import { fetchFromProvider, type BodyRejection } from '../core/fetch';
+import { fail, ok, type ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
-import { getBasket, hostnameOf, normaliseUrl, SOURCE_ALLOWLIST } from './types';
+import { getBasket, hostnameOf, isAllowedDomain, normaliseUrl } from './types';
 import { extractRegions } from './geography';
 
 /**
@@ -14,11 +16,35 @@ import { extractRegions } from './geography';
  * feeds supply the "permitted short description" p. 13 asks for.
  *
  * p. 211 also warns: do not infer that a GDELT-indexed article is open
- * access. The allowlist below, and the shared gate in the aggregator, are
- * what make that inference unnecessary.
+ * access. The allowlist below, and the shared gate and access check in the
+ * aggregator, are what make that inference unnecessary.
+ *
+ * Two live findings (25 Sep 2026) shape this file:
+ *  - Every cached GDELT reply was "Your query was too short or too long." The
+ *    query put all 15 allowlisted domains in one `domainis:` group (290-410
+ *    characters). A 180-character query with five domains answered normally,
+ *    so queries are now held to GDELT_MAX_QUERY and a query that would exceed
+ *    it is not sent.
+ *  - Faster polling is answered with HTTP 429 "Please limit requests to one
+ *    every 5 seconds". core/health.ts spaces GDELT requests by 5.5 s, one at a
+ *    time, and backs off after a refusal. Neither reply is ever cached as data
+ *    (L1030): both arrive as plain text, which `rejectGdeltBody` refuses.
  */
 
 const ENDPOINT = 'https://api.gdeltproject.org/api/v2/doc/doc';
+
+/** The longest query observed to work (180 characters, 25 Sep 2026). */
+export const GDELT_MAX_QUERY = 180;
+
+/**
+ * The approved source basket for GDELT (p. 211: "domainis: predicates for an
+ * approved source basket"): the allowlisted publishers GDELT indexes as news.
+ * Institutional sites reach the pool through NewsData and the RSS feeds.
+ */
+export const GDELT_DOMAINS = ['theguardian.com', 'reuters.com', 'un.org', 'europa.eu', 'worldbank.org'];
+
+/** p. 211: article-list maximum 250. One cached call fills the shared pool. */
+const MAX_RECORDS = 250;
 
 const RIGHTS =
   'GDELT Project released dataset, free for commercial use with citation. Underlying publishers retain article and image rights.';
@@ -33,72 +59,94 @@ function parseSeenDate(raw: unknown): string | null {
   return Number.isNaN(Date.parse(iso)) ? null : iso;
 }
 
-export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all', limit = 12): Promise<NewsItem[]> {
-  const basket = getBasket(basketKey);
-  // p. 211 requires exact-domain `domainis:` predicates rather than an open
-  // web crawl. GDELT accepts the whole allowlist in one query.
-  const domains = SOURCE_ALLOWLIST.map((d) => `domainis:${d}`).join(' OR ');
-  const query = `${basket.gdeltQuery} (${domains})`;
+export function gdeltQuery(basketKey: NewsBasketKey): string {
+  const domains = GDELT_DOMAINS.map((d) => `domainis:${d}`).join(' OR ');
+  return `${getBasket(basketKey).gdeltQuery} (${domains})`;
+}
 
-  const url =
-    `${ENDPOINT}?query=${encodeURIComponent(query)}` +
-    `&mode=artlist&maxrecords=${Math.min(limit * 3, 250)}&format=json&sort=datedesc`;
-
-  try {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': 'enerqa.co.uk/1.0 (+https://enerqa.co.uk)' },
-      // p. 211 suggests 1-2 hours. One cached fetch serves every visitor,
-      // which is also what keeps us inside GDELT's request shedding.
-      next: { revalidate: 5400, tags: ['news', 'gdelt'] },
-      signal: AbortSignal.timeout(5000),
-    });
-
-    if (!res.ok) {
-      console.warn(`[gdelt] HTTP ${res.status} for basket "${basket.key}"`);
-      return [];
+/**
+ * GDELT answers both rate limiting and query errors with plain text, on HTTP
+ * 200 as well as 429. Neither may be cached or parsed as articles.
+ */
+export function rejectGdeltBody(body: unknown): BodyRejection | null {
+  const text = typeof body === 'string' ? body.trim() : '';
+  if (text.startsWith('{')) {
+    try {
+      JSON.parse(text);
+      return null;
+    } catch {
+      // Checked here so an unreadable reply is never cached either.
+      return { reason: 'unavailable', message: 'JSON that could not be read' };
     }
-
-    const text = await res.text();
-    // GDELT answers rate limits with plain text rather than JSON.
-    if (!text.trim().startsWith('{')) {
-      console.warn('[gdelt] non-JSON response (usually rate limiting)');
-      return [];
-    }
-
-    const data = JSON.parse(text) as { articles?: unknown[] };
-    const retrievedAt = new Date().toISOString();
-
-    return (data.articles ?? []).flatMap((raw) => {
-      const a = raw as Record<string, unknown>;
-      const articleUrl = typeof a.url === 'string' ? a.url : '';
-      const title = typeof a.title === 'string' ? a.title.trim() : '';
-      if (!articleUrl || !title) return [];
-
-      const domain = typeof a.domain === 'string' ? a.domain.toLowerCase().replace(/^www\./, '') : hostnameOf(articleUrl);
-
-      return [
-        {
-          id: normaliseUrl(articleUrl),
-          title,
-          // GDELT licenses no teaser text - see the file header.
-          summary: null,
-          url: articleUrl,
-          domain,
-          publisher: domain,
-          publishedAt: parseSeenDate(a.seendate),
-          language: typeof a.language === 'string' ? a.language : null,
-          provider: 'gdelt',
-          providerLabel: 'GDELT',
-          retrievedAt,
-          rights: RIGHTS,
-          regions: extractRegions(title, null),
-        } satisfies NewsItem,
-      ];
-    });
-  } catch (error) {
-    const msg = error instanceof Error ? error.message : 'Unknown error';
-    const cause = error instanceof Error && (error.cause as Error)?.message ? ` - ${(error.cause as Error).message}` : '';
-    console.warn(`[gdelt] fetch failed for basket "${basket.key}": ${msg}${cause}`);
-    return [];
   }
+  if (/limit requests|too many/i.test(text)) return { reason: 'rate_limited', message: 'rate-limit reply' };
+  return { reason: 'unavailable', message: `non-JSON reply: ${text.slice(0, 60) || '(empty)'}` };
+}
+
+export function mapGdeltArticles(articles: unknown[], retrievedAt: string): NewsItem[] {
+  return articles.flatMap((raw) => {
+    const a = raw as Record<string, unknown>;
+    const articleUrl = typeof a.url === 'string' ? a.url : '';
+    const title = typeof a.title === 'string' ? a.title.trim() : '';
+    if (!articleUrl || !title) return [];
+
+    // Gate on the article link's own host, like NewsData (p. 211: "validate
+    // the actual returned destination").
+    const domain = hostnameOf(articleUrl) || (typeof a.domain === 'string' ? a.domain.toLowerCase().replace(/^www\./, '') : '');
+    if (!isAllowedDomain(domain)) return [];
+
+    return [
+      {
+        id: normaliseUrl(articleUrl),
+        title,
+        // GDELT licenses no teaser text - see the file header.
+        summary: null,
+        url: articleUrl,
+        domain,
+        publisher: domain,
+        publishedAt: parseSeenDate(a.seendate),
+        language: typeof a.language === 'string' ? a.language : null,
+        provider: 'gdelt',
+        providerLabel: 'GDELT',
+        retrievedAt,
+        rights: RIGHTS,
+        regions: extractRegions(title, null),
+      } satisfies NewsItem,
+    ];
+  });
+}
+
+export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all'): Promise<ConnectorResult<NewsItem[]>> {
+  const query = gdeltQuery(basketKey);
+  if (query.length > GDELT_MAX_QUERY) {
+    console.warn(`[gdelt] basket "${basketKey}" query is ${query.length} characters; GDELT rejects long queries, so it is not sent`);
+    return fail('gdelt', 'unavailable', 'Query too long for GDELT.');
+  }
+
+  const url = `${ENDPOINT}?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=${MAX_RECORDS}&format=json&sort=datedesc`;
+
+  const res = await fetchFromProvider<string>('gdelt', url, {
+    // p. 211 suggests 1-2 hours. One cached fetch serves every visitor, which
+    // is also what keeps us inside GDELT's request shedding.
+    revalidate: 5400,
+    tags: ['news'],
+    // GDELT regularly takes over 10 s (every successful reply on 26 Sep 2026
+    // took ~17 s), so 20 s cut good answers off. The call is behind a
+    // Suspense boundary, and a cache hit never waits for it.
+    timeoutMs: 30000,
+    asText: true,
+    rejectBody: rejectGdeltBody,
+  });
+  if (!res.ok) return res;
+
+  let articles: unknown[] = [];
+  try {
+    // "{}" is GDELT's answer when nothing matched.
+    const data = JSON.parse(res.data) as { articles?: unknown[] };
+    articles = Array.isArray(data.articles) ? data.articles : [];
+  } catch {
+    return fail('gdelt', 'unavailable', 'GDELT sent JSON that could not be read.');
+  }
+
+  return ok('gdelt', mapGdeltArticles(articles, res.retrievedAt), res.retrievedAt, res.stale);
 }

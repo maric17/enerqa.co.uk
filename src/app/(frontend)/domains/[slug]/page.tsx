@@ -1,12 +1,23 @@
-import React, { cache } from 'react';
+import React, { cache, Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
+import { PageHero } from '@/components/ui/PageHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
+import { DOMAIN_FEEDS, newsPhrases, SPECIALIST_PROVIDER } from '@/lib/feeds/contextual';
+import { providerEnabled } from '@/lib/api/core/registry';
+import { NewsFeed } from '@/components/feeds/NewsFeed';
+import { ResearchFeed } from '@/components/feeds/ResearchFeed';
+import { OfficialFeed } from '@/components/feeds/OfficialFeed';
+import { RelatedPublications } from '@/components/feeds/RelatedPublications';
+import { RelatedDataset } from '@/components/feeds/RelatedDataset';
+import { CuratedSources } from '@/components/feeds/CuratedSources';
+import { FeedSkeleton } from '@/components/feeds/feedParts';
+import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 
 /**
  * Fetch one domain by slug.
@@ -68,7 +79,19 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
     relevantIndustries,
     policyUpdates,
     relevantTools,
+    lifecycleNarrative,
+    topicPhrase,
   } = domain;
+
+  // Per-domain news baskets, research themes and official sources from the
+  // handoff's "Contextual API and link configuration" (pp. 30, 38, 49, 60).
+  const feed = DOMAIN_FEEDS[slug];
+  // Where a failed feed sends the visitor instead (p. 4).
+  const nearest = { href: `/knowledge-hub/global-intelligence?domain=${slug}`, label: 'browse Global Intelligence' };
+  // CP's only feed (ReliefWeb) is switched off until its appname is
+  // registered, so its module always resolves to the empty state; the
+  // skeleton reserves that height rather than three cards (L516).
+  const officialLive = Boolean(feed?.specialistFeeds.some((f) => providerEnabled(SPECIALIST_PROVIDER[f])));
 
   const heroImageUrl =
     heroImage && typeof heroImage === 'object' && 'url' in heroImage ? heroImage.url : null;
@@ -84,62 +107,50 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
   return (
     <div className="flex flex-col min-h-screen bg-[var(--paper)]">
       {/* C01 - INITIAL VIEW (Top viewport fold y 0 to y 768) */}
-      <section className="relative w-full h-[65vh] min-h-[500px] flex items-center justify-center bg-[var(--ink)] text-white overflow-hidden py-[100px]">
-        {/* Background Image & Overlay */}
-        {heroImageUrl && (
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImageUrl})` }}
-          ></div>
-        )}
-        <div className={`hero-domain-overlay z-10 ${heroImageUrl ? 'opacity-90' : 'opacity-100'}`}></div>
-
-        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12 w-full">
-          {/* Breadcrumb - handoff p. 8: identify the current section and its parent */}
-          <nav aria-label="Breadcrumb" className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
+      <PageHero
+        title={title}
+        imageUrl={heroImageUrl}
+        breadcrumbs={
+          <>
             <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <Link href="/domains-and-industries" className="text-white/80 hover:text-white transition-colors no-underline">Domains &amp; Industries</Link> / <span className="en text-white" aria-current="page">{title}</span>
-          </nav>
-
-          {/* H1 Title */}
-          <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            <span className="en block">{title}</span>
-          </Typography>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       {/* Narrative, CTA & capability anchors */}
-      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
+      <section className="bg-white py-16 lg:py-24 border-b border-slate-200">
         <Container>
-          <div className="max-w-4xl mb-8">
-            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
-              {heroNarrative}
-            </p>
-          </div>
-
-          {/* Handoff p. 7: the action sits below the narrative - never floating over it */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <Link
-              href={`/contact?domain=${slug}`}
-              className="inline-flex items-center gap-2 bg-[var(--green)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--green-deep)] transition-colors text-base shadow-sm hover:shadow-md shrink-0 w-fit"
-            >
-              {ctaText || 'Discuss Your Project'}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-
-            {/* Topic filters: jump links to the capability anchors below (p. 21) */}
-            {capabilities && capabilities.length > 0 && (
-              <nav aria-label="Jump to a work area" className="flex flex-wrap md:justify-end gap-3">
-                {capabilities.map((cap: any) => (
-                  <Link
-                    key={cap.id}
-                    href={`#${cap.slug}`}
-                    className="text-xs font-bold uppercase tracking-wider bg-[var(--paper-alt)] text-[var(--ink-soft)] py-2 px-4 rounded-full hover:bg-[var(--color-secondary)] hover:text-white transition-all border border-[var(--line)]"
-                  >
-                    {cap.heading}
-                  </Link>
-                ))}
-              </nav>
-            )}
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
+            <div className="flex-1">
+              <p className="text-[20px] md:text-[24px] leading-relaxed text-slate-700 font-light m-0 whitespace-pre-line">
+                {heroNarrative}
+              </p>
+            </div>
+            
+            <div className="w-full lg:w-[350px] shrink-0 flex flex-col items-start lg:items-end gap-6">
+              <Link
+                href={`/contact?domain=${slug}`}
+                className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white font-semibold py-4 px-8 rounded-full hover:bg-slate-800 transition-colors text-[15px] w-full"
+              >
+                {ctaText || 'Discuss Your Project'}
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              
+              {/* Topic filters: jump links to the capability anchors below (p. 21) */}
+              {capabilities && capabilities.length > 0 && (
+                <nav aria-label="Jump to a work area" className="flex flex-wrap lg:justify-end gap-2">
+                  {capabilities.map((cap: any) => (
+                    <Link
+                      key={cap.id}
+                      href={`#${cap.slug}`}
+                      className="text-[13px] font-semibold text-slate-500 py-1.5 px-4 rounded-full border border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-colors"
+                    >
+                      {cap.heading}
+                    </Link>
+                  ))}
+                </nav>
+              )}
+            </div>
           </div>
         </Container>
       </section>
@@ -148,26 +159,33 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
           Handoff p. 21: all capability narrative stays visible in the page HTML
           and is reachable by section anchors - no tabs, no accordions. */}
       {capabilities && capabilities.length > 0 && (
-        <section className="py-20 bg-[var(--paper)]">
+        <section className="py-24 bg-white border-b border-slate-200">
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">
-              {capabilities.map((cap: any, idx: number) => {
-                const isLastAndOdd = idx === capabilities.length - 1 && capabilities.length % 2 !== 0;
-                return (
-                  <div
-                    key={cap.id}
-                    id={cap.slug}
-                    className={`scroll-mt-[100px] border-t-4 border-[var(--green)] pt-6 ${isLastAndOdd ? 'lg:col-span-2' : ''}`}
-                  >
-                    <h2 className="text-2xl font-bold text-[var(--ink)] mb-4 tracking-tight">
-                      {cap.heading}
-                    </h2>
-                    <div className="prose prose-lg prose-p:text-[var(--ink-soft)] prose-p:leading-relaxed max-w-none whitespace-pre-line">
-                      {cap.narrative}
+            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-16">
+              <div className="lg:sticky lg:top-[120px] self-start">
+                <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight m-0">Our Capabilities</h2>
+                <div className="w-12 h-1 bg-slate-900 mt-6"></div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+                {capabilities.map((cap: any, idx: number) => {
+                  const isLastAndOdd = idx === capabilities.length - 1 && capabilities.length % 2 !== 0;
+                  return (
+                    <div
+                      key={cap.id}
+                      id={cap.slug}
+                      className={`scroll-mt-[120px] border-t-2 border-slate-900 pt-6 ${isLastAndOdd ? 'md:col-span-2' : ''}`}
+                    >
+                      <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                        {cap.heading}
+                      </h3>
+                      <div className="prose prose-lg prose-p:text-slate-600 prose-p:leading-relaxed max-w-none whitespace-pre-line">
+                        {cap.narrative}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </Container>
         </section>
@@ -213,9 +231,11 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
         <Container>
           <div className="max-w-4xl border-l-4 border-[var(--color-secondary)] pl-8 lg:pl-12">
             <h2 className="text-3xl font-bold text-[var(--ink)] mb-6">Project Development and Lifecycle Support</h2>
-            <p className="text-lg text-[var(--ink-soft)] mb-8 leading-relaxed">
-              Our comprehensive lifecycle approach ensures environmental and commercial integrity from earliest concept through operation, adaptation, and exit. Learn how our lifecycle methodology connects with this domain&apos;s unique requirements.
-            </p>
+            {/* The approved domain-specific paragraph (pp. 28, 37, 47, 58). The
+                old generic sentence here was not in the handoff. */}
+            {lifecycleNarrative && (
+              <p className="text-lg text-[var(--ink-soft)] mb-8 leading-relaxed">{lifecycleNarrative}</p>
+            )}
             <Link href="/project-development" className="inline-flex items-center gap-2 text-[var(--color-secondary)] font-semibold hover:text-[var(--color-secondary-dark)] transition-colors">
               Explore Our Project Development Approach <ArrowRight className="w-5 h-5" />
             </Link>
@@ -223,39 +243,55 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
         </Container>
       </section>
 
-      {/* CN + CR - LATEST NEWS AND RESEARCH.
-          Separately labelled modules, as required by handoff p. 21. */}
-      <section className="py-20 bg-[var(--paper)] border-y border-[var(--line)]">
+      {/* CN - LATEST NEWS (pp. 29, 37, 48, 58). Separately labelled from
+          research, as p. 21 requires. Streams in behind a same-size skeleton so
+          a slow provider never blocks the page or shifts its layout (p. 226). */}
+      <section className="py-20 bg-[var(--paper)] border-t border-[var(--line)]">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* CN - Latest News */}
-            <div>
-              <div className="flex justify-between items-end mb-8">
-                <h2 className="text-3xl font-bold text-[var(--ink)]">Latest News</h2>
-                <Link href={`/knowledge-hub/global-intelligence?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
-                  View All News
-                </Link>
-              </div>
-              {/* Empty state uses the exact wording required by handoff p. 226.
-                  min-height reserves the card dimensions to prevent layout shift. */}
-              <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px]">
-                <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-              </div>
-            </div>
-
-            {/* CR - Research and Articles */}
-            <div>
-              <div className="flex justify-between items-end mb-8">
-                <h2 className="text-3xl font-bold text-[var(--ink)]">Research and Articles</h2>
-                <Link href={`/knowledge-hub/global-intelligence?type=research&domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
-                  Explore Research
-                </Link>
-              </div>
-              <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px]">
-                <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-              </div>
-            </div>
+          <div className="flex justify-between items-end gap-6 mb-4">
+            <h2 className="text-3xl font-bold text-[var(--ink)]">Latest News</h2>
+            <Link href={`/knowledge-hub/global-intelligence?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+              View All News
+            </Link>
           </div>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Follow developments in {topicPhrase}. Headlines are selected for relevance to this domain and linked to their original publishers.
+            </p>
+          )}
+          {feed ? (
+            // L516: on one column, reserve one card - the empty state is the
+            // same height - rather than three stacked cards that rarely all arrive.
+            <Suspense fallback={<FeedSkeleton cards={3} mobileCards={1} />}>
+              <NewsFeed phrases={newsPhrases(feed)} baskets={feed.newsBaskets} limit={3} nearest={nearest} />
+            </Suspense>
+          ) : (
+            <SourceUnavailable className="min-h-[220px]" />
+          )}
+        </Container>
+      </section>
+
+      {/* CR - RESEARCH AND ARTICLES: OpenAlex (is_oa) first, DOAJ supplementary. */}
+      <section className="py-20 bg-[var(--paper)] border-b border-[var(--line)]">
+        <Container>
+          <div className="flex justify-between items-end gap-6 mb-4">
+            <h2 className="text-3xl font-bold text-[var(--ink)]">Research and Articles</h2>
+            <Link href={`/knowledge-hub/global-intelligence?type=research&domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+              Explore Research
+            </Link>
+          </div>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Explore research and technical publications that inform decisions in {topicPhrase}. Each record identifies its authors, publication source and date, with a link to the original work.
+            </p>
+          )}
+          {feed ? (
+            <Suspense fallback={<FeedSkeleton cards={4} mobileCards={2} columns="md:grid-cols-2" cardHeight="h-[240px]" />}>
+              <ResearchFeed themes={feed.researchThemes} limit={4} nearest={nearest} />
+            </Suspense>
+          ) : (
+            <SourceUnavailable className="min-h-[240px]" />
+          )}
         </Container>
       </section>
 
@@ -279,8 +315,18 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               </p>
             )}
 
-            <div className="bg-[var(--paper)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[250px] max-w-4xl">
-              <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
+            <div className="max-w-4xl">
+              {feed ? (
+                <Suspense
+                  fallback={
+                    officialLive ? <FeedSkeleton cards={3} columns="" cardHeight="h-[96px]" /> : <FeedSkeleton cards={1} columns="" cardHeight="h-[200px]" />
+                  }
+                >
+                  <OfficialFeed feed={feed} limit={3} nearest={nearest} />
+                </Suspense>
+              ) : (
+                <SourceUnavailable className="min-h-[200px]" />
+              )}
             </div>
 
             {/* Handoff p. 29: organisation, document type and publication date must
@@ -290,6 +336,12 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
                 {policyUpdates.sourceNote}
               </p>
             )}
+
+            {/* pp. 29, 48, 59: the curated official source links beside the live
+                feed. Static, so outside the Suspense boundary. */}
+            <div className="max-w-4xl">
+              <CuratedSources domainSlug={slug} />
+            </div>
           </Container>
         </section>
       )}
@@ -303,9 +355,12 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               Explore Related Data
             </Link>
           </div>
-          <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[300px] max-w-4xl">
-            <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
-          </div>
+          <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+            Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.
+          </p>
+          {/* p. 29: one dataset card, or the canonical catalogue links of the
+              domain's recommended numerical sources (pp. 29, 38, 49, 59). */}
+          <RelatedDataset field="domains" id={domain.id} sources={feed?.dataSources ?? []} />
         </Container>
       </section>
 
@@ -349,8 +404,13 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
               Explore Enerqa Publication
             </Link>
           </div>
-          <div className="bg-[var(--paper-alt)] p-8 rounded-[var(--r-md)] border border-[var(--line)] flex items-center justify-center min-h-[200px] max-w-4xl">
-            <p className="text-[var(--ink-muted)] font-medium">No relevant updates are available.</p>
+          {topicPhrase && (
+            <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
+              Read Enerqa&rsquo;s analysis and practical perspectives related to {topicPhrase}.
+            </p>
+          )}
+          <div className="max-w-4xl">
+            <RelatedPublications field="domains" id={domain.id} limit={3} />
           </div>
         </Container>
       </section>
@@ -366,7 +426,7 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
             href={`/contact?domain=${slug}`}
             className="inline-flex items-center gap-2 bg-[var(--green)] text-[var(--ink)] font-bold py-4 px-10 rounded-full hover:bg-[var(--paper)] hover:text-[var(--ink)] transition-colors text-lg"
           >
-            Contact Enerqa
+            Discuss Your Project
             <ArrowRight className="w-5 h-5" />
           </Link>
         </Container>

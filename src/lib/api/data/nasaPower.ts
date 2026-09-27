@@ -114,6 +114,7 @@ export async function fetchPowerMonthly(options: {
         area,
         observations,
         provenance: buildProvenance('nasa-power', {
+          retrievedAt: res.retrievedAt,
           sourceUrl: `https://power.larc.nasa.gov/data-access-viewer/?lat=${latitude}&lon=${longitude}`,
           sourceId: code,
           observationPeriod: `${startYear}–${endYear}`,

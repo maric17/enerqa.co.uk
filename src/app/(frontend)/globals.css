@@ -9,8 +9,16 @@
   --color-card: #ffffff;
   --color-dark: #082C45;
   --color-dark-soft: #0C3A5C;
+  /* Brand teal: fills, and text/icons on dark navy only. On white it is
+     1.95:1, below the 4.5:1 text and 3:1 focus-ring minimums (p. 228). */
   --color-primary: #00cfc8;
+  /* Teal for text, icons, borders and focus rings on white or light tints:
+     5.2:1 on #fff (2.8:1 on navy - not for dark sections). Same value as
+     style.css --green-deep.
+     Utilities: text-primary-deep, ring-primary-deep, border-primary-deep. */
+  --color-primary-deep: #007a75;
   --color-secondary: #0972b8;
+  /* A hover fill under navy text (4.7:1). Too light for text on white (3.05:1). */
   --color-primary-dark: #00a5a0;
   --color-secondary-dark: #075a93;
 }

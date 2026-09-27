@@ -33,3 +33,34 @@ export function preferredReadUrl(candidates: (string | null | undefined)[]): str
   if (usable.length === 0) return null;
   return usable.find((c) => !isDoiResolver(c)) ?? usable[0];
 }
+
+const ENTITIES: Record<string, string> = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
+  ndash: '–',
+  mdash: '—',
+};
+
+/**
+ * Provider titles and abstracts sometimes carry inline markup - OSTI sends
+ * "Upgrading Biogas through <em>in situ</em> ..." and OpenAlex "CO<sub>2</sub>".
+ * We print text, never provider HTML (a third-party string must not become
+ * markup on our page), so tags are removed and entities decoded (L524).
+ */
+export function stripMarkup(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, '')
+    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, code: string) => {
+      if (code[0] === '#') {
+        const n = code[1].toLowerCase() === 'x' ? Number.parseInt(code.slice(2), 16) : Number.parseInt(code.slice(1), 10);
+        return Number.isFinite(n) && n > 0 && n < 0x110000 ? String.fromCodePoint(n) : match;
+      }
+      return ENTITIES[code.toLowerCase()] ?? match;
+    })
+    .replace(/\s+/g, ' ')
+    .trim();
+}

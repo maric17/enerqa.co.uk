@@ -1,27 +1,54 @@
 import React from 'react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import { ArrowRight, Briefcase, Mail } from 'lucide-react';
+import { getPayload } from 'payload';
+import configPromise from '@payload-config';
 
-export default function CareersPage() {
+/**
+ * Conditional careers template (handoff pp. 4, 203-205): "Publish only with
+ * actual approved recruitment content."
+ *
+ * The page used to carry invented copy (a "remote-first, globally distributed
+ * team" of data scientists, a culture statement, an "Open Positions" box) and
+ * an unapproved careers@ mailbox (p. 8 allows only approved contact details).
+ * All of that has been removed. The route returns 404 until approved content is
+ * supplied below; nothing on the site links here.
+ */
+
+
+export const metadata: Metadata = {
+  title: 'Careers',
+  alternates: { canonical: '/about/careers' },
+};
+
+export default async function CareersPage() {
+  const payload = await getPayload({ config: configPromise });
+  const content = await payload.findGlobal({
+    slug: 'careers-config',
+  });
+
+  if (!content || !content.isApproved) {
+    notFound();
+  }
+
   return (
     <div className="bg-white min-h-screen pt-[70px]">
-      {/* Q01 Purpose and Scope */}
+      {/* Q01 Purpose and Scope - subordinate to About (p. 205) */}
       <section className="bg-[var(--color-dark)] text-white pt-32 pb-24 border-b border-gray-800">
         <Container>
           <div className="max-w-4xl mx-auto flex flex-col gap-6">
-            <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-              <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link> / 
-              <Link href="/about" className="hover:text-white transition-colors no-underline mx-1">About</Link> / 
-              <span className="text-white ml-1">Careers</span>
-            </div>
-            <Typography variant="h1" className="text-white m-0">
-              Careers at Enerqa
-            </Typography>
+            <nav aria-label="Breadcrumb" className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
+              <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link> /{' '}
+              <Link href="/about" className="hover:text-white transition-colors no-underline">About</Link> /{' '}
+              <span className="text-white" aria-current="page">Careers</span>
+            </nav>
+            <Typography variant="h1" className="text-white m-0">{content.heading}</Typography>
             <Typography variant="body" className="text-gray-300 text-xl leading-relaxed max-w-3xl mt-2">
-              Join a team of data scientists, energy analysts, and software engineers dedicated to bringing transparency and rigorous analytics to the global energy transition.
+              {content.intro}
             </Typography>
           </div>
         </Container>
@@ -30,46 +57,27 @@ export default function CareersPage() {
       <Section theme="light" className="py-20">
         <Container>
           <div className="max-w-4xl mx-auto flex flex-col gap-16">
-            
             {/* Q02 Main Content */}
-            <div className="flex flex-col gap-6">
-              <Typography variant="h2" className="text-[var(--color-dark)] m-0">
-                Our Culture & Scope
-              </Typography>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p>
-                  At Enerqa, we believe that navigating the complexities of modern energy markets requires more than just data—it requires deep domain expertise, robust engineering, and an unwavering commitment to intellectual honesty.
-                </p>
-                <p>
-                  We are a remote-first, globally distributed team. We value deep work, asynchronous communication, and rigorous peer review over endless meetings. Whether you are building the next generation of our ESG readiness tools or modeling grid constraints, your work will directly empower decision-makers worldwide.
-                </p>
+            {content.sections?.map((s) => (
+              <div key={s.heading} className="flex flex-col gap-6">
+                <Typography variant="h2" className="text-[var(--color-dark)] m-0">{s.heading}</Typography>
+                <p className="text-lg text-gray-700 m-0">{s.body}</p>
               </div>
-            </div>
+            ))}
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 md:p-12">
-              <Typography variant="h3" className="text-[var(--color-dark)] mb-6 flex items-center gap-3">
-                <Briefcase className="w-6 h-6 text-[var(--color-primary)]" />
-                Open Positions
-              </Typography>
-              <p className="text-gray-600 mb-8">
-                We do not currently have any open roles. However, we are always interested in connecting with talented data engineers and energy market analysts.
-              </p>
-              
-              {/* Q03 Next Action */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 border-t border-gray-200 pt-8 mt-8">
-                <div className="flex-1">
-                  <h4 className="font-bold text-gray-900 mb-1">Speculative Applications</h4>
-                  <p className="text-sm text-gray-500">Send us your CV and a brief outline of how you can contribute to Enerqa.</p>
-                </div>
-                <Link 
-                  href="mailto:careers@enerqa.co.uk" 
-                  className="bg-[var(--color-secondary)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors inline-flex items-center gap-2 whitespace-nowrap"
+            {/* Q03 Next Action */}
+            {content.nextAction && (
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 md:p-12 flex flex-col gap-4">
+                <Typography variant="h2" className="text-[var(--color-dark)] m-0">{content.nextAction.heading}</Typography>
+                <Link
+                  href={content.nextAction.href}
+                  className="self-start bg-[var(--color-secondary)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors"
                 >
-                  <Mail className="w-4 h-4" /> Email CV
+                  {content.nextAction.label}
                 </Link>
+                <p className="text-sm text-gray-600 m-0">{content.nextAction.privacyLine}</p>
               </div>
-            </div>
-
+            )}
           </div>
         </Container>
       </Section>

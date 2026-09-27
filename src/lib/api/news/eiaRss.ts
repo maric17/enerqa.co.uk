@@ -1,3 +1,4 @@
+import type { ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
 import { fetchRssFeed, type RssSource } from './rss';
 
@@ -36,6 +37,6 @@ const EIA_FEED: RssSource = {
  */
 export const EIA_BASKETS: NewsBasketKey[] = ['all', 'energy', 'business'];
 
-export async function fetchEiaNews(): Promise<NewsItem[]> {
+export async function fetchEiaNews(): Promise<ConnectorResult<NewsItem[]>> {
   return fetchRssFeed(EIA_FEED);
 }

@@ -44,6 +44,18 @@ export const Publications: CollectionConfig = {
               editor: standardEditor,
               required: false,
             },
+            {
+              name: 'citation',
+              type: 'text',
+              required: false,
+              admin: { description: 'Citation format for this publication' },
+            },
+            {
+              name: 'originalUrl',
+              type: 'text',
+              required: false,
+              admin: { description: 'Link to the original publication source' },
+            },
           ],
         },
         {
@@ -166,6 +178,39 @@ export const Publications: CollectionConfig = {
       relationTo: 'categories',
       hasMany: true,
       required: false,
+      admin: { position: 'sidebar' },
+    },
+    // Taxonomy (p. 226). These drive three things at once: the Domain and
+    // Industry filters in K03 (p. 155), and the "Enerqa Publication" module on
+    // each domain page (CK/EK/NK/BK) and industry page. Tagging is an editorial
+    // decision, so nothing is inferred - an untagged publication simply does not
+    // appear in those modules.
+    {
+      name: 'domains',
+      type: 'relationship',
+      relationTo: 'domains',
+      hasMany: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'industries',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'datasets',
+      type: 'relationship',
+      relationTo: 'datasets',
+      hasMany: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'tools',
+      type: 'relationship',
+      relationTo: 'tools',
+      hasMany: true,
       admin: { position: 'sidebar' },
     },
     {

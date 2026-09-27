@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local backups written by scripts/publication-rebuild/write_pubs.cjs
+scripts/publication-rebuild/backup-publications.json

@@ -127,7 +127,12 @@ export async function fetchOecdSlice(options: {
     // 2026-09-20 on an otherwise identical request. The format is already
     // chosen by `format=jsondata` in the query string, so nothing is lost by
     // asking for anything. Do not "tidy" this back to application/json.
-    headers: { Accept: '*/*' },
+    //
+    // Accept-Language is the cause of the 503s on /api/data/municipal-waste
+    // (L1054). Node's fetch sends "Accept-Language: *" unless told otherwise,
+    // and the gateway answers that with HTTP 500 ("*" -> 500, "en" -> 200 on
+    // the same request, 25 Sep 2026). Labels are wanted in English anyway.
+    headers: { Accept: '*/*', 'Accept-Language': 'en' },
   });
   if (!res.ok) return res;
 
@@ -183,6 +188,7 @@ export async function fetchOecdSlice(options: {
         area,
         observations: points,
         provenance: buildProvenance('oecd-sdmx', {
+          retrievedAt: res.retrievedAt,
           sourceUrl: flow.sourceUrl,
           sourceId: `${flow.flow}/${key}`,
           observationPeriod: points.length ? `${points[0].period}–${points[points.length - 1].period}` : null,

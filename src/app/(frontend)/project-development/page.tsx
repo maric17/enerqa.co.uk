@@ -266,7 +266,7 @@ export default function ProjectDevelopmentPage() {
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
               Whether you are exploring an early idea, assessing project feasibility, preparing for investment, moving towards implementation or seeking to improve an existing operation, the starting point is a clear understanding of the opportunity and the decisions ahead.
             </p>
-            <p className="text-lg text-gray-400 mb-10 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-3xl mx-auto">
               Share the project's purpose, location, current stage and principal challenges with Enerqa. An initial discussion can identify the technical, commercial, financial, environmental, social or implementation questions that need to be resolved and establish an appropriate scope of support.
               <br/><br/>
               A complete project brief is not required. Where available, provide the sector or industry, intended outcome, work already completed, stakeholders involved and the type of assistance being considered.

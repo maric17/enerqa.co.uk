@@ -1,4 +1,5 @@
 import { getProvider } from './registry';
+import { isStale } from './provenance';
 import type { DataSeries } from './types';
 
 /**
@@ -13,11 +14,49 @@ import type { DataSeries } from './types';
  * Missing values are written as empty cells, never as 0 (p. 227).
  */
 
-function escapeCell(value: string | number | null): string {
+/**
+ * Characters that make a spreadsheet read a cell as a formula (OWASP "CSV
+ * injection"): = + - @, and a leading tab or carriage return. The audit got a
+ * bare `=1+1` cell into an export through a query parameter (L1077).
+ */
+const FORMULA_START = /^\s*[=+\-@\t\r]/;
+
+/** A plain number cannot be a formula, so "-3.5" or "-1e-3" stays a number. */
+const PLAIN_NUMBER = /^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/;
+
+/**
+ * One CSV cell. Numbers are written as numbers, so a negative value in the
+ * value column is never touched. Text that would start a formula gets a
+ * leading apostrophe - the spreadsheet convention for "this is text" - and is
+ * quoted like any cell containing a delimiter, quote or newline.
+ */
+export function escapeCell(value: string | number | null | undefined): string {
   if (value === null || value === undefined) return '';
-  const text = String(value);
+  if (typeof value === 'number') return Number.isFinite(value) ? String(value) : '';
+  let text = String(value);
+  if (FORMULA_START.test(text) && !PLAIN_NUMBER.test(text)) text = `'${text}`;
   // Quote anything containing a delimiter, quote or newline; double inner quotes.
   return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+/**
+ * A "# ..." header line. It stays one readable line starting with "#" (so
+ * tools that skip comment lines still do), but a spreadsheet splits it at
+ * commas, so no comma-separated piece may start a formula either: the filter
+ * description is built from the visitor's query string. Quotes become
+ * apostrophes so no piece can open a quoted field.
+ */
+export function commentLine(text: string): string {
+  const flat = `# ${text}`.replace(/[\r\n]+/g, ' ').replace(/"/g, "'");
+  return flat
+    .split(',')
+    .map((piece, i) => {
+      if (i === 0) return piece;
+      const lead = piece.match(/^\s*/)?.[0] ?? '';
+      const rest = piece.slice(lead.length);
+      return FORMULA_START.test(rest) && !PLAIN_NUMBER.test(rest) ? `${lead}'${rest}` : piece;
+    })
+    .join(',');
 }
 
 export function seriesToCsv(series: DataSeries[], filterDescription?: string): string {
@@ -28,7 +67,7 @@ export function seriesToCsv(series: DataSeries[], filterDescription?: string): s
 
   lines.push('# Enerqa data export');
   lines.push(`# Generated: ${now}`);
-  if (filterDescription) lines.push(`# Filter applied: ${filterDescription}`);
+  if (filterDescription) lines.push(commentLine(`Filter applied: ${filterDescription}`));
   lines.push('#');
 
   // One provenance block per distinct source in the export.
@@ -40,20 +79,25 @@ export function seriesToCsv(series: DataSeries[], filterDescription?: string): s
     seen.add(key);
 
     const provider = getProvider(p.providerId);
-    lines.push(`# Source: ${p.providerName}`);
-    lines.push(`# Attribution: ${p.attribution}`);
-    lines.push(`# Licence: ${p.licence}${p.licenceUrl ? ` (${p.licenceUrl})` : ''}`);
-    lines.push(`# Source URL: ${p.sourceUrl}`);
-    lines.push(`# Methodology: ${provider.docsUrl}`);
-    if (p.version) lines.push(`# Dataset version: ${p.version}`);
-    if (p.sourceReleasedAt) lines.push(`# Source released: ${p.sourceReleasedAt}`);
-    lines.push(`# Retrieved by Enerqa: ${p.retrievedAt}`);
-    if (p.transformations.length > 0) {
-      lines.push(`# Transformations applied by Enerqa: ${p.transformations.join('; ')}`);
-    } else {
-      lines.push('# Transformations applied by Enerqa: none (values as published)');
-    }
-    lines.push('#');
+    const block = [
+      `Source: ${p.providerName}`,
+      `Attribution: ${p.attribution}`,
+      `Licence: ${p.licence}${p.licenceUrl ? ` (${p.licenceUrl})` : ''}`,
+      `Source URL: ${p.sourceUrl}`,
+      `Methodology: ${provider.docsUrl}`,
+      ...(p.version ? [`Dataset version: ${p.version}`] : []),
+      ...(p.sourceReleasedAt ? [`Source released: ${p.sourceReleasedAt}`] : []),
+      `Retrieved by Enerqa: ${p.retrievedAt}`,
+      // p. 227: "If the source is unavailable, show the latest cached release
+      // with a stale-data notice". A file keeps the notice with the numbers.
+      ...(isStale(p)
+        ? [`Stale data: ${p.providerName} could not be refreshed. These are the latest cached values, retrieved ${p.retrievedAt}.`]
+        : []),
+      p.transformations.length > 0
+        ? `Transformations applied by Enerqa: ${p.transformations.join('; ')}`
+        : 'Transformations applied by Enerqa: none (values as published)',
+    ];
+    lines.push(...block.map(commentLine), '#');
   }
 
   lines.push('# Empty value cells mean the source published no figure for that period.');

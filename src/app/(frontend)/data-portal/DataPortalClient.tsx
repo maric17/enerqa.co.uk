@@ -4,40 +4,71 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, Filter, Download, ArrowRight, Table, BarChart2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { PageHero } from '@/components/ui/PageHero';
+import DataPortalD03 from '@/components/data/DataPortalD03';
 
 export default function DataPortalClient({ datasets, dashboards = [], categories = [] }: { datasets: any[], dashboards?: any[], categories?: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTopics, setActiveTopics] = useState<string[]>([]);
   const [activeDomains, setActiveDomains] = useState<string[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<string>('All Topics');
+  const [selectedGeography, setSelectedGeography] = useState<string>('All');
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('All');
+  const [selectedSource, setSelectedSource] = useState<string>('All');
+  const [selectedFrequency, setSelectedFrequency] = useState<string>('All');
+  const [selectedFormat, setSelectedFormat] = useState<string>('All');
   
+  // Dynamic facets
+  const geographies = useMemo(() => Array.from(new Set(datasets.map(d => d.geographicLevel).filter(Boolean))), [datasets]);
+  const periods = useMemo(() => Array.from(new Set(datasets.map(d => d.observationPeriod).filter(Boolean))), [datasets]);
+  const sources = useMemo(() => Array.from(new Set(datasets.map(d => d.provider).filter(Boolean))), [datasets]);
+  const frequencies = useMemo(() => Array.from(new Set(datasets.map(d => d.frequency).filter(Boolean))), [datasets]);
+  const formats = useMemo(() => Array.from(new Set(datasets.map(d => d.format).filter(Boolean))), [datasets]);
+
   // Filter logic
   const filteredDatasets = useMemo(() => {
     return datasets.filter(ds => {
       const matchesSearch = ds.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             ds.description?.toLowerCase().includes(searchQuery.toLowerCase());
       
-      const matchesDomain = activeDomains.length === 0 || activeDomains.some(d => ds.topic?.some((t: any) => t.title === d));
+      const matchesDomain = activeDomains.length === 0 || activeDomains.some(d => ds.domains?.some((t: any) => t.title === d));
       const matchesTopic = selectedTopic === 'All Topics' || ds.topic?.some((t: any) => t.title === selectedTopic);
+      const matchesGeography = selectedGeography === 'All' || ds.geographicLevel === selectedGeography;
+      const matchesPeriod = selectedPeriod === 'All' || ds.observationPeriod === selectedPeriod;
+      const matchesSource = selectedSource === 'All' || ds.provider === selectedSource;
+      const matchesFrequency = selectedFrequency === 'All' || ds.frequency === selectedFrequency;
+      const matchesFormat = selectedFormat === 'All' || ds.format === selectedFormat;
 
-      return matchesSearch && matchesDomain && matchesTopic;
+      return matchesSearch && matchesDomain && matchesTopic && matchesGeography && matchesPeriod && matchesSource && matchesFrequency && matchesFormat;
     });
-  }, [searchQuery, datasets, activeDomains, selectedTopic]);
+  }, [searchQuery, datasets, activeDomains, selectedTopic, selectedGeography, selectedPeriod, selectedSource, selectedFrequency, selectedFormat]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
       
       {/* D01 Data Portal Intro */}
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+      <PageHero
+        title="Data Portal"
+        imageUrl="/images/data_portal_banner_no_text.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Data Portal</span>
+          </>
+        }
+      />
+
+      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Data Portal</h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-6">
-              Explore open-access data across all four domains: Climate Action, Energy Systems, Environment, and Sustainable Business. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
+          <div className="max-w-4xl mb-8">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
+              Explore open-access data across all four domains, relevant to climate, energy, environment, nature, circularity, business and finance. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
             </p>
           </div>
         </Container>
       </section>
+
+      {/* D03 Explore a Dataset */}
+      <DataPortalD03 />
 
       {/* D05 Dashboards and Data Stories */}
       {dashboards && dashboards.length > 0 && (
@@ -69,7 +100,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
             {/* Filters Sidebar */}
             <div className="lg:col-span-1 space-y-8">
               <h2 className="font-bold text-[var(--color-dark)] text-lg mb-4 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-400" /> Filters
+                <Filter className="w-5 h-5 text-gray-500" /> Find Data
               </h2>
               
               <div className="space-y-6">
@@ -106,6 +137,85 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                     ))}
                   </select>
                 </div>
+
+                {geographies.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Geography</h3>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                      value={selectedGeography}
+                      onChange={(e) => setSelectedGeography(e.target.value)}
+                    >
+                      <option value="All">All</option>
+                      {geographies.map((val: any) => (
+                        <option key={val} value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {periods.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Observation Period</h3>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                      value={selectedPeriod}
+                      onChange={(e) => setSelectedPeriod(e.target.value)}
+                    >
+                      <option value="All">All</option>
+                      {periods.map((val: any) => (
+                        <option key={val} value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {sources.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Source</h3>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                      value={selectedSource}
+                      onChange={(e) => setSelectedSource(e.target.value)}
+                    >
+                      <option value="All">All</option>
+                      {sources.map((val: any) => (
+                        <option key={val} value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {frequencies.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Frequency</h3>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                      value={selectedFrequency}
+                      onChange={(e) => setSelectedFrequency(e.target.value)}
+                    >
+                      <option value="All">All</option>
+                      {frequencies.map((val: any) => (
+                        <option key={val} value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {formats.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Available Format</h3>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
+                      value={selectedFormat}
+                      onChange={(e) => setSelectedFormat(e.target.value)}
+                    >
+                      <option value="All">All</option>
+                      {formats.map((val: any) => (
+                        <option key={val} value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -113,7 +223,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
             <div className="lg:col-span-3">
               <div className="mb-8">
                 <form className="relative max-w-2xl" onSubmit={(e) => e.preventDefault()}>
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
                   <input 
                     type="text" 
                     placeholder="Search datasets or indicators" 
@@ -125,8 +235,8 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                 
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-sm text-gray-500 font-medium">Showing {filteredDatasets.length} datasets</div>
-                  {(activeDomains.length > 0 || selectedTopic !== 'All Topics') && (
-                    <button onClick={() => { setActiveDomains([]); setSelectedTopic('All Topics'); }} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
+                  {(activeDomains.length > 0 || selectedTopic !== 'All Topics' || selectedGeography !== 'All' || selectedPeriod !== 'All' || selectedSource !== 'All' || selectedFrequency !== 'All' || selectedFormat !== 'All') && (
+                    <button onClick={() => { setActiveDomains([]); setSelectedTopic('All Topics'); setSelectedGeography('All'); setSelectedPeriod('All'); setSelectedSource('All'); setSelectedFrequency('All'); setSelectedFormat('All'); }} className="text-sm text-[var(--color-secondary)] hover:underline font-medium">
                       Clear all filters
                     </button>
                   )}
@@ -135,18 +245,24 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
 
               {/* D04 Dynamic Dataset Catalogue */}
               <div className="space-y-6">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-[var(--color-dark)]">Dataset Catalogue</h2>
+                  <p className="text-gray-600">Browse source-backed datasets with clear descriptions, units, geographic coverage and update information.</p>
+                </div>
                 {filteredDatasets.length > 0 ? (
                   filteredDatasets.map((ds, index) => (
                     <div key={index} className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 hover:border-[var(--color-primary)] transition-all flex flex-col md:flex-row gap-8 items-start">
                       <div className="flex-1">
                         <div className="flex flex-wrap gap-2 mb-3 text-xs font-bold uppercase tracking-wider">
                           <span className="text-[var(--color-primary)]">{ds.apiEndpoint ? 'API Source' : 'Dataset'}</span>
-                          <span className="text-gray-400">|</span>
-                          <span className="text-gray-600">Updated: {new Date(ds.date).toLocaleDateString()}</span>
+                          <span className="text-gray-500">|</span>
+                          <span className="text-gray-600">Updated: {ds.sourceReleaseDate ? new Date(ds.sourceReleaseDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : new Date(ds.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                           {ds.version && (
                             <>
-                              <span className="text-gray-400">|</span>
-                              <span className="text-gray-600">v{ds.version}</span>
+                              <span className="text-gray-500">|</span>
+                              <span className="text-gray-600">
+                                {ds.version.match(/^v?\d/) ? (ds.version.startsWith('v') ? ds.version : `v${ds.version}`) : ds.version}
+                              </span>
                             </>
                           )}
                         </div>
@@ -156,6 +272,12 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                         <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4 text-sm text-gray-600">
                           {ds.provider && (
                             <div><span className="font-bold text-gray-800">Provider:</span> {ds.provider}</div>
+                          )}
+                          {ds.originalUnit && (
+                            <div><span className="font-bold text-gray-800">Unit:</span> {ds.originalUnit}</div>
+                          )}
+                          {ds.geographicLevel && (
+                            <div><span className="font-bold text-gray-800">Geography:</span> {ds.geographicLevel}</div>
                           )}
                           {ds.licence && (
                             <div><span className="font-bold text-gray-800">Licence:</span> {ds.licenceUrl ? <a href={ds.licenceUrl} target="_blank" className="hover:underline text-[var(--color-primary)]">{ds.licence}</a> : ds.licence}</div>
@@ -181,7 +303,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                            </>
                         ) : (
                            <>
-                             <BarChart2 className="w-8 h-8 text-gray-400" />
+                             <BarChart2 className="w-8 h-8 text-gray-500" />
                              <span className="text-xs text-center text-gray-500 font-medium">Data visualization</span>
                            </>
                         )}
@@ -208,7 +330,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
               Review where the data comes from, what it measures and how it can be reused. Source notes explain coverage, units, limitations, update schedules and any transformations made for display.
             </p>
             <Link href="/data-portal/sources" className="inline-flex items-center gap-2 bg-[var(--color-dark)] text-white font-bold py-3 px-8 rounded-full hover:bg-gray-800 transition-colors">
-              Data Sources Attribution <ArrowRight className="w-4 h-4" />
+              Sources and Methodology <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </Container>

@@ -30,11 +30,14 @@ export const Dashboards: CollectionConfig = {
       },
     },
     {
-      name: 'embedUrl',
-      type: 'text',
-      required: true,
+      name: 'datasetConnector',
+      type: 'select',
+      options: [
+        { label: 'World Bank API', value: 'wb-api' },
+        { label: 'Climate TRACE API', value: 'climate-trace' },
+      ],
       admin: {
-        description: 'URL of the Tableau, PowerBI, or Observable dashboard to embed.',
+        description: 'Native connector to use instead of third-party iframes (replaces Tableau/PowerBI embeds).',
       },
     },
     {
