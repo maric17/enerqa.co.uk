@@ -17,10 +17,12 @@ vi.mock('@/components/home/TransitionPriorities', () => ({ TransitionPriorities:
 vi.mock('@/components/home/Tools', () => ({ Tools: () => <div data-testid="tools" /> }))
 vi.mock('@/components/home/AboutEnerqa', () => ({ AboutEnerqa: () => <div data-testid="about-enerqa" /> }))
 vi.mock('@/components/shared/ContactCTA', () => ({ ContactCTA: () => <div data-testid="contact-cta" /> }))
+// The page asks the CMS whether the Privacy Notice is published; no database here.
+vi.mock('@/lib/policies', () => ({ getPrivacyHref: async () => undefined }))
 
 describe('HomePage', () => {
-  it('should render all main homepage sections', () => {
-    render(<HomePage />)
+  it('should render all main homepage sections', async () => {
+    render(await HomePage())
 
     expect(screen.getByTestId('hero')).toBeInTheDocument()
     expect(screen.getByTestId('knowledge-teaser')).toBeInTheDocument()
@@ -35,8 +37,8 @@ describe('HomePage', () => {
 
   // pp. 13-15 list the segments H01-H13 in this order; H03/H04 must follow the
   // hero directly so they stay in the first fold (p. 15, p. 229).
-  it('renders the segments in the spec order', () => {
-    const { container } = render(<HomePage />)
+  it('renders the segments in the spec order', async () => {
+    const { container } = render(await HomePage())
     const order = [...container.querySelectorAll('[data-testid]')].map((el) => el.getAttribute('data-testid'))
     expect(order).toEqual([
       'hero', // H01 + H02
@@ -53,8 +55,8 @@ describe('HomePage', () => {
 
   // Handoff p. 229: "No Projects, Experience, Case Studies, history counters or
   // project-client galleries appear anywhere."
-  it('should not render retired experience or project sections', () => {
-    render(<HomePage />)
+  it('should not render retired experience or project sections', async () => {
+    render(await HomePage())
 
     expect(screen.queryByTestId('impact-stats')).not.toBeInTheDocument()
     expect(screen.queryByTestId('global-network')).not.toBeInTheDocument()

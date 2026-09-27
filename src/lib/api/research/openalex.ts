@@ -48,6 +48,7 @@ type OpenAlexWork = {
   /** Every known copy. Used for alternative open copies when the first is gated. */
   locations?: OpenAlexLocation[] | null;
   authorships?: { author?: { display_name?: string } }[];
+  abstract_inverted_index?: Record<string, number[]> | null;
 };
 
 /** OpenAlex work types that are not research at all, so never a "Research" card. */
@@ -129,6 +130,27 @@ function readUrlFor(work: OpenAlexWork): string | null {
   ]);
 }
 
+function reconstructAbstract(invertedIndex: Record<string, number[]> | null | undefined): string | null {
+  if (!invertedIndex) return null;
+  const entries = Object.entries(invertedIndex);
+  if (entries.length === 0) return null;
+  
+  let maxIndex = 0;
+  for (const [, positions] of entries) {
+    for (const pos of positions) {
+      if (pos > maxIndex) maxIndex = pos;
+    }
+  }
+  
+  const words = new Array(maxIndex + 1).fill('');
+  for (const [word, positions] of entries) {
+    for (const pos of positions) {
+      words[pos] = word;
+    }
+  }
+  return words.join(' ');
+}
+
 export async function fetchOpenAlexWorks(options: {
   search: string;
   perPage?: number;
@@ -148,7 +170,7 @@ export async function fetchOpenAlexWorks(options: {
     // having no usable open destination.
     per_page: String(Math.min(perPage * 2, 100)),
     // Asking for only the fields we use keeps the response small.
-    select: 'id,doi,title,display_name,publication_date,type,language,open_access,best_oa_location,primary_location,locations,authorships',
+    select: 'id,doi,title,display_name,publication_date,type,language,open_access,best_oa_location,primary_location,locations,authorships,abstract_inverted_index',
   });
 
   // The key is optional: OpenAlex has a no-key tier with a smaller allowance.
@@ -177,7 +199,7 @@ export async function fetchOpenAlexWorks(options: {
     items.push({
       id: work.id ?? readUrl,
       title: stripMarkup(title),
-      summary: null, // OpenAlex abstracts are inverted indexes; not worth reconstructing.
+      summary: reconstructAbstract(work.abstract_inverted_index),
       authors: (work.authorships ?? [])
         .map((a) => a.author?.display_name)
         .filter((n): n is string => Boolean(n))

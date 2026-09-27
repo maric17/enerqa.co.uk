@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
+import { PageHero } from '@/components/ui/PageHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
@@ -106,28 +107,15 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
   return (
     <div className="flex flex-col min-h-screen bg-[var(--paper)]">
       {/* C01 - INITIAL VIEW (Top viewport fold y 0 to y 768) */}
-      <section className="relative w-full h-[65vh] min-h-[500px] flex items-center justify-center bg-[var(--ink)] text-white overflow-hidden py-[100px]">
-        {/* Background Image & Overlay */}
-        {heroImageUrl && (
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImageUrl})` }}
-          ></div>
-        )}
-        <div className={`hero-domain-overlay z-10 ${heroImageUrl ? 'opacity-90' : 'opacity-100'}`}></div>
-
-        <Container className="relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12 w-full">
-          {/* Breadcrumb - handoff p. 8: identify the current section and its parent */}
-          <nav aria-label="Breadcrumb" className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2">
+      <PageHero
+        title={title}
+        imageUrl={heroImageUrl}
+        breadcrumbs={
+          <>
             <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <Link href="/domains-and-industries" className="text-white/80 hover:text-white transition-colors no-underline">Domains &amp; Industries</Link> / <span className="en text-white" aria-current="page">{title}</span>
-          </nav>
-
-          {/* H1 Title */}
-          <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            <span className="en block">{title}</span>
-          </Typography>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       {/* Narrative, CTA & capability anchors */}
       <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">

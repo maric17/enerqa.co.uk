@@ -18,12 +18,25 @@ const initialState: NewsletterFormState = {
  * one; this form used to omit it, so every footer signup failed validation.
  * On success the action redirects to /newsletter/confirm (p. 4's confirmation
  * state), so there is no in-form success branch here.
+ *
+ * layout="inline" (the footer) puts the email field and the button on one
+ * line, with the consent line under them.
  */
-export default function SubscribeForm({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
+export default function SubscribeForm({
+  tone = 'dark',
+  layout = 'stacked',
+  privacyHref,
+}: {
+  tone?: 'dark' | 'light';
+  layout?: 'stacked' | 'inline';
+  /** Set only while the Privacy Notice is published (p. 4: no fake links). */
+  privacyHref?: string;
+}) {
   const [state, formAction, isPending] = useActionState(submitNewsletterForm, initialState);
   // Unique ids: the footer and a page block can both render this form.
   const id = useId();
   const isDark = tone === 'dark';
+  const isInline = layout === 'inline';
 
   // Placeholder text needs 4.5:1 too (p. 228): white/60 is 5.5:1 on the
   // footer field, gray-500 is 4.8:1 on white. white/30 and gray-400 were ~2.5:1.
@@ -31,8 +44,39 @@ export default function SubscribeForm({ tone = 'dark' }: { tone?: 'dark' | 'ligh
     ? 'border-white/10 bg-white/5 text-white placeholder-white/60 focus:border-white/30 focus:bg-white/10'
     : 'border-gray-300 bg-white text-[var(--color-dark)] placeholder-gray-500 focus:border-[var(--color-primary)]';
 
+  // Inline field: text-base (16px) on phones because iOS Safari zooms the
+  // page into any input smaller than that.
+  const emailInput = (
+    <input
+      id={`${id}-email`}
+      type="email"
+      name="email"
+      required
+      autoComplete="email"
+      placeholder="you@organisation.com"
+      aria-invalid={Boolean(state.errors?.email)}
+      aria-describedby={state.message ? `${id}-status` : undefined}
+      className={`flex-1 min-w-0 rounded-full border transition-colors ${isInline ? 'h-11 px-4 text-base md:text-sm' : 'px-5 py-3.5'} ${inputClass}`}
+      disabled={isPending}
+    />
+  );
+
+  // On the dark footer the navy "primary" button matched the background, so
+  // dark forms use the teal "accent" variant.
+  const submitButton = (
+    <Button
+      variant={isDark ? 'accent' : 'primary'}
+      type="submit"
+      className={isInline ? 'h-11 shrink-0 justify-center' : 'w-full justify-center h-[52px]'}
+      disabled={isPending}
+    >
+      <span className="en">{isPending ? 'Subscribing...' : 'Subscribe'}</span>
+      <span className="ar">{isPending ? 'جاري الاشتراك...' : 'اشترك'}</span>
+    </Button>
+  );
+
   return (
-    <form action={formAction} className="w-full flex flex-col gap-3">
+    <form action={formAction} className={`w-full flex flex-col ${isInline ? 'gap-2' : 'gap-3'}`}>
       {/* Honeypot field (p. 228 spam protection). Hidden from people and screen
           readers. `.honeypot` clips it in place: the old `left: -9999px` made
           ~10,000px of sideways scroll whenever the page ran right-to-left. */}
@@ -42,18 +86,9 @@ export default function SubscribeForm({ tone = 'dark' }: { tone?: 'dark' | 'ligh
       </div>
 
       <label htmlFor={`${id}-email`} className="sr-only">Email address</label>
-      <input
-        id={`${id}-email`}
-        type="email"
-        name="email"
-        required
-        autoComplete="email"
-        placeholder="you@organisation.com"
-        aria-invalid={Boolean(state.errors?.email)}
-        aria-describedby={state.message ? `${id}-status` : undefined}
-        className={`flex-1 px-5 py-3.5 rounded-full border transition-colors ${inputClass}`}
-        disabled={isPending}
-      />
+      {/* Inline: field and button side by side. Tab order still matches
+          what people see: email, Subscribe, then consent. */}
+      {isInline ? <div className="flex gap-2">{emailInput}{submitButton}</div> : emailInput}
 
       {/* Unticked by default and required: consent must be an active choice. */}
       <div className="flex items-start gap-2.5">
@@ -70,18 +105,20 @@ export default function SubscribeForm({ tone = 'dark' }: { tone?: 'dark' | 'ligh
           htmlFor={`${id}-consent`}
           className={`text-xs leading-snug cursor-pointer ${isDark ? 'text-white/70' : 'text-gray-600'}`}
         >
-          I agree to receive the Enerqa newsletter and have read the{' '}
-          <Link href="/privacy" className={`underline font-semibold ${isDark ? 'text-white' : 'text-[var(--color-dark)]'}`}>
-            Privacy Notice
-          </Link>
+          I agree to receive the Enerqa newsletter
+          {privacyHref && (
+            <>
+              {' '}and have read the{' '}
+              <Link href={privacyHref} className={`underline font-semibold ${isDark ? 'text-white' : 'text-[var(--color-dark)]'}`}>
+                Privacy Notice
+              </Link>
+            </>
+          )}
           . I can unsubscribe at any time.
         </label>
       </div>
 
-      <Button variant="primary" type="submit" className="w-full justify-center h-[52px]" disabled={isPending}>
-        <span className="en">{isPending ? 'Subscribing...' : 'Subscribe'}</span>
-        <span className="ar">{isPending ? 'جاري الاشتراك...' : 'اشترك'}</span>
-      </Button>
+      {!isInline && submitButton}
 
       {/* role="alert" so a validation or delivery error is announced (p. 228). */}
       {state.message && (

@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { publishedToolsWhere } from '@/collections/Tools';
+import { getPublishedPolicyLinks } from '@/lib/policies';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise });
@@ -18,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     payload.find({ collection: 'domains', limit: 1000, depth: 0 }),
     payload.find({ collection: 'industries', limit: 1000, depth: 0 }),
   ]);
+  const policyLinks = await getPublishedPolicyLinks();
 
   // Every valid launch page (p. 227). Transactional states (newsletter
   // confirm/unsubscribe), search results and the unpublished careers template
@@ -33,11 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/knowledge-hub',
     '/knowledge-hub/global-intelligence',
     '/contact',
-    '/privacy',
-    '/terms',
-    '/accessibility',
-    // Was '/cookies', which is not a route - the page lives at /cookie-choices.
-    '/cookie-choices',
+    // Unapproved policies 404 (p. 208 U02), so only approved ones are listed.
+    ...policyLinks.map((link) => link.href),
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

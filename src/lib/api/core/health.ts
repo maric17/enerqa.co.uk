@@ -97,6 +97,8 @@ type State = {
   lastReason: string | null;
   /** The provider's own usage headers said the allowance is spent until then. */
   spentUntil: number;
+  /** The refusal already logged, so one pause is reported once. */
+  announced: string | null;
 };
 
 type Registry = Map<ProviderId, State>;
@@ -125,6 +127,7 @@ function stateOf(providerId: ProviderId, now = Date.now()): State {
       lastSuccessAt: 0,
       lastReason: null,
       spentUntil: 0,
+      announced: null,
     };
     states.set(providerId, s);
   }
@@ -135,24 +138,53 @@ function stateOf(providerId: ProviderId, now = Date.now()): State {
   return s;
 }
 
-/** Why a request may not be sent right now, or null when it may. */
-export function refusal(providerId: ProviderId, now = Date.now()): string | null {
+/**
+ * Why a request may not be sent right now. `key` names the pause itself (it
+ * stays the same while the countdown in `message` ticks down), so a pause can
+ * be logged once.
+ */
+function block(providerId: ProviderId, now: number): { key: string; message: string } | null {
   const s = stateOf(providerId, now);
   const limits = limitsFor(providerId);
   if (now < s.openUntil) {
     const seconds = Math.ceil((s.openUntil - now) / 1000);
-    return `backing off for ${seconds}s after ${s.failures} failed request${s.failures === 1 ? '' : 's'} (${s.lastReason ?? 'error'})`;
+    return {
+      key: `open:${s.openUntil}`,
+      message: `backing off for ${seconds}s after ${s.failures} failed request${s.failures === 1 ? '' : 's'} (${s.lastReason ?? 'error'})`,
+    };
   }
-  if (now < s.spentUntil) return 'the provider reports its free allowance is spent';
-  if (s.usedToday >= limits.daily) return `daily request budget of ${limits.daily} reached`;
+  if (now < s.spentUntil) return { key: `spent:${s.spentUntil}`, message: 'the provider reports its free allowance is spent' };
+  if (s.usedToday >= limits.daily) return { key: `daily:${s.day}`, message: `daily request budget of ${limits.daily} reached` };
   if (limits.window) {
     const since = now - limits.window.seconds * 1000;
     s.recent = s.recent.filter((t) => t > since);
     if (s.recent.length >= limits.window.max) {
-      return `budget of ${limits.window.max} requests per ${limits.window.seconds / 60} minutes reached`;
+      return {
+        key: `window:${s.recent[0]}`,
+        message: `budget of ${limits.window.max} requests per ${limits.window.seconds / 60} minutes reached`,
+      };
     }
   }
   return null;
+}
+
+/** Why a request may not be sent right now, or null when it may. */
+export function refusal(providerId: ProviderId, now = Date.now()): string | null {
+  return block(providerId, now)?.message ?? null;
+}
+
+/**
+ * True the first time the current refusal is seen. During a 16-minute backoff
+ * every render is refused, and logging each one buried the failure that
+ * started the pause.
+ */
+export function isNewRefusal(providerId: ProviderId, now = Date.now()): boolean {
+  const current = block(providerId, now);
+  if (!current) return false;
+  const s = stateOf(providerId, now);
+  if (s.announced === current.key) return false;
+  s.announced = current.key;
+  return true;
 }
 
 /** Record one real upstream request. Call only when a request is actually sent. */

@@ -1394,24 +1394,10 @@ body[data-lang="ar"] .card::before {
 /* ============================================================================
    FOOTER
    ============================================================================ */
-footer.site { background: var(--dark); color: rgba(247,247,244,.65); padding: 72px 0 28px; }
-.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(4,1fr); gap: 40px; padding-bottom: 48px; border-bottom: 1px solid var(--line-dark); }
-.footer-brand .logo-word { color: var(--paper); margin-bottom: 16px; font-size: 18px; font-weight: 800; letter-spacing: -0.04em; }
-.footer-brand p { font-size: 14px; line-height: 1.65; max-width: 32ch; color: rgba(247,247,244,.45); }
-footer h6 { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(247,247,244,.35); margin-bottom: 18px; }
-footer ul { display: flex; flex-direction: column; gap: 12px; }
-@layer base {
-  :where(footer a) { font-size: 14px; color: rgba(247,247,244,.6); transition: color .2s; }
-  footer li:not(:has(a)) { font-size: 14px; color: rgba(247,247,244,.4); }
-  :where(footer a):hover { color: var(--green); }
-}
-.footer-bottom {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-top: 24px; font-size: 12px; color: rgba(247,247,244,.3);
-  gap: 20px; flex-wrap: wrap;
-}
-.footer-bottom .timecode { background: transparent; color: rgba(247,247,244,.3); padding: 0; letter-spacing: .04em; }
-.footer-bottom .dot { background: var(--green); }
+/* Styled entirely with Tailwind classes in components/Footer.tsx. The old
+   template rules that lived here (footer.site padding, footer ul, footer a)
+   were unlayered or in the base layer, so they silently beat or undercut
+   those classes. The .footer-grid/-brand/-bottom classes were unused. */
 
 /* ============================================================================
    SERVICES
@@ -1590,8 +1576,6 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   .snum { padding-top: 0; }
   .tl-grid { grid-template-columns: 1fr; }
   .tl-grid .still { order: -1; }
-  .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
-  .footer-brand { grid-column: span 3; }
 }
 
 @media (max-width: 760px) {
@@ -1627,9 +1611,6 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   .card.plain { min-height: 180px; }
   .insights-grid, .roster { grid-template-columns: 1fr; }
   .dl-domains { grid-template-columns: 1fr; border-radius: var(--r-md); }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
-  .footer-brand { grid-column: span 2; }
-  .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
   .row2 { grid-template-columns: 1fr; }
   .info-strip { grid-template-columns: 1fr; }
   .page-hero-copy { padding: 72px 20px 52px; }

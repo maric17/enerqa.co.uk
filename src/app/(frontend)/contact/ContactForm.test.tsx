@@ -34,7 +34,7 @@ describe('ContactForm (p. 198 F02-F04)', () => {
   });
 
   it('uses the F03 heading, button and privacy line, with an unticked optional newsletter box', () => {
-    render(<ContactForm choices={CHOICES} prefill={EMPTY_CONTACT_VALUES} />);
+    render(<ContactForm choices={CHOICES} prefill={EMPTY_CONTACT_VALUES} privacyHref="/privacy" />);
     expect(screen.getByRole('heading', { level: 2, name: 'Send Your Enquiry' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Send Enquiry' })).toBeInTheDocument();
     expect(screen.getByText(/We will use the information you provide to respond to your enquiry\./)).toBeInTheDocument();
@@ -42,6 +42,12 @@ describe('ContactForm (p. 198 F02-F04)', () => {
     const consent = screen.getByRole('checkbox');
     expect(consent).not.toBeChecked();
     expect(consent).not.toBeRequired();
+  });
+
+  it('does not link a Privacy Notice that is not published yet (p. 4: no fake links)', () => {
+    render(<ContactForm choices={CHOICES} prefill={EMPTY_CONTACT_VALUES} />);
+    expect(screen.getByText(/We will use the information you provide to respond to your enquiry\./)).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /Privacy Notice/ })).toBeNull();
   });
 
   it('preselects Tool Access and the tool from ?intent=tool&tool=easysolar, still editable', () => {

@@ -64,9 +64,8 @@ export const Tools: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      // Optional: the tools list already renders without artwork
-      // (ToolsList.tsx guards with `tool.image && ...`), and the tool
-      // detail page never reads it. Requiring it blocked every seed.
+      // Optional: neither the tools list nor the tool detail page reads
+      // it. Requiring it blocked every seed.
       required: false,
     },
     {

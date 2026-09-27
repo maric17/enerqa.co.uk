@@ -17,7 +17,8 @@ const initialState: NewsletterFormState = {
  * has a real (visually hidden) label, and the input row shows a focus ring
  * instead of suppressing the outline.
  */
-export const ContactCTA = () => {
+// privacyHref is set only while the Privacy Notice is published (p. 4: no fake links).
+export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
   const [state, formAction, isPending] = useActionState(submitNewsletterForm, initialState);
   // useId keeps the label/input pairs unique even if this block is ever rendered twice.
   const emailId = useId();
@@ -65,7 +66,11 @@ export const ContactCTA = () => {
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '8px' }}>
                 <input type="checkbox" id={consentId} name="consent" required disabled={state.success || isPending} style={{ width: '16px', height: '16px', borderRadius: '4px', border: '1.5px solid rgba(10,25,47,0.4)', background: 'transparent', accentColor: 'var(--color-dark)', cursor: 'pointer', marginTop: '2px' }} />
                 <label htmlFor={consentId} style={{ fontSize: '12px', color: 'rgba(10,25,47,0.7)', lineHeight: 1.45, cursor: 'pointer' }}>
-                  I agree with the terms of the <a href="/privacy" style={{ color: 'var(--color-dark)', textDecoration: 'underline', fontWeight: 600 }}>Privacy Notice</a> and consent to my personal data being processed.
+                  {privacyHref ? (
+                    <>I agree with the terms of the <a href={privacyHref} style={{ color: 'var(--color-dark)', textDecoration: 'underline', fontWeight: 600 }}>Privacy Notice</a> and consent to my personal data being processed.</>
+                  ) : (
+                    <>I agree to receive the Enerqa newsletter. I can unsubscribe at any time.</>
+                  )}
                 </label>
               </div>
             </form>

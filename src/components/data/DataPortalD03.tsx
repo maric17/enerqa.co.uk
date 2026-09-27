@@ -95,7 +95,7 @@ export default function DataPortalD03() {
           {/* Visualization Area */}
           <div className="p-6 md:p-10 min-h-[400px] flex flex-col justify-center">
             {loading ? (
-              <div className="flex flex-col items-center text-gray-400">
+              <div className="flex flex-col items-center text-gray-500">
                 <Loader2 className="w-8 h-8 animate-spin mb-4" />
                 <p>Loading data from World Bank...</p>
               </div>
@@ -136,7 +136,7 @@ export default function DataPortalD03() {
                 ) : (
                   <div className="w-full h-[300px] flex items-end justify-between gap-1 overflow-x-hidden pt-10 border-b border-l border-gray-300 relative pl-2 pb-2">
                     {/* Y-axis labels mock */}
-                    <div className="absolute left-[-40px] top-0 bottom-0 w-[30px] flex flex-col justify-between items-end text-xs text-gray-400 pb-2">
+                    <div className="absolute left-[-40px] top-0 bottom-0 w-[30px] flex flex-col justify-between items-end text-xs text-gray-500 pb-2">
                       <span>High</span>
                       <span>Mid</span>
                       <span>0</span>
@@ -145,13 +145,13 @@ export default function DataPortalD03() {
                       const maxVal = Math.max(...data.observations.map((o: any) => o.value || 0));
                       const items = data.observations.filter((_: any, i: number) => i % Math.max(1, Math.floor(data.observations.length / 30)) === 0);
                       return items.map((obs: any, idx: number) => (
-                        <div key={idx} className="flex flex-col items-center flex-1 group">
+                        <div key={idx} className="flex flex-col items-center flex-1 h-full justify-end group">
                           <div 
                             className="w-full bg-[var(--color-primary)] opacity-70 group-hover:opacity-100 transition-opacity rounded-t min-h-[1px] relative"
                             style={{ height: `${(obs.value / maxVal) * 100}%` }}
                           >
                             <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
-                              {obs.period}: {obs.value?.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+                              {obs.period}: {obs.value !== null && obs.value !== undefined ? obs.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : 'No data'}
                             </div>
                           </div>
                         </div>

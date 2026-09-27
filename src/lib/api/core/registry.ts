@@ -348,6 +348,26 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     accessReviewedOn: null,
     note: 'NOT APPROVED: p. 224 names Cloudflare Workers AI (Free plan) as the candidate. Review licence, privacy and free-tier terms before setting enabled to true.',
   },
+  openai: {
+    id: 'openai',
+    name: 'OpenAI',
+    purpose: 'AI Search Backend using Responses API (gpt-5.6-terra).',
+    homepage: 'https://openai.com/',
+    docsUrl: 'https://platform.openai.com/docs/api-reference/responses',
+    licence: 'Approved for Research MVP',
+    licenceUrl: 'https://openai.com/policies/',
+    attribution: 'OpenAI',
+    keyEnvVar: 'OPENAI_API_KEY',
+    revalidate: 0,
+    publishedLimits: 'Standard OpenAI tier limits apply.',
+    // Off (owner, 26 Sep 2026) until the AI Search handoff's Phase 0 sign-offs
+    // exist and Phase 1 works - see docs/AI-SEARCH-TASKS.md. While off,
+    // /api/ai-search returns 503 before any paid call, and /search shows its
+    // failure text above the keyword results.
+    enabled: false,
+    accessReviewedOn: '2026-09-26',
+    note: 'AI Search (Responses API, gpt-5.6-terra). Switched off 26 Sep 2026 pending Phase 0: budget B, approved catalogue and URL registry.',
+  },
 };
 
 export function getProvider(id: ProviderId): ProviderRecord {

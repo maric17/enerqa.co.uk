@@ -74,7 +74,7 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
                 {dashboard.datasetConnector ? (
                   <DataPortalD03 />
                 ) : (
-                  <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 text-gray-400">
+                  <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 text-gray-500">
                     <p>Dashboard visualization is currently unavailable. No dataset connector configured.</p>
                   </div>
                 )}

@@ -30,7 +30,8 @@ export type ProviderId =
   | 'eia_rss'
   | 'eea_rss'
   // AI answers on /search. Registered only so it has an off switch (L1023).
-  | 'gemini';
+  | 'gemini'
+  | 'openai';
 
 /**
  * p. 227: "only `verified_open` records publish". Everything else is an

@@ -6,6 +6,8 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { Container } from './ui/Container';
 import SubscribeForm from './SubscribeForm';
 import FooterBreadcrumbs from './FooterBreadcrumbs';
+import FooterNavGroup from './FooterNavGroup';
+import { getPublishedPolicyLinks } from '@/lib/policies';
 
 // p. 8: "Repeat the six navigation groups with concise links". The groups
 // mirror the header; labels are the sitemap names (p. 3). The four domains are
@@ -65,80 +67,83 @@ const FOOTER_GROUPS: { title: string; links: { label: string; href: string }[] }
   },
 ];
 
-const linkClass = 'text-white/70 hover:text-white transition-colors duration-200 no-underline';
-const groupTitleClass = 'text-white font-semibold mb-4 text-[15px] leading-snug';
+// min-h-11 gives the contact links a 44px tap target on phones; md drops it so
+// the desktop row stays short.
+const contactLinkClass = 'inline-flex items-center min-h-11 md:min-h-0 text-white/70 hover:text-white transition-colors duration-200 no-underline';
+const policyLinkClass = 'inline-flex items-center min-h-8 md:min-h-0 transition-colors duration-200 no-underline text-white/60 hover:text-white';
 
-export function Footer() {
+export async function Footer() {
+  // p. 4: "approved policy pages; no empty or fake links". Only policies whose
+  // text is approved in the CMS are linked (p. 208 U02). A database error
+  // hides the links instead of breaking the footer on every page.
+  const policyLinks = await getPublishedPolicyLinks().catch(() => []);
+  const privacyHref = policyLinks.find((link) => link.href === '/privacy')?.href;
+
   return (
-    <footer className="site bg-[#082C45] text-white pt-[60px] pb-10 border-t border-white/10 font-sans">
+    <footer className="site bg-[#082C45] text-white pt-7 md:pt-10 pb-5 border-t border-white/10 font-sans">
       <Container>
         <FooterBreadcrumbs />
 
-        {/* Top row: logo and the one social account the current enerqa.co.uk
-            footer links to. Facebook, X and YouTube were unverified (p. 227:
-            verified fields only) - youtube.com/enerqa is not even a channel URL. */}
-        <div className="flex justify-between items-center pb-8 border-b border-white/10 flex-wrap gap-6">
-          <Link href="/" className="no-underline inline-block" aria-label="Enerqa home">
-            <Image src="/images/logo-white.svg" alt="" width={150} height={38} className="h-[38px] w-auto block" />
-          </Link>
-          <a
-            href="https://www.linkedin.com/company/enerqa"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Enerqa on LinkedIn (opens in a new tab)"
-            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm transition-colors duration-300 text-white no-underline hover:bg-white/20"
-          >
-            <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" aria-hidden="true" />
-          </a>
+        {/* Top row. Left: logo, then info@enerqa.co.uk, Contact (p. 8) and the
+            one social account the current enerqa.co.uk footer links to.
+            Facebook, X and YouTube were unverified (p. 227: verified fields
+            only). Right: the newsletter as one line, which replaces the old
+            separate Contact / Stay Informed band. */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12 pb-6 border-b border-white/10">
+          <div className="flex flex-col gap-3 md:gap-4">
+            <Link href="/" className="no-underline inline-block self-start" aria-label="Enerqa home">
+              <Image src="/images/logo-white.svg" alt="" width={114} height={30} className="h-[30px] w-auto block" />
+            </Link>
+            <div className="flex items-center gap-5 text-sm md:text-[13px]">
+              <a href="mailto:info@enerqa.co.uk" className={contactLinkClass}>info@enerqa.co.uk</a>
+              <Link href="/contact" className={contactLinkClass}>Contact</Link>
+              <a
+                href="https://www.linkedin.com/company/enerqa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Enerqa on LinkedIn (opens in a new tab)"
+                className="w-11 h-11 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center transition-colors duration-300 text-white no-underline hover:bg-white/20"
+              >
+                <FontAwesomeIcon icon={faLinkedinIn} className="w-[14px] h-[14px]" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-full md:max-w-[520px]">
+            {/* Heading from the handoff's newsletter blocks (pp. 15, 156). */}
+            <h2 className="text-white font-semibold text-sm md:text-[13px] leading-[18px] m-0">Stay Informed</h2>
+            <SubscribeForm layout="inline" privacyHref={privacyHref} />
+          </div>
         </div>
 
         {/* Six labelled groups inside one footer landmark. Real h2s, visible,
             with no skipped levels (the old h6/h5 set included an invisible
-            "Navigation Continued" heading). */}
-        <nav aria-label="Footer" className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-8 gap-y-10 py-12 border-b border-white/10">
-          {FOOTER_GROUPS.map((group, index) => (
-            <div key={group.title}>
-              <h2 id={`footer-group-${index}`} className={groupTitleClass}>{group.title}</h2>
-              <ul aria-labelledby={`footer-group-${index}`} className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-                {group.links.map((link) => (
-                  <li key={link.href}><Link href={link.href} className={linkClass}>{link.label}</Link></li>
-                ))}
-              </ul>
-            </div>
+            "Navigation Continued" heading). Phones: stacked accordions split
+            by lines. xl: one row, with the long domain names given the widest
+            column so they fit on one line. */}
+        <nav
+          aria-label="Footer"
+          className="grid divide-y divide-white/10 md:divide-y-0 md:grid-cols-3 xl:grid-cols-[0.7fr_1.7fr_1fr_1fr_1fr_1.1fr] md:gap-x-7 md:gap-y-8 md:py-7 border-b border-white/10"
+        >
+          {FOOTER_GROUPS.map((group) => (
+            <FooterNavGroup key={group.title} title={group.title} links={group.links} />
           ))}
         </nav>
 
-        {/* p. 8: then info@enerqa.co.uk, Contact and newsletter access. */}
-        <div className="grid md:grid-cols-2 gap-10 py-12 border-b border-white/10">
-          <div>
-            <h2 className={groupTitleClass}>Contact</h2>
-            <ul className="flex flex-col gap-3 text-sm list-none p-0 m-0">
-              <li><a href="mailto:info@enerqa.co.uk" className={linkClass}>info@enerqa.co.uk</a></li>
-              <li><Link href="/contact" className={linkClass}>Contact</Link></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-4 max-w-md">
-            {/* Heading from the handoff's newsletter blocks (pp. 15, 156). */}
-            <h2 className={`${groupTitleClass} m-0`}>Stay Informed</h2>
-            <SubscribeForm />
-          </div>
-        </div>
-
-        {/* Bottom row: copyright, data-source attribution and the four policy
-            destinations (p. 8). */}
-        <div className="flex justify-between items-center pt-8 flex-wrap gap-6 text-xs text-white/60">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full bg-[#005fcc] flex items-center justify-center text-white text-sm shadow-sm" aria-hidden="true">
+        {/* Bottom row: copyright and the approved policy destinations (p. 8). */}
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center md:gap-6 pt-4 text-xs text-white/60">
+          <div className="flex items-center gap-2.5">
+            <div className="w-[22px] h-[22px] rounded-full bg-[#005fcc] flex items-center justify-center text-white text-[11px] shadow-sm" aria-hidden="true">
               ♿
             </div>
-            <span>© 2026 enerQA Ltd. All Rights Reserved.</span>
+            <span className="translate-y-[1px]">© 2026 enerQA Ltd. All Rights Reserved.</span>
           </div>
-          <ul className="flex gap-5 flex-wrap list-none p-0 m-0">
-            <li><Link href="/terms" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Terms of Use</Link></li>
-            <li><Link href="/privacy" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Privacy Notice</Link></li>
-            <li><Link href="/cookie-choices" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Cookie Choices</Link></li>
-            <li><Link href="/accessibility" className="transition-colors duration-200 no-underline text-white/60 hover:text-white">Accessibility Statement</Link></li>
-          </ul>
+          {policyLinks.length > 0 && (
+            <ul className="flex flex-wrap gap-x-5 list-none p-0 m-0">
+              {policyLinks.map((link) => (
+                <li key={link.href}><Link href={link.href} className={policyLinkClass}>{link.label}</Link></li>
+              ))}
+            </ul>
+          )}
         </div>
       </Container>
     </footer>

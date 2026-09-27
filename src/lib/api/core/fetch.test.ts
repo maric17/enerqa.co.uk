@@ -58,7 +58,13 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.useRealTimers();
+  vi.restoreAllMocks();
 });
+
+/** How many console.warn lines so far contain `text`. */
+function warned(spy: { mock: { calls: unknown[][] } }, text: string): number {
+  return spy.mock.calls.filter(([line]) => String(line).includes(text)).length;
+}
 
 describe('request budgets count real upstream requests only (L379, L1016)', () => {
   it('does not spend the budget on a cache hit', async () => {
@@ -192,6 +198,70 @@ describe('errors and rate-limit replies are never cached (pp. 209, 226, L1030)',
     );
     await fetchFromProvider('openalex', 'https://api.openalex.org/works?search=d');
     expect(refusal('openalex')).toMatch(/allowance is spent/);
+  });
+});
+
+describe('identical requests share one upstream call', () => {
+  it('sends one request when several callers ask for the same URL at once', async () => {
+    const fetch = stub(okJson());
+    const url = 'https://api.worldbank.org/v2/shared';
+    const results = await Promise.all([
+      fetchFromProvider('world-bank-indicators', url),
+      fetchFromProvider('world-bank-indicators', url),
+    ]);
+    expect(results.every((r) => r.ok)).toBe(true);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('shares one background refresh when several components find the copy stale', async () => {
+    // The live GDELT log showed the same query refreshed twice, a second apart.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-09-25T08:00:00Z'));
+    const fetch = stub(okJson());
+    const url = 'https://api.worldbank.org/v2/stale';
+    await fetchFromProvider('world-bank-indicators', url);
+
+    vi.setSystemTime(new Date('2026-09-27T08:00:00Z'));
+    await Promise.all([
+      fetchFromProvider('world-bank-indicators', url),
+      fetchFromProvider('world-bank-indicators', url),
+    ]);
+    await Promise.all(background);
+    // The first fill, then one refresh for both callers.
+    expect(fetch).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('logging', () => {
+  it('says why a background refresh failed', async () => {
+    // Next logs a failed background refresh itself, but only as "{}".
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-09-25T08:00:00Z'));
+    stub(okJson(), () => new Response('busy', { status: 503 }));
+    const url = 'https://api.worldbank.org/v2/refresh';
+    await fetchFromProvider('world-bank-indicators', url);
+
+    vi.setSystemTime(new Date('2026-09-27T08:00:00Z'));
+    await fetchFromProvider('world-bank-indicators', url);
+    await Promise.all(background);
+    expect(warned(warn, 'returned HTTP 503')).toBe(1);
+  });
+
+  it('logs a pause once, not on every render that is refused', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stub(() => new Response('slow down', { status: 429 }));
+    await fetchFromProvider('openalex', 'https://api.openalex.org/works?search=a');
+    for (const q of ['b', 'c', 'd']) await fetchFromProvider('openalex', `https://api.openalex.org/works?search=${q}`);
+    expect(warned(warn, 'returned HTTP 429')).toBe(1);
+    expect(warned(warn, 'not requested')).toBe(1);
+  });
+
+  it('logs a failed request once', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stub(() => new Response('oops', { status: 500 }));
+    await fetchFromProvider('doaj', 'https://doaj.org/api/search/articles/once');
+    expect(warned(warn, 'returned HTTP 500')).toBe(1);
   });
 });
 

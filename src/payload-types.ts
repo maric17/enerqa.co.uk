@@ -884,8 +884,23 @@ export interface Enquiry {
  */
 export interface Policy {
   id: number;
+  /**
+   * Editor label only. The page heading is fixed by the slug (p. 208): Privacy Notice, Terms of Use, Cookie Choices or Accessibility Statement.
+   */
   title: string;
   slug: string;
+  /**
+   * Tick only when the company has approved this exact text (p. 208). Until then the page returns 404 and the footer does not link to it.
+   */
+  approved?: boolean | null;
+  /**
+   * Name and role of the person who approved the text.
+   */
+  approvedBy?: string | null;
+  /**
+   * Shown on the page as "Last updated".
+   */
+  approvedOn?: string | null;
   content: {
     root: {
       type: string;
@@ -1373,6 +1388,9 @@ export interface EnquiriesSelect<T extends boolean = true> {
 export interface PoliciesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  approved?: T;
+  approvedBy?: T;
+  approvedOn?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

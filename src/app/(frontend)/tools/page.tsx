@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';
+import { PageHero } from '@/components/ui/PageHero';
 import { publishedToolsWhere } from '@/collections/Tools';
 import type { Tool } from '@/payload-types';
 import { getToolAccess, splitCatalogue } from './access';
@@ -70,19 +71,23 @@ export default async function ToolsPage() {
   const { flagships, otherTools } = splitCatalogue(docs);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
 
       {/* T01 Breadcrumb, H1 and introduction (p. 165) */}
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+      <PageHero
+        title="Enerqa Tools"
+        imageUrl="/images/tools_banner_people.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Tools</span>
+          </>
+        }
+      />
+
+      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
         <Container>
-          <nav aria-label="Breadcrumb" className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-6">
-            <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link>
-            <span aria-hidden="true"> / </span>
-            <span aria-current="page" className="text-white">Tools</span>
-          </nav>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Enerqa Tools</h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
+          <div className="max-w-4xl mb-8">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
               Explore tools designed to structure assessment, modelling and sustainability decisions. Each tool explains its purpose, inputs, outputs, assumptions and available access route.
             </p>
           </div>

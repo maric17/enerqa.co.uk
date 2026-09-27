@@ -77,13 +77,13 @@ describe('breadcrumbTrail', () => {
 // template already renders its own at the top.
 describe('templateHasOwnTrail', () => {
   it('is true for templates with an in-page breadcrumb', () => {
-    for (const path of ['/tools', '/tools/esg-readiness', '/domains/energy-systems-transition', '/industries/energy-utilities', '/about/careers', '/tools/']) {
+    for (const path of ['/tools', '/tools/esg-readiness', '/domains/energy-systems-transition', '/industries/energy-utilities', '/about/careers', '/tools/', '/knowledge-hub', '/knowledge-hub/', '/privacy', '/terms', '/cookie-choices', '/accessibility']) {
       expect(templateHasOwnTrail(path)).toBe(true)
     }
   })
 
   it('is false where only the footer trail exists', () => {
-    for (const path of ['/', '/about', '/knowledge-hub', '/knowledge-hub/some-publication', '/knowledge-hub/global-intelligence', '/data-portal/sources', '/data-portal/datasets/x', '/project-development', '/domains/x/y']) {
+    for (const path of ['/', '/about', '/knowledge-hub/some-publication', '/knowledge-hub/global-intelligence', '/data-portal/sources', '/data-portal/datasets/x', '/project-development', '/domains/x/y']) {
       expect(templateHasOwnTrail(path)).toBe(false)
     }
   })

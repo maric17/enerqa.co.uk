@@ -110,7 +110,8 @@ export async function loadSearchIndex(): Promise<IndexEntry[]> {
       // The article itself, not the Knowledge Hub landing page.
       url: `/knowledge-hub/${p.slug}`,
       group: 'publications',
-      category: p.type || 'Publication',
+      // p. 229: first-party work is labelled as Enerqa's own on every surface.
+      category: `Enerqa Publication · ${p.type || 'Publication'}`,
       excerpt: usableText(p.excerpt) ?? usableText(p.metaDescription),
       body: join(p.heading, p.metaKeywords),
       date: p.date ?? null,

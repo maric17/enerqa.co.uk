@@ -26,7 +26,7 @@ export function AccordionItem({ title, content, isOpen = false, onClick }: Accor
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: "easeInOut" }}
-          className="ml-4 flex-shrink-0 text-gray-400 group-hover:text-[#0972b8] transition-colors"
+          className="ml-4 flex-shrink-0 text-gray-500 group-hover:text-[#0972b8] transition-colors"
         >
           <ChevronDown size={20} />
         </motion.span>

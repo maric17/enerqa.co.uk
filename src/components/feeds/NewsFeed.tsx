@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { fetchNewsForKeywords, NEWS_DELAY_HOURS } from '@/lib/api/news';
+import { fetchNews, fetchNewsForKeywords, NEWS_DELAY_HOURS, PAGE_NEWS_PROVIDERS } from '@/lib/api/news';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { FeedMeta, formatDate } from './feedParts';
 
@@ -14,6 +14,9 @@ import { FeedMeta, formatDate } from './feedParts';
  * publication time and short permitted description. Only the two news
  * providers the page spec names (NewsData, GDELT) are used - EIA and EEA items
  * are official analysis and appear in the official-updates modules instead.
+ *
+ * Without `phrases` it previews the whole Global Intelligence news pool (the
+ * four topic baskets), as the Knowledge Hub's K05 block does (p. 156).
  */
 export async function NewsFeed({
   phrases,
@@ -21,13 +24,16 @@ export async function NewsFeed({
   limit = 3,
   nearest,
 }: {
-  phrases: string[];
+  /** Omit to preview the whole Global Intelligence news pool. */
+  phrases?: string[];
   /** The page's own "News query baskets", also sent to NewsData (every 12 h, shared by all visitors). */
   baskets?: string[][];
   limit?: number;
   nearest: { href: string; label: string };
 }) {
-  const result = await fetchNewsForKeywords(phrases, limit, { baskets });
+  const result = phrases
+    ? await fetchNewsForKeywords(phrases, limit, { baskets })
+    : await fetchNews('all', limit, { providers: PAGE_NEWS_PROVIDERS });
 
   if (result.items.length === 0) {
     return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} className="min-h-[220px]" />;

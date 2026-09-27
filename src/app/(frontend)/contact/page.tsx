@@ -5,6 +5,8 @@ import { ArrowRight } from 'lucide-react';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';
+import { getPrivacyHref } from '@/lib/policies';
+import { PageHero } from '@/components/ui/PageHero';
 import { prefillFromSearchParams, type ContactChoices } from '@/lib/forms/contact';
 import { loadContactChoices } from '@/lib/forms/contactChoices';
 import { ContactForm } from './ContactForm';
@@ -43,18 +45,27 @@ export default async function ContactPage({ searchParams }: Props) {
   const prefill = prefillFromSearchParams(params, choices);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
       {/* F01 Contact Enerqa (p. 198) */}
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+      <PageHero
+        title="Contact Enerqa"
+        imageUrl="/images/contact_banner_people.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Contact</span>
+          </>
+        }
+      />
+
+      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Contact Enerqa</h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
+          <div className="max-w-4xl mb-8">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
               Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.
             </p>
-            <p className="text-lg text-gray-300 mt-6">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light mt-6">
               Email:{' '}
-              <a href="mailto:info@enerqa.co.uk" className="text-[var(--color-primary)] font-semibold hover:text-white transition-colors">
+              <a href="mailto:info@enerqa.co.uk" className="text-[var(--color-primary)] font-semibold hover:text-[var(--color-primary-dark)] transition-colors">
                 info@enerqa.co.uk
               </a>
             </p>
@@ -71,7 +82,7 @@ export default async function ContactPage({ searchParams }: Props) {
         <Container>
           <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm">
             <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Tell Us About Your Enquiry</h2>
-            <ContactForm choices={choices} prefill={prefill} />
+            <ContactForm choices={choices} prefill={prefill} privacyHref={await getPrivacyHref()} />
           </div>
         </Container>
       </section>

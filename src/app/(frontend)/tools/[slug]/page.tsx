@@ -10,6 +10,7 @@ import CarbonCalculator from '@/components/tools/CarbonCalculator';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { publishedToolsWhere } from '@/collections/Tools';
 import { Container } from '@/components/ui/Container';
+import { ExternalEmbed } from '@/components/ExternalEmbed';
 import { NATIVE_CALCULATOR_SLUG, getToolAccess, requestAccessHref } from '../access';
 
 import { Metadata } from 'next';
@@ -224,12 +225,8 @@ export default async function ToolDetailPage({ params }: Props) {
 
             {access.kind === 'online' && access.embedded && tool.slug !== NATIVE_CALCULATOR_SLUG && tool.iframeUrl && (
               <div className="w-full rounded-[16px] overflow-hidden border border-ink/10 shadow-sm bg-[#FAFBFB] aspect-[16/9] md:aspect-[21/9]">
-                <iframe
-                  src={tool.iframeUrl}
-                  className="w-full h-full border-none"
-                  title={tool.title}
-                  allowFullScreen
-                />
+                {/* A third-party tool may set its own cookies: it loads only with consent (p. 208 U03). */}
+                <ExternalEmbed src={tool.iframeUrl} title={tool.title} className="w-full h-full border-none" />
               </div>
             )}
 

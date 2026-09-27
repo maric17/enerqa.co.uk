@@ -118,6 +118,8 @@ export async function generateMetadata({ params }: Props) {
       slug: {
         equals: slug,
       },
+      // Same rule as the list and the sitemap: only real articles get a page.
+      recordKind: { equals: 'article' },
     },
     limit: 1,
   });
@@ -150,6 +152,8 @@ export default async function PublicationSinglePage({ params }: Props) {
       slug: {
         equals: slug,
       },
+      // Same rule as the list and the sitemap: only real articles get a page.
+      recordKind: { equals: 'article' },
     },
     limit: 1,
   });
@@ -166,6 +170,7 @@ export default async function PublicationSinglePage({ params }: Props) {
     collection: 'publications',
     where: {
       id: { not_equals: post.id },
+      recordKind: { equals: 'article' },
       ...(topics.length > 0 ? { topic: { in: topics.map(t => typeof t === 'object' ? t.id : t) } } : {})
     },
     limit: 3,
@@ -213,7 +218,8 @@ export default async function PublicationSinglePage({ params }: Props) {
           
           <div className="flex gap-4 items-center text-white/80 text-sm mt-4">
             <span>
-              {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+              {/* UTC, like the Knowledge Hub cards, so every visitor sees the same calendar day. */}
+              {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' })}
               {post.dateVerified === false && ' (date unverified)'}
             </span>
             {post.author && (

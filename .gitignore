@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Local backups written by scripts/publication-rebuild/write_pubs.js
+# Local backups written by scripts/publication-rebuild/write_pubs.cjs
 scripts/publication-rebuild/backup-publications.json

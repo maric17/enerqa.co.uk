@@ -125,7 +125,7 @@ export default function DomainsAndIndustriesPage() {
                 className="group flex justify-between items-center p-6 md:p-8 hover:bg-[var(--color-paper-alt)] transition-colors"
               >
                 <span className="text-xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors">{industry.name}</span>
-                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[var(--color-secondary)] group-hover:text-white transition-all text-gray-400">
+                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[var(--color-secondary)] group-hover:text-white transition-all text-gray-500">
                   <ArrowRight className="w-5 h-5" />
                 </div>
               </Link>

@@ -82,7 +82,7 @@ export function normalise(text: string): string {
     .replace(/[أإآ]/g, 'ا');
 }
 
-function words(text: string): string[] {
+export function words(text: string): string[] {
   return normalise(text).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 }
 
@@ -122,7 +122,7 @@ export function queryTerms(query: string): string[] {
  * avoids hits inside unrelated words. Arabic attaches prefixes such as "و"
  * and "ال" to the word itself, so Arabic terms match anywhere in a word.
  */
-function termMatches(term: string, docWords: string[]): boolean {
+export function termMatches(term: string, docWords: string[]): boolean {
   if (LATIN.test(term)) return docWords.some((w) => w.startsWith(term));
   return docWords.some((w) => w.includes(term));
 }

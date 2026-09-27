@@ -23,7 +23,10 @@ export function Button({
     secondary: "bg-transparent border-[1.5px] border-ink text-ink hover:bg-paper-alt px-6 py-3 rounded-[100px] hover:-translate-y-0.5",
     ghost: "bg-transparent text-ink hover:bg-ink/5 hover:text-green px-4 py-2 rounded-md hover:-translate-y-0.5",
     outline: "bg-transparent border-[1.5px] border-white text-white hover:bg-white hover:text-ink px-6 py-3 rounded-[100px] hover:-translate-y-0.5",
-    dark: "bg-ink-soft text-paper hover:bg-green px-6 py-3 rounded-[100px] hover:-translate-y-0.5"
+    dark: "bg-ink-soft text-paper hover:bg-green px-6 py-3 rounded-[100px] hover:-translate-y-0.5",
+    // For dark navy sections: navy text on teal is 7.6:1; primary-dark is the
+    // theme's hover fill for navy text (4.7:1).
+    accent: "bg-primary text-ink hover:bg-primary-dark px-6 py-3 rounded-[100px] hover:-translate-y-0.5"
   };
 
   const combinedClasses = `${baseClasses} ${variantClasses[variant] || variantClasses.primary} ${className}`.trim();

@@ -43,7 +43,8 @@ function describe(name: keyof ContactValues, errors?: ContactFieldErrors) {
   return { 'aria-invalid': has || undefined, 'aria-describedby': has ? `contact-${name}-error` : undefined };
 }
 
-export function ContactForm({ choices, prefill }: { choices: ContactChoices; prefill: ContactValues }) {
+// privacyHref is set only while the Privacy Notice is published (p. 4: no fake links).
+export function ContactForm({ choices, prefill, privacyHref }: { choices: ContactChoices; prefill: ContactValues; privacyHref?: string }) {
   const [state, formAction, isPending] = useActionState(submitContactForm, {
     status: 'idle',
     attempt: 0,
@@ -66,6 +67,7 @@ export function ContactForm({ choices, prefill }: { choices: ContactChoices; pre
       choices={choices}
       formAction={formAction}
       isPending={isPending}
+      privacyHref={privacyHref}
     />
   );
 }
@@ -92,11 +94,13 @@ function ContactFields({
   choices,
   formAction,
   isPending,
+  privacyHref,
 }: {
   state: ContactFormState;
   choices: ContactChoices;
   formAction: (formData: FormData) => void;
   isPending: boolean;
+  privacyHref?: string;
 }) {
   const { values, errors } = state;
   const [enquiryType, setEnquiryType] = useState(values.enquiryType);
@@ -246,8 +250,13 @@ function ContactFields({
         </div>
 
         <p className="text-sm text-gray-600 m-0">
-          We will use the information you provide to respond to your enquiry.{' '}
-          <Link href="/privacy" className="underline hover:text-[var(--color-dark)]">Read our Privacy Notice.</Link>
+          We will use the information you provide to respond to your enquiry.
+          {privacyHref && (
+            <>
+              {' '}
+              <Link href={privacyHref} className="underline hover:text-[var(--color-dark)]">Read our Privacy Notice.</Link>
+            </>
+          )}
         </p>
 
         <div className="flex flex-wrap items-center gap-4">

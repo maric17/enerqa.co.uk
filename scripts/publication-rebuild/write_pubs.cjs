@@ -3,7 +3,7 @@
 // 2. In one transaction, updates by slug: content, excerpt, meta_description, archive_category,
 //    and where recovered, author and date + date_verified. Rows already holding the new values are skipped,
 //    so running it twice changes nothing.
-// Usage (from the repo root): node --env-file=.env scripts/publication-rebuild/write_pubs.js --dry
+// Usage (from the repo root): node --env-file=.env scripts/publication-rebuild/write_pubs.cjs --dry
 // Review the dry-run output before running it without --dry. Bodies come from ./out (built by
 // build_lex.py from the 2024 archive PDF on 25 Sep 2026; build_lex.py itself needs the original
 // extraction workspace and is kept for reference only).

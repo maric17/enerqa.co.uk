@@ -1,0 +1,268 @@
+Enerqa Data Portal Gapminder Integration and Custom Explorer
+Developer implementation guide
+Updated 21 September 2026
+This revision explains how to use the commercial-use assessment spreadsheet and its companion files throughout the implementation. The supplied review identifies 885 candidate records. They must pass the publication checks below before becoming available on Enerqa.
+Objective and scope
+Build two clearly distinguished experiences within Enerqa's Data Portal:
+1. Original Gapminder experience: an attributed embed of Gapminder's interactive tools, where permitted, with an "Open on Gapminder" fallback. Visitors use Gapminder's controls inside that viewer.
+2. Enerqa Data Explorer: a separate, Enerqa-controlled interface. One indicator selector drives animated charts, other chart types, maps, a data table, and data and metadata downloads.
+The Enerqa selector is not expected to control the Gapminder iframe. The custom explorer uses only indicators approved for Enerqa's intended commercial display, transformation and downloads. "Any indicator" below means any approved and technically compatible indicator, not every indicator that appears in Gapminder Tools.
+Gapminder publishes bulk CSV datasets and requests credit to both Gapminder and the original provider. Its FAQ also instructs anyone making their own visualisations to check each indicator's original provider's terms. These are separate requirements from permission to embed Gapminder's charts. Gapminder data page, Gapminder FAQ.
+Step 1 Set the permissions and publication gates
+Before the embed goes live, obtain and record written clarification from Gapminder covering its use on Enerqa's commercial website: permitted chart types, whether a full chart-switching viewer may be embedded, expected traffic, attribution, branding, and any restrictions. Gapminder describes a Share/Embed feature, but that guidance does not by itself establish blanket permission for a corporate site to reproduce every chart. Also review Gapminder's current Terms of Use and privacy terms directly before launch. Gapminder embedding guidance, FAQ.
+Separately, establish an approval record for each indicator considered for the Enerqa explorer. Record the original provider, its terms and evidence URL, and whether Enerqa may:
+•  display the values in a commercial website;
+•  transform them into charts or combined datasets;
+•  provide a data-file download;
+•  re-serve them through Enerqa's data API;
+•  reproduce or download any third-party documentation.
+Treat an unknown permission as not approved for publication, not as proof that reuse is legally prohibited. Keep unapproved records out of the custom selector and every data or download route. An appropriate open-access source link may still be provided separately.
+Keep the required source and licence notices. Do not present Gapminder as an Enerqa partner or name an Enerqa product as though it were a Gapminder product. Gapminder free-material terms, CC BY 4.0 requirements.
+Release gate: the embed cannot be published until its scope is cleared; an indicator cannot enter the custom explorer until its intended chart and download uses are cleared.
+Files to give the developer
+Keep this guide and the following three files together in one folder. The file links are relative: they work when the companion files retain these names and remain beside the guide. If a Word security prompt blocks a link, open the named file directly.
+•  Enerqa Gapminder commercial-use assessment.xlsx.
+•  Enerqa Gapminder commercial-use candidates.json.
+•  Enerqa Gapminder indicator register.csv.
+The workbook is the human-readable review record. The JSON contains the supported candidate records and their pinned data-file URLs. The CSV is a flat register of all 2,198 assessed records for reconciliation; it contains no observations and is not a substitute for the JSON or the data files.
+Keep the delivered files unchanged. Store implementation decisions in a separate version-controlled catalogue and approval log. The spreadsheet is not a live data feed and must not be parsed anew for each visitor request.
+Enerqa must nominate the person responsible for accepting rights evidence and publication conditions. The developer implements the controls and verifies the technical behaviour. The developer must not resolve an unclear licence by changing a cell to Supported.
+Step 2 Inventory the data and chart forms
+Start with the public collections linked from Gapminder's data page: Systema Globalis, Fast Track, and World Development Indicators. Inventory their indicator concepts, data-file paths, dimensions, entity files and documentation. Do not assume these three repositories account for every source used by every live Gapminder chart; Gapminder's Tools architecture identifies additional chart-specific data sources. Tools architecture.
+For each indicator, record at minimum:
+Field
+Purpose
+Stable indicator ID and name
+Search, selection and citations
+Description, topic and keywords
+Search and interpretation
+Unit and measurement definition
+Correct axes and comparisons
+Geographic and time dimensions
+Chart eligibility
+Available countries and years
+Filter choices
+Original provider and source URL
+Provenance and rights review
+Gapminder repository, file path and pinned version
+Reproducibility
+Methodology and limitations
+Responsible use
+Licence decision and permitted actions
+Publication control
+
+Use concept metadata and datapackage.json to discover indicator definitions and resource paths. Systema Globalis and Fast Track use ddf--concepts.csv; the reviewed WDI collection uses ddf--concepts--continuous.csv. WDI supplies per-indicator licence labels, but labels alone do not resolve third-party restrictions or conflicting terms. Start from the assessment and pinned versions supplied with this guide. The links below illustrate the source structure; do not silently switch production to an unreviewed current branch. Preserve the exact dimensions and paths in each pinned manifest. Systema Globalis concepts, Systema Globalis manifest, Fast Track concepts.
+Step 3 Build an approved indicator catalogue
+Create a small searchable catalogue containing the reviewed metadata and permissions, not a database copy of every observation. Add Enerqa topic labels and search synonyms, while preserving the source's indicator name, definition and provenance. Review imported descriptions rather than publishing them blindly.
+The public selector must draw only from approved, active catalogue entries. Keep pending and rejected entries unavailable through both the interface and the data endpoints. An administrative rights record should include who reviewed the indicator, when, the evidence used, and when it must be checked again.
+The catalogue should support keyword, topic, source, region/country and available-year searches. It should also state which visual forms are compatible with each indicator. An indicator being approved does not make it suitable for every chart.
+Read the assessment before importing data
+Open the workbook in Excel or another application that preserves its worksheets, filters and hyperlinks. Start with Results, then use Indicators for record-level decisions and Rules and evidence for the reasons and source terms. A licence label is supporting evidence; Status is the screening conclusion.
+The review dated 21 September 2026 covers three main bulk collections. Counts refer to catalogue records, not deduplicated metrics and not every dataset or visual on Gapminder.
+Status
+Records
+Treatment in this implementation
+Supported
+885
+Eligible for staging. Enable only after the remaining rights, technical, attribution and open-access checks pass.
+Conditional
+646
+Keep disabled until each specified condition is resolved and a revised decision is recorded.
+Permission required
+108
+Keep disabled without a suitable written grant. A fee-bearing grant would not meet the free-only data requirement.
+Unresolved
+559
+Keep disabled while source evidence is incomplete or conflicting. This status does not mean use is necessarily prohibited.
+Total
+2198
+Retain all records in the internal audit, not the public selector.
+
+The Supported pool consists of 847 WDI records, 27 Systema Globalis records and 11 Fast Track records. These are screening results, not 885 automatic production approvals. Public catalogue size may be smaller after duplicate, coverage and technical checks.
+Filter and interpret the Indicators sheet
+1. Clear existing filters. Filter Status to the exact value Supported. The delivered workbook should return 885 records across all three collections. Do not save this filtered view over the original review file.
+2. Optionally narrow Collection and Topic / original tags to select an implementation batch. Search Indicator for a topic or a known name. Keep the source title and identifier even when adding a simpler display label.
+3. For each record, read Rules to read, Action and Review notes. On Rules and evidence, read the shared BASE and CC guidance and every rule ID listed for the record. Semicolon-separated rule IDs are cumulative, not alternatives.
+4. Open the row's Source documentation, Licence / terms and Pinned metadata links. Open the applicable evidence links on the rules sheet. Check the exact release, commercial display, transformations, redistribution and any special conditions.
+5. Check Data files in manifest. A positive count means paths were declared; it does not prove all files were downloaded, their units validated or their public availability tested. Zero must fail the technical check.
+6. Match the row to the JSON using Collection, Gapminder concept and Pinned commit. Compare the exact identifiers, not the display title or the row number. Filtering or sorting must not change the match.
+7. Record the outcome in the implementation catalogue. Leave the record staged until every publication requirement is satisfied. Check the complete remaining pool after the first working batch; do not treat completion of a demo as completion of the full catalogue review.
+Do not select rows by green fill, a search for CC BY, a blank Notes cell or the words in Public display alone. Source-specific conditions can coexist with permissive licence labels. In this review, for example, some EDGAR CO2 and third-party WDI records remain held despite a CC BY label. The World Bank also identifies exceptions for third-party indicators in its dataset terms.
+Match workbook columns to machine readable fields
+Workbook column
+JSON field and use
+A Status
+status. Only the exact value Supported passes the initial screen.
+B Indicator and G Gapminder concept
+name and concept. Use concept for identity and name for display.
+C Collection
+collection. Use collection_key when constructing record_id.
+D Rules to read and E Action
+rule_ids and action. Split rule_ids on semicolons, trim whitespace and resolve each ID in the top-level rules array.
+F WB series code
+series_code. Useful for WDI provenance; it is not a universal key and may be blank.
+H Topic / original tags
+topic. Map to Enerqa topics without discarding original tags.
+I Gapminder licence label and J Source licence label
+declared_licence and current_source_licence. Store as evidence, not publication switches.
+K Source documentation and L Licence / terms
+source_url and licence_url. Use the actual URLs from JSON, not hyperlink display text such as Open source.
+M Pinned metadata and N Data files in manifest
+metadata_url and data_file_count. Actual data paths are in JSON data_urls.
+O Source summary and P Review notes
+source and notes. Workbook source summaries can be shortened; use the complete JSON source for attribution.
+Q Pinned commit and R Review date
+commit and review_date. Keep the full commit identifier. A review date is not a source publication date.
+S Public display and T Public data downloads
+display_assessment and download_assessment. These describe the screen, not completed implementation approval.
+
+The JSON also supplies record_id, collection_key, launch_candidate, data_urls, evidence_urls, commit_date and attribution_template. The top-level snapshots object identifies the repository and pinned commit for each collection. Its rules array supplies findings, required actions and evidence URLs.
+The review files do not provide every production field. Retrieve and validate units, definitions, entity mappings, available observations and coverage from pinned source metadata and data. Add these to the implementation catalogue before publication. Do not infer a unit, country coverage or licence from the indicator's title.
+Import a staging catalogue
+Use record_id as the stable catalogue key and pair it with commit for a release. It follows the pattern collection_key:concept. The collection keys are wdi, systema and fasttrack; they are not interchangeable with the longer display labels.
+1. Parse the JSON with a standard JSON parser. Validate its structure and require an array named candidates. Confirm candidate_count equals the array length and that all record IDs are unique. For this delivered version, the expected length is 885.
+2. Require each candidate to have status equal to Supported, launch_candidate equal to the Boolean true, an allowed collection key, a concept, a commit and at least one data URL. Fail the import for missing required fields or unknown rule IDs. Do not coerce a missing or text value into Boolean true.
+3. Match every candidate to the workbook or full register CSV. Where using CSV, parse quoted fields and UTF-8 correctly and handle its True or False text values explicitly. Counts, status, IDs and commits must agree. A mismatch blocks publication; do not choose whichever file is more permissive.
+4. Validate each commit against snapshots[collection_key].sha. Require every data URL to use HTTPS and the exact reviewed repository and commit path. Reject an arbitrary host, branch URL, traversal path or unexpected redirect.
+5. Import candidates into an internal staging catalogue. Store the complete source and evidence records, the file versions and a checksum of the received review files. Do not serve the entire internal catalogue, approval notes or unrestricted proxy URLs to visitors.
+6. Resolve duplicates deliberately. Similar names in two collections may have different definitions, units, historical estimates or projections. Publish a preferred series or clearly labelled alternatives after comparing the definitions. Do not merge or deduplicate solely by display title or World Bank code.
+The full-register CSV is useful for detecting excluded IDs; it is not the source of observations. Do not upload the XLSX or CSV wholesale to the public Data Portal as though it were a cleared dataset.
+Record publication approval separately
+Create implementation fields for publication_state, rights_review_complete, technical_validation_complete, open_access_verified, attribution_complete and metadata_complete. Initially set the state to staged and these checks to false. Also record reviewed_by, the approval date, evidence references and the actual transformations. These are fields the developer must implement; they are not present in the delivered workbook.
+Record allowed actions separately for display, transformation, data download and serving through Enerqa's API. Each action defaults to false until its scope is confirmed. Reproducing third-party report text is a separate permission and is not implied by a numeric-data assessment.
+A record becomes publishable only when its exact ID and commit remain in the accepted candidate release, its assessment is Supported, all six implementation requirements are satisfied including an enabled publication state, and the requested action is permitted. Missing or unknown values must fail closed. Do not let a browser-supplied flag or query parameter change this result.
+If a condition requires a provider's permission or clarification, refer it to Enerqa's nominated reviewer. Do not contact providers or accept paid licences on Enerqa's behalf without authority. A newly cleared record requires a documented revised assessment and candidate release, followed by the same technical tests.
+Worked example using electricity access
+Find Access to electricity (% of population) in the Indicators sheet. The WDI series code is EG.ELC.ACCS.ZS, its concept is eg_elc_accs_zs, and its JSON record ID is wdi:eg_elc_accs_zs. Its assessment is Supported and its assigned rule is WB. Read that rule together with BASE and CC.
+Use the full commit from the JSON: e7a04a08504ca6715e7d2f262ff2ce0295915be9. The record lists two datapoint resources: one with geo and time dimensions and one with global and time. Choose the geo resource for country comparisons. Treat the global resource as a distinct aggregate, not as extra country rows.
+Fetch the pinned concept metadata and manifest. Check the indicator's definition and units, inspect the CSV header, and validate the entity mapping and available country-year observations. Confirm the credits and open-access links, complete the implementation approval fields, and enable the record only after those checks pass.
+Select a country and year that actually exist in the file. The chart tooltip, table and Download current view must show the same source value and unit. Repeat using multiple countries and a year range. The Full indicator download must state which resource and dimensions it contains, and the metadata download must identify the exact commit and Enerqa changes.
+For animation, pair this record with a separately approved numerical indicator and use only overlapping country-year observations. For a negative test, request wdi:en_ghg_co2_mt_ce_ar5, a record held as Unresolved in this review. It must not appear in the selector or return data through a direct request, even if an upstream file is publicly reachable.
+Step 4 Build a controlled on demand data layer
+A massive data warehouse is not required. When a visitor makes a selection, retrieve only the approved indicator files and the countries/years needed for that view. Use a pinned source version so the chart, table and downloads refer to the same data. A bounded cache or copies of selected, redistribution-cleared CSV files may be used for speed and resilience; these are operational choices, not a requirement to mirror Gapminder's whole database.
+The developer should provide a small Enerqa data service with operations equivalent to:
+•  List/search approved indicators.
+•  Get one indicator's metadata.
+•  Get observations for approved indicator IDs, geographies and years.
+•  Download the current filtered data.
+•  Download an approved indicator's full data, where redistribution is permitted.
+•  Download Enerqa's metadata record.
+These are proposed Enerqa endpoints, not existing Gapminder API URLs. Enforce the approval list on the server as well as in the browser. Never accept an arbitrary upstream URL supplied by a visitor.
+Use an original provider's documented, free commercial-use API where one is suitable; otherwise use approved, versioned CSV files through the controlled data layer. Do not assume Gapminder's internal chart-data server is an unrestricted production API for Enerqa. The public route Gapminder documents for bulk data is its CSV repositories. Gapminder data page, Tools data architecture.
+Enforce the same catalogue across all delivery routes
+Implement one server-side authorization function that resolves the record ID, pinned commit, publication state and requested action. Call it before returning catalogue results, data, metadata or download files. Use the same enabled catalogue for the selector, X and Y axes, bubble size, colour, saved views and chart presets. A restricted secondary axis or size indicator must not bypass the check.
+Reject unknown or disabled IDs even if the visitor knows a valid upstream filename. For a request containing several indicators, validate every one before producing output. Return a clear unavailable response rather than silently dropping restricted series and presenting an incomplete export as complete.
+Cache keys must include the record ID, commit, resource dimensions and normalized filter set. Keep the publication decision separate from the data cache and recheck it on every response, including cached downloads and saved links. A cache hit never grants permission. Do not expose staging files in a public storage bucket, and invalidate cached exports when a record is suspended.
+Define request limits, maximum download sizes and timeouts. Return a useful error when an upstream file fails; do not switch to an unreviewed mirror or newer source revision. A previously validated cached file may be used only while its rights and retention conditions remain valid, with its version and freshness shown.
+Step 5 Normalise and validate data before visualising it
+Convert selected observations into a consistent internal structure: indicator ID, geographic entity ID, year or date, numeric value, unit, source version and any available quality designation. Keep the original values intact.
+Validate numeric types, duplicate records, missing years, country identifiers and units. Never convert a missing value into zero. Do not silently interpolate missing years or present a visual transition as an observed data point.
+Join countries to names, regions and ISO codes using a reviewed mapping. Gapminder's geographic entity file contains more than a simple list of ISO countries, including entries without ISO codes. Exclude or explicitly handle unmatched map entities; do not silently colour the wrong country. Gapminder geographic entities.
+One shared filtered data selection must feed the visualisation, accompanying table and "download current view" action. This prevents the graph and export from disagreeing.
+Interpret multiple resource files correctly
+For each approved record, read the datapackage.json resource schema and primary key. Data URLs can represent country, global, regional or additional-dimensional data. File count is not indicator count, and multiple files must not be concatenated without checking their dimensions.
+Retain every key dimension when parsing. Where age, sex or another dimension exists, expose a suitable filter or select a clearly labelled supported slice. Do not average observations or sum percentages merely to make a chart possible. Preserve source aggregates separately from country observations to prevent double counting.
+Store a content checksum when retrieving a permitted file and cache it with its commit, selected resource, retrieval date and validation outcome. Metadata-file hashes in the supplied JSON do not replace checksums for downloaded observation files. Build region and country availability filters from the validated data and entity mappings rather than offering countries with no observations.
+Step 6 Implement the Enerqa controlled selection interface
+The Enerqa Data Explorer should have:
+•  a searchable, multi-select indicator picker showing name, unit and source;
+•  country, region and year-range filters;
+•  a visualisation switcher: animated bubble chart, line chart, bar/ranking chart, map and table;
+•  chart-specific controls that appear only when relevant;
+•  a visible metadata/source panel;
+•  data and metadata download actions.
+Use one shared page state for selected indicators, geographies, years, visual type and chart settings. Changing the chart type should retain compatible choices. If a choice is incompatible, explain why and offer a valid visual type rather than displaying a blank chart.
+For example, one approved country-by-year indicator can be shown as a line, ranking, map or table. An animated bubble chart needs at least two numerical measures, X and Y, with overlapping countries and years; size and colour can be additional compatible measures. An income "mountain" requires distribution data and cannot be generated meaningfully from an arbitrary country-year indicator.
+Step 7 Render the interactive charts
+For the custom Enerqa explorer, use a current browser-based library capable of scatter/bubble, line, bar, map and time animation. Apache ECharts is one viable option: it supports these chart families, a timeline component and dynamic updates, and is available for commercial products under Apache 2.0. Review and retain its required software notices. The developer may propose an equivalent library if it meets the same functional and licence requirements. ECharts repository and licence.
+Implement at least:
+1. Animated bubble chart: selectable X and Y indicators; optional size and colour; country selection; year slider; play/pause; speed; and visible year, units and source.
+2. Line chart: one or more compatible time series, with clearly labelled units and missing-data gaps.
+3. Bar/ranking chart: selected indicator and year, sortable countries, with time playback only where the data supports it.
+4. Map: a country-by-country numeric view for a selected year, legend, tooltips and clear handling of missing values.
+5. Table: the exact observations underlying the current selection, searchable and sortable.
+Disable chart types when the selected data lacks the required dimensions. Do not place unlike units on an unlabelled common scale. Provide an accessible table and concise text description even when a visual chart is present.
+For a fee-free world map, the developer can assess Natural Earth's public-domain boundaries rather than assuming a paid map-tile service. Document the join between those boundaries and Gapminder's geographic identifiers.
+Do not use Google's old Motion Chart: Google's documentation identifies it as Flash-based, and Flash is no longer supported. Google Motion Chart documentation, Adobe end-of-life notice.
+Step 8 Add the original Gapminder experience separately
+Create a clearly labelled section or tab such as "Explore the original tools on Gapminder". Once the permission gate is satisfied, generate embed code using Gapminder's current Share/Embed function; do not assume one hand-written iframe URL works for every chart type. Test the requested chart forms and the chart switcher on Enerqa's actual domain, at laptop and mobile widths. Gapminder embedding guidance.
+Include:
+•  visible "Interactive tool provided by Gapminder" attribution;
+•  an "Open on Gapminder" link for the same view where possible;
+•  a descriptive iframe title and loading/error state;
+•  a fallback link if embedding is blocked or unavailable.
+Gapminder's source describes an embedded mode and an internal messaging bridge, but that bridge should not be treated as a stable public integration contract for Enerqa's selector without an arrangement with Gapminder. Keep the two control systems distinct. Gapminder Tools architecture.
+Step 9 Implement data and metadata downloads
+For every indicator in the custom explorer, offer a metadata view beside the chart and a downloadable machine-readable metadata file, such as JSON. The metadata should identify the indicator, definition, units, dimensions, geographic and year coverage, provider, Gapminder intermediary source, source URLs, licence and attribution, dataset version or commit, Enerqa transformations, review date and limitations. If a source document cannot legally be copied, link to it rather than bundling it into the metadata download.
+Provide:
+•  Download current view (CSV): exactly the filtered records represented by the chart and table, labelled as an Enerqa selection or transformation.
+•  Download full indicator data (CSV): only when the rights record permits Enerqa to redistribute that file.
+•  Download metadata (JSON, with a human-readable on-page view).
+•  Open original source: an anonymously accessible link to the full original dataset or documentation.
+Downloads must include or accompany the required source, Gapminder and licence credit. Test them in a signed-out browser: the previously agreed site rule requires full-reading and dataset links to be genuinely open access, without a paywall or sign-in.
+Assemble consistent export packages
+Generate chart, table and export queries from the same normalized selection. The current-view CSV must identify indicator, geography, time, value, unit and dataset version; include any extra dimensions needed to distinguish rows. If multiple indicators have different units, use separate series or a long-format CSV with a unit field, not an ambiguous combined value column.
+Keep the primary CSV machine-readable. Provide accompanying metadata.json and README.txt files, preferably together with the CSV in a ZIP download, so source credits, licence links, filters, resource dimensions and transformation notes travel with the data. Also retain the separate CSV and metadata download actions described above.
+Populate metadata from the validated catalogue, not only from the assessment spreadsheet. Include full original-provider credits, the World Bank where applicable, Gapminder, title, definition, units, selected filters, geographic and time coverage, missing-value treatment, exact source URLs, commit, retrieval date and declared modifications. Carry forward applicable source limitations. Do not publish internal reviewer contact details or private permission correspondence.
+The JSON attribution_template is a starting template, not finished public copy. Replace its instruction about describing actual transformations with a truthful statement, such as selection of countries and years without changing values. Retain required acknowledgement and terms links, including the World Bank dataset terms for WDI-derived material. Do not mark third-party data as exclusively owned by Enerqa or impose blanket all-rights-reserved terms on openly licensed data.
+Before activation, test every public source and download link without signing in. The original-source URL, documentation URL and downloadable raw-file URL may differ. Validate them separately. If an official link is gated, do not label it open access or substitute an unreviewed source; provide a lawful open copy or another verified open link, or keep the record staged. A link in the assessment is evidence to inspect, not proof that every destination has passed this test.
+Step 10 Show provenance and limitations at the point of use
+Show the original provider, "via Gapminder" where applicable, licence link, unit, latest available year and dataset version beside each chart and download, not only in a site-wide footer. Identify changes made by Enerqa.
+Do not label a dataset "live" merely because the chart is interactive. Where the source distinguishes measured values, estimates, interpolations and projections, preserve those distinctions. Where record-level status is not supplied, say that the Gapminder series may include estimates or gap-filling, rather than inventing classifications.
+Gapminder states that many of its gap-filled series are intended to illustrate broad trends, not detailed numerical analysis; its historical country series also use present-day geographic boundaries. These cautions must remain available in Enerqa's metadata and interface. Do not present the explorer as a substitute for source-grade MRV, feasibility or investment evidence. Gapminder methodology, geographic-boundary explanation.
+Step 11 Address accessibility privacy reliability and updates
+Make every selector, playback control, tab, table and download keyboard-operable. Provide pause controls, respect reduced-motion preferences, and supply text and table alternatives for charts and maps. W3C guidance on complex charts and maps.
+Before loading the third-party iframe, test what external requests and cookies it creates and apply Enerqa's privacy notice and consent approach as required. Do not claim Gapminder's privacy behaviour has been cleared without that test. Keep an external-link fallback.
+Pin dataset revisions and maintain an update process. When an upstream source changes, compare indicator IDs, file paths, dimensions, definitions, units, provider and rights evidence. Newly discovered or materially changed indicators return to pending review; they must not enter the public selector automatically. Cache only what Enerqa is permitted to retain and serve. Monitor broken links, failed data retrieval and licence changes.
+If the developer elects to use Vizabi components for closer visual similarity to Gapminder, review each package and dependency licence first. In particular, the Vizabi DDFcsv reader repository identifies GPL-3.0 terms; it should not simply be added to proprietary site code without legal and technical review.
+Maintain the rights decisions during updates
+Keep the delivered assessment as an immutable baseline. Import a later assessment into staging and compare it with the currently enabled catalogue by record ID and commit. Log additions, removals and changes to status, provider, licence, definition, unit, dimensions, data path and applicable rules. New source revisions require review; a Supported label on one commit does not approve the next commit automatically.
+If a record moves to a held status, suspend it before the next release and remove it from selectors, presets, data routes and new downloads. Invalidate CDN and application caches under Enerqa's control. Previously downloaded copies cannot be recalled; record the affected release and determine any notification or remediation with Enerqa's reviewer.
+Keep a change log, evidence references, approval identity, approval date and a chosen recheck date. Monitor open-access links and source failures. If an import is corrupt, do not deploy it. An earlier validated release may remain active only if its rights and conditions are still valid; a rights warning must not be bypassed by rolling back to an older permission flag.
+Step 12 Test against a launch checklist
+Begin with a small set of approved indicators that overlap in country and year coverage. Complete the whole visitor journey for those indicators before expanding the catalogue.
+The portal is ready to launch only when:
+•  if the original Gapminder embed is included, its agreed commercial scope is documented, tested on Enerqa's domain, and backed by an external-link fallback; if not cleared, keep the iframe disabled and use the reviewed external link only;
+•  no unapproved indicator is returned by search, data or download endpoints;
+•  a visitor can select approved indicators and valid countries/years, play and pause an animated chart, and switch among compatible chart, map and table views;
+•  incompatible chart choices give a clear explanation;
+•  charts, tables and downloaded CSVs show the same values, filters, units and version;
+•  every approved indicator has a visible, downloadable metadata record and an open-access original-source link;
+•  required source, Gapminder, licence and transformation credits are present;
+•  missing values, estimates and geographic limitations are not misrepresented;
+•  keyboard, mobile, reduced-motion, privacy and broken-embed tests pass;
+•  all promised downloads work without an Enerqa account, third-party account or paywall.
+Acceptance tests for the assessment integration
+Run these tests in staging and retain the actual inputs and results. Replace demonstration selections with country-year records verified in the pinned files.
+Test
+Required result
+Reconcile delivered files
+2,198 assessed records, 885 Supported candidates, and matching IDs and commits across workbook, CSV and JSON. No duplicate record IDs.
+Import an invalid record
+Missing commit, unknown rule, duplicate ID, false candidate flag or non-Supported status prevents publication.
+Test all four statuses
+Supported remains staged until checks pass. Conditional, Permission required and Unresolved cannot be enabled by the standard import.
+Check secondary selections
+Restricted X, Y, size or colour indicators are rejected just like a restricted primary series.
+Try direct and cached requests
+Unknown or disabled IDs fail through data, metadata, full download, current-view download and saved-view routes. Cached content does not bypass suspension.
+Request several indicators
+Every record must pass its own checks. A mixed allowed and disallowed request produces an explicit failure, not an unlabelled partial result.
+Compare values
+Charts, tables and current-view CSV contain identical filtered observations, dimensions, units and source versions.
+Exercise animation and missing values
+Playback uses valid overlap, displays the year, pauses correctly and does not turn missing values into zeros or fabricated observations.
+Inspect full-resource downloads
+Country and global resources remain distinguishable. Extra dimensions are retained or an explicit approved slice is stated.
+Inspect metadata and attribution
+Complete source credits, terms links, commit, units, filters, limitations and actual transformations are present. No instruction placeholders remain.
+Test signed out
+All promised public datasets, downloads and full-reading links work without accounts or payment.
+Simulate a changed licence or release
+The affected record is held for review; caches and public availability obey the new decision. No automatic upstream fallback occurs.
+
+Handover deliverables
+Give Enerqa the deployed explorer and source code, the versioned implementation catalogue, the decision log and the original assessment files. Include a reconciliation showing how many of the 885 candidates were enabled, remain staged or were deliberately omitted, with reasons for each omission. Do not describe all 885 as available unless this is verified.
+Provide the tested data adapters, configuration, cache and download setup, completed attribution text, public metadata schema and sample exports. Supply the test results, dependency licences, update procedure and instructions for disabling a record immediately. Store secrets outside source code and document any operational hosting or storage costs separately from the requirement that the data and APIs themselves are free to use.
+Demonstrate the full workflow to Enerqa: locate a row in the spreadsheet, read its rules, match its exact JSON record, complete staging checks, enable it, visualize it, download the same selection and its metadata, then suspend it and confirm that both the interface and direct endpoints stop serving it.
+The original Gapminder embed provides access to Gapminder's own interactive experience. The Enerqa explorer provides the unified selection-and-download experience for the subset that has passed rights and technical checks. Neither should be presented as a wholesale, automatically licensed copy of every Gapminder dataset or chart.

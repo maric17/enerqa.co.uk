@@ -130,8 +130,10 @@ export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all'): Promise<
     // is also what keeps us inside GDELT's request shedding.
     revalidate: 5400,
     tags: ['news'],
-    // GDELT regularly takes over 10 s; the call is behind a Suspense boundary.
-    timeoutMs: 20000,
+    // GDELT regularly takes over 10 s (every successful reply on 26 Sep 2026
+    // took ~17 s), so 20 s cut good answers off. The call is behind a
+    // Suspense boundary, and a cache hit never waits for it.
+    timeoutMs: 30000,
     asText: true,
     rejectBody: rejectGdeltBody,
   });

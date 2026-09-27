@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, Filter, Download, ArrowRight, Table, BarChart2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { PageHero } from '@/components/ui/PageHero';
 import DataPortalD03 from '@/components/data/DataPortalD03';
 
 export default function DataPortalClient({ datasets, dashboards = [], categories = [] }: { datasets: any[], dashboards?: any[], categories?: any[] }) {
@@ -43,14 +44,23 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
   }, [searchQuery, datasets, activeDomains, selectedTopic, selectedGeography, selectedPeriod, selectedSource, selectedFrequency, selectedFormat]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
       
       {/* D01 Data Portal Intro */}
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+      <PageHero
+        title="Data Portal"
+        imageUrl="/images/data_portal_banner_no_text.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Data Portal</span>
+          </>
+        }
+      />
+
+      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Data Portal</h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-6">
+          <div className="max-w-4xl mb-8">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
               Explore open-access data across all four domains: Climate Action, Energy Systems, Environment, and Sustainable Business. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
             </p>
           </div>
@@ -90,7 +100,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
             {/* Filters Sidebar */}
             <div className="lg:col-span-1 space-y-8">
               <h2 className="font-bold text-[var(--color-dark)] text-lg mb-4 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-400" /> Filters
+                <Filter className="w-5 h-5 text-gray-500" /> Filters
               </h2>
               
               <div className="space-y-6">
@@ -214,7 +224,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
             <div className="lg:col-span-3">
               <div className="mb-8">
                 <form className="relative max-w-2xl" onSubmit={(e) => e.preventDefault()}>
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
                   <input 
                     type="text" 
                     placeholder="Search datasets or indicators" 
@@ -246,11 +256,11 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                       <div className="flex-1">
                         <div className="flex flex-wrap gap-2 mb-3 text-xs font-bold uppercase tracking-wider">
                           <span className="text-[var(--color-primary)]">{ds.apiEndpoint ? 'API Source' : 'Dataset'}</span>
-                          <span className="text-gray-400">|</span>
+                          <span className="text-gray-500">|</span>
                           <span className="text-gray-600">Updated: {new Date(ds.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                           {ds.version && (
                             <>
-                              <span className="text-gray-400">|</span>
+                              <span className="text-gray-500">|</span>
                               <span className="text-gray-600">
                                 {ds.version.match(/^v?\d/) ? (ds.version.startsWith('v') ? ds.version : `v${ds.version}`) : ds.version}
                               </span>
@@ -294,7 +304,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                            </>
                         ) : (
                            <>
-                             <BarChart2 className="w-8 h-8 text-gray-400" />
+                             <BarChart2 className="w-8 h-8 text-gray-500" />
                              <span className="text-xs text-center text-gray-500 font-medium">Data visualization</span>
                            </>
                         )}

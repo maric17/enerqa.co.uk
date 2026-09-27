@@ -16,6 +16,9 @@ const SECTIONS = [
   { prefix: '/data-portal', label: 'Data Portal', href: '/data-portal' },
   { prefix: '/tools', label: 'Tools', href: '/tools' },
   { prefix: '/about', label: 'About', href: '/about' },
+  { prefix: '/domains-and-industries', label: 'Domains and Industries', href: '/domains-and-industries' },
+  { prefix: '/domains', label: 'Domains', href: '/domains-and-industries' },
+  { prefix: '/industries', label: 'Industries', href: '/domains-and-industries' },
 ];
 
 // Not exported: Next special files should only export their component.

@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Globe, BarChart2, Mail } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { PageHero } from '@/components/ui/PageHero';
 
 import { Metadata } from 'next';
 
@@ -17,14 +18,23 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
       
       {/* A01 About Enerqa */}
-      <section id="overview" className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800 scroll-mt-20">
+      <PageHero
+        title="About Enerqa"
+        imageUrl="/images/about_banner_people.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">About</span>
+          </>
+        }
+      />
+
+      <section id="overview" className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm scroll-mt-20">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">About Enerqa</h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-6">
+          <div className="max-w-4xl mb-8">
+            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
               Enerqa is a multidisciplinary project-development and consultancy company working across climate action and carbon management, energy systems and transition, environment, nature and circularity, and sustainable business, ESG and finance. Our role is to connect technical understanding with the commercial, environmental and institutional decisions needed to develop practical initiatives.
             </p>
           </div>

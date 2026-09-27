@@ -7,6 +7,7 @@ import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
+import { ExternalEmbed } from '@/components/ExternalEmbed';
 import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { Download, ExternalLink, CheckCircle2, ShieldAlert } from 'lucide-react';
@@ -149,12 +150,11 @@ export default async function DatasetDetailPage({ params }: Props) {
                 Explore the Data
               </Typography>
               <div className="w-full rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50 aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]">
-                <iframe 
-                  src={dataset.embedUrl as string} 
-                  className="w-full h-full border-none"
+                {/* The provider's chart may set its own cookies: it loads only with consent (p. 208 U03). */}
+                <ExternalEmbed
+                  src={dataset.embedUrl as string}
                   title={`Interactive chart for ${dataset.title}`}
-                  allowFullScreen
-                  loading="lazy"
+                  className="w-full h-full border-none"
                 />
               </div>
             </div>

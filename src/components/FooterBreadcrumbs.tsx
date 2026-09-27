@@ -85,9 +85,16 @@ export function breadcrumbTrail(pathname: string | null): Crumb[] | null {
 
 // Templates that render their own breadcrumb at the top of the page, with the
 // record's real title (tools/page.tsx, tools/[slug], domains/[slug],
-// industries/[slug], about/careers). Repeating it here gave those pages two
-// "Breadcrumb" landmarks. Add a route when another template gains one.
-const OWN_TRAIL_ROUTES = [/^\/tools$/, /^\/about\/careers$/, /^\/(domains|industries|tools)\/[^/]+$/];
+// industries/[slug], about/careers, knowledge-hub/page.tsx K01, [policy]).
+// Repeating it here gave those pages two "Breadcrumb" landmarks. Add a route
+// when another template gains one.
+const OWN_TRAIL_ROUTES = [
+  /^\/tools$/,
+  /^\/about\/careers$/,
+  /^\/knowledge-hub$/,
+  /^\/(domains|industries|tools)\/[^/]+$/,
+  /^\/(privacy|terms|cookie-choices|accessibility)$/,
+];
 
 export function templateHasOwnTrail(pathname: string | null): boolean {
   const path = (pathname ?? '/').replace(/\/+$/, '') || '/';

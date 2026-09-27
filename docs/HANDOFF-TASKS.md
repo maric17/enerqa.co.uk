@@ -23,14 +23,16 @@ On 25 Sep, coding agents worked through the open items. Two finished: homepage a
 
 | Status | Items |
 |---|---|
-| ✅ confirmed done | 271 |
-| 🟡 partly done | 147 |
-| ❌ not done | 13 |
-| 🔍 needs a human decision or approved content | 22 |
-| ❓ could not be verified | 1 |
-| **To do lines** | **165** |
+| ✅ confirmed done | 300 |
+| 🟡 partly done | 129 |
+| ❌ not done | 7 |
+| 🔍 needs a human decision or approved content | 19 |
+| ❓ could not be verified | 0 |
+| **To do lines** | **142** |
 
-**How this was checked:** by reading the code. `npx tsc --noEmit` is clean and `npx vitest run` passes (**271/271, 24 files**). The redirects were checked statically against the page and slug lists. **Not done this pass:** no dev server, no `npm run build`, and no database reads (declined), so anything that depends on live data or rendering says "not verified live".
+Counted with `grep` on 26 Sep 2026, after the publication update, the re-check of 11 unverified ticks, the Part 8 work and the AI Search check (session log, 26 Sep); updated 27 Sep after the policy-page work and the owner's approval of the four texts (session log, 27 Sep). AI Search has its own board: `docs/AI-SEARCH-TASKS.md`.
+
+**How this was checked:** by reading the code. `npx tsc --noEmit` is clean and `npx vitest run` passes (**271/271, 24 files**). The redirects were checked statically against the page and slug lists. **Not done this pass:** no dev server, no `npm run build`, and no database reads (declined), so anything that depends on live data or rendering says "not verified live". The later publication update (26 Sep) did read the database, read-only, to verify the write.
 
 ### Fixed on 26 Sep during the re-check (they broke the build or the site)
 - **The Data Portal didn't compile.** Escaped backticks at `DataPortalClient.tsx:255` and `DataPortalD03.tsx:151` were a syntax error.
@@ -39,7 +41,7 @@ On 25 Sep, coding agents worked through the open items. Two finished: homepage a
 - **The next dev start would have prompted for data loss.** `Datasets.accessStatus` had dropped `free`/`restricted`, which all 3 rows use. Both are back as legacy options, and neither counts as publishable.
 - **The new `Policies` collection had no types.** They are regenerated (`npm run generate:types`).
 - **The sitemap listed the 4 hidden tools,** which 404. It now uses `publishedToolsWhere`.
-- **The rebuilt publication bodies (all 24) lived only in a temp folder.** They are saved to `scripts/publication-rebuild/` with their write script. See Part 8 for whether the write ever committed.
+- **The rebuilt publication bodies (all 24) lived only in a temp folder.** They are saved to `scripts/publication-rebuild/` with their write script, which was run and verified later on 26 Sep (Part 8).
 
 ### What still needs doing, in priority order
 1. **One shared database (owner's decision, 26 Sep 2026).**
@@ -51,8 +53,8 @@ On 25 Sep, coding agents worked through the open items. Two finished: homepage a
      - Keep collection changes additive.
      - Back up a table before removing or renaming any field.
 
-2. **The policy pages 404.** `/privacy`, `/terms`, `/cookie-choices` and `/accessibility` render only from a `Policies` record, and there are none. The footer, the sitemap and the contact form's privacy line all link to them. Enter the approved text (🔍 legal), or put interim pages back.
-3. **Check whether the publication rewrite committed.** Open `/knowledge-hub/sustainable-tourism`: if it still shows the Burger article, run `scripts/publication-rebuild/write_pubs.js --dry`, review the output, then run it for real. The Sudan article was never migrated, so its two redirects land on a 404.
+2. **Policy pages: live since 27 Sep.** All four are approved, match the code, are formatted with real headings and are linked from the footer. Privacy still needs the company's answers on legal entity, retention and lawful basis (1.3, 12.10). The last text update was written straight to the DB, so redeploy for deployed sites to pick it up.
+3. **Publications: finish the last small items.** The body rewrite was run on 26 Sep 2026 and checked read-only: all 25 bodies match the rebuild word for word, every article has a byline, 24 of 25 have a topic, and 9 of 25 dates are verified. The Sudan article was added, so its two redirects land. Left: redeploy (`/knowledge-hub` is built at deploy time, so it keeps the old excerpts until then), fix Sudan's heading and excerpt and add its diagram, then the 🔍 dates, bylines and tags (Part 8).
 4. **The Data Portal detail work isn't built.**
    - DS02, DS03, DS04 and DS06 are missing.
    - The dataset publish gate doesn't apply on the site: Local API queries skip access rules.
@@ -61,14 +63,11 @@ On 25 Sep, coding agents worked through the open items. Two finished: homepage a
 5. **Knowledge Hub / publication detail.**
    - PUBL01/04/05/06 wording and fields.
    - An in-page breadcrumb on publication and dataset detail.
-   - The `#stay-informed` and `#publications` anchors don't exist.
 6. **Accessibility.**
-   - `text-gray-400` → `text-gray-500` on white (list in 14.3).
-   - Input focus rings → `--color-primary-deep`.
-   - `loading="lazy"` on the two iframes.
+   - Input focus rings → `--color-primary-deep` (19 left; `text-gray-400` is done).
    - Run the p. 228 test matrix.
-7. **Human decisions (🔍), 22 items:**
-   - the AI provider and its free-tier terms
+7. **Human decisions (🔍):** all collected as client questions in `docs/CLIENT-QUESTIONS.md` (27 Sep 2026).
+   - AI Search Phase 0: budget B, the approved service catalogue and URL registry (the provider is OpenAI per its separate handoff; `docs/AI-SEARCH-TASKS.md`)
    - OWID/Ember datasets, which are not approved providers
    - tool names and versions
    - Relevant Industries per domain
@@ -109,6 +108,18 @@ Every item on this board was re-checked against the code, the database (read-onl
 
 ---
 
+## Session log — 27 Sep 2026
+
+**Policy pages (1.3, 12.10).** Goal: finish everything in 1.3 that code can finish.
+- `Policies` gained `approved`, `approvedBy` and `approvedOn` (additive; the owner's dev server on :3000 pushed the three columns, and existing rows defaulted to not approved). Unapproved rows 404, and the footer, sitemap, sibling list and form consent lines link approved policies only. The public API hides drafts. Saving a policy refreshes the site's cache (`revalidatePath('/', 'layout')`); this was not tested live, because no row can be approved yet.
+- The p. 208 titles are fixed in code. Privacy and Accessibility get a contact block. Cookie Choices gets a real consent control, and every iframe goes through `ExternalEmbed`, which waits for consent.
+- `docs/POLICY-FACTS.md`: the facts the approved texts must reflect, and how to publish them.
+- Not done, because it isn't code: the four approved texts, and the p. 228 testing the Accessibility Statement must be based on.
+- `tsc` clean, eslint clean on the changed files, 316/316 tests (30 files). Checked on the dev server: 4 policy URLs → 404; 11 pages → 200 with no policy links; `/data-portal/explorer` embed gate checked in headless Chromium.
+- **Later on 27 Sep: the owner approved all four texts.** Checked on the dev server: 4/4 pages → 200 with p. 208 titles, the footer and sitemap link all four, the cookie control and contact blocks render. The published text was then read and compared with the code: Terms holds; Privacy, Cookie Choices and Accessibility each contain a statement the code contradicts (1.3). `text-gray-400` turned out to be fully removed from `src` (14.3 updated).
+- **Evening of 27 Sep: corrected texts.** Replacement text for Privacy, Cookie Choices and Accessibility was drafted from the code (a direct DB write was blocked by the permission system; the owner pasted the text into `/admin`). Read back from the API: the words match on all three, and every page still shows its control or contact block and all four footer links. Pasting from the chat left two `vscode-webview://` links and a quote wrapper on Privacy, and plain-text section titles on all three (1.3). A second paste of Privacy fixed the links (now plain text) and the headings; the quote wrapper remained, because the emptied editor line kept its Quote format.
+- **Night of 27 Sep: formatting fixed by script.** The owner ran the prepared script (backup of all 4 rows first, then one transaction), which rewrote the three texts with identical wording and correct structure. Checked from the API and the dev server: Heading 2 sections on all three, no quote block, Privacy's links go to `/newsletter/unsubscribe`, `/cookie-choices` and `mailto:info@enerqa.co.uk`, all pages 200 with 4 footer links. The script wrote to the DB directly, so the CMS cache-refresh hook did not run: redeploy for deployed sites.
+
 ## Session log — 25–26 Sep 2026
 
 **25 Sep: parallel agents.** Every table was first backed up to a scratchpad JSON.
@@ -127,6 +138,23 @@ Every item on this board was re-checked against the code, the database (read-onl
 - It built the Data Portal D02/D03/D04/D06, Dashboards on `datasetConnector`, and the sources page from the registry.
 - It removed the KnowledgeHubConfig Learning/Glossary fields.
 - It ticked many items. The re-check above corrected those ticks, and fixed the regressions listed under "Fixed on 26 Sep".
+
+**26 Sep: publications.**
+- A read-only check showed the 25 Sep rewrite had rolled back. The rebuilt bodies were re-checked, then `write_pubs.cjs` (renamed from `.js`, which the repo's `"type": "module"` refused to run) was run by the owner. A read-only check afterwards: 25/25 bodies match the rebuild, 25/25 have a byline, 24/25 a topic, 9/25 a verified date.
+- The owner added the Sudan article (id 25) from the live page.
+- Code: `/knowledge-hub` selects only card fields; publication dates and the Year facet use UTC; the detail page only serves `recordKind: article`. `tsc` clean, 271/271 tests. Not checked in a browser.
+- **Re-check of 11 ticks added after the last commit** (read-only DB, code and spec; no dev server): 3 hold (404 page, source-unavailable pattern, research themes). Industry News, I{nn}R research and the dataset preview are 🟡. `/cookie-choices` is ❌. `/privacy`, `/terms`, `/accessibility` and the footer utility links are 🔍: they show generic placeholder legal text. The re-check also found a draft dataset shown on 6 industry pages and an enabled `openai` provider (Biggest risks 4 and 9).
+
+**26 Sep: AI Search check.**
+- The OpenAI work follows a separate spec (`docs/reenerqawebsitedeveloperhandoff/Enerqa_AI_Search_Developer_Handoff.docx`), so it is tracked in its own board, `docs/AI-SEARCH-TASKS.md`. Result: the provider choice matches that spec, but Phase 0 sign-offs don't exist, the answer never displays, and invented company claims show. No OpenAI call was made during the check.
+
+**26 Sep: Part 8.**
+- K01 breadcrumb; K02 heading, copy and `aria-current`, one `CollectionSwitch` on both collections; K03 heading, labelled search across title, article text, summary and tags (`publicationFinder.ts`, 21 tests), p. 155 facet order, pagination; K04 heading, intro, featured latest publication, tags, first-party label, Read Article always plus Download Report; K05 block with a streamed news preview; K06 copy, h2 and `#stay-informed`.
+- Only K03/K04 run in the browser now; K01, K02, K05 and K06 are server-rendered.
+- `tsc` clean, eslint clean on the changed files, 292/292 tests.
+- Follow-up from the owner's own test ("hydro" + Year 2022 gave 0 results — correct, since the one 2022 article never mentions hydro, but a dead end): every filter option now shows its result count and is disabled at 0; an empty result offers "Clear search" and "Remove filters" separately. Checked in the browser both ways round.
+- **Checked in a browser** (owner's dev server on :3000, which showed no schema prompt; headless Chromium at 1366×768 and 390 px): 25 of 25 shown, pages of 11/10/4 with focus moved to the K04 heading and Next disabled on the last page; search "electrolysis" → 1, "hydro" → 5, "carbon footprint" → 9, nonsense → the empty state; Clear All also empties the search box; Topic "Frameworks and Methodologies" → 4 and Year 2022 → Sudan, with removable chips; K05 shows 3 NewsData items; `/knowledge-hub#stay-informed` scrolls to K06; Global Intelligence marks its own collection; on a phone the filters fold behind a button and nothing scrolls sideways. No hydration errors. The only console error is GDELT not responding (the connector's back-off log). The page's HTML fell from 2.76 MB to 225 KB (dev build).
+- Redirects checked on the dev server: `/newsletter-subscription` → `/knowledge-hub#stay-informed`; `/sudan-s-energy-balance-2020` and `/insights/sudan-s-energy-balance-2020` → the Sudan article (200); `/knowledge-hub/sustainable-tourism` shows the tourism article, not the Burger one.
 
 ---
 
@@ -162,30 +190,31 @@ The uncommitted change that turned domain capabilities into their own `Capabilit
 
 | Area | PDF pages | Status (26 Sep 2026) |
 |---|---|---|
-| 1. Sitemap & page inventory | 3–6 | 🟡 Live-site URLs are now redirected: 33 of 35 live and legacy paths resolve. The exception is the Sudan article, which was never migrated. The **4 policy pages 404** until approved text is entered in the `Policies` collection, which has no migration. The sources directory is generated, but its copy isn't p. 195's. Careers is correctly gated. |
-| 2. Header, mega menu, footer | 7–8 | ✅ Header, mega menu, search dialog, focus ring, mobile groups, six footer groups, breadcrumbs and the Arabic notice are done and test-verified. Left: in-page breadcrumbs on publication and dataset detail; footer links to the 404 policy pages; narrow widths not checked in a browser. |
+| 1. Sitemap & page inventory | 3–6 | 🟡 Live-site URLs are now redirected: all 35 live and legacy paths reach a real page (the Sudan article was added on 26 Sep; its redirects checked on a dev server). The 4 policy pages are approved, live and match the code (27 Sep); Privacy needs the company's entity, retention and lawful-basis answers (1.3). The sources directory is generated, but its copy isn't p. 195's. Careers is correctly gated. |
+| 2. Header, mega menu, footer | 7–8 | ✅ Header, mega menu, search dialog, focus ring, mobile groups, six footer groups, breadcrumbs and the Arabic notice are done and test-verified. Left: in-page breadcrumbs on publication and dataset detail; narrow widths not checked in a browser. |
 | 3. Homepage | 9–15 | ✅ All 13 segments use the exact PDF copy, with a compact hero, streaming feeds and a pause control. Left: a live first-fold check at 1366×768 (only an offline check was done), the teaser rights review, and removing the unused `react-type-animation`. |
 | 4. Domains & Industries overview | 16–20 | ✅ **complete** |
 | 5. Four domain pages | 21–60 | 🟡 Research ranking (OpenAlex → DOAJ) and the future-date gate are fixed in code. News card counts, source notes and skeleton sizing were not re-verified live. Relevant Industries needs sign-off (🔍). |
 | 6. Thirteen industry pages | 61–138 | 🟡 All copy and 52/52 work-area links are verified. The specialist feeds and news coverage from a stopped agent were not re-verified live. There are no datasets or publications linked. |
 | 7. Project Development (lifecycle) | 139–151 | ✅ **complete** |
-| 8. Knowledge Hub | 152–156 | 🟡 The publication page crash is fixed (26 Sep) and the redirects work. All 24 bodies were rebuilt from the archive PDF, but **it's unknown whether the DB write committed**. The Sudan article is missing. K02–K06 wording, pagination and tags are still open. Dates and bylines need a human. |
+| 8. Knowledge Hub | 152–156 | 🟡 The publication page crash is fixed and the redirects work. **All 25 articles now have clean bodies, bylines and (except Sudan) topics** — written and verified 26 Sep. 9 of 25 dates are verified. K01–K06 are built to pp. 152–156 and were checked in a browser on 26 Sep. Left: one real newsletter test signup, Sudan's admin fixes, and the 🔍 dates, bylines and domain/industry tags. |
 | 9. Data Portal | 157–161 | 🟡 D02/D03/D04/D06 exist. The publish gate **doesn't apply on the site**. D03's chart has no table and links to OWID. None of the p. 161 candidate datasets exist yet. OWID and Ember are not approved providers (🔍). |
 | 10. Tools | 162–166 | ✅ T01–T05 are verbatim from pp. 165–166 and CMS-driven. Unvalidated tools are hidden everywhere, including the sitemap. Left: TD02 units, TD03 method and version, TD05 guide and privacy, and the company must confirm the other tools' names and versions (🔍). |
 | 11. About | 167–170 | ✅ The A02 side panel and the `/contact` office line are removed. Team content only when approved (🔍). |
-| 12. Detail & utility templates | 171–208 | 🟡 Done: contact F01–F04 with URL preselection; search labels, index and failure state. PUBL segments are coded, but four differ from p. 174. **DS02/03/04/06 are not built.** Dashboards ignore `datasetConnector`. The policy pages 404. AI answers need a provider decision (🔍). |
+| 12. Detail & utility templates | 171–208 | 🟡 Done: contact F01–F04 with URL preselection; search labels, index and failure state. PUBL segments are coded, but four differ from p. 174. **DS02/03/04/06 are not built.** Dashboards ignore `datasetConnector`. The policy pages are live; Privacy needs the company's entity and retention answers. AI answers follow a separate AI Search handoff (OpenAI); its Phase 0 and 1 are open (`docs/AI-SEARCH-TASKS.md`). |
 | 13. API provider specs | 209–224 | 🟡 Done and tested: budgets count only real upstream calls; backoff, Retry-After and a circuit breaker; timeouts; the OpenAlex cap; CSV formula injection. Left: the Global Intelligence stale notice, no page links `/api/data`, OECD, and the unused EIA/GBIF Occurrence/OpenAQ connectors. |
-| 14. Implementation & acceptance | 225–229 | 🟡 Focus, reduced motion, dialogs and layout-shift items are fixed. Left: apply the migration on production, contrast (`text-gray-400`), accessible chart tables, lazy iframes, the p. 228 test matrix, breadcrumb JSON-LD, email delivery and analytics. |
+| 14. Implementation & acceptance | 225–229 | 🟡 Focus, reduced motion, dialogs and layout-shift items are fixed. Left: apply the migration on production, focus-ring contrast, accessible chart tables, the p. 228 test matrix, breadcrumb JSON-LD, email delivery and analytics. |
 
 **Biggest risks right now** (details in each part):
 1. ⚠️ **Revoke the old newsapi.org key.** It is in git history (commit `f9c4320`). Deleting the line does not un-publish it, and only the key owner can revoke it. No `NEXT_PUBLIC_` credential remains in `src/`.
 2. ⚠️ **One shared database for dev and production** (decision 26 Sep 2026). Every local `npm run dev` pushes schema changes to the live site. Follow the guardrails in the status section (read any data-loss prompt, additive changes only, back up first); a "yes" to that prompt is what wiped the capability data on 24 Sep.
-3. ⚠️ **The policy pages 404.** The footer, the sitemap and the contact privacy line link to them (Part 1 / 12.10).
-4. ⚠️ **The publication data state is unknown.** A single-transaction rewrite was stopped mid-run. Check `/knowledge-hub/sustainable-tourism` (Part 8).
+3. ~~Policy texts that contradicted the code, and Privacy's dead links~~ — fixed 27 Sep (Part 1 / 12.10). Privacy still needs the legal entity, retention and lawful basis from the company.
+4. ⚠️ **A draft dataset is public on 6 industry pages.** On 26 Sep the World Bank "Adjusted Net Savings" row (`status: draft`, legacy access "free") was linked to I01, I02, I06, I08, I09 and I13, and `RelatedDataset.tsx:30-35` shows it because Local API queries skip the `verified_open` read rule. The DB is shared, so this is on every deployment. Filter the query on `status` (Part 6).
 5. 🔍 **Datasets:** the publish gate doesn't apply to site pages, and Our World in Data and Ember are not approved providers (p. 226). Only the World Bank dataset qualifies.
 6. **Production origin:** set `NEXT_PUBLIC_BASE_URL=https://www.enerqa.co.uk`. Canonicals and the sitemap otherwise point at the apex, which redirects.
 7. **Stray script:** `scripts/sync.ts` boots Payload, which pushes the schema. Delete it or run it with care. (`fix-tools.ts` was deleted on 26 Sep.)
 8. ~~CSV formula injection, open `POST /api/enquiries`, hard-coded `PAYLOAD_SECRET` fallback, NewsData switching itself off~~ — fixed on 25 Sep. Verified in code on 26 Sep; the CSV fix has tests.
+9. **AI Search — switched off on 26 Sep 2026** (`enabled: false` in `registry.ts`; uncommitted, never deployed). It wasn't working and showed invented company claims. It has its own spec, `docs/reenerqawebsitedeveloperhandoff/Enerqa_AI_Search_Developer_Handoff.docx`, which does choose the paid OpenAI Responses API. So the provider is right; an earlier note here that it breaks p. 224 was wrong for this feature. But the route never shows an answer (it reads the wrong field), and once a key is added every `/search` query would make at least two paid calls. There is no OpenAI key yet (the `.env` line is empty), so it has never made a call. Its unapproved company claims (e.g. "headquartered in London") were deleted on 26 Sep. Keep it off until that spec's Phase 0 sign-offs exist. Full review: `docs/AI-SEARCH-TASKS.md`.
 
 ---
 
@@ -220,21 +249,18 @@ The spec defines exactly **six primary navigation sections**, plus subordinate p
 
 ### 1.3 Utility destinations outside primary nav (p. 4)
 
-- [ ] ❌ `/privacy` — served by `[policy]/page.tsx` from the `Policies` collection; currently 404 because no approved text exists (p. 4, 208)
-  - **To do:** `[policy]/page.tsx:57` 404s: the `Policies` collection has no migration and 0 rows, yet `Footer.tsx:138` and `sitemap.ts:34` link to /privacy. Add the migration and enter approved privacy text (14.4) in the CMS, or remove the links until then.
-- [ ] ❌ `/terms` — served by `[policy]/page.tsx` from the `Policies` collection; currently 404 because no approved terms exist (p. 4, 208)
-  - **To do:** `[policy]/page.tsx:57` 404s (no `Policies` migration, 0 rows) while `Footer.tsx:139` and `sitemap.ts:35` link to /terms. Enter approved terms that respect the open-data rules on p. 226, or remove the links until then.
-- [ ] ❌ `/cookie-choices` — served by `[policy]/page.tsx` from the `Policies` collection; currently 404, and no cookie controls exist (p. 208)
-  - **To do:** /cookie-choices 404s (`[policy]/page.tsx:57`, 0 rows) while `Footer.tsx:140` and `sitemap.ts:38` link to it, and no consent code exists in `src`. A rich-text CMS page cannot change consent (p. 208): build real cookie controls in code, or publish an approved statement of the cookies actually used.
-- [ ] ❌ `/accessibility` — served by `[policy]/page.tsx` from the `Policies` collection; currently 404 because no approved statement exists (p. 208)
-  - **To do:** /accessibility 404s (`[policy]/page.tsx:57`, 0 rows) while `Footer.tsx:141` and `sitemap.ts:36` link to it. Enter an approved statement based on actual testing, with a working contact route (p. 208), or remove the links until then.
-- [ ] 🟡 404 page — `src/app/(frontend)/not-found.tsx`
-  - **To do:** Works for `notFound()` calls, but offers a fixed list, not the nearest relevant section (p. 4), and misses Domains & Industries. Mistyped URLs get Next's bare default 404 (see 12.10).
-- [x] ✅ Newsletter confirmation + unsubscribe states — `/newsletter/confirm` (reached by redirect after a successful signup) and `/newsletter/unsubscribe` (a real form that withdraws consent; same reply whether or not the address was subscribed). Both `noindex`, neither in the sitemap.
-- [ ] 🟡 "Source unavailable" state pattern — `components/ui/SourceUnavailable.tsx`: "No relevant updates are available." when sources answered with nothing relevant; "This source is temporarily unavailable" plus search and nearest-section links (p. 4) when they failed
-  - **To do:** Used by the domain and industry feeds, but the homepage (`FirstFoldFeeds.tsx:78-85`) and Global Intelligence use their own box, which always says "No relevant updates are available." even when a provider failed, with no search/nearest-section link. Use `SourceUnavailable` with `sourcesFailed` on both.
+**27 Sep 2026: all four policy pages are built, approved and live.** The owner replaced the placeholder text and approved all four rows (approved by "Enerqa", dated 27 Sep). Checked on the dev server: each page returns 200 with its p. 208 title, and the footer and sitemap link all four. The DB is shared, so every deployment reads the same text. A page appears only while its `Policies` row is ticked "Approved for publication" with an approver and a date; unticking it hides the page and every link to it again (details in 12.10). Later on 27 Sep the owner replaced the Privacy, Cookie Choices and Accessibility texts with versions that match the code. The formatting was then fixed by script (real headings on all three, both Privacy links working). **Left:** the company's answers on legal entity, retention and lawful basis for the Privacy Notice (below). Every open question for the client (policies and all other 🔍 items) is in one document: `docs/CLIENT-QUESTIONS.md`. `docs/POLICY-FACTS.md` lists what the site really does (company, hosting, analytics, AI, forms, cookies, processors) for whoever writes the text, plus the four steps to publish in the CMS. `src/migrations/20260926_041431.ts` (untracked, never recorded) only seeds those drafts: don't run it, and delete it with its `index.ts` entry when convenient.
 
-### 1.4 Retire legacy routes (p. 4, 225, 228) — 🟡 all but the Sudan article
+- [ ] 🟡 `/privacy` — Privacy Notice: approved and live; since the evening of 27 Sep the text matches the code (what the forms collect, no analytics, Vercel and Supabase, AI search off, embedded content, rights by email), with the contact block (U03)
+  - **To do:** Formatting is done (checked 27 Sep: four Heading 2 sections, no quote block, links to `/newsletter/unsubscribe`, `/cookie-choices` and `mailto:info@enerqa.co.uk`, all working). Left: the company must confirm the legal entity (footer "enerQA Ltd" vs the profile's "Qatari company registered in Qatar"), how long submissions are kept and the lawful basis for enquiries (`docs/POLICY-FACTS.md`, 14.4); then add them and re-approve.
+- [x] ✅ `/terms` — Terms of Use: approved and live on 27 Sep (200, footer link back). Nothing in it contradicts the code, and it follows the p. 226 licence rules. (Suggestion: "the information provided here" could be read to include Enerqa's own articles and third-party news teasers, which have no open licence; limiting the reuse sentence to Data Portal datasets removes the doubt.)
+- [x] ✅ `/cookie-choices` — Cookie Choices: approved and live; the text (replaced on the evening of 27 Sep) matches the code: essential storage only, no tracking, and embedded content waits for consent. The control renders under the text (U03). Section titles are Heading 2.
+- [x] ✅ `/accessibility` — Accessibility Statement: approved and live; the text (replaced on the evening of 27 Sep) is built from the recorded checks in 14.3 (p. 208: "must reflect actual testing"). It names WCAG 2.2 AA as the target and lists the known issues: the light focus rings on form fields, the D03 chart without a table, heading skips, and the p. 228 matrix not yet run. Contact block (U03). Section titles are Heading 2. Update it as those issues close.
+- [x] ✅ 404 page — `src/app/(frontend)/not-found.tsx` shows p. 208's title, message and three buttons, plus "Go to {section}" picked from the mistyped URL (`:13-28`, p. 4 "nearest relevant section"). `global-not-found.tsx` renders the same UI for URLs that match no route. Not checked in a browser. (Optional: the uncommitted `/domains` and `/industries` entries give those URLs two buttons to `/domains-and-industries`.)
+- [x] ✅ Newsletter confirmation + unsubscribe states — `/newsletter/confirm` (reached by redirect after a successful signup) and `/newsletter/unsubscribe` (a real form that withdraws consent; same reply whether or not the address was subscribed). Both `noindex`, neither in the sitemap.
+- [x] ✅ "Source unavailable" state pattern — `components/ui/SourceUnavailable.tsx`: "No relevant updates are available." when sources answered with nothing relevant; "This source is temporarily unavailable" plus search and nearest-section links (p. 4) when they failed. Used by the domain/industry feeds, the homepage H03/H04 (`GlobalNewsPanel.tsx:146`, `FirstFoldFeeds.tsx:219`), the Global Intelligence list (`global-intelligence/page.tsx:350`, uncommitted on 26 Sep) and the Knowledge Hub K05 preview.
+
+### 1.4 Retire legacy routes (p. 4, 225, 228) — ✅
 
 All redirects live in `next.config.ts`. Every rule sends HTTP 308 in exactly 1 hop. **Audit 24 Sep 2026: two destinations 404** (see `/insights/{slug}` below), and — more importantly — **these rules cover URLs that do not exist on the live site** (the live `/services` is itself a 404). The live site's real URLs are unredirected; see "Found in the audit" at the end of Part 1.
 
@@ -246,8 +272,7 @@ All redirects live in `next.config.ts`. Every rule sends HTTP 308 in exactly 1 h
 - [x] ✅ `/services/environment-esg` → `/domains/sustainable-business-esg-finance` — **decided from the retired page's own content**: its sections were ESG readiness, GRI/SASB frameworks, materiality assessment and ESG reporting, with no environmental or nature content. Despite the slug, it is an ESG page.
 - [x] ✅ `/services/business-solutions` → `/domains/sustainable-business-esg-finance`
 - [x] ✅ `/insights` → `/knowledge-hub`
-- [ ] 🟡 `/insights/{slug}` and each live root article path mapped **article by article** in `next.config.ts:29-54` (the `i-recs-…` entry now uses the DB slug); `sudan-s-energy-balance-2020` has no publication — see below
-  - **To do:** `/sudan-s-energy-balance-2020` and `/insights/sudan-s-energy-balance-2020` still point at a publication missing from the 25 Sep DB backup (`next.config.ts:53`; `scripts/add-sudan-energy-balance.ts`, named at `:51`, does not exist). Migrate the article or point both rules at `/knowledge-hub`.
+- [x] ✅ `/insights/{slug}` and each live root article path mapped **article by article** in `next.config.ts:29-54` (the `i-recs-…` entry now uses the DB slug). `sudan-s-energy-balance-2020` became a publication on 26 Sep 2026, so both of its rules now land (DB-checked, not in a browser). The comment at `next.config.ts:51` still names `scripts/add-sudan-energy-balance.ts`, which never existed — the owner added the article in the admin.
 - [x] ✅ `/projects` → `/domains-and-industries`, route deleted
 - [x] ✅ `/team` → `/about`, route deleted
 - [x] ✅ `/faq` and `/country-profiles/{code}` routes deleted (your call: app is not live, so no redirect needed). The 4 FAQ records remain in the CMS.
@@ -263,14 +288,14 @@ Matched by comparing each insight's title against all 24 publications. 5 of 10 h
 |---|---|
 | `ghg-emissions-the-burden-on-our-planet` | same slug in Publications |
 | `driving-climate-action-through-renewable-energy-finance` | `…-insights-from-an-expert` |
-| `i-recs-a-catalyst-for-renewable-energy-investment-in-qatar` | `irecs-a-catalyst-…` |
+| `i-recs-a-catalyst-for-renewable-energy-investment-in-qatar` | same slug in Publications (`i-recs-…`) |
 | `smoking-and-climate-change` | `the-hidden-link-between-cigarette-smoking-…` |
 | `artisanal-gold-mining-environmental-impacts-of-mercury-use` | `environmental-impacts-of-mercury-use-in-artisanal-gold-mining-…` |
 
-The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate-forcers-…`, `climate-change-and-war-…`, `weathering-the-storm-…`) have **no publication equivalent**. They were later migrated into Publications (Part 8) — except `sudan-s-energy-balance-2020`, which is missing, so its redirect now 404s.
+The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate-forcers-…`, `climate-change-and-war-…`, `weathering-the-storm-…`) have **no publication equivalent**. They were later migrated into Publications (Part 8); `sudan-s-energy-balance-2020` followed on 26 Sep 2026.
 
-- [ ] 🟡 Migrated into Publications in Part 8 (7 orphan insights), each with its own rule
-  - **To do:** 4 of the 5 unmatched insights exist as publications; `sudan-s-energy-balance-2020` does not (and "7" doesn't match the "5 of 10" table). Migrate the Sudan article.
+- [x] ✅ All 5 unmatched insights are now publications, each with its own rule (Sudan added 26 Sep 2026)
+
 
 #### Files deleted (all committed, so `git checkout HEAD -- <path>` restores any)
 
@@ -290,8 +315,7 @@ The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate
 
 ### Found in the 24 Sep 2026 audit (not on the board before)
 
-- [ ] 🟡 **The live site's URLs are redirected (p. 228).** All 28 non-homepage URLs in `https://www.enerqa.co.uk/sitemap.xml` are covered: `/about` and `/contact` exist, and `next.config.ts:29-198` maps the 10 root-path articles to `/knowledge-hub/{slug}`, the 9 hash-suffixed service pages to capability anchors (all 9 exist in the DB), the 4 `/contact---*` pages to `/contact?domain=`, plus `/blog`, `/careers` and `/newsletter-subscription`
-  - **To do:** Of the 28 non-homepage live URLs, 27 reach a real page. `/sudan-s-energy-balance-2020` ends on a missing publication (`next.config.ts:53`), and `/newsletter-subscription` targets `#stay-informed`, which no element has — add `id="stay-informed"` to the K06 section (`KnowledgeHubClient.tsx:314`).
+- [x] ✅ **The live site's URLs are redirected (p. 228).** All 28 non-homepage URLs in `https://www.enerqa.co.uk/sitemap.xml` are covered: `/about` and `/contact` exist, and `next.config.ts:29-198` maps the 10 root-path articles to `/knowledge-hub/{slug}`, the 9 hash-suffixed service pages to capability anchors (all 9 exist in the DB), the 4 `/contact---*` pages to `/contact?domain=`, plus `/blog`, `/careers` and `/newsletter-subscription` All 28 reach a real page since 26 Sep 2026 (Sudan added; `#stay-informed` now exists on the K06 section). The Sudan and newsletter redirects were checked on a dev server; the other 26 against the code.
 - [x] ✅ Footer social links: only the verified LinkedIn account remains, with an accessible name; the Organization JSON-LD `sameAs` lists only that account (unverifiable accounts such as `youtube.com/enerqa` removed, 25 Sep 2026).
 - [x] ✅ `public/assets/css/style.css` — the dead copy of the frontend stylesheet that nothing imported — deleted (25 Sep 2026).
 - [x] ✅ Knowledge Hub and Global Intelligence sticky filter bars now sit at `top: 84px`, below the fixed header (not screenshot-verified). `var(--sticky-top)` in `style.css` would also follow the header when it slides away.
@@ -337,8 +361,7 @@ The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate
 - [x] ✅ Newsletter access — `SubscribeForm.tsx` exists and is rendered in `src/components/Footer.tsx`
 - [ ] 🟡 Data-source attribution block (rendered in data portal sources page, linked in footer)
   - **To do:** The footer only links `/data-portal/sources`, whose directory is empty. Populate it (12.6).
-- [ ] ❌ Footer utility links `/accessibility`, `/cookie-choices`, `/data-portal/sources` must be genuine destinations (p. 8)
-  - **To do:** The four policy URLs (`/privacy`, `/terms`, `/cookie-choices`, `/accessibility`) now come from the new `Policies` collection via `src/app/(frontend)/[policy]/page.tsx`, which 404s until a record exists; the table has no migration and 0 rows, and the footer links all four. Create the migration, enter approved text (🔍 legal), and re-check each link returns 200.
+- [x] ✅ Footer utility links `/accessibility`, `/cookie-choices`, `/privacy`, `/terms` and `/data-portal/sources` must be genuine destinations (p. 8) — none goes to Contact; the labels match the pages' H1s (`POLICY_PAGES`); `<ul>/<li>` list. All four policies were approved on 27 Sep, and each link returned 200 on the dev server. A policy link disappears automatically if its page is unapproved (1.3)
 - [x] ✅ No project logos, experience counters or portfolio teaser in the footer
 - [ ] 🟡 Breadcrumbs identifying current section and parent page
   - **To do:** Footer trail fixed: real parents, titles keep "&", `<nav aria-label="Breadcrumb">` + `<ol>` + `aria-current`, no trail on unknown URLs, and it steps aside on templates with their own trail. Left: publication and dataset detail show only "Home / Knowledge Hub" / "Home / Data Portal" — add in-page breadcrumbs with the record title and add those routes to `OWN_TRAIL_ROUTES` (`FooterBreadcrumbs.tsx:90`).
@@ -595,10 +618,10 @@ The seed scripts still check the `tools` collection and publish only links that 
 ### 6.1 Template gaps — fix once, fixes all thirteen (p. 61)
 
 - [x] ✅ "Project Development and Lifecycle Support"
-- [ ] 🟡 "Industry News"
-  - **To do:** **12 of 13 industry pages show "No relevant updates are available."** (only Oil & Gas has items, and those are EIA official analyses). Query each industry's baskets within the NewsData budget, or widen the shared pool; keep official items out of "news".
-- [ ] 🟡 "Research and Official Updates" (I{nn}R)
-  - **To do:** p. 65 asks for OpenAlex/DOAJ **plus each industry's specialist feeds** (e.g. I01 reliefweb, I02 sec_edgar, I03 eia_rss + osti). `INDUSTRY_FEEDS` has no specialist list. Live: 12/13 pages are OSTI-only and off-topic. Add the per-industry specialist lists from pp. 66–138 and fix the ranking.
+- [ ] 🟡 "Industry News" (p. 64)
+  - **To do:** Code now sends each industry's two news baskets to NewsData every 12 h (`news/index.ts:183-185`) and shows only NewsData/GDELT items (`NewsFeed.tsx:30`), but the 24 Sep finding — 12 of 13 industry pages show "No relevant updates are available." — has not been re-checked since. Open all 13 industry pages on a running build and record how many on-topic cards each shows.
+- [ ] 🟡 "Research and Official Updates" (I{nn}R) (p. 65)
+  - **To do:** All 13 specialist lists match pp. 66–138 (`contextual.ts:133-300`, tested) and are blended in as separately labelled cards (`feeds/research.ts:107-142`). Left: ReliefWeb is disabled (`registry.ts`, needs an appname), so I01 has no specialist source and I08/I09 have one of two; the OpenAlex abstract rebuild (`openalex.ts:133-152`, uncommitted) has no test; and no page has been checked live. Register ReliefWeb, add a unit test for the rebuild, then check all 13 pages on a running build.
 - [x] ✅ "Related Data"
 - [x] ✅ "Relevant Enerqa Tools" — now renders the real per-industry tool mapping
 - [x] ✅ "Enerqa Publication"
@@ -624,13 +647,12 @@ Only 6 of the 13 industries even list `world-bank-indicators` as a recommended s
 #### Still open on this template (Part 13 work, not Part 6)
 
 - [x] ✅ **`getIndustryNews()` no longer uses newsapi.org.** It now filters the shared cached pool by industry keyword, so an industry page makes **no external request of its own** — which is also what p. 226 asks for ("reuse filtered records across home, domains, industries and Global Intelligence"). Publisher photographs are no longer displayed: API access does not clear image rights (pp. 210, 214, 216).
-- [ ] 🟡 Research goes through the shared connectors and fetch cache using each industry's own research themes (`fetchResearchForThemes`). The uncommitted version searched one generic pool and substring-matched, so industries like Tourism almost never matched
-  - **To do:** Themes are passed correctly, but the "Tourism now matches" claim holds only because irrelevant OSTI records match. Fix with line 425.
+- [x] ✅ Research goes through the shared connectors and fetch cache using each industry's own research themes (`fetchResearchForThemes`, `research/index.ts:341`; called from `feeds/research.ts:134`). OSTI is no longer a scholarly source (`research/index.ts:32`), so it appears only where the industry's spec lists it. Whether the records shown are on-topic is tracked under I{nn}R; not verified live.
 - [x] ✅ Per-industry news baskets and research themes from each config page (pp. 66–138), all 13 in `lib/feeds/contextual.ts`. Matching also accepts singular forms and US spellings ("carbon market", "decarbonization") — displayed text is never altered
 - [x] ✅ I{nn}N, I{nn}R, I{nn}T, I{nn}K and I{nn}A intros and buttons now match the PDF ("View All Industry News", "Explore Related Research", the I{nn}A text, "Discuss Your Project")
 - [x] ✅ I{nn}02 work-area links are relationships to Capability records, so they cannot point at a missing anchor (the uncommitted version fell back to `/domains/unknown#…`)
-- [ ] 🔍 Dataset preview: one-card renderer wired (dataset `industries` relationship) — 🔍 no dataset is linked to an industry yet; the catalogue link shows meanwhile, as p. 66 requires
-  - **To do:** Choose one dataset per industry from its "I{nn}D numerical source" list; only the World Bank dataset currently uses a permitted provider.
+- [ ] 🟡 Dataset preview: one-card renderer wired (dataset `industries` relationship). One draft dataset is now linked to 6 industries; the rest show catalogue links, as p. 66 allows
+  - **To do:** The World Bank "Adjusted Net Savings" row (draft, legacy access "free") was linked to I01, I02, I06, I08, I09 and I13 on 26 Sep, and `RelatedDataset.tsx:30-35` shows it anyway because the Local API skips the `verified_open` read rule. Filter the query to `status: verified_open`, then choose (🔍) the series each industry's "I{nn}D numerical source" line describes (e.g. water stress for I08) before verifying and publishing it.
 
 ### 6.2 Per-industry content verification
 
@@ -696,25 +718,19 @@ Route `/project-development`. The single canonical lifecycle page. Segments P01�
 
 Route `/knowledge-hub`. Segments K01–K06. **Exactly two collections**: Enerqa Publication and Global Intelligence.
 
-- [x] ✅ K01 "Knowledge Hub" — copy matches p. 155, unique title + description + canonical added
-- [ ] 🟡 K02 "Choose a Collection" — two entry points, sticky, present on both collections
-  - **To do:** Add the K02 "Choose a Collection" heading and copy ("Knowledge Hub contains two collections…"), and `aria-current` on the active tab.
-- [ ] 🟡 K03 "Find a Publication" — **filters rebuilt, they now actually work**
-  - **To do:** Add the "Find a Publication" heading; search the article text and tags too (p. 155 — today only title, excerpt, author); add pagination and a label on the search input. Only 4 of 7 facets can show because Topic/Domain/Industry have no data.
-- [ ] 🟡 K04 "Enerqa Publication" — reads `publications`, non-articles excluded
-  - **To do:** Add the K04 heading and intro; show domain/industry/topic tags on cards; keep "Read Article" always and add a separate "Download Report" (today a file replaces Read Article). Fix the broken bodies (see new problems below).
-- [ ] 🟡 K05 "Global Intelligence" — separate route
-  - **To do:** Add the K05 block on `/knowledge-hub` itself (heading, the "Follow open-access news…" copy and an "Explore Global Intelligence" button).
-- [ ] 🟡 K06 "Stay Informed" — newsletter + Discuss Your Project
-  - **To do:** Use p. 156's sentence ("Receive new Enerqa publications and selected updates."), fix the heading level (h3 with no h2), and do one real test signup.
-- [ ] 🟡 Author metadata **recovered for 21 of 25 articles** and a working Year filter (2024 archive stays a filter value, not a third collection)
-  - **To do:** The count is **21 of 24**, not 21 of 25; the Year filter offers only 2024. Recover the 3 missing bylines (see line 568).
+- [x] ✅ K01 "Knowledge Hub" — copy matches p. 155, unique title + description + canonical added; in-page breadcrumb "Home / Knowledge Hub" (p. 152 "Breadcrumb, H1 and two-collection introduction"), so the footer trail steps aside (`FooterBreadcrumbs.tsx`, tested)
+- [x] ✅ K02 "Choose a Collection" — heading and copy verbatim, two prominent links with `aria-current="page"` on the active one, directly below the introduction and above search. One `CollectionSwitch.tsx` renders it on both `/knowledge-hub` and Global Intelligence, so the two can't drift. No longer sticky: with a heading and copy it would cover too much of the screen.
+- [x] ✅ K03 "Find a Publication" — heading, labelled search box with p. 155's placeholder, search across titles, article text, summaries and tags (`publicationFinder.ts`: every word must match, title hits rank first, same word rules as `/search`, 16 tests), facets in p. 155's order, each option showing how many results it would give with the current search and other filters, options at 0 disabled so a combination can't lead to an empty list (`facetCounts`, tested), result count, removable chips, Clear All (also clears the search, so it restores the complete collection), pagination below results (10 per page, `aria-current` on the page). Filters fold away behind a button on small screens. The browser gets each article's distinct words (~92 KB for 25), not its rich text. Domain and Industry appear once publications are tagged (🔍 below).
+- [x] ✅ K04 "Enerqa Publication" — heading and intro verbatim; the newest publication with a verified date leads as "Latest publication" (p. 152 "Featured publication + searchable result cards"); cards show title, teaser, author, date ("(date unverified)" where it is), "Enerqa Publication · {type}", language and topic/domain/industry tags; Read Article always opens the detail page, and Download Report is added only when a file exists. Verified dates sort first, so a placeholder date never makes an article look newest. The section carries `id="publications"` for the detail page's breadcrumb link.
+- [x] ✅ K05 "Global Intelligence" — block on `/knowledge-hub` with the p. 156 heading and copy, three verified open-access news items (NewsData, GDELT) streamed behind a same-size skeleton through the shared `NewsFeed`, with its empty/unavailable states, and "Explore Global Intelligence". Research (OpenAlex, DOAJ) stays on the Global Intelligence page itself. Checked in a browser on 26 Sep (3 NewsData items while GDELT was down).
+- [ ] 🟡 K06 "Stay Informed" — h2 and p. 156's sentence verbatim, the working newsletter form (Subscribe) and "Discuss Your Project → /contact?intent=project"; `id="stay-informed"` for the `/newsletter-subscription` redirect
+  - **To do:** Submit one real test signup on a deployed build and check the `enquiries` row (0 rows on 26 Sep 2026). It writes to the shared production database, so the owner should do it.
+- [x] ✅ Author metadata recovered for **all 25 articles** (26 Sep 2026) and a working Year filter (2024 archive stays a filter value, not a third collection). The Year filter now offers 2022 and 2024. Spelling approval is a separate 🔍 item below.
 - [x] ✅ Removed the public **Learning** branch — `LearningMaterialsList.tsx` deleted (it was already orphaned; nothing imported it)
 - [x] ✅ Removed the orphaned `GlossarySection.tsx`
 - [x] ✅ No public **Authors** branch — authors are byline text + a search facet only, exactly as p. 225 requires
 - [x] ✅ No separate archive destination
-- [ ] 🟡 Merged `Insights` into `Publications` — one canonical library
-  - **To do:** Two retired links now 404: `/insights/i-recs-…` redirects to `/knowledge-hub/irecs-…` (the DB slug is `i-recs-…`, `next.config.ts:31-32`), and `/insights/sudan-s-energy-balance-2020` points at an article that no longer exists. Fix the map entry and restore the Sudan article.
+- [x] ✅ Merged `Insights` into `Publications` — one canonical library. The `i-recs-…` map entry uses the DB slug and the Sudan article was restored on 26 Sep 2026.
 - [x] ✅ **Removed "Case Study" from the publication type options** (p. 229)
 
 #### K03 filters — the old ones were decorative
@@ -728,44 +744,47 @@ Rebuilt as real facets, with options derived from the data so a filter never off
 | Publication Type | ✅ working |
 | Year | ✅ working |
 | Language | ✅ working |
-| Author | ✅ working (13 distinct bylines) |
-| Topic (archive category) | ✅ built, hidden until publications are tagged |
+| Author | ✅ working (17 distinct bylines on 26 Sep) |
+| Topic (archive category) | ✅ working — 24 of 25 tagged from the archive's section order (26 Sep); Sudan has none |
 | Domain / Industry | ✅ built — `domains`/`industries` fields added to Publications; the facets appear once a publication is tagged, and `?domain=`/`?industry=` from domain and industry pages pre-select them |
 
-Within a facet values are OR'd, across facets AND'd. Plus a live result count ("Showing 25 of 25 publications", `aria-live="polite"`), removable filter chips, and Clear All — all required by p. 155.
+Within a facet values are OR'd, across facets AND'd. Plus a live result count ("Showing 25 of 25 publications", `aria-live="polite"`), removable filter chips, Clear All and pagination — all required by p. 155.
 
 #### Publication import clean-up (p. 225)
 
-- [ ] 🟡 **4 non-articles found and unpublished**: `authors-biographies` (a biography), plus `frameworks-and-methodologies`, `environment-and-society` and `energy-technology-and-finance` (category separators). All four had been imported as `type: Article`. They keep their records via a new `recordKind` field but no longer publish — nothing was deleted.
-  - **To do:** Correct this text: the 4 records were **deleted**, not unpublished — the database now holds 24 rows, all `recordKind: article`. The spec (exclude non-articles) is still met.
-- [ ] 🟡 **Authors recovered from the source archive PDF**, which carries a `By:` line per article. 21 of 25 articles now have a byline.
-  - **To do:** 21 of **24**. Two bylines were missed by `clean-publications.ts` (e.g. `supercritical-water…` fails the slug match) — apply them.
-- [ ] 🟡 Orphan insights migrated into Publications under their own slugs (`breathing-vs-burning…`, `climate-forcers…`, `climate-change-and-war…`, `weathering-the-storm…`), so `/insights/{slug}` → `/knowledge-hub/{same-slug}`; `sudan-s-energy-balance-2020` was not migrated
-  - **To do:** `sudan-s-energy-balance-2020` is still not a publication (not in the 25 Sep backup; the killed rewrite script only updates existing rows). In that backup the `climate-forcers…` and `weathering-the-storm…` bodies are 56 and 60 characters; check in the admin whether the 25 Sep body rewrite committed, and re-import them if not.
+- [x] ✅ **4 non-articles found and deleted**: `authors-biographies` (a biography), plus `frameworks-and-methodologies`, `environment-and-society` and `energy-technology-and-finance` (category separators), all imported as `type: Article`. The database holds 25 rows (the 24 archive articles plus Sudan, added 26 Sep 2026), all `recordKind: article`, so p. 155's "exclude category separators and biography pages" is met.
+- [x] ✅ **Authors recovered from the source archive PDF**, which carries a `By:` line per article. All 24 archive articles have a byline since the 26 Sep write (the 3 missing ones were set from the archive); Sudan's comes from its live page.
+- [x] ✅ Orphan insights migrated into Publications under their own slugs (`breathing-vs-burning…`, `climate-forcers…`, `climate-change-and-war…`, `weathering-the-storm…`, and `sudan-s-energy-balance-2020` on 26 Sep 2026), so `/insights/{slug}` → `/knowledge-hub/{same-slug}`. The `climate-forcers…` and `weathering-the-storm…` bodies, 56 and 60 characters before, are now full articles (5,231 and 5,360 characters).
+
 
 > **A mistake worth recording.** The first migration run used fuzzy title matching to detect duplicates and created 2 duplicate publications — "I-RECs: A Catalyst for…" vs "IRECs - A catalyst for…" are the same article but share no long common substring. Both duplicates were deleted, and the script now uses an explicit `ALREADY_MAPPED` list kept in step with `INSIGHT_SLUG_MAP` in `next.config.ts`. Re-running now migrates 0 — verified idempotent.
 
 #### ❌ Still needs a human: the dates
 
-**All 24 imported publications carry the same date, `2024-12-01`** — exactly the "one artificial date for the whole archive" that p. 225 forbids. The archive PDF has **no per-article dates** (it only says the work spans December 2023 – December 2024), so they cannot be recovered from the sources in this repo.
+**The 24 imported publications all carried the same date, `2024-12-01`** — exactly the "one artificial date for the whole archive" that p. 225 forbids. Since 26 Sep 2026, **9 of 25 have a verified date**: 8 from each live page's `datePublished`, plus Sudan. **16 still carry the placeholder** and show "(date unverified)". The archive PDF has **no per-article dates** (it only says the work spans December 2023 – December 2024), so they cannot be recovered from the sources in this repo.
 
 Rather than leave a placeholder passing as fact, every card now shows **"(date unverified)"** next to its date, driven by a new `dateVerified` checkbox. Ticking it hides the marker.
 
 - [ ] 🔍 Recover each publication's real date from its original source and tick `dateVerified`
-  - **To do:** Find each article's real date at its original source (the live enerqa.co.uk site may have them) and tick `dateVerified`.
+  - **To do:** The live site has been used up: it has only 10 articles, and 9 dates came from it. The other 16 are not on the live site, so ask the authors for each date, then set it and tick `dateVerified`. Don't copy the live mercury date (15 Aug 2019): that page is an earlier text of the article.
 - [ ] 🔍 **Approve the author bylines.** The source PDF spells several names inconsistently: `Dr. Islam M. Awad` / `Dr. Isalm M. Awad` (typo), and `Reem Almlik` / `Reem Elmalik` / `Reem Almalik`. p. 225 requires an *approved* byline identity, so these were imported verbatim rather than silently normalised. They currently appear as separate Author filter options.
   - **To do:** Also inconsistent: "Dr. Quosay A. Ahmed" / "Quosay A. Ahmed" / "Quosay A. Awad". Joint bylines are one facet value, so "Giovanni Fabbio" cannot be filtered alone — split joint bylines into individual authors once names are approved.
-- [ ] 🟡 3 publications had no byline in the 25 Sep DB backup (`ghg-emissions…`, `supercritical…`, `the-imperative-for-esg…`). All 3 can be recovered from the repo: the body says 'BY: Mohamed M. Ahmed'; `archive-authors.json:34-37` gives 'Dr. Muzamil Abdella'; the body says 'By enerQA’s development team'
-  - **To do:** Unverified (DB): the 25 Sep backup still has no author on these 3. The killed rewrite (`SP/kh/write_pubs.js`) set them only if it committed. Check in the admin and, if they are missing, set 'Mohamed M. Ahmed', 'Dr. Muzamil Abdella' and 'enerQA’s development team' (confirm the team byline is approved).
+  - **26 Sep 2026:** two plain typos were corrected by the write (`Isalm` → `Islam`, `Almlik` → `Almalik`); everything else is still verbatim (17 distinct byline strings). The live site credits 6 articles differently — list these for approval too:
+    - `breathing-vs-burning…`: "Quosay A. Ahmed" (DB) vs "Quosay A. Ahmed, PhD" (live)
+    - `climate-change-and-war…`: "Dr. Islam M. Awad" vs "Islam M. Awad, PhD"
+    - `driving-climate-action…`: "Dr. Islam M. Awad and Giovanni Fabbio" vs "Islam M. Awad, PhD" (no co-author)
+    - `ghg-emissions…`: "Mohamed M. Ahmed" vs "Mohamed Mohamedahmed"
+    - `i-recs…`: "Amr Nasradin and Giovanni Fabbio" vs "Amr Nasreldin H. Abdulhadi" (Sudan already uses the live spelling)
+    - `weathering-the-storm…`: "Abdelaziz M. A. Ahmed" vs "Abdelaziz Ahmed"
+    - Also confirm "enerQA’s development team" (`the-imperative-for-esg…`) is an approved byline.
+- [x] ✅ 3 publications had no byline in the 25 Sep DB backup (`ghg-emissions…`, `supercritical…`, `the-imperative-for-esg…`). Set by the 26 Sep write to 'Mohamed M. Ahmed', 'Dr. Muzamil Abdella' and 'enerQA’s development team' (verified in the DB).
 - [ ] 🔍 **Tag publications** with Domain / Industry (sidebar in the admin). The fields, filters, and domain/industry "Enerqa Publication" modules are all wired; tagging is an editorial call, so nothing was inferred
-  - **To do:** Also: `archiveCategory` is empty on all 24, so the Topic facet is hidden — it can be restored from the archive PDF's section order without a human.
+  - **To do:** No publication is tagged yet (`publications_rels` is empty, 26 Sep 2026). `archiveCategory` was restored from the archive PDF's section order on 26 Sep (24 of 25; Sudan is not in the archive), so the Topic facet can now show.
 - [x] ✅ `Insights` collection is gone (no table, not in config)
-- [ ] 🟡 Learning / Glossary label fields removed from `globals/KnowledgeHubConfig.ts` and `payload-types.ts:1424-1436`; their 8 columns in the empty `knowledge_hub_config_locales` table are still in the committed migration
-  - **To do:** Code is done. The DB is unverified: confirm the 8 empty columns have been dropped from `knowledge_hub_config_locales` (accept Payload's drop prompt on the next `npm run dev`), and add a migration so production drops them too (`migrations/20260920_011009.ts:408-415` still creates them). Optional: no page reads this global, so `payload.config.ts:63` could remove it.
-- [ ] 🟡 Owned vs external distinction (p. 229): first-party cards are labelled "Enerqa Publication · {type}"; external cards carry the publisher, "News", source date and a "Read full article" off-site link
-  - **To do:** The "Enerqa Publication" label exists only in `RelatedPublications.tsx`, which renders nothing until publications are tagged. Add the first-party label to `/knowledge-hub` and search-result cards. (Global Intelligence side confirmed.)
+- [x] ✅ Learning / Glossary label fields removed from `globals/KnowledgeHubConfig.ts` and `payload-types.ts`. Read-only DB check (26 Sep 2026): the 8 columns are gone from `knowledge_hub_config_locales`. There is no separate production database (shared-DB decision), so no drop migration is needed. Note: `migrations/20260920_011009.ts:408-415` would re-create them on a fresh database, and the next dev push would drop them again. Optional, owner's call: no page reads this global, so `payload.config.ts:63` could remove it (a schema change on the shared DB).
+- [x] ✅ Owned vs external distinction (p. 229): first-party cards are labelled "Enerqa Publication · {type}" on `/knowledge-hub`, in site search results (`search/loadIndex.ts`) and in `RelatedPublications.tsx`; external cards carry the publisher, "News", source date and a "Read full article" off-site link
 - [ ] 🟡 K06 "Stay Informed" form now saves signups — it only called `preventDefault()`
-  - **To do:** Code path is correct, but the `enquiries` table has 0 rows — it has never been proven end-to-end. Submit one test signup and check the row.
+  - **To do:** Code path is correct, but the `enquiries` table still has 0 rows (26 Sep 2026) — it has never been proven end-to-end. Submit one test signup and check the row (same test as K06 above).
 
 > Note (24 Sep 2026): the database now holds 24 publications, all `recordKind: article` — the 4 non-article records described above are no longer present.
 
@@ -773,12 +792,13 @@ Rather than leave a placeholder passing as fact, every card now shows **"(date u
 
 ### Found in the 24 Sep 2026 audit
 
-- [ ] 🟡 **Publication bodies are broken**: 4 say "Could not extract content automatically." on the public page (i-recs, supercritical, mercury, DPSIR); 4 are title-only (climate-forcers, weathering-the-storm, burger-pizza, food-waste); several contain *other* articles with their own "By:" lines (driving-climate-action, green-credit-lines, origins-of-urban-greening, scope-4); `sustainable-tourism` shows the Burger-and-Pizza article. Re-import from the archive PDF.
-  - **To do:** All 24 bodies were rebuilt from the archive PDF on 25 Sep 2026 and saved in `scripts/publication-rebuild/out/`. The write script (`write_pubs.js`, one transaction) was stopped mid-run, so it either fully committed or fully rolled back. Open `/knowledge-hub/sustainable-tourism` in the admin or on the site: if it still shows the Burger article, run `node --env-file=.env scripts/publication-rebuild/write_pubs.js --dry`, review, then run it without `--dry`.
-- [ ] 🟡 `/knowledge-hub` ships every publication's full rich text to the browser (2.76 MB HTML); the client uses only title, excerpt, author, date. Add a `select`.
-- [ ] 🟡 Dates are formatted without a time zone (`KnowledgeHubClient.tsx:278`): stored `2024-11-30T16:00Z` renders "1 December 2024" on the server but "30 November 2024" in UK browsers — a hydration mismatch.
-- [ ] 🟡 `knowledge-hub/[slug]/page.tsx` has no `recordKind: article` filter (unlike the list and sitemap).
-- [ ] 🟡 Orphan components still in `src/`: `KnowledgeHubList.tsx` (Case Study option, fake .xlsx download), `DatasetList.tsx`, `ToolsList.tsx`, `tools/CarbonCalculator.tsx`.
+- [x] ✅ **Publication bodies were broken** ("Could not extract content automatically.", title-only bodies, other articles mixed in, `sustainable-tourism` showing the Burger article). Fixed 26 Sep 2026: all 24 rebuilt from the archive PDF (`scripts/publication-rebuild/out/`), re-checked (no mixed-in articles, no page numbers or error text, each ends with its own references), and written with `write_pubs.cjs`. A read-only check afterwards found all 25 bodies matching the rebuild word for word. The 8 dates it set match each live page's `datePublished`. Undo copy: `scripts/publication-rebuild/backup-publications.json` (gitignored). Not yet seen in a browser — the list page needs a redeploy.
+- [ ] 🟡 **Sudan article** (`sudan-s-energy-balance-2020`, id 25) added by the owner on 26 Sep 2026 from the live page: title, byline ("Quosay A. Ahmed and Amr Nasreldin H. Abdulhadi"), date 9 Oct 2022 (verified) and body are correct.
+  - **To do:** Three fixes in the admin. (1) `heading` is "Energy supply, transformation and consumption", which is also the body's first heading, so it shows twice — set it to the title like the other 24. (2) The excerpt stops mid-sentence ("…energy supply resources, ") and there's no meta description, so search results show the cut text — use the full first sentence. (3) The body says "as shown in the Sankey diagram above", but the diagram is missing — upload `Energy+Balance2020+15Sep2022.png` from the live site's CDN into the body.
+- [x] ✅ `/knowledge-hub` ships every publication's full rich text to the browser (2.76 MB HTML) — fixed 26 Sep 2026: the query now `select`s only the card and facet fields (`knowledge-hub/page.tsx`). Page size not re-measured in a browser.
+- [x] ✅ Dates were formatted in the viewer's time zone (`KnowledgeHubClient.tsx:278`). The stored placeholder is `2024-12-01 00:00 UTC` (read from the DB), so browsers west of UTC (e.g. the US) showed "30 November 2024" while the server printed "1 December" — a hydration mismatch. Fixed 26 Sep 2026: card date, Year facet and detail-page date all use UTC, like `KnowledgeTeaser` and `searchIndex`.
+- [x] ✅ `knowledge-hub/[slug]/page.tsx` has no `recordKind: article` filter (unlike the list and sitemap). Fixed 26 Sep 2026 on the page, its metadata and the related list.
+- [x] ✅ Orphan components removed (26 Sep 2026): `KnowledgeHubList.tsx` (Case Study option, fake .xlsx download), `DatasetList.tsx` and `ToolsList.tsx` — nothing imported them. `tools/CarbonCalculator.tsx` was **not** an orphan (`tools/[slug]/page.tsx:9, :221` renders it), so it stays.
 
 ---
 
@@ -863,7 +883,7 @@ Route `/about`. Segments A01–A05.
 
 - [x] ✅ Route exists
 - [ ] 🟡 PUBL01 "Publication Header" and PUBL02–PUBL06 (p. 174): all six sections are coded in `knowledge-hub/[slug]/page.tsx`; JSON-LD author and `datePublished` fixed; PUBL01/04/05/06 still differ from the spec
-  - **To do:** The render crash (an `onClick` alert placeholder on a server-rendered link) was removed on 26 Sep 2026, along with the fake Cite action. Still to match p. 174: show the language in PUBL01; add a real citation field and "Cite This Publication"; label the source link "Read Original Publication" — `originalUrl` (`:274`) is not a Publications field yet, so it never shows; pick PUBL05 by domain/industry tags plus dataset/tool links (`:169` uses `topic`); PUBL06 needs "Explore the Knowledge Hub" + "Discuss Your Project → /contact?intent=project" (`:310`); add an in-page breadcrumb with the title (its `#publications` anchor at `:200` doesn't exist).
+  - **To do:** The render crash (an `onClick` alert placeholder on a server-rendered link) was removed on 26 Sep 2026, along with the fake Cite action. Still to match p. 174: show the language in PUBL01; add a real citation field and "Cite This Publication"; label the source link "Read Original Publication" — `originalUrl` (`:274`) is not a Publications field yet, so it never shows; pick PUBL05 by domain/industry tags plus dataset/tool links (`:169` uses `topic`); PUBL06 needs "Explore the Knowledge Hub" + "Discuss Your Project → /contact?intent=project" (`:310`); add an in-page breadcrumb with the title (its `/knowledge-hub#publications` link now lands on the K03/K04 section).
 - [ ] 🟡 Verified title, type, and author on every imported record
   - **To do:** Title/author/type were **not** verified: 3 of 24 have no author; several names misspelled; **bodies are misaligned** (`/knowledge-hub/sustainable-tourism` shows the "Hidden Costs of Your Burger and Pizza" article); 4 bodies say "Could not extract content automatically.", 5 are title-only, several contain tables of contents or other articles. Re-import each article from the archive PDF and unpublish empty records.
 
@@ -946,22 +966,22 @@ Route `/about`. Segments A01–A05.
 - [ ] 🟡 AI01 "Ask and Explore" — keep the user's query editable and preserved
   - **To do:** The input has no label and the icon-only submit button has no accessible name (`search/page.tsx:99-108`); placeholder differs from the spec.
 - [ ] 🟡 AI02 "Answer and Sources" — a source-led generated answer
-  - **To do:** Uses Google Gemini (`gemini-2.5-flash`, `AIResponse.tsx`), but no `GEMINI_API_KEY` is set. `AnswerUnavailable` fallback is currently active. Depends on the AI provider decision (🔍 item below): choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
+  - **To do:** Since 26 Sep (uncommitted) the answer comes from `POST /api/ai-search` (OpenAI, per the separate AI Search handoff), not Gemini. It never displays an answer: the route reads `output.text`, which doesn't exist in the SDK. Tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1).
 - [x] ✅ AI03 "Relevant Enerqa Content" — results grouped as p. 202 lists (`search/page.tsx:96`), canonical URLs (publications link to `/knowledge-hub/{slug}`, `loadIndex.ts:111`), term matching (the spec chip "What does ESG readiness involve?" finds the ESG Readiness Tool, `searchIndex.test.ts:84`)
 - [ ] 🟡 AI04 "Other Sources and States"
-  - **To do:** No external results; loading/empty/failure texts don't match the spec; no privacy/feedback guidance. Depends on the AI provider decision (🔍 item below): choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
+  - **To do:** No external results; loading/empty/failure texts don't match the spec; no privacy/feedback guidance. The AI Search handoff defines these states (§2); tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1). (Old note: choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
 - [x] ✅ **`SITE_INDEX` fixed**: `search/siteIndex.ts:10-66` lists only six existing hub routes; the retired routes and the 404ing `/data-portal/datasets` are gone (tested `searchIndex.test.ts:195`)
 - [x] ✅ Index canonical first-party domain, capability (anchored), industry, lifecycle, publication, dataset and tool pages, returned with excerpt, category and date (p. 227): `search/loadIndex.ts:24-141`
 - [ ] 🟡 Keep drafts, confidential briefs, internal CMS records and restricted tool inputs out of the public index (p. 227)
   - **To do:** The index filters tools (`validated`), datasets (`accessStatus: free`) and non-article publications, and never reads Enquiries (`loadIndex.ts:43-64`). But no collection has a draft/approval status, so a publication is indexed the moment it is saved. Enable `versions: { drafts: true }` on Publications and filter `_status: 'published'`.
-- [ ] 🟡 Do not force an Enerqa result into unrelated answers (p. 13, 227)
-  - **To do:** Depends on the AI provider decision (🔍 item below): choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
-- [ ] ❓ Never fabricate company work, credentials or data; cite only what was actually retrieved (p. 227)
-  - **To do:** Depends on the AI provider decision (🔍 item below): choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
-- [ ] 🔍 Inference must use a **free corporate-use service within its free quota**, or a self-hosted appropriately licensed model — no paid tier (p. 13)
-  - **To do:** Decide on the provider and confirm its free-tier terms for corporate use (UK/EEA, use of prompts). Gemini is registered but disabled in `core/registry.ts`, and search falls back to keyword results, so nothing can incur charges today.
+- [ ] ❌ Do not force an Enerqa result into unrelated answers (p. 13, 227)
+  - **To do:** The uncommitted AI route adds "Relevant Company Context" and a promotion card from a keyword match and an unvalidated classifier; "how does solar energy work" gets two Enerqa claims (tested locally, 26 Sep). See `docs/AI-SEARCH-TASKS.md` (Phase 2).
+- [ ] 🟡 Never fabricate company work, credentials or data; cite only what was actually retrieved (p. 227)
+  - **To do:** The 5 unapproved company claims in `src/lib/api/ai-search/kb-index.json` (e.g. "Enerqa is headquartered in London") were deleted on 26 Sep, and AI Search is off. Before switching it on, pass the AI Search handoff's company-integrity gate (§16: zero unapproved claims); see `docs/AI-SEARCH-TASKS.md` (Phase 2).
+- [ ] 🔍 Inference must use a **free corporate-use service within its free quota**, or a self-hosted appropriately licensed model — no paid tier (p. 13). **Superseded for AI search** by the separate AI Search handoff, which chooses the paid OpenAI Responses API with a monthly budget (owner, 26 Sep 2026)
+  - **To do:** Record the AI Search Phase 0 sign-offs (budget B, approved catalogue and URL registry, staging model check) in `docs/AI-SEARCH-TASKS.md`. Until then, keep `openai` disabled in `core/registry.ts` (switched off on 26 Sep; `/api/ai-search` returns 503 before any paid call).
 - [ ] 🟡 Test: general non-Enerqa queries, project questions, ambiguous terms, **Arabic queries**, conflicting sources, retrieval failures (p. 227). Keyword search and the prompt are tested; generated answers cannot be tested while no AI provider is approved
-  - **To do:** Keyword search is tested for general, project, ambiguous, Arabic and retrieval-failure queries (`searchIndex.test.ts:113-230`), and the prompt rules are tested (`aiAnswer.test.ts:58-89`). Add a conflicting-sources case, and test generated answers once an AI provider is approved (`registry.ts:347` `enabled: false`).
+  - **To do:** Keyword search is tested for general, project, ambiguous, Arabic and retrieval-failure queries (`searchIndex.test.ts:113-230`), and the prompt rules are tested (`aiAnswer.test.ts:58-89`). Add a conflicting-sources case. Generated answers: the AI route has no tests yet (`docs/AI-SEARCH-TASKS.md`, Phase 1).
 - [x] ✅ `noindex` on search results and low-value filter combinations (p. 227)
 
 ### 12.9 Conditional careers template (pp. 203–205) — `/about/careers`
@@ -972,22 +992,21 @@ Route `/about`. Segments A01–A05.
 
 ### 12.10 Policy, accessibility and error pages (pp. 206–208)
 
-- [x] ✅ U01 "Utility Page Titles" — four distinct destinations: Privacy Notice, Terms of Use, Cookie Choices, Accessibility Statement
-- [ ] 🔍 U02 "Approved Text and Status" — use real approved legal text, not placeholder (p. 208); no approved text exists yet, and the policy pages 404
-  - **To do:** No approved policy text exists: the four old pages were deleted, and `Policies` has 0 rows and no migration, so nothing renders. The company must approve privacy, terms, cookie and accessibility text that reflects the actual hosting, analytics, AI, newsletter, forms, cookies and processors (p. 208). `Policies.ts` also has no approval-status field.
-- [ ] ❌ U03 "Actions" (p. 208) — not met: no cookie controls exist, and the privacy and accessibility pages 404
-  - **To do:** No cookie-consent code exists in `src`, so no control changes actual consent (p. 208). Privacy and accessibility have no working contact route, because both pages 404 (`[policy]/page.tsx:57`). Build cookie controls, and give both pages an approved contact route.
+- [x] ✅ U01 "Utility Page Titles" — four distinct destinations: Privacy Notice, Terms of Use, Cookie Choices, Accessibility Statement. The titles are fixed in code by slug (`POLICY_PAGES` in `Policies.ts`), so the H1, `<title>`, breadcrumb and footer label always match; the CMS `title` is only the editor's label (27 Sep 2026, tested)
+- [ ] 🟡 U02 "Approved Text and Status" — use real approved legal text, not placeholder (p. 208); all four texts are approved (`approved`, `approvedBy`, `approvedOn`), and Terms, Cookie Choices and Accessibility match the code
+  - **To do:** Privacy: add the legal entity, retention and lawful basis once the company confirms them (1.3). `approvedBy` reads "Enerqa"; the field asks for a person's name and role.
+- [x] ✅ U03 "Actions" (p. 208) — Cookie Choices renders `CookieChoicesControl`, which saves the consent that every third-party embed reads (`lib/consent.ts`). `ExternalEmbed` wraps the tool, dataset and Gapminder iframes: nothing loads until the visitor clicks "Load content" (that one embed, this visit) or allows embeds on `/cookie-choices` (all of them, and withdrawable there). There is no analytics choice because there is no analytics code. Privacy and accessibility end with a Contact block (info@enerqa.co.uk, p. 8, and the contact form). Unit-tested; the embed gate was also checked in headless Chromium on `/data-portal/explorer` (0 iframes before consent, 1 after Load, 0 after reload, 1 with the saved choice, no sideways scroll at 390 px). The policy pages themselves show once approved (27 Sep 2026)
 - [x] ✅ 404 page: `src/app/(frontend)/not-found.tsx` for `notFound()` inside the site, and `src/app/global-not-found.tsx` (enabled by `experimental.globalNotFound` in `next.config.ts`) for mistyped URLs, both with header and footer
 - [x] ✅ 404 directs visitors to search and the nearest relevant section (p. 4): p. 208's title, message and buttons (Search Enerqa, Go to Homepage, Explore Domains and Industries) plus "Go to {section}" from the URL
-- [ ] ❌ No fake utility destinations, and no Contact page disguised as legal or accessibility information (p. 8, 225) — footer links are not routed to Contact, but all four lead to 404s
-  - **To do:** `Footer.tsx:138-141` and `sitemap.ts:34-38` link to /privacy, /terms, /cookie-choices and /accessibility, which all 404 until `Policies` rows exist. Publish the approved pages, or remove the links until then (p. 4, 225).
+- [x] ✅ No fake utility destinations, and no Contact page disguised as legal or accessibility information (p. 8, 225) — an unapproved policy returns 404 and is linked nowhere: the footer, sitemap, sibling-policy list and the consent lines in `ContactForm`, `SubscribeForm` and `ContactCTA` all read `lib/policies.ts`, and anonymous `/api/policies` returns approved rows only. Checked on the dev server (27 Sep 2026): all 4 → 404, 0 policy links on 11 pages, 0 in the sitemap, `totalDocs: 0` from the API
 
 ### Found in the 24 Sep 2026 audit
 
 - [x] ✅ `FooterBreadcrumbs.tsx`: dataset and dashboard trails now link only to `/data-portal` (no more 404 parents, p. 4)
 - [x] ✅ `Enquiries` create is limited to logged-in staff (`Enquiries.ts:14`), so `POST /api/enquiries` no longer bypasses validation and the honeypot; the server actions write through the Local API
 - [x] ✅ Tool-access requests: the unvalidated inline form (`tools/[slug]/actions.ts`, `RequestAccessForm.tsx`) was removed; "Request Access" now links to `/contact?intent=tool&tool={slug}`, which preselects the tool and uses the validated contact action
-- [x] ✅ `search/AIResponse.tsx` shows the public AI04 failure text (`AnswerUnavailable`, `:15-21`) instead of the GEMINI_API_KEY developer message; the prompt asks for plain text without Markdown (`aiAnswer.ts:116`), and the answer renders as text with linked citations
+- [ ] 🟡 `search/AIResponse.tsx` shows the public AI04 failure text instead of a developer message. Since 26 Sep (uncommitted) it is a client component calling `/api/ai-search`; the Gemini prompt (`aiAnswer.ts:116`) and `AnswerUnavailable` are no longer used
+  - **To do:** It renders the route's placeholder "No answer generated." as if it were an answer, and parses `[n]` markers the Responses API doesn't produce. Tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1).
 - [x] ✅ The Global Intelligence Language filter lists one ISO 639-1 code per language: every news item passes `normaliseLanguage` (`core/language.ts:35`, `news/index.ts:149-155`) before the option list is built (`news/index.ts:261`)
 - [x] ✅ `/data-portal/sources` has its own title and canonical (`sources/page.tsx:12-16`); policy pages take their title from the CMS record plus the " | Enerqa" template, so the brand is not doubled (`[policy]/page.tsx:31-34`)
 - [x] ✅ No unapproved mailboxes are published (p. 8): `info@enerqa.co.uk` is the only address in `src/`; the hard-coded accessibility page is gone (now the CMS `[policy]` route), and careers returns 404 until approved content exists (`about/careers/page.tsx:30, 39`)
@@ -1148,7 +1167,7 @@ Decide: keep with a documented licence, or retire.
 - [ ] 🟡 **Author metadata**: bylines and a search facet only; there is no public Authors route
   - **To do:** No Authors route is correct, but the `authors` table has 0 rows and bylines are unverified free text. Approve the byline identities (Part 8).
 - [ ] 🟡 **Utility/form** record: approved page text, route, consent/state rules
-  - **To do:** A `Policies` collection now holds the policy text behind `/[policy]` (privacy, terms, cookie-choices, accessibility), but it has 0 rows and no migration, and consent/state rules are not modelled. Enter the approved text once legal signs off (🔍).
+  - **To do:** Policy text now lives in the `Policies` collection with an approval status (`approved`, `approvedBy`, `approvedOn`); all four rows hold approved text (27 Sep 2026). Cookie consent is stored in the browser (`lib/consent.ts`), not as a CMS record. Left: model the newsletter/enquiry consent states (for example retention and withdrawal dates) once the company answers Q2 in `docs/CLIENT-QUESTIONS.md`.
 - [x] ✅ Remove Project / Case Study / Experience record types
 - [ ] 🟡 Taxonomy: domain, industry, capability, lifecycle stage, topic, covered country codes, region IDs, continent IDs, geographic scope, content type, first-party/external, source, author, date, language, access/status, data frequency/format
   - **To do:** No fields for lifecycle stage, covered country codes, region/continent IDs, geographic scope, first-party/external or data frequency/format. Add them.
@@ -1158,14 +1177,13 @@ Decide: keep with a documented licence, or retire.
 ### 14.2 SEO and canonical content (p. 227)
 
 - [ ] 🟡 Unique descriptive title + meta description on every substantive page
-  - **To do:** `/data-portal/sources` uses the legacy default title and description; privacy, terms, accessibility, cookies and search share "Climate, Energy & ESG Advisory"; titles read "Privacy Notice - Enerqa | Enerqa"; 4 publications have "Could not extract content automatically." as their meta description. Write per-page metadata.
+  - **To do:** `/data-portal/sources` uses the legacy default title and description; privacy, terms, accessibility, cookies and search share "Climate, Energy & ESG Advisory"; titles read "Privacy Notice - Enerqa | Enerqa". Write per-page metadata. (Publication meta descriptions were rewritten on 26 Sep 2026 — none says "Could not extract" now; Sudan has none yet, see Part 8.)
 - [ ] 🟡 Exactly one H1 and a coherent H2/H3 hierarchy per page
   - **To do:** Header and footer are fixed (no heading before the H1; the footer uses visible h2s). Check publication and tool detail pages for H1 → H3 jumps.
 - [x] ✅ Stable heading-derived anchor slugs for domain capabilities
-- [ ] 🟡 Consolidate first-party article duplicates item by item
-  - **To do:** `/insights/i-recs-…` 308s to `/knowledge-hub/irecs-…`, which 404s (the real slug is `i-recs-…`). Fix the map in `next.config.ts`.
+- [x] ✅ Consolidate first-party article duplicates item by item — `/insights/i-recs-…` now maps to the real `i-recs-…` slug (`next.config.ts:42-43`), and every retired article has one canonical publication.
 - [ ] 🟡 **XML sitemap** — `src/app/sitemap.ts` + `robots.ts`. Fixed 24 Sep 2026: `/cookies` → `/cookie-choices` (was a 404), added `/domains-and-industries`, `/project-development`, `/knowledge-hub/global-intelligence`, `/data-portal/sources`; non-article publications excluded
-  - **To do:** Valid XML with 65 URLs, but it advertises the broken publication pages and the 2 non-compliant datasets. Exclude them.
+  - **To do:** Valid XML, but it advertises the 2 non-compliant datasets. Exclude them. (The publication pages it lists are no longer broken since 26 Sep 2026.)
 - [ ] 🟡 Organisation, article and breadcrumb structured data, from verified fields only
   - **To do:** Organization JSON-LD fixed (logo `/images/color-logo.png`, `sameAs` = LinkedIn only); publication Article JSON-LD now uses a string author and omits unverified dates. Still to do: BreadcrumbList JSON-LD on publications, domains and industries.
 - [ ] 🟡 No manufactured review ratings, FAQ claims or experience figures
@@ -1181,7 +1199,7 @@ Decide: keep with a documented licence, or retire.
 - [ ] 🟡 Labelled form controls and buttons
   - **To do:** Contact form fields now use `htmlFor`/`id` (14 labels), the homepage email field and slider arrows are labelled, and the inline tool form is gone. Run an axe scan over the remaining forms (Knowledge Hub search, Global Intelligence and Data Portal filters).
 - [ ] 🟡 Sufficient colour contrast
-  - **To do:** Tokens fixed (`--green-deep` #007a75 = 5.2:1, `--color-primary-deep`, focus ring); the "Open access" badge is now 4.81:1. Still to do: `text-gray-400` on white → `text-gray-500` in `KnowledgeHubClient.tsx`, the GI page, `DataPortalClient.tsx`, `ui/Accordion.tsx`, `home/NewsCard.tsx` and the dashboard page (not `project-development/page.tsx:269`, which sits on navy); input focus rings `--color-primary` → `--color-primary-deep`.
+  - **To do:** Tokens fixed (`--green-deep` #007a75 = 5.2:1, `--color-primary-deep`, focus ring); the "Open access" badge is now 4.81:1. `text-gray-400` is gone from `src` (grep, 27 Sep 2026). Still to do: 19 input focus rings use `--color-primary` → `--color-primary-deep`.
 - [x] ✅ Reduced-motion support: the framer-motion components use `useReducedMotion`, Lenis starts only without `prefers-reduced-motion`, and the H05 cards have a pause control and never auto-rotate under reduced motion
 - [ ] 🟡 Charts: accessible tables + non-colour-only labels
   - **To do:** The only first-party chart (`DataPortalD03.tsx`) is a colour-only bar chart with hover-only values and no table. Render `DataSeriesTable` beside it and add visible period/value labels (p. 228).
@@ -1190,7 +1208,7 @@ Decide: keep with a documented licence, or retire.
   - **To do:** Test once approved Arabic content exists.
 - [x] ✅ Reserve feed/widget dimensions: homepage H03/H04 stream inside `<Suspense>` with same-size skeletons; domain/industry/GI feeds use `FeedSkeleton`
 - [ ] 🟡 Lazy-load below-fold charts and large external widgets
-  - **To do:** The hero video no longer autoplays. Add `loading="lazy"` to the tool iframe (`tools/[slug]/page.tsx:227`) and the dataset iframe (`data-portal/datasets/[slug]/page.tsx:152`); no `next/dynamic` is used for below-fold widgets.
+  - **To do:** The hero video no longer autoplays, and every iframe now goes through `ExternalEmbed`, which loads only after consent and with `loading="lazy"` (27 Sep 2026). Left: no `next/dynamic` is used for below-fold widgets.
 - [ ] 🟡 Test at: typical laptop widths, mobile, slow network, blocked third-party scripts, provider timeout, long headlines, **125% zoom**
   - **To do:** No e2e or axe tooling and no test record. Run the p. 228 test matrix (laptop widths, mobile, slow network, blocked scripts, provider timeout, long headlines, 125% zoom) and record the results.
 
@@ -1203,7 +1221,8 @@ Decide: keep with a documented licence, or retire.
   - **To do:** Honeypot only; no rate limit; none on the tool form; the REST route bypasses it.
 - [ ] 🟡 Confirmation and delivery-error handling
   - **To do:** The confirm page and error messages exist, but there is no email adapter ("No email adapter provided"), yet the contact form tells visitors their message was "successfully sent… will be in touch". Add notification delivery.
-- [ ] 🔍 Approved privacy text for the chosen processors, retention and data flows
+- [ ] 🟡 Approved privacy text for the chosen processors, retention and data flows
+  - **To do:** The approved Privacy Notice now names the processors (Vercel, Supabase) and the data flows. Retention, the lawful basis for enquiries and the responsible legal entity are still missing: the company must confirm them (1.3).
 - [ ] 🔍 Handover pack: editable CMS templates, taxonomy guide, provider credentials + account owners, request budgets, connector/error logs, source-rights register, redirect list, analytics configuration, bilingual editing guidance, tested download/tool access
 
 ### 14.5 Launch acceptance checklist (p. 229)
@@ -1215,13 +1234,13 @@ Decide: keep with a documented licence, or retire.
 - [x] ✅ Four domain narratives, 29 capability descriptions, 13 industry narratives and contextual lifecycle modules mapped to the correct pages
 - [x] ✅ The lifecycle page has five sections including Start a Project, without featured examples
 - [ ] 🟡 External source cards, datasets, download files and tool actions are genuine, rights-cleared and tested; unavailable states work
-  - **To do:** No destination validation, non-approved datasets, mock tool figures, broken publications.
+  - **To do:** No destination validation, non-approved datasets, mock tool figures.
 - [ ] 🟡 Owned publications and external items cannot be confused; imported titles, types, authors and dates verified
-  - **To do:** Dates and authors are unverified and several bodies are broken (Part 8).
+  - **To do:** Bodies are fixed and every article has a byline (26 Sep 2026). Still open: 16 of 25 dates and the byline spellings need approval (Part 8).
 - [ ] 🟡 Charts/tables/CSV agree with filter selections; source, unit, geography, period, version and licence visible
   - **To do:** There are no charts; datasets link to provider files.
 - [ ] 🟡 Canonical URLs, item-level redirects, metadata, XML sitemap and real bilingual equivalents validated
-  - **To do:** No canonical on about, data-portal, sources, tools, datasets, publications, contact or policy pages; the i-recs redirect lands on a 404; the hreflang tags are wrong.
+  - **To do:** No canonical on about, data-portal, sources, tools, datasets, publications, contact or policy pages; the hreflang tags are wrong.
 - [ ] 🟡 Policy destinations, privacy/consent controls, form delivery, analytics and CMS handover complete
   - **To do:** No analytics anywhere, no email delivery, and the privacy/handover items are still open.
 - [ ] 🔍 Sitemap infographic is editable, has no suggested URLs, preserves all six sections / four domains / thirteen industries / the lifecycle link
@@ -1229,7 +1248,7 @@ Decide: keep with a documented licence, or retire.
 - [ ] 🟡 Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
   - **To do:** Keyword search works in both, but Global Intelligence has only one "Geography" filter guessed from headline keywords (`'us'` matches the pronoun); no country or continent IDs (see 12.2).
 - [ ] 🟡 All enabled APIs permit free public corporate use within documented allowances, with hard budgets and no paid fallback
-  - **To do:** Gemini (not an approved provider) with no budget guard; budgets count cache hits; no OECD hourly cap.
+  - **To do:** AI search now uses OpenAI (paid, as its separate handoff allows) with in-memory limits only and no budget B (`docs/AI-SEARCH-TASKS.md`); feed budgets count cache hits; no OECD hourly cap.
 - [ ] 🟡 Every full-reading/dataset button, contextual preview and AI source destination is verified open access; every dataset has an ungated free download
   - **To do:** `verified_open` is hard-coded and no link is ever checked (13.1).
 

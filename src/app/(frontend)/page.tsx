@@ -9,6 +9,7 @@ import { TransitionPriorities } from '@/components/home/TransitionPriorities'
 import { Tools } from '@/components/home/Tools'
 import { AboutEnerqa } from '@/components/home/AboutEnerqa'
 import { ContactCTA } from '@/components/shared/ContactCTA'
+import { getPrivacyHref } from '@/lib/policies'
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
  * query never holds back the hero and search either. Their fallbacks reserve
  * roughly the loaded height (p. 226, 228).
  */
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <>
       <Hero />
@@ -67,7 +68,7 @@ export default function HomePage() {
         <Tools />
       </Suspense>
       <AboutEnerqa />
-      <ContactCTA />
+      <ContactCTA privacyHref={await getPrivacyHref()} />
     </>
   )
 }

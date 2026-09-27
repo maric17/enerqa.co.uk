@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { getProvider, providerEnabled } from './registry';
 import {
   acquireSlot,
+  isNewRefusal,
   isStaleAge,
   noteUsage,
   parseRetryAfter,
@@ -68,15 +69,27 @@ export type FetchOptions = {
   rejectBody?: (body: unknown) => BodyRejection | null;
 };
 
-/** Thrown inside the cached callback so Next caches nothing. */
-class UpstreamError extends Error {
+/** 
+ * Thrown inside the cached callback so Next caches nothing. 
+ * Does not extend Error so Next.js unstable_cache does not print a full stack trace when it intercepts it.
+ */
+class UpstreamError {
+  readonly name = 'UpstreamError';
   constructor(
     readonly reason: ConnectorFailure['reason'],
-    message: string,
-  ) {
-    super(message);
-    this.name = 'UpstreamError';
-  }
+    readonly message: string,
+    /** Not logged: a refusal during a pause that was already reported. */
+    readonly quiet = false,
+  ) {}
+}
+
+function isUpstreamError(error: unknown): error is UpstreamError {
+  return error instanceof UpstreamError || (typeof error === 'object' && error !== null && (error as { name?: unknown }).name === 'UpstreamError');
+}
+
+/** A request the breaker or a budget would not send. Logged once per pause. */
+function notRequested(providerId: ProviderId, name: string, why: string): UpstreamError {
+  return new UpstreamError('rate_limited', `${name}: ${why}; not requested`, !isNewRefusal(providerId));
 }
 
 /** Query parameters that carry a credential. Kept out of cache keys and logs. */
@@ -101,18 +114,18 @@ type Cached<T> = { body: T; retrievedAt: string };
  * One real upstream request. Runs only on a cache miss or a background refresh.
  * Throws UpstreamError for anything that must not be cached.
  */
-async function upstream<T>(providerId: ProviderId, url: string, options: FetchOptions): Promise<Cached<T>> {
+async function sendUpstream<T>(providerId: ProviderId, url: string, options: FetchOptions): Promise<Cached<T>> {
   const name = getProvider(providerId).name;
   const { headers = {}, timeoutMs = 15000, asText = false, rejectBody } = options;
 
   const blocked = refusal(providerId);
-  if (blocked) throw new UpstreamError('rate_limited', `${name}: ${blocked}; not requested`);
+  if (blocked) throw notRequested(providerId, name, blocked);
 
   const release = await acquireSlot(providerId);
   try {
     // Another request may have tripped the breaker while this one queued.
     const stillBlocked = refusal(providerId);
-    if (stillBlocked) throw new UpstreamError('rate_limited', `${name}: ${stillBlocked}; not requested`);
+    if (stillBlocked) throw notRequested(providerId, name, stillBlocked);
 
     spend(providerId);
 
@@ -179,6 +192,49 @@ async function upstream<T>(providerId: ProviderId, url: string, options: FetchOp
 }
 
 /**
+ * Requests on their way right now, keyed like the shared cache. Several
+ * components on one page ask for the same pool at once, and when its cached
+ * copy is stale each of them starts its own background refresh: the live log
+ * showed GDELT sent the same query twice, a second apart. A later caller waits
+ * for the first answer instead. On globalThis, like core/health.ts, so a dev
+ * hot reload does not lose track.
+ */
+const inFlightKey = '__enerqaProviderInFlight';
+const inFlightStore = globalThis as unknown as { [inFlightKey]?: Map<string, Promise<Cached<unknown>>> };
+const inFlight = (inFlightStore[inFlightKey] ??= new Map());
+
+/** The shared-cache key for one provider request, minus any credential. */
+function cacheKeyParts(providerId: ProviderId, url: string, options: FetchOptions): string[] {
+  return ['provider-fetch', providerId, redactUrl(url), options.asText ? 'text' : 'json'];
+}
+
+/**
+ * `sendUpstream`, shared by concurrent identical callers.
+ *
+ * Keep the name and the `() => upstream<T>(providerId, url, options)` callback
+ * in fetchFromProvider unchanged: unstable_cache puts the callback's source
+ * text in its cache key, so renaming it would drop every cached response and
+ * refetch them all (spending NewsData credits).
+ */
+function upstream<T>(providerId: ProviderId, url: string, options: FetchOptions): Promise<Cached<T>> {
+  const key = cacheKeyParts(providerId, url, options).join('|');
+  const running = inFlight.get(key);
+  if (running) return running as Promise<Cached<T>>;
+
+  const request = sendUpstream<T>(providerId, url, options)
+    .catch((error: unknown) => {
+      // Logged here, once per real attempt. A background refresh's error only
+      // reaches Next, which logs it as "revalidating cache ... {}".
+      if (isUpstreamError(error) && !error.quiet) console.warn(`[${providerId}] ${error.message}`);
+      throw error;
+    })
+    // Forget it once settled, so the next refresh really asks again.
+    .finally(() => inFlight.delete(key));
+  inFlight.set(key, request);
+  return request;
+}
+
+/**
  * Next's shared cache around `fn`. Outside a Next.js server (unit tests,
  * scripts) there is no cache to share, so `fn` simply runs.
  */
@@ -215,16 +271,14 @@ export async function fetchFromProvider<T>(
   try {
     const hit = await sharedCache(
       () => upstream<T>(providerId, url, options),
-      ['provider-fetch', providerId, redactUrl(url), options.asText ? 'text' : 'json'],
+      cacheKeyParts(providerId, url, options),
       { revalidate, tags },
     );
     return ok(providerId, hit.body, hit.retrievedAt, isStaleAge(providerId, hit.retrievedAt, revalidate));
   } catch (error) {
-    if (error instanceof UpstreamError) {
-      console.warn(`[${providerId}] ${error.message}`);
-      return fail(providerId, error.reason, error.message);
-    }
-    const msg = error instanceof Error ? error.message : 'Unknown error';
+    // Already logged by upstream().
+    if (isUpstreamError(error)) return fail(providerId, error.reason, error.message);
+    const msg = error instanceof Error ? error.message : (error && typeof error === 'object' && 'message' in error) ? String((error as any).message) : 'Unknown error';
     console.warn(`[${providerId}] request failed: ${msg}`);
     return fail(providerId, 'unavailable', `${provider.name} could not be reached.`);
   }
