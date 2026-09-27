@@ -206,11 +206,20 @@ export default async function ToolDetailPage({ params }: Props) {
             {access.kind === 'download' && (
               <div className="p-8 bg-[#FAFBFB] rounded-[16px] border border-ink/10 flex flex-col gap-4 items-start shadow-sm">
                 {/* p. 191: file type, version and size alongside a cleared file. */}
-                <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm m-0">
+                <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm m-0 mb-4">
                   {file?.mimeType && (<><dt className="font-semibold">File type</dt><dd className="m-0">{file.mimeType}</dd></>)}
                   {tool.version && (<><dt className="font-semibold">Version</dt><dd className="m-0">{tool.version}</dd></>)}
                   {file?.filesize ? (<><dt className="font-semibold">Size</dt><dd className="m-0">{formatBytes(file.filesize)}</dd></>) : null}
+                  {tool.licence && (<><dt className="font-semibold">Licence</dt><dd className="m-0">{tool.licence as string}</dd></>)}
                 </dl>
+                
+                {tool.systemRequirements && (
+                  <div className="prose prose-sm max-w-none mb-4">
+                    <h3 className="text-sm font-semibold m-0 mb-1">System Requirements</h3>
+                    <RichText data={tool.systemRequirements as any} />
+                  </div>
+                )}
+                
                 <Button href={access.href} variant="primary" target="_blank" rel="noopener noreferrer">
                   Download Tool
                 </Button>
@@ -264,6 +273,13 @@ export default async function ToolDetailPage({ params }: Props) {
             <Typography variant="body" className="m-0">
               Specialist support can help interpret results and identify the further work required.
             </Typography>
+            {tool.userGuide && typeof tool.userGuide === 'object' && 'url' in tool.userGuide && (
+              <div>
+                <Button href={resolveMediaUrl(tool.userGuide.url)} variant="secondary" target="_blank" rel="noopener noreferrer">
+                  Download User Guide
+                </Button>
+              </div>
+            )}
             <div>
               <Button href={requestAccessHref(tool.slug)} variant="secondary">
                 Contact Support

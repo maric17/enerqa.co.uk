@@ -25,6 +25,7 @@ export function SourceUnavailable({
   variant,
   nearest,
   note,
+  emptyText,
   className = '',
 }: {
   /** The feed's `sourcesFailed` flag. True shows the unavailable state. */
@@ -35,6 +36,8 @@ export function SourceUnavailable({
   nearest?: { href: string; label: string };
   /** Optional one-line context, e.g. which provider is pending registration. */
   note?: string;
+  /** Custom empty text for when no results match filters. */
+  emptyText?: string;
   /** Pass a min-height here so the empty box keeps the card space (no layout shift). */
   className?: string;
 }) {
@@ -47,7 +50,7 @@ export function SourceUnavailable({
       className={`flex flex-col items-center justify-center gap-2 rounded-[var(--r-md)] border border-[var(--line)] bg-[var(--paper-alt)] p-8 text-center ${className}`}
     >
       <p className="m-0 font-medium text-[var(--ink-soft)]">
-        {unavailable ? 'This source is temporarily unavailable.' : 'No relevant updates are available.'}
+        {unavailable ? 'This source is temporarily unavailable.' : emptyText || 'No relevant updates are available.'}
       </p>
       {note && <p className="m-0 text-sm text-[var(--ink-muted)]">{note}</p>}
       {unavailable && (

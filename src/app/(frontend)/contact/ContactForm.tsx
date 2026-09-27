@@ -259,7 +259,7 @@ function ContactFields({
           )}
         </p>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4 mt-8">
           {/* Disabled while sending, so a double click cannot submit twice (p. 198). */}
           <button type="submit" disabled={isPending}
             className="bg-[var(--color-secondary)] text-white font-bold py-4 px-10 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors inline-flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-dark)]">

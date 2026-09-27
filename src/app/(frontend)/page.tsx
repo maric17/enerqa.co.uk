@@ -51,10 +51,10 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   return (
     <>
-      <Hero />
-
-      {/* H03 Global News + H04 Major Markets */}
-      <FirstFoldFeeds />
+      <Hero>
+        {/* H03 Global News + H04 Major Markets */}
+        <FirstFoldFeeds />
+      </Hero>
 
       <TransitionPriorities />
       <LifecycleAndIndustries />

@@ -22,6 +22,46 @@ export default async function DataPortalSourcesPage() {
     slug: 'data-portal-sources-config',
   });
 
+  const newsProviderIds = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'openalex', 'doaj', 'reliefweb', 'osti', 'gbif-literature', 'sec-edgar'];
+  
+  const providers = enabledProviders();
+  const dataProviders = providers.filter(p => !newsProviderIds.includes(p.id) && !['gemini', 'openai'].includes(p.id));
+  const newsProviders = providers.filter(p => newsProviderIds.includes(p.id));
+  
+  // Hardcode OWID and Ember for data providers since they don't have active API connectors
+  const extraDataProviders = [
+    {
+      name: 'Our World in Data (OWID)',
+      purpose: 'Research and data to make progress against the world’s largest problems.',
+      homepage: 'https://ourworldindata.org/',
+      docsUrl: 'https://ourworldindata.org/about',
+      licence: 'CC BY 4.0',
+      licenceUrl: 'https://creativecommons.org/licenses/by/4.0/',
+      attribution: 'Our World in Data',
+      coverage: 'Global',
+      frequency: 'Annual',
+      refreshSchedule: 'Annual updates based on primary sources'
+    },
+    {
+      name: 'Ember',
+      purpose: 'Global electricity data and climate analysis.',
+      homepage: 'https://ember-climate.org/',
+      docsUrl: 'https://ember-climate.org/data/',
+      licence: 'CC BY 4.0',
+      licenceUrl: 'https://creativecommons.org/licenses/by/4.0/',
+      attribution: 'Ember',
+      coverage: 'Global',
+      frequency: 'Annual/Monthly depending on dataset',
+      refreshSchedule: 'Monthly and Annual updates'
+    }
+  ];
+
+  const datasetsRes = await payload.find({
+    collection: 'datasets',
+    limit: 100,
+  });
+  const datasets = datasetsRes.docs;
+
   return (
     <div className="bg-white min-h-screen">
       {/* S01: Sources and Methodology Intro */}
@@ -43,8 +83,7 @@ export default async function DataPortalSourcesPage() {
               </div>
             ) : (
               <Typography variant="body" className="text-gray-300 text-lg leading-relaxed max-w-3xl mt-4">
-                Enerqa maintains a rigorous, transparent methodology for data collection, validation, and presentation. 
-                Below you will find our directory of primary sources and the core principles guiding our data publication.
+                Our data views identify the original provider, what the measure represents and how it has been prepared for display. Review these notes before comparing, downloading or reusing a dataset.
               </Typography>
             )}
           </div>
@@ -68,23 +107,86 @@ export default async function DataPortalSourcesPage() {
                   <RichText data={config.s02_directory as any} />
                 </div>
               ) : (
-                <div className="grid gap-6">
-                  {enabledProviders().map((provider) => (
-                    <div key={provider.id} className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:border-[var(--color-primary)] transition-colors">
-                      <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
-                        <h3 className="text-xl font-bold text-[var(--color-dark)] m-0">{provider.name}</h3>
-                        <a href={provider.homepage} target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] hover:underline text-sm font-medium">
-                          Visit Provider Website
-                        </a>
-                      </div>
-                      <p className="text-gray-700 mb-4">{provider.purpose}</p>
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                        <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
-                        <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>
-                        {provider.accessReviewedOn && <div><strong className="text-gray-800 block mb-1">Access Reviewed:</strong> {provider.accessReviewedOn}</div>}
-                      </div>
+                <div className="grid gap-12">
+                  <div>
+                    <Typography variant="h3" className="text-[var(--color-primary)] mb-6">
+                      Numerical Data Sources
+                    </Typography>
+                    <div className="grid gap-6">
+                      {[...dataProviders, ...extraDataProviders].map((provider: any, idx: number) => {
+                        const providerDatasets = datasets.filter(d => 
+                          d.provider === provider.name || 
+                          (d.provider as string)?.includes(provider.name) ||
+                          provider.name.includes(d.provider as string)
+                        );
+                        
+                        return (
+                        <div key={`data-${idx}`} className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:border-[var(--color-primary)] transition-colors">
+                          <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
+                            <h3 className="text-xl font-bold text-[var(--color-dark)] m-0">{provider.name}</h3>
+                            <a href={provider.homepage} target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] hover:underline text-sm font-medium">
+                              Visit Provider Website
+                            </a>
+                          </div>
+                          <p className="text-gray-700 mb-4">{provider.purpose}</p>
+                          <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
+                            <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>
+                            {provider.docsUrl && <div><strong className="text-gray-800 block mb-1">Official Documentation:</strong> <a href={provider.docsUrl} target="_blank" className="hover:underline">Docs</a></div>}
+                          </div>
+                          
+                          {providerDatasets.length > 0 && (
+                            <div className="mt-6 border-t border-gray-200 pt-6">
+                              <h4 className="text-sm font-bold text-[var(--color-dark)] uppercase tracking-wider mb-4">Available Datasets</h4>
+                              <div className="flex flex-col gap-4">
+                                {providerDatasets.map(ds => (
+                                  <div key={ds.id} className="bg-blue-50/50 border border-blue-100 p-4 rounded text-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div className="flex-1">
+                                      <div className="font-bold text-blue-900 mb-2">{ds.title}</div>
+                                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-gray-700">
+                                        {ds.identifier && <div><strong>Dataset ID:</strong> {ds.identifier as string}</div>}
+                                        {ds.geographicLevel && <div><strong>Coverage:</strong> {ds.geographicLevel as string}</div>}
+                                        {(ds.frequency || provider.frequency) && <div><strong>Frequency:</strong> {ds.frequency as string || provider.frequency}</div>}
+                                        {/* Fallback to observationPeriod or provider schedule if refreshSchedule is missing */}
+                                        {(ds.refreshSchedule || ds.observationPeriod || provider.refreshSchedule) && <div><strong>Refresh Schedule:</strong> {ds.refreshSchedule as string || ds.observationPeriod as string || provider.refreshSchedule}</div>}
+                                      </div>
+                                    </div>
+                                    <Link href={`/data-portal/datasets/${ds.slug}`} className="whitespace-nowrap text-[var(--color-primary)] font-medium hover:underline text-xs bg-white px-3 py-1.5 rounded border border-blue-200">
+                                      View Dataset
+                                    </Link>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )})}
                     </div>
-                  ))}
+                  </div>
+                  
+                  <div>
+                    <Typography variant="h3" className="text-[var(--color-primary)] mb-6">
+                      News and Research Sources
+                    </Typography>
+                    <div className="grid gap-6">
+                      {newsProviders.map((provider) => (
+                        <div key={provider.id} className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:border-[var(--color-primary)] transition-colors">
+                          <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
+                            <h3 className="text-xl font-bold text-[var(--color-dark)] m-0">{provider.name}</h3>
+                            <a href={provider.homepage} target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] hover:underline text-sm font-medium">
+                              Visit Provider Website
+                            </a>
+                          </div>
+                          <p className="text-gray-700 mb-4">{provider.purpose}</p>
+                          <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
+                            <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>
+                            {provider.docsUrl && <div><strong className="text-gray-800 block mb-1">Official Documentation:</strong> <a href={provider.docsUrl} target="_blank" className="hover:underline">Docs</a></div>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -103,7 +205,7 @@ export default async function DataPortalSourcesPage() {
                 </div>
               ) : (
                 <div className="bg-gray-50 border border-gray-200 p-8 rounded-xl text-gray-600 prose max-w-none">
-                  <p>All data published by Enerqa remains the intellectual property of the original provider. When reusing data obtained through this portal, you must provide appropriate attribution to the primary source as cited in the relevant dataset.</p>
+                  <p>Each dataset and external item links to its applicable licence and original source. Public API access does not automatically permit republication of an article, image or dataset. Where rights are unclear, do not automate display or download until cleared.</p>
                 </div>
               )}
             </div>
@@ -122,7 +224,7 @@ export default async function DataPortalSourcesPage() {
                 </div>
               ) : (
                 <div className="bg-gray-50 border border-gray-200 p-8 rounded-xl text-gray-600 prose max-w-none">
-                  <p>Our dashboards and datasets display raw provider values exactly as reported by the primary sources. We do not apply smoothed trends, moving averages, or imputation of missing values. Missing data points are left blank to preserve the integrity of the original source.</p>
+                  <p>Distinguish measured observations, modelled estimates, forecasts and Enerqa-derived calculations. Show units, missing values, revisions and transformations. Label OECD development finance as periodic reporting rather than live global finance; label Climate TRACE as independent estimates rather than official country inventories.</p>
                 </div>
               )}
             </div>

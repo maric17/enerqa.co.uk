@@ -6,9 +6,10 @@ interface PageHeroProps {
   title: React.ReactNode;
   breadcrumbs: React.ReactNode;
   imageUrl?: string | null;
+  children?: React.ReactNode;
 }
 
-export function PageHero({ title, breadcrumbs, imageUrl }: PageHeroProps) {
+export function PageHero({ title, breadcrumbs, imageUrl, children }: PageHeroProps) {
   return (
     <section className="relative w-full h-[65vh] min-h-[500px] flex items-center justify-center bg-[var(--ink)] text-white overflow-hidden py-[100px]">
       {/* Background Image & Overlay */}
@@ -30,6 +31,13 @@ export function PageHero({ title, breadcrumbs, imageUrl }: PageHeroProps) {
         <Typography variant="h1" className="text-white m-0 max-w-[900px]">
           {typeof title === 'string' ? <span className="en block">{title}</span> : title}
         </Typography>
+
+        {/* Optional Content */}
+        {children && (
+          <div className="mt-6 text-[18px] md:text-[22px] leading-[1.6] text-white/90 font-light max-w-4xl whitespace-pre-line">
+            {children}
+          </div>
+        )}
       </Container>
     </section>
   );

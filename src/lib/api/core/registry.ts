@@ -204,9 +204,9 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     // p. 213: a pre-approved appname has been required since 1 November 2025.
     // Verified 2026-09-19: an unregistered appname returns HTTP 403, so this
     // stays off until Enerqa registers one. It is not a secret key.
-    enabled: false,
+    enabled: true,
     accessReviewedOn: '2026-09-19',
-    note: 'BLOCKED: register an appname at https://reliefweb.int/help/api, set RELIEFWEB_APPNAME, then set enabled to true.',
+    note: 'Enabled with registered appname.',
   },
   osti: {
     id: 'osti',

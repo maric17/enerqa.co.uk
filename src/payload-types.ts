@@ -120,10 +120,12 @@ export interface Config {
   globals: {
     'knowledge-hub-config': KnowledgeHubConfig;
     'data-portal-sources-config': DataPortalSourcesConfig;
+    'careers-config': CareersConfig;
   };
   globalsSelect: {
     'knowledge-hub-config': KnowledgeHubConfigSelect<false> | KnowledgeHubConfigSelect<true>;
     'data-portal-sources-config': DataPortalSourcesConfigSelect<false> | DataPortalSourcesConfigSelect<true>;
+    'careers-config': CareersConfigSelect<false> | CareersConfigSelect<true>;
   };
   locale: 'en' | 'ar';
   widgets: {
@@ -226,6 +228,14 @@ export interface Publication {
     [k: string]: unknown;
   } | null;
   /**
+   * Citation format for this publication
+   */
+  citation?: string | null;
+  /**
+   * Link to the original publication source
+   */
+  originalUrl?: string | null;
+  /**
    * SEO Title
    */
   metaTitle?: string | null;
@@ -275,6 +285,8 @@ export interface Publication {
   topic?: (number | Category)[] | null;
   domains?: (number | Domain)[] | null;
   industries?: (number | Industry)[] | null;
+  datasets?: (number | Dataset)[] | null;
+  tools?: (number | Tool)[] | null;
   date: string;
   file?: (number | null) | Media;
   bgGradientType: 'Green' | 'Red' | 'Blue' | 'Dark';
@@ -442,6 +454,108 @@ export interface Industry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "datasets".
+ */
+export interface Dataset {
+  id: number;
+  slug: string;
+  title: string;
+  /**
+   * Brief insights or summary for this dataset.
+   */
+  description: string;
+  file?: (number | null) | Media;
+  /**
+   * Optional path for API access (e.g. /api/climate/emissions)
+   */
+  apiEndpoint?: string | null;
+  topic?: (number | Category)[] | null;
+  date: string;
+  /**
+   * Organization or entity that produced the dataset.
+   */
+  provider?: string | null;
+  /**
+   * Series or dataset identifier.
+   */
+  identifier?: string | null;
+  /**
+   * Version or release.
+   */
+  version?: string | null;
+  licence?: string | null;
+  licenceUrl?: string | null;
+  originalUnit?: string | null;
+  /**
+   * Geographic scope or level (e.g. Global, Europe, United States).
+   */
+  geographicLevel?: string | null;
+  /**
+   * Time period covered by the dataset (e.g. 2010 - 2026).
+   */
+  observationPeriod?: string | null;
+  retrievalTime?: string | null;
+  /**
+   * Ungated free anonymous download link.
+   */
+  datasetDownloadUrl?: string | null;
+  accessStatus?: ('verified_open' | 'unknown' | 'gated' | 'broken' | 'embargoed' | 'free' | 'restricted') | null;
+  accessCheckedAt?: string | null;
+  accessEvidence?: string | null;
+  corporateReuse?: boolean | null;
+  redistribution?: boolean | null;
+  attribution?: string | null;
+  /**
+   * When the provider released this version of the data.
+   */
+  sourceReleaseDate?: string | null;
+  /**
+   * Update frequency (e.g. Annual, Monthly).
+   */
+  frequency?: string | null;
+  /**
+   * Data format (e.g. CSV, JSON, NetCDF).
+   */
+  format?: string | null;
+  /**
+   * Whether the licence allows derivative works or modifications.
+   */
+  modificationPermission?: boolean | null;
+  /**
+   * Iframe URL for interactive charts/maps (Tableau, PowerBI, Observable).
+   */
+  embedUrl?: string | null;
+  /**
+   * Ready-to-copy citation format.
+   */
+  citation?: string | null;
+  /**
+   * Detailed sources and methodology.
+   */
+  methodology?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedDatasets?: (number | Dataset)[] | null;
+  domains?: (number | Domain)[] | null;
+  industries?: (number | Industry)[] | null;
+  status?: ('draft' | 'verified_open') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tools".
  */
 export interface Tool {
@@ -578,6 +692,23 @@ export interface Tool {
     };
     [k: string]: unknown;
   } | null;
+  licence?: string | null;
+  systemRequirements?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  userGuide?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -601,108 +732,6 @@ export interface Team {
 export interface Author {
   id: number;
   name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "datasets".
- */
-export interface Dataset {
-  id: number;
-  slug: string;
-  title: string;
-  /**
-   * Brief insights or summary for this dataset.
-   */
-  description: string;
-  file?: (number | null) | Media;
-  /**
-   * Optional path for API access (e.g. /api/climate/emissions)
-   */
-  apiEndpoint?: string | null;
-  topic?: (number | Category)[] | null;
-  date: string;
-  /**
-   * Organization or entity that produced the dataset.
-   */
-  provider?: string | null;
-  /**
-   * Series or dataset identifier.
-   */
-  identifier?: string | null;
-  /**
-   * Version or release.
-   */
-  version?: string | null;
-  licence?: string | null;
-  licenceUrl?: string | null;
-  originalUnit?: string | null;
-  /**
-   * Geographic scope or level (e.g. Global, Europe, United States).
-   */
-  geographicLevel?: string | null;
-  /**
-   * Time period covered by the dataset (e.g. 2010 - 2026).
-   */
-  observationPeriod?: string | null;
-  retrievalTime?: string | null;
-  /**
-   * Ungated free anonymous download link.
-   */
-  datasetDownloadUrl?: string | null;
-  accessStatus?: ('verified_open' | 'unknown' | 'gated' | 'broken' | 'embargoed' | 'free' | 'restricted') | null;
-  accessCheckedAt?: string | null;
-  accessEvidence?: string | null;
-  corporateReuse?: boolean | null;
-  redistribution?: boolean | null;
-  attribution?: string | null;
-  /**
-   * When the provider released this version of the data.
-   */
-  sourceReleaseDate?: string | null;
-  /**
-   * Update frequency (e.g. Annual, Monthly).
-   */
-  frequency?: string | null;
-  /**
-   * Data format (e.g. CSV, JSON, NetCDF).
-   */
-  format?: string | null;
-  /**
-   * Whether the licence allows derivative works or modifications.
-   */
-  modificationPermission?: boolean | null;
-  /**
-   * Iframe URL for interactive charts/maps (Tableau, PowerBI, Observable).
-   */
-  embedUrl?: string | null;
-  /**
-   * Ready-to-copy citation format.
-   */
-  citation?: string | null;
-  /**
-   * Detailed sources and methodology.
-   */
-  methodology?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  relatedDatasets?: (number | Dataset)[] | null;
-  domains?: (number | Domain)[] | null;
-  industries?: (number | Industry)[] | null;
-  status?: ('draft' | 'verified_open') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1103,6 +1132,8 @@ export interface PublicationsSelect<T extends boolean = true> {
   heading?: T;
   excerpt?: T;
   content?: T;
+  citation?: T;
+  originalUrl?: T;
   metaTitle?: T;
   metaDescription?: T;
   metaKeywords?: T;
@@ -1116,6 +1147,8 @@ export interface PublicationsSelect<T extends boolean = true> {
   topic?: T;
   domains?: T;
   industries?: T;
+  datasets?: T;
+  tools?: T;
   date?: T;
   file?: T;
   bgGradientType?: T;
@@ -1147,6 +1180,9 @@ export interface ToolsSelect<T extends boolean = true> {
   method?: T;
   assumptions?: T;
   privacy?: T;
+  licence?: T;
+  systemRequirements?: T;
+  userGuide?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1535,6 +1571,40 @@ export interface DataPortalSourcesConfig {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers-config".
+ */
+export interface CareersConfig {
+  id: number;
+  /**
+   * Check this box to publish the careers page. The page will return 404 if unchecked.
+   */
+  isApproved?: boolean | null;
+  heading: string;
+  intro: string;
+  /**
+   * Real current opportunities or approved recruitment information.
+   */
+  sections?:
+    | {
+        heading: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * An approved application or contact route with privacy information.
+   */
+  nextAction: {
+    heading: string;
+    label: string;
+    href: string;
+    privacyLine: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "knowledge-hub-config_select".
  */
 export interface KnowledgeHubConfigSelect<T extends boolean = true> {
@@ -1559,6 +1629,33 @@ export interface DataPortalSourcesConfigSelect<T extends boolean = true> {
   s02_directory?: T;
   s03_attribution?: T;
   s04_understanding?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers-config_select".
+ */
+export interface CareersConfigSelect<T extends boolean = true> {
+  isApproved?: T;
+  heading?: T;
+  intro?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
+  nextAction?:
+    | T
+    | {
+        heading?: T;
+        label?: T;
+        href?: T;
+        privacyLine?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

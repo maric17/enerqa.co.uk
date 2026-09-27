@@ -10,6 +10,25 @@ import { RichText } from '@payloadcms/richtext-lexical/react';
 import { Info, Database } from 'lucide-react';
 import DataPortalD03 from '@/components/data/DataPortalD03';
 
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
+    collection: 'dashboards',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  });
+  const dashboard = result.docs[0];
+  if (!dashboard) return {};
+  
+  return {
+    title: dashboard.title,
+    description: typeof dashboard.description === 'string' ? dashboard.description : 'Enerqa Dashboard',
+  };
+}
+
 export default async function DashboardDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const payload = await getPayload({ config: configPromise });
@@ -43,6 +62,7 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
             <Typography variant="h1" className="text-[var(--color-dark)] m-0">
               {dashboard.title}
             </Typography>
+            <h2 className="text-xl font-bold text-gray-900 m-0">Overview</h2>
             <Typography variant="body" className="text-gray-600 text-lg leading-relaxed">
               {dashboard.description as string}
             </Typography>
@@ -56,28 +76,34 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
           <div className="flex flex-col gap-12">
             
             {/* DB02 & DB03: Dashboard Controls & Primary Views (Iframe embed) */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-8">
               {dashboard.controlsInfo && (
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-6 flex flex-col sm:flex-row gap-4 items-start shadow-sm mb-4">
-                  <div className="bg-blue-100 p-2 rounded-full flex-shrink-0 text-blue-600">
-                    <Info className="w-5 h-5" />
-                  </div>
-                  <div className="prose prose-sm max-w-none text-blue-900">
-                    <h3 className="text-blue-900 text-base font-bold m-0 mb-2">How to use this dashboard</h3>
-                    <RichText data={dashboard.controlsInfo as any} />
+                <div>
+                  <h2 className="text-xl font-bold text-[var(--color-dark)] mb-4">Controls</h2>
+                  <div className="bg-blue-50 border border-blue-100 rounded-lg p-6 flex flex-col sm:flex-row gap-4 items-start shadow-sm mb-4">
+                    <div className="bg-blue-100 p-2 rounded-full flex-shrink-0 text-blue-600">
+                      <Info className="w-5 h-5" />
+                    </div>
+                    <div className="prose prose-sm max-w-none text-blue-900">
+                      <h3 className="text-blue-900 text-base font-bold m-0 mb-2">How to use this dashboard</h3>
+                      <RichText data={dashboard.controlsInfo as any} />
+                    </div>
                   </div>
                 </div>
               )}
 
               {/* Embed Container */}
-              <div className="w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md min-h-[600px]">
-                {dashboard.datasetConnector ? (
-                  <DataPortalD03 />
-                ) : (
-                  <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 text-gray-500">
-                    <p>Dashboard visualization is currently unavailable. No dataset connector configured.</p>
-                  </div>
-                )}
+              <div>
+                <h2 className="text-xl font-bold text-[var(--color-dark)] mb-4">Primary Views</h2>
+                <div className="w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md min-h-[600px]">
+                  {dashboard.datasetConnector ? (
+                    <DataPortalD03 />
+                  ) : (
+                    <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 text-gray-500">
+                      <p>Dashboard visualization is currently unavailable. No dataset connector configured.</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -87,7 +113,7 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
               {/* DB04: Interpretation */}
               <div className="lg:col-span-2 flex flex-col gap-6">
                 <Typography variant="h2" className="text-[var(--color-dark)]">
-                  Analysis & Interpretation
+                  Interpretation
                 </Typography>
                 {dashboard.interpretation ? (
                   <div className="prose prose-lg max-w-none text-gray-700 bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
@@ -101,7 +127,7 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
               {/* DB05: Underlying Sources */}
               <div className="lg:col-span-1 flex flex-col gap-6">
                 <Typography variant="h2" className="text-[var(--color-dark)]">
-                  Underlying Data
+                  Underlying Sources
                 </Typography>
                 <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col gap-8">
                   

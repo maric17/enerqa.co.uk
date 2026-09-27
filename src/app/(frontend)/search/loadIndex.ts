@@ -50,7 +50,7 @@ export async function loadSearchIndex(): Promise<IndexEntry[]> {
     }),
     payload.find({
       collection: 'datasets',
-      where: { accessStatus: { equals: 'free' } },
+      where: { status: { equals: 'verified_open' } },
       limit: 500,
       depth: 0,
       select: { slug: true, title: true, description: true, provider: true },

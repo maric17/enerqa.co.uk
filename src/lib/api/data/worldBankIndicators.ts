@@ -36,6 +36,12 @@ type WorldBankMeta = { page: number; pages: number; total: number; lastupdated: 
  * in current US$ says so in its own note.
  */
 export const WORLD_BANK_INDICATORS = {
+  adjustedNetSavings: {
+    code: 'NY.ADJ.SVNG.GN.ZS',
+    label: 'Adjusted net savings',
+    unit: '% of GNI',
+    measureNote: 'Including particulate emission damage.',
+  },
   co2PerCapita: {
     code: 'EN.GHG.CO2.PC.CE.AR5',
     label: 'CO2 emissions excluding LULUCF per capita',

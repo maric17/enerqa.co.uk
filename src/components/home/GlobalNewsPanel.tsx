@@ -40,8 +40,8 @@ export function NewsFilterBar({
             onClick={() => onSelect?.(filter.key)}
             className={`rounded-full border px-3 py-1 text-[12px] font-medium transition-colors duration-200 disabled:cursor-default ${
               isActive
-                ? 'border-[var(--color-dark)] bg-[var(--color-dark)] text-white'
-                : 'border-gray-300 bg-white text-gray-700 hover:border-[var(--color-primary-deep)] hover:text-[var(--color-dark)]'
+                ? 'border-white bg-white/20 text-white shadow-inner'
+                : 'border-white/10 bg-white/5 text-white/70 hover:bg-white/15 hover:text-white'
             }`}
           >
             {filter.label}
@@ -57,7 +57,7 @@ function ViewAllNews() {
   return (
     <Link
       href="/knowledge-hub/global-intelligence"
-      className="shrink-0 text-[13px] font-semibold text-[var(--color-secondary)] no-underline transition-colors hover:text-[var(--color-primary-deep)]"
+      className="shrink-0 text-[13px] font-semibold text-teal-400 no-underline transition-colors hover:text-teal-300"
     >
       View All News &rarr;
     </Link>
@@ -91,7 +91,7 @@ export function NewsColumn({
   return (
     <section
       aria-labelledby="h03-global-news"
-      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid"
+      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-2xl"
     >
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-1">
@@ -154,7 +154,7 @@ export function GlobalNewsPanel({
         <div className={`grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-[1.15fr_1fr] ${NEWS_AREA_HEIGHT}`}>
           <NewsCard item={lead} lead showTeaser marker="news" className="" />
           {rest.length > 0 && (
-            <div className="flex flex-col divide-y divide-gray-200 border-t border-gray-200 pt-3 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+            <div className="flex flex-col divide-y divide-white/10 border-t border-white/10 pt-3 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
               {rest.map((item) => (
                 <NewsCard key={item.id} item={item} marker="news" className="" />
               ))}

@@ -22,6 +22,7 @@ import { Enquiries } from './collections/Enquiries'
 import { Policies } from './collections/Policies'
 import { KnowledgeHubConfig } from './globals/KnowledgeHubConfig'
 import { DataPortalSourcesConfig } from './globals/DataPortalSourcesConfig'
+import { CareersConfig } from './globals/CareersConfig'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
@@ -62,6 +63,7 @@ export default buildConfig({
   globals: [
     KnowledgeHubConfig,
     DataPortalSourcesConfig,
+    CareersConfig,
   ],
   editor: standardEditor,
   plugins: [

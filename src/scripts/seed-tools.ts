@@ -173,7 +173,8 @@ async function run() {
       // Profile p. 22, the buildings/infrastructure sustainability-and-resilience
       // tool (p. 165's GreenScale Pro). Scoring method only; nothing implies
       // third-party certification (p. 191).
-      inputs: lexical('Enter project data and evidence, score each indicator, and instantly generate:', {
+      inputs: lexical('Enter project data and evidence, score each indicator.'),
+      outputs: lexical('Instantly generate:', {
         list: 'number',
         items: ['overall ESRQ score', 'category performance', 'confidence-adjusted results', 'a prioritized action roadmap'],
       }),

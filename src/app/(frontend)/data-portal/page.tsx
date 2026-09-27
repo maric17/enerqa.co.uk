@@ -8,6 +8,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Data Portal',
   description: 'Explore Enerqa\'s Data Portal for datasets and dashboards covering climate action, energy systems, and sustainability indicators.',
+  alternates: {
+    canonical: 'https://enerqa.co.uk/data-portal',
+  },
 };
 
 export default async function DataPortalPage() {
@@ -16,6 +19,11 @@ export default async function DataPortalPage() {
   // Fetch dynamic datasets from Payload CMS
   const { docs: datasets } = await payload.find({
     collection: 'datasets',
+    where: {
+      status: {
+        equals: 'verified_open',
+      },
+    },
     limit: 100,
     depth: 1, // Populate media relations if needed
     sort: '-date', // Sort by date descending

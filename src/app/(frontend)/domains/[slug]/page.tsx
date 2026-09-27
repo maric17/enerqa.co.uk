@@ -118,38 +118,39 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
       />
 
       {/* Narrative, CTA & capability anchors */}
-      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
+      <section className="bg-white py-16 lg:py-24 border-b border-slate-200">
         <Container>
-          <div className="max-w-4xl mb-8">
-            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
-              {heroNarrative}
-            </p>
-          </div>
-
-          {/* Handoff p. 7: the action sits below the narrative - never floating over it */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <Link
-              href={`/contact?domain=${slug}`}
-              className="inline-flex items-center gap-2 bg-[var(--green)] text-white font-bold py-3 px-8 rounded-full hover:bg-[var(--green-deep)] transition-colors text-base shadow-sm hover:shadow-md shrink-0 w-fit"
-            >
-              {ctaText || 'Discuss Your Project'}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-
-            {/* Topic filters: jump links to the capability anchors below (p. 21) */}
-            {capabilities && capabilities.length > 0 && (
-              <nav aria-label="Jump to a work area" className="flex flex-wrap md:justify-end gap-3">
-                {capabilities.map((cap: any) => (
-                  <Link
-                    key={cap.id}
-                    href={`#${cap.slug}`}
-                    className="text-xs font-bold uppercase tracking-wider bg-[var(--paper-alt)] text-[var(--ink-soft)] py-2 px-4 rounded-full hover:bg-[var(--color-secondary)] hover:text-white transition-all border border-[var(--line)]"
-                  >
-                    {cap.heading}
-                  </Link>
-                ))}
-              </nav>
-            )}
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
+            <div className="flex-1">
+              <p className="text-[20px] md:text-[24px] leading-relaxed text-slate-700 font-light m-0 whitespace-pre-line">
+                {heroNarrative}
+              </p>
+            </div>
+            
+            <div className="w-full lg:w-[350px] shrink-0 flex flex-col items-start lg:items-end gap-6">
+              <Link
+                href={`/contact?domain=${slug}`}
+                className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white font-semibold py-4 px-8 rounded-full hover:bg-slate-800 transition-colors text-[15px] w-full"
+              >
+                {ctaText || 'Discuss Your Project'}
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              
+              {/* Topic filters: jump links to the capability anchors below (p. 21) */}
+              {capabilities && capabilities.length > 0 && (
+                <nav aria-label="Jump to a work area" className="flex flex-wrap lg:justify-end gap-2">
+                  {capabilities.map((cap: any) => (
+                    <Link
+                      key={cap.id}
+                      href={`#${cap.slug}`}
+                      className="text-[13px] font-semibold text-slate-500 py-1.5 px-4 rounded-full border border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-colors"
+                    >
+                      {cap.heading}
+                    </Link>
+                  ))}
+                </nav>
+              )}
+            </div>
           </div>
         </Container>
       </section>
@@ -158,26 +159,33 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
           Handoff p. 21: all capability narrative stays visible in the page HTML
           and is reachable by section anchors - no tabs, no accordions. */}
       {capabilities && capabilities.length > 0 && (
-        <section className="py-20 bg-[var(--paper)]">
+        <section className="py-24 bg-white border-b border-slate-200">
           <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">
-              {capabilities.map((cap: any, idx: number) => {
-                const isLastAndOdd = idx === capabilities.length - 1 && capabilities.length % 2 !== 0;
-                return (
-                  <div
-                    key={cap.id}
-                    id={cap.slug}
-                    className={`scroll-mt-[100px] border-t-4 border-[var(--green)] pt-6 ${isLastAndOdd ? 'lg:col-span-2' : ''}`}
-                  >
-                    <h2 className="text-2xl font-bold text-[var(--ink)] mb-4 tracking-tight">
-                      {cap.heading}
-                    </h2>
-                    <div className="prose prose-lg prose-p:text-[var(--ink-soft)] prose-p:leading-relaxed max-w-none whitespace-pre-line">
-                      {cap.narrative}
+            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-16">
+              <div className="lg:sticky lg:top-[120px] self-start">
+                <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight m-0">Our Capabilities</h2>
+                <div className="w-12 h-1 bg-slate-900 mt-6"></div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+                {capabilities.map((cap: any, idx: number) => {
+                  const isLastAndOdd = idx === capabilities.length - 1 && capabilities.length % 2 !== 0;
+                  return (
+                    <div
+                      key={cap.id}
+                      id={cap.slug}
+                      className={`scroll-mt-[120px] border-t-2 border-slate-900 pt-6 ${isLastAndOdd ? 'md:col-span-2' : ''}`}
+                    >
+                      <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                        {cap.heading}
+                      </h3>
+                      <div className="prose prose-lg prose-p:text-slate-600 prose-p:leading-relaxed max-w-none whitespace-pre-line">
+                        {cap.narrative}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </Container>
         </section>

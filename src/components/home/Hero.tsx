@@ -36,7 +36,7 @@ const SUGGESTED_QUERIES = [
   'What does ESG readiness involve?',
 ]
 
-export const Hero = () => {
+export const Hero = ({ children }: { children?: React.ReactNode }) => {
   const [query, setQuery] = useState('')
   // H02 requires a visible loading state on submit.
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -81,7 +81,7 @@ export const Hero = () => {
   }
 
   return (
-    <section className="hero-insights">
+    <section className="hero-insights !h-auto !min-h-screen !justify-start !pt-[120px] pb-24 lg:pb-32">
       <div className="hero-insights-bg"></div>
       <video
         ref={videoRef}
@@ -106,9 +106,11 @@ export const Hero = () => {
             <h1 className="hero-title m-0 text-white">
               Project Development for a Sustainable Future
             </h1>
+            {/*
             <p className="m-0 mt-4 max-w-[56ch] text-[clamp(15px,1.15vw,17px)] leading-[1.6] text-white/85">
               From an initial idea to feasibility, finance and implementation, Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.
             </p>
+            */}
           </div>
 
           {/* H02 Ask Explore Discover */}
@@ -118,11 +120,11 @@ export const Hero = () => {
             <p id="h02-guidance" className="mx-auto m-0 mb-4 mt-1 max-w-2xl text-[14px] leading-snug text-white/80">
               Ask about any topic. Where relevant, explore Enerqa’s capabilities, publications, data and tools alongside a source-led answer.
             </p>
-            <form onSubmit={handleSearch} role="search" className="hero-search-wrapper mx-auto flex w-full max-w-2xl items-center">
-              <svg className="mr-3 h-5 w-5 shrink-0 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <form onSubmit={handleSearch} role="search" className="mx-auto flex w-full max-w-2xl items-center bg-white/5 border border-white/15 backdrop-blur-md rounded-full p-2 transition-all shadow-xl hover:bg-white/10 focus-within:bg-white/10 focus-within:border-teal-400/50">
+              <svg className="ml-3 mr-3 h-5 w-5 shrink-0 text-white/50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               <input
                 type="text"
-                className="hero-search-input flex-1"
+                className="flex-1 bg-transparent border-none text-white text-base outline-none placeholder:text-white/40"
                 placeholder="Ask a question or explore a topic."
                 aria-label="Ask a question or explore a topic"
                 aria-describedby="h02-guidance"
@@ -130,7 +132,7 @@ export const Hero = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 disabled={isSubmitting}
               />
-              <button type="submit" className="hero-search-btn" disabled={isSubmitting}>
+              <button type="submit" className="bg-teal-400 text-teal-950 border-none px-6 py-2.5 rounded-full font-semibold text-base cursor-pointer hover:bg-teal-500 transition-colors disabled:opacity-50" disabled={isSubmitting}>
                 <span>{isSubmitting ? 'Searching…' : 'Ask'}</span>
               </button>
             </form>
@@ -143,7 +145,7 @@ export const Hero = () => {
                   type="button"
                   onClick={() => runSearch(suggestion)}
                   disabled={isSubmitting}
-                  className="hero-chip disabled:opacity-50"
+                  className="bg-white/5 border border-white/10 text-white/70 px-4 py-2 rounded-full text-sm cursor-pointer backdrop-blur-sm transition-all hover:bg-white/15 hover:text-white disabled:opacity-50"
                 >
                   {suggestion}
                 </button>
@@ -156,6 +158,9 @@ export const Hero = () => {
           </div>
         </div>
       </Container>
+      
+      {/* H03 + H04 Feeds rendered over the video background */}
+      {children}
     </section>
   )
 }

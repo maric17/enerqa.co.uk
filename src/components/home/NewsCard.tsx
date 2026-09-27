@@ -41,7 +41,7 @@ export function NewsCard({
       className={`group flex ${className} flex-col gap-1.5 no-underline ${lead ? '' : 'py-3 first:pt-0 last:pb-0'}`}
     >
       <h3
-        className={`m-0 font-semibold text-[var(--color-dark)] decoration-[var(--color-primary)] decoration-2 underline-offset-4 group-hover:underline ${
+        className={`m-0 font-semibold text-white decoration-[var(--color-primary)] decoration-2 underline-offset-4 group-hover:underline ${
           lead ? 'text-[clamp(18px,1.35vw,21px)] leading-[1.3] tracking-[-0.01em]' : 'text-[15px] leading-snug'
         }`}
       >
@@ -51,18 +51,18 @@ export function NewsCard({
       {/* The publisher's own words, only where the provider licenses them.
           GDELT items carry none, so this simply does not render. */}
       {showTeaser && item.teaser && (
-        <p className="m-0 line-clamp-2 text-[14px] leading-relaxed text-gray-600">{item.teaser}</p>
+        <p className="m-0 line-clamp-2 text-[14px] leading-relaxed text-white/70">{item.teaser}</p>
       )}
 
-      <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] text-gray-600">
-        <span className="font-semibold text-[var(--color-ink-soft)]">{item.publisher}</span>
+      <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] text-white/70">
+        <span className="font-semibold text-teal-300">{item.publisher}</span>
         {item.publishedAt && item.dateLabel && (
           <time dateTime={item.publishedAt}>{item.dateLabel}</time>
         )}
         <span className="sr-only">(opens the original article in a new tab)</span>
         <ArrowUpRight
           aria-hidden="true"
-          className="h-3.5 w-3.5 shrink-0 text-gray-500 transition-colors group-hover:text-[var(--color-primary-deep)]"
+          className="h-3.5 w-3.5 shrink-0 text-white/50 transition-colors group-hover:text-teal-200"
         />
       </p>
     </a>

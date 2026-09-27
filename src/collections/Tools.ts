@@ -154,5 +154,8 @@ export const Tools: CollectionConfig = {
       editor: standardEditor,
     },
     { name: 'privacy', type: 'richText', editor: standardEditor },
+    { name: 'licence', type: 'text' },
+    { name: 'systemRequirements', type: 'richText', editor: standardEditor },
+    { name: 'userGuide', type: 'upload', relationTo: 'media' },
   ],
 }

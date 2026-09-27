@@ -16,7 +16,7 @@ import { fetchOstiRecords, ostiOrganisation } from './osti';
 import { fetchDoajArticles } from './doaj';
 import { gbifOrganisation } from './gbifLiterature';
 import { reliefWebDestination } from './reliefweb';
-import { alternativeCopies, licenceLabel, versionLabel } from './openalex';
+import { alternativeCopies, licenceLabel, versionLabel, reconstructAbstract } from './openalex';
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -245,4 +245,21 @@ it('verifies with the default check when none is injected (smoke, no network)', 
   const shown = await verifyForDisplay([item('z1', 'openalex')], 1);
   expect(shown).toEqual([]);
   expect(await open()).toBeTruthy();
+});
+
+describe('OpenAlex (p. 214; L524, L1039)', () => {
+  it('reconstructs abstract from inverted index', () => {
+    const invertedIndex = {
+      'The': [0, 4],
+      'quick': [1],
+      'brown': [2],
+      'fox': [3]
+    };
+    expect(reconstructAbstract(invertedIndex)).toBe('The quick brown fox The');
+  });
+
+  it('handles empty or null inverted index gracefully', () => {
+    expect(reconstructAbstract(null)).toBeNull();
+    expect(reconstructAbstract({})).toBeNull();
+  });
 });

@@ -42,8 +42,8 @@ import {
 /** How many commentary items the compact H04 panel shows. */
 const MARKET_ITEMS = 2;
 
-const HEADING = 'm-0 text-[24px] font-bold leading-tight tracking-[-0.02em] text-[var(--color-dark)]';
-const NARRATIVE = 'm-0 mt-1 text-[14px] leading-snug text-gray-600';
+const HEADING = 'm-0 text-[24px] font-bold leading-tight tracking-[-0.02em] text-white';
+const NARRATIVE = 'm-0 mt-1 text-[14px] leading-snug text-white/70';
 
 function NewsHeading() {
   return (
@@ -56,7 +56,7 @@ function NewsHeading() {
 function NewsNarrative() {
   // p. 13 H03 narrative, verbatim.
   return (
-    <p className="m-0 text-[14px] leading-snug text-gray-600">
+    <p className="m-0 text-[14px] leading-snug text-white/70">
       Follow developments in climate action, energy, environment, nature, circularity, sustainable business and finance.
     </p>
   );
@@ -67,7 +67,7 @@ function MarketsColumn({ children }: { children: React.ReactNode }) {
   return (
     <section
       aria-labelledby="h04-major-markets"
-      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid lg:border-l lg:border-gray-200 lg:pl-10"
+      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-2xl"
     >
       <div>
         <h2 id="h04-major-markets" className={HEADING}>
@@ -107,7 +107,7 @@ export function FeedsFrame({
       {/* Source, delay and retrieval labelling (pp. 226, 229). The space is
           reserved so the fold does not move when the text arrives: one line on
           laptops, where it fits, two on narrower screens. */}
-      <div data-feed-attribution className="min-h-[34px] border-t border-gray-100 pt-2 text-[12px] leading-snug text-gray-600 lg:col-span-2 lg:min-h-[26px]">
+      <div data-feed-attribution className="min-h-[34px] border-t border-white/10 pt-4 text-[12px] leading-snug text-white/50 lg:col-span-2 lg:min-h-[26px]">
         {attribution}
       </div>
     </div>
@@ -157,7 +157,7 @@ function Attribution({ shown }: { shown: NewsItem[] }) {
             href={PROVIDER_META[id].href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-[var(--color-secondary)]"
+            className="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
           >
             {PROVIDER_META[id].label}
           </a>
@@ -222,7 +222,7 @@ async function FeedsBody() {
               className={NEWS_AREA_HEIGHT}
             />
           ) : (
-            <div className={`flex flex-col divide-y divide-gray-200 ${NEWS_AREA_HEIGHT}`}>
+            <div className={`flex flex-col divide-y divide-white/10 ${NEWS_AREA_HEIGHT}`}>
               {marketItems.map((item) => (
                 <NewsCard key={item.id} item={toCard(item)} marker="market" className="" />
               ))}
@@ -237,7 +237,7 @@ async function FeedsBody() {
 
 export const FirstFoldFeeds = () => (
   // Not a landmark itself: H03 and H04 are each their own labelled section.
-  <div data-first-fold-band className="w-full border-b border-gray-200 bg-[var(--color-paper)] py-12 lg:py-16">
+  <div data-first-fold-band className="w-full relative z-20 pb-12 lg:pb-16 pt-8">
     <Container>
       <Suspense fallback={<FeedsFallback />}>
         <FeedsBody />

@@ -153,6 +153,9 @@ export function DataSeriesTable({
             )}
           </p>
         ))}
+        <p className="m-0 pt-2 border-t border-[var(--line)]">
+          Read more about our approach in the <a href="/data-portal/sources" className="underline font-medium text-[var(--color-primary)]">Sources & Methodology</a> directory.
+        </p>
       </figcaption>
     </figure>
   );

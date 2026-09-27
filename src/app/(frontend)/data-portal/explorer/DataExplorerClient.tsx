@@ -186,10 +186,17 @@ export default function DataExplorerClient() {
     <div className="pt-[70px] flex flex-col min-h-screen bg-gray-50">
       <div className="bg-[var(--color-dark)] text-white py-12">
         <Container>
-          <h1 className="text-4xl font-bold mb-4">Enerqa Data Explorer</h1>
-          <p className="text-gray-300 text-lg max-w-2xl">
-            Visualize global trends, download open-source observations, or view the original Gapminder charts.
-          </p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h1 className="text-4xl font-bold mb-4">Enerqa Data Explorer</h1>
+              <p className="text-gray-300 text-lg max-w-2xl">
+                Visualize global trends, download open-source observations, or view the original Gapminder charts.
+              </p>
+            </div>
+            <Link href="/data-portal/sources" className="text-sm font-medium text-blue-300 hover:text-white underline flex items-center gap-1 shrink-0 pb-1">
+              Sources & Methodology
+            </Link>
+          </div>
         </Container>
       </div>
 

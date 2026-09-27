@@ -80,6 +80,9 @@ export type NewsResult = {
    * with a stale-data notice rather than nothing.
    */
   stale: boolean;
+  /** Optional pagination state for search results. */
+  page?: number;
+  hasNextPage?: boolean;
 };
 
 /**
@@ -365,6 +368,7 @@ export interface SearchFilters {
   dateRange?: string; // e.g. '24h', '7d', '30d'
   /** A domain or industry page's handoff baskets, from ?domain= / ?industry=. */
   phrases?: string[];
+  page?: number;
 }
 
 export async function searchNews(
@@ -419,7 +423,15 @@ export async function searchNews(
     });
   }
 
-  return withItems(result, await verified(items, limit));
+  const page = filters.page ?? 1;
+  const needed = page * limit;
+  const passed = await verified(items, needed);
+  
+  const hasNextPage = passed.length === needed;
+  const start = (page - 1) * limit;
+  const pagedItems = passed.slice(start, start + limit);
+
+  return { ...withItems(result, pagedItems), page, hasNextPage };
 }
 
 /**

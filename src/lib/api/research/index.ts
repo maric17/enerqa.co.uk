@@ -85,9 +85,9 @@ const DEDUPE_PRIORITY: Record<string, number> = {
  */
 export function isFutureDate(iso: string | null, now = new Date()): boolean {
   if (!iso) return false;
-  const day = iso.slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return false;
-  return day > now.toISOString().slice(0, 10);
+  const d = new Date(iso);
+  if (Number.isNaN(d.valueOf())) return false;
+  return d.toISOString().slice(0, 10) > now.toISOString().slice(0, 10);
 }
 
 /**

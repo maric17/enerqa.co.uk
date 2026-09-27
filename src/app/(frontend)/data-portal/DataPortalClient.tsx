@@ -31,7 +31,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
       const matchesSearch = ds.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             ds.description?.toLowerCase().includes(searchQuery.toLowerCase());
       
-      const matchesDomain = activeDomains.length === 0 || activeDomains.some(d => ds.topic?.some((t: any) => t.title === d));
+      const matchesDomain = activeDomains.length === 0 || activeDomains.some(d => ds.domains?.some((t: any) => t.title === d));
       const matchesTopic = selectedTopic === 'All Topics' || ds.topic?.some((t: any) => t.title === selectedTopic);
       const matchesGeography = selectedGeography === 'All' || ds.geographicLevel === selectedGeography;
       const matchesPeriod = selectedPeriod === 'All' || ds.observationPeriod === selectedPeriod;
@@ -61,7 +61,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
         <Container>
           <div className="max-w-4xl mb-8">
             <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
-              Explore open-access data across all four domains: Climate Action, Energy Systems, Environment, and Sustainable Business. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
+              Explore open-access data across all four domains, relevant to climate, energy, environment, nature, circularity, business and finance. Search datasets supplied through free APIs, compare trends through charts and tables, and download the available data free of charge.
             </p>
           </div>
         </Container>
@@ -100,7 +100,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
             {/* Filters Sidebar */}
             <div className="lg:col-span-1 space-y-8">
               <h2 className="font-bold text-[var(--color-dark)] text-lg mb-4 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-500" /> Filters
+                <Filter className="w-5 h-5 text-gray-500" /> Find Data
               </h2>
               
               <div className="space-y-6">
@@ -201,10 +201,9 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                     </select>
                   </div>
                 )}
-
                 {formats.length > 0 && (
                   <div>
-                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Format</h3>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Available Format</h3>
                     <select 
                       className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-[var(--color-primary)] outline-none"
                       value={selectedFormat}
@@ -248,7 +247,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
               <div className="space-y-6">
                 <div className="mb-6">
                   <h2 className="text-2xl font-bold text-[var(--color-dark)]">Dataset Catalogue</h2>
-                  <p className="text-gray-600">Browse and download our curated collection of datasets.</p>
+                  <p className="text-gray-600">Browse source-backed datasets with clear descriptions, units, geographic coverage and update information.</p>
                 </div>
                 {filteredDatasets.length > 0 ? (
                   filteredDatasets.map((ds, index) => (
@@ -257,7 +256,7 @@ export default function DataPortalClient({ datasets, dashboards = [], categories
                         <div className="flex flex-wrap gap-2 mb-3 text-xs font-bold uppercase tracking-wider">
                           <span className="text-[var(--color-primary)]">{ds.apiEndpoint ? 'API Source' : 'Dataset'}</span>
                           <span className="text-gray-500">|</span>
-                          <span className="text-gray-600">Updated: {new Date(ds.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          <span className="text-gray-600">Updated: {ds.sourceReleaseDate ? new Date(ds.sourceReleaseDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : new Date(ds.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                           {ds.version && (
                             <>
                               <span className="text-gray-500">|</span>

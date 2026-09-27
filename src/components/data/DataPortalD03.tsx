@@ -40,12 +40,17 @@ export default function DataPortalD03() {
           <div className="max-w-2xl">
             <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Explore a Dataset</h2>
             <p className="text-gray-600 text-lg">
-              Quickly preview trends with our interactive dataset explorer.
+              Access interactive tools to visualize, compare and download data.
             </p>
           </div>
-          <Link href="/data-portal/datasets/global-co2-emissions" className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-white font-bold py-3 px-6 rounded hover:bg-opacity-90 transition-all shrink-0">
-            Open Dataset <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-col items-end gap-3 shrink-0">
+            <Link href="/data-portal/datasets/adjusted-net-savings" className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-white font-bold py-3 px-6 rounded hover:bg-opacity-90 transition-all">
+              Open Dataset <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/data-portal/sources" className="text-sm font-medium text-[var(--color-primary)] hover:underline flex items-center gap-1">
+              Sources & Methodology
+            </Link>
+          </div>
         </div>
 
         <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -146,19 +151,31 @@ export default function DataPortalD03() {
                       const items = data.observations.filter((_: any, i: number) => i % Math.max(1, Math.floor(data.observations.length / 30)) === 0);
                       return items.map((obs: any, idx: number) => (
                         <div key={idx} className="flex flex-col items-center flex-1 h-full justify-end group">
-                          <div 
-                            className="w-full bg-[var(--color-primary)] opacity-70 group-hover:opacity-100 transition-opacity rounded-t min-h-[1px] relative"
-                            style={{ height: `${(obs.value / maxVal) * 100}%` }}
-                          >
-                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
-                              {obs.period}: {obs.value !== null && obs.value !== undefined ? obs.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : 'No data'}
+                          {obs.value !== null && obs.value !== undefined ? (
+                            <div 
+                              className="w-full bg-[var(--color-primary)] opacity-70 group-hover:opacity-100 transition-opacity rounded-t min-h-[1px] relative"
+                              style={{ height: `${(obs.value / maxVal) * 100}%` }}
+                            >
+                              <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
+                                {obs.period}: {obs.value.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="w-full relative h-full">
+                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
+                                {obs.period}: No data
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ));
                     })()}
                   </div>
                 )}
+                
+                <div className="mt-4 text-xs text-gray-500 text-right">
+                  Source: World Bank, World Development Indicators. Licence: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--color-primary)]">CC BY 4.0</a>
+                </div>
               </div>
             ) : null}
           </div>

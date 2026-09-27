@@ -55,34 +55,27 @@ export default async function ContactPage({ searchParams }: Props) {
             <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Contact</span>
           </>
         }
-      />
-
-      <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
-        <Container>
-          <div className="max-w-4xl mb-8">
-            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
-              Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.
-            </p>
-            <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light mt-6">
-              Email:{' '}
-              <a href="mailto:info@enerqa.co.uk" className="text-[var(--color-primary)] font-semibold hover:text-[var(--color-primary-dark)] transition-colors">
-                info@enerqa.co.uk
-              </a>
-            </p>
-            {/* p. 228: internal links point at the canonical lifecycle page, not the retired /projects. */}
-            <Link href="/project-development" className="mt-6 text-[var(--color-primary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
-              Learn about our approach <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          </div>
-        </Container>
-      </section>
+      >
+        <p className="m-0 text-white/90">
+          Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.
+        </p>
+        <p className="mt-4 text-white/90">
+          Email:{' '}
+          <a href="mailto:info@enerqa.co.uk" className="text-white font-semibold hover:text-[var(--color-primary)] transition-colors underline underline-offset-4 decoration-white/30">
+            info@enerqa.co.uk
+          </a>
+        </p>
+        <Link href="/project-development" className="mt-6 text-[var(--color-primary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
+          Learn about our approach <ArrowRight className="w-4 h-4" aria-hidden="true" />
+        </Link>
+      </PageHero>
 
       {/* F02 Tell Us About Your Enquiry, F03 Send Your Enquiry, F04 states (p. 198) */}
-      <section className="py-20">
+      <section className="pt-20 pb-20 md:pb-32">
         <Container>
-          <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm mb-20">
             <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Tell Us About Your Enquiry</h2>
-            <ContactForm choices={choices} prefill={prefill} privacyHref={await getPrivacyHref()} />
+            <ContactForm key={JSON.stringify(prefill)} choices={choices} prefill={prefill} privacyHref={await getPrivacyHref()} />
           </div>
         </Container>
       </section>

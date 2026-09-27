@@ -130,7 +130,7 @@ function readUrlFor(work: OpenAlexWork): string | null {
   ]);
 }
 
-function reconstructAbstract(invertedIndex: Record<string, number[]> | null | undefined): string | null {
+export function reconstructAbstract(invertedIndex: Record<string, number[]> | null | undefined): string | null {
   if (!invertedIndex) return null;
   const entries = Object.entries(invertedIndex);
   if (entries.length === 0) return null;

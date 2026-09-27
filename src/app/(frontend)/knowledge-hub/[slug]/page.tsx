@@ -165,13 +165,25 @@ export default async function PublicationSinglePage({ params }: Props) {
   }
 
   const topics = Array.isArray(post.topic) ? post.topic : [];
+  const domains = Array.isArray(post.domains) ? post.domains : [];
+  const industries = Array.isArray(post.industries) ? post.industries : [];
+  const datasets = Array.isArray(post.datasets) ? post.datasets : [];
+  const tools = Array.isArray(post.tools) ? post.tools : [];
+
+  const orConditions = [];
+  if (domains.length > 0) orConditions.push({ domains: { in: domains.map((d: any) => typeof d === 'object' ? d.id : d) } });
+  if (industries.length > 0) orConditions.push({ industries: { in: industries.map((i: any) => typeof i === 'object' ? i.id : i) } });
+  if (datasets.length > 0) orConditions.push({ datasets: { in: datasets.map((d: any) => typeof d === 'object' ? d.id : d) } });
+  if (tools.length > 0) orConditions.push({ tools: { in: tools.map((t: any) => typeof t === 'object' ? t.id : t) } });
+  // Fallback to topic if no other tags
+  if (orConditions.length === 0 && topics.length > 0) orConditions.push({ topic: { in: topics.map((t: any) => typeof t === 'object' ? t.id : t) } });
 
   const related = await payload.find({
     collection: 'publications',
     where: {
       id: { not_equals: post.id },
       recordKind: { equals: 'article' },
-      ...(topics.length > 0 ? { topic: { in: topics.map(t => typeof t === 'object' ? t.id : t) } } : {})
+      ...(orConditions.length > 0 ? { or: orConditions } : { id: { equals: 'non-existent' } })
     },
     limit: 3,
   });
@@ -210,13 +222,15 @@ export default async function PublicationSinglePage({ params }: Props) {
                 {i < topics.length - 1 && <span className="mx-1 text-white/60">,</span>}
               </React.Fragment>
             ))}
+            <span className="mx-1 text-white/60">/</span>
+            <span className="text-white/40">{post.title}</span>
           </div>
           
           <Typography variant="h1" className="text-white m-0 max-w-[900px]">
             {post.title}
           </Typography>
           
-          <div className="flex gap-4 items-center text-white/80 text-sm mt-4">
+          <div className="flex flex-wrap gap-4 items-center text-white/80 text-sm mt-4">
             <span>
               {/* UTC, like the Knowledge Hub cards, so every visitor sees the same calendar day. */}
               {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' })}
@@ -226,6 +240,12 @@ export default async function PublicationSinglePage({ params }: Props) {
               <>
                 <span className="text-white/40">|</span>
                 <span>By {post.author}</span>
+              </>
+            )}
+            {post.language && (
+              <>
+                <span className="text-white/40">|</span>
+                <span>{post.language === 'ar' ? 'Arabic' : 'English'}</span>
               </>
             )}
             {post.type && (
@@ -272,17 +292,26 @@ export default async function PublicationSinglePage({ params }: Props) {
 
           {/* PUBL04 References and Downloads. Only real actions render (p. 225:
               no placeholder buttons) - a Cite action needs a citation field first. */}
-          {((post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url)) || post.originalUrl) && (
-            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-wrap gap-4 items-center justify-center">
-              {post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url) && (
-                <Button href={resolveMediaUrl(post.file.url)} variant="secondary" className="gap-2">
-                  Download Report
-                </Button>
-              )}
-              {post.originalUrl && (
-                <Button href={post.originalUrl} variant="outline" className="gap-2 text-[var(--color-dark)]" target="_blank">
-                  Read Original
-                </Button>
+          {((post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url)) || post.originalUrl || post.citation) && (
+            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center justify-center gap-6">
+              <div className="flex flex-wrap gap-4 items-center justify-center">
+                {post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url) && (
+                  <Button href={resolveMediaUrl(post.file.url)} variant="secondary" className="gap-2">
+                    Download Report
+                  </Button>
+                )}
+                {post.originalUrl && (
+                  <Button href={post.originalUrl} variant="outline" className="gap-2 text-[var(--color-dark)]" target="_blank">
+                    Read Original Publication
+                  </Button>
+                )}
+              </div>
+              
+              {post.citation && (
+                <div className="w-full max-w-2xl bg-gray-50 border border-gray-200 p-6 rounded-xl">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Cite This Publication</h3>
+                  <p className="text-gray-800 text-sm m-0 select-all">{post.citation}</p>
+                </div>
               )}
             </div>
           )}
@@ -311,9 +340,12 @@ export default async function PublicationSinglePage({ params }: Props) {
 
       {/* PUBL06 Continue Exploring */}
       <section className="py-16 bg-white border-t border-gray-200 text-center">
-        <Container>
-           <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-6">Continue Exploring</h2>
-           <Button href="/knowledge-hub">Back to Knowledge Hub</Button>
+        <Container className="flex flex-col items-center gap-6">
+           <h2 className="text-2xl font-bold text-[var(--color-dark)] m-0">Continue Exploring</h2>
+           <div className="flex flex-wrap gap-4 justify-center">
+             <Button href="/knowledge-hub" variant="outline" className="text-[var(--color-dark)]">Explore the Knowledge Hub</Button>
+             <Button href="/contact?intent=project" variant="primary">Discuss Your Project</Button>
+           </div>
         </Container>
       </section>
     </>
