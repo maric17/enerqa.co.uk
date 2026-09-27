@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import ReactECharts from 'echarts-for-react';
 import { Container } from '@/components/ui/Container';
 import { Loader2, AlertCircle, Table as TableIcon, Download, Info, BarChart2, Activity, ShieldAlert } from 'lucide-react';

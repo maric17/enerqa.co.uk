@@ -148,7 +148,7 @@ export default async function DataPortalSourcesPage() {
                                         {ds.geographicLevel && <div><strong>Coverage:</strong> {ds.geographicLevel as string}</div>}
                                         {(ds.frequency || provider.frequency) && <div><strong>Frequency:</strong> {ds.frequency as string || provider.frequency}</div>}
                                         {/* Fallback to observationPeriod or provider schedule if refreshSchedule is missing */}
-                                        {(ds.refreshSchedule || ds.observationPeriod || provider.refreshSchedule) && <div><strong>Refresh Schedule:</strong> {ds.refreshSchedule as string || ds.observationPeriod as string || provider.refreshSchedule}</div>}
+                                        {((ds as any).refreshSchedule || ds.observationPeriod || provider.refreshSchedule) && <div><strong>Refresh Schedule:</strong> {(ds as any).refreshSchedule as string || ds.observationPeriod as string || provider.refreshSchedule}</div>}
                                       </div>
                                     </div>
                                     <Link href={`/data-portal/datasets/${ds.slug}`} className="whitespace-nowrap text-[var(--color-primary)] font-medium hover:underline text-xs bg-white px-3 py-1.5 rounded border border-blue-200">

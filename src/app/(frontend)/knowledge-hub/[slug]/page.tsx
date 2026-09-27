@@ -170,7 +170,7 @@ export default async function PublicationSinglePage({ params }: Props) {
   const datasets = Array.isArray(post.datasets) ? post.datasets : [];
   const tools = Array.isArray(post.tools) ? post.tools : [];
 
-  const orConditions = [];
+  const orConditions: any[] = [];
   if (domains.length > 0) orConditions.push({ domains: { in: domains.map((d: any) => typeof d === 'object' ? d.id : d) } });
   if (industries.length > 0) orConditions.push({ industries: { in: industries.map((i: any) => typeof i === 'object' ? i.id : i) } });
   if (datasets.length > 0) orConditions.push({ datasets: { in: datasets.map((d: any) => typeof d === 'object' ? d.id : d) } });

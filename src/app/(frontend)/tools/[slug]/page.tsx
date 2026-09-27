@@ -12,6 +12,7 @@ import { publishedToolsWhere } from '@/collections/Tools';
 import { Container } from '@/components/ui/Container';
 import { ExternalEmbed } from '@/components/ExternalEmbed';
 import { NATIVE_CALCULATOR_SLUG, getToolAccess, requestAccessHref } from '../access';
+import { resolveMediaUrl } from '@/lib/utils';
 
 import { Metadata } from 'next';
 

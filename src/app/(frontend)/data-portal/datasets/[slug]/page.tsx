@@ -275,7 +275,6 @@ export default async function DatasetDetailPage({ params }: Props) {
                   </div>
                 )}
                 </div>
-              </div>
 
               {/* DS05: Sources and Methodology */}
               <div className="bg-white border border-gray-200 rounded-xl p-8 flex flex-col gap-6">
