@@ -1,6 +1,6 @@
 import { storeRecords } from '../core/storage';
 import { allAskedFailed, type ConnectorFailure, type ConnectorResult } from '../core/types';
-import { firstVerified, type AccessVerdict } from '../core/accessCheck';
+import { checkAccess, firstVerified, type AccessVerdict } from '../core/accessCheck';
 import { isStaleAge } from '../core/health';
 import { normaliseLanguage } from '../core/language';
 import type { NewsItem, NewsBasketKey, NewsProvider } from './types';
@@ -20,6 +20,7 @@ import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews } from './gdelt';
 import { REGION_ORDER } from './geography';
+import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
@@ -46,6 +47,8 @@ export { NEWSDATA_DELAY_HOURS } from './newsdata';
 export type ProviderOutcome = 'ok' | ConnectorFailure['reason'];
 
 export type NewsResult = {
+  /** Safe provider outcomes and stage counts for troubleshooting an empty feed. */
+  diagnostics?: NewsDiagnostics;
   items: NewsItem[];
   /** Only the providers that actually contributed a displayed item. */
   sources: { id: NewsProvider; label: string; href: string }[];
@@ -158,7 +161,7 @@ function normalise(item: NewsItem): NewsItem {
   };
 }
 
-type Collected = { items: NewsItem[]; status: Partial<Record<NewsProvider, ProviderOutcome>> };
+type Collected = { items: NewsItem[]; status: Partial<Record<NewsProvider, ProviderOutcome>>; diagnostics: NewsDiagnostics };
 
 /** Record a provider's answer, merging several calls (four NewsData baskets) into one outcome. */
 function note(status: Collected['status'], provider: NewsProvider, result: ConnectorResult<unknown>): void {
@@ -202,6 +205,7 @@ async function collect(
   ]);
 
   const status: Collected['status'] = {};
+  const diagnostics = createNewsDiagnostics(basketKey);
   const raw: NewsItem[] = [];
   for (const [provider, result] of [
     ...newsdataResults.map((r) => ['newsdata', r] as const),
@@ -211,6 +215,7 @@ async function collect(
   ]) {
     if (!result) continue;
     note(status, provider, result);
+    noteNewsProvider(diagnostics, provider, result);
     if (result.ok) raw.push(...result.data);
   }
 
@@ -235,10 +240,12 @@ async function collect(
   // related sustainability themes together").
   for (const result of pageResults) {
     note(status, 'newsdata', result);
+    noteNewsProvider(diagnostics, 'newsdata', result);
     if (result.ok) relevant.push(...result.data.filter(isOnSiteTopic));
   }
 
-  return { items: relevant.map(normalise), status };
+  diagnostics.counts.relevant = relevant.length;
+  return { items: relevant.map(normalise), status, diagnostics };
 }
 
 /**
@@ -303,8 +310,8 @@ const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'
  * publisher cap) and newest first, BEFORE the access check. Callers narrow it
  * and then check only what they will show.
  */
-async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<{ items: NewsItem[]; status: Collected['status'] }> {
-  const { items: collected, status } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
+async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
+  const { items: collected, status, diagnostics } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
 
   // The same article can arrive from a topic basket and a page basket; the
   // surviving copy keeps every query that found it.
@@ -325,7 +332,8 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<{ item
     const found = queries.get(normaliseUrl(item.url));
     return found ? { ...item, matchedQueries: [...found] } : item;
   });
-  return { items: deduped.sort(byNewest), status };
+  diagnostics.counts.afterGate = deduped.length;
+  return { items: deduped.sort(byNewest), status, diagnostics };
 }
 
 /**
@@ -335,10 +343,22 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<{ item
  * are checked in display order and the walk stops at `limit`, so nothing that
  * could not be shown is checked.
  */
-async function verified(items: NewsItem[], limit: number, check?: NewsOptions['check']): Promise<NewsItem[]> {
-  const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check });
+async function verified(items: NewsItem[], limit: number, check?: NewsOptions['check'], diagnostics?: NewsDiagnostics): Promise<NewsItem[]> {
+  // Count the existing checks without making extra requests or loosening access rules.
+  const countedCheck = diagnostics ? async (url: string) => {
+    const verdict = await (check ?? checkAccess)(url);
+    diagnostics.counts.accessChecked++;
+    diagnostics.access[verdict.status] = (diagnostics.access[verdict.status] ?? 0) + 1;
+    return verdict;
+  } : check;
+  const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check: countedCheck });
   const records = passed.map(({ item, verdict }) => ({ ...item, accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt, accessEvidence: verdict.evidence, finalUrl: verdict.finalUrl }));
   const stored = await storeRecords(records.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url, accessStatus: item.accessStatus, accessCheckedAt: item.accessCheckedAt, retrievedAt: item.retrievedAt, record: item })));
+  if (diagnostics) {
+    diagnostics.counts.verifiedOpen = records.length;
+    diagnostics.storage = records.length ? (stored ? 'ok' : 'failed') : 'not_attempted';
+    diagnostics.counts.returned = stored ? records.length : 0;
+  }
   return stored ? records : [];
 }
 
@@ -347,8 +367,10 @@ export async function fetchNews(
   limit = 6,
   opts: NewsOptions = {},
 ): Promise<NewsResult> {
-  const { items, status } = await pool(basketKey, opts);
-  return buildResult(await verified(items, limit, opts.check), status);
+  const { items, status, diagnostics } = await pool(basketKey, opts);
+  const shown = await verified(items, limit, opts.check, diagnostics);
+  logNewsDiagnostics(diagnostics);
+  return { ...buildResult(shown, status), diagnostics };
 }
 
 function oldestRetrieval(items: NewsItem[]): string {

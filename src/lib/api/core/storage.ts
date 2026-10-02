@@ -7,7 +7,13 @@ const key = '__enerqaProviderStorage';
 const globalStore = globalThis as unknown as { [key]?: Pool };
 function pool(): Pool | null {
   if (!process.env.DATABASE_URI) return null;
-  return globalStore[key] ??= new Pool({ connectionString: process.env.DATABASE_URI, max: 2, connectionTimeoutMillis: 5000, idleTimeoutMillis: 10000 });
+  if (!globalStore[key]) {
+    const db = new Pool({ connectionString: process.env.DATABASE_URI, max: 2, connectionTimeoutMillis: 5000, idleTimeoutMillis: 10000 });
+    // Idle connections can fail outside a query; handle that event without logging credentials.
+    db.on('error', () => console.warn('[provider-storage] An idle database connection was lost.'));
+    globalStore[key] = db;
+  }
+  return globalStore[key];
 }
 
 /** Reserve one actual upstream attempt atomically across all server instances. */
@@ -75,16 +81,26 @@ export async function storeRecords(records: StoredRecord[]): Promise<boolean> {
 export async function savedAccessCheck(url: string): Promise<import('./accessCheck').AccessVerdict | null> {
   const db = pool();
   if (!db) return null;
-  const { rows } = await db.query('SELECT verdict FROM enerqa_connectors.access_checks WHERE url=$1 AND expires_at > clock_timestamp()', [url]);
-  return rows[0]?.verdict ?? null;
+  try {
+    const { rows } = await db.query('SELECT verdict FROM enerqa_connectors.access_checks WHERE url=$1 AND expires_at > clock_timestamp()', [url]);
+    return rows[0]?.verdict ?? null;
+  } catch {
+    // An outage is not a cache miss. Keep the item unpublished and native pg errors out of rendering.
+    return { status: 'unknown', checkedAt: new Date().toISOString(), evidence: 'Access-check storage is unavailable; access could not be confirmed.', finalUrl: null };
+  }
 }
 
 export async function saveAccessCheck(url: string, verdict: import('./accessCheck').AccessVerdict, seconds: number): Promise<void> {
   const db = pool();
   if (!db) return;
   // Expiry follows the actual check time, including when Next returns a cached verdict.
-  await db.query(`INSERT INTO enerqa_connectors.access_checks(url, verdict, expires_at) VALUES ($1, $2::jsonb, $3::timestamptz + $4 * interval '1 second')
-    ON CONFLICT(url) DO UPDATE SET verdict=EXCLUDED.verdict, expires_at=EXCLUDED.expires_at`, [url, JSON.stringify(verdict), verdict.checkedAt, seconds]);
+  try {
+    await db.query(`INSERT INTO enerqa_connectors.access_checks(url, verdict, expires_at) VALUES ($1, $2::jsonb, $3::timestamptz + $4 * interval '1 second')
+      ON CONFLICT(url) DO UPDATE SET verdict=EXCLUDED.verdict, expires_at=EXCLUDED.expires_at`, [url, JSON.stringify(verdict), verdict.checkedAt, seconds]);
+  } catch {
+    // checkAccess treats a failed evidence write as unknown; never forward pg's AggregateError to Next.
+    throw new Error('Access-check storage is unavailable.');
+  }
 }
 
 /** Old request timestamps no longer affect any daily/hourly allowance. */

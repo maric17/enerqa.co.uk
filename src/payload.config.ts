@@ -79,6 +79,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || 'postgres://127.0.0.1:5432/enerqa',
+      // Bound connection attempts so an unavailable database does not leave requests waiting indefinitely.
+      connectionTimeoutMillis: 5000,
     },
     // Live data is shared across environments. Verification can disable schema writes.
     push: process.env.PAYLOAD_SCHEMA_PUSH !== 'false',

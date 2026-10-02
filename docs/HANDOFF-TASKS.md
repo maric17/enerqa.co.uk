@@ -19,6 +19,13 @@ Nothing is marked done from memory. Re-run the checks with the commands in the l
 
 ---
 
+## Current database blocker — 3 Oct 2026
+
+Local Postgres connections to the configured Supabase pooler fail with `ECONNREFUSED` on both `6543` and `5432`. CMS rendering and shared provider accounting remain blocked. Local access-check error handling was hardened, a five-second Payload connection timeout was added, and `npm run db:check` now provides a read-only connection check. See [DATABASE-TROUBLESHOOTING.md](DATABASE-TROUBLESHOOTING.md) for evidence and recovery steps.
+
+- [ ] Restore database connectivity and verify CMS/news rendering.
+  - **To do:** Confirm the Supabase project is running, compare its current Connect settings with `DATABASE_URI`, check IP bans/restrictions and the local network, then pass `npm run db:check` and restart with `PAYLOAD_SCHEMA_PUSH=false npm run dev`. Local resilience changes do not resolve the external connection refusal.
+
 ## Current Part 13 status — 2 Oct 2026
 
 Part 13 was rechecked and its available implementation finished: persistent source/access evidence, shared database budgets, EIA/OpenAQ/GBIF views and exports, matching period filters, accessible preview tables and provider launch switches. Tests and production build passed. See [PART-13-VERIFICATION.md](PART-13-VERIFICATION.md).
