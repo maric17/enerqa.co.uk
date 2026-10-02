@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ok, fail, type ConnectorResult } from '../core/types';
 import type { AccessVerdict } from '../core/accessCheck';
 import type { NewsItem, NewsBasketKey } from './types';
+import * as storage from '../core/storage';
 
 /**
  * The aggregator with every connector stubbed, so the rules can be checked
@@ -61,6 +62,45 @@ beforeEach(() => {
 });
 
 describe('provider-scoped failure (homepage flag)', () => {
+  it('reports missing configuration and request accounting before filtering', async () => {
+    for (const key of ['climate', 'energy', 'environment', 'business']) {
+      results[`newsdata:${key}`] = fail('newsdata', 'not_configured', 'NEWSDATA_API_KEY is not set.');
+    }
+    results.gdelt = fail('gdelt', 'unavailable', 'GDELT: shared request accounting unavailable');
+    const pool = await fetchNews('all', 80, { providers: PAGE_NEWS_PROVIDERS, check: openCheck });
+    expect(pool.sourcesFailed).toBe(true);
+    expect(pool.diagnostics?.providers).toHaveLength(5);
+    expect(pool.diagnostics?.providers.find((p) => p.provider === 'gdelt')?.issue).toBe('request_accounting_unavailable');
+    expect(pool.diagnostics?.counts.received).toBe(0);
+    expect(pool.diagnostics?.counts.accessChecked).toBe(0);
+    expect(pool.diagnostics?.storage).toBe('not_attempted');
+  });
+
+  it('distinguishes relevance filtering from anonymous access rejections', async () => {
+    results['newsdata:climate'] = ok('newsdata', [
+      news(1, { title: 'Football team wins the final' }),
+      news(2, { url: 'https://www.theguardian.com/gated/2' }),
+      news(3),
+    ]);
+    const pool = await fetchNews('all', 80, { providers: PAGE_NEWS_PROVIDERS, check: openCheck });
+    expect(pool.diagnostics?.counts).toEqual({ received: 3, relevant: 2, afterGate: 2, accessChecked: 2, verifiedOpen: 1, returned: 1 });
+    expect(pool.diagnostics?.access).toEqual({ gated: 1, verified_open: 1 });
+    expect(pool.diagnostics?.storage).toBe('ok');
+  });
+
+  it('reports a storage outage when verified articles cannot be recorded', async () => {
+    results['newsdata:climate'] = ok('newsdata', [news(1)]);
+    const save = vi.spyOn(storage, 'storeRecords').mockResolvedValueOnce(false);
+    try {
+      const pool = await fetchNews('all', 80, { providers: PAGE_NEWS_PROVIDERS, check: openCheck });
+      expect(pool.items).toEqual([]);
+      expect(pool.sourcesFailed).toBe(false);
+      expect(pool.diagnostics?.counts.verifiedOpen).toBe(1);
+      expect(pool.diagnostics?.counts.returned).toBe(0);
+      expect(pool.diagnostics?.storage).toBe('failed');
+    } finally { save.mockRestore(); }
+  });
+
   it('says "unavailable" for a NewsData+GDELT panel when those two fail, even though EIA answered', async () => {
     results['newsdata:climate'] = fail('newsdata', 'unavailable', 'down');
     results['newsdata:energy'] = fail('newsdata', 'unavailable', 'down');

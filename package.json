@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "db:check": "node scripts/check-database.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

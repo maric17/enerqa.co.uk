@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+import { createNewsDiagnostics } from '@/lib/api/news/diagnostics';
 import { GlobalNewsPanel } from './GlobalNewsPanel';
 import { NEWS_FILTERS, type NewsCardData } from './firstFoldNews';
 
@@ -25,6 +26,25 @@ const views = {
 const head = <h2 id="h03-global-news">Global News</h2>;
 
 describe('GlobalNewsPanel (H03, p. 13)', () => {
+  it('prints safe feed diagnostics only when the browser opts in', () => {
+    const log = vi.spyOn(console, 'info').mockImplementation(() => {});
+    const diagnostics = createNewsDiagnostics('all');
+    const originalUrl = window.location.href;
+    try {
+      window.history.replaceState(null, '', '/');
+      const normal = render(<GlobalNewsPanel head={head} filters={NEWS_FILTERS} views={views} sourcesFailed={false} diagnostics={diagnostics} />);
+      expect(log).not.toHaveBeenCalled();
+      normal.unmount();
+      window.history.replaceState(null, '', '/?newsDebug=1');
+      render(<GlobalNewsPanel head={head} filters={NEWS_FILTERS} views={views} sourcesFailed={false} diagnostics={diagnostics} />);
+      expect(log).toHaveBeenCalledWith('[enerqa:news:homepage]', expect.any(String));
+      expect(JSON.parse(log.mock.calls[0][1])).toMatchObject({ viewCounts: { all: 3, environment: 0 }, diagnostics });
+    } finally {
+      window.history.replaceState(null, '', originalUrl);
+      log.mockRestore();
+    }
+  });
+
   it('shows the lead story plus two shorter ones, with publisher and date/time', () => {
     render(<GlobalNewsPanel head={head} filters={NEWS_FILTERS} views={views} sourcesFailed={false} />);
     const region = screen.getByRole('region', { name: 'Global News' });

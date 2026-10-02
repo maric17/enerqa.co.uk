@@ -218,6 +218,7 @@ export async function FeedsBody() {
             business: views.business.map(toCard),
           }}
           sourcesFailed={pool.sourcesFailed}
+          diagnostics={pool.diagnostics}
         />
       }
       markets={

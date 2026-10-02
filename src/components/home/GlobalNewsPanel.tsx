@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { NewsBasketKey } from '@/lib/api/news/types';
+import type { NewsDiagnostics } from '@/lib/api/news/diagnostics';
 import { SourceUnavailable } from '../ui/SourceUnavailable';
 import { NewsCard } from './NewsCard';
 import { NEWS_AREA_HEIGHT, type NewsCardData, type NewsFilter } from './firstFoldNews';
@@ -131,6 +132,7 @@ export function GlobalNewsPanel({
   filters,
   views,
   sourcesFailed,
+  diagnostics,
 }: {
   head: React.ReactNode;
   narrative?: React.ReactNode;
@@ -138,8 +140,18 @@ export function GlobalNewsPanel({
   views: Record<NewsBasketKey, NewsCardData[]>;
   /** Every provider failed, as opposed to answering with nothing relevant (p. 226). */
   sourcesFailed: boolean;
+  diagnostics?: NewsDiagnostics;
 }) {
   const [active, setActive] = useState<NewsBasketKey>('all');
+  useEffect(() => {
+    // Opt in per browser visit; this summary contains no server credentials.
+    if (new URLSearchParams(window.location.search).get('newsDebug') !== '1') return;
+    console.info('[enerqa:news:homepage]', JSON.stringify({
+      sourcesFailed,
+      viewCounts: Object.fromEntries(Object.entries(views).map(([key, cards]) => [key, cards.length])),
+      diagnostics,
+    }));
+  }, [diagnostics, sourcesFailed, views]);
   const items = useMemo(() => views[active] ?? [], [views, active]);
   // The lead is the first story that carries a licensed teaser, so the large
   // slot is filled; the rest keep their order. GDELT items carry none.
