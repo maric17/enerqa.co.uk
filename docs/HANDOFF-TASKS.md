@@ -3,6 +3,8 @@
 Source: `docs/Enerqa Website Developer Handoff Revised.pdf` (229 pages, dated 14 Sep 2026).
 Every task below cites the PDF page(s) it comes from, so you can always go back and read the original wording.
 
+Page-by-page Markdown copy: [Enerqa Website Developer Handoff Revised.md](<Enerqa Website Developer Handoff Revised.md>). Its `Page N` headings match the PDF page numbers cited below.
+
 **Status legend**
 
 | Mark | Meaning |
