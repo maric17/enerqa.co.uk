@@ -1,3 +1,6 @@
+import { getProvider } from '@/lib/api/core/registry';
+import { storeRecords } from '@/lib/api/core/storage';
+import type { ProviderId } from '@/lib/api/core/types';
 import { fetchOfficialNews, isNewsItemStale, type NewsItem } from '@/lib/api/news';
 import {
   fetchIssuerFilings,
@@ -247,14 +250,20 @@ export async function fetchSpecialistUpdates(options: {
   const shown = passed
     .map(({ item, verdict }) => ({ ...item, verifiedOpen: true, accessCheckedAt: verdict.checkedAt }))
     .sort(byNewest);
+  const stored = await storeRecords(passed.map(({ item, verdict }) => {
+    const provider = (item.feed === 'sec_edgar' ? 'sec-edgar' : item.feed === 'gbif_literature' ? 'gbif-literature' : item.feed) as ProviderId;
+    const rights = getProvider(provider);
+    return { provider, sourceId: item.id, destination: item.url, accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt,
+      retrievedAt: item.retrievedAt, record: { ...item, accessEvidence: verdict.evidence, licence: rights.licence, licenceUrl: rights.licenceUrl, attribution: rights.attribution } };
+  }));
   const times = shown.map((i) => i.retrievedAt).sort();
 
   return {
-    items: shown,
+    items: stored ? shown : [],
     // Credit only the sources that actually made it into the displayed items.
     sources: [...new Set(shown.map((i) => i.sourceLabel))],
     // p. 226: "unavailable" only when every feed was asked and failed.
-    sourcesFailed: batches.length > 0 && batches.every((b) => b.failed),
+    sourcesFailed: !stored || (batches.length > 0 && batches.every((b) => b.failed)),
     retrievedAt: times[0] ?? null,
     stale: shown.some((i) => i.stale),
   };

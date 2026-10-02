@@ -1,5 +1,6 @@
 import { getProvider } from './registry';
 import { isStale } from './provenance';
+import { mixedMeasureReason } from './measures';
 import type { DataSeries } from './types';
 
 /**
@@ -68,13 +69,16 @@ export function seriesToCsv(series: DataSeries[], filterDescription?: string): s
   lines.push('# Enerqa data export');
   lines.push(`# Generated: ${now}`);
   if (filterDescription) lines.push(commentLine(`Filter applied: ${filterDescription}`));
+  // Long-form rows remain separate; unlike measures are never aggregated.
+  const mixed = mixedMeasureReason(series);
+  if (mixed) lines.push(commentLine(`Comparison warning: ${mixed}. Rows retain each series' unit, frequency and measure basis; do not combine them.`));
   lines.push('#');
 
   // One provenance block per distinct source in the export.
   const seen = new Set<string>();
   for (const s of series) {
     const p = s.provenance;
-    const key = `${p.providerId}|${p.sourceUrl}`;
+    const key = `${p.providerId}|${p.sourceUrl}|${p.sourceId}|${p.version}|${p.retrievedAt}`;
     if (seen.has(key)) continue;
     seen.add(key);
 
@@ -84,7 +88,8 @@ export function seriesToCsv(series: DataSeries[], filterDescription?: string): s
       `Attribution: ${p.attribution}`,
       `Licence: ${p.licence}${p.licenceUrl ? ` (${p.licenceUrl})` : ''}`,
       `Source URL: ${p.sourceUrl}`,
-      `Methodology: ${provider.docsUrl}`,
+      `Methodology: ${provider.methodologyUrl ?? "/data-portal/sources"}`,
+      `API documentation: ${provider.docsUrl}`,
       ...(p.version ? [`Dataset version: ${p.version}`] : []),
       ...(p.sourceReleasedAt ? [`Source released: ${p.sourceReleasedAt}`] : []),
       `Retrieved by Enerqa: ${p.retrievedAt}`,

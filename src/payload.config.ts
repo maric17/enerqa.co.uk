@@ -80,7 +80,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || 'postgres://127.0.0.1:5432/enerqa',
     },
-    push: true,
+    // Live data is shared across environments. Verification can disable schema writes.
+    push: process.env.PAYLOAD_SCHEMA_PUSH !== 'false',
   }),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

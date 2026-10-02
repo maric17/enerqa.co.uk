@@ -1,3 +1,4 @@
+import { storeRecords } from '../core/storage';
 import { isStale, publishableOnly } from '../core/provenance';
 import { applyVerdict, firstVerified, type AccessVerdict } from '../core/accessCheck';
 import { allAskedFailed, type ConnectorResult, type ResearchItem, type ProviderId } from '../core/types';
@@ -200,7 +201,9 @@ export async function verifyForDisplay<T extends ResearchItem>(
       provenance: applyVerdict({ ...item.provenance, sourceUrl: url }, verdict),
     };
   });
-  return publishableOnly(await withDoajLicences(verified));
+  const records = publishableOnly(await withDoajLicences(verified));
+  const stored = await storeRecords(records.map(item => ({ provider: item.provenance.providerId, sourceId: item.id, destination: item.readUrl, accessStatus: item.provenance.accessStatus, accessCheckedAt: item.provenance.accessCheckedAt, retrievedAt: item.provenance.retrievedAt, record: item })));
+  return stored ? records : [];
 }
 
 /**

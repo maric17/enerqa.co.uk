@@ -212,6 +212,10 @@ export interface Publication {
   slug: string;
   heading: string;
   excerpt: string;
+  /**
+   * Image used for the article banner and Knowledge Hub thumbnail. Choose a landscape image and add descriptive alternative text in Media.
+   */
+  featuredImage?: (number | null) | Media;
   content?: {
     root: {
       type: string;
@@ -292,6 +296,7 @@ export interface Publication {
   bgGradientType: 'Green' | 'Red' | 'Blue' | 'Dark';
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1131,6 +1136,7 @@ export interface PublicationsSelect<T extends boolean = true> {
   slug?: T;
   heading?: T;
   excerpt?: T;
+  featuredImage?: T;
   content?: T;
   citation?: T;
   originalUrl?: T;
@@ -1154,6 +1160,7 @@ export interface PublicationsSelect<T extends boolean = true> {
   bgGradientType?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

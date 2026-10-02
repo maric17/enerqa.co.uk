@@ -25,39 +25,21 @@ export default async function DataPortalSourcesPage() {
   const newsProviderIds = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'openalex', 'doaj', 'reliefweb', 'osti', 'gbif-literature', 'sec-edgar'];
   
   const providers = enabledProviders();
+  const views: Record<string, { href: string; label: string }> = {
+    'climate-trace': { href: '/data-portal/series/country-emissions', label: 'Explore modelled emissions' },
+    'world-bank-indicators': { href: '/data-portal/series/world-bank-indicator', label: 'Explore country indicators' },
+    'oecd-sdmx': { href: '/data-portal/series/municipal-waste', label: 'Explore municipal waste' },
+    'eia-open-data': { href: '/data-portal/series/energy-generation', label: 'Explore electricity generation' },
+    'nasa-power': { href: '/data-portal/series/solar-resource', label: 'Explore solar resource and temperature' },
+    'gbif-occurrence': { href: '/data-portal/occurrences', label: 'Explore occurrence records' },
+    'openaq-v3': { href: '/data-portal/series/air-quality', label: 'Explore a selected air-quality sensor' },
+  };
   const dataProviders = providers.filter(p => !newsProviderIds.includes(p.id) && !['gemini', 'openai'].includes(p.id));
   const newsProviders = providers.filter(p => newsProviderIds.includes(p.id));
   
-  // Hardcode OWID and Ember for data providers since they don't have active API connectors
-  const extraDataProviders = [
-    {
-      name: 'Our World in Data (OWID)',
-      purpose: 'Research and data to make progress against the world’s largest problems.',
-      homepage: 'https://ourworldindata.org/',
-      docsUrl: 'https://ourworldindata.org/about',
-      licence: 'CC BY 4.0',
-      licenceUrl: 'https://creativecommons.org/licenses/by/4.0/',
-      attribution: 'Our World in Data',
-      coverage: 'Global',
-      frequency: 'Annual',
-      refreshSchedule: 'Annual updates based on primary sources'
-    },
-    {
-      name: 'Ember',
-      purpose: 'Global electricity data and climate analysis.',
-      homepage: 'https://ember-climate.org/',
-      docsUrl: 'https://ember-climate.org/data/',
-      licence: 'CC BY 4.0',
-      licenceUrl: 'https://creativecommons.org/licenses/by/4.0/',
-      attribution: 'Ember',
-      coverage: 'Global',
-      frequency: 'Annual/Monthly depending on dataset',
-      refreshSchedule: 'Monthly and Annual updates'
-    }
-  ];
-
   const datasetsRes = await payload.find({
     collection: 'datasets',
+    where: { status: { equals: 'verified_open' }, accessStatus: { equals: 'verified_open' }, redistribution: { equals: true } },
     limit: 100,
   });
   const datasets = datasetsRes.docs;
@@ -113,7 +95,7 @@ export default async function DataPortalSourcesPage() {
                       Numerical Data Sources
                     </Typography>
                     <div className="grid gap-6">
-                      {[...dataProviders, ...extraDataProviders].map((provider: any, idx: number) => {
+                      {dataProviders.map((provider: any, idx: number) => {
                         const providerDatasets = datasets.filter(d => 
                           d.provider === provider.name || 
                           (d.provider as string)?.includes(provider.name) ||
@@ -129,6 +111,7 @@ export default async function DataPortalSourcesPage() {
                             </a>
                           </div>
                           <p className="text-gray-700 mb-4">{provider.purpose}</p>
+                          {views[provider.id] && <Link className="underline block mb-4" href={views[provider.id].href}>{views[provider.id].label} and download CSV</Link>}
                           <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
                             <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
                             <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>
@@ -178,6 +161,9 @@ export default async function DataPortalSourcesPage() {
                             </a>
                           </div>
                           <p className="text-gray-700 mb-4">{provider.purpose}</p>
+                          {provider.id === 'eia-open-data' && <Link className="underline block mb-4" href="/data-portal/series/energy-generation">Explore electricity generation and download CSV</Link>}
+                          {provider.id === 'gbif-occurrence' && <Link className="underline block mb-4" href="/data-portal/occurrences">Explore occurrence records and download CSV</Link>}
+                          {provider.id === 'openaq-v3' && <Link className="underline block mb-4" href="/data-portal/series/air-quality">Explore a selected air-quality sensor</Link>}
                           <div className="flex flex-wrap gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
                             <div><strong className="text-gray-800 block mb-1">Licence:</strong> {provider.licenceUrl ? <a href={provider.licenceUrl} target="_blank" className="hover:underline">{provider.licence}</a> : provider.licence}</div>
                             <div><strong className="text-gray-800 block mb-1">Attribution:</strong> {provider.attribution}</div>

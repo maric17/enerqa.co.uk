@@ -22,6 +22,8 @@ export const KnowledgeTeaser = async () => {
 
   const { docs: publicationsData } = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     // Only real articles. The 2024 import brought in category separators and a
     // biography page; handoff p. 225 says those are not publications.
     where: { recordKind: { equals: 'article' } },

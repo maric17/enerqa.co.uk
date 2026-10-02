@@ -1,13 +1,25 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
+import { revalidatePath } from 'next/cache';
 import { standardEditor } from '../editorConfig'
+
+export const publishedPublicationsWhere: Where = { and: [{ _status: { equals: 'published' } }, { recordKind: { equals: 'article' } }] };
+
+// Publication status affects cards, detail pages, sitemap and search.
+const refreshPublications = () => {
+  try { revalidatePath('/', 'layout'); }
+  catch { /* Standalone maintenance scripts have no Next cache. */ }
+};
 
 export const Publications: CollectionConfig = {
   slug: 'publications',
+  hooks: { afterChange: [refreshPublications], afterDelete: [refreshPublications] },
+  versions: { drafts: true, maxPerDoc: 20 },
   admin: {
     useAsTitle: 'title',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => req.user ? true : publishedPublicationsWhere,
+    readVersions: ({ req }) => Boolean(req.user),
   },
   fields: [
     {
@@ -37,6 +49,15 @@ export const Publications: CollectionConfig = {
               name: 'excerpt',
               type: 'textarea',
               required: true,
+            },
+            {
+              name: 'featuredImage',
+              label: 'Featured Image',
+              type: 'upload',
+              relationTo: 'media',
+              required: false,
+              filterOptions: { mimeType: { contains: 'image/' } },
+              admin: { description: 'Image used for the article banner and Knowledge Hub thumbnail. Choose a landscape image and add descriptive alternative text in Media.' },
             },
             {
               name: 'content',
@@ -104,7 +125,7 @@ export const Publications: CollectionConfig = {
       },
     },
     // K04 (p. 155): every publication card shows an author byline. Authors are
-    // byline metadata and search filters only - p. 225 rules out a public
+    // byline metadata and keyword search only - p. 225 rules out a public
     // Authors section.
     {
       name: 'author',

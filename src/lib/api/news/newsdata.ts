@@ -1,7 +1,7 @@
 import { fetchFromProvider, providerKey, type BodyRejection } from '../core/fetch';
 import { fail, ok, type ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
-import { getBasket, hostnameOf, normaliseUrl } from './types';
+import { getBasket, hostnameOf, normaliseUrl, newsImageUrl } from './types';
 import { extractRegions } from './geography';
 
 /**
@@ -111,7 +111,9 @@ export function mapNewsdataResults(results: unknown[], retrievedAt: string): New
     return [
       {
         id: normaliseUrl(url),
+        sourceId: typeof a.article_id === 'string' ? a.article_id : null,
         title,
+        imageUrl: newsImageUrl(a.image_url),
         summary: description || null,
         url,
         // Gate on the hostname of the ARTICLE link, not `source_url`. p. 210

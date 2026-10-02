@@ -141,6 +141,7 @@ export async function fetchIndicator(options: {
         observationPeriod: first && last ? (first === last ? first : `${first}–${last}`) : null,
         sourceReleasedAt: head?.lastupdated ?? null,
         accessStatus: 'verified_open',
+          accessCheckedAt: res.retrievedAt,
         accessEvidence: 'World Bank Indicators API requires no authentication and data.worldbank.org pages open anonymously; checked 2026-09-19.',
         transformations: ['Grouped provider rows by country', 'Sorted observations by year'],
       }),

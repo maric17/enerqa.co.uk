@@ -1,5 +1,5 @@
 import type { NewsBasketKey, NewsItem } from '@/lib/api/news/types';
-import { applyGate, getBasket, matchesBasket, NEWS_BASKETS } from '@/lib/api/news/types';
+import { applyGate, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
 
 /**
  * Pure helpers behind H03 Global News and H04 Major Markets (p. 13).
@@ -14,6 +14,8 @@ import { applyGate, getBasket, matchesBasket, NEWS_BASKETS } from '@/lib/api/new
 export type NewsCardData = {
   id: string;
   title: string;
+  /** Optional so cached stories without images keep working. */
+  imageUrl?: string | null;
   /** Publisher's own licensed teaser, shortened. null when none is licensed (GDELT). */
   teaser: string | null;
   url: string;
@@ -77,6 +79,7 @@ export function toCard(item: NewsItem): NewsCardData {
   return {
     id: item.id,
     title: item.title,
+    imageUrl: newsImageUrl(item.imageUrl),
     teaser: shortTeaser(item.summary),
     url: item.url,
     publisher: item.publisher || item.domain,
@@ -117,4 +120,11 @@ export function buildNewsViews(
 export function withoutShown(items: NewsItem[], shown: NewsItem[], limit: number): NewsItem[] {
   const shownIds = new Set(shown.map((item) => item.id));
   return items.filter((item) => !shownIds.has(item.id)).slice(0, limit);
+}
+
+/** Market stories can arrive in any topic feed; select them from the shared pool. */
+export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2): NewsItem[] {
+  const matching = pool.filter((item) => matchesBasket(item, getBasket('business')));
+  // Remove shown stories before the publisher cap so they do not use up its slots.
+  return applyGate(withoutShown(matching, shown, matching.length)).slice(0, limit);
 }

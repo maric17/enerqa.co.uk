@@ -1,3 +1,4 @@
+import { storeRecords } from '../core/storage';
 import { allAskedFailed, type ConnectorFailure, type ConnectorResult } from '../core/types';
 import { firstVerified, type AccessVerdict } from '../core/accessCheck';
 import { isStaleAge } from '../core/health';
@@ -336,7 +337,9 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<{ item
  */
 async function verified(items: NewsItem[], limit: number, check?: NewsOptions['check']): Promise<NewsItem[]> {
   const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check });
-  return passed.map(({ item }) => item);
+  const records = passed.map(({ item, verdict }) => ({ ...item, accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt, accessEvidence: verdict.evidence, finalUrl: verdict.finalUrl }));
+  const stored = await storeRecords(records.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url, accessStatus: item.accessStatus, accessCheckedAt: item.accessCheckedAt, retrievedAt: item.retrievedAt, record: item })));
+  return stored ? records : [];
 }
 
 export async function fetchNews(

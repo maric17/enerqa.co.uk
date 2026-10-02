@@ -5,6 +5,7 @@ import { describe, it, expect, vi } from 'vitest';
 // search box itself needs neither.
 vi.mock('./loadIndex', () => ({ getSearchIndex: vi.fn(async () => []) }));
 vi.mock('./AIResponse', () => ({ AIResponse: () => null }));
+vi.mock('./ExternalSearchResults', () => ({ ExternalSearchResults: () => null }));
 
 import SearchPage from './page';
 

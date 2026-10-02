@@ -1,186 +1,68 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { getExploreData } from '@/app/(frontend)/data-portal/actions';
 import { Container } from '@/components/ui/Container';
-import { BarChart2, Table as TableIcon, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
-import Link from 'next/link';
+import { DataSeriesTable } from './DataSeriesTable';
+import type { DataSeries } from '@/lib/api/core/types';
 
 export default function DataPortalD03() {
-  const [country, setCountry] = useState('WLD'); // World by default
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [country, setCountry] = useState('WLD');
+  const [indicator, setIndicator] = useState<'co2PerCapita' | 'energy-generation'>('co2PerCapita');
+  const [data, setData] = useState<DataSeries | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart');
+  const area = indicator === 'energy-generation' ? 'USA' : country;
+  const query = new URLSearchParams(indicator === 'energy-generation' ? {} : { countries: area, indicator });
+  const dataset = indicator === 'energy-generation' ? indicator : 'world-bank-indicator';
 
   useEffect(() => {
-    async function load() {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await getExploreData(country, 'co2PerCapita');
-        if (res.error) {
-          setError(res.error);
-        } else if (res.data) {
-          setData(res.data[0]);
-        }
-      } catch (err: any) {
-        setError(err.message || 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, [country]);
+    // A slower previous selection must not replace the visitor's newest one.
+    let active = true;
+    setLoading(true); setData(null); setError(null);
+    getExploreData(area, indicator).then(result => {
+      if (!active) return;
+      if (result.error) setError(result.error);
+      else setData(result.data?.[0] ?? null);
+    }).catch(() => { if (active) setError('This data source is temporarily unavailable.'); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [area, indicator]);
 
-  return (
-    <section className="py-20 bg-white border-b border-gray-200">
-      <Container>
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Explore a Dataset</h2>
-            <p className="text-gray-600 text-lg">
-              Access interactive tools to visualize, compare and download data.
-            </p>
+  const observations = data?.observations.slice(-20) ?? [];
+  const max = Math.max(1, ...observations.map(o => Math.abs(o.value ?? 0)));
+  return <section className="py-20 bg-white border-b border-gray-200">
+    <Container>
+      <h2 className="text-3xl font-bold mb-4">Explore a Dataset</h2>
+      <p className="mb-6">Explore source observations with their units, observation periods and downloadable data.</p>
+      <div className="flex flex-wrap gap-4 mb-6">
+        <label>Dataset <select value={indicator} onChange={e => setIndicator(e.target.value as typeof indicator)} className="border rounded p-2">
+          <option value="co2PerCapita">Country CO₂ emissions per person</option><option value="energy-generation">United States electricity generation</option>
+        </select></label>
+        <label>Geography <select value={area} disabled={indicator === 'energy-generation'} onChange={e => setCountry(e.target.value)} className="border rounded p-2">
+          {[['WLD', 'World'], ['USA', 'United States'], ['CHN', 'China'], ['IND', 'India'], ['EUU', 'European Union'], ['ZAF', 'South Africa'], ['BRA', 'Brazil']].map(([id, name]) => <option key={id} value={id}>{name}</option>)}
+        </select></label>
+      </div>
+      <div className="min-h-[400px] border rounded p-6">
+        {loading ? <p role="status">Loading source observations…</p> : error ? <p role="status">{error}</p> : data ? <>
+          <h3 className="text-xl font-bold">{data.label}</h3>
+          <p>{data.unit} · {data.frequency} · {data.area ?? 'Geography not specified'}</p>
+          <figure className="my-6"><figcaption>Latest 20 returned periods. Signed values are labelled; missing values have no bar.</figcaption>
+            <div className="max-h-80 overflow-auto">{observations.map(o => <div key={o.period} className="grid grid-cols-[5rem_1fr] gap-3 my-2">
+              <span>{o.period}</span><div><span>{o.value === null ? '— (missing)' : `${o.value.toLocaleString('en-GB')} ${data.unit}`}</span>
+                {o.value !== null && <div aria-hidden="true" className="h-2 bg-[var(--color-primary-deep)]" style={{ width: `${Math.abs(o.value) / max * 100}%` }} />}
+              </div>
+            </div>)}</div>
+          </figure>
+          <div className="overflow-x-auto"><DataSeriesTable series={[{ ...data, observations }]} caption="Equivalent table for the chart above" /></div>
+          <div className="flex flex-wrap gap-6 mt-6">
+            <Link className="underline" href={`/data-portal/series/${dataset}?${query}`}>Explore all returned periods</Link>
+            <a className="underline" href={`/api/data/${dataset}?${query}`}>Download selected dataset (CSV)</a>
           </div>
-          <div className="flex flex-col items-end gap-3 shrink-0">
-            <Link href="/data-portal/datasets/adjusted-net-savings" className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-white font-bold py-3 px-6 rounded hover:bg-opacity-90 transition-all">
-              Open Dataset <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link href="/data-portal/sources" className="text-sm font-medium text-[var(--color-primary)] hover:underline flex items-center gap-1">
-              Sources & Methodology
-            </Link>
-          </div>
-        </div>
-
-        <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-          {/* Controls Bar */}
-          <div className="bg-white border-b border-gray-200 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="flex flex-col">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Geography</label>
-                <select 
-                  className="border border-gray-300 rounded p-2 text-sm focus:ring-[var(--color-primary)] outline-none min-w-[200px]"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                >
-                  <option value="WLD">World</option>
-                  <option value="USA">United States</option>
-                  <option value="CHN">China</option>
-                  <option value="IND">India</option>
-                  <option value="EUU">European Union</option>
-                  <option value="ZAF">South Africa</option>
-                  <option value="BRA">Brazil</option>
-                </select>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Observation Period</label>
-                <div className="border border-gray-200 rounded p-2 text-sm bg-gray-50 text-gray-600 h-[38px] flex items-center">
-                  {data?.provenance?.observationPeriod || 'Loading...'}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex bg-gray-100 rounded p-1 border border-gray-200">
-              <button 
-                onClick={() => setViewMode('chart')}
-                className={`flex items-center gap-2 px-4 py-2 rounded text-sm font-medium transition-colors ${viewMode === 'chart' ? 'bg-white text-[var(--color-primary)] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-              >
-                <BarChart2 className="w-4 h-4" /> Chart
-              </button>
-              <button 
-                onClick={() => setViewMode('table')}
-                className={`flex items-center gap-2 px-4 py-2 rounded text-sm font-medium transition-colors ${viewMode === 'table' ? 'bg-white text-[var(--color-primary)] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-              >
-                <TableIcon className="w-4 h-4" /> Table
-              </button>
-            </div>
-          </div>
-
-          {/* Visualization Area */}
-          <div className="p-6 md:p-10 min-h-[400px] flex flex-col justify-center">
-            {loading ? (
-              <div className="flex flex-col items-center text-gray-500">
-                <Loader2 className="w-8 h-8 animate-spin mb-4" />
-                <p>Loading data from World Bank...</p>
-              </div>
-            ) : error ? (
-              <div className="flex flex-col items-center text-red-500 text-center max-w-md mx-auto">
-                <AlertCircle className="w-10 h-10 mb-4" />
-                <p className="font-bold mb-2">Could not load dataset</p>
-                <p className="text-sm">{error}</p>
-              </div>
-            ) : data ? (
-              <div className="w-full h-full">
-                <div className="mb-6 text-center">
-                  <h3 className="text-xl font-bold text-[var(--color-dark)]">{data.label}</h3>
-                  <p className="text-gray-500 text-sm mt-1">{data.unit}</p>
-                </div>
-                
-                {viewMode === 'table' ? (
-                  <div className="overflow-x-auto border border-gray-200 rounded max-h-[400px] overflow-y-auto">
-                    <table className="w-full text-sm text-left">
-                      <thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">
-                        <tr>
-                          <th className="px-6 py-3">Period</th>
-                          <th className="px-6 py-3">Value</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data.observations.map((obs: any, idx: number) => (
-                          <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                            <td className="px-6 py-4 font-medium text-gray-900">{obs.period}</td>
-                            <td className="px-6 py-4">
-                              {obs.value !== null ? obs.value.toLocaleString(undefined, { maximumFractionDigits: 2 }) : '-'}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="w-full h-[300px] flex items-end justify-between gap-1 overflow-x-hidden pt-10 border-b border-l border-gray-300 relative pl-2 pb-2">
-                    {/* Y-axis labels mock */}
-                    <div className="absolute left-[-40px] top-0 bottom-0 w-[30px] flex flex-col justify-between items-end text-xs text-gray-500 pb-2">
-                      <span>High</span>
-                      <span>Mid</span>
-                      <span>0</span>
-                    </div>
-                    {(() => {
-                      const maxVal = Math.max(...data.observations.map((o: any) => o.value || 0));
-                      const items = data.observations.filter((_: any, i: number) => i % Math.max(1, Math.floor(data.observations.length / 30)) === 0);
-                      return items.map((obs: any, idx: number) => (
-                        <div key={idx} className="flex flex-col items-center flex-1 h-full justify-end group">
-                          {obs.value !== null && obs.value !== undefined ? (
-                            <div 
-                              className="w-full bg-[var(--color-primary)] opacity-70 group-hover:opacity-100 transition-opacity rounded-t min-h-[1px] relative"
-                              style={{ height: `${(obs.value / maxVal) * 100}%` }}
-                            >
-                              <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
-                                {obs.period}: {obs.value.toLocaleString(undefined, { maximumFractionDigits: 1 })}
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="w-full relative h-full">
-                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none">
-                                {obs.period}: No data
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ));
-                    })()}
-                  </div>
-                )}
-                
-                <div className="mt-4 text-xs text-gray-500 text-right">
-                  Source: World Bank, World Development Indicators. Licence: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--color-primary)]">CC BY 4.0</a>
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
+        </> : <p role="status">No observations are available for this selection.</p>}
+      </div>
+      <Link className="underline block mt-4" href="/data-portal/sources">Sources and Methodology</Link>
+    </Container>
+  </section>;
 }

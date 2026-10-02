@@ -51,7 +51,7 @@ export const LIMITS: Partial<Record<ProviderId, Limits>> = {
   // p. 213: "use conservative <=2 requests/sec initially".
   doaj: { daily: 400, minIntervalMs: 500, maxConcurrent: 2 },
   // p. 215: "restrained batching"; OSTI closes some parallel connections.
-  osti: { daily: 400, minIntervalMs: 250, maxConcurrent: 2 },
+  osti: { daily: 400, minIntervalMs: 500, maxConcurrent: 1 },
   // p. 217: maximum 10 requests/second.
   'sec-edgar': { daily: 400, minIntervalMs: 150, maxConcurrent: 2 },
   // p. 220: maximum 60 data downloads per hour.

@@ -144,6 +144,7 @@ export async function fetchCountryEmissions(options: {
         sourceId: `${country}:${sector ?? 'all'}`,
         observationPeriod: since === to ? String(since) : `${since}–${to}`,
         accessStatus: 'verified_open',
+        accessCheckedAt: retrievedAt,
         accessEvidence: 'Climate TRACE explorer and API are open without registration; checked 2026-09-19.',
         version: null,
         transformations: [

@@ -26,7 +26,7 @@ const BASE = 'https://api.gbif.org/v1/occurrence/search';
 const ALLOWED_LICENCE_PARAMS = ['CC0_1_0', 'CC_BY_4_0'];
 
 /** Matches both the enum form and the URL form GBIF returns in records. */
-const ALLOWED_LICENCE_PATTERN = /(publicdomain\/zero|licenses\/by\/4\.0|^CC0_1_0$|^CC_BY_4_0$)/i;
+const ALLOWED_LICENCE_PATTERN = /^(?:CC0_1_0|CC_BY_4_0|https?:\/\/creativecommons\.org\/(?:publicdomain\/zero\/1\.0|licenses\/by\/4\.0)(?:\/(?:legalcode|deed(?:\.[a-z]+)?)?)?)$/i;
 
 export type OccurrenceRecord = {
   key: string;
@@ -44,6 +44,9 @@ export type OccurrenceRecord = {
   licence: string;
   /** The publishing dataset's DOI, for citation (p. 223). Null when GBIF lists none. */
   datasetDoi: string | null;
+  /** Respect withheld/generalized source locations rather than reconstructing them. */
+  informationWithheld?: string | null;
+  dataGeneralizations?: string | null;
 };
 
 /** One contributing dataset, as GBIF asks it to be cited. */
@@ -139,6 +142,8 @@ export async function fetchOccurrences(options: {
       basisOfRecord: str(row.basisOfRecord),
       licence: str(row.license) ?? '',
       datasetDoi: null as string | null,
+      informationWithheld: str(row.informationWithheld),
+      dataGeneralizations: str(row.dataGeneralizations),
     }))
     // The second pass. Anything whose licence we cannot positively read as
     // CC0 or CC BY is dropped, including records with no licence at all.
@@ -151,8 +156,12 @@ export async function fetchOccurrences(options: {
   const sourceUrl = `https://www.gbif.org/occurrence/search?${params.toString()}`;
 
   const datasets = await fetchDatasetDois(records.map((r) => r.datasetKey ?? ''));
-  const doiOf = new Map(datasets.map((d) => [d.key, d.doi]));
-  for (const record of records) record.datasetDoi = record.datasetKey ? (doiOf.get(record.datasetKey) ?? null) : null;
+  const datasetOf = new Map(datasets.map(d => [d.key, d]));
+  for (const record of records) {
+    const dataset = record.datasetKey ? datasetOf.get(record.datasetKey) : null;
+    record.datasetDoi = dataset?.doi ?? null;
+    record.datasetName ??= dataset?.title ?? null;
+  }
   const cited = datasets.filter((d) => d.doi);
 
   return ok('gbif-occurrence', {
@@ -165,6 +174,7 @@ export async function fetchOccurrences(options: {
       sourceId: country ? `country:${country}` : 'occurrence-search',
       observationPeriod: yearFrom && yearTo ? `${yearFrom}–${yearTo}` : null,
       accessStatus: 'verified_open',
+          accessCheckedAt: res.retrievedAt,
       accessEvidence: 'GBIF occurrence search is public and unauthenticated; only CC0 and CC BY records are retained.',
       transformations: [
         'Restricted to CC0 and CC BY licensed records, in the query and again on the response',

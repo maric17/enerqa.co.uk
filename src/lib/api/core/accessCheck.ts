@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache';
+import { savedAccessCheck, saveAccessCheck } from './storage';
 import type { AccessStatus, Provenance } from './types';
 
 /**
@@ -173,9 +174,16 @@ export function judge(input: {
     if (PAYWALL_MARKERS.some((re) => re.test(text))) {
       return at('gated', `${where} declares the content is not free to read.`);
     }
+    // A scholarly abstract with lots of navigation is still only an abstract.
+    const scholarly = /name=["']citation_(title|abstract_html_url)["']/i.test(text);
+    const abstract = /<(h[1-6]|section)[^>]*>\s*Abstract\b|id=["']abstract["']/i.test(text);
+    const fullSections = /<(h[1-6])[^>]*>\s*(?:\d[.\s]*)?(Introduction|Methods|Materials and methods|Results|Discussion|Conclusions?)\b/i.test(text);
+    if (scholarly && abstract && !fullSections) return at('unknown', `${where} exposes an abstract without identifiable full-text sections.`);
+    // Menus and footers cannot make a nearly empty article appear complete.
+    const document = text.replace(/<(nav|header|footer)[\s\S]*?<\/\1>/gi, ' ');
     // An almost empty page is a bot wall, a script shell or an interstitial,
     // not a document. Retried later rather than cached as a verdict.
-    const words = text.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/gi, ' ').split(/\s+/).filter(Boolean).length;
+    const words = document.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/gi, ' ').split(/\s+/).filter(Boolean).length;
     if (words < 150) {
       return { transient: true, verdict: at('unknown', `${where} returned a page with almost no readable text (a bot wall or a script-only shell).`) };
     }
@@ -210,19 +218,19 @@ async function withSlot<T>(fn: () => Promise<T>): Promise<T> {
 
 /** One anonymous request. Throws a Transient so nothing uncertain is cached. */
 async function probe(url: string): Promise<AccessVerdict> {
+  // Keep the slot through body reading, so slow documents cannot evade the cap.
+  return withSlot(async () => {
   const checkedAt = new Date().toISOString();
   let res: Response;
   try {
-    res = await withSlot(() =>
-      fetch(url, {
+    res = await fetch(url, {
         method: 'GET',
         redirect: 'follow',
         credentials: 'omit',
         cache: 'no-store',
         headers: { 'User-Agent': userAgent(), Accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8' },
         signal: AbortSignal.timeout(TIMEOUT_MS),
-      }),
-    );
+      });
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'no response';
     throw { transient: true, verdict: { status: 'unknown', checkedAt, evidence: `Anonymous check on ${checkedAt.slice(0, 10)} got no answer from ${url} (${msg}).`, finalUrl: null } } satisfies Transient;
@@ -239,6 +247,7 @@ async function probe(url: string): Promise<AccessVerdict> {
   });
   if ('transient' in result) throw result;
   return result;
+  });
 }
 
 type Memo = { verdict: AccessVerdict; until: number };
@@ -255,6 +264,11 @@ export async function checkAccess(url: string, now = Date.now()): Promise<Access
   if (remembered && remembered.until > now) return remembered.verdict;
 
   try {
+    const saved = await savedAccessCheck(url);
+    if (saved) {
+      memo.set(url, { verdict: saved, until: Date.parse(saved.checkedAt) + (saved.status === 'unknown' ? RETRY_UNCERTAIN_MS : RECHECK_SECONDS * 1000) });
+      return saved;
+    }
     let verdict: AccessVerdict;
     try {
       verdict = await unstable_cache(() => probe(url), ['access-check', url], {
@@ -265,13 +279,15 @@ export async function checkAccess(url: string, now = Date.now()): Promise<Access
       if (error instanceof Error && error.message.includes('incrementalCache missing')) verdict = await probe(url);
       else throw error;
     }
-    memo.set(url, { verdict, until: now + RECHECK_SECONDS * 1000 });
+    await saveAccessCheck(url, verdict, RECHECK_SECONDS);
+    memo.set(url, { verdict, until: Date.parse(verdict.checkedAt) + RECHECK_SECONDS * 1000 });
     return verdict;
   } catch (error) {
     const verdict: AccessVerdict =
       error && typeof error === 'object' && 'transient' in error
         ? (error as Transient).verdict
         : { status: 'unknown', checkedAt: new Date(now).toISOString(), evidence: 'Access check failed to run.', finalUrl: null };
+    await saveAccessCheck(url, verdict, RETRY_UNCERTAIN_MS / 1000).catch(() => {});
     memo.set(url, { verdict, until: now + RETRY_UNCERTAIN_MS });
     return verdict;
   }

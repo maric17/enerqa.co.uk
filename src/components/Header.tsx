@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 import { Container } from './ui/Container';
 
@@ -16,6 +16,7 @@ const SITE_INDEX = [
   { title:'Project Development and Lifecycle Support', url:'/project-development' },
   { title:'Knowledge Hub', url:'/knowledge-hub' },
   { title:'Data Portal', url:'/data-portal' },
+  { title:'Data Explorer', url:'/data-portal/explorer' },
   { title:'Tools', url:'/tools' },
   { title:'About', url:'/about' },
 ];
@@ -58,11 +59,7 @@ const ABOUT_LINKS = [
   { href: '/about#connect', en: 'Connect with Enerqa', ar: 'تواصل مع إنيرقا' },
 ];
 
-// The desktop menu shows industries in two columns for scanning (p. 7 allows
-// visual subgrouping as long as every page stays one click away).
-const INDUSTRY_COLUMNS = [INDUSTRIES.slice(0, 7), INDUSTRIES.slice(7)];
-
-type MegaMenuId = 'domains' | 'about';
+type MegaMenuId = 'domains' | 'about' | 'data-portal';
 
 // How long a hover-opened panel waits before closing once the mouse leaves.
 // It lets the pointer cross the gap between the trigger and the panel, which
@@ -352,7 +349,7 @@ export function Header() {
                   <div className="mega-columns">
                     {/* Column titles are labels, not headings: as headings they put
                         three h2/h3s before every page's own h1 (p. 227). */}
-                    <div className="mega-col">
+                    <div className="mega-col mega-domains">
                       <p className="mega-col-title" id="mega-domains-label">Domains</p>
                       <ul className="mega-list" aria-labelledby="mega-domains-label">
                         {DOMAINS.map((d) => (
@@ -360,24 +357,15 @@ export function Header() {
                         ))}
                       </ul>
                     </div>
-                    {INDUSTRY_COLUMNS.map((column, idx) => (
-                      <div className="mega-col" key={idx}>
-                        {/* The second column continues the first, so its title is
-                            only a spacer and hidden from screen readers. */}
-                        <p
-                          className={`mega-col-title ${idx > 0 ? 'invisible' : ''}`}
-                          id={idx === 0 ? 'mega-industries-label' : undefined}
-                          aria-hidden={idx > 0 ? true : undefined}
-                        >
-                          Industries
-                        </p>
-                        <ul className="mega-list" aria-labelledby="mega-industries-label">
-                          {column.map((i) => (
-                            <li key={i.slug}><Link href={`/industries/${i.slug}`}>{i.title}</Link></li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                    {/* One wider industry list keeps long names on one line. */}
+                    <div className="mega-col mega-industries">
+                      <p className="mega-col-title" id="mega-industries-label">Industries</p>
+                      <ul className="mega-list" aria-labelledby="mega-industries-label">
+                        {INDUSTRIES.map((i) => (
+                          <li key={i.slug}><Link href={`/industries/${i.slug}`}>{i.title}</Link></li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
                   <div className="mega-featured">
@@ -408,7 +396,18 @@ export function Header() {
               </div>
             </div>
             <div className="nav-item">{navLink('/knowledge-hub', 'Knowledge Hub', 'مركز المعرفة')}</div>
-            <div className="nav-item">{navLink('/data-portal', 'Data Portal', 'بوابة البيانات')}</div>
+            {/* Keep the overview link and give the submenu its own keyboard-accessible toggle. */}
+            <div className={`nav-item nav-item-data-portal ${activeMegaMenu === 'data-portal' ? 'mega-open' : ''}`} {...megaItemProps('data-portal')}>
+              {navLink('/data-portal', 'Data Portal', 'بوابة البيانات')}
+              <button {...megaTriggerProps('data-portal')} className="data-portal-toggle" aria-label="Data Portal submenu">
+                <ChevronDown size={14} aria-hidden="true" />
+              </button>
+              <div id="mega-menu-data-portal" className="mega data-portal-submenu" onClick={closeOnLinkClick(closeMega)}>
+                <ul aria-label="Data Portal">
+                  <li><Link href="/data-portal/explorer" aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>Data Explorer</Link></li>
+                </ul>
+              </div>
+            </div>
             <div className="nav-item">{navLink('/tools', 'Tools', 'الأدوات')}</div>
             <div className={`nav-item ${activeMegaMenu === 'about' ? 'mega-open' : ''}`} {...megaItemProps('about')}>
               <button
@@ -561,7 +560,13 @@ export function Header() {
           </div>
         </details>
         <Link href="/knowledge-hub" className={pathname.startsWith('/knowledge-hub') ? 'active' : ''}>Knowledge Hub</Link>
-        <Link href="/data-portal" className={pathname.startsWith('/data-portal') ? 'active' : ''}>Data Portal</Link>
+        <details className="mn-group" open={pathname.startsWith('/data-portal') || undefined}>
+          <summary>Data Portal</summary>
+          <div className="mn-sub">
+            <Link href="/data-portal" aria-current={pathname === '/data-portal' ? 'page' : undefined}>Overview</Link>
+            <Link href="/data-portal/explorer" className={pathname === '/data-portal/explorer' ? 'active' : ''} aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>Data Explorer</Link>
+          </div>
+        </details>
         <Link href="/tools" className={pathname.startsWith('/tools') ? 'active' : ''}>Tools</Link>
         {/* p. 7 "the same groups": About is a group on desktop, so it is one here. */}
         <details className="mn-group" open={pathname.startsWith('/about') || undefined}>

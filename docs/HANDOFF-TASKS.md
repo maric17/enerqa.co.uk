@@ -17,7 +17,21 @@ Nothing is marked done from memory. Re-run the checks with the commands in the l
 
 ---
 
-## Status — 26 Sep 2026 (read this first)
+## Current Part 13 status — 2 Oct 2026
+
+Part 13 was rechecked and its available implementation finished: persistent source/access evidence, shared database budgets, EIA/OpenAQ/GBIF views and exports, matching period filters, accessible preview tables and provider launch switches. Tests and production build passed. See [PART-13-VERIFICATION.md](PART-13-VERIFICATION.md).
+
+**Eight items remain unchecked**, with blockers and concrete to-dos directly beneath them: final destination/rights review, deployment scheduler, DOAJ confirmation, ReliefWeb registration, SEC editorial approval, Climate TRACE release identity, OECD Rio-marker query and GBIF public ZIP workflow. No deployment was made. Three additive operational tables were installed in the already-shared database; existing CMS content/schema was untouched.
+
+## Current Part 12 status — 2 Oct 2026
+
+**12.2 Global Intelligence is complete: all 7 checklist items are checked.** [Go to 12.2](#122-global-intelligence-pp-175179--knowledge-hubglobal-intelligence). Publication detail (12.1) and dataset detail (12.3) are also complete. See [PART-12-VERIFICATION.md](PART-12-VERIFICATION.md) for build, test and browser evidence.
+
+Part 12 still has pending company-approved tool content, careers content, Privacy details and the separate AI Search launch work. These remain unchecked as requested. Changes are local; no deployment has been made.
+
+The dated audits below describe earlier states. Their totals are historical, not current completion counts. The Part 12 checklist and the updated cross-references are the current status for this work.
+
+## Historical status — 26 Sep 2026
 
 On 25 Sep, coding agents worked through the open items. Two finished: homepage and header/footer, both covered by tests. The other six (connectors, feeds, Knowledge Hub, tools, forms/search, Data Portal) were stopped partway. After that, the owner's own model ticked many items. **On 26 Sep, every line that changed after the 24 Sep audit (118 lines) was re-checked against the code.** A tick stays only where the code meets the cited spec page. Invented "**Blocked**" notes were replaced with the real dependency, or removed where the work is ordinary code.
 
@@ -186,7 +200,7 @@ The uncommitted change that turned domain capabilities into their own `Capabilit
 
 ---
 
-## Snapshot — where you are today
+## Snapshot — 26 Sep 2026, with Part 12 references updated 2 Oct
 
 | Area | PDF pages | Status (26 Sep 2026) |
 |---|---|---|
@@ -201,8 +215,8 @@ The uncommitted change that turned domain capabilities into their own `Capabilit
 | 9. Data Portal | 157–161 | 🟡 D02/D03/D04/D06 exist. The publish gate **doesn't apply on the site**. D03's chart has no table and links to OWID. None of the p. 161 candidate datasets exist yet. OWID and Ember are not approved providers (🔍). |
 | 10. Tools | 162–166 | ✅ T01–T05 are verbatim from pp. 165–166 and CMS-driven. Unvalidated tools are hidden everywhere, including the sitemap. Left: TD02 units, TD03 method and version, TD05 guide and privacy, and the company must confirm the other tools' names and versions (🔍). |
 | 11. About | 167–170 | ✅ The A02 side panel and the `/contact` office line are removed. Team content only when approved (🔍). |
-| 12. Detail & utility templates | 171–208 | 🟡 Done: contact F01–F04 with URL preselection; search labels, index and failure state. PUBL segments are coded, but four differ from p. 174. **DS02/03/04/06 are not built.** Dashboards ignore `datasetConnector`. The policy pages are live; Privacy needs the company's entity and retention answers. AI answers follow a separate AI Search handoff (OpenAI); its Phase 0 and 1 are open (`docs/AI-SEARCH-TASKS.md`). |
-| 13. API provider specs | 209–224 | 🟡 Done and tested: budgets count only real upstream calls; backoff, Retry-After and a circuit breaker; timeouts; the OpenAlex cap; CSV formula injection. Left: the Global Intelligence stale notice, no page links `/api/data`, OECD, and the unused EIA/GBIF Occurrence/OpenAQ connectors. |
+| 12. Detail & utility templates | 171–208 | 🟡 Updated 2 Oct: publication detail (12.1), **Global Intelligence (12.2: 7/7)** and dataset detail (12.3) are complete; search repairs and publication draft protection are verified. Pending: company-approved tool/careers/Privacy content and the separate AI Search launch gates. See Part 12 and `PART-12-VERIFICATION.md`. |
+| 13. API provider specs | 209–224 | 🟡 Rechecked 2 Oct: persistent source/access evidence, shared database budgets, EIA/OpenAQ/GBIF views and CSV, accessible tables and matched period selection. Eight launch/account/editorial items remain unchecked with to-dos in Part 13. |
 | 14. Implementation & acceptance | 225–229 | 🟡 Focus, reduced motion, dialogs and layout-shift items are fixed. Left: apply the migration on production, focus-ring contrast, accessible chart tables, the p. 228 test matrix, breadcrumb JSON-LD, email delivery and analytics. |
 
 **Biggest risks right now** (details in each part):
@@ -899,46 +913,40 @@ Route `/about`. Segments A01–A05.
 
 ## PART 12 — Detail and utility templates (PDF pp. 171–208)
 
+**Updated 2 Oct 2026.** Code and verification details: [PART-12-VERIFICATION.md](PART-12-VERIFICATION.md). The owner asked to leave missing company-approved content pending. The 26 Sep summary at the top of this document is historical; this section records the current Part 12 state. AI launch remains a separate, gated workstream.
+
+
 ### 12.1 Enerqa publication detail (pp. 171–174) — `/knowledge-hub/{publication-slug}`
 
 - [x] ✅ Route exists
-- [x] ✅ PUBL01 "Publication Header" and PUBL02–PUBL06 (p. 174): all six sections are coded in `knowledge-hub/[slug]/page.tsx`; JSON-LD author and `datePublished` fixed; PUBL01/04/05/06 still differ from the spec
+- [x] ✅ PUBL01 "Publication Header" and PUBL02–PUBL06 (p. 174): all six sections match the prescribed wording and fields in `knowledge-hub/[slug]/page.tsx`; JSON-LD author and `datePublished` fixed
   - **Done:** The render crash was removed. Matched p. 174: show the language in PUBL01; added a real citation field and "Cite This Publication"; labeled the source link "Read Original Publication" with `originalUrl` field; pick PUBL05 by domain/industry tags plus dataset/tool links; PUBL06 has "Explore the Knowledge Hub" + "Discuss Your Project"; added an in-page breadcrumb with the title.
 - [x] ✅ Verified title, type, and author on every imported record
   - **Done:** The user verified that `/knowledge-hub/sustainable-tourism` and the imported records are correct. No re-import needed.
 
 ### 12.2 Global Intelligence (pp. 175–179) — `/knowledge-hub/global-intelligence`
 
-- [x] ✅ Route exists (now 467 lines)
-- [ ] 🟡 X01 "Global Intelligence" — the page has its own H1
-  - **To do:** The H1 is right now, but the intro drops the p. 178 X01 text ("Every result links to complete reading… distinct from Enerqa-authored publications"); the collection switcher has no `aria-current`.
-- [x] 🟡 X02 "Search Global Intelligence"
-  - **Done:** Added Domain and Industry filters. Updated empty state text to "No open-access results match these filters". Topic links preserve all other active filters. Implemented active filter removable chips, "Clear All" logic, and feed pagination.
-- [ ] 🟡 X03 "External Content Cards"
-  - **To do:** Research and official items appear only with `?domain=&type=`; no Corporate Disclosure cards anywhere; every action says "Read full article". Open access is judged by a domain allowlist (which includes metered reuters.com), not per item; Guardian items carry multi-paragraph summaries. Make all four content types one collection with per-type action labels and per-item access checks.
-- [ ] 🟡 X04 "Sources and Context"
-  - **To do:** Add the "public reading ≠ permission to republish" rights sentence and contextual links to Enerqa domains, publications, datasets and tools.
-- [ ] 🟡 Continent / region / country coverage filters, combining consistently with domain, industry, source, type, language and date (p. 225, 229): `?domain=`, `?industry=` and `?type=` narrow Global Intelligence; geography is one region select, with no continent or country level
-  - **To do:** Geography is still one select of 10 region buckets (`news/geography.ts:28-39`, `global-intelligence/page.tsx:258-269`). Build a continent → region → country registry with multi-select, OR within a field and AND across fields (p. 179). `?domain=`, `?industry=` and `?type=` already work.
-- [ ] 🟡 Geography = the **subject and locations covered**, never the publisher's HQ or a researcher's affiliation (p. 179, 226)
-  - **To do:** Regions come from the text (correct), but matching mis-tags: EIA "New England natural gas…" → Europe; "eastern New Mexico" → Latin America; the pronoun "us" → North America (`geography.ts:21,25,41`). Untagged items default to "Global" instead of "Not Specified". Match countries properly and add Not Specified / Multiple Regions.
+**✅ Complete — 7/7 checklist items, verified 2 Oct 2026.** No unfinished implementation items remain in this subsection. Provider outages and the bounded cached collection are documented limitations, not missing template work.
+
+- [x] ✅ Route exists with a loading state and one searchable, cached external collection.
+- [x] ✅ X01 "Global Intelligence" — exact p. 178 introduction; shared two-collection switch marks Global Intelligence current.
+- [x] ✅ X02 "Search Global Intelligence" — labelled keyword search, Topic/Domain/Industry, linked Continent/Region/Country, Content Type/Language/Source/Date Range, result count, removable chips, Clear All and pagination. Selections stay in repeated URL parameters.
+- [x] ✅ X03 "External Content Cards" — News, Research and Articles, Policy and Official Updates, and Corporate Disclosures share the same filters. Research and SEC disclosures no longer require a domain query. Type-specific reading actions, publisher/issuer, date, authors/DOI and filing form are preserved. Existing connector gates check each destination before indexing. News descriptions are shortened server-side; full articles/images are not republished.
+- [x] ✅ X04 "Sources and Context" — source-delay/retrieval labels, the public-reading-versus-republication rights sentence, source directory and context-matched internal links, grouped across domains, publications, data and tools.
+- [x] ✅ Geography registry and linked multi-select controls — UN M49 country/area hierarchy with stable country codes; country choices set parents; parent edits clear conflicting children with visible feedback. OR within a field, AND across fields. Multiple countries across regions are selectable.
+- [x] ✅ Subject coverage only — title/permitted-description matching, never publisher HQ or author affiliations. Explicit Global / Multiple Regions / Not Specified. Longest-name matching prevents New England → England and New Mexico → Mexico; lower-case "us" and US$ are not country matches. Ambiguous personal names are not guessed.
+  - **Verified:** deterministic tests; browser checks at 1366 px and 390 px; Qatar → Asia/Western Asia; Europe clears Qatar with feedback; multiple content types persist in the URL; no sideways scrolling. This is a bounded cached collection, not a complete search of every provider archive.
 
 ### 12.3 Dataset detail (pp. 180–183) — `/data-portal/datasets/{dataset-slug}`
 
-- [ ] 🟡 **Route exists.** Build all six segments:
-  - **To do:** The route returns 200, but most segments are missing (below).
-- [x] ✅ DS01 "Dataset Summary" — what is measured, by whom, where, for what period
-  - **Done:** Added "Dataset Summary" heading; fixed version to real version string in seed; formatted retrieval time to en-GB.
-- [ ] 🟡 DS02 "Explore the Data" (p. 183) — not built; the dataset page has only an `embedUrl` iframe slot, empty on every dataset
-  - **To do:** `datasets/[slug]/page.tsx:146-161` still renders only an iframe when `embedUrl` is set (null on all 3), so the section never appears. Build connector-driven filters that update the chart and table and persist in the URL (p. 183).
-- [ ] ❌ DS03 "Chart, Table and Map" (p. 183) — not built
-  - **To do:** `datasets/[slug]/page.tsx` has no chart, table or "Chart Table and Map" heading, and no page renders `DataSeriesTable` (only `feeds.test.ts` imports a helper from it). Render a chart and accessible table from the connector, with unit, geography, period, source and latest-observation status (p. 183).
-- [x] ✅ DS04 "Download and Cite" (p. 183) — only a "Free Download" link to the provider's raw file exists
-  - **Done:** Added Download CSV via `/api/data-portal/download`, Download Source File, and Copy Citation actions.
-- [x] ✅ DS05 "Sources and Methodology" (p. 183) — heading and attribution render; the other p. 183 fields do not
-  - **Done:** Added series ID, licence URL, coverage, frequency, units, release date/version, and missing-value rules below the dataset metadata.
-- [x] ✅ DS06 "Related Data and Domains" (p. 183) — not met; the related block is hidden (no tags) and never links to domain or industry pages
-  - **Done:** Added heading, rendering domains/industries as chips linked to their pages, and seeded correctly.
+- [x] ✅ All six DS sections render in order, each with an h2, plus breadcrumb and canonical/structured metadata.
+- [x] ✅ DS01 "Dataset Summary" — source-specific summary with observation period separate from provider release/version and Enerqa retrieval time.
+- [x] ✅ DS02 "Explore the Data" — the configured registered connector supplies the available series, geographies and periods. GET controls preserve the selection in the URL. No arbitrary provider URL is fetched with server credentials.
+- [x] ✅ DS03 "Chart Table and Map" — visible period/value bar charts and `DataSeriesTable` use the same selected observations. Units, geography, source, frequency, latest returned period/status, transformations and stale notices accompany them. Missing values remain missing; unlike measures have separate panels. No map is published without a cleared boundary layer.
+- [x] ✅ DS04 "Download and Cite" — filtered CSV uses the same selection function as the chart/table and includes source metadata. Source-file and original-source links are separate; downloads require the CMS open-access and redistribution flags. Copy Citation is a real clipboard action with a manual-copy fallback.
+- [x] ✅ DS05 "Sources and Methodology" — real connector/CMS metadata replaces the hard-coded Annual label; release/retrieval timestamps, licence/attribution, missing-value rules and transformations render. Unknown metadata is labelled Not supplied.
+- [x] ✅ DS06 "Related Data and Domains" — CMS relationships link to canonical domain/industry/dataset pages; unpublished related datasets are suppressed. The section remains available when editorial relationships are empty.
+  - **Verified:** real World Bank dataset, URL period selection and HTTP 200 CSV with exactly the chosen 2025 observation (an empty value, not zero); no mobile overflow. Unit tests also cover negative values, unknown series, reversed ranges and rejection of unregistered connector URLs. Other providers can still return unavailable; their failures are not replaced with invented data.
 
 ### 12.4 Dashboard template (pp. 184–187) — `/data-portal/dashboards/{dashboard-slug}`
 
@@ -950,14 +958,14 @@ Route `/about`. Segments A01–A05.
 
 - [x] ✅ Route exists
 - [x] ✅ TD01 "Tool Overview" (p. 191) — heading, validated name, the p. 165 T02 purpose, an availability line and Request Access as the default action (`tools/[slug]/page.tsx:116-139`, `access.ts:50-70`); unvalidated tools 404
-- [ ] 🟡 TD02 "Inputs and Outputs" (p. 191) — heading and Inputs/Outputs panels render from the CMS; approved input/output lists with units are still missing
-  - **To do:** The heading exists (`tools/[slug]/page.tsx:145`), but no flagship lists actual inputs with units, parameters or expected user skill: the ESG inputs are profile narrative, easySOLAR's describe the UI and result sheets, and GreenScale's outputs (ESRQ score, roadmap) are filed under Inputs (`seed-tools.ts:176-179`). Get the real input/output lists from the company, and move GreenScale's list to `outputs`.
+- [ ] 🔍 TD02 "Inputs and Outputs" (p. 191) — heading and Inputs/Outputs panels render from the CMS; approved input/output lists with units are still missing
+  - **Pending company content:** actual input/output lists, units, supported parameters and expected user skill. GreenScale's generated outputs are already in `outputs` in the seed; the old note claiming they were filed under Inputs was stale. No unapproved tool content was invented or seeded in this pass.
 - [ ] 🔍 TD03 "Methodology and Limits" (p. 191) — the section renders method, assumptions/limits and version when present; easySOLAR has a method and limits, GreenScale Pro one line, ESG Readiness none
   - **To do:** The code is ready (`tools/[slug]/page.tsx:169-186`), but ESG Readiness has no method or limits (section hidden), GreenScale Pro has one sentence and no limits, and no tool has a version/date or source-data versions. The company must supply the method, limits and version/date (p. 191).
-- [ ] 🟡 TD04 "Access the Tool" (p. 191) — an `#access` section with a conditional Download Tool / Launch Tool / Request Access action; Request Access opens the contact form with the tool preselected
-  - **To do:** The flagships correctly show Request Access → `/contact?intent=tool&tool={slug}` (`tools/[slug]/page.tsx:193-203`), and the contact form preselects the tool. But the download branch (`:205-217`) shows only file type, version and size; p. 191 also requires licence and system requirements, so add those fields to `Tools.ts` and render them.
+- [x] ✅ TD04 "Access the Tool" (p. 191) — an `#access` section with a conditional Download Tool / Launch Tool / Request Access action; Request Access opens the contact form with the tool preselected
+  - **Verified:** licence, system requirements and user-guide fields already exist; the download branch renders licence and system requirements alongside file metadata. Request Access remains the default without a cleared tool destination.
 - [ ] 🟡 TD05 "Guidance and Support" (p. 191) — heading, the p. 166 support line and a Contact Support link; no user guide or input-handling text yet
-  - **To do:** `tools/[slug]/page.tsx:248-275` has the heading and a Contact Support button (`/contact?intent=tool&tool={slug}`), but there is no user-guide field or link; `privacy` is empty for all 3 flagships, so no input-handling note shows; and no tool has `domains` set. Add a user-guide field and approved input-handling text (p. 191).
+  - **Pending company content:** the upload field and conditional user-guide link already exist, along with the input-handling (`privacy`) field and related-domain links. Supply the actual approved guide, input storage/processing/deletion/third-party-use text and taxonomy. Kept pending at the owner's request.
 
 ### 12.6 Sources and Methodology (pp. 192–195) — `/data-portal/sources`
 
@@ -982,27 +990,24 @@ Route `/about`. Segments A01–A05.
 
 ### 12.8 AI search and answer page (pp. 199–202) — `/search?q={query}`
 
-- [x] ✅ Route exists with keyword search over CMS collections
-- [ ] 🟡 AI01 "Ask and Explore" — keep the user's query editable and preserved
-  - **To do:** The input has no label and the icon-only submit button has no accessible name (`search/page.tsx:99-108`); placeholder differs from the spec.
-- [ ] 🟡 AI02 "Answer and Sources" — a source-led generated answer
-  - **To do:** Since 26 Sep (uncommitted) the answer comes from `POST /api/ai-search` (OpenAI, per the separate AI Search handoff), not Gemini. It never displays an answer: the route reads `output.text`, which doesn't exist in the SDK. Tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1).
-- [x] ✅ AI03 "Relevant Enerqa Content" — results grouped as p. 202 lists (`search/page.tsx:96`), canonical URLs (publications link to `/knowledge-hub/{slug}`, `loadIndex.ts:111`), term matching (the spec chip "What does ESG readiness involve?" finds the ESG Readiness Tool, `searchIndex.test.ts:84`)
-- [ ] 🟡 AI04 "Other Sources and States"
-  - **To do:** No external results; loading/empty/failure texts don't match the spec; no privacy/feedback guidance. The AI Search handoff defines these states (§2); tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1). (Old note: choose a free-tier provider, set its key, and enable `gemini` (or its replacement) in `core/registry.ts`.
-- [x] ✅ **`SITE_INDEX` fixed**: `search/siteIndex.ts:10-66` lists only six existing hub routes; the retired routes and the 404ing `/data-portal/datasets` are gone (tested `searchIndex.test.ts:195`)
-- [x] ✅ Index canonical first-party domain, capability (anchored), industry, lifecycle, publication, dataset and tool pages, returned with excerpt, category and date (p. 227): `search/loadIndex.ts:24-141`
-- [ ] 🟡 Keep drafts, confidential briefs, internal CMS records and restricted tool inputs out of the public index (p. 227)
-  - **To do:** The index filters tools (`validated`), datasets (`accessStatus: free`) and non-article publications, and never reads Enquiries (`loadIndex.ts:43-64`). But no collection has a draft/approval status, so a publication is indexed the moment it is saved. Enable `versions: { drafts: true }` on Publications and filter `_status: 'published'`.
-- [ ] ❌ Do not force an Enerqa result into unrelated answers (p. 13, 227)
-  - **To do:** The uncommitted AI route adds "Relevant Company Context" and a promotion card from a keyword match and an unvalidated classifier; "how does solar energy work" gets two Enerqa claims (tested locally, 26 Sep). See `docs/AI-SEARCH-TASKS.md` (Phase 2).
-- [ ] 🟡 Never fabricate company work, credentials or data; cite only what was actually retrieved (p. 227)
-  - **To do:** The 5 unapproved company claims in `src/lib/api/ai-search/kb-index.json` (e.g. "Enerqa is headquartered in London") were deleted on 26 Sep, and AI Search is off. Before switching it on, pass the AI Search handoff's company-integrity gate (§16: zero unapproved claims); see `docs/AI-SEARCH-TASKS.md` (Phase 2).
-- [ ] 🔍 Inference must use a **free corporate-use service within its free quota**, or a self-hosted appropriately licensed model — no paid tier (p. 13). **Superseded for AI search** by the separate AI Search handoff, which chooses the paid OpenAI Responses API with a monthly budget (owner, 26 Sep 2026)
-  - **To do:** Record the AI Search Phase 0 sign-offs (budget B, approved catalogue and URL registry, staging model check) in `docs/AI-SEARCH-TASKS.md`. Until then, keep `openai` disabled in `core/registry.ts` (switched off on 26 Sep; `/api/ai-search` returns 503 before any paid call).
-- [ ] 🟡 Test: general non-Enerqa queries, project questions, ambiguous terms, **Arabic queries**, conflicting sources, retrieval failures (p. 227). Keyword search and the prompt are tested; generated answers cannot be tested while no AI provider is approved
-  - **To do:** Keyword search is tested for general, project, ambiguous, Arabic and retrieval-failure queries (`searchIndex.test.ts:113-230`), and the prompt rules are tested (`aiAnswer.test.ts:58-89`). Add a conflicting-sources case. Generated answers: the AI route has no tests yet (`docs/AI-SEARCH-TASKS.md`, Phase 1).
-- [x] ✅ `noindex` on search results and low-value filter combinations (p. 227)
+- [x] ✅ Route exists with keyword search over public CMS content.
+- [x] ✅ AI01 "Ask and Explore" — labelled, editable query; accessible Search button; exact p. 202 placeholder; query retained in the URL and Arabic input supported.
+- [ ] 🟡 AI02 "Answer and Sources" — answer extraction repaired and tested offline. The route walks Responses output items, handles refusals/incomplete responses, requires a completed web-search call, validates citation spans, and checks cited destinations. The client renders the exact returned text and linked citation spans; missing citations never fall back to unrelated Enerqa results.
+  - **Still pending:** the separate AI Search Phase 0 approvals, distributed session/rate/budget controls and staging evaluation. Both the provider switch and `AI_SEARCH_CONFIG.releaseReady` remain off; no paid call was made. See [AI-SEARCH-TASKS.md](AI-SEARCH-TASKS.md).
+- [x] ✅ AI03 "Relevant Enerqa Content" — canonical grouped results with relevant excerpts; no forced company promotion inside generated answers.
+- [x] ✅ AI04 "Other Sources and States" — external results from the same verified Global Intelligence cache, publisher/date and outbound actions; prescribed loading/empty/failure wording; privacy notice and feedback guidance. Answer UI adds stop, retry, clear search, refusal and insufficient-evidence states. Multi-turn AI conversation remains in the separate AI handoff.
+- [x] ✅ `SITE_INDEX` includes existing canonical hub destinations only.
+- [x] ✅ Public index covers domain/capability anchors, industry, lifecycle, publication, verified dataset and validated tool pages; it never reads enquiries or restricted inputs.
+- [x] ✅ Publication drafts stay private. `versions: { drafts: true }`, anonymous published-only read/version access, and explicit Local API access enforcement on detail/list/search/home/related/sitemap reads. Publishing/unpublishing refreshes the site cache; search no longer keeps a stale process-local index.
+  - **Verified against the shared DB:** backed up all 25 publications before applying the reviewed draft/version schema; preserved their existing content and publication state. A draft-access check in a rolled-back transaction returned zero anonymous draft results and 25 public articles. The schema apply script is idempotent. Do not run the historical Payload migrations.
+- [x] ✅ Unrelated questions receive no forced Enerqa result: removed the unapproved company-context path, classifier/promotions and memory-only fallback. `enerqa` is always null in the current response contract.
+- [ ] 🟡 Never fabricate company work, credentials or data; cite only retrieved evidence.
+  - **Done in code:** strict response validation, actual citation annotations, no fabricated source dates, no keyword-source substitution, and company promotions disabled.
+  - **Pending:** live company-integrity and grounded-answer evaluation before launch; the approved company corpus and URL registry remain missing.
+- [ ] 🔍 AI provider choice is OpenAI under the superseding AI Search handoff. Record budget B, approved catalogue/URLs, privacy/ownership and staging model sign-offs before enabling it.
+- [ ] 🟡 Search acceptance tests — keyword cases already cover general, project, ambiguous, Arabic and retrieval-failure queries; new offline cases cover conflicting sources, no completed search, incomplete responses, refusal, absent/bad citations and the disabled route making zero provider calls.
+  - **Pending:** live generated-answer tests after the separate launch gates are met.
+- [x] ✅ Search results and Global Intelligence filter combinations are noindex.
 
 ### 12.9 Conditional careers template (pp. 203–205) — `/about/careers`
 
@@ -1026,147 +1031,99 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ `FooterBreadcrumbs.tsx`: dataset and dashboard trails now link only to `/data-portal` (no more 404 parents, p. 4)
 - [x] ✅ `Enquiries` create is limited to logged-in staff (`Enquiries.ts:14`), so `POST /api/enquiries` no longer bypasses validation and the honeypot; the server actions write through the Local API
 - [x] ✅ Tool-access requests: the unvalidated inline form (`tools/[slug]/actions.ts`, `RequestAccessForm.tsx`) was removed; "Request Access" now links to `/contact?intent=tool&tool={slug}`, which preselects the tool and uses the validated contact action
-- [ ] 🟡 `search/AIResponse.tsx` shows the public AI04 failure text instead of a developer message. Since 26 Sep (uncommitted) it is a client component calling `/api/ai-search`; the Gemini prompt (`aiAnswer.ts:116`) and `AnswerUnavailable` are no longer used
-  - **To do:** It renders the route's placeholder "No answer generated." as if it were an answer, and parses `[n]` markers the Responses API doesn't produce. Tracked in `docs/AI-SEARCH-TASKS.md` (Phase 1).
+- [x] ✅ `search/AIResponse.tsx` no longer renders "No answer generated." as an answer or guesses `[n]` citations. Runtime validation and annotation offsets drive rendering; no keyword-result citation fallback. Live generation remains disabled (12.8).
 - [x] ✅ The Global Intelligence Language filter lists one ISO 639-1 code per language: every news item passes `normaliseLanguage` (`core/language.ts:35`, `news/index.ts:149-155`) before the option list is built (`news/index.ts:261`)
 - [x] ✅ `/data-portal/sources` has its own title and canonical (`sources/page.tsx:12-16`); policy pages take their title from the CMS record plus the " | Enerqa" template, so the brand is not doubled (`[policy]/page.tsx:31-34`)
 - [x] ✅ No unapproved mailboxes are published (p. 8): `info@enerqa.co.uk` is the only address in `src/`; the hard-coded accessibility page is gone (now the CMS `[policy]` route), and careers returns 404 until approved content exists (`about/careers/page.tsx:30, 39`)
-- [x] ✅ Heading levels: tool detail runs h1 → h2 → h3; dataset detail no longer has an h4 under an h2, but its DS04 heading is still an h3
-  - **To do:** Tool detail is fixed. On dataset detail, the DS04 "Download Data" heading is an h3 (`datasets/[slug]/page.tsx:192`) under DS05's h2, and it becomes an h1 → h3 skip whenever DS05 is hidden (no attribution or methodology). Make each DS segment heading an h2.
+- [x] ✅ Heading levels: tool detail remains h1 → h2 → h3; each dataset segment is an h2 and DS04 is "Download and Cite". Verified in the browser.
 
 ---
 
 ## PART 13 — API provider specifications (PDF pp. 209–224)
 
-**Hard rule (p. 209):** every connector must be free and open-access. No paid API, trial, paid fallback, overage or licence purchase.
+**Current check: 2 Oct 2026.** Code, database evidence, live numerical responses, tests and a production build were checked. This section replaces the older Part 13 audit notes; the historical logs elsewhere retain their dates. See [PART-13-VERIFICATION.md](PART-13-VERIFICATION.md) for commands, observations and remaining launch work.
+
+**Hard rule (p. 209):** news, research and numerical connectors use free features, with no paid fallback or automatic upgrade. The separate AI Search handoff governs its proposed paid provider; OpenAI and Gemini remain disabled here.
 
 ### 13.0 What was built
 
-```
-src/lib/api/
-  core/       registry, shared fetch, provenance, CSV, destination rules
-  data/       7 numerical connectors (pp. 218–224)
-  research/   6 research and disclosure connectors (pp. 212–217)
-  news/       4 news connectors (pp. 210–216)
-```
+- `src/lib/api/core/`: provider registry, shared upstream cache, atomic database request accounting, local backoff/Retry-After, destination checks, persistent evidence and CSV rules.
+- `src/lib/api/news/`, `research/`, `data/`: four news sources, six research/disclosure sources and seven numerical sources.
+- `enerqa_connectors.provider_requests`: one shared request ledger across local, preview and production; reservations happen only on real cache misses, inside a database transaction.
+- `enerqa_connectors.external_records`: original record fields, source identifiers/URLs, rights, actual access-check times and separate retrieval times. These operational records are separate from the legacy Payload `external-items` collection.
+- `enerqa_connectors.access_checks`: persistent destination verdicts; checks are repeated after expiry. Rejected/uncertain destinations stay unpublished.
+- `GET /api/ingest/providers`: authenticated scheduler target. **Not activated:** `CRON_SECRET` and the deployment scheduler are absent. Public routes still share cached provider queries.
+- New Data Portal views: `/data-portal/series/{dataset}`, `/data-portal/occurrences`; ungated CSV routes use the same selection logic. EIA is also available in the Data Portal preview and the Energy related-data fallback.
 
-`core/registry.ts` is the switchboard: one row per provider with its licence, attribution, published limits, cache lifetime, key variable and an `enabled` flag. Setting `enabled: false` removes a provider from every page at once, which is what p. 227 asks for when a provider goes chargeable.
+The three operational tables are isolated in the private `enerqa_connectors` schema so Payload schema-push cannot propose removing them. They were added transactionally with `scripts/part13/apply-storage.mjs`. Existing CMS tables/content were not changed. Row-level security is enabled so these internal records are not anonymous Supabase endpoints. **Do not run the old Payload migration history.**
 
-`core/fetch.ts` is the only way a connector reaches the internet, so the shared cache, the descriptive User-Agent, the per-provider budget, the disabled check and typed failure happen once instead of thirteen times.
-
-**Verified live (11):** Climate TRACE, World Bank, OECD municipal waste, NASA POWER, GBIF Occurrence, OpenAQ v3, OpenAlex, DOAJ, GBIF Literature, SEC EDGAR, **EIA Open Data** (24 Sep 2026: US net generation 2020–2023 returned with the configured key). **OSTI** now answers (3 verified-open records) but drops some parallel connections — intermittent.
-
-**Blocked, with the reason recorded in the connector (4):**
-
-| Provider | Blocker | To unblock |
-|---|---|---|
-| ~~EIA Open Data~~ | ✅ key set and verified live | — |
-| ReliefWeb | appname not registered (403) | register, set `RELIEFWEB_APPNAME`, flip `enabled` |
-| OSTI | reachable now; some parallel requests closed by the server | watch the `[osti]` log lines; consider one request at a time |
-| OECD Rio markers | data route 403 from this origin | generate a narrow key in Data Explorer |
-
-#### Findings from live testing
-
-These are the things that cost time and would cost it again:
-
-1. **OECD returns HTTP 500 — not 406 — when sent `Accept: application/json`**, and 200 when sent `*/*`. The shared fetch sets that header by default, so the connector overrides it.
-2. **OECD serves different subject areas from different bases.** Rio markers lives under `/dcd-public/`, not `/public/`; the wrong base gives a 500. The dataflow's own `self` link is what reveals it.
-3. **The same OECD endpoint answers in SDMX-JSON 1.0 or 2.0** — `structure` singular versus `structures` array. Handling only one produced an empty chart rather than an error.
-4. **NASA POWER marks missing observations as `-999.0`.** Parsed naively that becomes "-999 °C" on a chart. The fill value is read from the response header rather than hardcoded.
-5. **GBIF's first unfiltered Qatar result was CC BY-NC**, which p. 223 bars from corporate reuse. The licence filter runs in the query and again on the response.
-6. **OpenAQ returns `licenses: null` on many locations.** Unknown is not open, so those are excluded — 23 of 30 stations were dropped for Texas.
-7. **Bare `doi.org` links are not a reading destination.** p. 212 asks us not to *prefer* the DOI over a repository copy, so resolvers sort last rather than being banned — a hybrid OA article often lives only at the publisher.
-
-#### Fabricated content removed
-
-| What | Where | Why it mattered |
-|---|---|---|
-| `generateMockWorldBankData()` | `lib/api/worldBank.ts` | invented country emissions on API failure |
-| `generateMockNoaaData()` | `lib/api/noaa.ts` | invented climate readings when the token was missing |
-| `generateMockOpenAQData()` | `lib/api/openaq.ts` | invented **air-quality measurements** |
-| `mockEmissionsData` | `app/api/climate/emissions/route.ts` | a public endpoint serving invented per-country emissions with a `source` field, plus an invented policy `target` line |
-| `mockTempData` | `app/api/climate/temperature/route.ts` | invented temperature anomalies labelled "World Bank CCKP API (Mock)" |
-
-All eight files in `src/lib/api/*.ts` were orphaned — nothing had imported them since Part 3 removed `SustainabilityData`. The two API routes were reachable by anyone. Deleting `noaa.ts` also removed the last `NEXT_PUBLIC_` credential in the codebase.
+**Verified live this pass:** World Bank, EIA generation, OECD municipal waste, NASA POWER, Climate TRACE v6, GBIF occurrences/dataset DOIs, OpenAQ licensed locations and daily PM10 readings. Research/news rights checks, parsing and ranking were verified by code/tests; no claim is made that every provider supplied a live card this pass.
 
 ### 13.1 Architecture requirements (pp. 209–211, 226)
 
-- [x] ✅ Server-side connectors behind a **shared cache** — every news, research and data call goes through `fetchFromProvider` / cached `fetch` with `next.revalidate` (audit 24 Sep 2026)
-- [ ] 🟡 Store original IDs and URLs, source timestamps, retrieval time, provider, rights status, provenance — the `Provenance` type in `core/types.ts`, filled by every connector
-  - **To do:** The provenance fields travel on each record in memory but are never stored (`external_items` has 0 rows), and `accessCheckedAt` is set at render time — it claims a check that never happened (`provenance.ts`). News items carry no access status. Persist ingested records with a real check time.
-- [x] ✅ Reuse filtered records across home, domains, industries and Global Intelligence — one news pool, no per-page upstream queries
-- [x] ✅ **No `NEXT_PUBLIC_` credential remains** — `noaa.ts` was deleted with the orphaned connectors; the only `NEXT_PUBLIC_` variable left is the non-secret `NEXT_PUBLIC_BASE_URL`. Spec: p. 226, p. 228
-- [ ] 🟡 URL deduplication, relevance filtering and publication-date validation before display (news). DOI dedup and geography tags belong to the research connectors, still to build
-  - **To do:** News gate and DOI dedupe work, but research items carry no geography or language tags. Add coverage-geography tags.
-- [x] ✅ Respect the NewsData query cap using **separate topic baskets** — four queries, each well under the 100-character limit
-- [ ] 🟡 Per-provider request budgets that count real upstream calls only, plus 429/503 backoff with Retry-After and a circuit breaker (`core/fetch.ts`, `core/health.ts`; pp. 209, 226). Retrieval time comes from the provider's `Date` header, and `stale` is computed and shown on home, domain/industry feeds and data tables
-  - **To do:** Only one gap is left: the Global Intelligence news list shows 'Retrieved …' but ignores `result.stale` (`global-intelligence/page.tsx:426`), so show the stale notice there. Upstream-only counting (`core/fetch.ts:117`), backoff + Retry-After + breaker (`core/health.ts:169-259`) and the no-key OpenAlex cap of 80 (`health.ts:50, 70`) are done.
-- [ ] 🟡 Loading states reserve card dimensions — domain, industry and Global Intelligence feeds stream in behind same-size `FeedSkeleton`s (motion-safe pulse). Data Portal charts: none exist yet
-  - **To do:** Domain, industry and GI feeds use `FeedSkeleton`, but the homepage `FirstFoldFeeds` has no Suspense and blocks the whole render (first `GET /` took 22 s). Wrap H03/H04 in Suspense with a skeleton.
-- [x] ✅ Empty results say "No relevant updates are available"; every provider returns `[]` on failure rather than throwing or inventing content
-- [ ] 🟡 `accessStatus` / `accessCheckedAt` / `accessEvidence` recorded; `publishableOnly()` enforces the `verified_open` gate, and an unstated status defaults to `unknown` so a connector that forgets fails closed
-  - **To do:** The gate exists, but every connector **hard-codes `'verified_open'`** — no anonymous check of the final destination is ever made (pp. 209, 227), and news bypasses the gate entirely. Validate links at ingestion and recheck periodically; gate news too.
-- [ ] 🟡 A provider going chargeable disables the connector pending review — `enabled: false` in `core/registry.ts` takes it off every page at once (ReliefWeb is currently off this way)
-  - **To do:** Works for the 13 registry providers, but NewsData, GDELT, EIA RSS, EEA RSS and Gemini are not in the registry, so they cannot be switched off. Register them.
+- [x] ✅ Server-side connectors behind a shared upstream cache. Provider disable checks run before cached responses are served.
+- [x] ✅ Store original IDs/URLs, source timestamps, retrieval time, provider, rights status and provenance. Checked records are retained in `enerqa_connectors.external_records`; actual destination verdicts, including failures, are retained separately. News now keeps provider IDs and access evidence instead of dropping them after the check.
+- [x] ✅ Reuse shared cached topic/page baskets across home, domains, industries and Global Intelligence. A cache hit does not spend another upstream request.
+- [x] ✅ No `NEXT_PUBLIC_` credential remains; `NEXT_PUBLIC_BASE_URL` is non-secret.
+- [x] ✅ News URL deduplication/relevance/date validation and research DOI deduplication, language and subject-coverage geography. GBIF researcher geography remains separate from study coverage; Global Intelligence uses the Part 12 coverage registry.
+- [x] ✅ NewsData topic/page baskets stay within the query-length cap. Four topic baskets refresh every two hours; page baskets refresh every twelve hours.
+- [x] ✅ Conservative request budgets count upstream attempts only; shared daily/rolling accounting survives process restarts. OECD is capped at 50/hour, below 60; OpenAlex selects 80/day without a key or 800/day with a free key. Local backoff, Retry-After and concurrency controls remain in place. A shared ledger outage prevents an upstream request.
+- [x] ✅ Loading reserves dimensions: homepage/domain/industry/GI feed skeletons, a Data Portal preview minimum height, and the new numerical route loading placeholder.
+- [x] ✅ Empty results and unavailable sources have honest messages; no fabricated replacement records or values.
+- [ ] 🟡 `verified_open` gate with actual check timestamps/evidence. News, research and official cards require anonymous destination checks; API-generated numerical exports retain the source response and per-source reuse checks. Abstract-only scholarly pages and navigation-heavy teasers are rejected.
+  - **To do:** Complete the final human destination/rights review before launch, including each linked external numerical source page. An automated HTML check cannot prove every publisher exposes its complete article. The GBIF public ZIP check remains pending under 13.3; gated/uncertain destinations must stay unpublished.
+- [x] ✅ All news/research/data providers and both AI providers are in the registry. Switching off a provider prevents new provider calls; unreviewed providers cannot be enabled. ReliefWeb, DOAJ, Gemini and OpenAI are currently off.
+- [ ] 🟡 Scheduled ingestion endpoint built and authenticated; provider records/check verdicts are persistent.
+  - **Blocker:** Deployment scheduler access and a `CRON_SECRET` are not configured in this workspace.
+  - **To do:** Set `CRON_SECRET` in the deployment, schedule authenticated `GET /api/ingest/providers` calls within the hosting plan, and verify a successful job plus a rejected unauthenticated call. Keep the free allowances shared; do not buy a scheduler/API upgrade to bypass this requirement.
 
 ### 13.2 News and research connectors
 
-- [ ] 🟡 **NewsData.io** (`newsdata`) — p. 210 — delayed free feed, four topic baskets, 48 credits/day
-  - **To do:** Delay label and allowlist are present, but its own budget shuts it off (see the budgets item); article destinations are never validated; `reuters.com` is allowlisted despite its registration wall (a human decision).
-- [ ] 🟡 **GDELT** (`gdelt`) — p. 211 — legacy news coverage, `domainis:` allowlisting
-  - **To do:** `domainis:` is used, but the log shows 96 rate-limit replies and 64 timeouts with no backoff, so GDELT contributes almost nothing. Add backoff/circuit breaker; don't cache rate-limit text.
-- [ ] 🟡 **OpenAlex** (`openalex`) — p. 212 — verified live, `filter=is_oa:true` enforced, repository copy preferred over the DOI resolver
-  - **To do:** `is_oa` and URL preference are correct, but it contributes **zero cards** on the pages — newest-first sorting lets OSTI win every time. No licence/version/preprint labels; usage headers untracked; cap above the allowance.
-- [ ] 🔍 **DOAJ** (`doaj`) — p. 213 — verified live. ⚠️ **Launch gate**: p. 213 records that the quota could not be reverified, so it must be confirmed before go-live and never advertised as unlimited
-  - **To do:** Confirm the quota before launch. Also: no per-article licence captured, a "Peer reviewed" badge asserted for every DOAJ item (`doaj.ts:84`), no ≤ 2 req/s throttle, and zero items shown on the pages.
-- [ ] 🟡 **ReliefWeb** (`reliefweb`) — pp. 213–214 — connector built but **disabled in the registry**. An unregistered appname returns HTTP 403; register at https://reliefweb.int/help/api, set `RELIEFWEB_APPNAME`, then flip `enabled` to true
-  - **To do:** Before enabling: it marks every report page open with no attachment check (`reliefweb.ts:100`), which p. 214 forbids — reject summary-only reports.
-- [x] ✅ **U.S. EIA Today in Energy RSS** (`eia_rss`) — p. 214 — keyless RSS, public domain, text only (no EIA photos or logo)
-- [ ] 🟡 **DOE OSTI.GOV API v1** (`osti`) — p. 215 — **reachable as of 24 Sep 2026** (returned verified-open records), but the server closes some parallel connections. Now feeds the Energy domain's EP module. Confirm stability before launch
-  - **To do:** Also: titles render raw `<em>` markup, and OSTI crowds out every other research provider. Limit concurrency, strip markup, rebalance.
-- [ ] 🟡 **EEA** (`eea_rss`) — pp. 215–216 — keyless RSS, CC-BY with attribution. Two live feeds; `/en/publications/rss.xml` returned 404 on 19 Sep 2026 and was left out rather than guessed at
-  - **To do:** Both feeds render, but there is no publication feed, no Europe-focus label, and no rights/access check. Add the label; find the current publication feed URL.
-- [ ] 🟡 **GBIF Literature** (`gbif-literature`) — pp. 216–217 — verified live, `openAccess=true` enforced and bare DOI resolvers rejected
-  - **To do:** Filter and DOI rejection are correct and it renders on the Environment page, but researcher country vs coverage country is not captured and the `websites` link is not verified open.
-- [ ] 🟡 **SEC EDGAR** (`sec-edgar`) — p. 217 — verified live. A curated issuer watchlist, not keyword ESG search, labelled "Corporate disclosure"
-  - **To do:** Renders on the Business domain, but labelled "SEC Form 8-K" — "Corporate disclosure" appears nowhere (`official.ts`); filings are not curated for ESG content; the watchlist (Exxon, Chevron, Duke, NextEra) is a human choice.
+- [x] ✅ **NewsData.io** (`newsdata`) — p. 210. Free delayed feed, allowlist, short licensed teasers, query caps, source IDs, anonymous article checks and shared accounting. Internal budget: 150/day and 25/15 minutes, below the handoff's 200/day and 30/15 minutes. A registration/paywall verdict excludes the individual article, including Reuters destinations.
+- [x] ✅ **GDELT** (`gdelt`) — p. 211. Allowlisted `domainis:` queries, 5.5-second spacing, one request at a time, backoff/Retry-After, breaker and rejected rate-limit/error bodies. Legacy service availability remains variable; failures are not cached as successful data.
+- [x] ✅ **OpenAlex** (`openalex`) — p. 212. `is_oa:true`, repository preference/alternative copies, licence/version/preprint/language labels, usage-header tracking, bounded allowance and provider-first scholarly ranking. OSTI no longer fills the scholarly modules.
+- [ ] 🔍 **DOAJ** (`doaj`) — p. 213. Full-text link selection, journal licence lookup, neutral peer-review metadata and ≤2 requests/second implemented. Disabled pending the explicit launch gate.
+  - **Blocker:** Official v4 documentation still returned HTTP 403 on 2 Oct; the current schema/quota cannot be confirmed from it.
+  - **To do:** Obtain current official API/quota confirmation from DOAJ, verify the query/schema and source rights, update `publishedLimits`/review date, run a narrow live full-text check, then enable the registry entry. Do not describe it as unlimited.
+- [ ] 🟡 **ReliefWeb** (`reliefweb`) — pp. 213–214. PDF/hosted-report selection rejects summary-only records; candidates still need the anonymous destination check. Disabled.
+  - **Blocker:** `RELIEFWEB_APPNAME` is absent; Part 12 observed HTTP 403. The former enabled flag had no registration evidence.
+  - **To do:** Request a pre-approved organisational appname through [ReliefWeb](https://apidoc.reliefweb.int/parameters), set it server-side, verify an HTTP 200 response and a complete report/PDF, then enable the registry entry.
+- [x] ✅ **U.S. EIA Today in Energy RSS** (`eia_rss`) — p. 214. Keyless, cached, text only with attribution/date; complete-reading check applies. No photos/logo reuse.
+- [x] ✅ **DOE OSTI.GOV API v1** (`osti`) — p. 215. Full-text links, stripped title markup, issuing organisation/document type, topical/date checks and interleaved specialist feeds. Requests are now serialized; its earlier intermittent upstream failures return an honest unavailable state.
+- [x] ✅ **EEA** (`eea_rss`) — pp. 215–216. Three official-directory feeds, including publications; Europe-focus/source/type labels, rights notes and anonymous reading checks. The obsolete publications URL is not used.
+- [x] ✅ **GBIF Literature** (`gbif-literature`) — pp. 216–217. `openAccess=true`, full-reading destination check, DOI-resolver handling, separate study/researcher countries and factual language/peer-review/type fields.
+- [ ] 🟡 **SEC EDGAR** (`sec-edgar`) — p. 217. Public filing URLs, declared contact User-Agent, conservative rate limits and explicit “Corporate disclosure, Form …” labels. No market quote or universal ESG-search claim.
+  - **Blocker:** The four-issuer default watchlist and relevant ESG passages have no recorded editorial approval.
+  - **To do:** Approve the CIK watchlist and identify/tag the ESG-relevant filings/passages before presenting it as curated ESG coverage. General corporate disclosures must remain labelled as such.
 
 ### 13.3 Numerical data connectors (pp. 218–224)
 
-- [ ] 🟡 **Climate TRACE** (`climate-trace`) — p. 218 — verified live. p. 218 says to confirm v7: v7 serves `/definitions/*` but every emissions route 404s, so data comes from v6. GWP horizon is part of the unit, never implied
-  - **To do:** The CSV route returns live values, but no inventory release/version is recorded, there is no beta warning, and the route accepts years 1960–2100 — a single request fans out to 141 upstream calls (`route.ts:37-40`). No page uses it. Record the release; cap the year span.
-- [x] ✅ **World Bank Indicators API v2** (`world-bank-indicators`) — p. 219 — verified live. The old `worldBank.ts` actually called Climate Watch and **generated mock data** on failure; deleted, not patched
-  - **To do:** Confirmed live via `/api/data/world-bank-indicator` (release 2026-07-13, units, nulls) — but no page links to it.
-- [ ] 🟡 **OECD SDMX** (`oecd-sdmx`) — p. 220 — municipal waste was verified live on 19 Sep; **failing on 24 Sep**. Climate-related development finance is blocked (data route 403 from this origin).
-  - **To do:** `/api/data/municipal-waste` currently returns **503** (OECD answers HTTP 500). No 60-downloads-per-hour cap. Rio markers still blocked. Fix the default key, add the hourly cap, generate the Rio query.
-- [ ] 🟡 **U.S. EIA Open Data** (`eia-open-data`) — p. 221 — **verified live** with the configured `EIA_API_KEY` (24 Sep 2026)
-  - **To do:** The connector works (one-off probe, 24 Sep), but `fetchEiaSeries` is **called nowhere in `src/`**. Wire it into the Energy data preview and the Data Portal.
-- [x] ✅ **NASA POWER** (`nasa-power`) — p. 222 — rewritten and verified live. The old one ignored POWER's `-999` fill value, which charts as "-999 °C"
-  - **To do:** Confirmed: CSV returns 200 with version v2.10.0, the fill-value note and the time standard; the −999 case is tested.
-- [ ] 🟡 **GBIF Occurrence** (`gbif-occurrence`) — p. 223 — verified live. CC0/CC BY enforced twice, in the query and again on the response. The first unfiltered Qatar result was CC BY-NC, which p. 223 bars
-  - **To do:** Licence filter is correct and tested, but the connector is used nowhere, and there is no download DOI/ZIP or dataset DOI (p. 223). Wire it and add a DOI extract.
-- [ ] 🟡 **OpenAQ v3** (`openaq-v3`) — p. 224 — rewritten and verified live. Licence flags checked per source; 23 of 30 stations were excluded as unknown or non-commercial. The old one returned `generateMockOpenAQData()` when the key was missing
-  - **To do:** Fetches station metadata only, not concentrations; ignores `modificationAllowed` and share-alike (`openaq.ts:78-81`); used nowhere. Add measurements and the full licence flags.
+- [ ] 🟡 **Climate TRACE** (`climate-trace`) — p. 218. Live v6 values, explicit modelled-estimate/GWP notes, beta warning, ten-year cap, retained source/check evidence and a Data Portal table/CSV route.
+  - **Blocker:** The emissions response does not identify its inventory release; API v6/v7 must not be substituted for an inventory version.
+  - **To do:** Obtain a release identifier tied to this source response/download, record it and its release date, and recheck the current v7 emissions routes. Keep version unknown rather than inventing one.
+- [x] ✅ **World Bank Indicators API v2** (`world-bank-indicators`) — p. 219. Live observations/nulls/source-release date, units, retained evidence, accessible Data Portal preview/detail table and filtered connector CSV.
+- [ ] 🟡 **OECD SDMX** (`oecd-sdmx`) — p. 220. Municipal waste now returns live values with the explicit English/Accept headers; parser handles SDMX 1.0/2.0, and shared accounting caps real requests at 50/hour. Unlike units remain separate in views and labelled in CSV.
+  - **Blocker:** Rio-marker access was previously HTTP 403; there is no confirmed narrow Data Explorer query in the workspace. Municipal waste working does not verify Rio markers.
+  - **To do:** Generate the narrow Rio-marker key from Data Explorer on an allowed origin, verify the public data route, then register the finance slice. Keep commitments/disbursements and overlapping markers separate.
+- [x] ✅ **U.S. EIA Open Data** (`eia-open-data`) — p. 221. Live annual U.S. generation, server-only key, Energy related-data fallback, Data Portal preview/view, source table and ungated filtered CSV.
+- [x] ✅ **NASA POWER** (`nasa-power`) — p. 222. Live solar/temperature observations; provider fill values remain null. Version, time-standard/modelled-grid notes, methodology, table and CSV retained. Units are not combined.
+- [ ] 🟡 **GBIF Occurrence** (`gbif-occurrence`) — p. 223. Wired into the Data Portal with a real record table and ungated bounded CSV. CC0/CC BY enforced in query/response; dataset DOIs and coordinate uncertainty retained. The extract says it is at most 100 returned records, not a complete inventory or abundance assessment.
+  - **Blocker:** No `GBIF_USERNAME`/`GBIF_PASSWORD` is configured for the required asynchronous large-download workflow.
+  - **To do:** Configure one free organisational GBIF account, generate the approved CC0/CC BY extract server-side, persist the returned public ZIP/download DOI, anonymously validate the ZIP, and link it alongside the existing Enerqa CSV. A dataset DOI is useful citation evidence but does not complete the required public ZIP workflow.
+- [x] ✅ **OpenAQ v3** (`openaq-v3`) — pp. 223–224. Live licensed locations and daily PM10 readings; sensor ownership and commercial/redistribution/modification flags enforced. Licence links/share-alike/attribution, local-day labels, UTC averaging intervals, stale-station wording, source flags, table and ungated CSV are retained. Requests are bounded to one sensor and 31 days; empty sensor results remain empty.
 
 ### 13.4 Existing connectors not in the spec
 
-Decide: keep with a documented licence, or retire.
-
-- [x] ✅ Retired — `cckp.ts`, `noaa.ts`, `osm.ts`, `unOcha.ts` and `unSdg.ts` are no longer in `src/lib/api/` (checked 24 Sep 2026)
+- [x] ✅ Retired `cckp.ts`, `noaa.ts`, `osm.ts`, `unOcha.ts`, `unSdg.ts`; no fabricated-data fallback restored. Unapproved OWID/Ember entries were removed from the approved provider directory; their separate CMS/content decisions remain in Part 9.
 
 ### 13.5 Data integrity rules (pp. 226–227)
 
-- [ ] 🟡 Separate labels for observation period, source release date and Enerqa retrieval time — carried on every record and rendered by `sourceLabel()`
-  - **To do:** `sourceLabel()` is rendered only by `DataSeriesTable`, which no page uses (feeds do keep retrieval vs publication time apart). Render it on data views.
-- [ ] 🟡 Accessible tabular equivalent built — `components/data/DataSeriesTable.tsx`, a real `<table>` with `scope`d headers, a caption and the provenance block. Charts themselves are Part 9
-  - **To do:** Built, but only a test imports it. Use it on the dataset pages.
-- [ ] 🟡 CSV downloads carry attribution, licence, methodology link, source release, retrieval time, a stale notice and transformation notes, and neutralise formula cells: `GET /api/data/[dataset]`, ungated as pp. 221/223 require
-  - **To do:** Formula injection and the stale line are fixed (`csv.ts:22-40, 93-95`). Still to do: link `/api/data/{dataset}` from dataset pages, which only link the provider's `datasetDownloadUrl` (`datasets/[slug]/page.tsx:194`), and point 'Methodology:' at a real methodology page instead of API docs (`csv.ts:87` uses `registry.ts` `docsUrl`).
-- [x] ✅ Never fill missing values with zero — `value: number | null` throughout, empty cells in CSV, em dash in tables, covered by tests
-- [ ] 🟡 Never silently mix annual and monthly observations, modelled estimates and national inventories, nominal and constant currency, or different CO2e GWP horizons — `mixedMeasureReason()` (exported from `DataSeriesTable.tsx` for charts to reuse) refuses differing frequency, unit or measure basis and says why in plain words; covered by tests
-  - **To do:** `mixedMeasureReason` works and is tested, but runs only inside the unused table — not in the CSV route or any chart. Apply it wherever series are combined.
-- [ ] 🟡 Failures return a typed reason and an honest message, no connector ever fabricates, and the table shows "Showing the latest cached release, retrieved {date}" when data is stale (p. 227)
-  - **To do:** Typed failures are true; the stale notice never renders anywhere because no data view uses the table.
+- [x] ✅ Observation period, source release date and Enerqa retrieval time remain separate in provenance/table/CSV. Unknown release/version values are not invented.
+- [x] ✅ Accessible tables are used in dataset detail, numerical connector views, the Data Portal preview and GBIF occurrence view. Row/column headers and captions identify the measurements. Charts also label values in text.
+- [x] ✅ Ungated CSV contains attribution, licence, method link, available source release/version, retrieval time, transformations and stale notices. Text cells neutralise spreadsheet formulas. Filtered table/chart/CSV use the same period selection; a whole year/day includes all observations in that period.
+- [x] ✅ Missing values remain null/gaps/em dashes/empty CSV cells; real zero and negative readings are preserved.
+- [x] ✅ Unlike frequency/unit/measure bases render in separate chart/table panels. Long-form CSV retains each series' units/basis and adds an explicit comparison warning instead of silently combining them. The rule now lives in `core/measures.ts` and is used by CSV and tables.
+- [x] ✅ Typed failures, source links and rendered stale notices; no numbers/headlines are fabricated. Shared accounting or record-storage failures prevent an unrecorded provider result from being published.
 
 ---
 
@@ -1222,8 +1179,8 @@ Decide: keep with a documented licence, or retire.
 - [ ] 🟡 Sufficient colour contrast
   - **To do:** Tokens fixed (`--green-deep` #007a75 = 5.2:1, `--color-primary-deep`, focus ring); the "Open access" badge is now 4.81:1. `text-gray-400` is gone from `src` (grep, 27 Sep 2026). Still to do: 19 input focus rings use `--color-primary` → `--color-primary-deep`.
 - [x] ✅ Reduced-motion support: the framer-motion components use `useReducedMotion`, Lenis starts only without `prefers-reduced-motion`, and the H05 cards have a pause control and never auto-rotate under reduced motion
-- [ ] 🟡 Charts: accessible tables + non-colour-only labels
-  - **To do:** The only first-party chart (`DataPortalD03.tsx`) is a colour-only bar chart with hover-only values and no table. Render `DataSeriesTable` beside it and add visible period/value labels (p. 228).
+- [x] ✅ Charts: accessible tables + non-colour-only labels
+  - **Done, 2 Oct:** Data Portal preview and dataset/connector views show signed period/value labels and an equivalent `DataSeriesTable`; GBIF has a scoped record table. Unlike units remain separate. See Part 13 and [PART-13-VERIFICATION.md](PART-13-VERIFICATION.md).
 - [x] ✅ Dialog/menu focus trapping and Escape by keyboard: search dialog (focus in, trap, Escape, focus returned) and mobile nav (trap, Escape, focus returned to the menu button) — `Header.test.tsx`
 - [ ] 🔍 Long Arabic labels must not clip — needs approved Arabic content first
   - **To do:** Test once approved Arabic content exists.
@@ -1259,19 +1216,19 @@ Decide: keep with a documented licence, or retire.
 - [ ] 🟡 Owned publications and external items cannot be confused; imported titles, types, authors and dates verified
   - **To do:** Bodies are fixed and every article has a byline (26 Sep 2026). Still open: 16 of 25 dates and the byline spellings need approval (Part 8).
 - [ ] 🟡 Charts/tables/CSV agree with filter selections; source, unit, geography, period, version and licence visible
-  - **To do:** There are no charts; datasets link to provider files.
+  - **To do:** Part 12/13 first-party chart/table/CSV selections now agree, including whole-year/day boundaries; source/unit/period/licence and available versions are visible. Complete the separate Gapminder/source-rights launch checks in Part 9 before marking every Data Portal flow accepted.
 - [ ] 🟡 Canonical URLs, item-level redirects, metadata, XML sitemap and real bilingual equivalents validated
   - **To do:** No canonical on about, data-portal, sources, tools, datasets, publications, contact or policy pages; the hreflang tags are wrong.
 - [ ] 🟡 Policy destinations, privacy/consent controls, form delivery, analytics and CMS handover complete
   - **To do:** No analytics anywhere, no email delivery, and the privacy/handover items are still open.
 - [ ] 🔍 Sitemap infographic is editable, has no suggested URLs, preserves all six sections / four domains / thirteen industries / the lifecycle link
 - [x] ✅ Knowledge Hub has exactly two searchable collections; no Learning or Authors public branch, no separate archive (public side confirmed; config residue remains — Part 8)
-- [ ] 🟡 Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
-  - **To do:** Keyword search works in both, but Global Intelligence has only one "Geography" filter guessed from headline keywords (`'us'` matches the pronoun); no country or continent IDs (see 12.2).
+- [x] ✅ Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
+  - **Done, 2 Oct:** Global Intelligence uses the UN M49 country/area registry, linked multi-select geography controls and subject-coverage tags. Ambiguous terms such as the pronoun "us" are excluded. Tests cover filter combinations and cross-region country selections; browser checks cover parent/child selection and URL persistence (12.2).
 - [ ] 🟡 All enabled APIs permit free public corporate use within documented allowances, with hard budgets and no paid fallback
-  - **To do:** AI search now uses OpenAI (paid, as its separate handoff allows) with in-memory limits only and no budget B (`docs/AI-SEARCH-TASKS.md`); feed budgets count cache hits; no OECD hourly cap.
+  - **To do:** Feed/data budgets now use shared database reservations on actual upstream attempts; OECD has a 50/hour cap (Part 13). Left: complete the provider launch reviews and activate scheduled ingestion. OpenAI remains disabled until the separate AI Search approvals and durable AI budgets are complete (`docs/AI-SEARCH-TASKS.md`).
 - [ ] 🟡 Every full-reading/dataset button, contextual preview and AI source destination is verified open access; every dataset has an ungated free download
-  - **To do:** `verified_open` is hard-coded and no link is ever checked (13.1).
+  - **To do:** News/research/official destinations now receive anonymous access checks with stored verdicts. Complete the final destination/rights review and the GBIF public ZIP workflow (13.1, 13.3).
 
 ---
 

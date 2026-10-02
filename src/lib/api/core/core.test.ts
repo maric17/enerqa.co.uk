@@ -254,3 +254,11 @@ describe('reading destinations (p. 212)', () => {
     expect(preferredReadUrl([null, undefined, ''])).toBeNull();
   });
 });
+
+it('warns before exporting unlike measure bases and keeps them labelled', () => {
+  // A long-form CSV may retain both series, but must never imply comparability.
+  const out = seriesToCsv([series, { ...series, id: 'other', unit: 'current US$', frequency: 'monthly' }]);
+  expect(out).toContain('# Comparison warning:');
+  expect(out).toContain('different frequencies');
+  expect(out).toContain('Rows retain each series');
+});

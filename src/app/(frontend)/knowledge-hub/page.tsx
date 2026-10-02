@@ -6,13 +6,13 @@ import { getPayload } from 'payload';
 import configPromise from '@/payload.config';
 import { Container } from '@/components/ui/Container';
 import { getPrivacyHref } from '@/lib/policies';
-import { Typography } from '@/components/ui/Typography';
 import { PageHero } from '@/components/ui/PageHero';
 import { Button } from '@/components/ui/Button';
 import SubscribeForm from '@/components/SubscribeForm';
 import { NewsFeed } from '@/components/feeds/NewsFeed';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { resolveMediaUrl } from '@/lib/utils';
+import { publicationImage } from '@/components/publications/publicationImage';
 import KnowledgeHubClient from './KnowledgeHubClient';
 import { CollectionSwitch } from './CollectionSwitch';
 import { ARCHIVE_LABELS, lexicalText, searchWords, sortByDate, type PublicationCard } from './publicationFinder';
@@ -43,6 +43,8 @@ export default async function KnowledgeHubPage() {
   // "Exclude category separators and biography pages from publication imports").
   const { docs } = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: { recordKind: { equals: 'article' } },
     limit: 200,
     depth: 1,
@@ -51,6 +53,7 @@ export default async function KnowledgeHubPage() {
     select: {
       title: true, slug: true, excerpt: true, content: true, author: true, date: true, dateVerified: true,
       type: true, language: true, archiveCategory: true, metaKeywords: true, file: true, domains: true, industries: true,
+      featuredImage: true, ogImage: true,
     },
     // The Domain/Industry facets need only a slug and a label.
     populate: {
@@ -77,6 +80,7 @@ export default async function KnowledgeHubPage() {
         language: d.language ?? null,
         archiveCategory: d.archiveCategory ?? null,
         fileUrl: file || null,
+        image: publicationImage(d),
         domains,
         industries,
         // p. 155: "search across titles, approved article text, summaries and tags".

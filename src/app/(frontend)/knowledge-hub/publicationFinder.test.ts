@@ -113,7 +113,7 @@ describe('paginate', () => {
 describe('facetCounts (no filter option leads to an empty list)', () => {
   const card = (slug: string, title: string, text: string, date: string, archiveCategory: string | null) => ({
     id: slug, slug, title, excerpt: null, author: null, date, dateVerified: true, type: 'Article', language: 'en',
-    archiveCategory, fileUrl: null, domains: [], industries: [], searchText: searchWords(title, text),
+    archiveCategory, fileUrl: null, image: null, domains: [], industries: [], searchText: searchWords(title, text),
   });
   const pubs = [
     card('hydrogen', 'Rainbow of Hydrogen', 'electrolysis', '2024-05-01T12:00:00.000Z', 'energy-technology-and-finance'),
@@ -121,7 +121,7 @@ describe('facetCounts (no filter option leads to an empty list)', () => {
     card('tourism', 'Sustainable Tourism', 'travel', '2024-07-01T12:00:00.000Z', 'environment-and-society'),
     card('sudan', "Sudan's Energy Balance 2020", 'power generation', '2022-10-09T12:00:00.000Z', null),
   ];
-  const none = { archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [], author: [] };
+  const none = { archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [] };
 
   it('counts every publication when nothing is selected', () => {
     const counts = facetCounts(pubs, [], none);
@@ -149,7 +149,7 @@ describe('facetCounts (no filter option leads to an empty list)', () => {
 
 describe('matchesFacets', () => {
   const pub = { date: '2022-10-09T12:00:00.000Z', archiveCategory: null, type: 'Article', language: 'en', author: 'A', domains: [{ slug: 'energy', title: 'Energy' }], industries: [] };
-  const none = { archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [], author: [] };
+  const none = { archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [] };
 
   it('ORs values inside a facet and ANDs across facets', () => {
     expect(matchesFacets(pub, { ...none, year: ['2024', '2022'] })).toBe(true);

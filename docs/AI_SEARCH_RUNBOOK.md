@@ -1,3 +1,5 @@
+> **2 Oct 2026 repair note:** AI search is still disabled. Both `providerEnabled('openai')` and `AI_SEARCH_CONFIG.releaseReady` must pass before a paid call. The old classifier, company promotions, memory fallback and filesystem ledger described below were removed during Part 12 maintenance. Parser/UI repairs are covered by offline tests; no live model call was made. Do not enable the feature until Phase 0 and the distributed budget/session/idempotency controls in [AI-SEARCH-TASKS.md](AI-SEARCH-TASKS.md) are complete. The following runbook is the historical 26 Sep operational snapshot and needs a full operational rewrite when those controls exist.
+
 # AI Search — Operations Runbook
 
 **Status (26 Sep 2026): switched off** (`enabled: false` in `registry.ts`), because the feature isn't ready for public traffic. The spec's Phase 0 sign-offs don't exist, and Phase 1 doesn't work yet: the route never shows an answer. Keep it off (section 2) until `docs/AI-SEARCH-TASKS.md` clears Phase 1.

@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Container } from '../ui/Container'
+import { HeroNewsBackground, HeroNewsProvider } from './HeroNewsBackground'
 
 /**
  * H01 + H02 - the first-fold hero (handoff pp. 9-13).
@@ -16,17 +17,12 @@ import { Container } from '../ui/Container'
  *    heading, and the approved narrative sits under it.
  *  - The suggestion chips submit the search instead of navigating away, which
  *    is what "suggested chips" means for an AI search input (p. 13).
- *  - H02 has a visible heading and the p. 13 search guidance line.
+ *  - The search sits directly under the headline, with its own accessible label.
  *
- * The glass search pill and chip styling are kept so the page still looks like
- * itself. The video backdrop is kept too, but no longer loads with the first
- * viewport (p. 228 "keep the first viewport lightweight"): the poster image
- * shows at once and the 2.6 MB video only starts after the page has loaded, on
- * wide screens, and never with reduced motion or Save-Data.
- *
- * H03 Global News and H04 Major Markets used to render inside this section as
- * children. They now have their own band below it (see FirstFoldFeeds), which
- * is why the hero only carries the heading, narrative, search and chips.
+ * The featured Global News image supplies the backdrop. The existing image
+ * and deferred video remain the fallback while feeds load or an image fails.
+ * The news band shares the backdrop through a small client context, so the
+ * server can keep streaming feeds without delaying the heading or search.
  */
 
 // Exactly the three chips specified on p. 13.
@@ -37,36 +33,14 @@ const SUGGESTED_QUERIES = [
 ]
 
 export const Hero = ({ children }: { children?: React.ReactNode }) => {
+  return <HeroNewsProvider><HeroContent>{children}</HeroContent></HeroNewsProvider>
+}
+
+function HeroContent({ children }: { children?: React.ReactNode }) {
   const [query, setQuery] = useState('')
   // H02 requires a visible loading state on submit.
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  // Deferred backdrop video. `preload="none"` and no `autoPlay` mean nothing is
-  // fetched until this runs; it waits for the load event so the video never
-  // competes with the hero, the search box or the news band for bandwidth.
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
-    const wantsVideo =
-      window.matchMedia('(min-width: 769px)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-      !saveData
-    if (!wantsVideo) return
-
-    const start = () => {
-      // play() can reject (autoplay policy); the poster simply stays.
-      video.play().catch(() => {})
-    }
-    if (document.readyState === 'complete') {
-      start()
-      return
-    }
-    window.addEventListener('load', start, { once: true })
-    return () => window.removeEventListener('load', start)
-  }, [])
 
   const runSearch = (value: string) => {
     const trimmed = value.trim()
@@ -82,27 +56,14 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => {
 
   return (
     <section className="hero-insights !h-auto !min-h-screen !justify-start !pt-[120px] pb-24 lg:pb-32">
-      <div className="hero-insights-bg"></div>
-      <video
-        ref={videoRef}
-        loop
-        muted
-        playsInline
-        preload="none"
-        poster="/images/hero-bg.jpg"
-        aria-hidden="true"
-        tabIndex={-1}
-        className="hero-insights-video"
-      >
-        <source src="/videos/video-banner.mp4" type="video/mp4" />
-      </video>
+      <HeroNewsBackground />
       <div className="hero-insights-overlay"></div>
 
       {/* Stacked and centered content */}
       <Container className="relative z-10 w-full">
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-y-10 text-center">
+        <div className="mx-auto flex w-full flex-col items-center justify-center gap-y-8 text-center">
           <div className="flex flex-col items-center">
-            {/* H01 - the approved page heading, balanced over two lines. */}
+            {/* Keep the headline on one line on desktop and readable on smaller screens. */}
             <h1 className="hero-title m-0 text-white">
               Project Development for a Sustainable Future
             </h1>
@@ -113,21 +74,15 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => {
             */}
           </div>
 
-          {/* H02 Ask Explore Discover */}
+          {/* The input's label keeps search accessible without the extra heading and copy. */}
           <div className="relative z-20 flex w-full flex-col items-center">
-            <h2 className="m-0 text-[17px] font-semibold leading-tight text-white">Ask Explore Discover</h2>
-            {/* p. 13 search guidance, verbatim */}
-            <p id="h02-guidance" className="mx-auto m-0 mb-4 mt-1 max-w-2xl text-[14px] leading-snug text-white/80">
-              Ask about any topic. Where relevant, explore Enerqa’s capabilities, publications, data and tools alongside a source-led answer.
-            </p>
             <form onSubmit={handleSearch} role="search" className="mx-auto flex w-full max-w-2xl items-center bg-white/5 border border-white/15 backdrop-blur-md rounded-full p-2 transition-all shadow-xl hover:bg-white/10 focus-within:bg-white/10 focus-within:border-teal-400/50">
               <svg className="ml-3 mr-3 h-5 w-5 shrink-0 text-white/50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               <input
                 type="text"
-                className="flex-1 bg-transparent border-none text-white text-base outline-none placeholder:text-white/40"
+                className="min-w-0 flex-1 bg-transparent border-none text-white text-base outline-none placeholder:text-white/40"
                 placeholder="Ask a question or explore a topic."
                 aria-label="Ask a question or explore a topic"
-                aria-describedby="h02-guidance"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 disabled={isSubmitting}
@@ -138,14 +93,14 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => {
             </form>
 
             {/* Suggested chips - submitting them runs the search (p. 13) */}
-            <div className="mt-4 flex flex-wrap justify-center gap-2">
+            <div className="mt-3 flex flex-wrap justify-center gap-1.5">
               {SUGGESTED_QUERIES.map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"
                   onClick={() => runSearch(suggestion)}
                   disabled={isSubmitting}
-                  className="bg-white/5 border border-white/10 text-white/70 px-4 py-2 rounded-full text-sm cursor-pointer backdrop-blur-sm transition-all hover:bg-white/15 hover:text-white disabled:opacity-50"
+                  className="bg-white/5 border border-white/10 text-white/70 px-3 py-1.5 rounded-full text-[12px] cursor-pointer backdrop-blur-sm transition-all hover:bg-white/15 hover:text-white disabled:opacity-50"
                 >
                   {suggestion}
                 </button>

@@ -300,3 +300,7 @@ describe('stale notices (p. 227)', () => {
     expect(res.ok && res.stale).toBe(false);
   });
 });
+
+// Parsing and breaker tests use an explicitly enabled fixture; production stays paused.
+beforeEach(() => { PROVIDERS.doaj.enabled = true; });
+afterEach(() => { PROVIDERS.doaj.enabled = false; });

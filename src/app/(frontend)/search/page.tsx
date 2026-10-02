@@ -5,8 +5,8 @@ import { Search } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
+import { ExternalSearchResults } from './ExternalSearchResults';
 import { AIResponse } from './AIResponse';
-import { toAiSources } from './aiAnswer';
 import { getSearchIndex } from './loadIndex';
 import {
   SEARCH_COPY,
@@ -79,7 +79,7 @@ async function SearchResults({ query }: { query: string }) {
   // answer either, only the failure state.
   if (outcome.status === 'failed') return <StatusBox>{SEARCH_COPY.failure}</StatusBox>;
 
-  const { hits, groups, terms } = outcome;
+  const { groups, terms } = outcome;
 
   return (
     <>
@@ -89,7 +89,7 @@ async function SearchResults({ query }: { query: string }) {
           Answer and Sources
         </Typography>
         <Suspense fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
-          <AIResponse query={query} sources={toAiSources(hits)} />
+          <AIResponse query={query} />
         </Suspense>
       </section>
 
@@ -143,7 +143,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 maxLength={300}
                 // Arabic queries render right-to-left (p. 227 Arabic tests).
                 dir="auto"
-                className="w-full px-6 py-4 rounded-full text-[var(--color-dark)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg pe-14"
+                className="w-full px-6 py-4 rounded-full text-[var(--color-dark)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-deep)] text-lg pe-14"
               />
               <button
                 type="submit"
@@ -172,6 +172,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
               {/* Keyed on the query so a new search shows the loading state again. */}
               <Suspense key={q} fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
                 <SearchResults query={q} />
+              </Suspense>
+              <Suspense fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
+                <ExternalSearchResults query={q} />
               </Suspense>
             </div>
           </Container>

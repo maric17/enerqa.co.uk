@@ -39,13 +39,30 @@ describe('Header navigation (p. 7)', () => {
     renderHeader()
     const nav = screen.getByRole('navigation', { name: 'Main' })
     const items = nav.querySelectorAll(':scope > .nav-item > a, :scope > .nav-item > button')
-    const labels = Array.from(items).map((el) => el.querySelector('.en')?.textContent)
+    const labels = Array.from(items).map((el) => el.querySelector('.en')?.textContent).filter(Boolean)
     expect(labels).toEqual(['Home', 'Domains and Industries', 'Knowledge Hub', 'Data Portal', 'Tools', 'About'])
   })
 
   it('puts no heading before the page H1 (the Featured card used an <h5>)', () => {
     const { container } = renderHeader()
     expect(container.querySelector('h1, h2, h3, h4, h5, h6')).toBeNull()
+  })
+
+  it('keeps the Data Portal link and opens an Explorer submenu with keyboard support', () => {
+    renderHeader()
+    const nav = screen.getByRole('navigation', { name: 'Main' })
+    expect(within(nav).getByRole('link', { name: /Data Portal/ })).toHaveAttribute('href', '/data-portal')
+    const toggle = within(nav).getByRole('button', { name: 'Data Portal submenu' })
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    const explorer = within(document.getElementById('mega-menu-data-portal')!).getByRole('link', { name: 'Data Explorer' })
+    expect(explorer).toHaveAttribute('href', '/data-portal/explorer')
+    explorer.focus()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(document.activeElement).toBe(toggle)
+    const mobile = document.getElementById('mobile-nav')!
+    expect(mobile.querySelector('a[href="/data-portal/explorer"]')).toHaveTextContent('Data Explorer')
   })
 
   it('toggles the mega menu by click and pins a hover-opened menu instead of closing it', () => {
@@ -89,7 +106,7 @@ describe('Header navigation (p. 7)', () => {
     renderHeader()
     const mobile = document.getElementById('mobile-nav') as HTMLElement
     const groups = Array.from(mobile.querySelectorAll('details > summary')).map((s) => s.textContent)
-    expect(groups).toEqual(['Domains and Industries', 'About'])
+    expect(groups).toEqual(['Domains and Industries', 'Data Portal', 'About'])
   })
 
   it('returns focus to the menu button when the mobile menu closes', () => {

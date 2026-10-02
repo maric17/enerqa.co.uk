@@ -13,7 +13,19 @@ This is a **separate task** from `docs/HANDOFF-TASKS.md` (owner, 26 Sep 2026). T
 
 ---
 
-## Status — 26 Sep 2026 (read this first)
+## Repair update — 2 Oct 2026 (read this first)
+
+Part 12 maintenance repaired response parsing and the public search UI. **This does not approve AI launch or complete this separate handoff.** The provider remains disabled and a second `AI_SEARCH_CONFIG.releaseReady: false` gate prevents accidental activation while required infrastructure is missing. No paid request was made.
+
+- Fixed typed Responses output parsing, completed-search checks, refusal/incomplete handling, citation spans and the absence of citations. The client no longer substitutes keyword matches as evidence. Deterministic tests cover these paths and the disabled route.
+- Added non-stored requests, a timeout and no SDK retries, mandatory web search, source inclusion, output/tool caps and a versioned answer model configuration. The installed SDK omits `max_tool_calls` from its create overload; the documented parameter is sent through an explicitly typed extension and still requires a staging compatibility check.
+- Removed the memory fallback, unapproved company retrieval/classifier/promotions and guessed filesystem cost ledger. `enerqa` is always null. Durable cost accounting, atomic budgets, admission/session controls and idempotency must be implemented before `releaseReady` can change.
+- Added exact-text citation rendering, disclosure/privacy guidance, stop/retry/clear-search, feedback, refusal and insufficient-evidence handling. Deferred effect startup avoids React Strict Mode's immediate duplicate submission; it is **not** a substitute for server idempotency. Multi-turn conversation, clarification routing, full moderation/evaluation and operational controls remain pending.
+- Publication drafts and canonical keyword results are handled in the main Part 12 work. External search results now come from the verified Global Intelligence cache independently of generated answers.
+
+The detailed 26 Sep audit below is retained as a historical requirements/gap inventory. Descriptions of broken parsing, absent tests, live promotion code and filesystem ledger code refer to that earlier implementation; the repair update above supersedes those descriptions. All unaddressed Phase 0–5 requirements remain open. See [Part 12 verification](PART-12-VERIFICATION.md).
+
+## Historical audit — 26 Sep 2026
 
 **Checked by reading the code** against the handoff and the installed SDK (`openai` 7.23.0). No OpenAI call was made. The route has never run locally: there is no ledger file, and `/api/ai-search` doesn't appear in the dev log.
 
