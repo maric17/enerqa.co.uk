@@ -60,6 +60,8 @@ export async function fetchEiaSeries(options: {
   end?: string;
   length?: number;
   seriesLabel: string;
+  /** Coverage of the configured source slice; never inferred from API host country. */
+  area?: string;
   /** Column holding the series name when a route returns several. */
   groupBy?: string;
 }): Promise<ConnectorResult<DataSeries[]>> {
@@ -117,7 +119,7 @@ export async function fetchEiaSeries(options: {
       frequency: toFrequency(res.data.response?.frequency ?? frequency),
       measureNote:
         'Official EIA series. Coverage is substantially U.S. with selected international series. API access does not make a series real-time; each series updates on its own release schedule.',
-      area: null,
+      area: options.area ?? null,
       observations: sorted,
       provenance: buildProvenance('eia-open-data', {
         retrievedAt: res.retrievedAt,
@@ -125,6 +127,7 @@ export async function fetchEiaSeries(options: {
         sourceId: `${route}:${dataColumn}:${label}`,
         observationPeriod: sorted.length ? `${sorted[0].period}–${sorted[sorted.length - 1].period}` : null,
         accessStatus: 'verified_open',
+          accessCheckedAt: res.retrievedAt,
         accessEvidence: 'EIA data browser pages are public and ungated; the API key protects the request, not the reader.',
         transformations: ['Grouped provider rows into series', 'Sorted observations by period'],
       }),

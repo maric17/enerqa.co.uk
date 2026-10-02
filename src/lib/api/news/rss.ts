@@ -110,6 +110,7 @@ export function mapRssEntries(xml: string, source: RssSource, retrievedAt: strin
     return [
       {
         id: normaliseUrl(url),
+        sourceId: text(node.guid) || url,
         title,
         summary: summary || null,
         url,

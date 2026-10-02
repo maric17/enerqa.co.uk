@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [publications, datasets, tools, domains, industries] = await Promise.all([
     // Category separators and biographies from the archive import never
     // publish, so they must not be advertised to search engines either (p. 225).
-    payload.find({ collection: 'publications', where: { recordKind: { equals: 'article' } }, limit: 1000, depth: 0 }),
+    payload.find({ collection: 'publications', overrideAccess: false, draft: false, where: { recordKind: { equals: 'article' } }, limit: 1000, depth: 0 }),
     payload.find({ collection: 'datasets', where: { status: { equals: 'verified_open' } }, limit: 1000, depth: 0 }),
     // Unvalidated tools 404 (p. 3, 166), so they must not be advertised either.
     payload.find({ collection: 'tools', where: publishedToolsWhere, limit: 1000, depth: 0 }),

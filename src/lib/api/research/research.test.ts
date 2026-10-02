@@ -1,4 +1,5 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { PROVIDERS } from '../core/registry';
+import { beforeEach, describe, it, expect, vi, afterEach } from 'vitest';
 import { buildProvenance } from '../core/provenance';
 import { resetHealth } from '../core/health';
 import type { AccessVerdict } from '../core/accessCheck';
@@ -263,3 +264,7 @@ describe('OpenAlex (p. 214; L524, L1039)', () => {
     expect(reconstructAbstract({})).toBeNull();
   });
 });
+
+// Parsing and breaker tests use an explicitly enabled fixture; production stays paused.
+beforeEach(() => { PROVIDERS.doaj.enabled = true; });
+afterEach(() => { PROVIDERS.doaj.enabled = false; });

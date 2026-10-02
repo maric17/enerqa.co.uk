@@ -13,6 +13,7 @@
  * articles, against 2.76 MB of rich text before).
  */
 import { normalise, termMatches, words } from '../search/searchIndex';
+import type { PublicationImage } from '@/components/publications/publicationImage';
 
 /** Results per page (p. 155: "pagination below results"). */
 export const PER_PAGE = 10;
@@ -34,6 +35,7 @@ export type PublicationCard = {
   language: string | null;
   archiveCategory: string | null;
   fileUrl: string | null;
+  image: PublicationImage | null;
   domains: { slug: string; title: string }[];
   industries: { slug: string; title: string }[];
   searchText: string;
@@ -96,15 +98,15 @@ export function matchPublication(pub: { title: string; searchText: string }, ter
 
 // ---- K03 facets --------------------------------------------------------------
 
-/** p. 155's filter order: "Topic, Domain, Industry, Publication Type, Year, Language and Author". */
-export type FacetKey = 'archiveCategory' | 'domain' | 'industry' | 'type' | 'year' | 'language' | 'author';
-export const FACET_KEYS: FacetKey[] = ['archiveCategory', 'domain', 'industry', 'type', 'year', 'language', 'author'];
+/** Sidebar filters. Authors remain publication bylines and searchable text. */
+export type FacetKey = 'archiveCategory' | 'domain' | 'industry' | 'type' | 'year' | 'language';
+export const FACET_KEYS: FacetKey[] = ['archiveCategory', 'domain', 'industry', 'type', 'year', 'language'];
 export type Selection = Record<FacetKey, string[]>;
 export const EMPTY_SELECTION: Selection = {
-  archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [], author: [],
+  archiveCategory: [], domain: [], industry: [], type: [], year: [], language: [],
 };
 
-type Facetable = Pick<PublicationCard, 'date' | 'archiveCategory' | 'type' | 'language' | 'author' | 'domains' | 'industries'>;
+type Facetable = Pick<PublicationCard, 'date' | 'archiveCategory' | 'type' | 'language' | 'domains' | 'industries'>;
 
 /** A publication's values for one facet (a list, because it can carry several domains or industries). */
 export function facetValues(pub: Facetable, key: FacetKey): string[] {

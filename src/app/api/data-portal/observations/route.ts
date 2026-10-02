@@ -24,7 +24,8 @@ export async function GET(request: Request) {
       if (lines.length < 2) continue;
 
       const headers = lines[0].split(',').map(h => h.trim());
-      const geoIdx = headers.indexOf('geo') !== -1 ? headers.indexOf('geo') : headers.indexOf('global');
+      // Fast Track uses country rather than geo; keep its country IDs intact.
+      const geoIdx = ['geo', 'country', 'global'].map(key => headers.indexOf(key)).find(index => index !== -1) ?? -1;
       const timeIdx = headers.indexOf('time');
       const valIdx = headers.indexOf(record.concept);
 
@@ -44,7 +45,7 @@ export async function GET(request: Request) {
         }
 
         const value = Number(valStr);
-        if (Number.isNaN(value)) {
+        if (!Number.isFinite(value)) {
           continue; // skip malformed numbers
         }
 

@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache';
+import { reserveRequest } from './storage';
 import { getProvider, providerEnabled } from './registry';
 import {
   acquireSlot,
@@ -127,6 +128,14 @@ async function sendUpstream<T>(providerId: ProviderId, url: string, options: Fet
     const stillBlocked = refusal(providerId);
     if (stillBlocked) throw notRequested(providerId, name, stillBlocked);
 
+    // Shared accounting is inside the cache miss, so hits remain free.
+    let sharedRefusal: string | null;
+    try { sharedRefusal = await reserveRequest(providerId); }
+    catch { throw new UpstreamError('unavailable', `${name}: shared request accounting unavailable`); }
+    if (sharedRefusal) {
+      recordFailure(providerId, sharedRefusal, { slowDown: true });
+      throw notRequested(providerId, name, sharedRefusal);
+    }
     spend(providerId);
 
     let res: Response;

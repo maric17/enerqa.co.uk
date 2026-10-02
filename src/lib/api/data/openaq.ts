@@ -49,7 +49,7 @@ export type AirQualityStation = {
   country: string | null;
   latitude: number | null;
   longitude: number | null;
-  parameters: { name: string; units: string; displayName: string }[];
+  parameters: { sensorId: number; name: string; units: string; displayName: string }[];
   /** UTC timestamp of the most recent measurement, or null if not reported. */
   lastMeasuredAt: string | null;
   /** True when the station has not reported for more than 24 hours. */
@@ -102,6 +102,7 @@ export function licenceLine(licences: LicenceRecord[]): string {
 export async function fetchStations(options: {
   /** OpenAQ numeric country id. */
   countryId?: number;
+  locationId?: number;
   limit?: number;
 }): Promise<ConnectorResult<AirQualityStation[]>> {
   const apiKey = providerKey('openaq-v3');
@@ -113,13 +114,13 @@ export async function fetchStations(options: {
     );
   }
 
-  const { countryId, limit = 25 } = options;
+  const { countryId, locationId, limit = 25 } = options;
   const params = new URLSearchParams({ limit: String(Math.min(limit, 100)) });
   if (countryId) params.set('countries_id', String(countryId));
 
   const [catalogue, res] = await Promise.all([
     fetchLicenceCatalogue(apiKey),
-    fetchFromProvider<{ results?: LocationRecord[] }>('openaq-v3', `${BASE}/locations?${params.toString()}`, {
+    fetchFromProvider<{ results?: LocationRecord[] }>('openaq-v3', locationId ? `${BASE}/locations/${locationId}` : `${BASE}/locations?${params.toString()}`, {
       headers: { 'X-API-Key': apiKey },
     }),
   ]);
@@ -149,6 +150,7 @@ export async function fetchStations(options: {
       latitude: location.coordinates?.latitude ?? null,
       longitude: location.coordinates?.longitude ?? null,
       parameters: (location.sensors ?? []).map((sensor) => ({
+        sensorId: sensor.id,
         name: sensor.parameter?.name ?? 'unknown',
         // p. 224: always show the unit and averaging period, never an AQI.
         units: sensor.parameter?.units ?? 'not stated',
@@ -168,6 +170,7 @@ export async function fetchStations(options: {
         licenceUrl: usable[0]?.sourceUrl ?? null,
         attribution: ['OpenAQ', ...attributionParts].join(' / '),
         accessStatus: 'verified_open',
+        accessCheckedAt: res.retrievedAt,
         accessEvidence: `Source licence "${licenceName}" is flagged commercialUseAllowed, redistributionAllowed and modificationAllowed by OpenAQ.`,
         transformations: ['Excluded sources whose licence flags do not permit commercial use, redistribution and modification'],
       }),
@@ -187,3 +190,50 @@ export async function fetchStations(options: {
 /** p. 224, kept beside the data so a caller cannot omit it. */
 export const AIR_QUALITY_INTERPRETATION =
   'Measured concentrations from monitoring networks of uneven geography and sensor quality. Check pollutant, unit and averaging period before comparing stations. Not complete global coverage, not official public-health advice, and not compliance evidence.';
+
+/** Daily means for a selected sensor, after its location clears every licence flag. */
+export async function fetchAirQualitySeries(options: {
+  locationId: number; sensorId: number; from: string; to: string;
+}): Promise<ConnectorResult<import('../core/types').DataSeries[]>> {
+  const { locationId, sensorId, from, to } = options;
+  const start = Date.parse(from), end = Date.parse(to);
+  if (!Number.isInteger(locationId) || locationId <= 0 || !Number.isInteger(sensorId) || sensorId <= 0 ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(from) || !/^\d{4}-\d{2}-\d{2}$/.test(to) ||
+    !Number.isFinite(start) || !Number.isFinite(end) || end < start || end - start > 31 * 86400000) {
+    return fail('openaq-v3', 'no_results', 'Select a location, sensor and at most 31 days.');
+  }
+  const stations = await fetchStations({ locationId });
+  if (!stations.ok) return stations;
+  const station = stations.data.find(s => s.id === locationId);
+  const sensor = station?.parameters.find(p => p.sensorId === sensorId);
+  if (!station || !sensor) return fail('openaq-v3', 'no_results', 'This sensor is not part of a licence-cleared location.');
+  const apiKey = providerKey('openaq-v3')!;
+  type Measurement = { value?: number | null; parameter?: { name?: string; units?: string }; period?: { datetimeFrom?: { utc?: string; local?: string }; datetimeTo?: { utc?: string; local?: string } }; flagInfo?: { hasFlags?: boolean } };
+  const params = new URLSearchParams({ date_from: from, date_to: to, limit: '1000' });
+  const res = await fetchFromProvider<{ results?: Measurement[] }>('openaq-v3', `${BASE}/sensors/${sensorId}/days?${params}`, { headers: { 'X-API-Key': apiKey }, revalidate: 86400 });
+  if (!res.ok) return res;
+  const rows = res.data.results ?? [];
+  if (rows.some(r => (r.parameter?.units && r.parameter.units !== sensor.units) || (r.parameter?.name && r.parameter.name !== sensor.name))) {
+    return fail('openaq-v3', 'unavailable', 'The source returned inconsistent pollutant names or units.');
+  }
+  const observations = rows.flatMap(r => {
+    const at = r.period?.datetimeFrom?.utc;
+    if (!at || !Number.isFinite(Date.parse(at))) return [];
+    // Daily means follow the station's calendar; UTC intervals remain in the export.
+    const local = r.period?.datetimeFrom?.local;
+    const period = local && Number.isFinite(Date.parse(local)) ? local.slice(0, 10) : at;
+    return [{ period, value: typeof r.value === 'number' && Number.isFinite(r.value) ? r.value : null,
+      flag: [`Averaging interval (UTC): ${at} to ${r.period?.datetimeTo?.utc ?? 'not stated'}`, ...(r.flagInfo?.hasFlags ? ['Provider flags present; review source quality flags'] : [])].join('; ') }];
+  }).sort((a, b) => a.period.localeCompare(b.period));
+  if (!observations.length) return fail('openaq-v3', 'no_results', 'No measurements for this period.');
+  return ok('openaq-v3', [{
+    id: `openaq-${sensorId}`, label: `${station.name} — ${sensor.displayName}`, unit: sensor.units, frequency: 'daily',
+    area: [station.locality, station.country].filter(Boolean).join(', ') || null,
+    measureNote: `Daily mean concentrations; daily aggregation follows station local time; source local dates label observations where supplied, and UTC averaging intervals travel in the flag column. ${AIR_QUALITY_INTERPRETATION}${station.stale ? ' This station has not reported within the last 24 hours; these are historical readings.' : ''}`,
+    observations,
+    provenance: { ...station.provenance, sourceId: String(sensorId), retrievedAt: res.retrievedAt,
+      observationPeriod: `${observations[0].period}–${observations[observations.length - 1].period}`,
+      accessCheckedAt: res.retrievedAt,
+      transformations: [...station.provenance.transformations, 'Selected provider daily means; no conversion to AQI', 'Preserved UTC period starts and provider quality warnings'] },
+  }], res.retrievedAt, res.stale);
+}

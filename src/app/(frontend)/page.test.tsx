@@ -6,9 +6,8 @@ import HomePage from './page'
 // Mock child components to keep the unit test isolated.
 // This list must match the sections actually rendered by page.tsx - mocking a
 // module that no longer exists makes vitest fail at collection time.
-// H03/H04 (FirstFoldFeeds) are a sibling band directly below the hero, not
-// children of it, so the hero mock takes no children.
-vi.mock('@/components/home/Hero', () => ({ Hero: () => <div data-testid="hero" /> }))
+// The hero renders the feed children in the first viewport.
+vi.mock('@/components/home/Hero', () => ({ Hero: ({ children }: { children: React.ReactNode }) => <div data-testid="hero">{children}</div> }))
 vi.mock('@/components/home/KnowledgeTeaser', () => ({ KnowledgeTeaser: () => <div data-testid="knowledge-teaser" /> }))
 vi.mock('@/components/home/FirstFoldFeeds', () => ({ FirstFoldFeeds: () => <div data-testid="first-fold-feeds" /> }))
 vi.mock('@/components/home/LifecycleAndIndustries', () => ({ LifecycleAndIndustries: () => <div data-testid="lifecycle-industries" /> }))

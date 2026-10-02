@@ -194,6 +194,7 @@ export async function fetchOecdSlice(options: {
           observationPeriod: points.length ? `${points[0].period}–${points[points.length - 1].period}` : null,
           version: flow.flow.split(',')[2] ?? null,
           accessStatus: 'verified_open',
+          accessCheckedAt: res.retrievedAt,
           accessEvidence: 'OECD Data Explorer and the public SDMX API are open without a key; checked 2026-09-19.',
           transformations: [
             'Grouped SDMX observations into series by every dimension except TIME_PERIOD',

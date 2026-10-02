@@ -19,6 +19,8 @@ export type ProviderRecord = {
   purpose: string;
   homepage: string;
   docsUrl: string;
+  /** Scientific/source methodology, separate from API usage instructions. */
+  methodologyUrl?: string;
   licence: string;
   licenceUrl: string | null;
   /** The exact attribution string to display with any record. */
@@ -46,6 +48,7 @@ const HOUR = 3600;
 export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   'climate-trace': {
     id: 'climate-trace',
+    methodologyUrl: 'https://climatetrace.org/data',
     name: 'Climate TRACE',
     purpose: 'Independently estimated greenhouse gas emissions by country, sector and source.',
     homepage: 'https://climatetrace.org/',
@@ -62,6 +65,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'world-bank-indicators': {
     id: 'world-bank-indicators',
+    methodologyUrl: 'https://datahelpdesk.worldbank.org/knowledgebase/articles/906531-methodologies',
     name: 'World Bank Indicators API v2',
     purpose: 'Country-level development, energy, environmental and economic indicators.',
     homepage: 'https://data.worldbank.org/',
@@ -78,6 +82,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'oecd-sdmx': {
     id: 'oecd-sdmx',
+    methodologyUrl: 'https://www.oecd.org/en/data/indicators/municipal-waste.html',
     name: 'OECD Data Explorer (SDMX)',
     purpose: 'Climate-related development finance and municipal waste statistics.',
     homepage: 'https://data-explorer.oecd.org/',
@@ -94,6 +99,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'eia-open-data': {
     id: 'eia-open-data',
+    methodologyUrl: 'https://www.eia.gov/electricity/data.php',
     name: 'U.S. EIA Open Data API v2',
     purpose: 'Energy production, consumption, electricity generation and energy price series.',
     homepage: 'https://www.eia.gov/opendata/',
@@ -110,6 +116,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'nasa-power': {
     id: 'nasa-power',
+    methodologyUrl: 'https://power.larc.nasa.gov/docs/methodology/',
     name: 'NASA POWER',
     purpose: 'Solar resource and meteorological time series for a location.',
     homepage: 'https://power.larc.nasa.gov/',
@@ -126,6 +133,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'gbif-occurrence': {
     id: 'gbif-occurrence',
+    methodologyUrl: 'https://www.gbif.org/occurrence-data',
     name: 'GBIF Occurrence API',
     purpose: 'Published biodiversity occurrence records by geography and taxon.',
     homepage: 'https://www.gbif.org/',
@@ -142,6 +150,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   },
   'openaq-v3': {
     id: 'openaq-v3',
+    methodologyUrl: 'https://docs.openaq.org/resources/measurements',
     name: 'OpenAQ API v3',
     purpose: 'Measured air pollutant concentrations from monitoring networks.',
     homepage: 'https://openaq.org/',
@@ -185,7 +194,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     keyEnvVar: null,
     revalidate: DAY,
     publishedLimits: 'Not reverified - p. 213 says the current docs were blocked during review. A conservative 2 requests/second is assumed and the quota must be confirmed before launch.',
-    enabled: true,
+    enabled: false,
     accessReviewedOn: '2026-09-19',
     note: 'LAUNCH GATE (p. 213): the numeric quota is unconfirmed. Do not advertise it as unlimited.',
   },
@@ -204,9 +213,9 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     // p. 213: a pre-approved appname has been required since 1 November 2025.
     // Verified 2026-09-19: an unregistered appname returns HTTP 403, so this
     // stays off until Enerqa registers one. It is not a secret key.
-    enabled: true,
+    enabled: false,
     accessReviewedOn: '2026-09-19',
-    note: 'Enabled with registered appname.',
+    note: 'Paused after HTTP 403 in the Part 12 browser check. Confirm an approved appname and an HTTP 200 response before enabling.',
   },
   osti: {
     id: 'osti',
@@ -354,7 +363,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     purpose: 'AI Search Backend using Responses API (gpt-5.6-terra).',
     homepage: 'https://openai.com/',
     docsUrl: 'https://platform.openai.com/docs/api-reference/responses',
-    licence: 'Approved for Research MVP',
+    licence: 'Launch approval pending',
     licenceUrl: 'https://openai.com/policies/',
     attribution: 'OpenAI',
     keyEnvVar: 'OPENAI_API_KEY',

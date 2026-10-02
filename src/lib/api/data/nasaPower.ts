@@ -120,6 +120,7 @@ export async function fetchPowerMonthly(options: {
           observationPeriod: `${startYear}–${endYear}`,
           version: payload.header?.api?.version ?? null,
           accessStatus: 'verified_open',
+          accessCheckedAt: res.retrievedAt,
           accessEvidence: 'POWER Temporal API and the Data Access Viewer are keyless and open; checked 2026-09-19.',
           transformations: [
             `Replaced the provider fill value (${fillValue}) with a missing value rather than charting it`,

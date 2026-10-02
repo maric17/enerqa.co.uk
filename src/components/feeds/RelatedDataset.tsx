@@ -1,3 +1,5 @@
+import { DATASETS } from '@/lib/data-portal/connectors';
+import { sourceLabel } from '@/lib/api/core/provenance';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -29,11 +31,25 @@ export async function RelatedDataset({
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'datasets',
-    where: { [field]: { in: [id] } },
+    // Local API calls bypass public access rules, so apply the publication gate here.
+    where: { [field]: { in: [id] }, status: { equals: 'verified_open' }, accessStatus: { equals: 'verified_open' }, redistribution: { equals: true } },
     limit: 1,
     depth: 0,
   });
   const ds = docs[0];
+
+  if (!ds && sources.includes('eia-open-data')) {
+    // A real, labelled U.S. series can be previewed without inventing a CMS dataset.
+    const result = await DATASETS['energy-generation'].handler(new URLSearchParams());
+    const series = result.ok ? result.data[0] : null;
+    const latest = series?.observations.at(-1);
+    if (series && latest) return <div className="max-w-4xl rounded border bg-[var(--paper-alt)] p-6">
+      <h3 className="mb-2 text-lg font-bold">United States electricity generation</h3>
+      <p>{latest.period}: {latest.value === null ? 'No figure published' : `${latest.value.toLocaleString('en-GB')} ${series.unit}`} · annual observations.</p>
+      <p className="my-3 text-xs">{sourceLabel(series.provenance)}. {series.provenance.licence}.</p>
+      <Link className="underline" href="/data-portal/series/energy-generation">View dataset, methodology and free download</Link>
+    </div>;
+  }
 
   if (!ds) {
     const links = catalogueLinks(sources);

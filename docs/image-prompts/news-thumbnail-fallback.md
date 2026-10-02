@@ -1,0 +1,7 @@
+Generated with the built-in image generation tool for the news and market card fallback thumbnail.
+
+Final asset: `public/images/banners/news-thumbnail-fallback.webp`.
+
+Generation prompt:
+
+Use case: stylized-concept. Asset type: a premium neutral fallback thumbnail for the Enerqa energy, environment and finance news website. Generate one finished image only, not a mockup or contact sheet. Wide landscape composition, approximately 16:9. Create a restrained abstract illustration: softly layered flowing topographic contours and one subtle circular earth-like form made of translucent teal layers, on a deep navy backdrop. An understated organic curvature suggests nature, energy flow and global connections without showing a literal news event or recognizable place. Brand palette deep navy #082C45, muted teal and restrained turquoise #2dd4bf. Matte, softly lit surfaces, elegant depth, clean broad forms, calm editorial feel, generous breathing space. The main form stays centered so both very wide landscape crops and tiny square crops remain attractive. Keep enough tonal contrast to read clearly at small thumbnail sizes; avoid excessive detail and tiny line work. Full-bleed opaque background. Absolutely no text, letters, numbers, logos, watermarks, UI, frames, camera icons or missing-image symbols. No stock-photo landscape, no people, no buildings, no flags. The result should feel like an intentional branded empty-image placeholder, quiet and modern.

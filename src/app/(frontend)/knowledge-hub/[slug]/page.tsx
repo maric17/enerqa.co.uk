@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react';
 import { resolveMediaUrl } from '@/lib/utils';
+import { PublicationCover } from '@/components/publications/PublicationCover';
+import { publicationImage } from '@/components/publications/publicationImage';
 
 const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
@@ -114,6 +116,8 @@ export async function generateMetadata({ params }: Props) {
   const payload = await getPayload({ config: configPromise });
   const posts = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       slug: {
         equals: slug,
@@ -130,6 +134,9 @@ export async function generateMetadata({ params }: Props) {
     return {};
   }
 
+  // Editors can keep a separate sharing image; otherwise use the article cover.
+  const sharingImage = publicationImage({ ogImage: post.ogImage }) ?? publicationImage(post);
+
   return {
     title: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
@@ -137,7 +144,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: post.metaTitle || post.title,
       description: post.metaDescription || post.excerpt,
-      images: post.ogImage && typeof post.ogImage === 'object' && post.ogImage !== null && 'url' in post.ogImage && resolveMediaUrl(post.ogImage.url) ? [resolveMediaUrl(post.ogImage.url)] : [],
+      images: sharingImage ? [sharingImage.src] : [],
     },
   };
 }
@@ -148,6 +155,8 @@ export default async function PublicationSinglePage({ params }: Props) {
   const payload = await getPayload({ config: configPromise });
   const posts = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       slug: {
         equals: slug,
@@ -180,6 +189,8 @@ export default async function PublicationSinglePage({ params }: Props) {
 
   const related = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       id: { not_equals: post.id },
       recordKind: { equals: 'article' },
@@ -191,7 +202,8 @@ export default async function PublicationSinglePage({ params }: Props) {
   return (
     <>
       {/* A01 Article Intro */}
-      <section className="relative w-full h-[60vh] min-h-[400px] flex items-end pb-16 bg-ink text-white overflow-hidden">
+      {/* Let long titles expand the cover and clear the fixed navigation. */}
+      <section className="relative w-full min-h-[max(400px,60vh)] flex items-end pt-36 pb-16 bg-ink text-white overflow-hidden">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -209,8 +221,7 @@ export default async function PublicationSinglePage({ params }: Props) {
             }),
           }}
         />
-        <div className="absolute inset-0 bg-cover bg-center bg-[url('/assets/images/gas-energy.jpg')]"></div>
-        <div className="hero-insights-overlay z-10 opacity-80"></div>
+        <PublicationCover image={publicationImage(post)} />
         
         <Container className="relative z-20 flex flex-col gap-4">
           <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">

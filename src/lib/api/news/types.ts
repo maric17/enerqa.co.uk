@@ -1,3 +1,5 @@
+import type { AccessStatus } from '../core/types';
+
 /**
  * Shared vocabulary for every news connector (handoff pp. 209-216, 226).
  *
@@ -12,7 +14,11 @@ export type NewsProvider = 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
 export type NewsItem = {
   /** Normalised URL - the deduplication key required by p. 226. */
   id: string;
+  /** Original provider identifier, independent of our URL deduplication key. */
+  sourceId?: string | null;
   title: string;
+  /** Image URL supplied by the feed; absent in older cached records. */
+  imageUrl?: string | null;
   /**
    * The publisher's own short description, where the provider licenses one.
    * GDELT licenses no teaser text, so its items carry `null` and the card
@@ -29,6 +35,11 @@ export type NewsItem = {
   publishedAt: string | null;
   language: string | null;
   provider: NewsProvider;
+  /** Filled by the anonymous destination check, never inferred from the feed. */
+  accessStatus?: AccessStatus;
+  accessCheckedAt?: string | null;
+  accessEvidence?: string | null;
+  finalUrl?: string | null;
   /** Attribution label shown to the reader, e.g. "U.S. EIA". */
   providerLabel: string;
   /** When Enerqa retrieved it. p. 226 keeps this separate from publishedAt. */
@@ -55,6 +66,17 @@ export type NewsItem = {
 };
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
+
+/** Only secure public image URLs are suitable for a browser backdrop. */
+export function newsImageUrl(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.trim()) return null;
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === 'https:' && !url.username && !url.password ? url.href : null;
+  } catch {
+    return null;
+  }
+}
 
 export type NewsBasket = {
   key: NewsBasketKey;

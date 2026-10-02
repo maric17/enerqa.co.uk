@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, FileText, Filter, Search, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { PublicationCover } from '@/components/publications/PublicationCover';
 import { queryTerms } from '../search/searchIndex';
 import {
   ARCHIVE_LABELS,
@@ -33,7 +34,6 @@ const FACET_LABELS: Record<FacetKey, string> = {
   type: 'Publication Type',
   year: 'Year',
   language: 'Language',
-  author: 'Author',
 };
 
 // The visible label of a facet value (slugs and codes become names).
@@ -377,51 +377,57 @@ function PublicationCardView({ pub, tagTitle, featured = false }: {
   ];
   return (
     <article
-      className={`rounded-xl border bg-white p-6 transition-all hover:border-[var(--color-primary)] md:p-8 ${
-        featured ? 'border-[var(--color-primary)] border-l-4' : 'border-gray-200'
+      className={`grid gap-6 rounded-xl border bg-white p-6 transition-all hover:border-[var(--color-primary)] md:p-8 ${
+        featured ? 'border-[var(--color-primary)] border-l-4 sm:grid-cols-[240px_minmax(0,1fr)]' : 'border-gray-200 sm:grid-cols-[192px_minmax(0,1fr)]'
       }`}
     >
-      {featured && (
-        <p className="m-0 mb-3 text-xs font-bold uppercase tracking-wider text-[var(--color-primary-deep)]">Latest publication</p>
-      )}
-      <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wider">
-        <span className="text-[var(--color-secondary)]">Enerqa Publication · {pub.type || 'Publication'}</span>
-        <span className="text-gray-500" aria-hidden="true">|</span>
-        <span className="text-gray-600">{LANGUAGE_LABELS[pub.language ?? 'en'] ?? 'English'}</span>
-        <span className="text-gray-500" aria-hidden="true">|</span>
-        {/* p. 226: a date must not be presented as verified when it is not. */}
-        <span className="text-gray-600">
-          {pub.date ? <time dateTime={pub.date}>{formatDate(pub.date)}</time> : 'Date not confirmed'}
-          {pub.date && !pub.dateVerified && (
-            <span className="ml-1 font-normal normal-case text-gray-500" title="Publication date not yet verified against the original source">
-              (date unverified)
-            </span>
-          )}
-        </span>
-      </div>
-      <h3 className={`m-0 mb-3 font-bold text-[var(--color-dark)] ${featured ? 'text-3xl' : 'text-2xl'}`}>{pub.title}</h3>
-      {pub.excerpt && <p className="m-0 mb-4 line-clamp-3 text-gray-600">{pub.excerpt}</p>}
-      {tags.length > 0 && (
-        <ul className="m-0 mb-4 flex list-none flex-wrap gap-2 p-0" aria-label="Tags">
-          {tags.map((tag) => (
-            <li key={tag} className="rounded-full bg-[var(--color-paper-alt)] px-3 py-1 text-xs font-medium text-[var(--color-dark)]">
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-        {pub.author && <span className="font-medium text-gray-600">By {pub.author}</span>}
-        <div className="ml-auto flex flex-wrap items-center gap-x-6 gap-y-3">
-          {/* Read Article is always there; a file adds Download Report, it never replaces the article. */}
-          <Link href={`/knowledge-hub/${pub.slug}`} className="inline-flex items-center gap-1 font-bold text-[var(--color-primary-deep)] hover:underline">
-            Read Article<span className="sr-only">: {pub.title}</span> <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-          {pub.fileUrl && (
-            <a href={pub.fileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-bold text-[var(--color-primary-deep)] hover:underline">
-              Download Report<span className="sr-only">: {pub.title} (opens in a new tab)</span> <FileText className="h-4 w-4" aria-hidden="true" />
-            </a>
-          )}
+      {/* Reserve space before images load so the publication list stays steady. */}
+      <Link href={`/knowledge-hub/${pub.slug}`} aria-label={`Read Article: ${pub.title}`} className="relative block aspect-[16/10] overflow-hidden rounded-lg sm:aspect-auto sm:min-h-[180px]">
+        <PublicationCover image={pub.image} thumbnail featured={featured} />
+      </Link>
+      <div className="min-w-0">
+        {featured && (
+          <p className="m-0 mb-3 text-xs font-bold uppercase tracking-wider text-[var(--color-primary-deep)]">Latest publication</p>
+        )}
+        <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wider">
+          <span className="text-[var(--color-secondary)]">Enerqa Publication · {pub.type || 'Publication'}</span>
+          <span className="text-gray-500" aria-hidden="true">|</span>
+          <span className="text-gray-600">{LANGUAGE_LABELS[pub.language ?? 'en'] ?? 'English'}</span>
+          <span className="text-gray-500" aria-hidden="true">|</span>
+          {/* p. 226: a date must not be presented as verified when it is not. */}
+          <span className="text-gray-600">
+            {pub.date ? <time dateTime={pub.date}>{formatDate(pub.date)}</time> : 'Date not confirmed'}
+            {pub.date && !pub.dateVerified && (
+              <span className="ml-1 font-normal normal-case text-gray-500" title="Publication date not yet verified against the original source">
+                (date unverified)
+              </span>
+            )}
+          </span>
+        </div>
+        <h3 className={`m-0 mb-3 font-bold text-[var(--color-dark)] ${featured ? 'text-3xl' : 'text-2xl'}`}>{pub.title}</h3>
+        {pub.excerpt && <p className="m-0 mb-4 line-clamp-3 text-gray-600">{pub.excerpt}</p>}
+        {tags.length > 0 && (
+          <ul className="m-0 mb-4 flex list-none flex-wrap gap-2 p-0" aria-label="Tags">
+            {tags.map((tag) => (
+              <li key={tag} className="rounded-full bg-[var(--color-paper-alt)] px-3 py-1 text-xs font-medium text-[var(--color-dark)]">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+          {pub.author && <span className="font-medium text-gray-600">By {pub.author}</span>}
+          <div className="ml-auto flex flex-wrap items-center gap-x-6 gap-y-3">
+            {/* Read Article is always there; a file adds Download Report, it never replaces the article. */}
+            <Link href={`/knowledge-hub/${pub.slug}`} className="inline-flex items-center gap-1 font-bold text-[var(--color-primary-deep)] hover:underline">
+              Read Article<span className="sr-only">: {pub.title}</span> <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            {pub.fileUrl && (
+              <a href={pub.fileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-bold text-[var(--color-primary-deep)] hover:underline">
+                Download Report<span className="sr-only">: {pub.title} (opens in a new tab)</span> <FileText className="h-4 w-4" aria-hidden="true" />
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </article>

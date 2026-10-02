@@ -505,6 +505,15 @@ header.site.scrolled .langswitch button:hover {
 .mega a { font-size: 14px; font-weight: 500; color: var(--ink-soft); transition: color .2s; }
 .mega a:hover { color: var(--ink); }
 
+/* The link opens the portal; the adjacent toggle opens its compact submenu. */
+.nav-item-data-portal > a { padding-right: 32px; }
+.nav-item-data-portal > .data-portal-toggle {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  display: flex; align-items: center; padding: 8px;
+}
+.data-portal-submenu { width: 210px; display: block; padding: 16px; }
+.data-portal-submenu a { display: block; padding: 8px; }
+
 .header-actions { display: flex; align-items: center; gap: 8px; }
 .icon-btn {
   width: 36px; height: 36px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center;
@@ -1719,13 +1728,19 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   }
 }
 
-/* H01: the page's single loud element. Two balanced lines on laptops. */
+/* Fit the full hero headline on desktop without shrinking mobile text. */
 .hero-title {
-  font-size: clamp(34px, 3.4vw, 54px);
+  font-size: clamp(32px, 3.2vw, 44px);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.035em;
   text-wrap: balance;
+}
+@media (min-width: 1024px) {
+  .hero-title {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
 }
 
 /* H02 suggestion chips: quiet outlined pills on the photo. */
@@ -1792,6 +1807,96 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   inset: 0;
   background: linear-gradient(180deg, rgba(8, 44, 69, 0.7) 0%, rgba(0, 207, 200, 0.6) 50%, rgba(8, 44, 69, 0.8) 100%);
   z-index: 1;
+}
+
+/* Darken varied publisher photos so the search and white text stay readable. */
+.hero-insights:has(.hero-news-image) .hero-insights-overlay {
+  background: linear-gradient(180deg, rgba(8, 32, 48, 0.86) 0%, rgba(6, 60, 65, 0.78) 50%, rgba(8, 32, 48, 0.92) 100%);
+}
+.hero-news-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-news-backdrop .hero-insights-bg {
+  display: block;
+}
+.hero-news-image {
+  object-fit: cover;
+  object-position: center;
+}
+.hero-news-image-incoming {
+  transition: opacity 700ms ease;
+}
+.hero-news-selector,
+.hero-news-pause {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(8, 44, 69, 0.4);
+  color: white;
+  cursor: pointer;
+}
+.hero-news-pause {
+  padding: 0 14px;
+}
+.hero-news-selector:hover,
+.hero-news-pause:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.hero-news-selector.is-active {
+  background: #2dd4bf;
+  border-color: #2dd4bf;
+  color: #082c45;
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.18);
+}
+/* A non-flashing accent keeps the article layout still during rotation. */
+.hero-news-card {
+  padding-left: 12px;
+}
+/* Fixed thumbnail dimensions stop images from moving the card text as they load. */
+.news-card-thumbnail {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.news-card-thumbnail-lead {
+  width: 76px;
+  height: 76px;
+}
+/* Global News uses a short landscape image above the headline. */
+.news-card-thumbnail-stacked {
+  width: 100%;
+  height: 104px;
+}
+.news-card-thumbnail-stacked.news-card-thumbnail-lead {
+  height: 128px;
+}
+.hero-news-card-active {
+  border-radius: 8px;
+  background: rgba(45, 212, 191, 0.1);
+  box-shadow: -3px 0 0 #2dd4bf;
+}
+.hero-news-active-label {
+  color: #5eead4;
+  font-size: 11px;
+  font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-news-image-incoming {
+    transition: none;
+  }
+  .hero-news-backdrop .hero-insights-bg {
+    transition: none;
+    transform: none;
+  }
 }
 
 .hero-domain-overlay {
@@ -2449,11 +2554,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 
 .mega-redesign {
-  /* Was `min-width: 1100px !important`, which pushed the panel past both screen
-     edges below ~1130px (at 1024px it spanned -38 to 1062px). Now it is capped
-     at the viewport with a 16px margin, and never taller than the space under
-     the header (p. 228: laptop widths and 125% zoom). */
-  width: min(1100px, calc(100vw - 32px)) !important;
+  /* Use more desktop space while keeping both edges inside the viewport.
+     Scrolling is a fallback only for unusually short windows or large zoom. */
+  width: min(1360px, calc(100vw - 32px)) !important;
   max-height: calc(100vh - var(--header-offset) - 24px);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -2464,6 +2567,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
   display: flex !important;
   flex-direction: column;
+  gap: 0;
 }
 .mega-redesign > * { flex-shrink: 0; }
 
@@ -2475,20 +2579,26 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 
 .mega-top {
-  display: flex;
-  padding: 30px;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  padding: 24px;
+  gap: 24px;
   background: white;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
 
 .mega-columns {
-  flex: 3;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 30px;
+  /* Domains take their natural width; industries get the remaining space. */
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 16px;
 }
+
+.mega-col { padding: 20px; border-radius: var(--r-sm); }
+/* Dark text and visible labels distinguish the groups as well as their tints. */
+.mega-domains { background: #eaf7f4; }
+.mega-industries { background: #eef4fb; }
 
 .mega-col-title {
   font-size: 13px;
@@ -2496,31 +2606,32 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--ink-muted);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-.mega-list {
+.mega .mega-list {
   list-style: none !important;
   padding: 0 !important;
   margin: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 
 .mega-list li {
   margin: 0 !important;
-      line-height: 1.15;
-      margin-bottom: 10px!important;
 }
 
 .mega-list a {
+  display: block;
+  padding: 4px 0;
   font-size: 13px !important;
   font-weight: 600 !important;
   color: var(--ink-soft) !important;
   text-decoration: none;
   transition: color 0.2s;
-  line-height: 1.15;
+  line-height: 1.3;
+  white-space: nowrap;
 }
 
 .mega-list a:hover {
@@ -2532,11 +2643,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 
 .mega-featured {
-  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  border-left: 1px solid rgba(0,0,0,0.08);
-  padding-left: 40px;
 }
 
 .featured-label {
@@ -2580,7 +2689,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 
 .mega-cta {
   background-color: var(--color-secondary);
-  padding: 20px 30px;
+  padding: 12px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2621,19 +2730,11 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 /* The CTA strip is mid-blue (#0972b8): white is 5.1:1 there, teal is not. */
 .mega-cta { --focus-color: #ffffff; }
 
-/* Mega panel below ~1100px: the columns stack above the lifecycle and overview
-   links. The Featured card repeats the main nav's Knowledge Hub link, so it is
-   the part that goes. */
-@media (max-width: 1100px) {
-  .mega-top { flex-direction: column; gap: 20px; padding: 24px; }
-  .mega-columns { gap: 24px; }
-  .mega-featured {
-    border-left: 0; padding-left: 0;
-    border-top: 1px solid rgba(0,0,0,0.08); padding-top: 16px;
-  }
-  .mega-featured .featured-label, .mega-featured .featured-card { display: none; }
-  .mega-featured-links { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 0; padding-top: 0; border-top: 0; }
-  .mega-featured-links a { margin-bottom: 0; }
+/* Reduce spacing in smaller windows while keeping the Knowledge Hub card visible. */
+@media (max-width: 1199px), (max-height: 700px) {
+  .mega-top { grid-template-columns: minmax(0, 1fr) 200px; gap: 16px; padding: 16px; }
+  .mega-columns { gap: 12px; }
+  .mega-col { padding: 16px; }
 }
 
 /* ============================================================================

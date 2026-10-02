@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import type { NewsItem } from '@/lib/api/news/types';
 import {
   buildNewsViews,
+  buildMarketView,
   formatDateTimeUtc,
   NEWS_FILTERS,
   shortTeaser,
@@ -135,5 +136,25 @@ describe('withoutShown', () => {
     const b = item('b', 'Climate finance pledges grow');
     const c = item('c', 'Green bond market expands');
     expect(withoutShown([a, b, c], [a], 2).map((i) => i.id)).toEqual([b.id, c.id]);
+  });
+});
+
+describe('buildMarketView', () => {
+  it('finds market stories in the shared pool without repeating Global News', () => {
+    const lead = item('lead', 'Climate adaptation plan agreed');
+    const prices = item('prices', 'Energy prices climb');
+    const bonds = item('bonds', 'Green bond investment grows');
+    const nature = item('nature', 'Forest biodiversity loss slows');
+    expect(buildMarketView([lead, prices, bonds, nature], [lead])).toEqual([prices, bonds]);
+  });
+
+  it('removes shown articles before applying the publisher cap', () => {
+    const shown = [item('a', 'Energy investment rises'), item('b', 'Carbon markets expand')];
+    const remaining = [item('c', 'Green bond investment grows'), item('d', 'Solar energy prices fall')];
+    expect(buildMarketView([...shown, ...remaining], shown)).toEqual(remaining);
+  });
+
+  it('keeps unrelated business stories and non-financial nature stories out', () => {
+    expect(buildMarketView([item('debt', 'Data centre debt rises'), item('nature', 'Forest biodiversity loss slows')], [])).toEqual([]);
   });
 });

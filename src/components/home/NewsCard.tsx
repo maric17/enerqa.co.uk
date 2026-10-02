@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import type { NewsCardData } from './firstFoldNews';
+import { NewsThumbnail } from './NewsThumbnail';
 
 /**
  * One H03 / H04 card (p. 7, p. 13): headline and permitted teaser above a
@@ -19,6 +20,7 @@ export function NewsCard({
   showTeaser = false,
   marker,
   className = 'h-full',
+  active = false,
 }: {
   item: NewsCardData;
   lead?: boolean;
@@ -27,7 +29,10 @@ export function NewsCard({
   marker?: string;
   /** Sizing within the parent layout, e.g. flex-1 to share a stacked column. */
   className?: string;
+  /** Marks the selected story even when its image uses the fallback background. */
+  active?: boolean;
 }) {
+  const stacked = marker === 'news';
   // No card box: a bordered, fixed-height box looked empty whenever a provider
   // licensed no teaser. The lead reads as a lead through its size; the rest
   // are rows divided by hairlines (the parent list draws the dividers).
@@ -38,11 +43,14 @@ export function NewsCard({
       rel="noopener noreferrer"
       data-news-card={marker === 'news' ? '' : undefined}
       data-market-card={marker === 'market' ? '' : undefined}
-      className={`group flex ${className} flex-col gap-1.5 no-underline ${lead ? '' : 'py-3 first:pt-0 last:pb-0'}`}
+      data-background-active={active ? 'true' : undefined}
+      className={`group flex ${className} items-start gap-3 no-underline ${stacked ? 'flex-col hero-news-card' : ''} ${lead ? '' : 'py-3 first:pt-0 last:pb-0'} ${active ? 'hero-news-card-active' : ''}`}
     >
+      <NewsThumbnail imageUrl={item.imageUrl} lead={lead} stacked={stacked} />
+      <div className="flex w-full min-w-0 flex-1 flex-col gap-1.5">
       <h3
         className={`m-0 font-semibold text-white decoration-[var(--color-primary)] decoration-2 underline-offset-4 group-hover:underline ${
-          lead ? 'text-[clamp(18px,1.35vw,21px)] leading-[1.3] tracking-[-0.01em]' : 'text-[15px] leading-snug'
+          lead ? 'text-[16px] leading-[1.3] tracking-[-0.01em]' : stacked ? 'text-[13px] leading-snug' : 'text-[14px] leading-snug'
         }`}
       >
         {item.title}
@@ -65,6 +73,9 @@ export function NewsCard({
           className="h-3.5 w-3.5 shrink-0 text-white/50 transition-colors group-hover:text-teal-200"
         />
       </p>
+      {/* Reserve the badge space so changing the active image cannot move the headlines. */}
+      {marker === 'news' && <span className="hero-news-active-label" aria-hidden={!active} style={{ visibility: active ? 'visible' : 'hidden' }}>Featured story</span>}
+      </div>
     </a>
   );
 }

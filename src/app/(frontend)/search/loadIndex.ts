@@ -42,6 +42,8 @@ export async function loadSearchIndex(): Promise<IndexEntry[]> {
     }),
     payload.find({
       collection: 'publications',
+    overrideAccess: false,
+    draft: false,
       where: { recordKind: { equals: 'article' } },
       limit: 500,
       depth: 0,
@@ -144,21 +146,6 @@ export async function loadSearchIndex(): Promise<IndexEntry[]> {
   return entries;
 }
 
-/**
- * The index changes only when an editor publishes, but every search used to
- * run six CMS queries. Keep the built index for a few minutes per server
- * process; a failed build is not kept, so the next search retries.
- */
-const INDEX_TTL_MS = 5 * 60 * 1000;
-let cachedIndex: { builtAt: number; entries: Promise<IndexEntry[]> } | undefined;
-
-export function getSearchIndex(now: number = Date.now()): Promise<IndexEntry[]> {
-  if (!cachedIndex || now - cachedIndex.builtAt > INDEX_TTL_MS) {
-    const entries = loadSearchIndex();
-    cachedIndex = { builtAt: now, entries };
-    entries.catch(() => {
-      if (cachedIndex?.entries === entries) cachedIndex = undefined;
-    });
-  }
-  return cachedIndex.entries;
-}
+// Always enforce current publication status. A recently unpublished article must
+// disappear immediately rather than remain public in a process-local cache.
+export const getSearchIndex = loadSearchIndex;

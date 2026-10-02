@@ -129,3 +129,16 @@ describe('checking only what could be displayed', () => {
     expect(out[0].url).toBe('https://repository.org/copy');
   });
 });
+
+it('does not count site navigation as the full document', () => {
+  // An article teaser surrounded by a long menu is not complete reading access.
+  const page = `<html><body><nav>${'<p>Menu links and unrelated words </p>'.repeat(100)}</nav><article><p>A short abstract.</p></article></body></html>`;
+  const verdict = judge({ status: 200, finalUrl: 'https://example.org/abstract', contentType: 'text/html', checkedAt, head: bytes(page) });
+  expect('transient' in verdict ? verdict.verdict.status : verdict.status).toBe('unknown');
+});
+
+it('keeps an abstract-only scholarly landing page unpublished', () => {
+  const page = `<html><head><meta name="citation_title" content="Study"></head><body><h2>Abstract</h2>${'<p>Summary of the study findings. </p>'.repeat(80)}</body></html>`;
+  const verdict = judge({ status: 200, finalUrl: 'https://journal.example/abstract', contentType: 'text/html', checkedAt, head: bytes(page) });
+  expect('transient' in verdict ? verdict.verdict.status : verdict.status).toBe('unknown');
+});

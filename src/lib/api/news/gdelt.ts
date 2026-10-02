@@ -1,7 +1,7 @@
 import { fetchFromProvider, type BodyRejection } from '../core/fetch';
 import { fail, ok, type ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
-import { getBasket, hostnameOf, isAllowedDomain, normaliseUrl } from './types';
+import { getBasket, hostnameOf, isAllowedDomain, normaliseUrl, newsImageUrl } from './types';
 import { extractRegions } from './geography';
 
 /**
@@ -99,6 +99,7 @@ export function mapGdeltArticles(articles: unknown[], retrievedAt: string): News
       {
         id: normaliseUrl(articleUrl),
         title,
+        imageUrl: newsImageUrl(a.socialimage),
         // GDELT licenses no teaser text - see the file header.
         summary: null,
         url: articleUrl,

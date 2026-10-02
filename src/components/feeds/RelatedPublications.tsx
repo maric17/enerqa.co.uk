@@ -25,6 +25,8 @@ export async function RelatedPublications({
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       and: [
         // Category separators and biographies from the archive import never publish (p. 225).

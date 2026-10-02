@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Local backups written by scripts/publication-rebuild/write_pubs.cjs
 scripts/publication-rebuild/backup-publications.json
+
+# Local publication backup before the Part 12 draft schema update
+scripts/part12-backups/
