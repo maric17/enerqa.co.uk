@@ -1061,7 +1061,7 @@ Route `/about`. Segments A01–A05.
 - `enerqa_connectors.provider_requests`: one shared request ledger across local, preview and production; reservations happen only on real cache misses, inside a database transaction.
 - `enerqa_connectors.external_records`: original record fields, source identifiers/URLs, rights, actual access-check times and separate retrieval times. These operational records are separate from the legacy Payload `external-items` collection.
 - `enerqa_connectors.access_checks`: persistent destination verdicts; checks are repeated after expiry. Rejected/uncertain destinations stay unpublished.
-- `GET /api/ingest/providers`: authenticated scheduler target. **Not activated:** `CRON_SECRET` and the deployment scheduler are absent. Public routes still share cached provider queries.
+- `GET /api/ingest/providers`: authenticated research/official-index scheduler target. `GET /api/ingest/news` now owns three daily news pulls (6 AM, 2 PM and 10 PM Manila time), configured as three daily jobs in `vercel.json`. Public news routes read saved database records. **Deployment activation and seeding remain unverified:** local `CRON_SECRET` is absent and the read-only database check timed out on 3 Oct. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md).
 - New Data Portal views: `/data-portal/series/{dataset}`, `/data-portal/occurrences`; ungated CSV routes use the same selection logic. EIA is also available in the Data Portal preview and the Energy related-data fallback.
 
 The three operational tables are isolated in the private `enerqa_connectors` schema so Payload schema-push cannot propose removing them. They were added transactionally with `scripts/part13/apply-storage.mjs`. Existing CMS tables/content were not changed. Row-level security is enabled so these internal records are not anonymous Supabase endpoints. **Do not run the old Payload migration history.**
@@ -1072,10 +1072,10 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 
 - [x] ✅ Server-side connectors behind a shared upstream cache. Provider disable checks run before cached responses are served.
 - [x] ✅ Store original IDs/URLs, source timestamps, retrieval time, provider, rights status and provenance. Checked records are retained in `enerqa_connectors.external_records`; actual destination verdicts, including failures, are retained separately. News now keeps provider IDs and access evidence instead of dropping them after the check.
-- [x] ✅ Reuse shared cached topic/page baskets across home, domains, industries and Global Intelligence. A cache hit does not spend another upstream request.
+- [x] ✅ Reuse the saved news pool across home, domains, industries and Global Intelligence. Public news reads do not call providers; the three daily jobs pull four shared topic baskets. Page-basket phrases select saved content without additional NewsData queries.
 - [x] ✅ No `NEXT_PUBLIC_` credential remains; `NEXT_PUBLIC_BASE_URL` is non-secret.
 - [x] ✅ News URL deduplication/relevance/date validation and research DOI deduplication, language and subject-coverage geography. GBIF researcher geography remains separate from study coverage; Global Intelligence uses the Part 12 coverage registry.
-- [x] ✅ NewsData topic/page baskets stay within the query-length cap. Four topic baskets refresh every two hours; page baskets refresh every twelve hours.
+- [x] ✅ NewsData topic/page baskets stay within the query-length cap. The agreed 3 Oct schedule pulls four topic baskets three times daily (12 baseline NewsData calls/day). Public pages use saved records and do not pull the 38 legacy page queries.
 - [x] ✅ Conservative request budgets count upstream attempts only; shared daily/rolling accounting survives process restarts. OECD is capped at 50/hour, below 60; OpenAlex selects 80/day without a key or 800/day with a free key. Local backoff, Retry-After and concurrency controls remain in place. A shared ledger outage prevents an upstream request.
 - [x] ✅ Loading reserves dimensions: homepage/domain/industry/GI feed skeletons, a Data Portal preview minimum height, and the new numerical route loading placeholder.
 - [x] ✅ Empty results and unavailable sources have honest messages; no fabricated replacement records or values.
@@ -1083,8 +1083,9 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
   - **To do:** Complete the final human destination/rights review before launch, including each linked external numerical source page. An automated HTML check cannot prove every publisher exposes its complete article. The GBIF public ZIP check remains pending under 13.3; gated/uncertain destinations must stay unpublished.
 - [x] ✅ All news/research/data providers and both AI providers are in the registry. Switching off a provider prevents new provider calls; unreviewed providers cannot be enabled. ReliefWeb, DOAJ, Gemini and OpenAI are currently off.
 - [ ] 🟡 Scheduled ingestion endpoint built and authenticated; provider records/check verdicts are persistent.
-  - **Blocker:** Deployment scheduler access and a `CRON_SECRET` are not configured in this workspace.
-  - **To do:** Set `CRON_SECRET` in the deployment, schedule authenticated `GET /api/ingest/providers` calls within the hosting plan, and verify a successful job plus a rejected unauthenticated call. Keep the free allowances shared; do not buy a scheduler/API upgrade to bypass this requirement.
+  - **Done, 3 Oct:** Added protected `/api/ingest/news`, three daily UTC entries in `vercel.json`, database-only news reads, per-slot duplicate/overlap protection and preservation of eligible saved articles on failed pulls. No database migration is required. Research/data scheduling remains separate.
+  - **Blocker:** Local `CRON_SECRET` is absent; `npm run db:check` timed out before authentication. The 3 Oct manual seed attempt confirmed the deployed `/api/ingest/news` returns HTTP 404, and a repeat database check timed out on both pooler ports. No articles were seeded by that attempt. Deployment activation/seeding is not verified. The user's dev-site screenshot showed NewsData HTTP 401 and GDELT HTTP 429.
+  - **To do:** Fix NewsData credentials and database reachability, set deployment `CRON_SECRET`, deploy the configured news jobs and verify authenticated seeding, all three scheduled pulls and rejected unauthenticated access. Confirm provider refusals preserve saved eligible cards. Configure the separate `/api/ingest/providers` research/index schedule within the free hosting allowance when needed. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md); do not buy upgrades to bypass this requirement.
 
 ### 13.2 News and research connectors
 

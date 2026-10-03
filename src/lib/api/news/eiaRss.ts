@@ -37,6 +37,6 @@ const EIA_FEED: RssSource = {
  */
 export const EIA_BASKETS: NewsBasketKey[] = ['all', 'energy', 'business'];
 
-export async function fetchEiaNews(): Promise<ConnectorResult<NewsItem[]>> {
-  return fetchRssFeed(EIA_FEED);
+export async function fetchEiaNews(fresh = false): Promise<ConnectorResult<NewsItem[]>> {
+  return fetchRssFeed(EIA_FEED, fresh);
 }

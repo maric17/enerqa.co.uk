@@ -3,6 +3,7 @@ import { fail, ok, type ConnectorResult } from '../core/types';
 import type { NewsItem, NewsBasketKey } from './types';
 import { getBasket, hostnameOf, normaliseUrl, newsImageUrl } from './types';
 import { extractRegions } from './geography';
+import { NEWS_REFRESH_SECONDS } from './schedule';
 
 /**
  * NewsData.io - handoff p. 210 (Provider ID: newsdata). The primary news
@@ -13,15 +14,10 @@ import { extractRegions } from './geography';
  *   200 credits/day · 10 articles per credit · 30 credits per 15 minutes
  *   100-character search query · 12-hour delay · no full article text
  *
- * Credit arithmetic (the spec does this sum on p. 210 and lands on 48):
- *   4 topic baskets x 1 credit, refreshed every 2 hours = 4 x 12 = 48/day
- *   38 page baskets (pp. 30, 38, 49, 60 and 66-138: 3 per domain, 2 per
- *   industry) x 1 credit, refreshed every 12 hours   = 38 x 2 = 76/day
- *   total 124/day, under the internal budget of 150 in core/health.ts and the
- *   provider's 200. The page baskets are the spec's own "News query baskets";
- *   the 12-hour refresh matches the free plan's 12-hour delay, so a faster one
- *   would buy nothing. Their results join the one shared pool (p. 210 "Reuse
- *   one cached pool across all pages").
+ * Current schedule: four topic queries, three pulls per day = 12/day.
+ * Public pages match their phrases against saved articles instead of sending
+ * the 38 legacy page queries upstream. A job claim prevents duplicate pulls.
+ * The internal budget of 150/day remains a separate upper safety limit.
  *
  * The budget, backoff and cache live in core/fetch.ts like every other
  * provider. The old in-file budget counted a credit on every render, cache
@@ -146,6 +142,7 @@ export function basketQuery(phrases: string[]): string {
 export async function fetchNewsdataQuery(
   query: string,
   revalidate = REVALIDATE_SECONDS,
+  fresh = false,
 ): Promise<ConnectorResult<NewsItem[]>> {
   // Read at call time, not module load, so a missing key is a quiet skip
   // rather than a crash at import.
@@ -170,6 +167,7 @@ export async function fetchNewsdataQuery(
 
   const res = await fetchFromProvider<NewsdataPage>('newsdata', `${ENDPOINT}?${params.toString()}`, {
     revalidate,
+    fresh,
     tags: ['news'],
     // A broad basket took 11 s to answer on 25 Sep 2026. The call runs
     // behind a Suspense boundary, so waiting does not block the page.
@@ -192,8 +190,8 @@ export async function fetchNewsdataQuery(
  * assembled from the other four in the aggregator rather than costing its own
  * credit.
  */
-export async function fetchNewsdataBasket(basketKey: NewsBasketKey): Promise<ConnectorResult<NewsItem[]>> {
+export async function fetchNewsdataBasket(basketKey: NewsBasketKey, fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   const basket = getBasket(basketKey);
   if (!basket.newsdataQuery) return ok('newsdata', []);
-  return fetchNewsdataQuery(basket.newsdataQuery, REVALIDATE_SECONDS);
+  return fetchNewsdataQuery(basket.newsdataQuery, fresh ? NEWS_REFRESH_SECONDS : REVALIDATE_SECONDS, fresh);
 }

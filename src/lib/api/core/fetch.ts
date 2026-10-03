@@ -54,6 +54,8 @@ function userAgent(): string {
 export type BodyRejection = { reason: 'rate_limited' | 'unavailable'; message: string };
 
 export type FetchOptions = {
+  /** Authenticated ingestion needs a fresh reply, rather than background revalidation. */
+  fresh?: boolean;
   /** Override the provider's registry default. */
   revalidate?: number;
   headers?: Record<string, string>;
@@ -278,7 +280,7 @@ export async function fetchFromProvider<T>(
   const tags = [providerId, 'external-data', ...(options.tags ?? [])];
 
   try {
-    const hit = await sharedCache(
+    const hit = options.fresh ? await upstream<T>(providerId, url, options) : await sharedCache(
       () => upstream<T>(providerId, url, options),
       cacheKeyParts(providerId, url, options),
       { revalidate, tags },

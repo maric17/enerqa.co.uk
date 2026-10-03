@@ -136,8 +136,9 @@ export function mapRssEntries(xml: string, source: RssSource, retrievedAt: strin
  * p. 226: a failed call becomes an honest failure result, never invented
  * content and never a thrown error that takes the homepage down with it.
  */
-export async function fetchRssFeed(source: RssSource): Promise<ConnectorResult<NewsItem[]>> {
+export async function fetchRssFeed(source: RssSource, fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   const res = await fetchFromProvider<string>(source.provider, source.url, {
+    fresh,
     revalidate: source.revalidate,
     tags: ['news'],
     timeoutMs: 10000,

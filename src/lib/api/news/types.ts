@@ -50,6 +50,10 @@ export type NewsItem = {
    * The stale notice is judged against this.
    */
   refreshSeconds?: number;
+  /** Saved refresh health, evaluated without making requests during a page visit. */
+  refreshFailed?: boolean;
+  /** Last successful scheduled poll, separate from this article's retrieval time. */
+  feedRefreshedAt?: string;
   /**
    * The page "News query baskets" (as NewsData queries) that returned this
    * item. NewsData matches a query against the full article text, which we

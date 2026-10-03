@@ -1,6 +1,6 @@
 import { storeRecords } from '../core/storage';
-import { allAskedFailed, type ConnectorFailure, type ConnectorResult } from '../core/types';
-import { checkAccess, firstVerified, type AccessVerdict } from '../core/accessCheck';
+import { allAskedFailed, fail, type ConnectorFailure, type ConnectorResult } from '../core/types';
+import { checkAccess, firstVerified, RECHECK_SECONDS, type AccessVerdict } from '../core/accessCheck';
 import { isStaleAge } from '../core/health';
 import { normaliseLanguage } from '../core/language';
 import type { NewsItem, NewsBasketKey, NewsProvider } from './types';
@@ -20,6 +20,9 @@ import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews } from './gdelt';
 import { REGION_ORDER } from './geography';
+import { providerEnabled } from '../core/registry';
+import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS } from './storage';
+import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
@@ -49,6 +52,8 @@ export type ProviderOutcome = 'ok' | ConnectorFailure['reason'];
 export type NewsResult = {
   /** Safe provider outcomes and stage counts for troubleshooting an empty feed. */
   diagnostics?: NewsDiagnostics;
+  /** Last successful scheduled poll for the providers contributing saved articles. */
+  refreshedAt?: string | null;
   items: NewsItem[];
   /** Only the providers that actually contributed a displayed item. */
   sources: { id: NewsProvider; label: string; href: string }[];
@@ -114,20 +119,20 @@ const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
 };
 
 /**
- * Each provider's shared refresh interval, in seconds. These mirror the
- * `revalidate` values in the connectors (p. 210: 2 hours, p. 211: 1-2 hours,
- * pp. 214-216: 6 hours). An item older than this means a refresh failed.
+ * All saved news refreshes on the agreed three-times-daily schedule.
+ * Last successful poll time is separate from each article's retrieval time.
  */
 const REFRESH_SECONDS: Record<NewsProvider, number> = {
-  newsdata: 7200,
-  gdelt: 5400,
-  eia_rss: 21600,
-  eea_rss: 21600,
+  newsdata: NEWS_REFRESH_SECONDS,
+  gdelt: NEWS_REFRESH_SECONDS,
+  eia_rss: NEWS_REFRESH_SECONDS,
+  eea_rss: NEWS_REFRESH_SECONDS,
 };
 
 /** p. 227 stale notice: the same rule as every other connector (`isStaleAge`). */
 export function isNewsItemStale(item: NewsItem, now = Date.now()): boolean {
-  return isStaleAge(item.provider, item.retrievedAt, item.refreshSeconds ?? REFRESH_SECONDS[item.provider], now);
+  if (item.refreshFailed) return true;
+  return isStaleAge(item.provider, item.feedRefreshedAt ?? item.retrievedAt, item.refreshSeconds ?? REFRESH_SECONDS[item.provider], now);
 }
 
 /**
@@ -163,6 +168,12 @@ function normalise(item: NewsItem): NewsItem {
 
 type Collected = { items: NewsItem[]; status: Partial<Record<NewsProvider, ProviderOutcome>>; diagnostics: NewsDiagnostics };
 
+/** One unexpected connector exception must not stop healthy sources refreshing. */
+async function safeNewsCall(provider: NewsProvider, request: Promise<ConnectorResult<NewsItem[]>>): Promise<ConnectorResult<NewsItem[]>> {
+  try { return await request; }
+  catch { return fail(provider, 'unavailable', 'News connector failed to complete.'); }
+}
+
 /** Record a provider's answer, merging several calls (four NewsData baskets) into one outcome. */
 function note(status: Collected['status'], provider: NewsProvider, result: ConnectorResult<unknown>): void {
   const outcome: ProviderOutcome = result.ok ? 'ok' : result.reason;
@@ -174,6 +185,7 @@ async function collect(
   basketKey: NewsBasketKey,
   providers: readonly NewsProvider[],
   pageBaskets: string[][] = [],
+  fresh = false,
 ): Promise<Collected> {
   const basket = getBasket(basketKey);
   const wants = (p: NewsProvider) => providers.includes(p);
@@ -185,10 +197,10 @@ async function collect(
   const newsdataCalls = !wants('newsdata')
     ? []
     : basketKey === 'all'
-      ? NEWS_BASKETS.filter((b) => b.newsdataQuery).map((b) => fetchNewsdataBasket(b.key))
-      : [fetchNewsdataBasket(basketKey)];
+      ? NEWS_BASKETS.filter((b) => b.newsdataQuery).map((b) => safeNewsCall('newsdata', fetchNewsdataBasket(b.key, fresh)))
+      : [safeNewsCall('newsdata', fetchNewsdataBasket(basketKey, fresh))];
   const pageCalls = wants('newsdata')
-    ? pageBaskets.map((phrases) => fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS))
+    ? pageBaskets.map((phrases) => safeNewsCall('newsdata', fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS)))
     : [];
 
   const wantsEia = wants('eia_rss') && EIA_BASKETS.includes(basketKey);
@@ -199,9 +211,9 @@ async function collect(
   const [newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
     Promise.all(newsdataCalls),
     Promise.all(pageCalls),
-    wantsEia ? fetchEiaNews() : null,
-    wantsEea ? fetchEeaNews() : null,
-    wants('gdelt') ? fetchGdeltNews(basketKey) : null,
+    wantsEia ? safeNewsCall('eia_rss', fetchEiaNews(fresh)) : null,
+    wantsEea ? safeNewsCall('eea_rss', fetchEeaNews(fresh)) : null,
+    wants('gdelt') ? safeNewsCall('gdelt', fetchGdeltNews(basketKey, fresh)) : null,
   ]);
 
   const status: Collected['status'] = {};
@@ -280,6 +292,7 @@ function buildResult(items: NewsItem[], status: Collected['status']): NewsResult
     // The oldest displayed item is the honest age of this set: with the shared
     // cache, "assembled now" can hide hours-old data (p. 226).
     retrievedAt: oldestRetrieval(items),
+    refreshedAt: items.map(i => i.feedRefreshedAt).filter((t): t is string => Boolean(t)).sort()[0] ?? null,
     unavailable: items.length === 0,
     sourcesFailed: sourcesFailedFor({ providerStatus: status }, all),
     newsSourcesFailed: sourcesFailedFor({ providerStatus: status }, PAGE_NEWS_PROVIDERS),
@@ -292,14 +305,14 @@ function buildResult(items: NewsItem[], status: Collected['status']): NewsResult
 export type NewsOptions = {
   maxPerPublisher?: number;
   /**
-   * Only ask these providers, and judge `sourcesFailed` on them alone. A panel
+   * Only read these providers, and judge `sourcesFailed` on them alone. A panel
    * limited to PAGE_NEWS_PROVIDERS should pass them here rather than filtering
-   * afterwards, so EIA and EEA are neither fetched nor counted.
+   * afterwards, so EIA and EEA are not counted.
    */
   providers?: readonly NewsProvider[];
-  /** For tests: the access check to run instead of the real one. */
+  /** Ingestion tests only: the access check to run instead of the real one. */
   check?: (url: string) => Promise<AccessVerdict>;
-  /** A page's own "News query baskets" (pp. 30 ... 138), fetched into the shared pool. */
+  /** A page's phrases; public reads use only previously saved query metadata. */
   pageBaskets?: string[][];
 };
 
@@ -310,7 +323,7 @@ const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'
  * publisher cap) and newest first, BEFORE the access check. Callers narrow it
  * and then check only what they will show.
  */
-async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
+async function providerPool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
   const { items: collected, status, diagnostics } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
 
   // The same article can arrive from a topic basket and a page basket; the
@@ -334,6 +347,47 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
   });
   diagnostics.counts.afterGate = deduped.length;
   return { items: deduped.sort(byNewest), status, diagnostics };
+}
+
+/** Public pages read approved saved records, including after a failed refresh. */
+async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
+  const saved = await readNewsStore();
+  const providers = opts.providers ?? ALL_PROVIDERS;
+  const diagnostics = createNewsDiagnostics(basketKey);
+  diagnostics.mode = 'database';
+  diagnostics.providers = (saved.state.diagnostics?.providers ?? []).filter(p => providers.includes(p.provider));
+  diagnostics.refresh = {
+    lastAttemptAt: saved.state.lastAttemptAt ?? null,
+    lastCompletedAt: saved.state.lastCompletedAt ?? null,
+    lastSuccessAt: saved.state.lastSuccessAt ?? {},
+  };
+  diagnostics.storage = saved.available ? 'ok' : 'failed';
+  const status: Collected['status'] = {};
+  const eligible = saved.items.filter(item => item.accessStatus === 'verified_open' &&
+    Boolean(item.accessCheckedAt && Date.now() - Date.parse(item.accessCheckedAt) <= RECHECK_SECONDS * 1000) &&
+    providers.includes(item.provider) && providerEnabled(item.provider));
+  for (const provider of providers) {
+    const latest = diagnostics.providers.filter(p => p.provider === provider);
+    // Saved articles keep a failed provider usable; fresh empty replies remain healthy empty.
+    status[provider] = !providerEnabled(provider) ? 'disabled' : !saved.available ? 'unavailable'
+      : eligible.some(item => item.provider === provider) || latest.some(p => p.outcome === 'ok') ? 'ok'
+        : latest.at(-1)?.outcome ?? 'unavailable';
+  }
+  // Page matching may reuse legacy page-basket records; the homepage keeps its stricter topic gate.
+  const relevant = eligible.filter(item => opts.pageBaskets && basketKey === 'all'
+    ? isOnSiteTopic(item) : matchesBasket(item, getBasket(basketKey))).map(item => ({
+    ...normalise(item), refreshSeconds: NEWS_REFRESH_SECONDS,
+    feedRefreshedAt: saved.state.lastSuccessAt?.[item.provider],
+    refreshFailed: diagnostics.providers.some(p => p.provider === item.provider && (p.outcome !== 'ok' || p.stale)) ||
+      Boolean(saved.state.lastSuccessAt?.[item.provider] && Date.now() - Date.parse(saved.state.lastSuccessAt[item.provider]!) > 2 * NEWS_REFRESH_SECONDS * 1000),
+  }));
+  diagnostics.counts.received = eligible.length;
+  diagnostics.counts.relevant = relevant.length;
+  const items = applyGate([...relevant].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
+    { maxPerPublisher: opts.maxPerPublisher }).sort(byNewest);
+  diagnostics.counts.afterGate = items.length;
+  diagnostics.counts.verifiedOpen = items.length;
+  return { items, status, diagnostics };
 }
 
 /**
@@ -368,9 +422,70 @@ export async function fetchNews(
   opts: NewsOptions = {},
 ): Promise<NewsResult> {
   const { items, status, diagnostics } = await pool(basketKey, opts);
+  const shown = items.slice(0, limit);
+  diagnostics.counts.returned = shown.length;
+  logNewsDiagnostics(diagnostics);
+  return { ...buildResult(shown, status), diagnostics };
+}
+
+/** Provider pipeline for scheduled ingestion and offline connector tests only. */
+export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opts: NewsOptions = {}): Promise<NewsResult> {
+  const { items, status, diagnostics } = await providerPool(basketKey, opts);
+  diagnostics.mode = 'refresh';
   const shown = await verified(items, limit, opts.check, diagnostics);
   logNewsDiagnostics(diagnostics);
   return { ...buildResult(shown, status), diagnostics };
+}
+
+/** Three daily pulls of one shared pool, with independent provider storage. */
+export async function refreshScheduledNews(check?: NewsOptions['check']) {
+  const claim = await claimNewsRefresh();
+  if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
+  const diagnostics = createNewsDiagnostics('all');
+  diagnostics.mode = 'refresh';
+  const lastSuccessAt = { ...claim.state.lastSuccessAt };
+  try {
+    const collected = await collect('all', NEWS_PROVIDERS, [], true);
+    diagnostics.providers = collected.diagnostics.providers;
+    diagnostics.counts.received = collected.diagnostics.counts.received;
+    diagnostics.counts.relevant = collected.items.length;
+    // Recheck still-recent saved candidates on the job, never during page visits.
+    const saved = await readNewsStore(true);
+    for (const provider of NEWS_PROVIDERS) {
+      if (!providerEnabled(provider)) continue;
+      const fresh = collected.items.filter(i => i.provider === provider);
+      const previous = saved.items.filter(i => i.provider === provider);
+      const candidates = applyGate([...fresh, ...previous].map(i => ({ ...i, refreshSeconds: NEWS_REFRESH_SECONDS })), { maxPerPublisher: 500 }).sort(byNewest);
+      const counts = createNewsDiagnostics('all');
+      try {
+        await verified(candidates, 80, check, counts);
+      } catch {
+        counts.storage = 'failed';
+      }
+      diagnostics.counts.afterGate += candidates.length;
+      for (const key of ['accessChecked', 'verifiedOpen', 'returned'] as const) diagnostics.counts[key] += counts.counts[key];
+      for (const [key, value] of Object.entries(counts.access)) {
+        const status = key as keyof NewsDiagnostics['access'];
+        diagnostics.access[status] = (diagnostics.access[status] ?? 0) + value!;
+      }
+      if (counts.storage === 'failed') {
+        diagnostics.storage = 'failed';
+        diagnostics.providers.push({ provider, outcome: 'unavailable', issue: 'record_storage_failed',
+          items: 0, retrievedAt: null, stale: false, httpStatus: null });
+      }
+      else if (diagnostics.storage !== 'failed' && counts.storage === 'ok') diagnostics.storage = 'ok';
+      const replies = diagnostics.providers.filter(p => p.provider === provider);
+      if (replies.some(p => p.outcome === 'ok' && !p.stale) && counts.storage !== 'failed') lastSuccessAt[provider] = new Date().toISOString();
+    }
+    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
+    logNewsDiagnostics(diagnostics);
+    return { skipped: false as const, storedItems: diagnostics.counts.returned,
+      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, NEWS_PROVIDERS) || diagnostics.storage === 'failed', diagnostics };
+  } catch {
+    diagnostics.storage = 'failed';
+    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
+    throw new Error('Scheduled news refresh failed; previously saved articles are retained.');
+  }
 }
 
 function oldestRetrieval(items: NewsItem[]): string {
@@ -450,9 +565,9 @@ export async function searchNews(
 
   const page = filters.page ?? 1;
   const needed = page * limit;
-  const passed = await verified(items, needed);
+  const passed = items.slice(0, needed + 1);
   
-  const hasNextPage = passed.length === needed;
+  const hasNextPage = passed.length > needed;
   const start = (page - 1) * limit;
   const pagedItems = passed.slice(start, start + limit);
 
@@ -462,18 +577,10 @@ export async function searchNews(
 /**
  * CN/EN/NN/BN "Latest News" and I{nn}N "Industry News".
  *
- * Every page reads the SAME shared pool - all four cached topic baskets - and
- * keeps the items that match its own handoff baskets (p. 226: "Reuse filtered
- * records across home, domains, industries and Global Intelligence"). A page
- * therefore costs zero extra API requests.
- *
- * Two things this fixes compared with the earlier version:
- *  - A domain used to read only its own topic basket (10 NewsData records), so
- *    "climate finance" stories fetched by the Business basket never reached
- *    the Climate page. The whole pool is now matched against every page.
- *  - The one-outlet cap was applied BEFORE phrase matching, so most Guardian
- *    stories were discarded before anyone asked whether they matched. It is now
- *    applied to the matched set.
+ * Every page reads the same approved database pool and selects its own phrases.
+ * Selection, pagination and access evidence reads never call news providers.
+ * The publisher cap is applied after phrase matching so relevant saved stories
+ * are not removed before the page gets to choose them.
  *
  * `keywords` are matched as whole phrases in the headline and summary; an item
  * needs to match any one of them.
@@ -486,7 +593,7 @@ export async function fetchNewsForKeywords(
   const { providers = PAGE_NEWS_PROVIDERS, maxPerPublisher = 10, baskets = [] } = opts;
   // Only the page's own providers are asked. A high cap for the pool: the real
   // cap is applied after matching, below.
-  const { items: pooled, status } = await pool('all', { maxPerPublisher: 500, providers, pageBaskets: baskets });
+  const { items: pooled, status, diagnostics } = await pool('all', { maxPerPublisher: 500, providers, pageBaskets: baskets });
   const terms = keywords.map((k) => k.trim()).filter(Boolean);
 
   // Word-boundary matching, the same as the basket filter uses, so an industry
@@ -512,7 +619,8 @@ export async function fetchNewsForKeywords(
   }
 
   // "Sources failed" is judged on this page's own providers only (p. 226).
-  return withItems(buildResult(pooled, status), await verified(capped, limit, opts.check));
+  diagnostics.counts.returned = Math.min(capped.length, limit);
+  return withItems({ ...buildResult(pooled, status), diagnostics }, capped.slice(0, limit));
 }
 
 /**
@@ -525,16 +633,7 @@ export async function fetchOfficialNews(
   provider: 'eia_rss' | 'eea_rss',
   basketKey: Exclude<NewsBasketKey, 'all'>,
 ): Promise<NewsResult> {
-  const result = provider === 'eia_rss' ? await fetchEiaNews() : await fetchEeaNews();
-  const status: Collected['status'] = {};
-  note(status, provider, result);
-  const raw = result.ok ? result.data : [];
-  const basket = getBasket(basketKey);
-  const relevant = raw.filter((item) => matchesBasket(item, basket)).map(normalise);
-  // Not access-checked here: the official-updates module checks the items it
-  // is about to show, across all of its feeds at once (lib/feeds/official.ts).
-  const items = applyGate(relevant, { maxPerPublisher: 500 }).sort(byNewest);
-  return buildResult(items, status);
+  return fetchNews(basketKey, 500, { providers: [provider], maxPerPublisher: 500 });
 }
 
 /** Rebuild a result around a narrowed item list so the labels stay truthful. */
@@ -543,6 +642,7 @@ function withItems(result: NewsResult, items: NewsItem[]): NewsResult {
   return {
     ...result,
     items,
+    refreshedAt: items.map(i => i.feedRefreshedAt).filter((t): t is string => Boolean(t)).sort()[0] ?? result.refreshedAt,
     retrievedAt: items.length > 0 ? oldestRetrieval(items) : result.retrievedAt,
     // Note: We intentionally don't filter `availableRegions` and `availableLanguages`
     // so the UI dropdowns can still show siblings. But `sources` is updated to reflect

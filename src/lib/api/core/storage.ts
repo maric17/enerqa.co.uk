@@ -16,6 +16,11 @@ function pool(): Pool | null {
   return globalStore[key];
 }
 
+/** Scheduled news shares this pool and the existing operational tables. */
+export function providerDatabase(): Pool | null {
+  return pool();
+}
+
 /** Reserve one actual upstream attempt atomically across all server instances. */
 export async function reserveRequest(provider: ProviderId): Promise<string | null> {
   const db = pool();

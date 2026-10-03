@@ -117,7 +117,7 @@ export function mapGdeltArticles(articles: unknown[], retrievedAt: string): News
   });
 }
 
-export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all'): Promise<ConnectorResult<NewsItem[]>> {
+export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all', fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   const query = gdeltQuery(basketKey);
   if (query.length > GDELT_MAX_QUERY) {
     console.warn(`[gdelt] basket "${basketKey}" query is ${query.length} characters; GDELT rejects long queries, so it is not sent`);
@@ -127,6 +127,7 @@ export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all'): Promise<
   const url = `${ENDPOINT}?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=${MAX_RECORDS}&format=json&sort=datedesc`;
 
   const res = await fetchFromProvider<string>('gdelt', url, {
+    fresh,
     // p. 211 suggests 1-2 hours. One cached fetch serves every visitor, which
     // is also what keeps us inside GDELT's request shedding.
     revalidate: 5400,

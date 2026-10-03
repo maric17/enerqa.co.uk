@@ -27,17 +27,17 @@ import {
  *
  * Sources (p. 13): "Use NewsData.io's delayed free feed and additional legacy
  * GDELT coverage", and H04 "uses eligible items from the same free news pool".
- * Global News requests only PAGE_NEWS_PROVIDERS. Major Markets also uses
+ * Global News reads saved PAGE_NEWS_PROVIDERS articles. Major Markets also uses
  * verified U.S. EIA market commentary when that shared news pool is thin.
  * EIA cannot consume Global News slots or mask a news-provider outage.
  *
  * Streaming (p. 226 "Loading reserves the card/chart dimensions"): the provider
- * calls run inside <Suspense>, so the page shell, hero and search are sent at
+ * database reads run inside <Suspense>, so the page shell, hero and search are sent at
  * once, and the band's headings and a same-size skeleton hold the space until
  * the cached feeds arrive. Before this, the whole homepage waited on the feeds
  * (the first GET / took 22 s).
  *
- * Every provider call is cached server-side and shared by all visitors (p. 226).
+ * Providers are pulled on three daily jobs; visitors share saved database records.
  */
 
 /** How many commentary items the compact H04 panel shows. */
@@ -146,6 +146,7 @@ function Attribution({ shown, sourcesFailed }: { shown: NewsItem[]; sourcesFaile
   const providers = [...new Set(shown.map((item) => item.provider))];
   // The oldest retrieval is the honest age of what is on screen (p. 226).
   const retrieved = formatDateTimeUtc(shown.map((item) => item.retrievedAt).sort()[0]);
+  const refreshed = formatDateTimeUtc(shown.map(item => item.feedRefreshedAt).filter((t): t is string => Boolean(t)).sort()[0] ?? null);
   const delayed = shown.some((item) => item.provider === 'newsdata');
   const stale = shown.some((item) => isNewsItemStale(item));
 
@@ -168,6 +169,7 @@ function Attribution({ shown, sourcesFailed }: { shown: NewsItem[]; sourcesFaile
       .{retrieved && ` Retrieved by Enerqa ${retrieved}`}
       {delayed && `${retrieved ? '; free-feed' : ' Free-feed'} items can arrive up to ${NEWS_DELAY_HOURS} hours after publication`}
       {(retrieved || delayed) && '.'}
+      {refreshed && ` Feed last refreshed ${refreshed}.`}
       {/* p. 227: when the shared cache could not be refreshed, say so. */}
       {stale && ' Showing the latest cached headlines; the feeds could not be refreshed since.'}
       {' '}Links open the original publisher; Enerqa does not host or endorse them.
