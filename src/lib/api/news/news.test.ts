@@ -11,6 +11,13 @@ import * as storage from '../core/storage';
  */
 
 const results: Record<string, ConnectorResult<NewsItem[]>> = {};
+const savedItems: NewsItem[] = [];
+
+vi.mock('./storage', () => ({
+  readNewsStore: vi.fn(async () => ({ items: savedItems, state: {}, available: true })),
+  claimNewsRefresh: vi.fn(), finishNewsRefresh: vi.fn(),
+  NEWS_PROVIDERS: ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'],
+}));
 
 vi.mock('./newsdata', () => ({
   NEWSDATA_DELAY_HOURS: 12,
@@ -23,7 +30,7 @@ vi.mock('./gdelt', () => ({ fetchGdeltNews: vi.fn(async () => results.gdelt ?? o
 vi.mock('./eiaRss', () => ({ EIA_BASKETS: ['all', 'energy', 'business'], fetchEiaNews: vi.fn(async () => results.eia ?? ok('eia_rss', [])) }));
 vi.mock('./eeaRss', () => ({ EEA_BASKETS: ['all', 'environment', 'climate'], fetchEeaNews: vi.fn(async () => results.eea ?? ok('eea_rss', [])) }));
 
-import { fetchNews, fetchNewsForKeywords, normaliseLanguage, sourcesFailedFor, toTeaser, PAGE_NEWS_PROVIDERS } from './index';
+import { pullNews as fetchNews, fetchNewsForKeywords, normaliseLanguage, sourcesFailedFor, toTeaser, PAGE_NEWS_PROVIDERS } from './index';
 import { NEWS_BASKETS } from './types';
 
 const { gdeltQuery: realGdeltQuery, GDELT_MAX_QUERY: realMax, rejectGdeltBody: realReject } = await vi.importActual<typeof import('./gdelt')>('./gdelt');
@@ -53,12 +60,15 @@ function news(n: number, over: Partial<NewsItem> = {}): NewsItem {
     retrievedAt: new Date().toISOString(),
     rights: 'r',
     regions: ['Not Specified'],
+    accessStatus: 'verified_open',
+    accessCheckedAt: new Date().toISOString(),
     ...over,
   };
 }
 
 beforeEach(() => {
   for (const k of Object.keys(results)) delete results[k];
+  savedItems.length = 0;
 });
 
 describe('provider-scoped failure (homepage flag)', () => {
@@ -131,27 +141,25 @@ describe('provider-scoped failure (homepage flag)', () => {
 
 describe('domain and industry news (L443, L539)', () => {
   it('keeps EIA and EEA official items out of "news"', async () => {
-    results.eia = ok('eia_rss', [news(1, { provider: 'eia_rss', url: 'https://www.eia.gov/todayinenergy/detail.php?id=2', domain: 'eia.gov', title: 'Climate finance and electricity markets' })]);
-    results['newsdata:climate'] = ok('newsdata', [news(2)]);
+    savedItems.push(news(1, { provider: 'eia_rss', url: 'https://www.eia.gov/todayinenergy/detail.php?id=2', domain: 'eia.gov', title: 'Climate finance and electricity markets' }), news(2));
     const res = await fetchNewsForKeywords(['climate finance'], 3, { check: openCheck });
     expect(res.items.map((i) => i.provider)).toEqual(['newsdata']);
   });
 
   it('matches a page baskets against the whole shared pool, GDELT included', async () => {
-    results['newsdata:business'] = ok('newsdata', [news(1), news(2)]);
-    results.gdelt = ok('gdelt', [
+    savedItems.push(news(1), news(2),
       news(3, { provider: 'gdelt', url: 'https://www.reuters.com/a', domain: 'reuters.com', title: 'Climate finance talks resume' }),
-    ]);
+    );
     const res = await fetchNewsForKeywords(['climate finance'], 3, { check: openCheck });
     expect(res.items).toHaveLength(3);
   });
 
-  it('adds the page\'s own query baskets to the pool (L539)', async () => {
-    results['query:sustainable tourism OR green hotels'] = ok('newsdata', [
+  it('uses saved articles for page baskets without sending extra provider queries', async () => {
+    savedItems.push(
       news(1, { title: 'Sustainable tourism plan agreed for coastal towns' }),
-    ]);
+    );
     const without = await fetchNewsForKeywords(['sustainable tourism'], 3, { check: openCheck });
-    expect(without.items).toHaveLength(0);
+    expect(without.items).toHaveLength(1);
     const withBaskets = await fetchNewsForKeywords(['sustainable tourism'], 3, {
       check: openCheck,
       baskets: [['sustainable tourism', 'green hotels']],
@@ -162,9 +170,9 @@ describe('domain and industry news (L443, L539)', () => {
   it('trusts a page basket match made on the full text, for that page only', async () => {
     // NewsData matched "climate change" in the article body; the headline is
     // on the site's subject but does not repeat the phrase.
-    results['query:climate change OR climate policy'] = ok('newsdata', [
+    savedItems.push(
       news(1, { title: 'Fossil-fuel firms in line for billions in benefits', matchedQueries: ['climate change OR climate policy'] }),
-    ]);
+    );
     const own = await fetchNewsForKeywords(['climate change'], 3, { check: openCheck, baskets: [['climate change', 'climate policy']] });
     expect(own.items).toHaveLength(1);
     const other = await fetchNewsForKeywords(['sustainable tourism'], 3, { check: openCheck, baskets: [['sustainable tourism']] });
@@ -172,7 +180,7 @@ describe('domain and industry news (L443, L539)', () => {
   });
 
   it('shows only items whose article passed the access check', async () => {
-    results['newsdata:climate'] = ok('newsdata', [news(1, { url: 'https://www.theguardian.com/gated/1' }), news(2), news(3)]);
+    savedItems.push(news(1, { url: 'https://www.theguardian.com/gated/1', accessStatus: 'gated' }), news(2), news(3));
     const res = await fetchNewsForKeywords(['climate finance'], 3, { check: openCheck });
     expect(res.items.map((i) => i.url)).not.toContain('https://www.theguardian.com/gated/1');
     expect(res.items).toHaveLength(2);

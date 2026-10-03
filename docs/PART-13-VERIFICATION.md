@@ -8,7 +8,7 @@ The available implementation is finished. **Eight items remain unchecked**: comp
 
 - Added persistent records and access verdicts in a private database schema, separate from Payload content. News keeps original provider IDs, the final checked URL and actual check evidence. Research/official records keep identifiers, separate dates and rights metadata. Invalid/uncertain destination verdicts remain unpublished and can be rechecked after expiry.
 - Added shared database reservations before actual upstream requests. A database transaction locks one provider while counting/reserving its allowance. Cache hits do not spend a request. Daily and rolling budgets survive server restarts and multiple server instances. Local request spacing, backoff, Retry-After and circuit breakers remain; OSTI is serialized.
-- Added a protected scheduled-ingestion endpoint and bounded request-history cleanup. It is not activated because the deployment scheduler and `CRON_SECRET` are absent.
+- Added a protected scheduled-ingestion endpoint and bounded request-history cleanup. As of 3 Oct, news has its own protected `/api/ingest/news` endpoint and three daily jobs in `vercel.json`; public news reads use approved saved database records. Local `CRON_SECRET` is absent, the read-only database check timed out, and deployment activation/seeding remains unverified. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md).
 - Paused DOAJ until its documented launch gate is resolved. Restored ReliefWeb's disabled state because no approved appname is configured. Existing OpenAI/Gemini launch switches remain off; AI Search work remains in its separate board.
 - Added EIA annual U.S. generation to the Data Portal preview, the Energy related-data fallback, a numerical detail view and ungated CSV. The Energy fallback runs when no compliant CMS dataset is already linked; an existing approved dataset retains priority.
 - Added GBIF's real occurrence table and bounded, licensed CSV extract. Dataset names/DOIs, coordinate uncertainty and source withholding/generalization notes travel with the extract. It never claims that its first 100 returned records represent a complete inventory or abundance estimate.
@@ -81,7 +81,7 @@ Do not run the old Payload migrations. No deployment, paid API call, provider re
 | Item | Required next action |
 |---|---|
 | Final source review | Review complete anonymous reading/download and current reuse terms, including external numerical source pages; suppress uncertain items |
-| Scheduler | Set deployment `CRON_SECRET`, configure an authenticated schedule within the hosting plan, verify job completion/rejected unauthorized access |
+| Scheduler | Set deployment `CRON_SECRET`, deploy the three daily `/api/ingest/news` entries in `vercel.json`, seed saved news and verify job completion/rejected unauthorized access; research/index scheduling remains separate. See `NEWS-SCHEDULE.md`. |
 | DOAJ | Obtain current official schema/quota confirmation, verify a full-text sample, update review evidence and then enable |
 | ReliefWeb | Obtain/set a pre-approved organisational appname, verify a complete report and then enable |
 | SEC | Approve the issuer watchlist and identify/tag ESG-relevant passages; preserve the corporate-disclosure label |

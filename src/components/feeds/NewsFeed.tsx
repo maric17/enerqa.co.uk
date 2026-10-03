@@ -2,14 +2,13 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { fetchNews, fetchNewsForKeywords, NEWS_DELAY_HOURS, PAGE_NEWS_PROVIDERS } from '@/lib/api/news';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
-import { FeedMeta, formatDate } from './feedParts';
+import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
 
 /**
  * CN/EN/NN/BN "Latest News" and I{nn}N "Industry News".
  *
- * Reads the shared cached pool - the four topic baskets plus this page's own
- * "News query baskets" from the handoff, each cached for every visitor - and
- * keeps only items matching those baskets (p. 226). Placement (p. 37): three
+ * Reads the shared saved news pool and keeps items matching the page's phrases.
+ * Only the scheduled news job contacts providers. Placement (p. 37): three
  * cards with headline, source,
  * publication time and short permitted description. Only the two news
  * providers the page spec names (NewsData, GDELT) are used - EIA and EEA items
@@ -26,7 +25,7 @@ export async function NewsFeed({
 }: {
   /** Omit to preview the whole Global Intelligence news pool. */
   phrases?: string[];
-  /** The page's own "News query baskets", also sent to NewsData (every 12 h, shared by all visitors). */
+  /** The page's phrases, used only to select from the saved shared news pool. */
   baskets?: string[][];
   limit?: number;
   nearest: { href: string; label: string };
@@ -78,7 +77,10 @@ export async function NewsFeed({
         retrievedAt={result.retrievedAt}
         stale={result.stale}
         // p. 37: "Show source delays rather than calling the free feed live."
-        extra={result.hasDelayedSource ? `NewsData.io free-plan items are delayed by up to ${NEWS_DELAY_HOURS} hours.` : undefined}
+        extra={[
+          result.refreshedAt ? `Feed last refreshed ${formatRetrieved(result.refreshedAt)}.` : '',
+          result.hasDelayedSource ? `NewsData.io free-plan items are delayed by up to ${NEWS_DELAY_HOURS} hours.` : '',
+        ].filter(Boolean).join(' ') || undefined}
       />
     </div>
   );

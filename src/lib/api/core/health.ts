@@ -37,9 +37,8 @@ const DEFAULT_LIMITS: Limits = { daily: 500, maxConcurrent: 4 };
  */
 export const LIMITS: Partial<Record<ProviderId, Limits>> = {
   // p. 210: 200 credits/day and 30 credits per 15 minutes. The 4 topic
-  // baskets every 2 hours and the 38 page baskets every 12 hours cost 124/day
-  // (news/newsdata.ts); the rest is headroom for retries (p. 210 "reserve
-  // quota for pagination/retries").
+  // baskets now run only on three daily news jobs (12 baseline calls/day).
+  // This upper limit remains shared across all servers, below the allowance.
   newsdata: { daily: 150, window: { max: 25, seconds: 15 * 60 }, maxConcurrent: 2 },
   // GDELT answers faster polling with "Please limit requests to one every 5
   // seconds" (checked 25 Sep 2026), so requests are spaced by that much.

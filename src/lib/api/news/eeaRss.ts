@@ -44,9 +44,9 @@ const EEA_FEEDS: RssSource[] = [
 /** Baskets this source is a sensible contributor to. */
 export const EEA_BASKETS: NewsBasketKey[] = ['all', 'environment', 'climate'];
 
-export async function fetchEeaNews(): Promise<ConnectorResult<NewsItem[]>> {
+export async function fetchEeaNews(fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   // The feeds are fetched together; one failing must not lose the others.
-  const results = await Promise.all(EEA_FEEDS.map((feed) => fetchRssFeed(feed)));
+  const results = await Promise.all(EEA_FEEDS.map((feed) => fetchRssFeed(feed, fresh)));
   const answered = results.filter((r): r is ConnectorSuccess<NewsItem[]> => r.ok);
   if (answered.length === 0) return results[0];
   const retrievedAt = answered.map((r) => r.retrievedAt).sort()[0];

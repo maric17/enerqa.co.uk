@@ -67,6 +67,17 @@ function warned(spy: { mock: { calls: unknown[][] } }, text: string): number {
 }
 
 describe('request budgets count real upstream requests only (L379, L1016)', () => {
+  it('awaits a fresh scheduled reply even when a provider cache entry exists', async () => {
+    const fetch = stub(okJson({ generation: 1 }), okJson({ generation: 2 }));
+    const url = 'https://newsdata.io/api/1/latest?q=climate';
+    await fetchFromProvider('newsdata', url);
+    const refreshed = await fetchFromProvider<{ generation: number }>('newsdata', url, { fresh: true });
+    expect(refreshed.ok && refreshed.data.generation).toBe(2);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(usedToday('newsdata')).toBe(2);
+    expect(background).toHaveLength(0);
+  });
+
   it('does not spend the budget on a cache hit', async () => {
     const fetch = stub(okJson());
     for (let i = 0; i < 5; i += 1) {
