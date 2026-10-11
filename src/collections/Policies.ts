@@ -115,6 +115,13 @@ export const Policies: CollectionConfig = {
       validate: requiredWhenApproved,
     },
     {
+      name: 'policyVersion',
+      type: 'text',
+      label: 'Policy version',
+      admin: { position: 'sidebar', description: 'Version of the exact approved text. Use the actual approval date, not the draft date.' },
+      validate: requiredWhenApproved,
+    },
+    {
       name: 'content',
       type: 'richText',
       required: true,

@@ -8,6 +8,8 @@ import SubscribeForm from './SubscribeForm';
 import FooterBreadcrumbs from './FooterBreadcrumbs';
 import FooterNavGroup from './FooterNavGroup';
 import { getPublishedPolicyLinks } from '@/lib/policies';
+import { COMPANY } from '@/lib/content/company';
+import { getPublishedCareers } from '@/lib/careers';
 
 // p. 8: "Repeat the six navigation groups with concise links". The groups
 // mirror the header; labels are the sitemap names (p. 3). The four domains are
@@ -78,6 +80,7 @@ export async function Footer() {
   // hides the links instead of breaking the footer on every page.
   const policyLinks = await getPublishedPolicyLinks().catch(() => []);
   const privacyHref = policyLinks.find((link) => link.href === '/privacy')?.href;
+  const careers = await getPublishedCareers().catch(() => null);
 
   return (
     <footer className="site bg-[#082C45] text-white pt-7 md:pt-10 pb-5 border-t border-white/10 font-sans">
@@ -129,13 +132,20 @@ export async function Footer() {
           ))}
         </nav>
 
+        {/* p. 8: expose attribution in the footer, with details kept beside the source directory. */}
+        <p className="m-0 mt-5 text-xs leading-relaxed text-white/70">
+          Data sources: original providers, licences and reuse requirements are listed in{' '}
+          <Link href="/data-portal/sources#directory" className="text-white underline underline-offset-4 hover:no-underline">Sources and Methodology</Link>.
+        </p>
+
         {/* Bottom row: copyright and the approved policy destinations (p. 8). */}
         <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center md:gap-6 pt-4 text-xs text-white/60">
           <div className="flex items-center gap-2.5">
             <div className="w-[22px] h-[22px] rounded-full bg-[#005fcc] flex items-center justify-center text-white text-[11px] shadow-sm" aria-hidden="true">
               ♿
             </div>
-            <span className="translate-y-[1px]">© 2026 enerQA Ltd. All Rights Reserved.</span>
+            <span className="translate-y-[1px]">© 2026 {COMPANY.name}. All Rights Reserved. Company number {COMPANY.number}.</span>
+            {careers && <Link href="/about/careers" className={contactLinkClass}>Careers</Link>}
           </div>
           {policyLinks.length > 0 && (
             <ul className="flex flex-wrap gap-x-5 list-none p-0 m-0">

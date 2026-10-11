@@ -3,6 +3,7 @@ import { loadOccurrenceExtract } from '@/lib/api/data/occurrenceExport';
 import { OCCURRENCE_INTERPRETATION } from '@/lib/api/data/gbifOccurrence';
 import { sourceLabel } from '@/lib/api/core/provenance';
 import { failureMessage } from '@/lib/api/core/types';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata = { title: 'Published biodiversity occurrence records', description: 'A licensed GBIF occurrence extract with dataset citations and sampling limitations.', alternates: { canonical: '/data-portal/occurrences' } };
 
@@ -11,7 +12,7 @@ export default async function OccurrencesPage({ searchParams }: { searchParams: 
   const query = new URLSearchParams({ country });
   const result = await loadOccurrenceExtract(query);
   return <Container className="pt-36 pb-20 space-y-6">
-    <nav aria-label="Breadcrumb"><a href="/data-portal">Data Portal</a> / Published biodiversity occurrence records</nav>
+    <Breadcrumbs parents={[{ label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }]} current="Published biodiversity occurrence records" />
     <h1 className="text-3xl font-bold">Published biodiversity occurrence records</h1>
     <p>{OCCURRENCE_INTERPRETATION}</p>
     <form method="GET"><label>Country code <input name="country" defaultValue={country} pattern="[A-Z]{2}" maxLength={2} required className="border p-2" /></label><button className="border p-2">Apply filter</button></form>

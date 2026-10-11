@@ -4,6 +4,12 @@ Updated 2 October 2026. Scope: handoff PDF pp. 171–208 and Part 12 of `HANDOFF
 
 The owner requested that missing company-approved content remain pending. No tool specifications, legal facts, recruitment content or AI approvals were invented. No deployment, commit or paid AI request was made.
 
+**Utility completion — 11 October 2026:** all six owner-installed fields are verified. The owner authorised the four complete replacements, now published as version 2 with Islam Abuhiss, Director, and 11 October 2026. Real newsletter persistence/confirmation, exact-address withdrawal, neutral replies and recoverable-error input preservation pass; all fixtures were removed. Both 404 route shapes now have correct titles and mobile layouts. The full suite passes 472 tests/62 files, and the schema-disabled production build passes. [Section 1.3 evidence](SECTION-1-3-VERIFICATION.md) records browser acceptance and publication details. No schema change, email send, service activation or code deployment occurred; whole-site/operational work remains in 14.3/14.4.
+
+**Footer follow-up — 11 October 2026:** section 2.3 is 9/9. Added visible source attribution and semantic record-title trails on publication/dataset/dashboard/source templates; footer ownership now prevents duplicate trails, including About/Global Intelligence. Real publication/dataset pages and populated source directory pass browser acceptance; missing detail records show no invented footer breadcrumb. Data Explorer has its missing footer trail, and numerical series/occurrence views use current-page markers. Footer layout/keyboard checks pass at 1366/1024/390/320 px, and the scoped footer accessibility scan finds zero violations. Latest suite: 474 tests/63 files; TypeScript, changed-file ESLint and the schema-disabled build pass. No CMS content/schema changes or deployment occurred for this footer work. [Footer evidence](SECTION-2-3-VERIFICATION.md).
+
+**Questionnaire follow-up — 3 October 2026 (historical verification):** Q1–Q7 supplied the company/privacy decisions and named approver; Q13 supplied careers direction. Replacement policy/careers text was drafted for review, not published. The policy template supports a version and recorded approver, and the careers page/footer/sitemap share one approval gate. AI launch remains deferred by the user's latest instruction. The [3 October verification](questionnaire/STATUS.md) recorded 467 passing tests and TypeScript/changed-file ESLint, while the production build stopped on a database connection timeout after compilation. The successful build/browser/database evidence below belongs to the 2 October run.
+
 ## Delivered
 
 - **Global Intelligence:** one cached collection combining news, scholarly research, official updates and selected-issuer disclosures. Every type uses the same query/facets, count, removable selections and pagination. Existing per-destination open-access checks run before indexing. Type-specific reading actions, authors/DOIs, organisation/filing labels, dates and source/retrieval information remain visible. Only short permitted news descriptions are displayed.
@@ -60,16 +66,16 @@ This project shares its database between local, preview and production. The revi
 - `scripts/check-part12-publication-drafts.ts` creates a draft and verifies anonymous visibility inside a transaction that is always rolled back. No test article remains in the database.
 - `PAYLOAD_SCHEMA_PUSH=false` disables automatic schema changes for verification/builds. **Do not run the old Payload migration history against the shared database.**
 
-## Still pending
+## Still pending — reconciled with the 3 October questionnaire
 
 | Item | Needed |
 |---|---|
 | TD02 | Approved tool input/output lists, units, supported parameters and expected user skill |
 | TD03 | Approved scoring/calculation methods, assumptions, limitations, tool dates/versions and source-data versions |
 | TD05 | Actual user-guide files, input storage/processing/deletion/third-party-use text and related-domain taxonomy |
-| Careers | Actual approved recruitment content before publishing the conditional page |
-| Privacy | Legal entity, retention, lawful basis and named approver/role |
-| Generated AI answers | Separate Phase 0 sign-offs and staging model check; distributed budgets/rate limits, secure session/idempotency controls, moderation, full conversation/clarification behavior and operational evaluation in `AI-SEARCH-TASKS.md` |
+| Careers | Review/publish the prepared Q13 expert-roster draft and confirm CV handling; page remains gated |
+| Privacy operations | Policy text/version/date are approved and published (11 Oct). Complete the documented assessment, processor/account review and retention verification across systems before operational activation (14.4). |
+| Generated AI answers | Deferred by the user because no API key exists; keep switches off. Remaining launch requirements are retained in `AI-SEARCH-TASKS.md` for a future restart |
 
 `providerEnabled('openai')` and `AI_SEARCH_CONFIG.releaseReady` both remain off. Do not turn the latter on merely because output parsing now works. The installed SDK omits `max_tool_calls` from its create overload; the request carries the documented parameter through an explicit type extension, pending the staging compatibility check. No claim is made that the separate AI Search project is launch-ready.
 

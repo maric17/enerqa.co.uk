@@ -35,7 +35,14 @@ export async function OfficialFeed({
   const result = await fetchOfficialUpdates(feed, limit);
 
   if (result.items.length === 0) {
-    return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} note={emptyNote} className="min-h-[200px]" />;
+    return <SourceUnavailable
+      sourcesFailed={result.sourcesFailed}
+      nearest={nearest}
+      // A disabled source has not answered a search with zero matching reports.
+      emptyText={result.notEnabled ? 'Automatic updates from this source are not yet enabled.' : undefined}
+      note={emptyNote ?? (result.notEnabled ? 'Browse the official source links below for reports and updates.' : undefined)}
+      className="min-h-[200px]"
+    />;
   }
 
   return (

@@ -52,9 +52,8 @@ export function ContactForm({ choices, prefill, privacyHref }: { choices: Contac
   } satisfies ContactFormState);
 
   // F04 success: p. 198 wording, which is also exactly what happens (the
-  // enquiry is saved for staff; no email is sent and no response time is
-  // promised, p. 228).
-  if (state.status === 'success') return <ContactSuccess />;
+  // enquiry is saved for staff; no response time is promised, p. 228).
+  if (state.status === 'success') return <ContactSuccess warning={state.newsletterWarning} />;
 
   // Keyed on the attempt: each reply re-mounts the fields with the values the
   // action returned. React 19 resets a form after its action, and a select's
@@ -72,7 +71,7 @@ export function ContactForm({ choices, prefill, privacyHref }: { choices: Contac
   );
 }
 
-function ContactSuccess() {
+function ContactSuccess({ warning }: { warning?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   // The submit button that had focus is gone; move focus to the confirmation
   // so keyboard and screen-reader users land on it.
@@ -81,6 +80,7 @@ function ContactSuccess() {
     <div ref={ref} tabIndex={-1} role="status"
       className="bg-green-50 text-green-900 p-8 rounded-xl border border-green-200 outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]">
       <p className="text-lg font-bold m-0">Thank you. Your enquiry has been received.</p>
+      {warning && <p className="mt-3">{warning}</p>}
       {/* A plain link (full reload) so the form starts empty. */}
       <a href="/contact" className="inline-block mt-4 font-bold underline">
         Send another enquiry

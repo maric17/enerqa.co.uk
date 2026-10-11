@@ -1,0 +1,769 @@
+{
+  "schema_version": "draft-1",
+  "review_status": "awaiting_content_approval",
+  "monthly_budget_usd": 50,
+  "records": [
+    {
+      "record_id": "climate-strategy-mitigation-adaptation",
+      "record_type": "service",
+      "service_id": "climate-strategy-mitigation-adaptation",
+      "title": "Climate Strategy, Mitigation & Adaptation",
+      "content": "Climate ambition becomes meaningful when it is translated into priorities, investable projects and a practical route to implementation. Climate strategies can connect emissions reduction with adaptation needs, policy objectives, operational realities and development priorities. Beginning with evidence and stakeholder engagement, the work progresses through baseline assessment, scenario analysis and opportunity identification to mitigation and adaptation plans, sector roadmaps and project pipelines. The result is a coherent framework for directing resources, coordinating action and monitoring progress as climate conditions, technologies and policy requirements evolve.",
+      "public_url": "/domains/climate-action-carbon-management#climate-strategy-mitigation-adaptation",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Climate ambition becomes meaningful when it is translated into priorities, investable projects and a practical route to implementation. Climate strategies can connect emissions reduction with adaptation needs, policy objectives, operational realities and development priorities. Beginning with evidence and stakeholder engagement, the work progresses through baseline assessment, scenario analysis and opportunity identification to mitigation and adaptation plans, sector roadmaps and project pipelines. The result is a coherent framework for directing resources, coordinating action and monitoring progress as climate conditions, technologies and policy requirements evolve."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "ghg-inventories-carbon-footprints-baselines",
+      "record_type": "service",
+      "service_id": "ghg-inventories-carbon-footprints-baselines",
+      "title": "GHG Inventories, Carbon Footprints & Baselines",
+      "content": "A reliable emissions baseline provides the foundation for carbon management, climate reporting and credible reduction targets. Greenhouse gas inventories and carbon footprints bring together activity data, emission factors, organisational or project boundaries and transparent calculation methods to show where emissions arise and which sources matter most. Covering relevant Scope 1, Scope 2 and Scope 3 emissions, the process moves from data collection and quality review to hotspot analysis and baseline development, creating a defensible evidence base for decarbonisation projects, disclosures and future performance measurement.",
+      "public_url": "/domains/climate-action-carbon-management#ghg-inventories-carbon-footprints-baselines",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "A reliable emissions baseline provides the foundation for carbon management, climate reporting and credible reduction targets. Greenhouse gas inventories and carbon footprints bring together activity data, emission factors, organisational or project boundaries and transparent calculation methods to show where emissions arise and which sources matter most. Covering relevant Scope 1, Scope 2 and Scope 3 emissions, the process moves from data collection and quality review to hotspot analysis and baseline development, creating a defensible evidence base for decarbonisation projects, disclosures and future performance measurement."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "mrv-transparency-ndc-tracking",
+      "record_type": "service",
+      "service_id": "mrv-transparency-ndc-tracking",
+      "title": "MRV, Transparency & NDC Tracking",
+      "content": "Climate commitments depend on systems that can measure results, document decisions and show whether implementation remains on course. Measurement, reporting and verification frameworks define indicators, data sources, responsibilities, calculation methods and quality controls for policies, programmes and projects. At national and sectoral levels, these systems can connect actions and outcomes with Nationally Determined Contributions, international transparency requirements and wider development objectives. Clear institutional arrangements, data flows, reporting templates and digital dashboards make progress easier to track while strengthening accountability, institutional learning and confidence in reported climate results.",
+      "public_url": "/domains/climate-action-carbon-management#mrv-transparency-ndc-tracking",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Climate commitments depend on systems that can measure results, document decisions and show whether implementation remains on course. Measurement, reporting and verification frameworks define indicators, data sources, responsibilities, calculation methods and quality controls for policies, programmes and projects. At national and sectoral levels, these systems can connect actions and outcomes with Nationally Determined Contributions, international transparency requirements and wider development objectives. Clear institutional arrangements, data flows, reporting templates and digital dashboards make progress easier to track while strengthening accountability, institutional learning and confidence in reported climate results."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "decarbonisation-net-zero-pathways",
+      "record_type": "service",
+      "service_id": "decarbonisation-net-zero-pathways",
+      "title": "Decarbonisation & Net-Zero Pathways",
+      "content": "A net-zero commitment needs more than a distant target. It requires a sequenced pathway grounded in emissions data, technical options and investment realities. Decarbonisation planning examines how energy efficiency, renewable energy, operational changes, cleaner technologies, fuel switching and value-chain action could reduce emissions over time. Scenario modelling and feasibility assessment compare costs, benefits, dependencies and implementation risks, allowing measures to be organised into near-, medium- and long-term programmes. This turns climate ambition into a practical transition plan with defined milestones, project opportunities and a framework for monitoring progress.",
+      "public_url": "/domains/climate-action-carbon-management#decarbonisation-net-zero-pathways",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "A net-zero commitment needs more than a distant target. It requires a sequenced pathway grounded in emissions data, technical options and investment realities. Decarbonisation planning examines how energy efficiency, renewable energy, operational changes, cleaner technologies, fuel switching and value-chain action could reduce emissions over time. Scenario modelling and feasibility assessment compare costs, benefits, dependencies and implementation risks, allowing measures to be organised into near-, medium- and long-term programmes. This turns climate ambition into a practical transition plan with defined milestones, project opportunities and a framework for monitoring progress."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "climate-risk-resilience",
+      "record_type": "service",
+      "service_id": "climate-risk-resilience",
+      "title": "Climate Risk & Resilience",
+      "content": "Climate change creates physical risks for assets, infrastructure, ecosystems, communities and supply chains, while changes in policy, technology and markets introduce transition risks for organisations and investments. Climate risk assessment examines hazards, exposure, vulnerability and adaptive capacity under relevant scenarios, revealing where disruption and financial consequences may emerge. The findings inform resilient design, adaptation measures, business-continuity planning and investment priorities. Considering climate risk from early concept and feasibility through design, implementation and monitoring makes resilience part of project development rather than a response added after major decisions have already been made.",
+      "public_url": "/domains/climate-action-carbon-management#climate-risk-resilience",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Climate change creates physical risks for assets, infrastructure, ecosystems, communities and supply chains, while changes in policy, technology and markets introduce transition risks for organisations and investments. Climate risk assessment examines hazards, exposure, vulnerability and adaptive capacity under relevant scenarios, revealing where disruption and financial consequences may emerge. The findings inform resilient design, adaptation measures, business-continuity planning and investment priorities. Considering climate risk from early concept and feasibility through design, implementation and monitoring makes resilience part of project development rather than a response added after major decisions have already been made."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "carbon-markets-carbon-credit-projects",
+      "record_type": "service",
+      "service_id": "carbon-markets-carbon-credit-projects",
+      "title": "Carbon Markets & Carbon-Credit Projects",
+      "content": "Carbon markets can mobilise finance for measurable emissions reductions and removals, but credible projects must rest on sound methodologies, additionality, robust baselines and long-term monitoring. Carbon-credit project development begins by identifying and screening opportunities before testing technical feasibility, emissions impact, financial potential and applicable standards. The work may continue through project documentation, stakeholder and safeguard requirements, validation and registration preparation, monitoring systems and verification support. Careful development throughout the carbon-project cycle strengthens environmental integrity while giving project owners a clearer view of costs, risks, responsibilities and potential revenues.",
+      "public_url": "/domains/climate-action-carbon-management#carbon-markets-carbon-credit-projects",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Carbon markets can mobilise finance for measurable emissions reductions and removals, but credible projects must rest on sound methodologies, additionality, robust baselines and long-term monitoring. Carbon-credit project development begins by identifying and screening opportunities before testing technical feasibility, emissions impact, financial potential and applicable standards. The work may continue through project documentation, stakeholder and safeguard requirements, validation and registration preparation, monitoring systems and verification support. Careful development throughout the carbon-project cycle strengthens environmental integrity while giving project owners a clearer view of costs, risks, responsibilities and potential revenues."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": "Explicit carbon-markets approval required"
+    },
+    {
+      "record_id": "climate-finance-project-preparation",
+      "record_type": "service",
+      "service_id": "climate-finance-project-preparation",
+      "title": "Climate Finance & Project Preparation",
+      "content": "Promising climate ideas often struggle to attract finance because they have not yet been developed into clearly defined, technically credible and investment-ready projects. Climate project preparation bridges that gap by shaping early concepts, assessing feasibility, estimating climate and development benefits, examining delivery models and building the financial and economic case. Technical studies, risk analysis, safeguards, implementation arrangements and monitoring frameworks can then be assembled into concept notes, funding proposals or investment documentation. This structured pathway allows climate funds, development-finance institutions, investors and project sponsors to assess opportunities and move viable projects towards financing and delivery.",
+      "public_url": "/domains/climate-action-carbon-management#climate-finance-project-preparation",
+      "canonical_domain_url": "/domains/climate-action-carbon-management",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Promising climate ideas often struggle to attract finance because they have not yet been developed into clearly defined, technically credible and investment-ready projects. Climate project preparation bridges that gap by shaping early concepts, assessing feasibility, estimating climate and development benefits, examining delivery models and building the financial and economic case. Technical studies, risk analysis, safeguards, implementation arrangements and monitoring frameworks can then be assembled into concept notes, funding proposals or investment documentation. This structured pathway allows climate funds, development-finance institutions, investors and project sponsors to assess opportunities and move viable projects towards financing and delivery."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "energy-audits-performance-assessment",
+      "record_type": "service",
+      "service_id": "energy-audits-performance-assessment",
+      "title": "Energy Audits & Performance Assessment",
+      "content": "Reliable energy performance begins with a clear understanding of where, when and why energy is used. Energy audits examine facilities, processes and equipment to establish consumption baselines, identify losses and uncover practical energy-efficiency opportunities. The work can extend from initial scoping, data review and site assessment to technical analysis, prioritised energy-conservation measures and investment planning. Each recommendation is considered in relation to operational requirements, costs, savings, emissions reductions and implementation constraints, creating an evidence-based pathway from diagnosis and feasibility through delivery, measurement and ongoing performance improvement.",
+      "public_url": "/domains/energy-systems-transition#energy-audits-performance-assessment",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Reliable energy performance begins with a clear understanding of where, when and why energy is used. Energy audits examine facilities, processes and equipment to establish consumption baselines, identify losses and uncover practical energy-efficiency opportunities. The work can extend from initial scoping, data review and site assessment to technical analysis, prioritised energy-conservation measures and investment planning. Each recommendation is considered in relation to operational requirements, costs, savings, emissions reductions and implementation constraints, creating an evidence-based pathway from diagnosis and feasibility through delivery, measurement and ongoing performance improvement."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "energy-management-iso-50001",
+      "record_type": "service",
+      "service_id": "energy-management-iso-50001",
+      "title": "Energy Management & ISO 50001",
+      "content": "Effective energy management turns one-off savings into a system of continual improvement. An ISO 50001-aligned energy management system connects organisational priorities with energy reviews, significant energy uses, baselines, energy performance indicators, targets and action plans. Governance, operational controls, procurement, staff engagement, documentation and performance monitoring are designed to work together. From readiness assessment and system design to implementation, internal review and corrective action, the approach gives industrial facilities, commercial portfolios and public institutions a practical structure for managing energy consumption, operating costs and emissions over time.",
+      "public_url": "/domains/energy-systems-transition#energy-management-iso-50001",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Effective energy management turns one-off savings into a system of continual improvement. An ISO 50001-aligned energy management system connects organisational priorities with energy reviews, significant energy uses, baselines, energy performance indicators, targets and action plans. Governance, operational controls, procurement, staff engagement, documentation and performance monitoring are designed to work together. From readiness assessment and system design to implementation, internal review and corrective action, the approach gives industrial facilities, commercial portfolios and public institutions a practical structure for managing energy consumption, operating costs and emissions over time."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "energy-modelling-policy-analysis",
+      "record_type": "service",
+      "service_id": "energy-modelling-policy-analysis",
+      "title": "Energy Modelling & Policy Analysis",
+      "content": "Energy decisions frequently involve competing technical, economic and policy choices. Energy modelling makes those trade-offs visible by testing demand, supply, technologies, costs and emissions under different assumptions and future scenarios. Policy analysis adds the regulatory, institutional and market context needed to interpret the results, whether the question concerns national energy-transition pathways, utility planning, tariffs, incentives or investment priorities. The work moves from defining the decision and assembling credible data to scenario development, sensitivity analysis and clear recommendations, providing a defensible basis for policy formulation, project feasibility, financing and subsequent performance tracking.",
+      "public_url": "/domains/energy-systems-transition#energy-modelling-policy-analysis",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Energy decisions frequently involve competing technical, economic and policy choices. Energy modelling makes those trade-offs visible by testing demand, supply, technologies, costs and emissions under different assumptions and future scenarios. Policy analysis adds the regulatory, institutional and market context needed to interpret the results, whether the question concerns national energy-transition pathways, utility planning, tariffs, incentives or investment priorities. The work moves from defining the decision and assembling credible data to scenario development, sensitivity analysis and clear recommendations, providing a defensible basis for policy formulation, project feasibility, financing and subsequent performance tracking."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "renewable-energy-project-development",
+      "record_type": "service",
+      "service_id": "renewable-energy-project-development",
+      "title": "Renewable-Energy Project Development",
+      "content": "Renewable-energy opportunities become investable projects through disciplined development. The journey may begin with resource, market, technology and site screening, followed by concept design, pre-feasibility and detailed feasibility studies. Energy-yield assessment, grid connection, permitting, environmental and social considerations, capital and operating costs, revenue models, risks and financing requirements are brought into a coherent business case. The work can continue through procurement, partner selection, implementation planning, commissioning and performance monitoring, enabling solar, wind, hybrid and distributed-energy projects to progress from an initial idea to an operational asset.",
+      "public_url": "/domains/energy-systems-transition#renewable-energy-project-development",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Renewable-energy opportunities become investable projects through disciplined development. The journey may begin with resource, market, technology and site screening, followed by concept design, pre-feasibility and detailed feasibility studies. Energy-yield assessment, grid connection, permitting, environmental and social considerations, capital and operating costs, revenue models, risks and financing requirements are brought into a coherent business case. The work can continue through procurement, partner selection, implementation planning, commissioning and performance monitoring, enabling solar, wind, hybrid and distributed-energy projects to progress from an initial idea to an operational asset."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "energy-storage-grids-power-systems",
+      "record_type": "service",
+      "service_id": "energy-storage-grids-power-systems",
+      "title": "Energy Storage, Grids & Power Systems",
+      "content": "Modern power systems need greater flexibility as electricity demand changes and variable renewable generation expands. Energy storage and grid planning bring together technical performance, system reliability and commercial value. Depending on the project, this may include battery energy storage systems, hybrid generation, microgrids, behind-the-meter solutions, grid integration and transmission or distribution requirements. Needs assessment leads into technology selection, sizing, dispatch modelling, interconnection studies and techno-economic analysis. Procurement and implementation planning can then establish a pathway towards commissioning, operational optimisation and long-term performance monitoring.",
+      "public_url": "/domains/energy-systems-transition#energy-storage-grids-power-systems",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Modern power systems need greater flexibility as electricity demand changes and variable renewable generation expands. Energy storage and grid planning bring together technical performance, system reliability and commercial value. Depending on the project, this may include battery energy storage systems, hybrid generation, microgrids, behind-the-meter solutions, grid integration and transmission or distribution requirements. Needs assessment leads into technology selection, sizing, dispatch modelling, interconnection studies and techno-economic analysis. Procurement and implementation planning can then establish a pathway towards commissioning, operational optimisation and long-term performance monitoring."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "clean-technology-industrial-decarbonisation",
+      "record_type": "service",
+      "service_id": "clean-technology-industrial-decarbonisation",
+      "title": "Clean Technology & Industrial Decarbonisation",
+      "content": "Industrial decarbonisation is rarely achieved through a single technology. It requires a practical sequence of measures matched to production processes, energy needs, asset cycles and investment capacity. Starting with energy and emissions baselines, potential pathways can combine efficiency, process optimisation, electrification, renewable energy, fuel switching, waste-heat recovery and other clean technologies. Technical and commercial screening identifies which options merit feasibility studies, pilots or full project development. Abatement potential, cost, operational risk, financing and implementation timing are assessed together, creating a phased roadmap with measurable outcomes.",
+      "public_url": "/domains/energy-systems-transition#clean-technology-industrial-decarbonisation",
+      "canonical_domain_url": "/domains/energy-systems-transition",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Industrial decarbonisation is rarely achieved through a single technology. It requires a practical sequence of measures matched to production processes, energy needs, asset cycles and investment capacity. Starting with energy and emissions baselines, potential pathways can combine efficiency, process optimisation, electrification, renewable energy, fuel switching, waste-heat recovery and other clean technologies. Technical and commercial screening identifies which options merit feasibility studies, pilots or full project development. Abatement potential, cost, operational risk, financing and implementation timing are assessed together, creating a phased roadmap with measurable outcomes."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "esia-strategic-assessment-safeguards",
+      "record_type": "service",
+      "service_id": "esia-strategic-assessment-safeguards",
+      "title": "ESIA, Strategic Assessment & Safeguards",
+      "content": "Strong projects consider their environmental and social consequences before major decisions are fixed. Environmental and Social Impact Assessment, Strategic Environmental Assessment and safeguards provide the evidence required to compare alternatives, select suitable sites and design proportionate mitigation measures. The process brings together screening, scoping, baseline studies, stakeholder engagement, impact assessment, environmental and social management plans, and monitoring frameworks. Applied from early concept and feasibility through approval, financing, construction and operation, these tools help projects meet regulatory and lender expectations while protecting communities, ecosystems and long-term project value.",
+      "public_url": "/domains/environment-nature-circularity#esia-strategic-assessment-safeguards",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Strong projects consider their environmental and social consequences before major decisions are fixed. Environmental and Social Impact Assessment, Strategic Environmental Assessment and safeguards provide the evidence required to compare alternatives, select suitable sites and design proportionate mitigation measures. The process brings together screening, scoping, baseline studies, stakeholder engagement, impact assessment, environmental and social management plans, and monitoring frameworks. Applied from early concept and feasibility through approval, financing, construction and operation, these tools help projects meet regulatory and lender expectations while protecting communities, ecosystems and long-term project value."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "environmental-permitting-due-diligence",
+      "record_type": "service",
+      "service_id": "environmental-permitting-due-diligence",
+      "title": "Environmental Permitting & Due Diligence",
+      "content": "Environmental approvals are most effective when they shape a project rather than delay it near the end of development. Permitting work begins by mapping applicable environmental requirements, approval pathways and evidence needs, then incorporating them into a realistic project programme. Environmental due diligence examines compliance status, historical impacts, site constraints, liabilities and material risks before an acquisition, investment or development decision. Permit applications, regulator engagement, compliance reviews, gap assessments and corrective-action planning contribute to clearer decisions, fewer unexpected liabilities and projects that remain compliant throughout their lifecycle.",
+      "public_url": "/domains/environment-nature-circularity#environmental-permitting-due-diligence",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Environmental approvals are most effective when they shape a project rather than delay it near the end of development. Permitting work begins by mapping applicable environmental requirements, approval pathways and evidence needs, then incorporating them into a realistic project programme. Environmental due diligence examines compliance status, historical impacts, site constraints, liabilities and material risks before an acquisition, investment or development decision. Permit applications, regulator engagement, compliance reviews, gap assessments and corrective-action planning contribute to clearer decisions, fewer unexpected liabilities and projects that remain compliant throughout their lifecycle."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "environmental-management-pollution-control",
+      "record_type": "service",
+      "service_id": "environmental-management-pollution-control",
+      "title": "Environmental Management & Pollution Control",
+      "content": "Environmental commitments only have value when they become part of everyday operating practice. Environmental management systems translate approval conditions, assessment findings and corporate policies into responsibilities, procedures, performance indicators and auditable controls. Pollution prevention forms part of the same framework, addressing air emissions, wastewater, noise, soil contamination, hazardous materials and waste at their source wherever practical. Environmental management plans, monitoring programmes, compliance audits and corrective action create a practical system for controlling risk, demonstrating regulatory compliance and improving environmental performance throughout construction, operation and eventual closure.",
+      "public_url": "/domains/environment-nature-circularity#environmental-management-pollution-control",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Environmental commitments only have value when they become part of everyday operating practice. Environmental management systems translate approval conditions, assessment findings and corporate policies into responsibilities, procedures, performance indicators and auditable controls. Pollution prevention forms part of the same framework, addressing air emissions, wastewater, noise, soil contamination, hazardous materials and waste at their source wherever practical. Environmental management plans, monitoring programmes, compliance audits and corrective action create a practical system for controlling risk, demonstrating regulatory compliance and improving environmental performance throughout construction, operation and eventual closure."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "biodiversity-ecosystems-natural-capital",
+      "record_type": "service",
+      "service_id": "biodiversity-ecosystems-natural-capital",
+      "title": "Biodiversity, Ecosystems & Natural Capital",
+      "content": "Biodiversity forms part of the natural infrastructure on which economies, communities and projects depend. Understanding species, habitats, ecological connectivity and ecosystem services early can reveal constraints and opportunities before a site or design is fixed. Biodiversity assessment and natural-capital analysis inform critical-habitat screening, the mitigation hierarchy, biodiversity action plans, nature-related risk assessment and long-term monitoring. This evidence connects project development with conservation priorities and emerging nature-positive ambitions, guiding decisions from feasibility and investment appraisal through construction and operation while accounting for dependencies and impacts on ecosystems.",
+      "public_url": "/domains/environment-nature-circularity#biodiversity-ecosystems-natural-capital",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Biodiversity forms part of the natural infrastructure on which economies, communities and projects depend. Understanding species, habitats, ecological connectivity and ecosystem services early can reveal constraints and opportunities before a site or design is fixed. Biodiversity assessment and natural-capital analysis inform critical-habitat screening, the mitigation hierarchy, biodiversity action plans, nature-related risk assessment and long-term monitoring. This evidence connects project development with conservation priorities and emerging nature-positive ambitions, guiding decisions from feasibility and investment appraisal through construction and operation while accounting for dependencies and impacts on ecosystems."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "nature-based-solutions-restoration",
+      "record_type": "service",
+      "service_id": "nature-based-solutions-restoration",
+      "title": "Nature-Based Solutions & Restoration",
+      "content": "Nature-based solutions use the functions of ecosystems to address practical challenges such as flooding, coastal erosion, extreme heat, declining water quality and climate vulnerability. When restoration is treated as a developed project rather than an isolated planting exercise, ecological objectives can be connected to technical feasibility, community needs, finance and measurable outcomes. Opportunities may include restoring wetlands, mangroves, watersheds, degraded land or urban green systems. Work can progress from site screening and baseline assessment to concept design, feasibility, implementation planning and monitoring, creating solutions that strengthen biodiversity, climate resilience and ecosystem services.",
+      "public_url": "/domains/environment-nature-circularity#nature-based-solutions-restoration",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Nature-based solutions use the functions of ecosystems to address practical challenges such as flooding, coastal erosion, extreme heat, declining water quality and climate vulnerability. When restoration is treated as a developed project rather than an isolated planting exercise, ecological objectives can be connected to technical feasibility, community needs, finance and measurable outcomes. Opportunities may include restoring wetlands, mangroves, watersheds, degraded land or urban green systems. Work can progress from site screening and baseline assessment to concept design, feasibility, implementation planning and monitoring, creating solutions that strengthen biodiversity, climate resilience and ecosystem services."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "water-coastal-marine-systems",
+      "record_type": "service",
+      "service_id": "water-coastal-marine-systems",
+      "title": "Water, Coastal & Marine Systems",
+      "content": "Water connects landscapes, communities, industry and ecosystems, so project decisions rarely stop at a site boundary. Freshwater, coastal and marine assessments consider water availability, quality, catchment pressures, wastewater discharges, sensitive habitats and the cumulative effects of development. These considerations inform water balances, resource-efficiency measures, coastal and marine impact assessments, pollution controls and climate-resilient infrastructure. Bringing them into site selection, feasibility studies, design, permitting and operational monitoring encourages responsible water use while reducing risks to communities, aquatic ecosystems and long-term project performance.",
+      "public_url": "/domains/environment-nature-circularity#water-coastal-marine-systems",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Water connects landscapes, communities, industry and ecosystems, so project decisions rarely stop at a site boundary. Freshwater, coastal and marine assessments consider water availability, quality, catchment pressures, wastewater discharges, sensitive habitats and the cumulative effects of development. These considerations inform water balances, resource-efficiency measures, coastal and marine impact assessments, pollution controls and climate-resilient infrastructure. Bringing them into site selection, feasibility studies, design, permitting and operational monitoring encourages responsible water use while reducing risks to communities, aquatic ecosystems and long-term project performance."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "circular-economy-waste-resource-recovery",
+      "record_type": "service",
+      "service_id": "circular-economy-waste-resource-recovery",
+      "title": "Circular Economy, Waste & Resource Recovery",
+      "content": "The circular economy begins by treating materials, products and waste as resources with continuing value. Mapping material flows and waste streams can reveal opportunities to prevent waste, reduce demand for virgin resources and create value through reuse, repair, remanufacturing, recycling and recovery. These opportunities can then be tested as practical projects through technical feasibility, market assessment, business modelling, partner identification and investment planning. Whether applied to an industrial facility, city, supply chain or product system, circular economy strategies connect resource efficiency and waste management with lower environmental impacts, stronger resilience and new commercial possibilities.",
+      "public_url": "/domains/environment-nature-circularity#circular-economy-waste-resource-recovery",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "The circular economy begins by treating materials, products and waste as resources with continuing value. Mapping material flows and waste streams can reveal opportunities to prevent waste, reduce demand for virgin resources and create value through reuse, repair, remanufacturing, recycling and recovery. These opportunities can then be tested as practical projects through technical feasibility, market assessment, business modelling, partner identification and investment planning. Whether applied to an industrial facility, city, supply chain or product system, circular economy strategies connect resource efficiency and waste management with lower environmental impacts, stronger resilience and new commercial possibilities."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "rehabilitation-closure-monitoring",
+      "record_type": "service",
+      "service_id": "rehabilitation-closure-monitoring",
+      "title": "Rehabilitation, Closure & Monitoring",
+      "content": "Responsible closure is planned long before the final day of operation. Early preparation allows rehabilitation requirements, decommissioning options, environmental liabilities, costs and future land uses to influence project design and financial decisions. As a facility, mine, industrial site or infrastructure asset approaches closure, the plan can be refined through contamination assessment, remediation studies, stakeholder engagement and implementation scheduling. Clear completion criteria, biodiversity or land-restoration measures, post-closure monitoring and adaptive management create a defensible path towards a safe, stable and productive site legacy while reducing long-term risk and uncertainty.",
+      "public_url": "/domains/environment-nature-circularity#rehabilitation-closure-monitoring",
+      "canonical_domain_url": "/domains/environment-nature-circularity",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Responsible closure is planned long before the final day of operation. Early preparation allows rehabilitation requirements, decommissioning options, environmental liabilities, costs and future land uses to influence project design and financial decisions. As a facility, mine, industrial site or infrastructure asset approaches closure, the plan can be refined through contamination assessment, remediation studies, stakeholder engagement and implementation scheduling. Clear completion criteria, biodiversity or land-restoration measures, post-closure monitoring and adaptive management create a defensible path towards a safe, stable and productive site legacy while reducing long-term risk and uncertainty."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "esg-strategy-readiness-reporting",
+      "record_type": "service",
+      "service_id": "esg-strategy-readiness-reporting",
+      "title": "ESG Strategy, Readiness & Reporting",
+      "content": "ESG becomes useful when it influences decisions, responsibilities and operating practices rather than existing only as a reporting exercise. The process begins by understanding an organisation’s activities, governance, stakeholder expectations and regulatory exposure. ESG readiness and gap assessments identify existing evidence, capabilities and data gaps before material priorities are translated into policies, targets, performance indicators and reporting arrangements. This foundation can guide implementation, internal controls and sustainability reporting while allowing the organisation to align with the frameworks most relevant to its sector, markets and stakeholders.",
+      "public_url": "/domains/sustainable-business-esg-finance#esg-strategy-readiness-reporting",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "ESG becomes useful when it influences decisions, responsibilities and operating practices rather than existing only as a reporting exercise. The process begins by understanding an organisation’s activities, governance, stakeholder expectations and regulatory exposure. ESG readiness and gap assessments identify existing evidence, capabilities and data gaps before material priorities are translated into policies, targets, performance indicators and reporting arrangements. This foundation can guide implementation, internal controls and sustainability reporting while allowing the organisation to align with the frameworks most relevant to its sector, markets and stakeholders."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "materiality-sustainability-performance",
+      "record_type": "service",
+      "service_id": "materiality-sustainability-performance",
+      "title": "Materiality & Sustainability Performance",
+      "content": "Sustainability priorities differ between industries, organisations and locations. A materiality assessment identifies the environmental, social and governance issues that matter most to business performance and affected stakeholders, creating a focused basis for strategy and reporting. The work may combine stakeholder engagement, peer and regulatory review, value-chain analysis and an assessment of impacts, risks and opportunities. Material topics can then be connected to indicators, responsibilities, targets and data requirements. This allows sustainability performance to be measured consistently and directs management attention towards issues with the greatest strategic and practical significance.",
+      "public_url": "/domains/sustainable-business-esg-finance#materiality-sustainability-performance",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Sustainability priorities differ between industries, organisations and locations. A materiality assessment identifies the environmental, social and governance issues that matter most to business performance and affected stakeholders, creating a focused basis for strategy and reporting. The work may combine stakeholder engagement, peer and regulatory review, value-chain analysis and an assessment of impacts, risks and opportunities. Material topics can then be connected to indicators, responsibilities, targets and data requirements. This allows sustainability performance to be measured consistently and directs management attention towards issues with the greatest strategic and practical significance."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "climate-esg-risk",
+      "record_type": "service",
+      "service_id": "climate-esg-risk",
+      "title": "Climate & ESG Risk",
+      "content": "Climate and ESG risks become actionable when they are connected to assets, operations, investments and strategic decisions. Assessment may consider physical climate hazards, policy and market transition, environmental liabilities, social impacts, governance weaknesses and emerging disclosure requirements. Scenarios and risk analysis help determine exposure, potential consequences and the effectiveness of existing controls. The findings can strengthen risk registers, due diligence, resilience planning, investment appraisal and public disclosure, while identifying practical measures that reduce vulnerability and improve preparedness across the organisation or project lifecycle.",
+      "public_url": "/domains/sustainable-business-esg-finance#climate-esg-risk",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Climate and ESG risks become actionable when they are connected to assets, operations, investments and strategic decisions. Assessment may consider physical climate hazards, policy and market transition, environmental liabilities, social impacts, governance weaknesses and emerging disclosure requirements. Scenarios and risk analysis help determine exposure, potential consequences and the effectiveness of existing controls. The findings can strengthen risk registers, due diligence, resilience planning, investment appraisal and public disclosure, while identifying practical measures that reduce vulnerability and improve preparedness across the organisation or project lifecycle."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "responsible-supply-chains",
+      "record_type": "service",
+      "service_id": "responsible-supply-chains",
+      "title": "Responsible Supply Chains",
+      "content": "A large share of an organisation’s environmental and social impact may sit outside its direct operations. Responsible supply-chain work maps suppliers, materials, logistics and business relationships to identify emissions hotspots, environmental pressures, labour concerns, climate exposure and continuity risks. These findings can inform supplier requirements, sustainable-procurement policies, due-diligence procedures and Scope 3 emissions programmes. Engagement and performance monitoring then provide a practical route for working with suppliers on improvement, helping organisations strengthen resilience, respond to stakeholder expectations and reduce risk throughout their value chains.",
+      "public_url": "/domains/sustainable-business-esg-finance#responsible-supply-chains",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "A large share of an organisation’s environmental and social impact may sit outside its direct operations. Responsible supply-chain work maps suppliers, materials, logistics and business relationships to identify emissions hotspots, environmental pressures, labour concerns, climate exposure and continuity risks. These findings can inform supplier requirements, sustainable-procurement policies, due-diligence procedures and Scope 3 emissions programmes. Engagement and performance monitoring then provide a practical route for working with suppliers on improvement, helping organisations strengthen resilience, respond to stakeholder expectations and reduce risk throughout their value chains."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "sustainable-finance-green-credit-lines",
+      "record_type": "service",
+      "service_id": "sustainable-finance-green-credit-lines",
+      "title": "Sustainable Finance & Green Credit Lines",
+      "content": "Sustainable finance requires a credible connection between capital and measurable environmental or social outcomes. Green credit lines and other sustainable-finance mechanisms begin with a clear market need, defined objectives and an understanding of the institutions and projects involved. Eligibility rules, financial-product structures, environmental and social safeguards, pipeline development and impact-reporting requirements can then be designed as one coherent system. This enables banks, investors and development-finance institutions to identify suitable projects, manage risk and direct funding towards renewable energy, efficiency, climate resilience, circularity and other eligible investments.",
+      "public_url": "/domains/sustainable-business-esg-finance#sustainable-finance-green-credit-lines",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Sustainable finance requires a credible connection between capital and measurable environmental or social outcomes. Green credit lines and other sustainable-finance mechanisms begin with a clear market need, defined objectives and an understanding of the institutions and projects involved. Eligibility rules, financial-product structures, environmental and social safeguards, pipeline development and impact-reporting requirements can then be designed as one coherent system. This enables banks, investors and development-finance institutions to identify suitable projects, manage risk and direct funding towards renewable energy, efficiency, climate resilience, circularity and other eligible investments."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "taxonomies-eligibility-project-screening",
+      "record_type": "service",
+      "service_id": "taxonomies-eligibility-project-screening",
+      "title": "Taxonomies, Eligibility & Project Screening",
+      "content": "Investors and financial institutions need consistent methods for distinguishing genuinely sustainable projects from unsupported environmental claims. Taxonomies and eligibility frameworks translate broad sustainability objectives into defined sectors, technologies, thresholds, exclusions and evidence requirements. Project-screening and scoring tools apply these rules to individual proposals or investment pipelines, considering technical merit, environmental benefits, social safeguards and implementation readiness. Used early in project development, the framework reveals information gaps and improvement needs before financing decisions are made, while creating a transparent basis for portfolio classification, approval and impact reporting.",
+      "public_url": "/domains/sustainable-business-esg-finance#taxonomies-eligibility-project-screening",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Investors and financial institutions need consistent methods for distinguishing genuinely sustainable projects from unsupported environmental claims. Taxonomies and eligibility frameworks translate broad sustainability objectives into defined sectors, technologies, thresholds, exclusions and evidence requirements. Project-screening and scoring tools apply these rules to individual proposals or investment pipelines, considering technical merit, environmental benefits, social safeguards and implementation readiness. Used early in project development, the framework reveals information gaps and improvement needs before financing decisions are made, while creating a transparent basis for portfolio classification, approval and impact reporting."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "feasibility-studies-business-models",
+      "record_type": "service",
+      "service_id": "feasibility-studies-business-models",
+      "title": "Feasibility Studies & Business Models",
+      "content": "A promising sustainability idea needs a credible technical, commercial and financial foundation before it can attract investment or move into implementation. Feasibility studies examine market demand, technology options, operational requirements, environmental and social considerations, capital and operating costs, revenues, risks and delivery arrangements. Business-model development determines how value will be created, delivered and sustained among the parties involved. By combining scenario analysis with financial modelling and implementation planning, the process turns an early concept into a structured investment case and clarifies whether the project should proceed, change direction or be developed further.",
+      "public_url": "/domains/sustainable-business-esg-finance#feasibility-studies-business-models",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "A promising sustainability idea needs a credible technical, commercial and financial foundation before it can attract investment or move into implementation. Feasibility studies examine market demand, technology options, operational requirements, environmental and social considerations, capital and operating costs, revenues, risks and delivery arrangements. Business-model development determines how value will be created, delivered and sustained among the parties involved. By combining scenario analysis with financial modelling and implementation planning, the process turns an early concept into a structured investment case and clarifies whether the project should proceed, change direction or be developed further."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    },
+    {
+      "record_id": "monitoring-evaluation-impact-frameworks",
+      "record_type": "service",
+      "service_id": "monitoring-evaluation-impact-frameworks",
+      "title": "Monitoring, Evaluation & Impact Frameworks",
+      "content": "Projects demonstrate their value through credible evidence of what changed, why it changed and whether the benefits can be sustained. Monitoring and evaluation frameworks connect objectives with baselines, indicators, data sources, responsibilities, reporting schedules and evaluation questions. A costed M&E plan ensures that the system is practical and properly resourced, while dashboards and reporting tools make results easier to interpret. For emissions-related activities, the framework can connect with MRV requirements. Regular evaluation and learning then allow project teams and funders to improve delivery, respond to emerging risks and communicate impact with greater confidence.",
+      "public_url": "/domains/sustainable-business-esg-finance#monitoring-evaluation-impact-frameworks",
+      "canonical_domain_url": "/domains/sustainable-business-esg-finance",
+      "language": "en",
+      "audience": "public",
+      "status": "draft",
+      "approved_by": null,
+      "approved_on": null,
+      "effective_from": null,
+      "effective_until": null,
+      "source": "scripts/seed-domains.ts; approved website handoff pp. 21–60",
+      "claims_allowed": [
+        "Projects demonstrate their value through credible evidence of what changed, why it changed and whether the benefits can be sustained. Monitoring and evaluation frameworks connect objectives with baselines, indicators, data sources, responsibilities, reporting schedules and evaluation questions. A costed M&E plan ensures that the system is practical and properly resourced, while dashboards and reporting tools make results easier to interpret. For emissions-related activities, the framework can connect with MRV requirements. Regular evaluation and learning then allow project teams and funders to improve delivery, respond to emerging risks and communicate impact with greater confidence."
+      ],
+      "claims_prohibited": [
+        "Invented projects, clients, credentials, experience, pricing or certification"
+      ],
+      "promotion_enabled": false,
+      "special_review": null
+    }
+  ],
+  "url_registry": [
+    {
+      "id": "climate-action-carbon-management",
+      "url": "/domains/climate-action-carbon-management",
+      "purpose": "Climate Action & Carbon Management"
+    },
+    {
+      "id": "energy-systems-transition",
+      "url": "/domains/energy-systems-transition",
+      "purpose": "Energy Systems & Transition"
+    },
+    {
+      "id": "environment-nature-circularity",
+      "url": "/domains/environment-nature-circularity",
+      "purpose": "Environment, Nature & Circularity"
+    },
+    {
+      "id": "sustainable-business-esg-finance",
+      "url": "/domains/sustainable-business-esg-finance",
+      "purpose": "Sustainable Business, ESG & Finance"
+    },
+    {
+      "id": "contact",
+      "url": "/contact",
+      "purpose": "Contact Enerqa"
+    },
+    {
+      "id": "project-contact",
+      "url": "/contact?intent=project",
+      "purpose": "Discuss Your Project"
+    },
+    {
+      "id": "lifecycle",
+      "url": "/project-development",
+      "purpose": "Project Development and Lifecycle Support"
+    }
+  ]
+}

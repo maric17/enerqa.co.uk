@@ -15,6 +15,8 @@ export const Enquiries: CollectionConfig = {
     // Only logged-in staff can view enquiries. `() => false` blocked everyone,
     // admins included, so submissions were saved but unreadable in the CMS.
     read: ({ req }) => Boolean(req.user),
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
   },
   fields: [
     {
@@ -40,5 +42,11 @@ export const Enquiries: CollectionConfig = {
     { name: 'projectLocation', type: 'text' },
     { name: 'currentStage', type: 'text' },
     { name: 'source', type: 'text', defaultValue: 'General Enquiry' },
+    // Q2: an admin edit is not automatically substantive contact.
+    { name: 'lastSubstantiveContactAt', type: 'date', admin: { description: 'Record the actual last substantive contact. Enquiries expire two years after this date, or after submission if empty.' } },
+    { name: 'retentionHoldReason', type: 'textarea', admin: { description: 'Document a legally necessary exception or transfer to client records. A hold must also have a review/expiry date.' } },
+    { name: 'retentionHoldUntil', type: 'date', validate: (value, { siblingData }) => !(siblingData as { retentionHoldReason?: string })?.retentionHoldReason || Boolean(value) || 'A documented hold needs an expiry date.' },
+    { name: 'notificationSentAt', type: 'date', admin: { readOnly: true } },
+    { name: 'newsletterSyncedAt', type: 'date', admin: { readOnly: true } },
   ],
 }

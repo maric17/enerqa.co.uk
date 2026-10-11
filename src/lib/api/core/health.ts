@@ -36,8 +36,8 @@ const DEFAULT_LIMITS: Limits = { daily: 500, maxConcurrent: 4 };
  * so a retry or a second server instance still fits underneath it.
  */
 export const LIMITS: Partial<Record<ProviderId, Limits>> = {
-  // p. 210: 200 credits/day and 30 credits per 15 minutes. The 4 topic
-  // baskets now run only on three daily news jobs (12 baseline calls/day).
+  // p. 210: 200 credits/day and 30 credits per 15 minutes. Four topic and
+  // twelve domain groups run on three daily news jobs (48 baseline calls/day).
   // This upper limit remains shared across all servers, below the allowance.
   newsdata: { daily: 150, window: { max: 25, seconds: 15 * 60 }, maxConcurrent: 2 },
   // GDELT answers faster polling with "Please limit requests to one every 5

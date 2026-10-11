@@ -19,7 +19,8 @@ export function UnsubscribeForm() {
   }
 
   return (
-    <form action={formAction} className="mx-auto flex max-w-md flex-col gap-4 text-left">
+    // Rebuild from returned values so React's action reset does not erase a failed request.
+    <form key={JSON.stringify(state.values ?? {})} action={formAction} className="mx-auto flex max-w-md flex-col gap-4 text-left">
       {/* Honeypot (p. 228 spam protection). Clipped in place (`sr-only`), not
           moved to left: -9999px, which caused sideways scroll in RTL. */}
       <div className="sr-only" aria-hidden="true">
@@ -29,14 +30,16 @@ export function UnsubscribeForm() {
       <label htmlFor="unsub-email" className="font-semibold text-[var(--color-dark)]">
         Email address to unsubscribe
       </label>
+      {/* A dark visible ring keeps the withdrawal form usable with a keyboard. */}
       <input
         id="unsub-email"
         type="email"
         name="email"
+        defaultValue={state.values?.email ?? ''}
         required
         autoComplete="email"
         disabled={isPending}
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[var(--color-primary)]"
+        className="rounded-lg border border-gray-300 px-4 py-3 focus-visible:outline-2 focus-visible:outline-[var(--color-primary-deep)] focus-visible:outline-offset-2"
       />
       <button
         type="submit"

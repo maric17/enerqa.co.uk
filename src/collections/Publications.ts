@@ -1,6 +1,7 @@
 import type { CollectionConfig, Where } from 'payload'
 import { revalidatePath } from 'next/cache';
 import { standardEditor } from '../editorConfig'
+import { approvedByline } from '../lib/content/questionnaire';
 
 export const publishedPublicationsWhere: Where = { and: [{ _status: { equals: 'published' } }, { recordKind: { equals: 'article' } }] };
 
@@ -12,7 +13,12 @@ const refreshPublications = () => {
 
 export const Publications: CollectionConfig = {
   slug: 'publications',
-  hooks: { afterChange: [refreshPublications], afterDelete: [refreshPublications] },
+  hooks: {
+    // Q16: also normalize existing rows when read, until the CMS write can run.
+    afterRead: [({ doc }) => ({ ...doc, author: doc.author ? approvedByline(doc.author) : doc.author })],
+    beforeChange: [({ data }) => ({ ...data, ...(data.author ? { author: approvedByline(data.author) } : {}) })],
+    afterChange: [refreshPublications], afterDelete: [refreshPublications],
+  },
   versions: { drafts: true, maxPerDoc: 20 },
   admin: {
     useAsTitle: 'title',

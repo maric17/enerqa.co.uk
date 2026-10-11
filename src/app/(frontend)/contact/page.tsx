@@ -10,6 +10,7 @@ import { PageHero } from '@/components/ui/PageHero';
 import { prefillFromSearchParams, type ContactChoices } from '@/lib/forms/contact';
 import { loadContactChoices } from '@/lib/forms/contactChoices';
 import { ContactForm } from './ContactForm';
+import { COMPANY } from '@/lib/content/company';
 
 // p. 227: unique title and description. Moved here from the deleted
 // pass-through contact/layout.tsx. The description is F01's own copy (p. 198).
@@ -65,6 +66,9 @@ export default async function ContactPage({ searchParams }: Props) {
             info@enerqa.co.uk
           </a>
         </p>
+        {/* Q11 approves cities, without phone numbers or an invented Doha address. */}
+        <p className="mt-4 text-white/90">Offices: {COMPANY.offices.join(' and ')}.</p>
+        <p className="mt-2 text-sm text-white/90">Registered office: {COMPANY.address}.</p>
         <Link href="/project-development" className="mt-6 text-[var(--color-primary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
           Learn about our approach <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </Link>

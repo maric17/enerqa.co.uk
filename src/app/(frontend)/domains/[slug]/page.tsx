@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { Typography } from '@/components/ui/Typography';
 import { PageHero } from '@/components/ui/PageHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
@@ -18,6 +17,7 @@ import { RelatedDataset } from '@/components/feeds/RelatedDataset';
 import { CuratedSources } from '@/components/feeds/CuratedSources';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
+import { APPROVED_DOMAIN_INDUSTRIES } from '@/lib/content/questionnaire';
 
 /**
  * Fetch one domain by slug.
@@ -35,7 +35,13 @@ const getDomain = cache(async (slug: string) => {
     limit: 1,
     depth: 1,
   });
-  return result.docs[0] ?? null;
+  const domain = result.docs[0];
+  if (!domain) return null;
+  const approvedSlugs = APPROVED_DOMAIN_INDUSTRIES[slug];
+  if (!approvedSlugs) return domain;
+  // Q14's mapping works immediately, even before the relationship write runs.
+  const industries = await payload.find({ collection: 'industries', where: { slug: { in: approvedSlugs } }, limit: 13, depth: 0 });
+  return { ...domain, relevantIndustries: approvedSlugs.flatMap(slug => industries.docs.filter(industry => industry.slug === slug)) };
 });
 
 // Handoff p. 227: every substantive page needs a unique title and description.
@@ -88,9 +94,8 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
   const feed = DOMAIN_FEEDS[slug];
   // Where a failed feed sends the visitor instead (p. 4).
   const nearest = { href: `/knowledge-hub/global-intelligence?domain=${slug}`, label: 'browse Global Intelligence' };
-  // CP's only feed (ReliefWeb) is switched off until its appname is
-  // registered, so its module always resolves to the empty state; the
-  // skeleton reserves that height rather than three cards (L516).
+  // Disabled sources use the explanatory state; reserve its height while
+  // enabled sources load their cards (L516).
   const officialLive = Boolean(feed?.specialistFeeds.some((f) => providerEnabled(SPECIALIST_PROVIDER[f])));
 
   const heroImageUrl =

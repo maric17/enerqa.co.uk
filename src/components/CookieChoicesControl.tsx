@@ -1,16 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { saveConsent, useEmbedConsent } from '@/lib/consent';
+import { saveConsent, useEmbedConsent, useAnalyticsConsent } from '@/lib/consent';
 
 /**
  * The Cookie Choices control (p. 208 U03). It describes only what the site
- * actually stores, and changes the one optional choice: whether third-party
- * embeds load automatically. ExternalEmbed reads the same setting, so the
- * change takes effect on every tool and data page straight away.
+ * actually stores, with independent choices for third-party embeds and
+ * optional analytics. Each integration reads its own setting; analytics
+ * also checks consent before every send, including after withdrawal.
  */
 export function CookieChoicesControl() {
   const embeds = useEmbedConsent();
+  const analytics = useAnalyticsConsent();
   // Announced by screen readers after each save (role="status" below).
   const [status, setStatus] = useState('');
 
@@ -49,6 +50,17 @@ export function CookieChoicesControl() {
             Some tools and data views are hosted by other sites, which may set their own cookies. When this is off, each
             one waits until you choose to load it.
           </p>
+        </div>
+      </div>
+
+      {/* Q10: optional analytics needs a positive action before anything loads. */}
+      <div className="flex items-start gap-3">
+        <input id="consent-analytics" type="checkbox" checked={analytics}
+          onChange={e => { saveConsent({ analytics: e.target.checked }); setStatus(e.target.checked ? 'Saved. Analytics is allowed when available.' : 'Saved. Analytics is off.'); }}
+          aria-describedby="consent-analytics-help" className="mt-1 h-5 w-5 shrink-0 accent-[var(--color-primary-deep)]" />
+        <div>
+          <label htmlFor="consent-analytics" className="font-semibold text-[var(--color-dark)]">Allow optional website analytics</label>
+          <p id="consent-analytics-help" className="m-0 mt-1 text-gray-600">When enabled, Enerqa’s self-hosted Umami measures page visits, dataset downloads and tool use. Form contents, email addresses and search prompts are excluded. You can switch this off here at any time.</p>
         </div>
       </div>
 

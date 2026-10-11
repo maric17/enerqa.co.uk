@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { Info, Database } from 'lucide-react';
 import DataPortalD03 from '@/components/data/DataPortalD03';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import type { Metadata } from 'next';
 
@@ -54,11 +55,11 @@ export default async function DashboardDetailPage({ params }: { params: Promise<
       <section className="bg-white border-b border-gray-200 pt-32 pb-16">
         <Container>
           <div className="max-w-4xl mx-auto flex flex-col gap-6">
-            <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-gray-500 mb-2">
-              <Link href="/" className="hover:text-[var(--color-primary)] transition-colors no-underline">Home</Link> / 
-              <Link href="/data-portal" className="hover:text-[var(--color-primary)] transition-colors no-underline mx-1">Data Portal</Link> / 
-              <span className="text-[var(--color-dark)] ml-1">{dashboard.title}</span>
-            </div>
+            <Breadcrumbs
+              parents={[{ label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }]}
+              current={dashboard.title}
+              className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-gray-600 mb-2"
+            />
             <Typography variant="h1" className="text-[var(--color-dark)] m-0">
               {dashboard.title}
             </Typography>

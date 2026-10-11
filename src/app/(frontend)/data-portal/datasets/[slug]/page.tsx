@@ -14,6 +14,7 @@ import { loadDatasetSeries } from '@/lib/data-portal/dataset';
 import { readSelection, selectSeries } from '@/lib/data-portal/selection';
 import { failureMessage } from '@/lib/api/core/types';
 import { resolveMediaUrl } from '@/lib/utils';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 const getDataset = cache(async (slug: string) => {
@@ -64,7 +65,7 @@ export default async function DatasetDetailPage({ params, searchParams }: Props)
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
     <section className="bg-[var(--color-dark)] text-white pt-40 pb-16">
       <Container className="space-y-6">
-        <nav aria-label="Breadcrumb" className="text-sm"><Link href="/">Home</Link> / <Link href="/data-portal">Data Portal</Link> / <span aria-current="page">{dataset.title}</span></nav>
+        <Breadcrumbs parents={[{ label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }]} current={dataset.title} className="text-sm" />
         <h1 className="text-4xl md:text-5xl font-bold max-w-4xl">{dataset.title}</h1>
         <h2 className="text-2xl font-bold">Dataset Summary</h2>
         <p className="text-lg leading-relaxed max-w-4xl">{dataset.description}</p>

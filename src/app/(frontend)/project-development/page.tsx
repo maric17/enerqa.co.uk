@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { ProjectLifecycle } from '@/components/shared/ProjectLifecycle';
 
 export default function ProjectDevelopmentPage() {
   return (
@@ -21,8 +22,15 @@ export default function ProjectDevelopmentPage() {
       {/* P01 Project Development and Lifecycle Support */}
       <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 leading-tight text-white">Project Development and Lifecycle Support</h1>
+          {/* Keep title, lifecycle and narrative in this order on every screen. */}
+          <div className="mx-auto flex max-w-4xl flex-col gap-10">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white text-center">Project Development and Lifecycle Support</h1>
+            <nav
+              aria-label="Project lifecycle stages"
+              className="w-full rounded-2xl bg-paper-alt p-6 text-ink lg:p-0"
+            >
+              <ProjectLifecycle />
+            </nav>
             <div className="prose prose-lg prose-invert max-w-none text-gray-300">
               <p className="mb-6 leading-relaxed">
                 Projects are better positioned for investment and successful delivery when the underlying opportunity is clearly defined, thoroughly tested and properly structured. An initial need or idea must be developed into a coherent concept, assessed for technical, commercial, financial, environmental and social feasibility, and translated into a credible business and delivery model.
@@ -55,40 +63,6 @@ export default function ProjectDevelopmentPage() {
             <p className="text-lg text-gray-600 leading-relaxed mb-8">
               Clients may engage Enerqa throughout the complete project cycle or at a specific point where further evidence, structure or delivery support is required.
             </p>
-            
-            {/* 10 Anchor Links */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--color-paper-alt)] p-8 rounded-xl border border-gray-200">
-              <a href="#needs-opportunity" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">01</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Needs and Opportunity Assessment</span>
-              </a>
-              <a href="#idea-concept" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">02</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Idea and Concept Development</span>
-              </a>
-              <a href="#feasibility" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">03</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Pre-Feasibility and Feasibility Studies</span>
-              </a>
-              <a href="#business-financial" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">04</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Business and Financial Modelling</span>
-              </a>
-              <a href="#finance-partnership" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">05</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Finance and Partnership Structuring</span>
-              </a>
-              <a href="#design-tendering" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">06</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Design, Tendering and Procurement Support</span>
-              </a>
-              <a href="#implementation-management" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">07</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Implementation and Project-Management Support</span>
-              </a>
-              <a href="#mrv-monitoring" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">08</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">MRV, Monitoring and Evaluation</span>
-              </a>
-              <a href="#operational-improvement" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">09</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Operational Improvement</span>
-              </a>
-              <a href="#evaluation-transition" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">10</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Evaluation, Valuation, Transition and Exit</span>
-              </a>
-            </div>
           </div>
 
           <div className="space-y-16 max-w-4xl relative border-l-2 border-gray-100 pl-8 ml-4">

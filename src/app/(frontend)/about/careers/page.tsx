@@ -5,8 +5,7 @@ import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
+import { getPublishedCareers } from '@/lib/careers';
 
 /**
  * Conditional careers template (handoff pp. 4, 203-205): "Publish only with
@@ -16,7 +15,7 @@ import configPromise from '@payload-config';
  * team" of data scientists, a culture statement, an "Open Positions" box) and
  * an unapproved careers@ mailbox (p. 8 allows only approved contact details).
  * All of that has been removed. The route returns 404 until approved content is
- * supplied below; nothing on the site links here.
+ * approved in the CMS. The footer and sitemap use the same approval gate.
  */
 
 
@@ -26,10 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CareersPage() {
-  const payload = await getPayload({ config: configPromise });
-  const content = await payload.findGlobal({
-    slug: 'careers-config',
-  });
+  const content = await getPublishedCareers();
 
   if (!content || !content.isApproved) {
     notFound();

@@ -284,7 +284,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     enabled: true,
     // p. 209: the handoff's own review date. Not rechecked against the provider since.
     accessReviewedOn: '2026-09-14',
-    note: 'Four topic baskets run on three daily scheduled news pulls (12 baseline calls/day). Public news pages read saved articles. The shared internal budget remains 150/day and 25 per 15 minutes; only real upstream attempts are counted.',
+    note: 'Four topic baskets and twelve domain groups run on three daily scheduled news pulls (48 baseline calls/day). Public news pages read saved articles. The shared internal budget remains 150/day and 25 per 15 minutes; only real upstream attempts are counted.',
   },
   gdelt: {
     id: 'gdelt',

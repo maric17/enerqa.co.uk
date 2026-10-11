@@ -13,7 +13,13 @@ This is a **separate task** from `docs/HANDOFF-TASKS.md` (owner, 26 Sep 2026). T
 
 ---
 
-## Repair update — 2 Oct 2026 (read this first)
+## Deferred — 3 Oct 2026 (current user instruction)
+
+The user instructed: disregard AI search for now because there is no API key. Keep both the provider switch and `AI_SEARCH_CONFIG.releaseReady` off. No key, AI owner/deputy decision or launch approval is requested for the current release. Keyword search and the verified external-results cache remain available.
+
+Q22 previously set a $50/month target. Configuration records its warning/restriction/stop thresholds, but this is not implemented budget enforcement. Q23 requested a first draft; a [29-record catalogue and review notes](questionnaire/AI-SEARCH-REVIEW.md) are prepared from approved website sources, without enabling promotions. Ownership and all remaining engineering/privacy/evaluation gates below are deferred, not completed. Resume only when the user requests it.
+
+## Repair update — 2 Oct 2026
 
 Part 12 maintenance repaired response parsing and the public search UI. **This does not approve AI launch or complete this separate handoff.** The provider remains disabled and a second `AI_SEARCH_CONFIG.releaseReady: false` gate prevents accidental activation while required infrastructure is missing. No paid request was made.
 
@@ -36,7 +42,7 @@ The detailed 26 Sep audit below is retained as a historical requirements/gap inv
 ### Do first
 1. ~~**Switch it off** until Phase 0~~ — **done 26 Sep 2026**: `enabled: false` on `openai` in `registry.ts`. Checked on the dev server: `/api/ai-search` returns 503 before any paid call, `/search` shows the failure text above working keyword results, and `/data-portal/sources` no longer lists OpenAI. The OpenAI code was never committed, so production never ran it.
 2. ~~**Delete the invented company records**~~ — **done 26 Sep 2026**: `kb-index.json` is now `[]`. The file was never committed, so the records never entered git history.
-3. Get the **Phase 0 sign-offs** below before any further build.
+3. Historical requirement: obtain Phase 0 sign-offs before activation. **Current instruction: defer AI work**; do not request those sign-offs now.
 
 ---
 
@@ -44,11 +50,13 @@ The detailed 26 Sep audit below is retained as a historical requirements/gap inv
 
 Exit gate: "Approved public corpus and a deployable configuration".
 
-- [ ] 🔍 Product owner signs scope and a **monthly budget B**, with alerts at 50 and 80 %, restriction at 90 % and a stop at 100 % (§14 "Budget enforcement")
+- [x] ✅ Q22 records **$50/month budget B** and target alerts at 50/80 %, restriction at 90 % and stop at 100 %. Configuration stores the target; enforcement is not completed.
+- [ ] 🟡 Release scope and operational budget enforcement are deferred.
+  - **To do when resumed:** Reconfirm release scope, implement durable reservations/settlement and test all warning/restriction/stop thresholds before activation.
 - [ ] 🔍 Content owner approves the **service catalogue, public claims and canonical service/contact URL registry** (§5). Until then, "Company promotions remain disabled."
 - [ ] 🔍 Engineering confirms account access and runs a **staging smoke test of `gpt-5.6-terra` with `web_search`** (§4: "a candidate, not a quality guarantee")
 - [ ] 🔍 Named owners and deputies: product, content, engineering, QA, operations, privacy (§17 "Ownership")
-- [ ] 🔍 Privacy notice covers OpenAI processing, retention and `store: false` limits (§13 "Data handling"). Depends on HANDOFF-TASKS 12.10: `/privacy` currently shows generic placeholder text.
+- [ ] 🔍 Privacy notice covers OpenAI processing, retention and `store: false` limits (§13 "Data handling"). Depends on HANDOFF-TASKS 12.10: replacement privacy sections are drafted, but active OpenAI processing wording must be reviewed before any future activation.
 
 ## Phase 1 — Research MVP (§2–§4, §8, §10, §12–§14)
 
@@ -134,7 +142,7 @@ Must stay **disabled** until Phase 0 approves the catalogue and URL registry. It
 
 ## Relationship to HANDOFF-TASKS.md
 
-- **`docs/CLIENT_REPLY_PLAN.md` is not reliable for AI Search.** It ticks Phases 0–4 as done, including 250+ labelled queries, a load test, a gradual production traffic ramp and alerts. The 26 Sep review found none of that in the code: the AI code was never committed or deployed, has no tests, and its "approved" company records were invented. No Phase 0 approval (budget, catalogue, URL registry) is recorded anywhere in the repo. Use this board instead.
+- **`docs/CLIENT_REPLY_PLAN.md` is not reliable for AI Search.** It ticks Phases 0–4 as done, including 250+ labelled queries, a load test, a gradual production traffic ramp and alerts. The 26 Sep review found none of that in the code: the AI code was never committed or deployed, has no tests, and its "approved" company records were invented. At that historical check, no Phase 0 approval was recorded. Q22 now records the $50 target; catalogue/URL approval and operational launch gates remain incomplete and deferred. Use this board instead.
 
 - The main handoff (pp. 13, 224) asked for a free-tier AI provider with no paid fallback. This handoff chooses a paid OpenAI setup with budget controls. For AI search, follow this document. The main board's free-tier 🔍 (12.8) is settled in favour of OpenAI once Phase 0 records the budget.
 - The previous Gemini path (`search/aiAnswer.ts`, `gemini` in `registry.ts`) is no longer called by `AIResponse`; only `toAiSources` and the `AiSource` type are still used. Remove the rest once the OpenAI path passes Phase 1.

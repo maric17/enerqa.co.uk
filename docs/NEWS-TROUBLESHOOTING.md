@@ -1,6 +1,40 @@
-# Troubleshoot empty homepage news
+# Troubleshoot empty news sections
 
 Global News uses NewsData.io and GDELT. Major Markets can use a separate EIA RSS fallback, so market cards do not prove Global News is healthy.
+
+## Domain Latest News: verified 11 October 2026
+
+The Energy, Environment and Business domain pages use **NewsData.io and GDELT** for Latest News. ReliefWeb belongs to the separate Policy and Official Updates section; its disabled/unapproved appname does not cause these news panels to be empty.
+
+Before the coverage fix, read-only checks confirmed:
+
+- Saved news storage is reachable. The news-provider pool contains 60 articles after the existing topic, date, source and duplicate checks, but the three domain phrase selections each return **0 cards**.
+- Scheduled ingestion requests the four broad NewsData topic groups and the shared GDELT query. It does not request the domain pages' narrower query groups. Public pages match exact phrases or previously saved page-query metadata, so broad-topic retrieval alone does not guarantee domain coverage.
+- The latest saved job completed at **11 October, 06:29 Manila / 10 October, 22:29 UTC**. All four NewsData calls recorded **HTTP 401**; GDELT recorded `request_accounting_unavailable`, a database usage-tracking failure before an upstream request. These are the saved job outcomes, not fresh tests of the local credentials.
+- One fresh, usage-tracked local NewsData Energy request succeeded at **11 October, 10:09 Manila / 02:09 UTC**, returning ten mapped articles. The local key is therefore working for that request. No credential was printed, no article was saved by this check, and publication/access eligibility was not asserted.
+- The local environment has no `CRON_SECRET`. Local page visits read saved news and do not trigger ingestion; the local authenticated ingestion endpoint is not configured. Existing shared-database job records do not prove all deployed cron slots are healthy.
+
+## Follow-up: updated keys and local coverage fix
+
+The user confirmed that the key was updated in both local `.env` and Vercel. A fresh tracked local Energy request at **11 October, 10:20 Manila / 02:20 UTC** returned **10 mapped NewsData articles**. The key was not printed. This confirms local request success, not deployed credentials or stored/displayable articles.
+
+The local scheduler now requests the four broad topic groups **plus twelve unique domain groups**. Its baseline is **16 NewsData calls per pull / 48 per day**, within the unchanged shared budget. It keeps every matching query when duplicate URLs are merged, including matches retained from older saved copies. Public page reads still make no provider or article-access requests, and source, topic, date and anonymous-access checks remain active.
+
+Verification: **108 tests in 9 files**, TypeScript and changed-source ESLint pass. Regression checks cover domain query provenance surviving duplicates, public reads making zero provider calls, budgets and skipped duplicate job slots.
+
+The guarded refresh returned `skipped: true`, `storedItems: 0`: the **6 AM Manila** slot had already completed. The main job's claim was not reset or bypassed. The next slot begins at **2 PM Manila on 11 October**; provider success and newly visible domain cards must still be checked after that run.
+
+A fresh GDELT probe reached the upstream-request stage but failed with a connection timeout. That failure differs from the older job's database-accounting failure and is not corrected by changing the NewsData key. Healthy NewsData pulls can still contribute independently. The deployed homepage's saved diagnostics still show the earlier **06:29 Manila** job, so they cannot yet confirm the changed Vercel key.
+
+No Vercel project link, CLI authentication or deployment tool is available in this workspace. The coverage code has **not been deployed**. The local authenticated endpoint remains unconfigured without `CRON_SECRET`; direct maintenance used the normal database slot guard and performed no full provider pull.
+
+Remaining actions:
+
+- [x] Confirm the updated local NewsData key through the tracked connector. The user reports updating Vercel too; deployed request success is still unverified.
+- [x] Add the domain query groups to scheduled ingestion and preserve query provenance through duplicate removal; verify tests, types and lint locally.
+- [ ] Deploy the corrected scheduler through the usual project release process. Ensure the deployment uses the updated Vercel key; no key regeneration is required for the successful local value.
+- [ ] Check GDELT recovery during the next scheduled attempt. Retain its spacing and backoff rules; a connection timeout is different from database tracking or an upstream 429.
+- [ ] At the next allowed job slot, verify per-provider results, saved eligible domain matches and visible cards on all three pages. Do not force another full ingestion run to bypass the current slot guard.
 
 News now reads approved saved articles from the database. The new authenticated `/api/ingest/news` job pulls providers three times daily, at 6 AM, 2 PM and 10 PM Manila time. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the UTC configuration, saved-article rules and deployment blockers. Browsing no longer triggers news-provider calls.
 
@@ -49,4 +83,10 @@ The dev homepage showed Global News unavailable while EIA supplied two Major Mar
 - GDELT returned `httpStatus: 429` and `outcome: rate_limited`. This is an upstream refusal, rather than a local budget or request-accounting classification. The exact rate-limit duration is not in this screenshot.
   - Allow the existing backoff and any upstream `Retry-After` delay to expire. Inspect GDELT runtime warnings if refusals continue; repeated refreshes do not bypass the limit.
 - `received`, `relevant`, `afterGate`, `accessChecked`, `verifiedOpen` and `returned` were all zero, with `storage: not_attempted`. No articles reached filtering, access checks or record storage on this visit.
-  - Reload the debug URL after updating the key and allowing the GDELT pause to expire. Confirm NewsData reports `ok`, then check article counts and visible Global News cards. Provider recovery and content restoration remain unverified.
+  - Reload the debug URL after updating the key and allowing the GDELT pause to expire. Confirm NewsData reports `ok`, then check article counts and visible Global News cards. Fresh news-provider recovery remains unverified; the later saved-news deployment retained visible cards as described below.
+
+## Existing key double-check: 3 October 2026
+
+One direct credential-check request to NewsData's `/api/1/latest` using the existing key loaded by the local Next.js environment returned HTTP 200, `status: success` and 10 articles. The configured local value had no surrounding whitespace. No credential or request URL was printed, no key was regenerated, and this check did not store articles or rerun the scheduled ingestion job. It was one manual provider request, separate from the scheduled ingestion ledger.
+
+The live homepage still reported all four NewsData baskets as HTTP 401 from the completed `2026-10-03T00:30:14.706Z` refresh. Its saved database news remained visible (three Global News cards). This establishes that the key available locally is valid for that basic request, but does not establish that Vercel has the same value or that key restrictions permit requests from Vercel. Compare the Production `NEWSDATA_API_KEY` with the working local/dashboard value, check accidental literal quotation marks and environment overrides, and redeploy. If identical, inspect NewsData key restrictions. Regeneration is not required merely because the last deployed request failed. After configuration is corrected, verify the next scheduled pull; the current slot guard will not permit another full pull in the same slot.

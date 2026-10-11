@@ -39,6 +39,10 @@ describe('breadcrumbTrail', () => {
       'Global Intelligence',
     ])
     expect(breadcrumbTrail('/data-portal/sources')?.[1]).toEqual({ label: 'Data Portal', href: '/data-portal' })
+    // The explorer has no in-page trail; its footer must still identify the real page and parent.
+    expect(breadcrumbTrail('/data-portal/explorer')).toEqual([
+      { label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }, { label: 'Enerqa Data Explorer' },
+    ])
   })
 
   it('links detail templates to their real section page only', () => {
@@ -77,14 +81,21 @@ describe('breadcrumbTrail', () => {
 // template already renders its own at the top.
 describe('templateHasOwnTrail', () => {
   it('is true for templates with an in-page breadcrumb', () => {
-    for (const path of ['/tools', '/tools/esg-readiness', '/domains/energy-systems-transition', '/industries/energy-utilities', '/about/careers', '/tools/', '/knowledge-hub', '/knowledge-hub/', '/privacy', '/terms', '/cookie-choices', '/accessibility']) {
+    for (const path of ['/tools', '/tools/esg-readiness', '/domains/energy-systems-transition', '/industries/energy-utilities', '/about', '/about/careers', '/tools/', '/knowledge-hub', '/knowledge-hub/', '/knowledge-hub/some-publication', '/knowledge-hub/global-intelligence', '/data-portal/datasets/x', '/data-portal/dashboards/x', '/data-portal/sources', '/data-portal/occurrences', '/data-portal/series/air-quality', '/privacy', '/terms', '/cookie-choices', '/accessibility']) {
       expect(templateHasOwnTrail(path)).toBe(true)
     }
   })
 
   it('is false where only the footer trail exists', () => {
-    for (const path of ['/', '/about', '/knowledge-hub/some-publication', '/knowledge-hub/global-intelligence', '/data-portal/sources', '/data-portal/datasets/x', '/project-development', '/domains/x/y']) {
+    for (const path of ['/', '/contact', '/data-portal', '/data-portal/explorer', '/project-development', '/domains/x/y']) {
       expect(templateHasOwnTrail(path)).toBe(false)
+    }
+  })
+
+  it('suppresses fallback trails on missing record URLs and trailing-slash detail routes', () => {
+    // A missing record renders a 404, so the footer must not invent a parent-only trail.
+    for (const path of ['/knowledge-hub/missing-record/', '/data-portal/datasets/missing-record/', '/data-portal/dashboards/missing-record/']) {
+      expect(templateHasOwnTrail(path)).toBe(true)
     }
   })
 })

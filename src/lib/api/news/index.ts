@@ -24,6 +24,7 @@ import { providerEnabled } from '../core/registry';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS } from './storage';
 import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
+import { DOMAIN_FEEDS } from '../../feeds/contextual';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
@@ -191,16 +192,15 @@ async function collect(
   const wants = (p: NewsProvider) => providers.includes(p);
 
   // NewsData charges a credit per query, so "All" reuses the four cached topic
-  // baskets instead of paying for a fifth (p. 210). A domain or industry page
-  // adds its own "News query baskets", each cached for 12 hours (newsdata.ts
-  // has the credit sum).
+  // baskets instead of paying for a fifth (p. 210). Scheduled ingestion also
+  // requests the domains' own query groups; public pages only read saved news.
   const newsdataCalls = !wants('newsdata')
     ? []
     : basketKey === 'all'
       ? NEWS_BASKETS.filter((b) => b.newsdataQuery).map((b) => safeNewsCall('newsdata', fetchNewsdataBasket(b.key, fresh)))
       : [safeNewsCall('newsdata', fetchNewsdataBasket(basketKey, fresh))];
   const pageCalls = wants('newsdata')
-    ? pageBaskets.map((phrases) => safeNewsCall('newsdata', fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS)))
+    ? pageBaskets.map((phrases) => safeNewsCall('newsdata', fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS, fresh)))
     : [];
 
   const wantsEia = wants('eia_rss') && EIA_BASKETS.includes(basketKey);
@@ -325,7 +325,13 @@ const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'
  */
 async function providerPool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
   const { items: collected, status, diagnostics } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
+  const items = dedupeNews(collected, opts.maxPerPublisher);
+  diagnostics.counts.afterGate = items.length;
+  return { items, status, diagnostics };
+}
 
+/** Keep query provenance when the same URL appears in several query groups. */
+function dedupeNews(collected: NewsItem[], maxPerPublisher?: number): NewsItem[] {
   // The same article can arrive from a topic basket and a page basket; the
   // surviving copy keeps every query that found it.
   const queries = new Map<string, Set<string>>();
@@ -340,13 +346,12 @@ async function providerPool(basketKey: NewsBasketKey, opts: NewsOptions): Promis
   // with a summary, then re-sort the survivors into newest-first order.
   const deduped = applyGate(
     [...collected].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
-    { maxPerPublisher: opts.maxPerPublisher },
+    { maxPerPublisher },
   ).map((item) => {
     const found = queries.get(normaliseUrl(item.url));
     return found ? { ...item, matchedQueries: [...found] } : item;
   });
-  diagnostics.counts.afterGate = deduped.length;
-  return { items: deduped.sort(byNewest), status, diagnostics };
+  return deduped.sort(byNewest);
 }
 
 /** Public pages read approved saved records, including after a failed refresh. */
@@ -445,7 +450,11 @@ export async function refreshScheduledNews(check?: NewsOptions['check']) {
   diagnostics.mode = 'refresh';
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
-    const collected = await collect('all', NEWS_PROVIDERS, [], true);
+    // Twelve domain groups fill coverage gaps while keeping all calls on the job.
+    // Deduplicate query groups so a shared group spends only one provider credit.
+    const domainBaskets = [...new Map(Object.values(DOMAIN_FEEDS).flatMap(feed =>
+      feed.newsBaskets.map(phrases => [basketQuery(phrases), phrases] as const))).values()];
+    const collected = await collect('all', NEWS_PROVIDERS, domainBaskets, true);
     diagnostics.providers = collected.diagnostics.providers;
     diagnostics.counts.received = collected.diagnostics.counts.received;
     diagnostics.counts.relevant = collected.items.length;
@@ -455,7 +464,7 @@ export async function refreshScheduledNews(check?: NewsOptions['check']) {
       if (!providerEnabled(provider)) continue;
       const fresh = collected.items.filter(i => i.provider === provider);
       const previous = saved.items.filter(i => i.provider === provider);
-      const candidates = applyGate([...fresh, ...previous].map(i => ({ ...i, refreshSeconds: NEWS_REFRESH_SECONDS })), { maxPerPublisher: 500 }).sort(byNewest);
+      const candidates = dedupeNews([...fresh, ...previous].map(i => ({ ...i, refreshSeconds: NEWS_REFRESH_SECONDS })), 500);
       const counts = createNewsDiagnostics('all');
       try {
         await verified(candidates, 80, check, counts);
