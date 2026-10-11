@@ -9,7 +9,7 @@ import type { ProviderId } from '@/lib/api/core/types';
  * the CMS because these are API query definitions, not editorial copy.
  *
  *  - newsBaskets: each inner array is one OR'd provider query from the PDF.
- *    Related domain terms also select relevant headlines from the saved pool,
+ *    Related sector terms also select relevant headlines from the saved pool,
  *    without spending extra provider credits during browsing (p. 226).
  *  - researchThemes: each theme is one query through the research connectors.
  *  - specialistFeeds: the "Specialist feeds for ..." line of the same page.
@@ -34,7 +34,7 @@ export const SPECIALIST_PROVIDER: Record<SpecialistFeed, ProviderId> = {
 export type ContextualFeed = {
   pdfPage: number;
   newsBaskets: string[][];
-  /** Reviewed domain vocabulary for saved headlines that omit the query's exact phrase. */
+  /** Reviewed sector vocabulary for saved headlines that omit the query's exact phrase. */
   relatedNewsTerms?: string[];
   researchThemes: string[];
   /**
@@ -153,6 +153,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['climate policy', 'national climate plan', 'NDC'],
       ['public investment', 'environmental regulation', 'energy policy'],
     ],
+    relatedNewsTerms: [
+      'climate regulation', 'climate legislation', 'climate report', 'emissions rules',
+      'pollution rules', 'clean car rules', 'energy bill', 'energy regulator', 'climate funding',
+    ],
     researchThemes: [
       'national climate policy MRV public institutions',
       'public investment sustainable development institutional capacity',
@@ -165,6 +169,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     newsBaskets: [
       ['green finance', 'climate finance', 'development finance'],
       ['green credit', 'sustainable investment', 'ESG risk'],
+    ],
+    relatedNewsTerms: [
+      'green bond', 'bond market', 'bond sell', 'climate investment', 'investment fund',
+      'sustainability funding', 'financial disclosure', 'development bank', 'impact investment',
     ],
     researchThemes: [
       'sustainable finance green credit taxonomy bankability',
@@ -179,6 +187,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['electricity generation', 'renewable energy', 'power grid'],
       ['battery storage', 'energy utilities', 'energy efficiency'],
     ],
+    relatedNewsTerms: [
+      'solar', 'electricity', 'wind power', 'wind energy', 'wind farm', 'grid upgrade',
+      'energy bills', 'gas prices', 'coal plant', 'power plant', 'utilities',
+    ],
     researchThemes: [
       'electricity systems renewable energy storage grids',
       'energy utilities demand modelling efficiency feasibility',
@@ -192,6 +204,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['methane emissions', 'gas flaring', 'oil decarbonisation'],
       ['oil market', 'LNG', 'petrochemical energy efficiency'],
     ],
+    relatedNewsTerms: ['oil', 'fuel', 'diesel', 'natural gas', 'refinery', 'refineries', 'pipeline', 'petroleum', 'petrochemical*', 'methane'],
     researchThemes: [
       'oil gas methane flaring industrial decarbonisation',
       'petrochemical energy efficiency environmental assessment transition',
@@ -204,6 +217,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     newsBaskets: [
       ['industrial decarbonisation', 'manufacturing energy efficiency'],
       ['circular manufacturing', 'cement emissions', 'cleaner production'],
+    ],
+    relatedNewsTerms: [
+      'manufacturing', 'cement', 'steel', 'factory', 'factories', 'industrial emissions',
+      'industrial energy', 'recycled materials', 'material recycling', 'alternative leather',
     ],
     researchThemes: [
       'manufacturing process emissions energy resource efficiency',
@@ -218,6 +235,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable infrastructure', 'green buildings', 'industrial zones'],
       ['climate resilient infrastructure', 'building energy efficiency'],
     ],
+    relatedNewsTerms: [
+      'rooftop solar', 'apartments', 'building emissions', 'building retrofit', 'heat pump',
+      'district heating', 'energy infrastructure', 'grid upgrade', 'gas ban', 'new homes',
+    ],
     researchThemes: [
       'green buildings infrastructure sustainability resilience lifecycle emissions',
       'industrial zones water energy environmental social assessment',
@@ -230,6 +251,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     newsBaskets: [
       ['transport decarbonisation', 'low carbon mobility'],
       ['sustainable logistics', 'shipping emissions', 'electric fleets'],
+    ],
+    relatedNewsTerms: [
+      'fuel prices', 'diesel prices', 'petrol prices', 'motorist*', 'electric car',
+      'electric vehicle', 'clean car', 'vehicle emissions', 'shipping fuel', 'aviation emissions',
     ],
     researchThemes: [
       'transport emissions activity data MRV low carbon mobility',
@@ -244,6 +269,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['water reuse', 'wastewater treatment', 'water scarcity'],
       ['circular economy', 'waste recycling', 'resource recovery'],
     ],
+    relatedNewsTerms: ['water', 'wastewater', 'water supply', 'water shortage', 'recycling', 'plastic waste', 'waste recovery', 'waterway*'],
     researchThemes: [
       'water wastewater reuse circular economy resource recovery',
       'waste treatment recovery business models environmental compliance',
@@ -256,6 +282,11 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     newsBaskets: [
       ['climate smart agriculture', 'sustainable food systems'],
       ['solar irrigation', 'sustainable aquaculture', 'food carbon footprint'],
+    ],
+    // "Farm" alone would incorrectly classify solar farms as agriculture.
+    relatedNewsTerms: [
+      'agricultur*', 'farming', 'farmer', 'food production', 'food systems', 'local food',
+      'food security', 'aquaculture', 'irrigation', 'crop yield', 'soil carbon', 'fisheries',
     ],
     researchThemes: [
       'agriculture aquaculture climate resilience water energy biodiversity',
@@ -270,6 +301,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable mining', 'mine rehabilitation', 'mining biodiversity'],
       ['mining emissions', 'responsible minerals', 'mine water'],
     ],
+    relatedNewsTerms: ['mining', 'copper mine', 'coal mine', 'coal project', 'mineral extraction', 'rare earth', 'mine closure'],
     researchThemes: [
       'mining environmental social impacts biodiversity rehabilitation closure',
       'mine water pollution energy emissions responsible sourcing',
@@ -283,6 +315,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable tourism', 'green hotels', 'responsible destinations'],
       ['tourism climate resilience', 'hotel energy efficiency'],
     ],
+    relatedNewsTerms: ['tourism', 'hotel', 'hospitality', 'tourist', 'ecotourism', 'eco-tourism', 'sustainable travel'],
     researchThemes: [
       'tourism hospitality sustainability energy water waste carbon',
       'destination climate resilience biodiversity community impacts',
@@ -295,6 +328,10 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     newsBaskets: [
       ['data centre energy', 'sustainable telecoms', 'green data centres'],
       ['data centre water', 'digital infrastructure climate risk'],
+    ],
+    relatedNewsTerms: [
+      'data centre', 'data center', 'datacenter', 'telecom*', 'digital infrastructure',
+      'tech companies', 'climate technology', 'climate tool', 'energy technology',
     ],
     researchThemes: [
       'data centres energy efficiency cooling water renewable storage',
@@ -309,6 +346,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable hospitals', 'green campuses', 'institutional energy efficiency'],
       ['healthcare decarbonisation', 'campus climate resilience'],
     ],
+    relatedNewsTerms: ['hospital', 'campus', 'university', 'universities', 'school', 'college', 'healthcare', 'health care', 'medical centre', 'medical center'],
     researchThemes: [
       'hospital campus estate energy water waste decarbonisation',
       'healthcare education institutional climate resilience ESG reporting',

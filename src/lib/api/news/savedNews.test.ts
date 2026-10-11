@@ -26,7 +26,7 @@ import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
 import { fetchNews, fetchNewsForKeywords, fetchOfficialNews, PAGE_NEWS_PROVIDERS, refreshScheduledNews, searchNews } from './index';
 import { createNewsDiagnostics } from './diagnostics';
 import { NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
-import { DOMAIN_FEEDS, newsPhrases } from '../../feeds/contextual';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '../../feeds/contextual';
 import { LIMITS } from '../core/health';
 import { basketQuery } from './newsdata';
 
@@ -85,6 +85,42 @@ describe('database-backed news reads', () => {
     const official = { ...article('official', 'eia_rss'), title: 'Solar power output rises' };
     vi.mocked(readNewsStore).mockResolvedValue({ items: [unrelated, unknown, official], state: {}, available: true });
     const feed = DOMAIN_FEEDS['energy-systems-transition'];
+    expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toHaveLength(0);
+  });
+
+  it.each([
+    ['government-regulators-public-institutions', 'Government tightens emissions rules'],
+    ['financial-institutions-investors-development-finance', 'Green bonds finance solar projects'],
+    ['energy-utilities', 'Solar traffic controller wins design award'],
+    ['oil-gas-petrochemicals', 'UK diesel supplies face disruption'],
+    ['industry-manufacturing-materials', 'Steel factories cut carbon emissions'],
+    ['infrastructure-real-estate-industrial-zones', 'Apartments share rooftop solar power'],
+    ['transport-logistics-mobility', 'UK motorists can now see live fuel prices'],
+    ['water-waste-circular-economy', 'Water pollution threatens river wildlife'],
+    ['agriculture-food-aquaculture', 'Is local food better for the environment?'],
+    ['mining-natural-resources', 'Copper mining threatens biodiversity'],
+    ['tourism-hospitality-destinations', 'Hotels cut electricity use'],
+    ['technology-telecoms-data-infrastructure', 'Datacenter discharged pollution without permits'],
+    ['healthcare-education-institutional-estates', 'Hospital reduces energy costs'],
+  ])('selects saved sector news on %s without spending provider credits', async (slug, title) => {
+    const saved = { ...article('sector'), title, matchedQueries: ['broad-topic'] };
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [saved], state: {}, available: true });
+    const feed = INDUSTRY_FEEDS[slug];
+    expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toEqual([
+      expect.objectContaining({ id: saved.id, title }),
+    ]);
+    for (const call of [fetchNewsdataBasket, fetchNewsdataQuery, fetchGdeltNews, fetchEiaNews, fetchEeaNews, storeRecords]) {
+      expect(call).not.toHaveBeenCalled();
+    }
+  });
+
+  it.each([
+    'New solar farm adds electricity output',
+    'Farmers celebrate a football win',
+    'Climate change increases global heat',
+  ])('does not use unrelated or general headlines to fill agriculture news: %s', async title => {
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [{ ...article('unrelated'), title }], state: {}, available: true });
+    const feed = INDUSTRY_FEEDS['agriculture-food-aquaculture'];
     expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toHaveLength(0);
   });
 
@@ -225,6 +261,29 @@ describe('scheduled news refresh', () => {
     vi.mocked(fetchNewsdataQuery).mockClear();
     const page = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets });
     expect(page.items).toHaveLength(1);
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
+  });
+
+  it('makes one completed refresh available to homepage, domain and industry news reads', async () => {
+    const saved: NewsItem[] = [];
+    const energy = { ...article('solar'), title: 'Solar power output increases' };
+    const food = { ...article('food'), title: 'Is local food better for the environment?' };
+    vi.mocked(readNewsStore).mockImplementation(async () => ({ items: saved, state: {}, available: true }));
+    vi.mocked(fetchNewsdataBasket).mockResolvedValue(ok('newsdata', [energy, food]));
+    vi.mocked(storeRecords).mockImplementation(async records => {
+      saved.push(...records.map(row => row.record as NewsItem));
+      return true;
+    });
+    await refreshScheduledNews(async url => ({ status: 'verified_open', checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+    // Public reads select the saved refresh; they do not request their own new articles.
+    vi.mocked(fetchNewsdataBasket).mockClear();
+    vi.mocked(fetchNewsdataQuery).mockClear();
+    expect((await fetchNews('all', 3, { providers: PAGE_NEWS_PROVIDERS })).items).toHaveLength(2);
+    const domain = DOMAIN_FEEDS['energy-systems-transition'];
+    const industry = INDUSTRY_FEEDS['agriculture-food-aquaculture'];
+    expect((await fetchNewsForKeywords(newsPhrases(domain), 3, { baskets: domain.newsBaskets })).items[0].id).toBe(energy.id);
+    expect((await fetchNewsForKeywords(newsPhrases(industry), 3, { baskets: industry.newsBaskets })).items[0].id).toBe(food.id);
+    expect(fetchNewsdataBasket).not.toHaveBeenCalled();
     expect(fetchNewsdataQuery).not.toHaveBeenCalled();
   });
 

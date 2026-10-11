@@ -32,7 +32,7 @@ Remaining actions:
 
 - [x] Confirm the updated local NewsData key through the tracked connector. The user reports updating Vercel too; deployed request success is still unverified.
 - [x] Add the domain query groups to scheduled ingestion and preserve query provenance through duplicate removal; verify tests, types and lint locally.
-- [ ] Deploy the corrected scheduler through the usual project release process. Ensure the deployment uses the updated Vercel key; no key regeneration is required for the successful local value.
+- [x] The user reports deploying the corrected scheduler and domain/market selection changes; public Energy and Major Markets output confirms those selection fixes. Fresh deployed key success and automatic execution still require verification.
 - [ ] Check GDELT recovery during the next scheduled attempt. Retain its spacing and backoff rules; a connection timeout is different from database tracking or an upstream 429.
 - [x] Verify positive eligible domain matches and visible cards on all three pages after the selection fix below. The initial manual pull alone returned zero cards.
 
@@ -82,6 +82,45 @@ The page output matches native saved-record selections. Public reads perform zer
 Validation: **154 tests across 12 files**, TypeScript, changed-source ESLint and `git diff --check` pass. Regression tests cover domain vocabulary without provider calls, exclusion of unrelated/unknown-access/official news candidates, recent GDELT surviving a publisher cap, publication ordering across providers, and recent EIA replacing two older market stories. The existing no-duplicate-Global-News, outage, attribution and source-gate tests still pass.
 
 The localhost issues are resolved. Deploy these changes to apply the selection fix to Vercel; automatic scheduling and GDELT request-tracking recovery remain separate outstanding checks.
+
+## Deployed domain fixes and industry coverage: 11 October
+
+The user subsequently reported pushing the previous fixes to Vercel. Public checks of `https://enerqa-co-uk.vercel.app` confirmed the Energy domain renders three news cards and Major Markets renders the Guardian 8 October fuel-pricing story followed by EIA's 7 October winter expenditures commentary. The deployed Agriculture page still rendered its empty state, matching localhost before the industry fix. The deployed ingestion endpoint returned HTTP 401 without authorization. This establishes the public fixes and endpoint protection, not a successful automatic cron invocation or a fresh deployed provider request.
+
+Read-only selection checks found twelve of thirteen industries empty despite appropriate saved food, farming, mining, transport and data-centre stories. Those pages had only narrow handoff phrases, such as `sustainable food systems` or `food carbon footprint`, which did not select headlines about local food's environmental impact or farmers' sustainability funding.
+
+Added reviewed related vocabulary to all thirteen industry configurations while retaining their original provider queries. Headlines must still pass the existing site-topic, source, date, duplicate and anonymous-access checks. Sector terms are checked as words/phrases: Agriculture recognizes farming, farmers, local food, food production, irrigation and aquaculture; it deliberately excludes the generic word `farm` so solar farms do not become agriculture news. There are no additional news-provider calls during page visits or in the scheduled job because of this selection change.
+
+The Agriculture “View All Industry News” link initially retained an old empty selection from the cached Global Intelligence index. Its cache identity now includes domain/industry definitions, so changed vocabulary rebuilds the cached tags rather than retaining the previous rules for an hour. A follow-up localhost request returned HTTP 200 and the local-food story, without the previous no-results state. Scheduled ingestion still invalidates that index after a completed run.
+
+Rendered localhost checks confirmed HTTP 200 on all thirteen industry pages, with counts matching native saved-record selections:
+
+| Industry | Visible news cards |
+| --- | --- |
+| Government, Regulators and Public Institutions | 3 |
+| Financial Institutions, Investors and Development Finance | 2 |
+| Energy and Utilities | 3 |
+| Oil, Gas and Petrochemicals | 3 |
+| Industry, Manufacturing and Materials | 1 |
+| Infrastructure, Real Estate and Industrial Zones | 3 |
+| Transport, Logistics and Mobility | 3 |
+| Water, Waste and Circular Economy | 3 |
+| Agriculture, Food and Aquaculture | 3 |
+| Mining and Natural Resources | 2 |
+| Tourism, Hospitality and Destinations | 0 |
+| Technology, Telecoms and Data Infrastructure | 3 |
+| Healthcare, Education and Institutional Estates | 0 |
+
+The Agriculture cards are local food/environmental impact, a farmer's opposition to a copper mine affecting land/water, and sustainability funding for farmers. Tourism and Healthcare/Education have no eligible sector matches in the current saved pool; their empty states remain appropriate. More specific future sourcing can improve coverage, but unrelated general climate stories must not be substituted to fill a sector panel.
+
+Validation: 177 tests in thirteen files passed for the news pipeline, schedule/HTTP protection, contextual selection, Global Intelligence filters and homepage feeds. The additional cache-invalidation regression passed with the Global Intelligence suite (thirteen tests in two files). TypeScript, changed-source ESLint and diff checks pass. Tests cover all thirteen industries, exclusion of solar farms/unrelated farming/general climate stories from Agriculture, one completed scheduled refresh being available to homepage/domain/industry reads, and vocabulary changes invalidating stale search tags.
+
+- [x] Confirm the user's previous deployment through real Energy and Major Markets page output.
+- [x] Fix matching across all thirteen industries and verify Agriculture's three rendered cards.
+- [ ] Deploy the new industry vocabulary and Global Intelligence cache fix, then recheck the live Agriculture page.
+- [ ] Verify the automatic 2 PM Manila job in Vercel logs and saved completion/per-provider timestamps. Scheduled time is not guaranteed completion; Hobby invocations may start within the following hour.
+- [ ] If Tourism/Healthcare coverage stays empty after healthy scheduled pulls, design budgeted sector sourcing. Do not append all 26 industry query groups to one run: that would increase NewsData from 16 to 42 calls, above the existing 25-request rolling limit.
+- [ ] Resolve the separate GDELT request-tracking failure while keeping quotas and access checks.
 
 News now reads approved saved articles from the database. The new authenticated `/api/ingest/news` job pulls providers three times daily, at 6 AM, 2 PM and 10 PM Manila time. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the UTC configuration, saved-article rules and deployment blockers. Browsing no longer triggers news-provider calls.
 
