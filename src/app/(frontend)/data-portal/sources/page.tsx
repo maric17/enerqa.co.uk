@@ -9,6 +9,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { Metadata } from 'next';
 import { enabledProviders } from '@/lib/api/core/registry';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import type { DataPortalSourcesConfig, Dataset } from '@/payload-types';
 
 export const metadata: Metadata = {
   title: 'Sources and Methodology',
@@ -16,12 +17,38 @@ export const metadata: Metadata = {
   alternates: { canonical: '/data-portal/sources' },
 };
 export default async function DataPortalSourcesPage() {
-  const payload = await getPayload({ config: configPromise });
-  
-  // Fetch the Global configuration for Sources and Methodology
-  const config = await payload.findGlobal({
-    slug: 'data-portal-sources-config',
-  });
+  let config: Partial<DataPortalSourcesConfig> = {};
+  let datasets: Dataset[] = [];
+  let contentUnavailable = false;
+
+  // Keep the provider directory and default methodology readable during a CMS outage.
+  try {
+    const payload = await getPayload({ config: configPromise });
+    // Independent reads preserve whichever content is available if the other read fails.
+    const [sourcesResult, datasetsResult] = await Promise.allSettled([
+      payload.findGlobal({ slug: 'data-portal-sources-config' }),
+      payload.find({
+        collection: 'datasets',
+        where: { status: { equals: 'verified_open' }, accessStatus: { equals: 'verified_open' }, redistribution: { equals: true } },
+        limit: 100,
+      }),
+    ]);
+
+    if (sourcesResult.status === 'fulfilled') config = sourcesResult.value;
+    if (datasetsResult.status === 'fulfilled') datasets = datasetsResult.value.docs;
+    contentUnavailable = sourcesResult.status === 'rejected' || datasetsResult.status === 'rejected';
+
+    if (contentUnavailable) {
+      // Log safe status flags instead of driver errors that may contain private details.
+      console.warn('[data-portal/sources] Some saved content is unavailable.', {
+        sourceNotesLoaded: sourcesResult.status === 'fulfilled',
+        datasetListingsLoaded: datasetsResult.status === 'fulfilled',
+      });
+    }
+  } catch {
+    contentUnavailable = true;
+    console.warn('[data-portal/sources] Content service unavailable; displaying default source information.');
+  }
 
   const newsProviderIds = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'openalex', 'doaj', 'reliefweb', 'osti', 'gbif-literature', 'sec-edgar'];
   
@@ -38,13 +65,6 @@ export default async function DataPortalSourcesPage() {
   const dataProviders = providers.filter(p => !newsProviderIds.includes(p.id) && !['gemini', 'openai'].includes(p.id));
   const newsProviders = providers.filter(p => newsProviderIds.includes(p.id));
   
-  const datasetsRes = await payload.find({
-    collection: 'datasets',
-    where: { status: { equals: 'verified_open' }, accessStatus: { equals: 'verified_open' }, redistribution: { equals: true } },
-    limit: 100,
-  });
-  const datasets = datasetsRes.docs;
-
   return (
     <div className="bg-white min-h-screen">
       {/* S01: Sources and Methodology Intro */}
@@ -76,6 +96,11 @@ export default async function DataPortalSourcesPage() {
       <Section theme="light" className="py-20">
         <Container>
           <div className="max-w-4xl mx-auto flex flex-col gap-20">
+            {contentUnavailable && (
+              <p role="status" className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
+                Some source notes and dataset listings are temporarily unavailable. Available source information is shown below. Please try again later.
+              </p>
+            )}
             
             {/* S02: Source Directory */}
             <div id="directory" className="flex flex-col gap-8">
