@@ -4,6 +4,7 @@ import type { NewsBasketKey, NewsItem, NewsProvider } from './types';
 /** Public-safe counters only: never include URLs, keys, bodies or raw errors. */
 export type NewsDiagnostics = {
   mode?: 'database' | 'refresh';
+  scope?: 'all' | 'industries';
   refresh?: { lastAttemptAt: string | null; lastCompletedAt: string | null; lastSuccessAt: Partial<Record<NewsProvider, string>> };
   basket: NewsBasketKey;
   providers: {

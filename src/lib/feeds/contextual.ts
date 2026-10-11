@@ -144,9 +144,15 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
   },
 };
 
-export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
+export type IndustryFeed = ContextualFeed & {
+  /** Scheduled discovery requires both the sector and a sustainability topic. */
+  newsDiscoveryQuery: string;
+};
+
+export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
   'government-regulators-public-institutions': {
     pdfPage: 66,
+    newsDiscoveryQuery: '(government OR regulation) AND (climate OR energy OR emissions)',
     // p. 66: "Specialist feeds for I01R: reliefweb."
     specialistFeeds: ['reliefweb'],
     newsBaskets: [
@@ -163,6 +169,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'financial-institutions-investors-development-finance': {
+    newsDiscoveryQuery: '(bank OR investor OR finance) AND (climate OR energy OR ESG)',
     pdfPage: 72,
     // p. 72: "Specialist feeds for I02R: sec_edgar."
     specialistFeeds: ['sec_edgar'],
@@ -180,6 +187,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'energy-utilities': {
+    newsDiscoveryQuery: '(utilities OR electricity OR solar) AND (energy OR climate OR emissions)',
     pdfPage: 78,
     // p. 78: "Specialist feeds for I03R: eia_rss, osti."
     specialistFeeds: ['eia_rss', 'osti'],
@@ -197,6 +205,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'oil-gas-petrochemicals': {
+    newsDiscoveryQuery: '(oil OR gas OR petrochemical) AND (energy OR climate OR emissions)',
     pdfPage: 84,
     // p. 84: "Specialist feeds for I04R: eia_rss, osti, sec_edgar."
     specialistFeeds: ['eia_rss', 'osti', 'sec_edgar'],
@@ -211,6 +220,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'industry-manufacturing-materials': {
+    newsDiscoveryQuery: '(manufacturing OR cement OR steel) AND (energy OR emissions OR environment)',
     pdfPage: 90,
     // p. 90: "Specialist feeds for I05R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],
@@ -228,6 +238,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'infrastructure-real-estate-industrial-zones': {
+    newsDiscoveryQuery: '(building OR infrastructure) AND (energy OR climate OR emissions)',
     pdfPage: 96,
     // p. 96: "Specialist feeds for I06R: eea_rss, osti."
     specialistFeeds: ['eea_rss', 'osti'],
@@ -245,6 +256,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'transport-logistics-mobility': {
+    newsDiscoveryQuery: '(transport OR shipping OR aviation) AND (energy OR emissions OR climate)',
     pdfPage: 102,
     // p. 102: "Specialist feeds for I07R: eia_rss, osti."
     specialistFeeds: ['eia_rss', 'osti'],
@@ -262,6 +274,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'water-waste-circular-economy': {
+    newsDiscoveryQuery: '(water OR waste OR recycling) AND (climate OR environment OR circular)',
     pdfPage: 108,
     // p. 108: "Specialist feeds for I08R: eea_rss, reliefweb."
     specialistFeeds: ['eea_rss', 'reliefweb'],
@@ -276,6 +289,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'agriculture-food-aquaculture': {
+    newsDiscoveryQuery: '(agriculture OR food OR aquaculture) AND (climate OR environment OR sustainability)',
     pdfPage: 114,
     // p. 114: "Specialist feeds for I09R: reliefweb, gbif_literature."
     specialistFeeds: ['reliefweb', 'gbif_literature'],
@@ -294,6 +308,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'mining-natural-resources': {
+    newsDiscoveryQuery: '(mining OR minerals) AND (climate OR energy OR environment)',
     pdfPage: 120,
     // p. 120: "Specialist feeds for I10R: gbif_literature, eea_rss."
     specialistFeeds: ['gbif_literature', 'eea_rss'],
@@ -308,6 +323,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'tourism-hospitality-destinations': {
+    newsDiscoveryQuery: '(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment)',
     pdfPage: 126,
     // p. 126: "Specialist feeds for I11R: eea_rss, gbif_literature."
     specialistFeeds: ['eea_rss', 'gbif_literature'],
@@ -322,6 +338,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'technology-telecoms-data-infrastructure': {
+    newsDiscoveryQuery: '("data centre" OR datacenter OR telecom) AND (energy OR water OR emissions)',
     pdfPage: 132,
     // p. 132: "Specialist feeds for I12R: osti, eia_rss, sec_edgar."
     specialistFeeds: ['osti', 'eia_rss', 'sec_edgar'],
@@ -339,6 +356,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'healthcare-education-institutional-estates': {
+    newsDiscoveryQuery: '(hospital OR campus OR healthcare OR university) AND (climate OR energy OR environment)',
     pdfPage: 138,
     // p. 138: "Specialist feeds for I13R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],

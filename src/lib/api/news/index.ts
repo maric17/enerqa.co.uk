@@ -25,6 +25,7 @@ import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS, typ
 import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 import { DOMAIN_FEEDS } from '../../feeds/contextual';
+import { industryDiscoveryQueries } from './discovery';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
@@ -185,22 +186,23 @@ function note(status: Collected['status'], provider: NewsProvider, result: Conne
 async function collect(
   basketKey: NewsBasketKey,
   providers: readonly NewsProvider[],
-  pageBaskets: string[][] = [],
+  pageQueries: string[] = [],
   fresh = false,
+  includeTopics = true,
 ): Promise<Collected> {
   const basket = getBasket(basketKey);
   const wants = (p: NewsProvider) => providers.includes(p);
 
   // NewsData charges a credit per query, so "All" reuses the four cached topic
-  // baskets instead of paying for a fifth (p. 210). Scheduled ingestion also
-  // requests the domains' own query groups; public pages only read saved news.
-  const newsdataCalls = !wants('newsdata')
+  // baskets instead of paying for a fifth (p. 210). Context discovery belongs
+  // to ingestion; an industry-only maintenance pull skips the topic calls.
+  const newsdataCalls = !wants('newsdata') || !includeTopics
     ? []
     : basketKey === 'all'
       ? NEWS_BASKETS.filter((b) => b.newsdataQuery).map((b) => safeNewsCall('newsdata', fetchNewsdataBasket(b.key, fresh)))
       : [safeNewsCall('newsdata', fetchNewsdataBasket(basketKey, fresh))];
   const pageCalls = wants('newsdata')
-    ? pageBaskets.map((phrases) => safeNewsCall('newsdata', fetchNewsdataQuery(basketQuery(phrases), PAGE_BASKET_SECONDS, fresh)))
+    ? pageQueries.map(query => safeNewsCall('newsdata', fetchNewsdataQuery(query, PAGE_BASKET_SECONDS, fresh)))
     : [];
 
   const wantsEia = wants('eia_rss') && EIA_BASKETS.includes(basketKey);
@@ -324,7 +326,7 @@ const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'
  * and then check only what they will show.
  */
 async function providerPool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
-  const { items: collected, status, diagnostics } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets);
+  const { items: collected, status, diagnostics } = await collect(basketKey, opts.providers ?? ALL_PROVIDERS, opts.pageBaskets?.map(basketQuery));
   const items = dedupeNews(collected, opts.maxPerPublisher);
   diagnostics.counts.afterGate = items.length;
   return { items, status, diagnostics };
@@ -443,23 +445,30 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
 
 /** Three daily pulls of one shared pool, with independent provider storage. */
 export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
+  if (options.industriesOnly && !options.manual) throw new Error('Industry maintenance requires an explicit manual pull.');
   const claim = await claimNewsRefresh(options);
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
   diagnostics.mode = 'refresh';
+  diagnostics.scope = options.industriesOnly ? 'industries' : 'all';
+  const providers: NewsProvider[] = options.industriesOnly ? ['newsdata'] : NEWS_PROVIDERS;
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
-    // Twelve domain groups fill coverage gaps while keeping all calls on the job.
-    // Deduplicate query groups so a shared group spends only one provider credit.
-    const domainBaskets = [...new Map(Object.values(DOMAIN_FEEDS).flatMap(feed =>
-      feed.newsBaskets.map(phrases => [basketQuery(phrases), phrases] as const))).values()];
-    const collected = await collect('all', NEWS_PROVIDERS, domainBaskets, true);
-    diagnostics.providers = collected.diagnostics.providers;
+    // Keep the twelve domain queries and rotate up to five sector queries per slot.
+    // A requested industry-only pull uses thirteen calls, without repeating the full job.
+    const domainQueries = options.industriesOnly ? [] : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
+    const queries = [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly)])];
+    const collected = await collect('all', providers, queries, true, !options.industriesOnly);
+    // Maintenance preserves the last outcomes of providers it did not contact.
+    diagnostics.providers = [
+      ...(claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? []),
+      ...collected.diagnostics.providers,
+    ];
     diagnostics.counts.received = collected.diagnostics.counts.received;
     diagnostics.counts.relevant = collected.items.length;
     // Recheck still-recent saved candidates on the job, never during page visits.
     const saved = await readNewsStore(true);
-    for (const provider of NEWS_PROVIDERS) {
+    for (const provider of providers) {
       if (!providerEnabled(provider)) continue;
       const fresh = collected.items.filter(i => i.provider === provider);
       const previous = saved.items.filter(i => i.provider === provider);
@@ -488,7 +497,7 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
     logNewsDiagnostics(diagnostics);
     return { skipped: false as const, storedItems: diagnostics.counts.returned,
-      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, NEWS_PROVIDERS) || diagnostics.storage === 'failed', diagnostics };
+      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, providers) || diagnostics.storage === 'failed', diagnostics };
   } catch {
     diagnostics.storage = 'failed';
     await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });

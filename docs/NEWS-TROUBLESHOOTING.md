@@ -119,8 +119,34 @@ Validation: 177 tests in thirteen files passed for the news pipeline, schedule/H
 - [x] Fix matching across all thirteen industries and verify Agriculture's three rendered cards.
 - [ ] Deploy the new industry vocabulary and Global Intelligence cache fix, then recheck the live Agriculture page.
 - [ ] Verify the automatic 2 PM Manila job in Vercel logs and saved completion/per-provider timestamps. Scheduled time is not guaranteed completion; Hobby invocations may start within the following hour.
-- [ ] If Tourism/Healthcare coverage stays empty after healthy scheduled pulls, design budgeted sector sourcing. Do not append all 26 industry query groups to one run: that would increase NewsData from 16 to 42 calls, above the existing 25-request rolling limit.
+- [x] Design budgeted sector sourcing: thirteen discovery queries rotate across the daily slots; see the follow-up below. The original 26 narrow industry groups are not appended to each pull.
 - [ ] Resolve the separate GDELT request-tracking failure while keeping quotas and access checks.
+
+## All-industry audit and targeted sourcing: 11 October, 1:32 PM Manila
+
+Rechecked all thirteen localhost pages against fresh native database selections. Every route returned HTTP 200; eleven sections have news and two remain empty. Counts are unchanged from the table above: Tourism and Healthcare/Education have zero sector-relevant eligible cards.
+
+The scheduler previously discovered only topic/domain news. Added one compact Boolean discovery query per industry, requiring a sector and a sustainability topic, and rotated the thirteen queries across the three slots in batches of five, five and three. The four topic and twelve domain queries still run every slot. Scheduled NewsData usage is now **21 / 21 / 19 calls, or 61 per day**, below the unchanged 25-request rolling and 150-request daily limits. All queries are inside the 100-character cap. Public pages still make no news-provider requests and preserve all eligibility checks. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the batch allocation.
+
+Added operator-only `--manual --industries` maintenance to the existing pull script and ran it once. It acquired the shared lease and performed thirteen fresh, usage-accounted NewsData calls without repeating topic/domain/RSS/GDELT pulls. The run completed at **13:32:44 Manila / 05:32:44 UTC**:
+
+- All thirteen industry calls returned healthy replies, mapping **57 articles** in total. Tourism returned five and Healthcare seven, before relevance filtering and duplicate removal.
+- Twelve mapped candidates passed the site-topic check. After merging with previous NewsData candidates and applying source/date/URL/access rules, **14 existing approved records were saved/updated**, with `storage: ok` and `sourcesFailed: false`. These were not fourteen newly discovered articles; the eligible pool gained no new URLs.
+- Native selections and all thirteen rendered localhost pages still showed news on eleven industries. Tourism and Healthcare/Education remained empty. The healthy query responses did not supply eligible sector cards.
+- Broad discovery provenance is retained for diagnostics, but does not alone qualify an article for a sector. The Healthcare query found the existing local-food and rooftop-apartment-solar stories; incidental university references do not make these institutional-estates news. Tourism had no eligible saved result even through discovery provenance.
+- Providers not contacted by maintenance retain their saved health and last-success timestamps. The separate GDELT accounting failure was not retried or represented as recovered.
+
+Also checked all thirteen pages at `https://enerqa-co-uk.vercel.app`. The public responses returned HTTP 200 but only Government had news (one card); the other twelve sections were empty. A further Agriculture request with a unique query and `Cache-Control: no-cache` returned HTTP 200, `x-vercel-cache: MISS`, `age: 0`, and no news cards. Energy on the same alias still showed its earlier news fix. The localhost industry vocabulary fix is not reflected in that URL's observed output; the user's previous push alone does not establish that this production alias serves the latest industry code.
+
+Validation: **185 tests across fifteen files**, TypeScript, changed-source ESLint and diff checks passed. New regressions cover every industry being searched exactly once per scheduled day, delayed/midnight invocations choosing the right batch, daily/rolling/query limits, maintenance requiring manual mode and the shared lease, genuine access rejection, and unchanged health for untouched providers.
+
+- [x] Audit all thirteen localhost and deployed industry routes and compare visible cards with native saved selections.
+- [x] Add industry discovery without increasing browsing requests or weakening eligibility rules.
+- [x] Complete one bounded industry-only pull and verify storage and rendered results.
+- [ ] Deploy the latest industry selection and discovery changes to the production alias, then verify Agriculture and the other populated local sections there.
+- [ ] Confirm automatic scheduled execution and industry-query rotation in Vercel logs and saved timestamps.
+- [ ] Recheck Tourism and Healthcare when sector-relevant eligible articles are available. Future healthy pulls can still return no displayable stories; unrelated food/apartment/general climate stories must not fill these panels.
+- [ ] Resolve the separate GDELT request-tracking failure with its existing budget and spacing guards intact.
 
 News now reads approved saved articles from the database. The new authenticated `/api/ingest/news` job pulls providers three times daily, at 6 AM, 2 PM and 10 PM Manila time. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the UTC configuration, saved-article rules and deployment blockers. Browsing no longer triggers news-provider calls.
 
@@ -142,6 +168,7 @@ The server logs a database-read summary per `fetchNews` call and a `mode: refres
 | --- | --- |
 | `mode: database` | The visit used saved news. Provider entries show the last scheduled pull's outcomes; `counts.received` counts eligible saved records. |
 | `mode: refresh` | The scheduler ran provider work. Its `afterGate` count includes previous saved candidates considered for rechecking. |
+| `scope: industries` | An operator performed industry-only discovery/rechecks. Provider entries for untouched providers retain prior health; current-run counts describe NewsData maintenance. |
 | `refresh.lastSuccessAt` | Last successful poll per provider, separate from article retrieval and publication times. |
 | No provider entries and no saved articles | No completed scheduled job is recorded yet. Configure the secret/database and run an authenticated seed job. |
 | `outcome: not_configured` for NewsData | Check `NEWSDATA_API_KEY` in the Vercel environment serving this URL, then redeploy. Keep this key server-side; do not give it a `NEXT_PUBLIC_` prefix. |

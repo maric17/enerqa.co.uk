@@ -85,7 +85,11 @@ export async function readNewsStore(includeExpiredAccess = false) {
 }
 
 export type NewsRefreshClaim = { token: string; state: NewsRefreshState };
-export type NewsRefreshOptions = { manual?: boolean };
+export type NewsRefreshOptions = {
+  manual?: boolean;
+  /** Trusted operator maintenance; the HTTP route never enables this option. */
+  industriesOnly?: boolean;
+};
 
 /** Manual operator pulls can reuse a slot; every pull still needs the shared lease. */
 export async function claimNewsRefresh(options: NewsRefreshOptions = {}): Promise<NewsRefreshClaim | null> {
