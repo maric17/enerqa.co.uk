@@ -21,7 +21,7 @@ import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews } from './gdelt';
 import { REGION_ORDER } from './geography';
 import { providerEnabled } from '../core/registry';
-import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS } from './storage';
+import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS, type NewsRefreshOptions } from './storage';
 import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 import { DOMAIN_FEEDS } from '../../feeds/contextual';
@@ -342,16 +342,16 @@ function dedupeNews(collected: NewsItem[], maxPerPublisher?: number): NewsItem[]
     }
   }
 
-  // Sort by provider richness FIRST so the gate's URL dedupe keeps the copy
-  // with a summary, then re-sort the survivors into newest-first order.
+  // Prefer licensed summaries when choosing a duplicate, without using up
+  // publisher slots until all surviving stories have been sorted by publication.
   const deduped = applyGate(
     [...collected].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
-    { maxPerPublisher },
+    { maxPerPublisher: Infinity },
   ).map((item) => {
     const found = queries.get(normaliseUrl(item.url));
     return found ? { ...item, matchedQueries: [...found] } : item;
   });
-  return deduped.sort(byNewest);
+  return applyGate(deduped.sort(byNewest), { maxPerPublisher });
 }
 
 /** Public pages read approved saved records, including after a failed refresh. */
@@ -388,8 +388,7 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
   }));
   diagnostics.counts.received = eligible.length;
   diagnostics.counts.relevant = relevant.length;
-  const items = applyGate([...relevant].sort((a, b) => DEDUPE_PRIORITY[a.provider] - DEDUPE_PRIORITY[b.provider]),
-    { maxPerPublisher: opts.maxPerPublisher }).sort(byNewest);
+  const items = dedupeNews(relevant, opts.maxPerPublisher);
   diagnostics.counts.afterGate = items.length;
   diagnostics.counts.verifiedOpen = items.length;
   return { items, status, diagnostics };
@@ -443,8 +442,8 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
 }
 
 /** Three daily pulls of one shared pool, with independent provider storage. */
-export async function refreshScheduledNews(check?: NewsOptions['check']) {
-  const claim = await claimNewsRefresh();
+export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
+  const claim = await claimNewsRefresh(options);
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
   diagnostics.mode = 'refresh';

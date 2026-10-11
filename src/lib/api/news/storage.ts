@@ -12,6 +12,7 @@ const JOB_ID = 'scheduled-news-v1';
 export const NEWS_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
 
 export type NewsRefreshState = {
+  trigger?: 'scheduled' | 'manual';
   lastAttemptAt?: string;
   lastCompletedAt?: string;
   lastSuccessAt?: Partial<Record<NewsProvider, string>>;
@@ -84,24 +85,27 @@ export async function readNewsStore(includeExpiredAccess = false) {
 }
 
 export type NewsRefreshClaim = { token: string; state: NewsRefreshState };
+export type NewsRefreshOptions = { manual?: boolean };
 
-/** One atomic claim per eight-hour slot prevents duplicate or overlapping pulls. */
-export async function claimNewsRefresh(): Promise<NewsRefreshClaim | null> {
+/** Manual operator pulls can reuse a slot; every pull still needs the shared lease. */
+export async function claimNewsRefresh(options: NewsRefreshOptions = {}): Promise<NewsRefreshClaim | null> {
   const db = providerDatabase();
   if (!db) throw new Error('Scheduled news storage is not configured.');
   const now = Date.now();
   const token = randomUUID();
-  const record = { slot: newsScheduleSlot(now), token, lastAttemptAt: new Date(now).toISOString(), leaseUntil: new Date(now + 10 * 60_000).toISOString() };
+  const record = { slot: newsScheduleSlot(now), token, trigger: options.manual ? 'manual' : 'scheduled',
+    lastAttemptAt: new Date(now).toISOString(), leaseUntil: new Date(now + 10 * 60_000).toISOString() };
   const { rows } = await db.query<{ record: NewsRefreshState }>(`
     INSERT INTO enerqa_connectors.external_records AS previous
       (provider, source_id, destination, access_status, retrieved_at, record)
     VALUES ($1, $2, 'https://enerqa.co.uk', 'unknown', clock_timestamp(), $3::jsonb)
     ON CONFLICT (provider, source_id) DO UPDATE
       SET record = previous.record || EXCLUDED.record, retrieved_at = clock_timestamp()
-      WHERE previous.record->>'slot' IS DISTINCT FROM EXCLUDED.record->>'slot'
-        AND COALESCE((previous.record->>'slot')::timestamptz, '-infinity'::timestamptz) < (EXCLUDED.record->>'slot')::timestamptz
+      WHERE ($4::boolean OR (
+        previous.record->>'slot' IS DISTINCT FROM EXCLUDED.record->>'slot'
+        AND COALESCE((previous.record->>'slot')::timestamptz, '-infinity'::timestamptz) < (EXCLUDED.record->>'slot')::timestamptz))
         AND COALESCE((previous.record->>'leaseUntil')::timestamptz, '-infinity'::timestamptz) < clock_timestamp()
-    RETURNING record`, [JOB_PROVIDER, JOB_ID, JSON.stringify(record)]);
+    RETURNING record`, [JOB_PROVIDER, JOB_ID, JSON.stringify(record), options.manual === true]);
   return rows.length ? { token, state: rows[0].record } : null;
 }
 

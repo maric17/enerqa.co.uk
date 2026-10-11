@@ -1,5 +1,5 @@
 import type { NewsBasketKey, NewsItem } from '@/lib/api/news/types';
-import { applyGate, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
+import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
 
 /**
  * Pure helpers behind H03 Global News and H04 Major Markets (p. 13).
@@ -126,5 +126,7 @@ export function withoutShown(items: NewsItem[], shown: NewsItem[], limit: number
 export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2): NewsItem[] {
   const matching = pool.filter((item) => matchesBasket(item, getBasket('business')));
   // Remove shown stories before the publisher cap so they do not use up its slots.
-  return applyGate(withoutShown(matching, shown, matching.length)).slice(0, limit);
+  // News and official commentary can be merged in either order; publication
+  // date decides which stories get the publisher slots and the visible cards.
+  return applyGate(withoutShown(matching, shown, matching.length).sort(byNewest)).slice(0, limit);
 }

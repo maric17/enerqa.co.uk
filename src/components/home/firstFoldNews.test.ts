@@ -140,6 +140,15 @@ describe('withoutShown', () => {
 });
 
 describe('buildMarketView', () => {
+  it('ranks merged news and official commentary by publication, not retrieval or provider order', () => {
+    const old = item('old', 'Energy prices climb', { publishedAt: hoursAgo(72), retrievedAt: hoursAgo(0) });
+    const fresh = item('fresh', 'Natural gas prices fall', {
+      publishedAt: hoursAgo(2), retrievedAt: hoursAgo(12), provider: 'eia_rss',
+      url: 'https://www.eia.gov/todayinenergy/detail.php?id=1', domain: 'eia.gov',
+    });
+    expect(buildMarketView([old, fresh], [], 1)).toEqual([fresh]);
+  });
+
   it('finds market stories in the shared pool without repeating Global News', () => {
     const lead = item('lead', 'Climate adaptation plan agreed');
     const prices = item('prices', 'Energy prices climb');

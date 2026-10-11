@@ -8,9 +8,9 @@ import type { ProviderId } from '@/lib/api/core/types';
  * each entry so it can be checked against the source). Kept in code rather than
  * the CMS because these are API query definitions, not editorial copy.
  *
- *  - newsBaskets: each inner array is one OR'd basket from the PDF. An item
- *    must match a whole phrase in its headline or summary. The items come from
- *    the shared, already-cached news pool - no extra provider calls (p. 226).
+ *  - newsBaskets: each inner array is one OR'd provider query from the PDF.
+ *    Related domain terms also select relevant headlines from the saved pool,
+ *    without spending extra provider credits during browsing (p. 226).
  *  - researchThemes: each theme is one query through the research connectors.
  *  - specialistFeeds: the "Specialist feeds for ..." line of the same page.
  */
@@ -34,6 +34,8 @@ export const SPECIALIST_PROVIDER: Record<SpecialistFeed, ProviderId> = {
 export type ContextualFeed = {
   pdfPage: number;
   newsBaskets: string[][];
+  /** Reviewed domain vocabulary for saved headlines that omit the query's exact phrase. */
+  relatedNewsTerms?: string[];
   researchThemes: string[];
   /**
    * I{nn}R (p. 65): "OpenAlex/DOAJ shared scholarly sources plus the
@@ -68,6 +70,7 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
       ['carbon markets', 'carbon credits', 'decarbonisation'],
       ['climate finance', 'adaptation finance', 'loss and damage'],
     ],
+    relatedNewsTerms: ['climate', 'emissions', 'greenhouse gas', 'net zero', 'carbon pricing', 'carbon capture'],
     researchThemes: [
       'GHG inventories measurement reporting verification',
       'climate adaptation resilience vulnerability',
@@ -85,6 +88,12 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
       ['renewable energy', 'energy storage', 'power grid'],
       ['energy efficiency', 'clean technology', 'industrial decarbonisation'],
       ['energy markets', 'oil market', 'electricity prices'],
+    ],
+    // Solar, electricity and fuel coverage need not repeat "renewable energy" or "oil market".
+    relatedNewsTerms: [
+      'solar', 'wind power', 'wind farm', 'battery storage', 'batteries', 'hydrogen',
+      'electricity', 'fuel', 'diesel', 'natural gas', 'crude oil', 'oil prices',
+      'nuclear power', 'nuclear energy', 'energy transition', 'energy security',
     ],
     researchThemes: [
       'renewable energy storage grids feasibility',
@@ -104,6 +113,10 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
       ['circular economy', 'resource recovery', 'waste recycling'],
       ['environmental pollution', 'water management', 'marine environment'],
     ],
+    relatedNewsTerms: [
+      'environment*', 'ecosystem', 'forest', 'wildlife', 'pollution', 'recycling',
+      'waste', 'conservation', 'plastic', 'mangrove',
+    ],
     researchThemes: [
       'biodiversity ecosystems restoration natural capital',
       'circular economy waste recovery material flows',
@@ -122,6 +135,7 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
       ['sustainable finance', 'green credit', 'green taxonomy'],
       ['climate risk', 'responsible supply chains', 'impact investing'],
     ],
+    relatedNewsTerms: ['sustainability', 'green bond', 'responsible investment', 'climate disclosure', 'sustainable investment'],
     researchThemes: [
       'ESG materiality sustainability reporting climate risk',
       'sustainable finance green credit taxonomy project screening',
@@ -318,7 +332,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
  */
 export function newsPhrases(feed: ContextualFeed): string[] {
   const variants = new Set<string>();
-  for (const phrase of feed.newsBaskets.flat()) {
+  for (const phrase of [...feed.newsBaskets.flat(), ...(feed.relatedNewsTerms ?? [])]) {
     const words = phrase.split(' ');
     const last = words[words.length - 1];
     const head = words.slice(0, -1);
