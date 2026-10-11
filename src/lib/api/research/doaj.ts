@@ -56,6 +56,7 @@ export async function fetchDoajArticles(options: {
    * use the same three-year window as OpenAlex.
    */
   fromYear?: number;
+  fresh?: boolean;
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const { search, pageSize = 6, fromYear } = options;
   if (!search.trim()) return fail('doaj', 'no_results', 'No search term supplied.');
@@ -64,7 +65,7 @@ export async function fetchDoajArticles(options: {
   // on 25 Sep 2026: "... AND bibjson.year:[2023 TO 2026]" narrows the set).
   const query = fromYear ? `${search.trim()} AND bibjson.year:[${fromYear} TO ${new Date().getUTCFullYear()}]` : search.trim();
   const url = `${BASE}/${encodeURIComponent(query)}?pageSize=${Math.min(pageSize * 2, 50)}`;
-  const res = await fetchFromProvider<{ results?: DoajArticle[] }>('doaj', url, { timeoutMs: 20000 });
+  const res = await fetchFromProvider<{ results?: DoajArticle[] }>('doaj', url, { timeoutMs: 20000, fresh: options.fresh });
   if (!res.ok) return res;
 
   const items: ResearchItem[] = [];

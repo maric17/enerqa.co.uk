@@ -116,6 +116,7 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
     relatedNewsTerms: [
       'environment*', 'ecosystem', 'forest', 'wildlife', 'pollution', 'recycling',
       'waste', 'conservation', 'plastic', 'mangrove',
+      'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
     ],
     researchThemes: [
       'biodiversity ecosystems restoration natural capital',

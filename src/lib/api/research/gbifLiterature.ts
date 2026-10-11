@@ -77,6 +77,7 @@ function authorName(a: { firstName?: string; lastName?: string }): string | null
 export async function fetchGbifLiterature(options: {
   search: string;
   limit?: number;
+  fresh?: boolean;
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const { search, limit = 6 } = options;
   if (!search.trim()) return fail('gbif-literature', 'no_results', 'No search term supplied.');
@@ -90,7 +91,7 @@ export async function fetchGbifLiterature(options: {
   const res = await fetchFromProvider<{ results?: GbifLiterature[] }>(
     'gbif-literature',
     `${BASE}?${params.toString()}`,
-    { timeoutMs: 20000 },
+    { timeoutMs: 20000, fresh: options.fresh },
   );
   if (!res.ok) return res;
 

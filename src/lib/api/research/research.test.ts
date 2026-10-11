@@ -89,6 +89,11 @@ describe('research ranking (pp. 28, 37, 48, 59, 65; L417, L522)', () => {
     expect(kept.map((i) => i.id)).toEqual(['p']);
   });
 
+  it('matches relevance words inside quoted Boolean provider queries', () => {
+    const kept = gateResearch([item('on-topic', 'openalex'), item('off-topic', 'openalex', { title: 'Unrelated astronomy' })], '("carbon markets" OR "renewable energy") AND ("Germany")');
+    expect(kept.map(i => i.id)).toEqual(['on-topic']);
+  });
+
   it('publishes only records whose destination passed the anonymous check', async () => {
     const check = async (url: string): Promise<AccessVerdict> => ({
       status: url.endsWith('/o1') ? 'gated' : 'verified_open',

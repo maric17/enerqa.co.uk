@@ -28,12 +28,13 @@ vi.mock('@/lib/api/news', () => ({
   fetchNews: async () => ({ sourcesFailed: false, items: [{
     id: 'food', title: 'Is local food better for the environment?', summary: null,
     url: 'https://www.theguardian.com/food', provider: 'newsdata', publisher: 'The Guardian',
-    providerLabel: 'NewsData.io', publishedAt: '2026-10-09', retrievedAt: '2026-10-11', language: 'en',
+    providerLabel: 'NewsData.io', publishedAt: '2026-10-09', retrievedAt: '2026-10-11', language: 'en', accessStatus: 'verified_open',
   }] }),
   isNewsItemStale: () => false,
 }));
 vi.mock('@/lib/api/research', () => ({ fetchResearchForThemes: async () => ({ items: [], sourcesFailed: false }) }));
 vi.mock('./official', () => ({ fetchSpecialistUpdates: async () => ({ items: [], sourcesFailed: false }) }));
+vi.mock('./savedIntelligence', () => ({ readSavedResearch: async () => ({ items: [], available: true }) }));
 
 beforeEach(() => { mocks.cache.clear(); mocks.relatedTerms.length = 0; vi.resetModules(); });
 

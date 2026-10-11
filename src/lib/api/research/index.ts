@@ -118,8 +118,12 @@ export function themeStems(theme: string): string[] {
   return [
     ...new Set(
       theme
+        // Interactive provider queries include phrase quotes and Boolean groups.
+        // They are query syntax, so relevance must compare the underlying words.
+        .replace(/[()"']/g, ' ')
         .split(/\s+/)
         .filter(Boolean)
+        .filter(word => !['AND', 'OR', 'NOT'].includes(word))
         .flatMap((word) => {
           if (/^[A-Z0-9]{2,}$/.test(word)) return [word.toLowerCase()];
           const w = word.toLowerCase();
@@ -144,18 +148,19 @@ export function isOnTheme(item: Pick<ResearchItem, 'title' | 'summary'>, theme: 
   return stems.some((stem) => new RegExp(`(?<![\\p{L}\\p{N}])${stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'iu').test(text));
 }
 
-function callProvider(provider: ResearchProvider, search: string, limit: number): Promise<ConnectorResult<ResearchItem[]>> {
+type ResearchSearchFilters = { fromDate?: string; languages?: string[] };
+function callProvider(provider: ResearchProvider, search: string, limit: number, fresh = false, filters: ResearchSearchFilters = {}): Promise<ConnectorResult<ResearchItem[]>> {
   switch (provider) {
     case 'openalex':
-      return fetchOpenAlexWorks({ search, perPage: limit, fromDate: recentFromDate() });
+      return fetchOpenAlexWorks({ search, perPage: limit, fromDate: filters.fromDate ?? recentFromDate(), languages: filters.languages, fresh });
     case 'doaj':
-      return fetchDoajArticles({ search, pageSize: limit, fromYear: Number(recentFromDate().slice(0, 4)) });
+      return fetchDoajArticles({ search, pageSize: limit, fromYear: Number((filters.fromDate ?? recentFromDate()).slice(0, 4)), fresh });
     case 'osti':
-      return fetchOstiRecords({ search, rows: limit });
+      return fetchOstiRecords({ search, rows: limit, fresh });
     case 'gbif-literature':
-      return fetchGbifLiterature({ search, limit });
+      return fetchGbifLiterature({ search, limit, fresh });
     case 'reliefweb':
-      return fetchReliefWebReports({ query: search, limit });
+      return fetchReliefWebReports({ query: search, limit, fresh });
   }
 }
 
@@ -273,8 +278,10 @@ async function researchCandidates(
   search: string,
   limit: number,
   providers: ResearchProvider[],
+  fresh = false,
+  filters: ResearchSearchFilters = {},
 ): Promise<{ lists: TaggedResearchItem[][]; results: ConnectorResult<ResearchItem[]>[]; skipped: ResearchResult['skipped'] }> {
-  const results = await Promise.all(providers.map((p) => callProvider(p, search, limit)));
+  const results = await Promise.all(providers.map((p) => callProvider(p, search, limit, fresh, filters)));
   const skipped: ResearchResult['skipped'] = [];
   const lists: TaggedResearchItem[][] = [];
   for (const result of results) {
@@ -289,9 +296,13 @@ export async function fetchResearch(options: {
   limit?: number;
   /** In ranking order. Defaults to the scholarly pair, OpenAlex then DOAJ. */
   providers?: ResearchProvider[];
+  /** Interactive searches bypass the scheduled provider cache, with the same shared quotas. */
+  fresh?: boolean;
+  fromDate?: string;
+  languages?: string[];
 }): Promise<ResearchResult> {
   const { search, limit = 6, providers = SCHOLARLY_PROVIDERS } = options;
-  const { lists, results, skipped } = await researchCandidates(search, limit, providers);
+  const { lists, results, skipped } = await researchCandidates(search, limit, providers, options.fresh, options);
   const items = await verifyForDisplay(rankByProvider(lists), limit);
   return summarise(items, skipped, sourcesFailed(results));
 }

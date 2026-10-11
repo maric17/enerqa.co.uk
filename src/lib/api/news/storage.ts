@@ -89,6 +89,8 @@ export type NewsRefreshOptions = {
   manual?: boolean;
   /** Trusted operator maintenance; the HTTP route never enables this option. */
   industriesOnly?: boolean;
+  /** Restrict a manual industry repair to these known sectors instead of all thirteen. */
+  industrySlugs?: string[];
 };
 
 /** Manual operator pulls can reuse a slot; every pull still needs the shared lease. */

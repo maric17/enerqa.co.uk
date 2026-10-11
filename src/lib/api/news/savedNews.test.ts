@@ -23,7 +23,7 @@ import { fetchEiaNews } from './eiaRss';
 import { fetchEeaNews } from './eeaRss';
 import { storeRecords } from '../core/storage';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
-import { fetchNews, fetchNewsForKeywords, fetchOfficialNews, PAGE_NEWS_PROVIDERS, refreshScheduledNews, searchNews } from './index';
+import { fetchLiveNews, fetchNews, fetchNewsForKeywords, fetchOfficialNews, PAGE_NEWS_PROVIDERS, refreshScheduledNews, searchNews } from './index';
 import { createNewsDiagnostics } from './diagnostics';
 import { NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '../../feeds/contextual';
@@ -54,7 +54,7 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe('database-backed news reads', () => {
-  it('uses saved articles on all public news paths without provider or destination requests', async () => {
+  it('uses saved articles on ordinary public news reads without provider or destination requests', async () => {
     const destinationCheck = vi.fn();
     vi.mocked(readNewsStore).mockResolvedValue({ items: [article('1'), article('2', 'eia_rss')], state: {}, available: true });
     expect((await fetchNews('all', 80, { check: destinationCheck })).items).toHaveLength(2);
@@ -64,9 +64,23 @@ describe('database-backed news reads', () => {
     for (const call of [fetchNewsdataBasket, fetchNewsdataQuery, fetchGdeltNews, fetchEiaNews, fetchEeaNews, destinationCheck, storeRecords]) expect(call).not.toHaveBeenCalled();
   });
 
+  it('saves interactive discoveries without erasing existing page-query evidence', async () => {
+    const saved = { ...article('shared'), matchedQueries: ['old-domain-query'] };
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [saved], state: {}, available: true });
+    vi.mocked(fetchNewsdataQuery).mockResolvedValue(ok('newsdata', [{ ...saved, matchedQueries: ['new-search'] }]));
+    const result = await fetchLiveNews({ query: 'new-search', gdeltQuery: '', providers: ['newsdata'],
+      check: async url => ({ status: 'verified_open', checkedAt: new Date().toISOString(), evidence: 'Opened.', finalUrl: url }),
+    });
+    expect(fetchNewsdataQuery).toHaveBeenCalledWith('new-search', NEWS_REFRESH_SECONDS, true, undefined);
+    expect(result.items[0].matchedQueries).toEqual(['old-domain-query', 'new-search']);
+    expect(storeRecords).toHaveBeenCalledWith([expect.objectContaining({ record: expect.objectContaining({ matchedQueries: ['old-domain-query', 'new-search'] }) })]);
+    expect(claimNewsRefresh).not.toHaveBeenCalled();
+  });
+
   it.each([
     ['energy-systems-transition', 'Solar traffic controller wins design award'],
     ['environment-nature-circularity', 'Air pollution falls as waste recycling improves'],
+    ['environment-nature-circularity', 'Tourism project threatens turtle nesting sites'],
     ['sustainable-business-esg-finance', 'Company wins sustainability award'],
     ['climate-action-carbon-management', 'Emissions rules challenged in court'],
   ])('selects relevant saved vocabulary on %s without a new provider request', async (slug, title) => {
@@ -101,6 +115,7 @@ describe('database-backed news reads', () => {
     ['agriculture-food-aquaculture', 'Is local food better for the environment?'],
     ['mining-natural-resources', 'Copper mining threatens biodiversity'],
     ['tourism-hospitality-destinations', 'Hotels cut electricity use'],
+    ['tourism-hospitality-destinations', 'Tourism project threatens turtle nesting sites'],
     ['technology-telecoms-data-infrastructure', 'Datacenter discharged pollution without permits'],
     ['healthcare-education-institutional-estates', 'Hospital reduces energy costs'],
   ])('selects saved sector news on %s without spending provider credits', async (slug, title) => {
@@ -248,6 +263,41 @@ describe('scheduled news refresh', () => {
   it('requires an explicit manual option before industry maintenance can claim a lease', async () => {
     await expect(refreshScheduledNews(undefined, { industriesOnly: true })).rejects.toThrow('explicit manual');
     expect(claimNewsRefresh).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { manual: true, industriesOnly: true, industrySlugs: [] },
+    { manual: true, industriesOnly: true, industrySlugs: ['unknown-sector'] },
+    { manual: true, industriesOnly: true, industrySlugs: ['constructor'] },
+    { manual: true, industrySlugs: ['tourism-hospitality-destinations'] },
+  ])('rejects an invalid targeted pull before claiming the shared lease: %j', async options => {
+    await expect(refreshScheduledNews(undefined, options)).rejects.toThrow('known industries');
+    expect(claimNewsRefresh).not.toHaveBeenCalled();
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
+  });
+
+  it('repairs one industry through a single fresh query and keeps destination checks and saved reads', async () => {
+    const feed = INDUSTRY_FEEDS['tourism-hospitality-destinations'];
+    const tourism = { ...article('tourism'), title: 'Tourism project threatens turtle nesting sites',
+      matchedQueries: [feed.newsDiscoveryQuery] };
+    const saved: NewsItem[] = [];
+    vi.mocked(readNewsStore).mockImplementation(async () => ({ items: saved, state: {}, available: true }));
+    vi.mocked(fetchNewsdataQuery).mockResolvedValue(ok('newsdata', [tourism]));
+    vi.mocked(storeRecords).mockImplementation(async records => { saved.push(...records.map(row => row.record as NewsItem)); return true; });
+    const check = vi.fn(async (url: string) => ({ status: 'verified_open' as const,
+      checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+    const result = await refreshScheduledNews(check, { manual: true, industriesOnly: true,
+      industrySlugs: ['tourism-hospitality-destinations', 'tourism-hospitality-destinations'] });
+    expect(fetchNewsdataQuery).toHaveBeenCalledExactlyOnceWith(feed.newsDiscoveryQuery, 43200, true);
+    for (const call of [fetchNewsdataBasket, fetchGdeltNews, fetchEiaNews, fetchEeaNews]) expect(call).not.toHaveBeenCalled();
+    expect(check).toHaveBeenCalledExactlyOnceWith(tourism.url);
+    expect(result.storedItems).toBe(1);
+    expect(saved).toHaveLength(1);
+    vi.mocked(fetchNewsdataQuery).mockClear();
+    const page = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets });
+    expect(page.items.map(item => item.id)).toEqual([tourism.id]);
+    expect((await fetchNews('all', 24)).items.map(item => item.id)).toEqual([tourism.id]);
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
   });
 
   it('discovers every industry in one bounded maintenance pull and preserves untouched provider health', async () => {

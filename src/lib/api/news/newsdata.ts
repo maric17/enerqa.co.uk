@@ -145,6 +145,7 @@ export async function fetchNewsdataQuery(
   query: string,
   revalidate = REVALIDATE_SECONDS,
   fresh = false,
+  languages: string[] = ['en'],
 ): Promise<ConnectorResult<NewsItem[]>> {
   // Read at call time, not module load, so a missing key is a quiet skip
   // rather than a crash at import.
@@ -161,7 +162,7 @@ export async function fetchNewsdataQuery(
   const params = new URLSearchParams({
     apikey: apiKey,
     q: query,
-    language: 'en',
+    language: languages.join(','),
     domainurl: PREFILTER_DOMAINS.join(','),
     // 10 articles is exactly one credit. Asking for more costs more credits.
     size: '10',

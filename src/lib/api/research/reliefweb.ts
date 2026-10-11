@@ -67,6 +67,7 @@ export async function fetchReliefWebReports(options: {
   query?: string;
   themes?: string[];
   limit?: number;
+  fresh?: boolean;
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const appname = providerKey('reliefweb');
   if (!appname) {
@@ -97,6 +98,7 @@ export async function fetchReliefWebReports(options: {
   if (query) params.set('query[value]', query);
 
   const res = await fetchFromProvider<{ data?: ReliefWebEntry[] }>('reliefweb', `${BASE}?${params.toString()}`, {
+    fresh: options.fresh,
     timeoutMs: 20000,
   });
   if (!res.ok) return res;

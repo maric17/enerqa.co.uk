@@ -18,13 +18,13 @@ import {
 import { basketQuery, fetchNewsdataBasket, fetchNewsdataQuery, NEWSDATA_DELAY_HOURS, PAGE_BASKET_SECONDS } from './newsdata';
 import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
-import { fetchGdeltNews } from './gdelt';
+import { fetchGdeltNews, fetchGdeltQuery } from './gdelt';
 import { REGION_ORDER } from './geography';
 import { providerEnabled } from '../core/registry';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS, type NewsRefreshOptions } from './storage';
 import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
-import { DOMAIN_FEEDS } from '../../feeds/contextual';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from '../../feeds/contextual';
 import { industryDiscoveryQueries } from './discovery';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
@@ -434,6 +434,34 @@ export async function fetchNews(
   return { ...buildResult(shown, status), diagnostics };
 }
 
+/** Interactive discovery is separate from database-only page reads and scheduled pulls. */
+export async function fetchLiveNews(options: {
+  query: string; gdeltQuery: string; providers: NewsProvider[]; languages?: string[];
+  /** Offline connector checks only; the HTTP handler never accepts a callback. */
+  check?: NewsOptions['check'];
+}): Promise<NewsResult> {
+  const results = await Promise.all(options.providers.map(provider => safeNewsCall(provider,
+    provider === 'newsdata' ? fetchNewsdataQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
+    provider === 'gdelt' ? fetchGdeltQuery(options.gdeltQuery, true) :
+    provider === 'eia_rss' ? fetchEiaNews(true) : fetchEeaNews(true),
+  )));
+  const status: Collected['status'] = {};
+  const candidates: NewsItem[] = [];
+  for (const result of results) {
+    note(status, result.providerId as NewsProvider, result);
+    if (result.ok) candidates.push(...result.data.filter(isOnSiteTopic).map(normalise));
+  }
+  const saved = await readNewsStore();
+  const previousQueries = new Map(saved.items.map(item => [normaliseUrl(item.url), item.matchedQueries ?? []]));
+  const discovered = candidates.map(item => ({ ...item,
+    // Interactive discovery must not erase the query evidence used by domain/industry pages.
+    matchedQueries: [...new Set([...(previousQueries.get(normaliseUrl(item.url)) ?? []), ...(item.matchedQueries ?? [])])],
+  }));
+  // Reuse publisher, date, rights and anonymous-access gates before saving originals.
+  const items = await verified(dedupeNews(discovered, 30), 30, options.check);
+  return buildResult(items, status);
+}
+
 /** Provider pipeline for scheduled ingestion and offline connector tests only. */
 export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opts: NewsOptions = {}): Promise<NewsResult> {
   const { items, status, diagnostics } = await providerPool(basketKey, opts);
@@ -446,6 +474,10 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
 /** Three daily pulls of one shared pool, with independent provider storage. */
 export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
   if (options.industriesOnly && !options.manual) throw new Error('Industry maintenance requires an explicit manual pull.');
+  if (options.industrySlugs && (!options.industriesOnly || options.industrySlugs.length === 0 ||
+    options.industrySlugs.some(slug => !Object.hasOwn(INDUSTRY_FEEDS, slug)))) {
+    throw new Error('Select known industries for a manual industry pull.');
+  }
   const claim = await claimNewsRefresh(options);
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
@@ -455,9 +487,9 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
     // Keep the twelve domain queries and rotate up to five sector queries per slot.
-    // A requested industry-only pull uses thirteen calls, without repeating the full job.
+    // Industry maintenance can target one sector without repeating the full job.
     const domainQueries = options.industriesOnly ? [] : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
-    const queries = [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly)])];
+    const queries = [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
     const collected = await collect('all', providers, queries, true, !options.industriesOnly);
     // Maintenance preserves the last outcomes of providers it did not contact.
     diagnostics.providers = [

@@ -118,9 +118,13 @@ export function mapGdeltArticles(articles: unknown[], retrievedAt: string): News
 }
 
 export async function fetchGdeltNews(basketKey: NewsBasketKey = 'all', fresh = false): Promise<ConnectorResult<NewsItem[]>> {
-  const query = gdeltQuery(basketKey);
+  return fetchGdeltQuery(gdeltQuery(basketKey), fresh);
+}
+
+/** A bounded interactive query; callers must keep the approved publisher predicates. */
+export async function fetchGdeltQuery(query: string, fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   if (query.length > GDELT_MAX_QUERY) {
-    console.warn(`[gdelt] basket "${basketKey}" query is ${query.length} characters; GDELT rejects long queries, so it is not sent`);
+    console.warn(`[gdelt] Query is ${query.length} characters; the provider length limit was exceeded.`);
     return fail('gdelt', 'unavailable', 'Query too long for GDELT.');
   }
 
