@@ -33,11 +33,16 @@ it('renders saved records first without requesting any API on mount', async () =
   expect(request).not.toHaveBeenCalled();
 });
 
-it('combines rapid filter changes into one API request, including linked geography', async () => {
+it('keeps selections pending until Apply filters submits one request with linked geography', async () => {
   request.mockResolvedValue(reply()); mount();
   choose('Content Type', ['news']); choose('Source', ['newsdata']); choose('Country', ['DEU']);
-  expect(screen.getByText('Updating results…')).toBeInTheDocument();
-  await act(() => vi.advanceTimersByTimeAsync(500));
+  await act(() => vi.advanceTimersByTimeAsync(1000));
+  expect(request).not.toHaveBeenCalled();
+  expect(screen.queryByText('Updating results…')).not.toBeInTheDocument();
+  expect(screen.getByText('Filters changed. Click Apply filters to update results.')).toBeInTheDocument();
+  expect(window.location.search).toBe('');
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
   expect(request).toHaveBeenCalledTimes(1);
   const url = new URL(request.mock.calls[0][0], 'http://localhost');
   expect(url.pathname).toBe('/api/intelligence/search');
@@ -47,16 +52,33 @@ it('combines rapid filter changes into one API request, including linked geograp
   expect(url.searchParams.get('source')).toBe('newsdata');
   expect(screen.getByRole('heading', { name: fresh.title })).toBeInTheDocument();
   expect(window.location.search).toContain('country=DEU');
+  expect(screen.queryByText('Filters changed. Click Apply filters to update results.')).not.toBeInTheDocument();
 });
 
-it('ignores an older response after a later filter change', async () => {
+it('leaves cards, result counts and the URL unchanged while typing or changing selections', async () => {
+  mount();
+  fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'unmatched keyword' } });
+  choose('Country', ['QAT']);
+  await act(() => vi.advanceTimersByTimeAsync(1000));
+  expect(screen.getByRole('heading', { name: saved.title })).toBeInTheDocument();
+  expect(screen.getByText('1 open-access results · Saved collection')).toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'Remove country: QAT' })).not.toBeInTheDocument();
+  expect(window.location.search).toBe('');
+  expect(request).not.toHaveBeenCalled();
+});
+
+it('cancels and ignores an older response only after a later submission', async () => {
   let resolveOld!: (value: ReturnType<typeof reply>) => void;
   request.mockImplementationOnce(() => new Promise(resolve => { resolveOld = resolve; })).mockResolvedValueOnce(reply());
   mount(); choose('Content Type', ['news']);
-  await act(() => vi.advanceTimersByTimeAsync(500));
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
   choose('Source', ['newsdata']);
+  await act(() => vi.advanceTimersByTimeAsync(1000));
+  expect(request.mock.calls[0][1].signal.aborted).toBe(false);
+  expect(request).toHaveBeenCalledTimes(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
   expect(request.mock.calls[0][1].signal.aborted).toBe(true);
-  await act(() => vi.advanceTimersByTimeAsync(500));
+  await act(() => vi.advanceTimersByTimeAsync(0));
   await act(async () => { resolveOld(reply([{ ...fresh, title: 'Old response should not appear', url: 'https://example.org/old' }])); });
   expect(screen.queryByText('Old response should not appear')).not.toBeInTheDocument();
   expect(screen.getByRole('heading', { name: fresh.title })).toBeInTheDocument();
@@ -64,12 +86,13 @@ it('ignores an older response after a later filter change', async () => {
 
 it('retains matching saved records after an HTTP failure', async () => {
   request.mockResolvedValue({ ok: false }); mount(); choose('Content Type', ['news']);
-  await act(() => vi.advanceTimersByTimeAsync(500));
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
   expect(screen.getByRole('heading', { name: saved.title })).toBeInTheDocument();
   expect(screen.getByText('Sources could not be refreshed. Showing saved results where available.')).toBeInTheDocument();
 });
 
-it('search submission runs immediately, pagination reuses results, and Clear All resets controls', async () => {
+it('Search submits immediately and pagination uses applied filters while Clear All waits for Apply', async () => {
   request.mockResolvedValue(reply(Array.from({ length: 15 }, (_, n) => ({ ...fresh, id: `fresh-${n}`, url: `https://example.org/${n}` }))));
   mount(); fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'climate' } });
   fireEvent.click(screen.getByRole('button', { name: 'Search' }));
@@ -77,8 +100,53 @@ it('search submission runs immediately, pagination reuses results, and Clear All
   fireEvent.click(screen.getByRole('link', { name: 'Next page' }));
   expect(screen.getByText('Page 2 of 2')).toBeInTheDocument();
   expect(request).toHaveBeenCalledTimes(1);
+  const appliedUrl = window.location.search;
   fireEvent.click(screen.getByRole('link', { name: 'Clear All' }));
   expect(screen.getByRole('searchbox')).toHaveValue('');
-  await act(() => vi.advanceTimersByTimeAsync(500));
+  await act(() => vi.advanceTimersByTimeAsync(1000));
+  expect(request).toHaveBeenCalledTimes(1);
+  expect(window.location.search).toBe(appliedUrl);
+  expect(screen.getByText('Page 2 of 2')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Remove q: climate' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('link', { name: 'Previous page' }));
+  expect(window.location.search).toContain('q=climate');
+  expect(request).toHaveBeenCalledTimes(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
   expect(request).toHaveBeenCalledTimes(2);
+  expect(new URL(request.mock.calls[1][0], 'http://localhost').searchParams.has('q')).toBe(false);
+  expect(screen.queryByRole('link', { name: 'Remove q: climate' })).not.toBeInTheDocument();
+});
+
+it('stages chip removal without discarding other unsubmitted edits', async () => {
+  request.mockResolvedValue(reply()); mount();
+  choose('Content Type', ['news']);
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  choose('Country', ['DEU']);
+  fireEvent.click(screen.getByRole('link', { name: 'Remove type: news' }));
+  await act(() => vi.advanceTimersByTimeAsync(1000));
+  expect(request).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('listbox', { name: 'Content Type' })).toHaveValue([]);
+  expect(screen.getByRole('listbox', { name: 'Country' })).toHaveValue(['DEU']);
+  expect(window.location.search).toBe('?type=news');
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  const query = new URL(request.mock.calls[1][0], 'http://localhost').searchParams;
+  expect(query.has('type')).toBe(false);
+  expect(query.get('country')).toBe('DEU');
+});
+
+it('retains unsubmitted edits when a submitted search finishes', async () => {
+  let resolveSearch!: (value: ReturnType<typeof reply>) => void;
+  request.mockImplementationOnce(() => new Promise(resolve => { resolveSearch = resolve; }));
+  mount(); choose('Content Type', ['news']);
+  fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+  fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'unmatched keyword' } });
+  await act(async () => { resolveSearch(reply()); });
+  expect(screen.getByRole('heading', { name: fresh.title })).toBeInTheDocument();
+  expect(screen.getByRole('searchbox')).toHaveValue('unmatched keyword');
+  expect(screen.getByText('Filters changed. Click Apply filters to update results.')).toBeInTheDocument();
+  expect(window.location.search).toBe('?type=news');
+  expect(request).toHaveBeenCalledTimes(1);
 });

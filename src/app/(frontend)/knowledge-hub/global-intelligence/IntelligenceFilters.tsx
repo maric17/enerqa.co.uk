@@ -45,7 +45,7 @@ export function IntelligenceFilters({ filters, domains, industries, sources, lan
         placeholder="Search global intelligence by keyword or topic." className="min-w-0 flex-1 rounded border border-gray-300 bg-white p-3" />
       <button className="rounded bg-[var(--color-dark)] px-6 py-3 text-white font-semibold">Search</button>
     </div>
-    <p className="text-sm text-gray-600">Choose multiple options with Ctrl (Windows) or Command (Mac). Options within a filter match any selection; different filters must all match. Selecting countries also selects their parent regions and continents.</p>
+    <p className="text-sm text-gray-600">Choose filters, then click Search or Apply filters to update results. Choose multiple options with Ctrl (Windows) or Command (Mac). Options within a filter match any selection; different filters must all match. Selecting countries also selects their parent regions and continents.</p>
     <div className="grid gap-4 md:grid-cols-3">
       {field('theme', 'Topic', NEWS_BASKETS.filter(b => b.key !== 'all').map(b => ({ value: b.key, label: b.label })))}
       {field('domain', 'Domain', domains)}{field('industry', 'Industry', industries)}
