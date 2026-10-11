@@ -1,5 +1,15 @@
 # Database connection refusal — 3 October 2026
 
+## Sources-page connection interruption — 11 October 2026
+
+`/data-portal/sources` returned HTTP 500 when its source-notes query failed with a database connection timeout. The first `npm run db:check` also timed out on both pooler ports before authentication. A later check passed TCP connectivity, Postgres authentication, the read-only query and all three connector-table checks. No connection settings or database content were changed; the cause of the temporary interruption remains unconfirmed.
+
+The page now keeps its provider directory and default methodology available when the content service or either database read fails. Successful reads are preserved, dataset publication/access/redistribution filters remain required, and a visible notice explains missing content. Diagnostics log safe status flags without raw database errors. Reads run on each visit so a temporary fallback cannot remain cached after recovery.
+
+Verification: the local URL returned HTTP 200; Chrome rendered 15 provider links and the methodology sections with no page errors. Five regression tests cover successful reads, each individual read failure, both read failures and service initialization failure. TypeScript and changed-file ESLint passed. Database connectivity recovered during verification; this does not establish production health or the reason for the interruption.
+
+**If it recurs:** run `npm run db:check` and follow the Supabase/network checks below. Keep `PAYLOAD_SCHEMA_PUSH=false` when starting development; do not run historical migrations.
+
 ## Latest utility completion check — 11 October 2026
 
 The configured local connection passes authenticated reads. After the owner's installer run, `node scripts/questionnaire/apply-fields.mjs` confirms **6/6 columns present**. The agent later published the authorised four policy replacements as **version 2**, with a private backup and one transaction; no schema change was made. All four local production-build URLs return HTTP 200 with approval/version details and footer links. Real newsletter signup/unsubscribe acceptance and the production build pass, superseding the missing-column failures and historical timeout. Unique form fixtures were removed (zero remaining). Production deployment, news ingestion and scheduler health were not rechecked. See [section 1.3 evidence](SECTION-1-3-VERIFICATION.md).
