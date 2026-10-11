@@ -113,9 +113,28 @@ The user's Vercel screenshot shows the 2 PM job invoked at approximately 2:29 PM
 - [x] Verify the automatic 2 PM job ran and wrote its saved outcomes.
 - [ ] Verify a complete NewsData scheduled batch with sufficient shared rolling allowance.
   - Next action: deploy button-submitted Global Intelligence filtering to reduce unnecessary interactive calls, avoid manual pulls near the scheduled invocation, and inspect the next job's per-query outcomes. Reserving an allowance for scheduled work is a further improvement if visitor searches continue consuming its headroom.
-- [ ] Investigate GDELT's shared-request-accounting failure and verify a successful fresh scheduled pull.
-  - Next action: inspect database connection/transaction timing during concurrent provider reservations; keep the existing saved stories while investigating.
+- [x] Reproduce GDELT's shared-request-accounting failure and fix the local connection queue.
+  - Evidence and remaining provider/deployment checks appear in the investigation below.
 - [ ] Verify the remaining 6 AM and 10 PM slots against deployed logs and stored completion timestamps.
+
+## GDELT accounting investigation on 11 October
+
+The cron initially starts two active NewsData requests, one EIA request, three EEA channels and GDELT together. Their accounting transactions share a two-connection `pg.Pool`. GDELT starts at the back of this burst. The pool's five-second connection timeout includes waiting for a free connection, so the scheduler can refuse GDELT before any upstream request is made. This differs from a GDELT HTTP error. See [node-postgres pool behavior](https://node-postgres.com/apis/pool).
+
+Read-only reproduction against the live database confirmed the cause: a single GDELT check passed, but the cold seven-check cron sequence failed at GDELT's connection stage after 5,001 ms. One EEA channel also timed out. The counts and timestamp parsing succeeded whenever a connection was acquired; the GDELT timestamp was a normal JavaScript `Date`.
+
+`reserveRequest` now admits at most two accounting checks into the pool at once. Additional checks wait in a first-in-first-out queue before starting pg's connection timer, with a maximum queue wait of thirty seconds. Connection failures and completed transactions release their queue slots. The two-connection pool, five-second connection/SQL timeouts, shared advisory locks, request limits, GDELT spacing and provider backoff remain active. Safe server warnings identify the failing stage, elapsed time and pool counts without printing driver messages or credentials.
+
+The same cold seven-check sequence passed with the fixed code against the live database in 8,237 ms. All seven checks, including GDELT, completed. This reproduction used read-only transactions and withheld all seven ledger inserts; it made zero provider calls. The full suite passed with **564 tests across 72 files**. TypeScript, changed-source ESLint and `git diff --check` passed. New tests cover queued burst admission, slot release after a connection failure, private-message exclusion and expired waits spending no allowance.
+
+A single normal GDELT-only fresh connector request then ran from `2026-10-11T07:09:48.097Z` to `2026-10-11T07:10:08.482Z` (3:09–3:10 PM Manila). Accounting succeeded and recorded exactly one upstream attempt, but GDELT returned **HTTP 429**. The pipeline reported `rate_limited`, returned zero newly verified articles and saved zero new records. This confirms that the local accounting path now reaches the provider, but does not establish a successful fresh feed or recovery from the separate upstream rate limit. No full news job or NewsData pull was repeated, and previous approved articles were retained.
+
+- [x] Identify and reproduce the local accounting failure without provider calls or schema changes.
+- [x] Fix queue admission and verify the real database path plus automated checks.
+- [ ] Deploy the accounting fix and verify the next scheduled job no longer reports `request_accounting_unavailable` for GDELT.
+  - Next action: deploy these changes and inspect the next job's GDELT outcome and any `[provider-storage] Request accounting failed.` warning. The scheduled job should record a provider outcome even when GDELT refuses the upstream request.
+- [ ] Verify a successful fresh GDELT response after its upstream rate limit/backoff clears.
+  - Next action: inspect the next scheduled attempt for GDELT `outcome: ok` and a new last-success timestamp. If HTTP 429 persists, investigate provider availability and request history from the deployed environment; do not bypass pacing or repeatedly run full news pulls.
 
 ## Historical verification on 3 October
 

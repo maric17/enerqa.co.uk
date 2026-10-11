@@ -8,11 +8,13 @@ vi.mock('pg', () => ({ Pool: class extends EventEmitter { connect = mocks.connec
 beforeEach(() => {
   vi.stubEnv('DATABASE_URI', 'postgres://fixture');
   delete (globalThis as { __enerqaProviderStorage?: unknown }).__enerqaProviderStorage;
+  delete (globalThis as { __enerqaProviderAccounting?: unknown }).__enerqaProviderAccounting;
   mocks.query.mockReset(); mocks.release.mockReset();
+  mocks.connect.mockReset();
   mocks.connect.mockResolvedValue({ query: mocks.query, release: mocks.release });
   mocks.query.mockResolvedValue({ rows: [{ daily: '0', recent: '0', last: null }] });
 });
-afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.restoreAllMocks(); resetAccessMemo(); });
+afterEach(() => { vi.useRealTimers(); vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.restoreAllMocks(); resetAccessMemo(); });
 
 describe('shared provider request accounting', () => {
   it('locks, counts and reserves on one transaction before releasing the connection', async () => {
@@ -40,6 +42,58 @@ describe('shared provider request accounting', () => {
   it('fails closed when a real server has no shared ledger', async () => {
     vi.stubEnv('DATABASE_URI', ''); vi.stubEnv('NODE_ENV', 'production');
     expect(await reserveRequest('newsdata')).toMatch(/not configured/);
+  });
+
+  it('queues a cron burst before connecting so the last provider does not hit pg queue timeout', async () => {
+    let proceed!: () => void;
+    const blocked = new Promise<void>(resolve => { proceed = resolve; });
+    mocks.query.mockImplementation(async sql => {
+      if (sql === 'BEGIN') await blocked;
+      return { rows: [{ daily: '0', recent: '0', last: null }] };
+    });
+    const first = reserveRequest('newsdata');
+    const second = reserveRequest('eia_rss');
+    const last = reserveRequest('gdelt');
+    await Promise.resolve(); await Promise.resolve();
+    // Only the active checks enter pg; GDELT waits outside its connection timer.
+    expect(mocks.connect).toHaveBeenCalledTimes(2);
+    proceed();
+    expect(await Promise.all([first, second, last])).toEqual([null, null, null]);
+    expect(mocks.connect).toHaveBeenCalledTimes(3);
+    expect(mocks.release).toHaveBeenCalledTimes(3);
+  });
+
+  it('releases the accounting slot after a connection failure and logs only safe details', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    mocks.connect.mockRejectedValueOnce(new Error('private database URI and password'));
+    const results = await Promise.allSettled([reserveRequest('newsdata'), reserveRequest('eia_rss'), reserveRequest('gdelt')]);
+    expect(results.map(result => result.status)).toEqual(['rejected', 'fulfilled', 'fulfilled']);
+    expect(mocks.connect).toHaveBeenCalledTimes(3);
+    expect(mocks.release).toHaveBeenCalledTimes(2);
+    expect(warn).toHaveBeenCalledWith('[provider-storage] Request accounting failed.', expect.objectContaining({ provider: 'newsdata', stage: 'connection' }));
+    expect(JSON.stringify(warn.mock.calls)).not.toContain('private database');
+  });
+
+  it('expires a queued check without spending its allowance or leaving the queue stuck', async () => {
+    vi.useFakeTimers();
+    let proceed!: () => void;
+    const blocked = new Promise<void>(resolve => { proceed = resolve; });
+    mocks.query.mockImplementation(async sql => {
+      if (sql === 'BEGIN') await blocked;
+      return { rows: [{ daily: '0', recent: '0', last: null }] };
+    });
+    const first = reserveRequest('newsdata');
+    const second = reserveRequest('eia_rss');
+    const last = expect(reserveRequest('gdelt')).rejects.toThrow('Request accounting queue timed out.');
+    await vi.advanceTimersByTimeAsync(30_000);
+    await last;
+    expect(mocks.connect).toHaveBeenCalledTimes(2);
+    proceed();
+    await Promise.all([first, second]);
+    expect(mocks.query.mock.calls.filter(([sql]) => sql.startsWith('INSERT')).map(([, args]) => args[0])).toEqual(['newsdata', 'eia_rss']);
+    // A later attempt can use the released slot normally after the old wait expired.
+    expect(await reserveRequest('gdelt')).toBeNull();
+    expect(mocks.connect).toHaveBeenCalledTimes(3);
   });
 });
 

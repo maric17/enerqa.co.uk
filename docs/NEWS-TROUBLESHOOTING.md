@@ -147,7 +147,7 @@ Validation: **185 tests across fifteen files**, TypeScript, changed-source ESLin
 - [ ] Confirm automatic scheduled execution and industry-query rotation in Vercel logs and saved timestamps.
 - [x] Inspect Tourism's individual candidates and fix the rejected ecological headline; verify one stored and rendered card as described below.
 - [ ] Investigate Healthcare's individual candidates if that panel needs further repair; its eligible saved selection is still empty. Unrelated food/apartment/general climate stories must not fill it.
-- [ ] Resolve the separate GDELT request-tracking failure with its existing budget and spacing guards intact.
+- [ ] Deploy the GDELT accounting-queue fix and verify a successful fresh scheduled pull; see [the 11 October investigation](NEWS-SCHEDULE.md#gdelt-accounting-investigation-on-11-october). The local connection-wait failure is fixed and verified, while a later GDELT-only request still returned upstream HTTP 429.
 
 ## Tourism ecological-headline fix: 11 October, 1:49 PM Manila
 
@@ -193,7 +193,7 @@ The server logs a database-read summary per `fetchNews` call and a `mode: refres
 | No provider entries and no saved articles | No completed scheduled job is recorded yet. Configure the secret/database and run an authenticated seed job. |
 | `outcome: not_configured` for NewsData | Check `NEWSDATA_API_KEY` in the Vercel environment serving this URL, then redeploy. Keep this key server-side; do not give it a `NEXT_PUBLIC_` prefix. |
 | `issue: request_accounting_not_configured` | Shared database accounting is missing. Check server `DATABASE_URI`. |
-| `issue: request_accounting_unavailable` | Database accounting failed before the upstream request. Follow `docs/DATABASE-TROUBLESHOOTING.md` and inspect existing server warnings. |
+| `issue: request_accounting_unavailable` | Database accounting failed before the upstream request. Inspect `[provider-storage] Request accounting failed.` for the stage, elapsed time and connection/idle/waiting counts. A cron burst could exhaust the old five-second pool wait; deploy the accounting-queue fix. Follow `docs/DATABASE-TROUBLESHOOTING.md` if failures persist. |
 | `outcome: rate_limited` or `httpStatus: 429` | A quota, backoff or request-spacing rule stopped the call. Allow the pause to expire; repeated refreshes will not bypass it. |
 | `httpStatus: 401` or `403` | The provider refused the request. Check credentials and account access. |
 | `issue: request_timeout` | The upstream request timed out. Check subsequent server logs for recovery. |
