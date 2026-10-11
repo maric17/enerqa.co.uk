@@ -7,6 +7,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react';
 import { CookieChoicesControl } from '@/components/CookieChoicesControl';
 import { POLICY_PAGES } from '@/collections/Policies';
 import { getPublishedPolicies, getPublishedPolicyLinks } from '@/lib/policies';
+import { COMPANY } from '@/lib/content/company';
 
 type Props = { params: Promise<{ policy: string }> };
 
@@ -33,7 +34,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { policy } = await params;
   const found = await findApproved(policy);
-  if (!found) return {};
+  // Single-segment unknown URLs also use this route; give their 404 a meaningful title.
+  if (!found) return { title: 'Page Not Found', robots: { index: false } };
   return {
     title: found.title,
     alternates: { canonical: `/${policy}` },
@@ -80,6 +82,9 @@ export default async function PolicyPage({ params }: Props) {
                 </time>
               </p>
 
+              {/* Q5: show recorded approval evidence, without inventing a new date. */}
+              <p className="text-sm text-gray-600 mb-6">Version: {doc.policyVersion || 'Not recorded'} · Approved by: {doc.approvedBy}</p>
+
               <div className="prose prose-lg max-w-none prose-headings:text-[var(--color-dark)] prose-headings:font-bold prose-a:text-[var(--color-secondary)] prose-a:no-underline hover:prose-a:underline">
                 {doc.content && <RichText data={doc.content} />}
               </div>
@@ -93,7 +98,7 @@ export default async function PolicyPage({ params }: Props) {
 
               {contactLine && (
                 <section aria-labelledby="policy-contact" className="mt-12 p-6 md:p-8 rounded-2xl border border-gray-200 bg-white">
-                  <h2 id="policy-contact" className="text-xl font-bold text-[var(--color-dark)] m-0 mb-2">Contact</h2>
+                  <h2 id="policy-contact" className="text-xl font-bold text-[var(--color-dark)] m-0 mb-2">{policy === 'privacy' ? COMPANY.privacyContact : 'Contact'}</h2>
                   <p className="m-0 text-gray-700">
                     {contactLine}, email{' '}
                     <a href={`mailto:info@enerqa.co.uk?subject=${encodeURIComponent(title)}`} className="font-semibold text-ink underline">
@@ -110,7 +115,8 @@ export default async function PolicyPage({ params }: Props) {
             {siblings.length > 1 && (
               <aside className="lg:w-[320px] shrink-0">
                 <div className="sticky top-[104px] bg-[var(--color-paper-alt)] rounded-2xl p-8 border border-gray-200">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-6">Legal & Policies</h2>
+                  {/* The darker text meets contrast on the tinted policy sidebar. */}
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600 mb-6">Legal & Policies</h2>
                   <nav aria-label="Policies">
                     <ul className="flex flex-col gap-4 m-0 p-0 list-none">
                       {siblings.map((link) => {

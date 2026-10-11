@@ -25,7 +25,7 @@ vi.mock('@/lib/policies', async () => {
   }
 })
 
-import PolicyPage from './page'
+import PolicyPage, { generateMetadata } from './page'
 
 const row = (slug: string) => ({ slug, approvedOn: '2026-10-01T00:00:00.000Z', updatedAt: '2026-10-05T00:00:00.000Z', content: {} })
 const renderPolicy = async (policy: string) => render(await PolicyPage({ params: Promise.resolve({ policy }) }))
@@ -39,6 +39,15 @@ describe('policy pages (pp. 4, 208)', () => {
     await expect(renderPolicy('privacy')).rejects.toThrow('NEXT_NOT_FOUND')
     approved = [row('privacy')]
     await expect(renderPolicy('privacy-policy')).rejects.toThrow('NEXT_NOT_FOUND')
+  })
+
+  it('gives unknown and unpublished policy URLs a 404 title instead of the site default', async () => {
+    // These single-segment URLs match the policy route rather than the global 404.
+    for (const policy of ['missing-page', 'privacy']) {
+      expect(await generateMetadata({ params: Promise.resolve({ policy }) })).toMatchObject({
+        title: 'Page Not Found', robots: { index: false },
+      })
+    }
   })
 
   it('shows approved text under the p. 208 title, dated by the approval (U01)', async () => {

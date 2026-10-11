@@ -35,7 +35,8 @@ export default function NewsletterConfirmPage() {
               Changed your mind? You can <Link href="/newsletter/unsubscribe" className="underline">unsubscribe at any time</Link>.
             </p>
             <div className="mt-8">
-              <Link href="/" className="inline-block px-6 py-3 bg-[var(--color-primary)] text-white font-medium rounded hover:bg-opacity-90 transition-colors">
+              {/* Dark teal keeps white button text readable at normal text sizes. */}
+              <Link href="/" className="inline-block px-6 py-3 bg-[var(--color-primary-deep)] text-white font-medium rounded hover:bg-[var(--color-dark)] transition-colors">
                 Return to Homepage
               </Link>
             </div>

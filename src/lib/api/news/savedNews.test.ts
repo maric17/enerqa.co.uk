@@ -26,6 +26,9 @@ import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
 import { fetchNews, fetchNewsForKeywords, fetchOfficialNews, refreshScheduledNews, searchNews } from './index';
 import { createNewsDiagnostics } from './diagnostics';
 import { NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
+import { DOMAIN_FEEDS, newsPhrases } from '../../feeds/contextual';
+import { LIMITS } from '../core/health';
+import { basketQuery } from './newsdata';
 
 function article(id: string, provider: NewsItem['provider'] = 'newsdata'): NewsItem {
   const domain = provider === 'eia_rss' ? 'eia.gov' : 'theguardian.com';
@@ -42,6 +45,7 @@ beforeEach(() => {
   vi.mocked(claimNewsRefresh).mockResolvedValue({ token: 'fixture', state: {} });
   vi.mocked(storeRecords).mockResolvedValue(true);
   vi.mocked(fetchNewsdataBasket).mockResolvedValue(ok('newsdata', []));
+  vi.mocked(fetchNewsdataQuery).mockResolvedValue(ok('newsdata', []));
   vi.mocked(fetchGdeltNews).mockResolvedValue(ok('gdelt', []));
   vi.mocked(fetchEiaNews).mockResolvedValue(ok('eia_rss', []));
   vi.mocked(fetchEeaNews).mockResolvedValue(ok('eea_rss', []));
@@ -112,9 +116,10 @@ describe('scheduled news refresh', () => {
     vi.mocked(claimNewsRefresh).mockResolvedValue(null);
     expect((await refreshScheduledNews()).skipped).toBe(true);
     expect(fetchNewsdataBasket).not.toHaveBeenCalled();
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
   });
 
-  it('pulls four fresh topic requests once and retains saved cards through provider failures', async () => {
+  it('pulls fresh topic and domain requests once and retains saved cards through provider failures', async () => {
     const previous = article('previous');
     const latest = article('latest', 'eia_rss');
     const saved = [previous];
@@ -137,10 +142,42 @@ describe('scheduled news refresh', () => {
     expect(saved.map(i => i.id)).toContain(latest.id);
     expect(fetchNewsdataBasket).toHaveBeenCalledTimes(4);
     expect(fetchNewsdataBasket).toHaveBeenCalledWith('climate', true);
-    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
+    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(12);
+    for (const feed of Object.values(DOMAIN_FEEDS)) {
+      for (const phrases of feed.newsBaskets) {
+        expect(fetchNewsdataQuery).toHaveBeenCalledWith(basketQuery(phrases), 43200, true);
+      }
+    }
+    // The normal daily schedule must fit the existing shared budgets.
+    const requests = vi.mocked(fetchNewsdataBasket).mock.calls.length + vi.mocked(fetchNewsdataQuery).mock.calls.length;
+    expect(requests).toBeLessThanOrEqual(LIMITS.newsdata!.window!.max);
+    expect(requests * NEWS_CRON_SCHEDULES.length).toBeLessThanOrEqual(LIMITS.newsdata!.daily);
     expect(fetchGdeltNews).toHaveBeenCalledWith('all', true);
     expect(finishNewsRefresh).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ lastSuccessAt: expect.objectContaining({ eia_rss: expect.any(String) }) }));
     expect((await fetchNews('all', 80)).items).toHaveLength(2);
+  });
+
+  it('saves domain query matches when a duplicate topic article has no domain phrase in its headline', async () => {
+    const feed = DOMAIN_FEEDS['energy-systems-transition'];
+    const query = basketQuery(feed.newsBaskets[0]);
+    const broad = { ...article('solar'), title: 'Solar investment accelerates worldwide', matchedQueries: ['broad-topic'] };
+    const saved: NewsItem[] = [];
+    vi.mocked(readNewsStore).mockImplementation(async () => ({ items: saved, state: {}, available: true }));
+    vi.mocked(fetchNewsdataBasket).mockResolvedValue(ok('newsdata', [broad]));
+    vi.mocked(fetchNewsdataQuery).mockImplementation(async requested =>
+      ok('newsdata', requested === query ? [{ ...broad, matchedQueries: [query] }] : []));
+    vi.mocked(storeRecords).mockImplementation(async records => {
+      saved.push(...records.map(row => row.record as NewsItem));
+      return true;
+    });
+    await refreshScheduledNews(async url => ({ status: 'verified_open', checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+    expect(saved).toHaveLength(1);
+    expect(saved[0].matchedQueries).toEqual(expect.arrayContaining(['broad-topic', query]));
+    // Page reads must recognize the saved query match without another API call.
+    vi.mocked(fetchNewsdataQuery).mockClear();
+    const page = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets });
+    expect(page.items).toHaveLength(1);
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
   });
 
   it('records storage failures without claiming successful ingestion', async () => {
@@ -177,6 +214,7 @@ it('maps the three Manila refresh times to distinct eight-hour UTC slots', () =>
   expect(newsScheduleSlot(Date.parse('2026-10-03T06:59:00+08:00'))).toBe('2026-10-02T22:00:00.000Z');
   expect(NEWS_REFRESH_SECONDS).toBe(28800);
   const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
-  expect(config.crons.map((job: { schedule: string }) => job.schedule)).toEqual([...NEWS_CRON_SCHEDULES]);
-  expect(config.crons.every((job: { path: string }) => job.path === '/api/ingest/news')).toBe(true);
+  // Other maintenance jobs can coexist with the three news refresh slots.
+  const newsJobs = config.crons.filter((job: { path: string }) => job.path === '/api/ingest/news');
+  expect(newsJobs.map((job: { schedule: string }) => job.schedule)).toEqual([...NEWS_CRON_SCHEDULES]);
 });

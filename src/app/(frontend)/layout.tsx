@@ -6,6 +6,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
+import { WebsiteAnalytics } from '@/components/WebsiteAnalytics';
+import { COMPANY } from '@/lib/content/company';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -63,6 +65,8 @@ export default function RootLayout({
                   '@context': 'https://schema.org',
                   '@type': 'Organization',
                   name: 'Enerqa',
+                  legalName: COMPANY.name,
+                  identifier: COMPANY.number,
                   url: SITE_URL,
                   // Was /images/logo.png, which does not exist (404).
                   logo: `${SITE_URL}/images/color-logo.png`,
@@ -77,6 +81,8 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            {/* Q10: activation also needs approved policy text and a deployed self-hosted instance. */}
+            {process.env.ANALYTICS_RELEASE_READY === 'true' && <WebsiteAnalytics scriptUrl={process.env.UMAMI_SCRIPT_URL} websiteId={process.env.UMAMI_WEBSITE_ID} />}
           </SmoothScroll>
         </LanguageProvider>
       </body>

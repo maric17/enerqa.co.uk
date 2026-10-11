@@ -1,9 +1,12 @@
 import type { GlobalConfig } from 'payload'
-import { standardEditor } from '../editorConfig'
+import { revalidatePath } from 'next/cache';
 
 export const CareersConfig: GlobalConfig = {
   slug: 'careers-config',
   label: 'Careers Page',
+  hooks: { afterChange: [() => {
+    try { revalidatePath('/', 'layout'); } catch { /* Standalone content scripts have no Next cache. */ }
+  }] },
   access: {
     read: () => true,
   },

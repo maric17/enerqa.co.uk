@@ -14,9 +14,10 @@ import { NEWS_REFRESH_SECONDS } from './schedule';
  *   200 credits/day · 10 articles per credit · 30 credits per 15 minutes
  *   100-character search query · 12-hour delay · no full article text
  *
- * Current schedule: four topic queries, three pulls per day = 12/day.
+ * Current schedule: four topic queries plus twelve domain groups, three pulls
+ * per day = 48/day. Industry groups select from the same saved pool.
  * Public pages match their phrases against saved articles instead of sending
- * the 38 legacy page queries upstream. A job claim prevents duplicate pulls.
+ * page queries upstream. A job claim prevents duplicate pulls.
  * The internal budget of 150/day remains a separate upper safety limit.
  *
  * The budget, backoff and cache live in core/fetch.ts like every other

@@ -39,7 +39,8 @@ export default function NotFound() {
     <div className="flex flex-col min-h-[80vh] bg-[var(--color-paper)] pt-[var(--header-offset)] justify-center items-center">
       <Container>
         <div className="max-w-2xl mx-auto text-center py-20">
-          <div className="text-[12rem] font-bold text-gray-100 leading-none select-none" aria-hidden="true">404</div>
+          {/* Scale the decorative number so it fits a phone at normal size and zoom. */}
+          <div className="text-[clamp(6rem,30vw,12rem)] font-bold text-gray-100 leading-none select-none" aria-hidden="true">404</div>
           {/* p. 208 U01/U02: the title and the proposed message, verbatim. */}
           <h1 className="text-4xl font-bold text-[var(--color-dark)] mb-6 -mt-12 relative z-10">Page Not Found</h1>
           <p className="text-xl text-gray-600 mb-10 leading-relaxed relative z-10">

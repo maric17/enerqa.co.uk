@@ -1,65 +1,67 @@
-# Policy pages: facts for the approver
+# Policy pages: confirmed facts and operational status
 
-The website has four policy pages: Privacy Notice, Terms of Use, Cookie Choices and Accessibility Statement. The handoff (PDF p. 208) says their text must describe what the site really does, and must be approved before it goes live. This sheet lists what the site does today, taken from the code on 27 Sep 2026. **It is not legal text.** Use it as input when writing or reviewing the four texts.
+Company decisions come from the supplied [Content Questionnaire](<EnerQA - Content Questionnaire.md>) and subsequent replies. On **11 October 2026**, the owner authorised completion/publication of the replacements. All four policies are now approved as **version 2**, recording **Islam Abuhiss, Director**, and **11 October 2026**. The exact public source is [POLICIES-APPROVED.md](questionnaire/POLICIES-APPROVED.md); [section 1.3 verification](SECTION-1-3-VERIFICATION.md) records publication and local production-build acceptance. All six schema columns are installed. Code deployment and operational activation remain separate.
 
-Items marked **To confirm** are not in the code. Someone at Enerqa has to supply them. The ones only Enerqa can answer are collected, in plain language, in `docs/CLIENT-QUESTIONS.md` (send that to the client).
+## Confirmed company decisions
 
-## How a policy goes live
+- Website entity: **Enerqa Ltd**, company number **14034864**.
+- Registered address: **College House, 17 King Edwards Road, Ruislip, London, HA4 7AE**. This is a registered address; no additional office street address is inferred.
+- Offices shown: London and Doha only, email/no phone numbers. No individual team cards.
+- Enquiries: info@enerqa.co.uk. Privacy requests: **Privacy Contact — Enerqa** at the same address.
+- Policy approver: **Islam Abuhiss, Director**; published replacement version **2**, approved **11 October 2026**.
+- Accessibility target: WCAG 2.2 AA. Do not claim full conformance without the outstanding checks.
+- Terms: each dataset's own licence governs reuse. Articles, news, images, logos and tools are not covered by a blanket reuse permission.
 
-1. Sign in to `/admin` and open **Policies**. Each of the four pages has one row. All four were approved on 27 Sep 2026; to change a text, edit it and update the approval date.
-2. Replace the **Policy Content** with the approved text.
-3. Tick **Approved for publication**, then fill in **Approved by** (name and role) and **Approval date**. The page won't save as approved without both.
-4. Save. On the next visit the page appears at its address, the footer and sitemap link to it, and (for the Privacy Notice) the contact and newsletter forms link to it too.
+## Enquiries, newsletters and retention
 
-Until a row is approved, its page returns "Page Not Found" and nothing links to it.
+The contact form stores name, email, organisation, enquiry type, message, optional newsletter choice and optional tool/domain/industry/project details. Server actions validate public submissions and apply spam controls; anonymous REST/GraphQL creation cannot bypass them. Only signed-in staff can read, update or delete the records.
 
-## The facts
+The confirmed enquiry basis is legitimate interests for general/business enquiries, supported by a documented legitimate-interests assessment. Personally requested steps towards a contract may use the contract/pre-contract basis instead. The approved public wording describes this basis; completing the documented assessment and operational processor review remains in 14.4. Newsletter consent is optional, separate and unticked; an enquiry without that tick creates no newsletter subscription.
 
-### Company
-- The footer reads "© 2026 enerQA Ltd." But the 2026 company profile (`docs/ENERQA profile - 2026_compressed.pdf`) says "Enerqa Consultancy is a Qatari company registered in Qatar", with its address in Doha and offices in London, Doha, Muscat, Riyadh and Beijing. Which entity is responsible for visitors' data decides which data-protection law and regulator the Privacy Notice must name.
-- The approved contact address is info@enerqa.co.uk (handoff p. 8). The Privacy and Accessibility pages show it automatically, with a link to the contact form.
-- **To confirm:** registered company name, number and address, and who handles data-protection requests.
+Enquiries expire **two years after the last substantive contact**, with a separate client-record policy for engagements and documented reviewed legal exceptions. A routine editor change does not restart that period. Active newsletters remain until withdrawal or the newsletter ends; only minimum suppression data remains afterward. Separate consent-evidence retention must be documented.
 
-### Hosting and storage
-- The site runs on **Vercel**.
-- Uploaded images and files are stored in **Vercel Blob**.
-- The content database (pages, publications, form submissions) is **Supabase** (PostgreSQL). One database serves every environment.
-- **To confirm:** the data regions for Vercel and Supabase.
+Prepared code implements separate newsletter records, substantive-contact/hold fields, exact-address unsubscribe, provider retry markers and a gated daily maintenance route. The 11 October follow-up confirms all six fields (five enquiry fields and one policy version) **are installed**. All four replacement pages render, and real database-backed signup/unsubscribe acceptance passes, including neutral replies, exact matching and recoverable errors. Only unique test fixtures were used and all were removed. The cleanup remains inactive in the checked local configuration; installing fields does not activate it. Legacy contact dates/client transfers, mailbox/export/provider retention and backup restoration still require verification.
 
-### Analytics
-- **None.** The site has no analytics, tracking pixels or advertising code.
+## Email processing
 
-### AI
-- An AI search feature exists but is **switched off**, and no API key is set. If it's switched on, the search terms visitors type would be sent to **OpenAI**. The privacy text must cover this before it's enabled.
+SendPulse is the chosen newsletter provider. A private server-side adapter is also prepared for enquiry notifications to info@enerqa.co.uk. Notifications contain a protected editor link rather than the visitor's email/message. Saved records survive a provider failure; pending delivery can retry. No confirmation email or newsletter send is promised by the local save alone.
 
-### Forms
-- **Contact form** (`/contact`) saves: first name, last name, email, company, type of enquiry, message, an optional newsletter tick, and (depending on the enquiry) the tool, domain, industry, project location and project stage.
-- **Newsletter sign-up** (in the footer, on the homepage and on the Knowledge Hub) saves the email address and the consent tick. `/newsletter/unsubscribe` withdraws consent.
-- Both are stored in the site's database, and only signed-in staff can read them.
-- No emails are sent yet. No email service is connected, so there are no confirmation emails and nothing sends the newsletter.
-- **To confirm:** how long submissions are kept, the lawful basis for each form, and which service will send the newsletter.
+**Not verified live:** SendPulse account, API credentials, verified sender, mailing-list configuration, processor agreement/region, delivery and unsubscribe/suppression behaviour. `SENDPULSE_ENABLED` remains an explicit activation gate. Do not publish wording that says the provider is already receiving data until those checks pass.
 
-### Cookies and browser storage
-On its own, the site stores only:
+## Analytics
 
-| Name | Where | What it does | Who gets it |
-|---|---|---|---|
-| `payload-token` | cookie | Keeps staff signed in to the content editor | Staff only |
-| `enerqa-consent` | browser storage | Remembers the visitor's Cookie Choices | Every visitor who saves a choice |
-| `enerqa-lang` | browser storage | Remembers the language chosen in the header switch | Visitors who use the switch |
-| `enerqa_promotion_cooldown` | browser storage (session) | Part of AI search, which is switched off | Nobody while it's off |
+The user selected the **free open-source self-hosted Umami** product and approved **90-day raw-event/session retention with matching backup limits**. Self-hosted software can be free while its server still costs money.
 
-**Embedded third-party content** loads only after the visitor agrees. They can agree for one item ("Load content"), or for all items on the Cookie Choices page, where they can also withdraw. This covers embedded tools, dataset charts and the Gapminder chart. Those sites may set their own cookies; for example, the Gapminder embed also loads Rollbar (an error-reporting service).
+Prepared code uses independent prior opt-in for aggregate page visits, dataset downloads and tool access. It excludes contact/search/newsletter/admin/API routes and removes query strings, fragments, original page titles, referrers and extra event properties. It does not call user identification, load replay or advertising code. Umami can internally derive pseudonymous sessions; the policy review must describe the actual deployed processing.
 
-The site doesn't load Google Fonts or other outside images in visitors' browsers: fonts and images are served by the site itself.
+**Analytics is not active.** `ANALYTICS_RELEASE_READY` gates the component, and each send rechecks consent. A pinned dedicated instance and website-scoped purge script are prepared but not deployed. Confirm the host/account, HTTPS, no-request-before-consent and withdrawal behaviour, install the daily purge and verify backup/restoration at the same 90-day limit before enabling it. No statistical-purpose exemption was approved; cookie-free software alone does not establish one.
 
-### Data processors (candidates)
-- Vercel (hosting and file storage)
-- Supabase (database)
-- OpenAI, only if AI search is switched on
-- The site's server also fetches public news and research data (for example NewsData, GDELT and OpenAlex). **To confirm:** whether any visitor input, such as search terms, is passed to these services.
+## AI search
 
-### Accessibility
-The statement must reflect actual testing (p. 208). So far:
-- **Checked:** visible keyboard focus, keyboard focus handling in the search dialog and mobile menu, reduced-motion support.
-- **Not yet done:** the full test matrix on handoff p. 228 (laptop and phone widths, slow network, blocked scripts, 125% zoom), an automated accessibility scan, some low-contrast grey text, and data tables for charts. See section 14.3 of `docs/HANDOFF-TASKS.md`.
+**Deferred by the user's latest instruction because no API key exists.** The provider and release switches remain off. The earlier $50/month decision and catalogue draft are saved for a future restart; they do not activate calls, promotions or budget enforcement. There is no active AI processing to describe as deployed. A future restart must complete the separate [AI task board](AI-SEARCH-TASKS.md), including processor/privacy review.
+
+## Hosting, storage and external content
+
+The configured hosting is Vercel, file storage is Vercel Blob and the content database is Supabase/PostgreSQL. One website database serves local, preview and production environments. Verify the actual account owners, regions, access permissions and backup limits; they were not supplied by the questionnaire. Avoid historical migrations and automatic schema pushes against this shared database.
+
+External embeds load only after a visitor's one-item choice or saved embed consent. They can involve their own storage and processing; the published notice explains this processing without asserting unverified provider regions. Review actual provider terms and locations as part of the remaining operational work. Analytics and embed choices are separate; old embed consent never opts a visitor into analytics.
+
+| Storage | Purpose |
+|---|---|
+| payload-token cookie | Staff authentication in the content editor |
+| enerqa-consent browser storage | Independent embed and analytics choices |
+| enerqa-lang browser storage | Language preference; no published Arabic equivalent is implied |
+
+The site's news/research connectors fetch public material server-side. Verify actual processor/data flows against deployed configuration; public source access does not by itself establish redistribution rights.
+
+## Accessibility evidence
+
+Existing tests and recorded browser checks cover several keyboard controls, focus/reduced-motion behaviour, forms, consent-gated embeds and mobile data views. These do not complete the handoff p. 228 matrix or establish whole-site conformance. Follow [HANDOFF-TASKS.md section 14.3](HANDOFF-TASKS.md#143-accessibility-responsive-performance-p-228) for remaining checks, including page headings, contrast, zoom, blocked scripts, slow networks and third-party limitations.
+
+## Approval and publication — complete for section 1.3
+
+The owner installed the six reviewed additive fields and initially set policy versions to 1. With the later explicit approval to finish 1.3, four complete replacement texts were prepared from the supplied decisions and actual inactive-service state, then published as version 2. The approved source excludes editorial questions and activation instructions.
+
+[scripts/questionnaire/publish-policies.mjs](../scripts/questionnaire/publish-policies.mjs) backed up all four previous rows privately before one transaction. It changed policy content/approval/version only; it made no schema change. A subsequent read-only preview reports **0/4 replacements**, confirming the stored rows match the source. Publication used direct SQL, so it does not invoke the content editor's cache-refresh hook. The fresh local production build includes the replacements; redeploy code and verify the public release separately.
+
+SendPulse, analytics, AI and automated cleanup remain off in the tested local configuration. No email was sent, retention job run, analytics instance provisioned or code deployed. Completing the privacy assessment, processor/account verification, retention across systems and the whole-site accessibility matrix remains in 14.3/14.4. Update and approve active-service wording before any later activation.

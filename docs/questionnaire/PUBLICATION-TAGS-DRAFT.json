@@ -1,0 +1,295 @@
+{
+  "status": "proposed_only_not_applied",
+  "source": "Article rebuild title and excerpt; editor should check full body",
+  "articles": [
+    {
+      "slug": "the-evolution-of-climate-change-understanding-and-response",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "The field of climate science has undergone significant transformation over the past century, driven by pivotal discoveries, technological advancements, and international cooperation.",
+      "approved": false
+    },
+    {
+      "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "We often hear about carbon dioxide as the primary reason behind global warming, but there's more to the story. A variety of substances, known as climate forcers, are playing a significant role in heating or cooling our planet.",
+      "approved": false
+    },
+    {
+      "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+      "domains": [
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "transport-logistics-mobility",
+        "industry-manufacturing-materials"
+      ],
+      "rationale": "Climate resilience in supply chains.",
+      "source_excerpt": "Supply chains, the intricate networks that connect businesses and consumers worldwide, have become increasingly vital to modern economies. They ensure the smooth flow of goods and services, underpinning our daily lives.",
+      "approved": false
+    },
+    {
+      "slug": "climate-change-and-war-a-complex-interplay",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "In 2024, the world faces ongoing conflicts in Ukraine, Palestine, and Sudan, which are not only tragic in human terms but also profoundly interconnected with the global climate crisis.",
+      "approved": false
+    },
+    {
+      "slug": "greenhouse-gases-and-climate-change-an-overview",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "Greenhouse gases (GHGs) are atmospheric constituents that absorb and emit infrared radiation, contributing to the greenhouse effect and global warming. The most significant GHGs include carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O).",
+      "approved": false
+    },
+    {
+      "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "The human body, a marvel of biological engineering, produces carbon dioxide (CO2) as a natural byproduct of respiration. While essential for life, this CO2 emission often gets overshadowed by the staggering amounts of CO2 released through human activities, particularly the burning of fossil fuels.",
+      "approved": false
+    },
+    {
+      "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+      "domains": [
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "energy-utilities"
+      ],
+      "rationale": "Energy technology, renewable deployment or energy balance.",
+      "source_excerpt": "Hydrogen technologies are gaining significant attention to decarbonize energy-intensive sectors and contribute to global climate goals.",
+      "approved": false
+    },
+    {
+      "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+      "domains": [
+        "sustainable-business-esg-finance",
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "financial-institutions-investors-development-finance",
+        "energy-utilities"
+      ],
+      "rationale": "Finance for renewable energy and the energy transition.",
+      "source_excerpt": "This study explores the potential of Green Credit Lines (GCLs) as a tool for accelerating the transition towards a sustainable economy in Qatar, a nation with ambitious renewable energy (RE) targets.",
+      "approved": false
+    },
+    {
+      "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+      "domains": [
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "water-waste-circular-economy"
+      ],
+      "rationale": "Waste treatment or waste prevention.",
+      "source_excerpt": "Qatar’s rapid industrialization and urbanization have resulted in escalating waste generation, placing enormous stress on its existing waste management infrastructure.",
+      "approved": false
+    },
+    {
+      "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+      "domains": [
+        "sustainable-business-esg-finance",
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "financial-institutions-investors-development-finance",
+        "energy-utilities"
+      ],
+      "rationale": "Finance for renewable energy and the energy transition.",
+      "source_excerpt": "The urgency of addressing climate change has never been more apparent. As global temperatures continue to rise and the impacts of extreme weather events become more severe, the need for sustainable solutions is critical.",
+      "approved": false
+    },
+    {
+      "slug": "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar",
+      "domains": [
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "energy-utilities"
+      ],
+      "rationale": "Energy technology, renewable deployment or energy balance.",
+      "source_excerpt": "As a signatory to the Paris Agreement, the State of Qatar has reaffirmed its commitment to combating climate change by setting ambitious targets.",
+      "approved": false
+    },
+    {
+      "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+      "domains": [
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "technology-telecoms-data-infrastructure"
+      ],
+      "rationale": "AI and environmental applications.",
+      "source_excerpt": "Artificial Intelligence (AI) has emerged as a transformative technology to address critical global environmental challenges, including climate change, resource depletion, and biodiversity loss.",
+      "approved": false
+    },
+    {
+      "slug": "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture"
+      ],
+      "rationale": "Food environmental footprint.",
+      "source_excerpt": "When we buy a burger or pizza, we assume the price reflects all associated costs. However, many costs, especially environmental ones, remain hidden from consumers. Food production impacts the planet through carbon emissions, water consumption, and pollution— costs not reflected in prices.",
+      "approved": false
+    },
+    {
+      "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+      "domains": [
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture",
+        "water-waste-circular-economy"
+      ],
+      "rationale": "Waste treatment or waste prevention.",
+      "source_excerpt": "Reducing domestic food waste is not just a trend— it's a necessity. Every year, humanity generates between 2.1 billion and 2.3 billion tonnes of municipal solid waste, a significant portion of which is food waste.",
+      "approved": false
+    },
+    {
+      "slug": "sustainable-tourism",
+      "domains": [
+        "sustainable-business-esg-finance",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "tourism-hospitality-destinations"
+      ],
+      "rationale": "Sustainability in tourism.",
+      "source_excerpt": "Tourism is a powerful driver of economic growth and cultural exchange, offering people the chance to explore new places and immerse themselves in different cultures.",
+      "approved": false
+    },
+    {
+      "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "When we think about climate change, the usual suspects that come to mind are industries, automobiles, and deforestation. However, there is an often-overlooked contributor to environmental degradation and climate change: cigarette smoking.",
+      "approved": false
+    },
+    {
+      "slug": "empowering-communities-through-social-sustainability-a-call-to-action",
+      "domains": [
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [],
+      "rationale": "General ESG or social sustainability; no specific industry inferred.",
+      "source_excerpt": "Are you ready to create a world where everyone thrives? where communities are inclusive and supportive, and where future generations inherit a healthy planet. This vision of a sustainable future is achievable through social sustainability.",
+      "approved": false
+    },
+    {
+      "slug": "the-origins-of-urban-greening",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "infrastructure-real-estate-industrial-zones"
+      ],
+      "rationale": "Urban nature, built environment and adaptation.",
+      "source_excerpt": "Urban greening, as a modern concept, is often traced back to the development of public parks in the 19th century.",
+      "approved": false
+    },
+    {
+      "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+      "domains": [
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "mining-natural-resources"
+      ],
+      "rationale": "Mercury pollution from artisanal gold mining.",
+      "source_excerpt": "Artisanal and small-scale gold mining (ASGM) is a crucial livelihood activity for many in Sudan, contributing significantly to the local economy (Ibrahim, 2015). However, the prevalent use of mercury in this sector introduces severe environmental and health hazards.",
+      "approved": false
+    },
+    {
+      "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+      "domains": [
+        "environment-nature-circularity"
+      ],
+      "industries": [],
+      "rationale": "General environmental assessment frameworks.",
+      "source_excerpt": "Environmental challenges such as climate change, pollution, and biodiversity loss require comprehensive frameworks for analysis and management.",
+      "approved": false
+    },
+    {
+      "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture"
+      ],
+      "rationale": "Aquaculture, environmental systems and climate adaptation.",
+      "source_excerpt": "This paper is a contribution to the 6th International Workshop on Applied Research for Enhancing the Aquaculture Sector in Saudi Arabia.",
+      "approved": false
+    },
+    {
+      "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+      "domains": [
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [],
+      "rationale": "General ESG or social sustainability; no specific industry inferred.",
+      "source_excerpt": "Environmental, Social, and Governance (ESG) considerations have evolved from being a corporate trend to becoming essential criteria for sustainable and ethical growth.",
+      "approved": false
+    },
+    {
+      "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "In the global effort to combat climate change, the focus has traditionally been on reducing greenhouse gas (GHG) emissions from corporate operations and value chains.",
+      "approved": false
+    },
+    {
+      "slug": "ghg-emissions-the-burden-on-our-planet",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [],
+      "rationale": "General climate or emissions subject; avoid speculative sector tags.",
+      "source_excerpt": "Greenhouse gases (GHG) emissions are a serious issue for our world. It has been demonstrated that in recent decades, the rise has accelerated.",
+      "approved": false
+    },
+    {
+      "slug": "sudan-s-energy-balance-2020",
+      "domains": [
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "energy-utilities"
+      ],
+      "rationale": "Energy technology, renewable deployment or energy balance.",
+      "source_excerpt": "Sudan’s energy balance for the year 2020 had shown lower figures from previous years trends, while maintaining largely the same proportions of energy supply resources, transformation processes and demand sector consumptions.",
+      "approved": false
+    }
+  ]
+}

@@ -179,6 +179,7 @@ export function splitName(name: string): { firstName: string; lastName: string }
 /** What the action hands back to the form (React 19 resets fields after an action). */
 export type ContactFormState = {
   status: 'idle' | 'success' | 'invalid' | 'error';
+  newsletterWarning?: string;
   /** Increments on every submission so the form re-mounts with `values`. */
   attempt: number;
   values: ContactValues;

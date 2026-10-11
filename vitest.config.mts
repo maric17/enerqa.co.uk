@@ -10,6 +10,8 @@ export default defineConfig({
     globals: true,
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
+      // Server actions use Payload's Next alias; resolve it before applying their test mocks.
+      '@payload-config': path.resolve(import.meta.dirname, './src/payload.config.ts'),
     },
   },
 })

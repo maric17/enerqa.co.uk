@@ -1,6 +1,8 @@
 # Questions for Enerqa: new website
 
-**Date:** 27 September 2026
+**Historical questionnaire:** 27 September 2026
+
+**Answered update — 3 October 2026:** the supplied [Content Questionnaire](<EnerQA - Content Questionnaire.md>) answers these questions. Use [question-by-question status](questionnaire/STATUS.md) for confirmed decisions and remaining actions. Do not resend answered company, office, market-panel or retention questions. AI search is deferred; the later reply approves 90-day Umami retention including backups. The original blank template below is retained for reference. **11 October:** section 1.3 policy replacements are approved and published as version 2; approval/version is no longer an unanswered question. Deployment and operational verification remain separate; see [utility evidence](SECTION-1-3-VERIFICATION.md).
 
 The new Enerqa website is close to complete. The questions below need decisions or content that only Enerqa can provide. Please write your answers under each question and send this document back. It's fine to answer in parts, and to pass sections to the right colleague.
 

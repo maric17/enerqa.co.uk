@@ -19,12 +19,42 @@ Nothing is marked done from memory. Re-run the checks with the commands in the l
 
 ---
 
-## Current database blocker — 3 Oct 2026
+## Current database/schema status — 11 Oct 2026
 
-Local Postgres connections to the configured Supabase pooler fail with `ECONNREFUSED` on both `6543` and `5432`. CMS rendering and shared provider accounting remain blocked. Local access-check error handling was hardened, a five-second Payload connection timeout was added, and `npm run db:check` now provides a read-only connection check. See [DATABASE-TROUBLESHOOTING.md](DATABASE-TROUBLESHOOTING.md) for evidence and recovery steps.
+The configured connection passes authenticated reads. The owner installed **6/6 questionnaire columns**. With the later approval to finish 1.3, all four complete replacement policies were published as **version 2**, with **Islam Abuhiss, Director**, and **11 October 2026**. The publisher backed up prior rows privately and committed one transaction; no schema change was made. A subsequent preview reports **0/4 replacements**. The initial missing-column/HTTP 500 findings and 3 October build timeout are resolved in the tested local environment. Scheduler/provider operation and deployed code were not checked. See [section 1.3 evidence](SECTION-1-3-VERIFICATION.md) and [DATABASE-TROUBLESHOOTING.md](DATABASE-TROUBLESHOOTING.md).
 
-- [ ] Restore database connectivity and verify CMS/news rendering.
-  - **To do:** Confirm the Supabase project is running, compare its current Connect settings with `DATABASE_URI`, check IP bans/restrictions and the local network, then pass `npm run db:check` and restart with `PAYLOAD_SCHEMA_PUSH=false npm run dev`. Local resilience changes do not resolve the external connection refusal.
+- [x] ✅ Configured local database authentication and read-only connector-table checks pass (11 Oct).
+- [x] ✅ Six reviewed additive fields installed by the owner; read-only preview confirms 6/6 present.
+- [x] ✅ Four approved replacement policies published as version 2; local production-build pages return 200 with approval details and footer/sitemap links.
+- [x] ✅ Database-backed newsletter acceptance and schema-disabled production build pass. Unique form fixtures were removed; zero remain.
+- [ ] 🟡 Verify the deployed release and remaining news/provider/scheduler operation.
+  - **To do:** Deploy the reviewed code through the normal project process, then repeat public utility URL/navigation/consent/form checks. Direct policy SQL updates do not invoke the CMS cache hook. Complete the separate news/provider/scheduler checks in Part 13. Keep `PAYLOAD_SCHEMA_PUSH=false`; do not run historical migrations.
+
+## Current section 1.3 status — 11 Oct 2026
+
+**All 7/7 items are complete and verified locally against the production build.** Four approved version-2 policy texts are published; independent consent, embed gating/withdrawal, policy/footer/sitemap destinations, both 404 route shapes and real newsletter actions pass acceptance. Fixed the unknown-policy 404 title, mobile 404 overflow, policy/sidebar and confirmation-button contrast, unsubscribe focus and input preservation after failed signup/unsubscribe. **472 tests in 62 files**, TypeScript, changed-file ESLint and the production build pass. [Full evidence and release limits](SECTION-1-3-VERIFICATION.md) are recorded. Code is not deployed; the remaining whole-site accessibility, processor/retention, live delivery, analytics activation and account handover work stays unchecked in 14.3–14.5.
+
+## Current section 2.3 status — 11 Oct 2026
+
+**All 9/9 footer items are complete and verified locally.** The footer now shows a source-attribution note linking the populated source directory. Publication, dataset, dashboard and source templates use proper record-title breadcrumbs; the footer steps aside wherever the page already owns its trail, including About and Global Intelligence. Missing detail URLs show no invented footer trail. The Data Explorer now has its missing footer trail, and numerical series/occurrence views mark their current page. Chrome checks pass at 1366/1024/390/320 px, including mobile keyboard controls and a footer accessibility scan. **474 tests in 63 files**, TypeScript, changed-file ESLint and the schema-disabled production build pass. [Footer evidence](SECTION-2-3-VERIFICATION.md) records scope and limits. Code deployment and whole-site acceptance remain in Part 14.
+
+## Questionnaire response update — 3 Oct 2026
+
+The supplied [Content Questionnaire](<EnerQA - Content Questionnaire.md>) and subsequent replies supersede the older unanswered-question lists. [Question-by-question status and verification](questionnaire/STATUS.md) records all 28 answers and links the review drafts and operational steps.
+
+**Completed locally:** confirmed company/contact details; London and Doha office wording; the approved domain/industry mapping (7/10/9/8); the three confirmed author identities; commentary-only H04 acceptance; separate analytics and embed consent; SendPulse delivery/retry and enquiry-retention implementation; policy-version fields; an editable sitemap infographic. Policy replacements were approved/published on 11 October as version 2. Careers, publication tags and an initial Arabic translation batch remain prepared for review.
+
+**AI search is deferred by the user's latest instruction because no API key exists.** Keep both release switches off. The earlier $50/month answer is recorded for a future restart; AI ownership and launch approvals are not requested now. **Umami's 90-day raw-event/session retention and matching backup limit are approved**, but analytics remains off until deployment, policy and purge/restore checks pass.
+
+**Historical verification — 3 Oct:** 467/467 tests pass (59 files); TypeScript and changed-file ESLint pass; `git diff --check` passes; the Umami Compose configuration validates. Production compilation succeeds, but the build stops during page-data collection on the database timeout. Read-only schema/content previews also stop there. No database writes, external email sends, deployment or analytics provisioning were performed.
+
+- [ ] 🟡 Apply and verify the prepared CMS changes after database recovery.
+  - **To do:** The six additive fields are now installed (11 Oct follow-up). Follow [OPERATIONS.md](questionnaire/OPERATIONS.md) to preview/back up/apply Q14/Q16 content, then verify those saved changes and affected pages. The utility production build/browser checks now pass (11 Oct).
+- [x] ✅ Replacement policies approved/published as version 2 on 11 October; exact text in [POLICIES-APPROVED.md](questionnaire/POLICIES-APPROVED.md).
+- [ ] 🔍 Approve careers text and publication tag proposals.
+  - **To do:** Review [CAREERS-DRAFT.md](questionnaire/CAREERS-DRAFT.md) and [PUBLICATION-TAGS-DRAFT.json](questionnaire/PUBLICATION-TAGS-DRAFT.json). Policy approval is already complete; careers/tags remain separate editorial work.
+- [ ] 🟡 Activate and verify SendPulse, retention and self-hosted Umami on Enerqa-owned accounts.
+  - **To do:** Complete the account tests, retention controls across mailboxes/exports/backups and 90-day Umami purge/restore checks in [OPERATIONS.md](questionnaire/OPERATIONS.md). Keep activation flags off until those checks pass.
 
 ## Current Part 13 status — 2 Oct 2026
 
@@ -36,7 +66,7 @@ Part 13 was rechecked and its available implementation finished: persistent sour
 
 **12.2 Global Intelligence is complete: all 7 checklist items are checked.** [Go to 12.2](#122-global-intelligence-pp-175179--knowledge-hubglobal-intelligence). Publication detail (12.1) and dataset detail (12.3) are also complete. See [PART-12-VERIFICATION.md](PART-12-VERIFICATION.md) for build, test and browser evidence.
 
-Part 12 still has pending company-approved tool content, careers content, Privacy details and the separate AI Search launch work. These remain unchecked as requested. Changes are local; no deployment has been made.
+Updated 11 Oct: policy/utility work (1.3/12.10) is complete locally; version-2 policy replacements are published and real newsletter/404/consent acceptance passes. Careers text still needs approval/publication. Tool files, methods, names and versions remain missing. AI Search launch work is deferred. No code deployment has been made.
 
 The dated audits below describe earlier states. Their totals are historical, not current completion counts. The Part 12 checklist and the updated cross-references are the current status for this work.
 
@@ -66,7 +96,7 @@ Counted with `grep` on 26 Sep 2026, after the publication update, the re-check o
 - **The sitemap listed the 4 hidden tools,** which 404. It now uses `publishedToolsWhere`.
 - **The rebuilt publication bodies (all 24) lived only in a temp folder.** They are saved to `scripts/publication-rebuild/` with their write script, which was run and verified later on 26 Sep (Part 8).
 
-### What still needs doing, in priority order
+### Historical priorities — 26 Sep (superseded by the current updates above)
 1. **One shared database (owner's decision, 26 Sep 2026).**
    - Local dev, Preview and Production all use the same Supabase database: one `DATABASE_URI` for all environments in Vercel.
    - The new schema and the restored capability data are therefore **already live**. There is nothing to run on Vercel: push the commit and it deploys.
@@ -76,7 +106,7 @@ Counted with `grep` on 26 Sep 2026, after the publication update, the re-check o
      - Keep collection changes additive.
      - Back up a table before removing or renaming any field.
 
-2. **Policy pages: live since 27 Sep.** All four are approved, match the code, are formatted with real headings and are linked from the footer. Privacy still needs the company's answers on legal entity, retention and lawful basis (1.3, 12.10). The last text update was written straight to the DB, so redeploy for deployed sites to pick it up.
+2. **Policy pages: live since 27 Sep.** All four are approved, match the code, are formatted with real headings and are linked from the footer. That September state is historical: Q1–Q7 were answered on 3 October and replacement version-2 text was approved/published on 11 October (1.3, 12.10). Operational retention/processor checks remain in 14.4. The last text update was written straight to the DB, so redeploy for deployed sites to pick it up.
 3. **Publications: finish the last small items.** The body rewrite was run on 26 Sep 2026 and checked read-only: all 25 bodies match the rebuild word for word, every article has a byline, 24 of 25 have a topic, and 9 of 25 dates are verified. The Sudan article was added, so its two redirects land. Left: redeploy (`/knowledge-hub` is built at deploy time, so it keeps the old excerpts until then), fix Sudan's heading and excerpt and add its diagram, then the 🔍 dates, bylines and tags (Part 8).
 4. **The Data Portal detail work isn't built.**
    - DS02, DS03, DS04 and DS06 are missing.
@@ -85,7 +115,7 @@ Counted with `grep` on 26 Sep 2026, after the publication update, the re-check o
    - D03's chart has no table and links to the OWID dataset.
 5. **Knowledge Hub / publication detail.**
    - PUBL01/04/05/06 wording and fields.
-   - An in-page breadcrumb on publication and dataset detail.
+   - Historical gap, completed 11 Oct: publication/dataset breadcrumbs now identify Home, their section and the actual record title, without a duplicate footer trail (2.3).
 6. **Accessibility.**
    - Input focus rings → `--color-primary-deep` (19 left; `text-gray-400` is done).
    - Run the p. 228 test matrix.
@@ -99,7 +129,7 @@ Counted with `grep` on 26 Sep 2026, after the publication update, the re-check o
    - the H04 instrument feed
    - the DOAJ quota
 8. **Only you can do these:**
-   - Revoke the old newsapi.org key (in git history, commit `f9c4320`).
+   - Investigate the developer-origin NewsAPI literal in git history (`f9c4320`). Q27 confirms Enerqa never supplied a key; validity and ownership are unverified. Revoke only through its actual owner if it proves genuine.
    - Set `NEXT_PUBLIC_BASE_URL=https://www.enerqa.co.uk` in production. The apex domain 301s to `www`.
 
 ---
@@ -209,35 +239,35 @@ The uncommitted change that turned domain capabilities into their own `Capabilit
 
 ---
 
-## Snapshot — 26 Sep 2026, with Part 12 references updated 2 Oct
+## Snapshot — historical 26 Sep audit, with current utility references updated 11 Oct
 
 | Area | PDF pages | Status (26 Sep 2026) |
 |---|---|---|
-| 1. Sitemap & page inventory | 3–6 | 🟡 Live-site URLs are now redirected: all 35 live and legacy paths reach a real page (the Sudan article was added on 26 Sep; its redirects checked on a dev server). The 4 policy pages are approved, live and match the code (27 Sep); Privacy needs the company's entity, retention and lawful-basis answers (1.3). The sources directory is generated, but its copy isn't p. 195's. Careers is correctly gated. |
-| 2. Header, mega menu, footer | 7–8 | ✅ Header, mega menu, search dialog, focus ring, mobile groups, six footer groups, breadcrumbs and the Arabic notice are done and test-verified. Left: in-page breadcrumbs on publication and dataset detail; narrow widths not checked in a browser. |
+| 1. Sitemap & page inventory | 3–6 | 🟡 Historical redirects were checked in September. **11 Oct utility completion:** all six fields exist; approved version-2 replacements, real newsletter actions and 404 title/mobile acceptance pass locally. Section 1.3 is 7/7; code deployment remains in 14.5. Search/sources have separate checks in Part 12; careers remains gated. |
+| 2. Header, mega menu, footer | 7–8 | ✅ Footer 2.3 is 9/9 (11 Oct): visible source attribution, populated directory and record-title breadcrumbs without duplicate trails. Footer/browser checks pass at 1366/1024/390/320 px. Header/menu and whole-site responsive acceptance remain separate in 14.3. |
 | 3. Homepage | 9–15 | ✅ All 13 segments use the exact PDF copy, with a compact hero, streaming feeds and a pause control. Left: a live first-fold check at 1366×768 (only an offline check was done), the teaser rights review, and removing the unused `react-type-animation`. |
 | 4. Domains & Industries overview | 16–20 | ✅ **complete** |
-| 5. Four domain pages | 21–60 | 🟡 Research ranking (OpenAlex → DOAJ) and the future-date gate are fixed in code. News card counts, source notes and skeleton sizing were not re-verified live. Relevant Industries needs sign-off (🔍). |
+| 5. Four domain pages | 21–60 | 🟡 Research ranking (OpenAlex → DOAJ) and the future-date gate are fixed in code. News card counts, source notes and skeleton sizing were not re-verified live. Q14 approves the 7/10/9/8 industry mapping; rendering is implemented and CMS persistence awaits database recovery. |
 | 6. Thirteen industry pages | 61–138 | 🟡 All copy and 52/52 work-area links are verified. The specialist feeds and news coverage from a stopped agent were not re-verified live. There are no datasets or publications linked. |
 | 7. Project Development (lifecycle) | 139–151 | ✅ **complete** |
-| 8. Knowledge Hub | 152–156 | 🟡 The publication page crash is fixed and the redirects work. **All 25 articles now have clean bodies, bylines and (except Sudan) topics** — written and verified 26 Sep. 9 of 25 dates are verified. K01–K06 are built to pp. 152–156 and were checked in a browser on 26 Sep. Left: one real newsletter test signup, Sudan's admin fixes, and the 🔍 dates, bylines and domain/industry tags. |
+| 8. Knowledge Hub | 152–156 | 🟡 The publication page crash is fixed and the redirects work. **All 25 articles now have clean bodies, bylines and (except Sudan) topics** — written and verified 26 Sep. 9 of 25 dates are verified. K01–K06 are built to pp. 152–156 and were checked in a browser on 26 Sep. 11 Oct: real signup/confirmation and unsubscribe acceptance passes for the shared newsletter form (1.3). Left: Sudan's admin fixes and the 🔍 dates, bylines and domain/industry tags. |
 | 9. Data Portal | 157–161 | 🟡 D02/D03/D04/D06 exist. The publish gate **doesn't apply on the site**. D03's chart has no table and links to OWID. None of the p. 161 candidate datasets exist yet. OWID and Ember are not approved providers (🔍). |
 | 10. Tools | 162–166 | ✅ T01–T05 are verbatim from pp. 165–166 and CMS-driven. Unvalidated tools are hidden everywhere, including the sitemap. Left: TD02 units, TD03 method and version, TD05 guide and privacy, and the company must confirm the other tools' names and versions (🔍). |
-| 11. About | 167–170 | ✅ The A02 side panel and the `/contact` office line are removed. Team content only when approved (🔍). |
-| 12. Detail & utility templates | 171–208 | 🟡 Updated 2 Oct: publication detail (12.1), **Global Intelligence (12.2: 7/7)** and dataset detail (12.3) are complete; search repairs and publication draft protection are verified. Pending: company-approved tool/careers/Privacy content and the separate AI Search launch gates. See Part 12 and `PART-12-VERIFICATION.md`. |
+| 11. About | 167–170 | ✅ The A02 side panel and the `/contact` office line are removed. Q12 confirms no team cards; Q11 approves London/Doha and email without phones. |
+| 12. Detail & utility templates | 171–208 | 🟡 Updated 2 Oct: publication detail (12.1), **Global Intelligence (12.2: 7/7)** and dataset detail (12.3) are complete; search repairs and publication draft protection are verified. 11 Oct policy/utility acceptance is complete. Pending: actual tool files/details and approval/publication of drafted careers. AI Search is deferred by the user. See Part 12 and `PART-12-VERIFICATION.md`. |
 | 13. API provider specs | 209–224 | 🟡 Rechecked 2 Oct: persistent source/access evidence, shared database budgets, EIA/OpenAQ/GBIF views and CSV, accessible tables and matched period selection. Eight launch/account/editorial items remain unchecked with to-dos in Part 13. |
-| 14. Implementation & acceptance | 225–229 | 🟡 Focus, reduced motion, dialogs and layout-shift items are fixed. Left: apply the migration on production, focus-ring contrast, accessible chart tables, the p. 228 test matrix, breadcrumb JSON-LD, email delivery and analytics. |
+| 14. Implementation & acceptance | 225–229 | 🟡 Focus, reduced motion, dialogs and layout-shift items are fixed. The six fields, approved version-2 policies and database-backed utility forms are verified (11 Oct). Remaining: deployed acceptance, the full p. 228 matrix, operational retention, live delivery/analytics and account handover. Do not run historical migrations against the shared database. |
 
-**Biggest risks right now** (details in each part):
-1. ⚠️ **Revoke the old newsapi.org key.** It is in git history (commit `f9c4320`). Deleting the line does not un-publish it, and only the key owner can revoke it. No `NEXT_PUBLIC_` credential remains in `src/`.
+**Historical risks — 26 Sep**, with current corrections below. The current database and questionnaire sections above take precedence.
+1. **NewsAPI provenance:** Q27 says Enerqa never had an account/key. A developer-origin literal exists in git history (`f9c4320`); validity and ownership are unverified. Identify its provenance and notify its actual owner for revocation only if genuine. Never copy it into a public issue or test it by sending it to the provider.
 2. ⚠️ **One shared database for dev and production** (decision 26 Sep 2026). Every local `npm run dev` pushes schema changes to the live site. Follow the guardrails in the status section (read any data-loss prompt, additive changes only, back up first); a "yes" to that prompt is what wiped the capability data on 24 Sep.
-3. ~~Policy texts that contradicted the code, and Privacy's dead links~~ — fixed 27 Sep (Part 1 / 12.10). Privacy still needs the legal entity, retention and lawful basis from the company.
+3. ~~Policy texts that contradicted the code, and Privacy's dead links~~ — fixed 27 Sep (Part 1 / 12.10). Q1–Q7 supply those decisions; version-2 policies were approved/published on 11 October. Operational retention/processor verification remains open in 14.4.
 4. ⚠️ **A draft dataset is public on 6 industry pages.** On 26 Sep the World Bank "Adjusted Net Savings" row (`status: draft`, legacy access "free") was linked to I01, I02, I06, I08, I09 and I13, and `RelatedDataset.tsx:30-35` shows it because Local API queries skip the `verified_open` read rule. The DB is shared, so this is on every deployment. Filter the query on `status` (Part 6).
 5. 🔍 **Datasets:** the publish gate doesn't apply to site pages, and Our World in Data and Ember are not approved providers (p. 226). Only the World Bank dataset qualifies.
 6. **Production origin:** set `NEXT_PUBLIC_BASE_URL=https://www.enerqa.co.uk`. Canonicals and the sitemap otherwise point at the apex, which redirects.
 7. **Stray script:** `scripts/sync.ts` boots Payload, which pushes the schema. Delete it or run it with care. (`fix-tools.ts` was deleted on 26 Sep.)
 8. ~~CSV formula injection, open `POST /api/enquiries`, hard-coded `PAYLOAD_SECRET` fallback, NewsData switching itself off~~ — fixed on 25 Sep. Verified in code on 26 Sep; the CSV fix has tests.
-9. **AI Search — switched off on 26 Sep 2026** (`enabled: false` in `registry.ts`; uncommitted, never deployed). It wasn't working and showed invented company claims. It has its own spec, `docs/reenerqawebsitedeveloperhandoff/Enerqa_AI_Search_Developer_Handoff.docx`, which does choose the paid OpenAI Responses API. So the provider is right; an earlier note here that it breaks p. 224 was wrong for this feature. But the route never shows an answer (it reads the wrong field), and once a key is added every `/search` query would make at least two paid calls. There is no OpenAI key yet (the `.env` line is empty), so it has never made a call. Its unapproved company claims (e.g. "headquartered in London") were deleted on 26 Sep. Keep it off until that spec's Phase 0 sign-offs exist. Full review: `docs/AI-SEARCH-TASKS.md`.
+9. **AI Search — switched off on 26 Sep 2026** (`enabled: false` in `registry.ts`; uncommitted, never deployed). It wasn't working and showed invented company claims. It has its own spec, `docs/reenerqawebsitedeveloperhandoff/Enerqa_AI_Search_Developer_Handoff.docx`, which does choose the paid OpenAI Responses API. So the provider is right; an earlier note here that it breaks p. 224 was wrong for this feature. Those parsing and company-context paths were repaired/removed on 2 Oct; the remaining launch gates are deferred by the user on 3 Oct. There is no OpenAI key yet (the `.env` line is empty), so it has never made a call. Its unapproved company claims (e.g. "headquartered in London") were deleted on 26 Sep. Keep it off until that spec's Phase 0 sign-offs exist. Full review: `docs/AI-SEARCH-TASKS.md`.
 
 ---
 
@@ -267,21 +297,23 @@ The spec defines exactly **six primary navigation sections**, plus subordinate p
 - [x] ✅ `/data-portal/datasets/{dataset-slug}`
 - [x] ✅ `/data-portal/dashboards/{dashboard-slug}`
 - [x] ✅ `/data-portal/sources` — returns 200 with a source directory built from the connector registry; section copy is the p. 195 text
-  - **Done:** S01/S03/S04 fallback copy updated, S02 directory separated data from news/research, missing metadata fields and OWID/Ember added.
-- [ ] 🔍 `/about/careers` — build only when real approved recruitment content exists (p. 4, 205). The template exists but **returns 404** behind `CAREERS_CONTENT_APPROVED = false`: its copy was invented (see 12.9). Nothing links to it.
+  - **Done:** S01/S03/S04 explain the publication principles; S02 separates numerical data from news/research with provider/licence/attribution/documentation metadata. The current directory uses enabled, reviewed registry entries; unapproved OWID/Ember and disabled DOAJ/ReliefWeb are excluded. Verified from the footer link on 11 Oct (2.3).
+- [ ] 🔍 `/about/careers` — publish only with approved recruitment content (p. 4, 205). The CMS-driven page, footer and sitemap share the Careers Page approval gate. Q13 confirms careers@enerqa.co.uk and the expert-roster direction; [replacement copy is drafted](questionnaire/CAREERS-DRAFT.md).
+  - **To do:** Approve the exact copy and CV handling, populate the Careers Page global, then verify the page and links (12.9).
 
-### 1.3 Utility destinations outside primary nav (p. 4)
+### 1.3 Utility destinations outside primary nav (p. 4) — ✅ 7/7
 
-**27 Sep 2026: all four policy pages are built, approved and live.** The owner replaced the placeholder text and approved all four rows (approved by "Enerqa", dated 27 Sep). Checked on the dev server: each page returns 200 with its p. 208 title, and the footer and sitemap link all four. The DB is shared, so every deployment reads the same text. A page appears only while its `Policies` row is ticked "Approved for publication" with an approver and a date; unticking it hides the page and every link to it again (details in 12.10). Later on 27 Sep the owner replaced the Privacy, Cookie Choices and Accessibility texts with versions that match the code. The formatting was then fixed by script (real headings on all three, both Privacy links working). **Left:** the company's answers on legal entity, retention and lawful basis for the Privacy Notice (below). Every open question for the client (policies and all other 🔍 items) is in one document: `docs/CLIENT-QUESTIONS.md`. `docs/POLICY-FACTS.md` lists what the site really does (company, hosting, analytics, AI, forms, cookies, processors) for whoever writes the text, plus the four steps to publish in the CMS. `src/migrations/20260926_041431.ts` (untracked, never recorded) only seeds those drafts: don't run it, and delete it with its `index.ts` entry when convenient.
+**Completed 11 Oct 2026:** the owner installed the six fields and explicitly authorised completion/publication. All four complete [approved policy texts](questionnaire/POLICIES-APPROVED.md) are stored as **version 2**, with **Islam Abuhiss, Director**, and **11 October 2026**. Local Chrome acceptance uses the production build and real shared-database form fixtures; all fixtures were removed. [Verification](SECTION-1-3-VERIFICATION.md) records the exact checks and remaining deployment/operational limits. Historical seed migrations must not be run against the shared database.
 
-- [ ] 🟡 `/privacy` — Privacy Notice: approved and live; since the evening of 27 Sep the text matches the code (what the forms collect, no analytics, Vercel and Supabase, AI search off, embedded content, rights by email), with the contact block (U03)
-  - **To do:** Formatting is done (checked 27 Sep: four Heading 2 sections, no quote block, links to `/newsletter/unsubscribe`, `/cookie-choices` and `mailto:info@enerqa.co.uk`, all working). Left: the company must confirm the legal entity (footer "enerQA Ltd" vs the profile's "Qatari company registered in Qatar"), how long submissions are kept and the lawful basis for enquiries (`docs/POLICY-FACTS.md`, 14.4); then add them and re-approve.
-- [x] ✅ `/terms` — Terms of Use: approved and live on 27 Sep (200, footer link back). Nothing in it contradicts the code, and it follows the p. 226 licence rules. (Suggestion: "the information provided here" could be read to include Enerqa's own articles and third-party news teasers, which have no open licence; limiting the reuse sentence to Data Portal datasets removes the doubt.)
-- [x] ✅ `/cookie-choices` — Cookie Choices: approved and live; the text (replaced on the evening of 27 Sep) matches the code: essential storage only, no tracking, and embedded content waits for consent. The control renders under the text (U03). Section titles are Heading 2.
-- [x] ✅ `/accessibility` — Accessibility Statement: approved and live; the text (replaced on the evening of 27 Sep) is built from the recorded checks in 14.3 (p. 208: "must reflect actual testing"). It names WCAG 2.2 AA as the target and lists the known issues: the light focus rings on form fields, the D03 chart without a table, heading skips, and the p. 228 matrix not yet run. Contact block (U03). Section titles are Heading 2. Update it as those issues close.
-- [x] ✅ 404 page — `src/app/(frontend)/not-found.tsx` shows p. 208's title, message and three buttons, plus "Go to {section}" picked from the mistyped URL (`:13-28`, p. 4 "nearest relevant section"). `global-not-found.tsx` renders the same UI for URLs that match no route. Not checked in a browser. (Optional: the uncommitted `/domains` and `/industries` entries give those URLs two buttons to `/domains-and-industries`.)
-- [x] ✅ Newsletter confirmation + unsubscribe states — `/newsletter/confirm` (reached by redirect after a successful signup) and `/newsletter/unsubscribe` (a real form that withdraws consent; same reply whether or not the address was subscribed). Both `noindex`, neither in the sitemap.
-- [x] ✅ "Source unavailable" state pattern — `components/ui/SourceUnavailable.tsx`: "No relevant updates are available." when sources answered with nothing relevant; "This source is temporarily unavailable" plus search and nearest-section links (p. 4) when they failed. Used by the domain/industry feeds, the homepage H03/H04 (`GlobalNewsPanel.tsx:146`, `FirstFoldFeeds.tsx:219`), the Global Intelligence list (`global-intelligence/page.tsx:350`, uncommitted on 26 Sep) and the Knowledge Hub K05 preview.
+The other p. 4 utility destinations are tracked elsewhere: header/homepage search in 1.2/12.8 (AI remains deferred), and `/data-portal/sources` in 1.2/12.6 and numerical-view work in Part 9/13. They do not become additional primary navigation items.
+
+- [x] ✅ `/privacy` — published company/contact, lawful-basis, retention-policy, newsletter, hosting/external-content, inactive analytics/AI and rights wording. Correct title/H1/approval details, email/contact links and footer/sitemap destinations verified. The notice honestly states that automated cleanup and provider delivery are inactive; operational assessment/retention remains in 14.4.
+- [x] ✅ `/terms` — complete approved Terms publishes the individual-dataset licence rule and preserves publication/news/image/logo/tool rights; informational-use, external-service and contact sections are present. Title/H1/version/approver/date and footer/sitemap links verified.
+- [x] ✅ `/cookie-choices` — approved text matches independent embed/analytics controls and inactive Umami. Fresh choices start off; each preserves the other, survives reload and can be withdrawn. Real iframe waits for permission; one-item choice expires on reload; saved automatic permission/withdrawal updates another open tab. No analytics requests while its release gate is off.
+- [x] ✅ `/accessibility` — approved evidence-based WCAG 2.2 AA target statement describes table alternatives and remaining whole-site limitations without claiming full conformance. Contact links verified; automated utility content scans and keyboard checks pass. Whole-site testing and mailbox handling remain in 14.3/14.4.
+- [x] ✅ 404 page — single-segment and nested Data Portal missing URLs return HTTP 404 with **Page Not Found | Enerqa**, the specified heading/message and search/home/domain actions; nested path offers Go to Data Portal. No horizontal overflow at 1366, 390 or 320 px, or 125% CSS zoom. Whole-site native browser zoom/testing remains in 14.3.
+- [x] ✅ Newsletter confirmation + unsubscribe states — correct titles, `noindex, nofollow`, outside primary nav/sitemap. Real signup saves and redirects; repeat signup stores one newsletter record; unsubscribe clears only the exact address, preserves neighbouring subscribers/enquiry bodies and replies neutrally for absent addresses. Recoverable signup/unsubscribe errors preserve input and consent. Test records cleaned (zero remain); SendPulse delivery/suppression acceptance remains in 14.4 before activation.
+- [x] ✅ "Source unavailable" pattern — shared inline status distinguishes a successful empty result from a failed source; failed state offers search and nearest-section links while preserving the page. Component and provider-failure tests pass. Used by domain/industry feeds, homepage H03/H04, Global Intelligence and Knowledge Hub K05.
 
 ### 1.4 Retire legacy routes (p. 4, 225, 228) — ✅
 
@@ -373,21 +405,19 @@ The other 5 (`sudan-s-energy-balance-2020`, `breathing-vs-burning-…`, `climate
 - [x] ✅ Domain/industry intro actions sit below the opening narrative — no floating enquiry button
 - [x] ✅ AI input full width, submit at right, suggestion chips immediately below — homepage and `/search`
 - [x] ✅ News cards: headline + permitted teaser above the source/date/original-link row — domain/industry `NewsFeed` and Global Intelligence cards
-- [ ] 🔍 Market panel instrument rows above a short sourced commentary item — needs a feed that is free for public corporate display of those instruments (decision in 3.1, H04).
+- [x] ✅ Market panel — Q21 approves the sourced commentary-only fallback. Numerical instrument rows are not required for this release (3.1, H04).
 - [ ] 🟡 Dataset views: no dataset has a chart yet (every `embedUrl` is empty), so there is nothing to place filters above; source details and download/citation already sit beneath the summary
 - [x] ✅ Tool cards: title and purpose first, then the availability label, with Explore Tool and the access button at the bottom left (p. 8); the action follows the real access state (Download Tool / Launch Tool / Request Access, pp. 188, 191), and Request Access goes to `/contact?intent=tool&tool={slug}` (p. 165) (`tools/page.tsx:29-56`, `access.ts:50-70`)
 
-### 2.3 Footer (p. 8)
+### 2.3 Footer (p. 8) — ✅ 9/9
 
 - [x] ✅ Six labelled navigation groups with p. 3 names inside `<nav aria-label="Footer">` (incl. lifecycle, industries, Global Intelligence and the three flagship tools) — `src/components/Footer.tsx` (25 Sep 2026)
 - [x] ✅ `info@enerqa.co.uk`, Contact link
 - [x] ✅ Newsletter access — `SubscribeForm.tsx` exists and is rendered in `src/components/Footer.tsx`
-- [ ] 🟡 Data-source attribution block (rendered in data portal sources page, linked in footer)
-  - **To do:** The footer only links `/data-portal/sources`, whose directory is empty. Populate it (12.6).
-- [x] ✅ Footer utility links `/accessibility`, `/cookie-choices`, `/privacy`, `/terms` and `/data-portal/sources` must be genuine destinations (p. 8) — none goes to Contact; the labels match the pages' H1s (`POLICY_PAGES`); `<ul>/<li>` list. All four policies were approved on 27 Sep, and each link returned 200 on the dev server. A policy link disappears automatically if its page is unapproved (1.3)
+- [x] ✅ Visible data-source attribution note links `/data-portal/sources#directory`; the destination is populated with numerical/news/research providers, licences, credits and documentation. Disabled/unapproved providers are excluded. Footer link and directory verified in Chrome (11 Oct); rights/account launch checks remain in Parts 9/13.
+- [x] ✅ Footer policy utilities are genuine destinations with correct labels/list/approval filtering: all four approved version-2 policy URLs return 200 and footer links render in the local production build (11 Oct). The sources directory link is implemented separately (12.6); replacement policy content and section 1.3 acceptance are complete.
 - [x] ✅ No project logos, experience counters or portfolio teaser in the footer
-- [ ] 🟡 Breadcrumbs identifying current section and parent page
-  - **To do:** Footer trail fixed: real parents, titles keep "&", `<nav aria-label="Breadcrumb">` + `<ol>` + `aria-current`, no trail on unknown URLs, and it steps aside on templates with their own trail. Left: publication and dataset detail show only "Home / Knowledge Hub" / "Home / Data Portal" — add in-page breadcrumbs with the record title and add those routes to `OWN_TRAIL_ROUTES` (`FooterBreadcrumbs.tsx:90`).
+- [x] ✅ Breadcrumbs identify Home, the genuine parent section and the actual publication/dataset/dashboard title; shared markup uses a named navigation, ordered list, decorative separators and `aria-current="page"`. Footer suppresses duplicate trails on these templates, Sources, About and Global Intelligence. Real publication/dataset pages have one trail and no breadcrumb overflow at 1366/390/320 px; missing record URLs have no invented footer trail. Data Explorer, series and occurrence views also have a single current-page trail. [Fresh acceptance evidence](SECTION-2-3-VERIFICATION.md).
 - [x] ✅ Language switching keeps the page and explains availability: choosing AR shows "Arabic is not available yet. This page is shown in English." (`role="status"`) and never sets `lang="ar"`/`dir="rtl"` on English content; honeypots use the clip-based `.honeypot` class (25 Sep 2026)
 - [x] ✅ Delete the dead duplicate `src/components/layout/Footer.tsx`
 
@@ -471,8 +501,7 @@ Both would have published invented company work — p. 226 ("a temporary failed 
 ### Still open
 
 - [x] ✅ **NewsData.io primary + GDELT supplementary** (p. 13), plus EIA and EEA RSS for licensed summary text
-- [ ] 🔍 H04 instrument rows. p. 13 allows a numerical feed only if it is free for public corporate display of those exact instruments; no such feed is enabled, so the panel carries commentary only
-  - **To do:** The client either confirms a feed that is free for public corporate display of those exact instruments, or closes this as not applicable (commentary-only is the fallback p. 13 itself allows).
+- [x] ✅ H04 instrument decision closed by Q21: keep the compliant sourced commentary-only panel. No numerical feed is required for this release.
 - [ ] 🟡 H03 "permitted short description" per card — supplied by NewsData.io and the two RSS feeds; GDELT items correctly show a headline only
   - **To do:** Teasers are now cut to 200 characters at normalisation (`news/index.ts:133`) and the homepage lead card to 180. Still to do: the p. 226 rights review of teaser use per provider.
 - [x] ✅ Resolved in Part 13: the spec connectors were rewritten under `src/lib/api/data/`; the old top-level files are gone
@@ -535,8 +564,9 @@ Route `/domains-and-industries`. Segments O01–O05.
 - [x] ✅ Placeholder feed text ("…integration pending") replaced with the exact empty-state wording required by p. 226: **"No relevant updates are available."**
 - [x] ✅ Single DB query shared by `generateMetadata` and the page, via React `cache`
 - [x] ✅ Breadcrumb marked up as `<nav aria-label="Breadcrumb">` with `aria-current="page"` (p. 8, 228)
-- [ ] 🔍 **Content decision needed**: which industries to list per domain. The handoff says "select industry links through the shared domain/industry taxonomy" (p. 28) but never enumerates them, so seeding a guess would invent content. Set it in the CMS under each domain → Relevant Industries.
-  - **Skipped:** User confirmed not to implement the derived mapping for now.
+- [x] ✅ Q14 approves the exact **Relevant Industries** mapping: Climate 7, Energy 10, Environment 9, Sustainable Business 8. Domain rendering resolves those 34 links from canonical industry slugs in `src/lib/content/questionnaire.ts`; this supersedes the earlier decision to skip the derived mapping.
+- [ ] 🟡 Persist and verify Q14 relationships in the CMS.
+  - **To do:** After database recovery, preview and run `scripts/questionnaire/apply-content.mjs --apply` with its private backup, then compare the four saved lists and rendered links. No database write was performed this pass.
 
 ### 5.2 Climate Action & Carbon Management (pp. 21–30) — `/domains/climate-action-carbon-management`
 
@@ -610,8 +640,7 @@ Route `/domains-and-industries`. Segments O01–O05.
 The seed scripts still check the `tools` collection and publish only links that resolve.
 
 - [x] ✅ The three tool records now exist (`esg-readiness`, `easysolar`, `greenscale-pro`), and the seeds were re-run: all domain and industry tool links resolve
-- [ ] 🔍 Set **Relevant Industries** for each domain in the admin UI (handoff never enumerates the mapping, so it is a content decision)
-  - **To do:** Same as the Relevant Industries item above — a mapping can be derived from the approved work-area links; needs sign-off, then a seed.
+- [x] ✅ **Relevant Industries** decision and rendering use the Q14-approved 7/10/9/8 mapping. The separate CMS persistence check remains open in 5.1; no further mapping sign-off is needed.
 
 ### 5.8 Domain template copy and feeds (24 Sep 2026)
 
@@ -807,9 +836,10 @@ Within a facet values are OR'd, across facets AND'd. Plus a live result count ("
 Rather than leave a placeholder passing as fact, every card now shows **"(date unverified)"** next to its date, driven by a new `dateVerified` checkbox. Ticking it hides the marker.
 
 - [ ] 🔍 Recover each publication's real date from its original source and tick `dateVerified`
-  - **To do:** The live site has been used up: it has only 10 articles, and 9 dates came from it. The other 16 are not on the live site, so ask the authors for each date, then set it and tick `dateVerified`. Don't copy the live mercury date (15 Aug 2019): that page is an earlier text of the article.
+  - **To do:** Q15 supplies no dates. Obtain the 16 dates from authors/original sources, then set each date and tick `dateVerified`. Do not invent them or copy the older mercury text’s date. The visible unverified markers stay.
 - [ ] 🔍 **Approve the author bylines.** The source PDF spells several names inconsistently: `Dr. Islam M. Awad` / `Dr. Isalm M. Awad` (typo), and `Reem Almlik` / `Reem Elmalik` / `Reem Almalik`. p. 225 requires an *approved* byline identity, so these were imported verbatim rather than silently normalised. They currently appear as separate Author filter options.
-  - **To do:** Also inconsistent: "Dr. Quosay A. Ahmed" / "Quosay A. Ahmed" / "Quosay A. Awad". Joint bylines are one facet value, so "Giovanni Fabbio" cannot be filtered alone — split joint bylines into individual authors once names are approved.
+  - **Done locally from Q16:** normalise Quosay Ahmed (Ahmed/Awad refer to the same person), Reem Elmalik and Amr Nasreldin on publication reads/saves, while preserving other names and co-authors. CMS persistence is prepared in `scripts/questionnaire/apply-content.mjs` and blocked by the connection timeout.
+  - **To do:** Confirm the remaining Islam/Mohamed/Abdelaziz identities, the development-team credit and disputed co-author membership; then split approved joint bylines into individual author facets. Q16 does not settle those remaining credits.
   - **26 Sep 2026:** two plain typos were corrected by the write (`Isalm` → `Islam`, `Almlik` → `Almalik`); everything else is still verbatim (17 distinct byline strings). The live site credits 6 articles differently — list these for approval too:
     - `breathing-vs-burning…`: "Quosay A. Ahmed" (DB) vs "Quosay A. Ahmed, PhD" (live)
     - `climate-change-and-war…`: "Dr. Islam M. Awad" vs "Islam M. Awad, PhD"
@@ -820,7 +850,7 @@ Rather than leave a placeholder passing as fact, every card now shows **"(date u
     - Also confirm "enerQA’s development team" (`the-imperative-for-esg…`) is an approved byline.
 - [x] ✅ 3 publications had no byline in the 25 Sep DB backup (`ghg-emissions…`, `supercritical…`, `the-imperative-for-esg…`). Set by the 26 Sep write to 'Mohamed M. Ahmed', 'Dr. Muzamil Abdella' and 'enerQA’s development team' (verified in the DB).
 - [ ] 🔍 **Tag publications** with Domain / Industry (sidebar in the admin). The fields, filters, and domain/industry "Enerqa Publication" modules are all wired; tagging is an editorial call, so nothing was inferred
-  - **To do:** No publication is tagged yet (`publications_rels` is empty, 26 Sep 2026). `archiveCategory` was restored from the archive PDF's section order on 26 Sep (24 of 25; Sudan is not in the archive), so the Topic facet can now show.
+  - **To do:** Q17 requests proposals; [25 article-specific proposals with reasons](questionnaire/PUBLICATION-TAGS-DRAFT.json) are prepared from the saved rebuild texts. Approve the proposed domain/industry tags before applying them. No tags were written; the last successful database evidence is 26 Sep.
 - [x] ✅ `Insights` collection is gone (no table, not in config)
 - [x] ✅ Learning / Glossary label fields removed from `globals/KnowledgeHubConfig.ts` and `payload-types.ts`. Read-only DB check (26 Sep 2026): the 8 columns are gone from `knowledge_hub_config_locales`. There is no separate production database (shared-DB decision), so no drop migration is needed. Note: `migrations/20260920_011009.ts:408-415` would re-create them on a fresh database, and the next dev push would drop them again. Optional, owner's call: no page reads this global, so `payload.config.ts:63` could remove it (a schema change on the shared DB).
 - [x] ✅ Owned vs external distinction (p. 229): first-party cards are labelled "Enerqa Publication · {type}" on `/knowledge-hub`, in site search results (`search/loadIndex.ts`) and in `RelatedPublications.tsx`; external cards carry the publisher, "News", source date and a "Read full article" off-site link
@@ -887,8 +917,8 @@ Route `/tools`. Segments T01, **T02** (flagship tools — missing from this list
 - [x] ✅ T03 "Other Enerqa Tools" — p. 165 heading and copy; lists only validated non-flagship tools (none yet) with p. 166 availability labels (`tools/page.tsx:108-124`, `access.ts:12-18,29`)
 - [x] ✅ T04 "Using the Tools" — p. 166 heading and copy, verbatim (`tools/page.tsx:127-136`)
 - [x] ✅ T05 "Request Tool Access" — p. 166 heading, copy and both buttons: "Request Tool Access → /contact?intent=tool" and "Discuss Your Project → /contact?intent=project" (`tools/page.tsx:139-156`)
-- [x] 🔍 Validate names and versions for **GHG365 / GHG Emissions Calculator, MRV Tool, ESIA Risk Assessment Tool, Green Project Scoring Tool** (p. 166) — awaiting company confirmation; all four are `validated: false` with no version
-  - **To do:** The company must confirm the names and versions before anyone ticks `validated`. Versions are cleared and all four tools are hidden (404; not on `/tools`, in search, contact or the sitemap).
+- [ ] 🔍 Validate names and versions for **GHG365 / GHG Emissions Calculator, MRV Tool, ESIA Risk Assessment Tool, Green Project Scoring Tool** (p. 166).
+  - **To do:** Q18–Q19 confirm web-app intent but promise files/details later. Obtain the actual files or launch URLs, approved names/versions, inputs/outputs, methods/assumptions, privacy and access instructions before validation. Keep unavailable tools hidden; do not infer working apps from the answer.
 - [x] ✅ Reconcile the sitemap's three flagship slugs — `/tools/esg-readiness`, `/tools/easysolar`, `/tools/greenscale-pro` (p. 3) — with the tool names on p. 166
   - **To do:** The record title is "ESG Readiness Diagnostic"; pp. 3 and 165 call it "ESG Readiness Tool". Rename it.
 - [x] ✅ Remove placeholder / non-functional downloads (p. 225)
@@ -913,16 +943,15 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ A03 "Our Domains"
 - [x] ✅ A04 "People and Organisation"
 - [x] ✅ A05 "Connect with Enerqa"
-- [x] 🔍 Team information inside About — **only when approved** (p. 4)
-- [x] 🔍 Additional addresses, regional presence and phone numbers — **only after company approval** (p. 170)
-  - **To do:** `contact/page.tsx:49-53` already publishes "Office: London, United Kingdom" — remove it until approved.
+- [x] ✅ Q12 confirms **no individual team information** on About for this release. Keep the approved People and Organisation narrative.
+- [x] ✅ Q11 approves **London and Doha only**, email contact and no phone numbers. `/contact` now shows those cities and Q1’s registered address; no unapproved additional office address is added.
 - [x] ✅ No external API needed on this page (p. 170)
 
 ---
 
 ## PART 12 — Detail and utility templates (PDF pp. 171–208)
 
-**Updated 2 Oct 2026.** Code and verification details: [PART-12-VERIFICATION.md](PART-12-VERIFICATION.md). The owner asked to leave missing company-approved content pending. The 26 Sep summary at the top of this document is historical; this section records the current Part 12 state. AI launch remains a separate, gated workstream.
+**Updated 2 Oct 2026, with questionnaire decisions reconciled 3 Oct.** Code and verification details: [PART-12-VERIFICATION.md](PART-12-VERIFICATION.md). The owner asked to leave missing company-approved content pending. The 26 Sep summary at the top of this document is historical; this section records the current Part 12 state. AI launch remains a separate, gated workstream.
 
 
 ### 12.1 Enerqa publication detail (pp. 171–174) — `/knowledge-hub/{publication-slug}`
@@ -968,19 +997,19 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ Route exists
 - [x] ✅ TD01 "Tool Overview" (p. 191) — heading, validated name, the p. 165 T02 purpose, an availability line and Request Access as the default action (`tools/[slug]/page.tsx:116-139`, `access.ts:50-70`); unvalidated tools 404
 - [ ] 🔍 TD02 "Inputs and Outputs" (p. 191) — heading and Inputs/Outputs panels render from the CMS; approved input/output lists with units are still missing
-  - **Pending company content:** actual input/output lists, units, supported parameters and expected user skill. GreenScale's generated outputs are already in `outputs` in the seed; the old note claiming they were filed under Inputs was stale. No unapproved tool content was invented or seeded in this pass.
+  - **To do:** Q18–Q19 promise files/details later. Obtain actual input/output lists, units, supported parameters and expected user skill. GreenScale's generated outputs are already in `outputs` in the seed; the old note claiming they were filed under Inputs was stale. No unapproved tool content was invented or seeded in this pass.
 - [ ] 🔍 TD03 "Methodology and Limits" (p. 191) — the section renders method, assumptions/limits and version when present; easySOLAR has a method and limits, GreenScale Pro one line, ESG Readiness none
   - **To do:** The code is ready (`tools/[slug]/page.tsx:169-186`), but ESG Readiness has no method or limits (section hidden), GreenScale Pro has one sentence and no limits, and no tool has a version/date or source-data versions. The company must supply the method, limits and version/date (p. 191).
 - [x] ✅ TD04 "Access the Tool" (p. 191) — an `#access` section with a conditional Download Tool / Launch Tool / Request Access action; Request Access opens the contact form with the tool preselected
   - **Verified:** licence, system requirements and user-guide fields already exist; the download branch renders licence and system requirements alongside file metadata. Request Access remains the default without a cleared tool destination.
 - [ ] 🟡 TD05 "Guidance and Support" (p. 191) — heading, the p. 166 support line and a Contact Support link; no user guide or input-handling text yet
-  - **Pending company content:** the upload field and conditional user-guide link already exist, along with the input-handling (`privacy`) field and related-domain links. Supply the actual approved guide, input storage/processing/deletion/third-party-use text and taxonomy. Kept pending at the owner's request.
+  - **To do:** Q18–Q19 supply no actual guide or processing details. The upload field and conditional user-guide link already exist, along with the input-handling (`privacy`) field and related-domain links. Supply the actual approved guide, input storage/processing/deletion/third-party-use text and taxonomy. Kept pending at the owner's request.
 
 ### 12.6 Sources and Methodology (pp. 192–195) — `/data-portal/sources`
 
 - [x] ✅ **Route exists.**
 - [x] ✅ S01 "Sources and Methodology" / S02 "Source Directory" / S03 "Attribution and Reuse" / S04 "Understanding the Data" (p. 195)
-  - **Done:** Headings and exact p.195 fallback copy are in place. S02 separates numerical data from news/research, includes all required metadata fields, and includes OWID and Ember.
+  - **Done:** S01–S04 and provider metadata are present. S02 separates numerical data from news/research; original providers, licences, attribution and documentation are listed. Only enabled/reviewed registry entries appear; unapproved OWID/Ember and disabled DOAJ/ReliefWeb are excluded. The visible footer attribution note reaches the populated directory (Chrome, 11 Oct; 2.3).
 - [x] ✅ Reachable from **every** numerical view (p. 4)
   - **Done:** Sources link added beside the chart on dataset detail, Data Portal explorer (DataPortalD03), Gapminder explorer (DataExplorerClient), and all data tables (DataSeriesTable).
 
@@ -1002,7 +1031,7 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ Route exists with keyword search over public CMS content.
 - [x] ✅ AI01 "Ask and Explore" — labelled, editable query; accessible Search button; exact p. 202 placeholder; query retained in the URL and Arabic input supported.
 - [ ] 🟡 AI02 "Answer and Sources" — answer extraction repaired and tested offline. The route walks Responses output items, handles refusals/incomplete responses, requires a completed web-search call, validates citation spans, and checks cited destinations. The client renders the exact returned text and linked citation spans; missing citations never fall back to unrelated Enerqa results.
-  - **Still pending:** the separate AI Search Phase 0 approvals, distributed session/rate/budget controls and staging evaluation. Both the provider switch and `AI_SEARCH_CONFIG.releaseReady` remain off; no paid call was made. See [AI-SEARCH-TASKS.md](AI-SEARCH-TASKS.md).
+  - **To do when resumed:** AI work is deferred by the user on 3 Oct because no API key exists. Keep both switches off. A future restart still requires the separate launch approvals, durable budgets/session controls and staging evaluation. See [AI-SEARCH-TASKS.md](AI-SEARCH-TASKS.md).
 - [x] ✅ AI03 "Relevant Enerqa Content" — canonical grouped results with relevant excerpts; no forced company promotion inside generated answers.
 - [x] ✅ AI04 "Other Sources and States" — external results from the same verified Global Intelligence cache, publisher/date and outbound actions; prescribed loading/empty/failure wording; privacy notice and feedback guidance. Answer UI adds stop, retry, clear search, refusal and insufficient-evidence states. Multi-turn AI conversation remains in the separate AI handoff.
 - [x] ✅ `SITE_INDEX` includes existing canonical hub destinations only.
@@ -1012,10 +1041,11 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ Unrelated questions receive no forced Enerqa result: removed the unapproved company-context path, classifier/promotions and memory-only fallback. `enerqa` is always null in the current response contract.
 - [ ] 🟡 Never fabricate company work, credentials or data; cite only retrieved evidence.
   - **Done in code:** strict response validation, actual citation annotations, no fabricated source dates, no keyword-source substitution, and company promotions disabled.
-  - **Pending:** live company-integrity and grounded-answer evaluation before launch; the approved company corpus and URL registry remain missing.
-- [ ] 🔍 AI provider choice is OpenAI under the superseding AI Search handoff. Record budget B, approved catalogue/URLs, privacy/ownership and staging model sign-offs before enabling it.
+  - **To do when resumed:** run live company-integrity/grounded-answer evaluation and approve the prepared corpus/URL draft. AI launch remains deferred.
+- [ ] 🟡 AI launch is **deferred by the user**. Q22’s $50/month budget is recorded, but it does not enable calls or prove enforcement.
+  - **To do when resumed:** Reconfirm scope, approve the drafted catalogue/URLs and privacy/owners, implement durable budget enforcement and pass staging checks. Do not request a key or AI ownership decisions for the current release.
 - [ ] 🟡 Search acceptance tests — keyword cases already cover general, project, ambiguous, Arabic and retrieval-failure queries; new offline cases cover conflicting sources, no completed search, incomplete responses, refusal, absent/bad citations and the disabled route making zero provider calls.
-  - **Pending:** live generated-answer tests after the separate launch gates are met.
+  - **To do when resumed:** run live generated-answer tests after the separate launch gates are met. No AI tests or ownership decisions are requested now.
 - [x] ✅ Search results and Global Intelligence filter combinations are noindex.
 
 ### 12.9 Conditional careers template (pp. 203–205) — `/about/careers`
@@ -1023,21 +1053,20 @@ Route `/about`. Segments A01–A05.
 - [x] ✅ Q01 "Purpose and Scope" / Q02 "Main Content" / Q03 "Next Action" template exists
   - **Done:** Created Payload CMS global `CareersConfig` so the page is now CMS-driven, and headings map to Q01/Q02/Q03.
 - [ ] 🔍 Publish **only** with actual approved recruitment content
-  - **To do:** The page will return 404 until you populate the Careers Page global in Payload and check the "Approved for Publication" box.
+  - **To do:** Review [CAREERS-DRAFT.md](questionnaire/CAREERS-DRAFT.md), based on Q13 and the old site’s expert-roster copy, using careers@enerqa.co.uk and no invented vacancies. Confirm CV handling/retention, then populate and approve the Careers Page global. The page, footer and sitemap share the same approval gate.
 
 ### 12.10 Policy, accessibility and error pages (pp. 206–208)
 
 - [x] ✅ U01 "Utility Page Titles" — four distinct destinations: Privacy Notice, Terms of Use, Cookie Choices, Accessibility Statement. The titles are fixed in code by slug (`POLICY_PAGES` in `Policies.ts`), so the H1, `<title>`, breadcrumb and footer label always match; the CMS `title` is only the editor's label (27 Sep 2026, tested)
-- [ ] 🟡 U02 "Approved Text and Status" — use real approved legal text, not placeholder (p. 208); all four texts are approved (`approved`, `approvedBy`, `approvedOn`), and Terms, Cookie Choices and Accessibility match the code
-  - **To do:** Privacy: add the legal entity, retention and lawful basis once the company confirms them (1.3). `approvedBy` reads "Enerqa"; the field asks for a person's name and role.
-- [x] ✅ U03 "Actions" (p. 208) — Cookie Choices renders `CookieChoicesControl`, which saves the consent that every third-party embed reads (`lib/consent.ts`). `ExternalEmbed` wraps the tool, dataset and Gapminder iframes: nothing loads until the visitor clicks "Load content" (that one embed, this visit) or allows embeds on `/cookie-choices` (all of them, and withdrawable there). There is no analytics choice because there is no analytics code. Privacy and accessibility end with a Contact block (info@enerqa.co.uk, p. 8, and the contact form). Unit-tested; the embed gate was also checked in headless Chromium on `/data-portal/explorer` (0 iframes before consent, 1 after Load, 0 after reload, 1 with the saved choice, no sideways scroll at 390 px). The policy pages themselves show once approved (27 Sep 2026)
-- [x] ✅ 404 page: `src/app/(frontend)/not-found.tsx` for `notFound()` inside the site, and `src/app/global-not-found.tsx` (enabled by `experimental.globalNotFound` in `next.config.ts`) for mistyped URLs, both with header and footer
-- [x] ✅ 404 directs visitors to search and the nearest relevant section (p. 4): p. 208's title, message and buttons (Search Enerqa, Go to Homepage, Explore Domains and Industries) plus "Go to {section}" from the URL
+- [x] ✅ U02 "Approved Text and Status" — all four complete replacements published as version 2, Islam Abuhiss, Director, 11 October 2026. Real headings/links and displayed approval metadata verified on the local production build; private backup and read-only zero-change preview recorded in [1.3 evidence](SECTION-1-3-VERIFICATION.md).
+- [x] ✅ U03 "Actions" — independent initially-off consent choices preserve/persist/withdraw correctly; old embed consent does not grant analytics consent. Real embed gating/one-item reload/automatic withdrawal verified; no analytics requests while inactive. Privacy/accessibility email/contact links work. Deployed active analytics/retention and mailbox handling remain in 14.4.
+- [x] ✅ 404 page — both unknown-URL shapes return 404 with correct title/heading/message; mobile number sizing prevents overflow at 390/320 px. Local 125% CSS zoom check passes; whole-site/native zoom acceptance remains in 14.3.
+- [x] ✅ 404 actions — Search Enerqa, Go to Homepage, Explore Domains and Industries, plus Go to Data Portal for a missing Data Portal URL verified in both route shapes (Chrome, 11 Oct).
 - [x] ✅ No fake utility destinations, and no Contact page disguised as legal or accessibility information (p. 8, 225) — an unapproved policy returns 404 and is linked nowhere: the footer, sitemap, sibling-policy list and the consent lines in `ContactForm`, `SubscribeForm` and `ContactCTA` all read `lib/policies.ts`, and anonymous `/api/policies` returns approved rows only. Checked on the dev server (27 Sep 2026): all 4 → 404, 0 policy links on 11 pages, 0 in the sitemap, `totalDocs: 0` from the API
 
 ### Found in the 24 Sep 2026 audit
 
-- [x] ✅ `FooterBreadcrumbs.tsx`: dataset and dashboard trails now link only to `/data-portal` (no more 404 parents, p. 4)
+- [x] ✅ Dataset/dashboard in-page trails use Home → Data Portal → actual record title, with no `/datasets` or `/dashboards` index link. `FooterBreadcrumbs.tsx` suppresses duplicate trails and missing-record fallback trails (11 Oct; 2.3).
 - [x] ✅ `Enquiries` create is limited to logged-in staff (`Enquiries.ts:14`), so `POST /api/enquiries` no longer bypasses validation and the honeypot; the server actions write through the Local API
 - [x] ✅ Tool-access requests: the unvalidated inline form (`tools/[slug]/actions.ts`, `RequestAccessForm.tsx`) was removed; "Request Access" now links to `/contact?intent=tool&tool={slug}`, which preselects the tool and uses the validated contact action
 - [x] ✅ `search/AIResponse.tsx` no longer renders "No answer generated." as an answer or guesses `[n]` citations. Runtime validation and annotation offsets drive rendering; no keyword-result citation fallback. Live generation remains disabled (12.8).
@@ -1061,7 +1090,7 @@ Route `/about`. Segments A01–A05.
 - `enerqa_connectors.provider_requests`: one shared request ledger across local, preview and production; reservations happen only on real cache misses, inside a database transaction.
 - `enerqa_connectors.external_records`: original record fields, source identifiers/URLs, rights, actual access-check times and separate retrieval times. These operational records are separate from the legacy Payload `external-items` collection.
 - `enerqa_connectors.access_checks`: persistent destination verdicts; checks are repeated after expiry. Rejected/uncertain destinations stay unpublished.
-- `GET /api/ingest/providers`: authenticated research/official-index scheduler target. `GET /api/ingest/news` now owns three daily news pulls (6 AM, 2 PM and 10 PM Manila time), configured as three daily jobs in `vercel.json`. Public news routes read saved database records. **Deployment activation and seeding remain unverified:** local `CRON_SECRET` is absent and the read-only database check timed out on 3 Oct. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md).
+- `GET /api/ingest/providers`: authenticated research/official-index scheduler target. `GET /api/ingest/news` now owns three daily news pulls (6 AM, 2 PM and 10 PM Manila time), configured as three daily jobs in `vercel.json`. Public news routes read saved database records. **Live manual seeding verified, 3 Oct:** authenticated refresh saved/updated 41 approved EIA/EEA articles, and unauthenticated access returned 401. The homepage retained three Global News cards and two Major Markets cards. NewsData 401, GDELT 429 and automatic scheduled execution remain unresolved/unverified. The local database timeout was reproduced on 3 Oct; authenticated reads now pass on 11 Oct. Provider ingestion/scheduling was not rechecked in the utility audit. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md).
 - New Data Portal views: `/data-portal/series/{dataset}`, `/data-portal/occurrences`; ungated CSV routes use the same selection logic. EIA is also available in the Data Portal preview and the Energy related-data fallback.
 
 The three operational tables are isolated in the private `enerqa_connectors` schema so Payload schema-push cannot propose removing them. They were added transactionally with `scripts/part13/apply-storage.mjs`. Existing CMS tables/content were not changed. Row-level security is enabled so these internal records are not anonymous Supabase endpoints. **Do not run the old Payload migration history.**
@@ -1084,8 +1113,9 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [x] ✅ All news/research/data providers and both AI providers are in the registry. Switching off a provider prevents new provider calls; unreviewed providers cannot be enabled. ReliefWeb, DOAJ, Gemini and OpenAI are currently off.
 - [ ] 🟡 Scheduled ingestion endpoint built and authenticated; provider records/check verdicts are persistent.
   - **Done, 3 Oct:** Added protected `/api/ingest/news`, three daily UTC entries in `vercel.json`, database-only news reads, per-slot duplicate/overlap protection and preservation of eligible saved articles on failed pulls. No database migration is required. Research/data scheduling remains separate.
-  - **Blocker:** Local `CRON_SECRET` is absent; `npm run db:check` timed out before authentication. The 3 Oct manual seed attempt confirmed the deployed `/api/ingest/news` returns HTTP 404, and a repeat database check timed out on both pooler ports. No articles were seeded by that attempt. Deployment activation/seeding is not verified. The user's dev-site screenshot showed NewsData HTTP 401 and GDELT HTTP 429.
-  - **To do:** Fix NewsData credentials and database reachability, set deployment `CRON_SECRET`, deploy the configured news jobs and verify authenticated seeding, all three scheduled pulls and rejected unauthenticated access. Confirm provider refusals preserve saved eligible cards. Configure the separate `/api/ingest/providers` research/index schedule within the free hosting allowance when needed. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md); do not buy upgrades to bypass this requirement.
+  - **Live verified, 3 Oct at 00:30 UTC:** After the user's deployment, authenticated `/api/ingest/news` returned 200 and saved/updated 41 approved EIA/EEA articles; unauthorized requests returned 401. Homepage database diagnostics recorded the completed job and retained eligible saved news despite provider refusals, with three Global News cards and two Major Markets cards in the response.
+  - **Blocker:** The 3 Oct provider check returned NewsData HTTP 401 for all four baskets and GDELT HTTP 429; both remain unresolved and were not rechecked on 11 Oct. All three automatic scheduled pulls and cross-instance overlap behavior remain unverified. The earlier live 404 was resolved. Local `npm run db:check` now passes (11 Oct); that does not verify production/provider operation.
+  - **To do:** Compare/sync Production `NEWSDATA_API_KEY` with the existing local key, which passed a single direct check (HTTP 200, 10 articles) on 3 Oct; if the values match, check NewsData key restrictions. Regeneration is not yet necessary. Allow GDELT backoff to expire, and verify the next scheduled pull followed by all three daily invocations. Restore local database connectivity for local builds. Configure and verify the separate `/api/ingest/providers` research/index schedule within the free hosting allowance when needed. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md); do not buy upgrades to bypass this requirement.
 
 ### 13.2 News and research connectors
 
@@ -1155,7 +1185,7 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [ ] 🟡 **Author metadata**: bylines and a search facet only; there is no public Authors route
   - **To do:** No Authors route is correct, but the `authors` table has 0 rows and bylines are unverified free text. Approve the byline identities (Part 8).
 - [ ] 🟡 **Utility/form** record: approved page text, route, consent/state rules
-  - **To do:** Policy text now lives in the `Policies` collection with an approval status (`approved`, `approvedBy`, `approvedOn`); all four rows hold approved text (27 Sep 2026). Cookie consent is stored in the browser (`lib/consent.ts`), not as a CMS record. Left: model the newsletter/enquiry consent states (for example retention and withdrawal dates) once the company answers Q2 in `docs/CLIENT-QUESTIONS.md`.
+  - **To do:** Policies store approval/version and the four approved version-2 texts (11 Oct). Cookie consent is stored in the browser (`lib/consent.ts`); separate newsletter records, marketing withdrawal, contact/hold/delivery fields are implemented and installed. Q2 is answered. Document the remaining consent-evidence retention and operational audit needs, then complete provider/retention acceptance in 14.4.
 - [x] ✅ Remove Project / Case Study / Experience record types
 - [ ] 🟡 Taxonomy: domain, industry, capability, lifecycle stage, topic, covered country codes, region IDs, continent IDs, geographic scope, content type, first-party/external, source, author, date, language, access/status, data frequency/format
   - **To do:** No fields for lifecycle stage, covered country codes, region/continent IDs, geographic scope, first-party/external or data frequency/format. Add them.
@@ -1177,7 +1207,7 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [ ] 🟡 No manufactured review ratings, FAQ claims or experience figures
   - **To do:** `/tools` shows unlabelled mock figures (250 kWp, 380 MWh, 4.2 years, IRR 18.5%, −15/−40/−35% emissions, `tools/page.tsx:91-190`). Label them "illustrative" or remove them.
 - [ ] 🟡 Bilingual: Payload localisation is configured (`en`, `ar`) — still needs accurate Arabic translation, RTL layout, language metadata and reciprocal `hreflang` **only for real corresponding pages**
-  - **To do:** Ticked although the line lists its own remaining work. `layout.tsx:31-36` sends `hreflang` en **and** ar to the homepage on every page without its own metadata; no collection field is localized. Remove the false alternates; localize the fields; add reciprocal hreflang only for real Arabic pages.
+  - **To do:** Q25 asks for translation followed by approval. [Initial Arabic review batch](questionnaire/ARABIC-DRAFT.md) covers navigation, About/Contact, four domain heroes and thirteen industry heroes; it is not a complete site translation. Obtain the current CMS source export, translate the remaining capabilities/lifecycle/articles/tools/policies, obtain approval, and implement localised routes/fields, right-to-left layout and reciprocal language links only for real equivalents. Do not advertise an Arabic page before it exists.
 
 ### 14.3 Accessibility, responsive, performance (p. 228)
 
@@ -1187,7 +1217,7 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [ ] 🟡 Labelled form controls and buttons
   - **To do:** Contact form fields now use `htmlFor`/`id` (14 labels), the homepage email field and slider arrows are labelled, and the inline tool form is gone. Run an axe scan over the remaining forms (Knowledge Hub search, Global Intelligence and Data Portal filters).
 - [ ] 🟡 Sufficient colour contrast
-  - **To do:** Tokens fixed (`--green-deep` #007a75 = 5.2:1, `--color-primary-deep`, focus ring); the "Open access" badge is now 4.81:1. `text-gray-400` is gone from `src` (grep, 27 Sep 2026). Still to do: 19 input focus rings use `--color-primary` → `--color-primary-deep`.
+  - **To do:** Tokens fixed (`--green-deep` #007a75 = 5.2:1, `--color-primary-deep`, focus ring); the "Open access" badge is now 4.81:1. `text-gray-400` is gone from `src` (grep, 27 Sep 2026). Still to do: Review the remaining input focus rings using `--color-primary`; the utility unsubscribe field now has a dark visible outline. Utility policy/sidebar and confirmation-button contrast issues found by axe were fixed (11 Oct).
 - [x] ✅ Reduced-motion support: the framer-motion components use `useReducedMotion`, Lenis starts only without `prefers-reduced-motion`, and the H05 cards have a pause control and never auto-rotate under reduced motion
 - [x] ✅ Charts: accessible tables + non-colour-only labels
   - **Done, 2 Oct:** Data Portal preview and dataset/connector views show signed period/value labels and an equivalent `DataSeriesTable`; GBIF has a scoped record table. Unlike units remain separate. See Part 13 and [PART-13-VERIFICATION.md](PART-13-VERIFICATION.md).
@@ -1198,20 +1228,21 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [ ] 🟡 Lazy-load below-fold charts and large external widgets
   - **To do:** The hero video no longer autoplays, and every iframe now goes through `ExternalEmbed`, which loads only after consent and with `loading="lazy"` (27 Sep 2026). Left: no `next/dynamic` is used for below-fold widgets.
 - [ ] 🟡 Test at: typical laptop widths, mobile, slow network, blocked third-party scripts, provider timeout, long headlines, **125% zoom**
-  - **To do:** No e2e or axe tooling and no test record. Run the p. 228 test matrix (laptop widths, mobile, slow network, blocked scripts, provider timeout, long headlines, 125% zoom) and record the results.
+  - **To do:** The [11 Oct utility subset](SECTION-1-3-VERIFICATION.md) passes policy/newsletter automated scans, keyboard search/menu, blocked third-party embed gating, 1366/390/320 px 404 layouts and 125% CSS zoom; mobile 404 overflow is fixed. Run the remaining whole-site p. 228 matrix (including slow network, provider timeouts, long headlines, screen readers and native browser zoom) and record results.
 
 ### 14.4 Forms, privacy, handover (p. 228)
 
-- [ ] 🟡 Server-side validation on enquiry + newsletter forms — the footer newsletter form was failing validation for everyone (no consent box); fixed, and errors now name the real problem
-  - **To do:** Contact and newsletter use zod, but `submitToolRequest` has no validation (`tools/[slug]/actions.ts:6-26`) and anonymous `create` on Enquiries lets anyone post to `/api/enquiries`, skipping both checks. Validate the tool form; restrict the REST route.
-- [x] ✅ Enquiries readable by logged-in staff — `read: () => false` had hidden every submission from admins too
-- [ ] 🟡 Spam protection
-  - **To do:** Honeypot only; no rate limit; none on the tool form; the REST route bypasses it.
-- [ ] 🟡 Confirmation and delivery-error handling
-  - **To do:** The confirm page and error messages exist, but there is no email adapter ("No email adapter provided"), yet the contact form tells visitors their message was "successfully sent… will be in touch". Add notification delivery.
-- [ ] 🟡 Approved privacy text for the chosen processors, retention and data flows
-  - **To do:** The approved Privacy Notice now names the processors (Vercel, Supabase) and the data flows. Retention, the lawful basis for enquiries and the responsible legal entity are still missing: the company must confirm them (1.3).
-- [ ] 🔍 Handover pack: editable CMS templates, taxonomy guide, provider credentials + account owners, request budgets, connector/error logs, source-rights register, redirect list, analytics configuration, bilingual editing guidance, tested download/tool access
+- [x] ✅ Server-side validation on enquiry/newsletter actions and tool requests through the contact form; anonymous REST/GraphQL creation cannot bypass these actions. Existing tests pass.
+- [x] ✅ Enquiries readable by logged-in staff; update/delete access is also staff-only.
+- [x] ✅ Honeypot and server-action rate limits cover the public form paths. These limits are process-local; account/staging checks should verify production behaviour.
+- [ ] 🟡 Confirmation and delivery-error handling — Q8 approves info@enerqa.co.uk; Q9 selects SendPulse. Saved enquiries survive a provider outage, notifications contain a protected CMS link, and pending records can retry. Separate newsletter records prevent enquiry expiry from removing active subscriptions. Unsubscribe is exact-address and privacy-neutral; optional newsletter-save failure does not ask for a duplicate enquiry.
+  - **To do:** Configure an Enerqa-owned SendPulse account, verified sender and list; verify notification, opt-in, unsubscribe, suppression and outage behaviour before setting `SENDPULSE_ENABLED=true`. Confirm provider acknowledgement and retry/overlap behaviour; no live email was sent. See [OPERATIONS.md](questionnaire/OPERATIONS.md).
+- [ ] 🟡 Approved privacy text and enquiry/newsletter retention — Q1–Q5 settle the company decisions. The gated maintenance route implements two years from substantive contact, documented dated holds, separate active subscriptions and minimal suppression records.
+  - **To do:** The fields are installed and accurate inactive-service policies are approved/published as version 2 (11 Oct). Complete the documented legitimate-interests assessment, processor/account review, legacy contact dates/client transfers and deletion verification. Apply the agreed limits to mailboxes, exports, SendPulse, client systems and backups before declaring Q2 complete. Keep `FORMS_RETENTION_ENABLED` off until verified.
+- [ ] 🟡 Self-hosted Umami — Q10 selects the free open-source self-hosted product; the follow-up approves **90 days for raw events/sessions and matching backup limits**. Independent opt-in, restricted measurements, deployment configuration and a website-scoped purge script are prepared.
+  - **To do:** Provision the dedicated instance, verify no personal fields or URL queries reach it, test withdrawal, schedule and verify the 90-day purge and restore behaviour, and approve updated active-service wording before setting `ANALYTICS_RELEASE_READY=true`. The current version-2 text accurately states analytics is inactive. No instance was provisioned; no raw data was deleted.
+- [ ] 🔍 Handover pack: editable templates, taxonomy, provider/account owners, budgets/logs, rights register, redirects, analytics, bilingual editing and tested download/tool access.
+  - **To do:** Q26 requests help rather than supplies owners. Follow the Enerqa-owned account transfer and editing/restore walkthrough in [OPERATIONS.md](questionnaire/OPERATIONS.md); record primary/backup administrators privately. The procedure and review pack are prepared, but transfers and training are not completed.
 
 ### 14.5 Launch acceptance checklist (p. 229)
 
@@ -1222,21 +1253,21 @@ The three operational tables are isolated in the private `enerqa_connectors` sch
 - [x] ✅ Four domain narratives, 29 capability descriptions, 13 industry narratives and contextual lifecycle modules mapped to the correct pages
 - [x] ✅ The lifecycle page has five sections including Start a Project, without featured examples
 - [ ] 🟡 External source cards, datasets, download files and tool actions are genuine, rights-cleared and tested; unavailable states work
-  - **To do:** No destination validation, non-approved datasets, mock tool figures.
+  - **To do:** Complete the remaining Part 9/13 rights and destination reviews, including the Q20 file-specific checks, and obtain/test the Q18–Q19 tool files and documentation. Connector success and a draft review do not establish launch readiness.
 - [ ] 🟡 Owned publications and external items cannot be confused; imported titles, types, authors and dates verified
-  - **To do:** Bodies are fixed and every article has a byline (26 Sep 2026). Still open: 16 of 25 dates and the byline spellings need approval (Part 8).
+  - **To do:** Q16’s three confirmed identities are normalised in code. Q15 supplies no dates; 16 remain unverified. Approve other identity/co-author credits and Q17’s proposed tags, then persist/verify CMS changes after database recovery (Part 8).
 - [ ] 🟡 Charts/tables/CSV agree with filter selections; source, unit, geography, period, version and licence visible
   - **To do:** Part 12/13 first-party chart/table/CSV selections now agree, including whole-year/day boundaries; source/unit/period/licence and available versions are visible. Complete the separate Gapminder/source-rights launch checks in Part 9 before marking every Data Portal flow accepted.
 - [ ] 🟡 Canonical URLs, item-level redirects, metadata, XML sitemap and real bilingual equivalents validated
   - **To do:** No canonical on about, data-portal, sources, tools, datasets, publications, contact or policy pages; the hreflang tags are wrong.
 - [ ] 🟡 Policy destinations, privacy/consent controls, form delivery, analytics and CMS handover complete
-  - **To do:** No analytics anywhere, no email delivery, and the privacy/handover items are still open.
-- [ ] 🔍 Sitemap infographic is editable, has no suggested URLs, preserves all six sections / four domains / thirteen industries / the lifecycle link
+  - **To do:** Section 1.3, policy publication, schema verification and local production-build/form acceptance are complete. Deploy the reviewed code and repeat public utility checks; finish remaining whole-site acceptance, live SendPulse verification, operational retention/processor checks, 90-day Umami purge/backup verification and account transfers (14.3/14.4). Local acceptance does not verify the deployed release.
+- [x] ✅ Q28 editable sitemap infographic — [SITEMAP.svg](questionnaire/SITEMAP.svg) preserves the six primary sections, four domains, thirteen industries and lifecycle link without suggested URLs. It is editable as SVG/vector artwork. The original Word attachment was not found in the workspace; this is a reconstruction from handoff pp. 3–6.
 - [x] ✅ Knowledge Hub has exactly two searchable collections; no Learning or Authors public branch, no separate archive (public side confirmed; config residue remains — Part 8)
 - [x] ✅ Keyword/topic search works in both collections; Global Intelligence continent/region/country filters reflect subject coverage and combine consistently
   - **Done, 2 Oct:** Global Intelligence uses the UN M49 country/area registry, linked multi-select geography controls and subject-coverage tags. Ambiguous terms such as the pronoun "us" are excluded. Tests cover filter combinations and cross-region country selections; browser checks cover parent/child selection and URL persistence (12.2).
 - [ ] 🟡 All enabled APIs permit free public corporate use within documented allowances, with hard budgets and no paid fallback
-  - **To do:** Feed/data budgets now use shared database reservations on actual upstream attempts; OECD has a 50/hour cap (Part 13). Left: complete the provider launch reviews and activate scheduled ingestion. OpenAI remains disabled until the separate AI Search approvals and durable AI budgets are complete (`docs/AI-SEARCH-TASKS.md`).
+  - **To do:** Feed/data budgets now use shared database reservations on actual upstream attempts; OECD has a 50/hour cap (Part 13). Left: complete the provider launch reviews and activate scheduled ingestion. OpenAI is deferred by the user and stays disabled; it is outside the current release scope (`docs/AI-SEARCH-TASKS.md`).
 - [ ] 🟡 Every full-reading/dataset button, contextual preview and AI source destination is verified open access; every dataset has an ungated free download
   - **To do:** News/research/official destinations now receive anonymous access checks with stored verdicts. Complete the final destination/rights review and the GBIF public ZIP workflow (13.1, 13.3).
 
@@ -1249,10 +1280,10 @@ Ordered so each step unblocks the next, and the compliance risks go first.
 1. **Compliance and dead links** (Parts 1.4, 2.3, 13.1) — move the two API keys server-side, add `redirects()` to `next.config.ts`, build or remove the three dead footer destinations. Small, and it stops the site shipping broken or unsafe.
 2. **Connector layer** (Part 13) — one shared server-side fetch + cache + provenance module. Everything in Parts 3, 5, 6, 9 and 12 depends on it, so building it once saves rebuilding it eight times.
 3. **CMS model** (Part 14.1) — extend `Datasets` and `Tools`, add the `ExternalItem` collection, retire `Projects` / `LearningMaterials` / `Insights`. Do this before writing page templates against the old field names.
-4. **Missing routes** (Parts 12.3, 12.6, 1.3) — `/data-portal/datasets/{slug}`, `/data-portal/sources`, `/accessibility`, `/cookie-choices`.
+4. **Utility acceptance complete locally** (1.3/12.10, 11 Oct) — all 7/7 items verified, approved version-2 text published, 404/mobile/errors/contrast fixed and real newsletter acceptance passed. Deploy reviewed code and repeat public checks; follow [SECTION-1-3-VERIFICATION.md](SECTION-1-3-VERIFICATION.md).
 5. **Domain + industry template gaps** (Parts 5.1, 6.1) — two missing segments and anchor IDs; fixing the template fixes 17 pages at once.
 6. **Homepage first fold** (Part 3.1) — the most visible change, and it needs the connector layer from step 2.
-7. **AI search** (Part 12.8) — the largest single new feature.
+7. **AI search** (Part 12.8) — deferred by the user on 3 Oct; leave disabled for this release.
 8. **SEO, a11y, bilingual, handover** (Parts 14.2–14.4).
 
 ---
@@ -1281,7 +1312,7 @@ grep -n "redirects" next.config.ts
 ls src/app/sitemap.ts src/app/robots.ts 2>/dev/null || echo "missing"
 
 # Tests, types and a production build
-npx vitest run && npx tsc --noEmit && npm run build
+npx vitest run && npx tsc --noEmit && PAYLOAD_SCHEMA_PUSH=false npm run build
 
 # Capability data intact? (expect 29, then 52 industry links)
 npx tsx --env-file=.env scripts/seed-domains.ts   # prints "Capability count verified: 29/29"

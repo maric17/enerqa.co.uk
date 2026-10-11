@@ -3,16 +3,13 @@
 import { useSyncExternalStore } from 'react';
 
 // p. 208 U03: "Cookie controls must change actual consent settings."
-// The only optional storage on this site comes from third-party embeds (tool
-// iframes, dataset charts, the Gapminder explorer): the embedded site may set
-// its own cookies. There is no analytics code in src, so there is no analytics
-// choice to offer. Add a key here only when the code it controls exists.
+// Q10: analytics has its own prior opt-in, independent of embedded content.
 export const CONSENT_KEY = 'enerqa-consent';
 
 // Fired in this tab after a save; the 'storage' event covers other tabs.
 const CHANGE_EVENT = 'enerqa-consent-change';
 
-type Consent = { embeds: boolean };
+type Consent = { embeds?: boolean; analytics?: boolean };
 
 // Storage can throw (private mode, blocked site data), and old or edited
 // values can be anything. Every doubt means "not allowed".
@@ -25,9 +22,16 @@ export function embedsAllowed(): boolean {
   }
 }
 
+export function analyticsAllowed(): boolean {
+  try {
+    return JSON.parse(localStorage.getItem(CONSENT_KEY) ?? 'null')?.analytics === true;
+  } catch { return false; }
+}
+
 export function saveConsent(consent: Consent): void {
   try {
-    localStorage.setItem(CONSENT_KEY, JSON.stringify({ ...consent, savedAt: new Date().toISOString() }));
+    // Updating one choice must preserve the other; old embed choices never opt in to analytics.
+    localStorage.setItem(CONSENT_KEY, JSON.stringify({ embeds: embedsAllowed(), analytics: analyticsAllowed(), ...consent, savedAt: new Date().toISOString() }));
   } catch {
     /* blocked storage: the choice cannot be remembered, so nothing loads automatically */
   }
@@ -48,4 +52,8 @@ function subscribe(onChange: () => void) {
 // third-party iframe.
 export function useEmbedConsent(): boolean {
   return useSyncExternalStore(subscribe, embedsAllowed, () => false);
+}
+
+export function useAnalyticsConsent(): boolean {
+  return useSyncExternalStore(subscribe, analyticsAllowed, () => false);
 }

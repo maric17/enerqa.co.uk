@@ -21,6 +21,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/knowledge-hub': 'Knowledge Hub',
   '/knowledge-hub/global-intelligence': 'Global Intelligence',
   '/data-portal': 'Data Portal',
+  '/data-portal/explorer': 'Enerqa Data Explorer',
   '/data-portal/sources': 'Sources and Methodology',
   '/tools': 'Tools',
   '/about': 'About',
@@ -40,6 +41,7 @@ const PARENTS: Record<string, string> = {
   '/project-development': '/domains-and-industries',
   '/knowledge-hub/global-intelligence': '/knowledge-hub',
   '/data-portal/sources': '/data-portal',
+  '/data-portal/explorer': '/data-portal',
   '/about/careers': '/about',
 };
 
@@ -85,13 +87,18 @@ export function breadcrumbTrail(pathname: string | null): Crumb[] | null {
 
 // Templates that render their own breadcrumb at the top of the page, with the
 // record's real title (tools/page.tsx, tools/[slug], domains/[slug],
-// industries/[slug], about/careers, knowledge-hub/page.tsx K01, [policy]).
+// industries/[slug], about, knowledge-hub, dataset/dashboard detail, numerical views, sources, [policy]).
 // Repeating it here gave those pages two "Breadcrumb" landmarks. Add a route
 // when another template gains one.
 const OWN_TRAIL_ROUTES = [
   /^\/tools$/,
+  /^\/about$/,
   /^\/about\/careers$/,
   /^\/knowledge-hub$/,
+  /^\/knowledge-hub\/[^/]+$/,
+  /^\/data-portal\/sources$/,
+  /^\/data-portal\/occurrences$/,
+  /^\/data-portal\/(datasets|dashboards|series)\/[^/]+$/,
   /^\/(domains|industries|tools)\/[^/]+$/,
   /^\/(privacy|terms|cookie-choices|accessibility)$/,
 ];

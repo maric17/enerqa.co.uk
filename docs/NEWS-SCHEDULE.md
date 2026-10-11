@@ -12,9 +12,9 @@ Implemented on 3 October 2026. News readers use approved records from the existi
 | 2 PM | 6 AM | `0 6 * * *` |
 | 10 PM | 2 PM | `0 14 * * *` |
 
-Each job fetches the four NewsData topic baskets once, GDELT's shared `all` query once, EIA RSS once and the three EEA RSS channels once. The baseline is 12 NewsData query calls per day, three GDELT calls, three EIA feed calls and nine EEA feed calls. Existing shared budgets, provider disable checks, request spacing and backoff remain active. The job awaits fresh replies rather than receiving an old reply while a cache refresh runs in the background.
+As of the 11 October local coverage fix, each job fetches four NewsData topic baskets and twelve unique domain query groups once, GDELT's shared `all` query once, EIA RSS once and the three EEA RSS channels once. The NewsData baseline becomes **16 calls per pull / 48 per day**, within the unchanged shared limits of 25 requests per 15 minutes and 150 per day. GDELT remains three calls, EIA three feed calls and EEA nine feed calls per day. Existing shared budgets, provider disable checks, request spacing and backoff remain active. The job awaits fresh replies rather than receiving an old reply while a cache refresh runs in the background.
 
-Home, domain pages, industry pages, Global Intelligence news, news search and official EIA/EEA news reads use saved records. The 38 legacy page-basket configurations select saved content; they no longer cause extra NewsData queries during browsing. This can make specialist coverage thinner than fetching those extra queries, while keeping the agreed daily usage predictable.
+Home, domain pages, industry pages, Global Intelligence news, news search and official EIA/EEA news reads use saved records. All domain and industry page-basket configurations select saved content without extra NewsData queries during browsing. The scheduler now requests the twelve domain groups to address missing domain coverage; industry groups still select from the same saved pool. When a URL is returned by several topic/domain queries, its saved record retains every matching query so a domain can recognize that provenance even when its exact phrase is absent from the headline/teaser. This local change requires code deployment before the live cron job can use it.
 
 ## Failure and freshness rules
 
@@ -28,7 +28,9 @@ Home, domain pages, industry pages, Global Intelligence news, news search and of
 - Provider failures and missed successful polls produce stale notices. A successful empty provider reply records a healthy poll, adds no articles and preserves still-eligible saved records.
 - A failed run consumes its slot. There are no unlimited or automatic same-slot retries. After fixing configuration, the next scheduled slot can try again. Authenticated manual seed requests use the same guard and budgets.
 
-## Deployment steps still required
+## Deployment setup and remaining checks
+
+The user deployed the news changes on 3 October. The authenticated seed completed at 00:30 UTC (8:30 AM Manila), and unauthorized access returned 401. Server database writes and reads are confirmed below. NewsData credentials, GDELT recovery and the three automatic scheduled invocations remain to be verified; local database connectivity is a separate unresolved issue.
 
 1. Fix the active server-side `NEWSDATA_API_KEY` in the Vercel environment serving the site. The user's deployed diagnostic screenshot showed HTTP 401 for all four NewsData queries and HTTP 429 for GDELT.
 2. Confirm the configured `DATABASE_URI` can reach the existing operational tables. The read-only `npm run db:check` on 3 October timed out from this workspace on both checked Supabase pooler ports, before authentication. No migration was run.
@@ -41,9 +43,18 @@ Vercel cron jobs target production deployments, even when the project is being u
 
 ## Verification
 
-Manual seed attempt on 3 October 2026: the deployed `https://enerqa-co-uk.vercel.app/api/ingest/news` returned HTTP 404. The local checkout still contains uncommitted scheduler changes, has no configured `CRON_SECRET` or Vercel credentials, and a repeat `npm run db:check` timed out on both Supabase pooler ports (6543 and 5432) before authentication. No provider pull or database write was performed by this attempt. Deploy the route and configure its server variables, then run one authenticated seed request; local seeding requires restoring database connectivity first.
+Earlier manual seed attempt on 3 October 2026, before deployment: the deployed `https://enerqa-co-uk.vercel.app/api/ingest/news` returned HTTP 404. The local workspace had no configured `CRON_SECRET` or Vercel credentials, and a repeat `npm run db:check` timed out on both Supabase pooler ports (6543 and 5432) before authentication. No provider pull or database write was performed by that earlier attempt. The deployment subsequently resolved the missing live endpoint; local database connectivity still needs restoration for local builds/seeding.
 
-Offline tests cover database-only reads on every public news path, provider failures retaining cards, independent provider recovery, storage failures, authorization, duplicate slots, schedule conversion, access expiry, changed access verdicts, fresh scheduled upstream replies and saved-result pagination. Live seeding and scheduled execution remain unverified until the deployment steps above are completed.
+Live seed after the user's deployment on 3 October 2026:
+
+- Unauthenticated `GET /api/ingest/news` returned HTTP 401. The authenticated request returned HTTP 200, `skipped: false`, `storedItems: 41` and `storage: ok`; completion was recorded at `2026-10-03T00:30:14.706Z`.
+- EIA returned 22 mapped articles and EEA returned 75. Of 97 total mapped articles, 62 passed connector relevance and 41 candidates passed the combined gate and anonymous access checks; those 41 official-source records were saved/updated. This count is not a count of fresh NewsData/GDELT stories or necessarily 41 new database rows.
+- NewsData still returned HTTP 401 for all four baskets; GDELT still returned HTTP 429. The aggregate response was successful because official providers succeeded, so HTTP 200 alone does not establish news-provider recovery.
+- A subsequent single credential-check request using the existing local NewsData key returned HTTP 200, `status: success` and 10 articles. The local key works for that request; Vercel may have a different value or restrictions. Sync/check the Production configuration before regenerating the key, then verify a new scheduled pull. This manual check did not seed articles or retry the job slot. See [NEWS-TROUBLESHOOTING.md](NEWS-TROUBLESHOOTING.md).
+- A subsequent homepage response returned HTTP 200, three `data-news-card` elements and two `data-market-card` elements. Its `mode: database` summary contained the completed job timestamp and EIA/EEA last-success timestamps. The homepage's existing NewsData/GDELT pool retained 21 eligible saved records, with 11 returned after selection; visits made zero article access checks. Existing saved news remains usable despite the new provider refusals.
+- All three automatic scheduled invocations, overlap behavior across live instances and renewed NewsData/GDELT pulls remain unverified. Fix the NewsData key, allow GDELT backoff to expire, and inspect the next scheduled job's safe diagnostics. Do not repeat this seed to bypass the slot or rate limits.
+
+Offline tests cover database-only reads on every public news path, provider failures retaining cards, independent provider recovery, storage failures, authorization, duplicate slots, schedule conversion, access expiry, changed access verdicts, fresh scheduled upstream replies and saved-result pagination. Live manual seeding and rejected unauthorized access are now verified; automatic scheduled execution remains unverified.
 
 The full offline suite passed: 451 tests across 53 files. TypeScript, ESLint for changed source files and `git diff --check` passed. Job-claim SQL is covered by offline assertions; real database concurrency remains part of deployment verification because this workspace could not reach Postgres.
 

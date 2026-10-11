@@ -1,6 +1,14 @@
 # Database connection refusal — 3 October 2026
 
-## Current blocker
+## Latest utility completion check — 11 October 2026
+
+The configured local connection passes authenticated reads. After the owner's installer run, `node scripts/questionnaire/apply-fields.mjs` confirms **6/6 columns present**. The agent later published the authorised four policy replacements as **version 2**, with a private backup and one transaction; no schema change was made. All four local production-build URLs return HTTP 200 with approval/version details and footer links. Real newsletter signup/unsubscribe acceptance and the production build pass, superseding the missing-column failures and historical timeout. Unique form fixtures were removed (zero remaining). Production deployment, news ingestion and scheduler health were not rechecked. See [section 1.3 evidence](SECTION-1-3-VERIFICATION.md).
+
+## Historical read-only check — questionnaire follow-up, 3 October 2026
+
+Both pooler TCP ports now answer. The configured Postgres connection still times out before an authenticated query succeeds. The original refusal below is historical; this is partial network recovery, not a restored CMS connection. No credentials, database content or schema were changed. Re-run `npm run db:check` and compare Supabase’s current Connect settings.
+
+## Earlier connection refusal
 
 The local `DATABASE_URI` points to Supabase's shared pooler at `aws-0-ap-southeast-2.pooler.supabase.com:6543`. TCP connections to both port `6543` and port `5432` returned `ECONNREFUSED` from this workspace. A direct Postgres client also received the refusal on both ports. The connection fails before password authentication; this does not establish whether the saved password is correct.
 

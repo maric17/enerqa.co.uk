@@ -4,6 +4,7 @@ import { DatasetExplorer } from '@/components/data/DatasetExplorer';
 import { Container } from '@/components/ui/Container';
 import { failureMessage } from '@/lib/api/core/types';
 import { readSelection, selectSeries } from '@/lib/data-portal/selection';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export async function generateMetadata({ params }: { params: Promise<{ dataset: string }> }) {
   const { dataset } = await params;
@@ -22,7 +23,7 @@ export default async function ConnectorDatasetPage({ params, searchParams }: {
   const selection = readSelection(query);
   const result = await DATASETS[dataset].handler(query);
   return <Container className="pt-36 pb-20 space-y-8">
-    <nav aria-label="Breadcrumb"><a href="/data-portal">Data Portal</a> / <a href="/data-portal/sources">Sources and Methodology</a> / {DATASETS[dataset].title}</nav>
+    <Breadcrumbs parents={[{ label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }, { label: 'Sources and Methodology', href: '/data-portal/sources' }]} current={DATASETS[dataset].title} />
     <h1 className="text-3xl font-bold">{DATASETS[dataset].title}</h1>
     {dataset === 'air-quality' && <form method="GET" className="flex flex-wrap gap-4">
       {/* Station selection is explicit; an arbitrary location is never presented as approved. */}

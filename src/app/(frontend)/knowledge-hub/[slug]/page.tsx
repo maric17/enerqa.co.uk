@@ -12,6 +12,7 @@ import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/re
 import { resolveMediaUrl } from '@/lib/utils';
 import { PublicationCover } from '@/components/publications/PublicationCover';
 import { publicationImage } from '@/components/publications/publicationImage';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
@@ -224,18 +225,11 @@ export default async function PublicationSinglePage({ params }: Props) {
         <PublicationCover image={publicationImage(post)} />
         
         <Container className="relative z-20 flex flex-col gap-4">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/knowledge-hub#publications" className="text-white/60 hover:text-white transition-colors no-underline">Knowledge Hub</Link> 
-            {topics.length > 0 && <span className="mx-1 text-white/60">/</span>}
-            {topics.map((cat, i: number) => (
-              <React.Fragment key={typeof cat === 'object' && cat !== null ? cat.id : String(cat)}>
-                <span className="text-white">{typeof cat === 'object' && cat !== null ? cat.title : String(cat)}</span>
-                {i < topics.length - 1 && <span className="mx-1 text-white/60">,</span>}
-              </React.Fragment>
-            ))}
-            <span className="mx-1 text-white/60">/</span>
-            <span className="text-white/40">{post.title}</span>
-          </div>
+          <Breadcrumbs
+            parents={[{ label: 'Home', href: '/' }, { label: 'Knowledge Hub', href: '/knowledge-hub' }]}
+            current={post.title}
+            className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2"
+          />
           
           <Typography variant="h1" className="text-white m-0 max-w-[900px]">
             {post.title}
@@ -312,7 +306,7 @@ export default async function PublicationSinglePage({ params }: Props) {
                   </Button>
                 )}
                 {post.originalUrl && (
-                  <Button href={post.originalUrl} variant="outline" className="gap-2 text-[var(--color-dark)]" target="_blank">
+                  <Button href={post.originalUrl} variant="secondary" className="gap-2" target="_blank">
                     Read Original Publication
                   </Button>
                 )}
@@ -354,7 +348,8 @@ export default async function PublicationSinglePage({ params }: Props) {
         <Container className="flex flex-col items-center gap-6">
            <h2 className="text-2xl font-bold text-[var(--color-dark)] m-0">Continue Exploring</h2>
            <div className="flex flex-wrap gap-4 justify-center">
-             <Button href="/knowledge-hub" variant="outline" className="text-[var(--color-dark)]">Explore the Knowledge Hub</Button>
+             {/* Navy text and border keep this button visible on the white section. */}
+             <Button href="/knowledge-hub" variant="secondary">Explore the Knowledge Hub</Button>
              <Button href="/contact?intent=project" variant="primary">Discuss Your Project</Button>
            </div>
         </Container>

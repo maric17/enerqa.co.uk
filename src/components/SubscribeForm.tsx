@@ -51,6 +51,7 @@ export default function SubscribeForm({
       id={`${id}-email`}
       type="email"
       name="email"
+      defaultValue={state.values?.email ?? ''}
       required
       autoComplete="email"
       placeholder="you@organisation.com"
@@ -76,7 +77,8 @@ export default function SubscribeForm({
   );
 
   return (
-    <form action={formAction} className={`w-full flex flex-col ${isInline ? 'gap-2' : 'gap-3'}`}>
+    // React resets action forms; rebuild from returned values so a rejected save preserves input.
+    <form key={JSON.stringify(state.values ?? {})} action={formAction} className={`w-full flex flex-col ${isInline ? 'gap-2' : 'gap-3'}`}>
       {/* Honeypot field (p. 228 spam protection). Hidden from people and screen
           readers. `.honeypot` clips it in place: the old `left: -9999px` made
           ~10,000px of sideways scroll whenever the page ran right-to-left. */}
@@ -96,6 +98,7 @@ export default function SubscribeForm({
           id={`${id}-consent`}
           type="checkbox"
           name="consent"
+          defaultChecked={state.values?.consent ?? false}
           required
           disabled={isPending}
           aria-invalid={Boolean(state.errors?.consent)}

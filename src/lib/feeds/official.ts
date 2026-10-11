@@ -1,19 +1,18 @@
-import { getProvider } from '@/lib/api/core/registry';
-import { storeRecords } from '@/lib/api/core/storage';
-import type { ProviderId } from '@/lib/api/core/types';
+import { providerEnabled } from '@/lib/api/core/registry';
 import { fetchOfficialNews, isNewsItemStale, type NewsItem } from '@/lib/api/news';
 import {
   fetchIssuerFilings,
   fetchResearchForThemes,
   isFutureDate,
   isOnTheme,
+  verifyForDisplay,
   type ResearchProvider,
   type TaggedResearchItem,
 } from '@/lib/api/research';
 import { isStale } from '@/lib/api/core/provenance';
 import { firstVerified } from '@/lib/api/core/accessCheck';
 import type { RegionKey } from '@/lib/api/news/geography';
-import type { DomainFeed, SpecialistFeed } from './contextual';
+import { SPECIALIST_PROVIDER, type DomainFeed, type SpecialistFeed } from './contextual';
 
 /**
  * CP / EP / NP / BP - the official-updates module on each domain page - and the
@@ -67,6 +66,8 @@ export type OfficialResult = {
   sources: string[];
   /** Nothing answered at all - show the unavailable state, not "no updates". */
   sourcesFailed: boolean;
+  /** Every configured source is disabled; no request was attempted. */
+  notEnabled: boolean;
   /** Oldest retrieval time among displayed items (p. 226: show their age). */
   retrievedAt: string | null;
   /** A displayed item is older than its provider's refresh interval (p. 227). */
@@ -191,14 +192,15 @@ async function secFilings(limit: number): Promise<FeedBatch> {
   // p. 217: a selected-issuer disclosure feed, "not general keyword ESG
   // search", so there is no theme filter to apply - the watchlist is the
   // selection. p. 59: "Identify issuer, form and filing date". The connector
-  // labels each filing "Corporate disclosure, Form ..." (p. 217); access is
-  // checked with the other candidates below.
+  // labels each filing "Corporate disclosure, Form ..." (p. 217).
   const result = await fetchIssuerFilings({ perIssuer: 1 });
   if (!result.ok) return { items: [], failed: result.reason === 'unavailable' || result.reason === 'rate_limited' };
-  const items = result.data
-    .filter((item) => !isFutureDate(item.publishedAt))
-    .slice(0, limit * 2)
-    .map((item) => fromResearch({ ...item, regions: [] }, 'sec_edgar'));
+  // Store the original filing and its access evidence before making a card.
+  const verified = await verifyForDisplay(
+    result.data.filter((item) => !isFutureDate(item.publishedAt)).slice(0, limit * 2),
+    limit,
+  );
+  const items = verified.map((item) => fromResearch({ ...item, regions: [] }, 'sec_edgar'));
   return { items, failed: false };
 }
 
@@ -240,7 +242,9 @@ export async function fetchSpecialistUpdates(options: {
   limit?: number;
 }): Promise<OfficialResult> {
   const { feeds, themes, limit = 3 } = options;
-  const batches = await Promise.all(feeds.map((feed) => fetchFeed(feed, themes, limit)));
+  // A paused feed must not mask an outage in the sources that were attempted.
+  const enabled = feeds.filter((feed) => providerEnabled(SPECIALIST_PROVIDER[feed]));
+  const batches = await Promise.all(enabled.map((feed) => fetchFeed(feed, themes, limit)));
 
   // pp. 209, 227: only destinations that pass the anonymous check publish.
   // The interleaved order is walked until `limit` have passed, so the check
@@ -250,20 +254,17 @@ export async function fetchSpecialistUpdates(options: {
   const shown = passed
     .map(({ item, verdict }) => ({ ...item, verifiedOpen: true, accessCheckedAt: verdict.checkedAt }))
     .sort(byNewest);
-  const stored = await storeRecords(passed.map(({ item, verdict }) => {
-    const provider = (item.feed === 'sec_edgar' ? 'sec-edgar' : item.feed === 'gbif_literature' ? 'gbif-literature' : item.feed) as ProviderId;
-    const rights = getProvider(provider);
-    return { provider, sourceId: item.id, destination: item.url, accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt,
-      retrievedAt: item.retrievedAt, record: { ...item, accessEvidence: verdict.evidence, licence: rights.licence, licenceUrl: rights.licenceUrl, attribution: rights.attribution } };
-  }));
+  // Each source already stored its original verified record. Saving this card
+  // projection would overwrite fields needed by the saved-news reader.
   const times = shown.map((i) => i.retrievedAt).sort();
 
   return {
-    items: stored ? shown : [],
+    items: shown,
     // Credit only the sources that actually made it into the displayed items.
     sources: [...new Set(shown.map((i) => i.sourceLabel))],
     // p. 226: "unavailable" only when every feed was asked and failed.
-    sourcesFailed: !stored || (batches.length > 0 && batches.every((b) => b.failed)),
+    sourcesFailed: batches.length > 0 && batches.every((b) => b.failed),
+    notEnabled: feeds.length > 0 && enabled.length === 0,
     retrievedAt: times[0] ?? null,
     stale: shown.some((i) => i.stale),
   };

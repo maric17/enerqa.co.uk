@@ -909,6 +909,17 @@ export interface Enquiry {
   projectLocation?: string | null;
   currentStage?: string | null;
   source?: string | null;
+  /**
+   * Record the actual last substantive contact. Enquiries expire two years after this date, or after submission if empty.
+   */
+  lastSubstantiveContactAt?: string | null;
+  /**
+   * Document a legally necessary exception or transfer to client records. A hold must also have a review/expiry date.
+   */
+  retentionHoldReason?: string | null;
+  retentionHoldUntil?: string | null;
+  notificationSentAt?: string | null;
+  newsletterSyncedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -935,6 +946,10 @@ export interface Policy {
    * Shown on the page as "Last updated".
    */
   approvedOn?: string | null;
+  /**
+   * Version of the exact approved text. Use the actual approval date, not the draft date.
+   */
+  policyVersion?: string | null;
   content: {
     root: {
       type: string;
@@ -1421,6 +1436,11 @@ export interface EnquiriesSelect<T extends boolean = true> {
   projectLocation?: T;
   currentStage?: T;
   source?: T;
+  lastSubstantiveContactAt?: T;
+  retentionHoldReason?: T;
+  retentionHoldUntil?: T;
+  notificationSentAt?: T;
+  newsletterSyncedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1434,6 +1454,7 @@ export interface PoliciesSelect<T extends boolean = true> {
   approved?: T;
   approvedBy?: T;
   approvedOn?: T;
+  policyVersion?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

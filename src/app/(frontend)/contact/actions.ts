@@ -15,6 +15,7 @@ import {
 import { loadContactChoices } from '@/lib/forms/contactChoices'
 import { allowSubmission, enquiryLimiter } from '@/lib/forms/limits'
 import { getClientKey } from '@/lib/forms/clientKey'
+import { deliverPendingEnquiry, saveNewsletterSubscription } from '@/lib/forms/lifecycle'
 
 /**
  * Contact enquiry (p. 198 F02-F04, p. 228 form handling).
@@ -22,8 +23,8 @@ import { getClientKey } from '@/lib/forms/clientKey'
  * Every non-success reply carries the submitted `values`: React 19 resets a
  * form after its action runs, and p. 198 says to "preserve input on
  * recoverable errors". The success wording is p. 198's own and is true of what
- * happens - the enquiry is saved in the CMS for staff. No email is sent (there
- * is no email adapter), so nothing here claims one was.
+ * happens - the enquiry is saved in the CMS for staff. Notifications can be
+ * queued until SendPulse is configured; success does not promise email delivery.
  */
 export async function submitContactForm(prevState: ContactFormState, formData: FormData): Promise<ContactFormState> {
   const attempt = prevState.attempt + 1
@@ -55,7 +56,7 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
     }
 
     const { firstName, lastName } = splitName(data.name)
-    await payload.create({
+    const enquiry = await payload.create({
       collection: 'enquiries',
       data: {
         firstName,
@@ -75,8 +76,16 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
         source: 'Contact Page',
       },
     })
-  } catch (error) {
-    console.error('Failed to save contact enquiry:', error)
+    await deliverPendingEnquiry(payload, enquiry)
+    if (data.newsletterConsent) {
+      // Q3: only an explicit opt-in creates a separate newsletter record.
+      try { await saveNewsletterSubscription(payload, data.email) }
+      catch {
+        return { status: 'success', attempt, values: EMPTY_CONTACT_VALUES, newsletterWarning: 'Your enquiry is saved, but we could not save your newsletter subscription. Please use the newsletter form to try again.' }
+      }
+    }
+  } catch {
+    console.error('Failed to save contact enquiry.')
     return { status: 'error', attempt, values }
   }
 

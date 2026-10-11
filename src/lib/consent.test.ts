@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { CONSENT_KEY, embedsAllowed, saveConsent } from './consent'
+import { CONSENT_KEY, embedsAllowed, analyticsAllowed, saveConsent } from './consent'
 
 beforeEach(() => {
   localStorage.clear()
@@ -30,5 +30,16 @@ describe('consent storage (p. 208 U03)', () => {
       throw new Error('blocked')
     })
     expect(embedsAllowed()).toBe(false)
+  })
+
+  it('keeps analytics separate from old embed consent and preserves each choice', () => {
+    saveConsent({ embeds: true })
+    expect(analyticsAllowed()).toBe(false)
+    saveConsent({ analytics: true })
+    expect(embedsAllowed()).toBe(true)
+    saveConsent({ embeds: false })
+    expect(analyticsAllowed()).toBe(true)
+    saveConsent({ analytics: false })
+    expect(analyticsAllowed()).toBe(false)
   })
 })

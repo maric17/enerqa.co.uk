@@ -1,5 +1,8 @@
 export const AI_SEARCH_CONFIG = {
-  version: 'part12-2026-10-01',
+  version: 'questionnaire-2026-10-03',
+  // Q22 approves $50. These targets are configuration, not a working cost ledger.
+  monthlyBudgetUsd: 50,
+  budgetThresholds: { warn: [0.5, 0.8], restrict: 0.9, stop: 1 },
   answerModel: 'gpt-5.6-terra',
   // Separate from the provider flag: do not enable until the Phase 0 approvals
   // AND the distributed budget/session controls in AI-SEARCH-TASKS.md are complete.

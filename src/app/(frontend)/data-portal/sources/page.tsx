@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { Metadata } from 'next';
 import { enabledProviders } from '@/lib/api/core/registry';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Sources and Methodology',
@@ -50,11 +51,11 @@ export default async function DataPortalSourcesPage() {
       <section className="bg-[var(--color-dark)] text-white pt-32 pb-24">
         <Container>
           <div className="max-w-4xl mx-auto flex flex-col gap-6">
-            <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-              <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link> / 
-              <Link href="/data-portal" className="hover:text-white transition-colors no-underline mx-1">Data Portal</Link> / 
-              <span className="text-white ml-1">Sources and Methodology</span>
-            </div>
+            <Breadcrumbs
+              parents={[{ label: 'Home', href: '/' }, { label: 'Data Portal', href: '/data-portal' }]}
+              current="Sources and Methodology"
+              className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2"
+            />
             <Typography variant="h1" className="text-white m-0">
               Sources and Methodology
             </Typography>
