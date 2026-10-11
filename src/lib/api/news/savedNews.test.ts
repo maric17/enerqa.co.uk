@@ -23,7 +23,7 @@ import { fetchEiaNews } from './eiaRss';
 import { fetchEeaNews } from './eeaRss';
 import { storeRecords } from '../core/storage';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
-import { fetchNews, fetchNewsForKeywords, fetchOfficialNews, refreshScheduledNews, searchNews } from './index';
+import { fetchNews, fetchNewsForKeywords, fetchOfficialNews, PAGE_NEWS_PROVIDERS, refreshScheduledNews, searchNews } from './index';
 import { createNewsDiagnostics } from './diagnostics';
 import { NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
 import { DOMAIN_FEEDS, newsPhrases } from '../../feeds/contextual';
@@ -61,6 +61,39 @@ describe('database-backed news reads', () => {
     expect((await searchNews('electricity', 'all')).items).toHaveLength(2);
     expect((await fetchOfficialNews('eia_rss', 'energy')).items).toHaveLength(1);
     for (const call of [fetchNewsdataBasket, fetchNewsdataQuery, fetchGdeltNews, fetchEiaNews, fetchEeaNews, destinationCheck, storeRecords]) expect(call).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['energy-systems-transition', 'Solar traffic controller wins design award'],
+    ['environment-nature-circularity', 'Air pollution falls as waste recycling improves'],
+    ['sustainable-business-esg-finance', 'Company wins sustainability award'],
+    ['climate-action-carbon-management', 'Emissions rules challenged in court'],
+  ])('selects relevant saved vocabulary on %s without a new provider request', async (slug, title) => {
+    const saved = { ...article('related'), title, matchedQueries: [] };
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [saved], state: {}, available: true });
+    const feed = DOMAIN_FEEDS[slug];
+    expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toEqual([
+      expect.objectContaining({ id: saved.id, title }),
+    ]);
+    expect(fetchNewsdataBasket).not.toHaveBeenCalled();
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
+  });
+
+  it('keeps unrelated headlines, unknown access and official commentary out of domain news', async () => {
+    const unrelated = { ...article('actor'), title: 'Actor talks about feeling powerless', summary: 'A passing mention of solar and electricity.' };
+    const unknown = { ...article('unknown'), title: 'Solar power output rises', accessStatus: 'unknown' as const };
+    const official = { ...article('official', 'eia_rss'), title: 'Solar power output rises' };
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [unrelated, unknown, official], state: {}, available: true });
+    const feed = DOMAIN_FEEDS['energy-systems-transition'];
+    expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toHaveLength(0);
+  });
+
+  it('keeps the newest publisher story even when older metadata comes from a richer provider', async () => {
+    const old = { ...article('old'), publishedAt: new Date(Date.now() - 3 * 86400000).toISOString() };
+    const newest = { ...article('newest'), provider: 'gdelt' as const };
+    vi.mocked(readNewsStore).mockResolvedValue({ items: [old, newest], state: {}, available: true });
+    const result = await fetchNews('all', 80, { providers: PAGE_NEWS_PROVIDERS, maxPerPublisher: 1 });
+    expect(result.items.map(item => item.id)).toEqual([newest.id]);
   });
 
   it('keeps saved cards and filters usable after the last provider refresh failed', async () => {
@@ -115,6 +148,21 @@ describe('scheduled news refresh', () => {
   it('skips a duplicate scheduled run before contacting any provider', async () => {
     vi.mocked(claimNewsRefresh).mockResolvedValue(null);
     expect((await refreshScheduledNews()).skipped).toBe(true);
+    expect(fetchNewsdataBasket).not.toHaveBeenCalled();
+    expect(fetchNewsdataQuery).not.toHaveBeenCalled();
+  });
+
+  it('uses the same fresh provider pipeline for a manual pull and skips when its lease is unavailable', async () => {
+    const result = await refreshScheduledNews(undefined, { manual: true });
+    expect(result.skipped).toBe(false);
+    expect(claimNewsRefresh).toHaveBeenCalledWith({ manual: true });
+    expect(fetchNewsdataBasket).toHaveBeenCalledTimes(4);
+    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(12);
+    expect(fetchNewsdataBasket).toHaveBeenCalledWith('climate', true);
+    vi.mocked(fetchNewsdataBasket).mockClear();
+    vi.mocked(fetchNewsdataQuery).mockClear();
+    vi.mocked(claimNewsRefresh).mockResolvedValue(null);
+    expect((await refreshScheduledNews(undefined, { manual: true })).skipped).toBe(true);
     expect(fetchNewsdataBasket).not.toHaveBeenCalled();
     expect(fetchNewsdataQuery).not.toHaveBeenCalled();
   });

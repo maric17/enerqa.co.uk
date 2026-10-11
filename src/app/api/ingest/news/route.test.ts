@@ -35,6 +35,14 @@ it('treats a duplicate slot as a successful skip without refreshing caches', asy
   expect(revalidateTag).not.toHaveBeenCalled();
 });
 
+it('keeps the scheduled guard even if the request asks for a manual pull', async () => {
+  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: true, storedItems: 0, sourcesFailed: false });
+  await GET(new Request('https://example.org/api/ingest/news?manual=true', {
+    headers: { authorization: 'Bearer fixture-secret' },
+  }));
+  expect(refreshScheduledNews).toHaveBeenCalledWith();
+});
+
 it('reports failed storage or providers without exposing native errors', async () => {
   vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 0, sourcesFailed: true, diagnostics: createNewsDiagnostics('all') });
   expect((await GET(request())).status).toBe(503);

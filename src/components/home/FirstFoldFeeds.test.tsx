@@ -46,6 +46,8 @@ function eiaItem(id: string, title: string): NewsItem {
     ...item(id, title), id: url, url, domain: 'eia.gov',
     publisher: 'U.S. Energy Information Administration',
     provider: 'eia_rss', providerLabel: 'U.S. EIA',
+    // Give fixtures a stable ordering: ordinary news is newer unless a test says otherwise.
+    publishedAt: new Date(Date.now() - 2 * 3_600_000).toISOString(),
   };
 }
 
@@ -123,7 +125,7 @@ describe('homepage news and markets', () => {
     expect(screen.queryByText(/External news sources are unavailable right now/)).not.toBeInTheDocument();
   });
 
-  it('keeps news commentary first and uses EIA to fill the remaining slot', async () => {
+  it('keeps newer news commentary first when combining it with EIA', async () => {
     vi.mocked(fetchNews)
       .mockResolvedValueOnce(result([
         item('climate', 'Climate adaptation plan agreed'),
@@ -142,16 +144,40 @@ describe('homepage news and markets', () => {
     ]);
   });
 
-  it('skips the fallback feed when the news pool already fills Markets', async () => {
-    vi.mocked(fetchNews).mockResolvedValueOnce(result([
-      item('climate', 'Climate adaptation plan agreed'),
-      item('nature', 'Forest biodiversity loss slows'),
-      item('market', 'Green bond investment grows'),
-      item('prices', 'Energy prices climb'),
-    ]));
+  it('compares saved commentary even when news fills Markets, keeping news when it is newer', async () => {
+    vi.mocked(fetchNews)
+      .mockResolvedValueOnce(result([
+        item('climate', 'Climate adaptation plan agreed'),
+        item('nature', 'Forest biodiversity loss slows'),
+        item('market', 'Green bond investment grows'),
+        item('prices', 'Energy prices climb'),
+      ]))
+      .mockResolvedValueOnce(result([eiaItem('old', 'Natural gas prices fall')], false, true));
     render(await FeedsBody());
 
-    expect(fetchNews).toHaveBeenCalledTimes(1);
+    expect(fetchNews).toHaveBeenCalledTimes(2);
     expect(screen.queryByText('EIA commentary focuses on U.S. energy markets.')).not.toBeInTheDocument();
+  });
+
+  it('replaces two older market news stories with newer saved EIA commentary', async () => {
+    const old = (id: string, title: string) => ({ ...item(id, title), publishedAt: new Date(Date.now() - 5 * 86400000).toISOString() });
+    vi.mocked(fetchNews)
+      .mockResolvedValueOnce(result([
+        item('climate', 'Climate adaptation plan agreed'),
+        item('nature', 'Forest biodiversity loss slows'),
+        old('market', 'Green bond investment grows'),
+        old('prices', 'Energy prices climb'),
+      ]))
+      .mockResolvedValueOnce(result([
+        eiaItem('new-1', 'Natural gas prices fall'),
+        eiaItem('new-2', 'What goes into diesel prices?'),
+      ], false, true));
+    render(await FeedsBody());
+
+    const markets = screen.getByRole('region', { name: 'Major Markets' });
+    expect(within(markets).getAllByRole('heading', { level: 3 }).map(h => h.textContent)).toEqual([
+      'Natural gas prices fall', 'What goes into diesel prices?',
+    ]);
+    expect(within(markets).queryByText('Green bond investment grows')).not.toBeInTheDocument();
   });
 });

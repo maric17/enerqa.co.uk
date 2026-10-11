@@ -27,8 +27,8 @@ import {
  *
  * Sources (p. 13): "Use NewsData.io's delayed free feed and additional legacy
  * GDELT coverage", and H04 "uses eligible items from the same free news pool".
- * Global News reads saved PAGE_NEWS_PROVIDERS articles. Major Markets also uses
- * verified U.S. EIA market commentary when that shared news pool is thin.
+ * Global News reads saved PAGE_NEWS_PROVIDERS articles. Major Markets compares
+ * their publication dates with verified U.S. EIA market commentary.
  * EIA cannot consume Global News slots or mask a news-provider outage.
  *
  * Streaming (p. 226 "Loading reserves the card/chart dimensions"): the provider
@@ -180,27 +180,22 @@ function Attribution({ shown, sourcesFailed }: { shown: NewsItem[]; sourcesFaile
 export async function FeedsBody() {
   // Reuse all four topic feeds: energy prices and carbon-market articles can
   // arrive outside the narrow finance query. One pool also avoids a second GDELT call.
-  const pool = await fetchNews('all', 80, {
-    maxPerPublisher: 10,
-    providers: PAGE_NEWS_PROVIDERS,
-  });
-
-  const views = buildNewsViews(pool.items);
-  let marketItems = buildMarketView(pool.items, views.all, MARKET_ITEMS);
-  let marketSourcesFailed = pool.sourcesFailed;
-  if (marketItems.length < MARKET_ITEMS) {
-    // Reuse EIA's cached, keyless feed and the existing article-access checks.
-    // Fetch only market-relevant commentary, keeping news stories first.
-    const commentary = await fetchNews('business', MARKET_ITEMS, {
+  // Both reads use the same saved database cache; neither contacts a provider.
+  // Always compare commentary so a full set of old news cannot hide newer reports.
+  const [pool, commentary] = await Promise.all([
+    fetchNews('all', 80, { maxPerPublisher: 10, providers: PAGE_NEWS_PROVIDERS }),
+    fetchNews('business', MARKET_ITEMS, {
       providers: ['eia_rss'],
       maxPerPublisher: 10,
-    });
-    marketItems = buildMarketView([...marketItems, ...commentary.items], views.all, MARKET_ITEMS);
-    marketSourcesFailed = sourcesFailedFor(
-      { providerStatus: { ...pool.providerStatus, ...commentary.providerStatus } },
-      [...PAGE_NEWS_PROVIDERS, 'eia_rss'],
-    );
-  }
+    }),
+  ]);
+
+  const views = buildNewsViews(pool.items);
+  const marketItems = buildMarketView([...pool.items, ...commentary.items], views.all, MARKET_ITEMS);
+  const marketSourcesFailed = sourcesFailedFor(
+    { providerStatus: { ...pool.providerStatus, ...commentary.providerStatus } },
+    [...PAGE_NEWS_PROVIDERS, 'eia_rss'],
+  );
 
   // Everything that can appear in the band, for the attribution line.
   const shown = [...new Map([...Object.values(views).flat(), ...marketItems].map((i) => [i.id, i])).values()];

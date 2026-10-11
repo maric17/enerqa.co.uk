@@ -34,7 +34,54 @@ Remaining actions:
 - [x] Add the domain query groups to scheduled ingestion and preserve query provenance through duplicate removal; verify tests, types and lint locally.
 - [ ] Deploy the corrected scheduler through the usual project release process. Ensure the deployment uses the updated Vercel key; no key regeneration is required for the successful local value.
 - [ ] Check GDELT recovery during the next scheduled attempt. Retain its spacing and backoff rules; a connection timeout is different from database tracking or an upstream 429.
-- [ ] At the next allowed job slot, verify per-provider results, saved eligible domain matches and visible cards on all three pages. Do not force another full ingestion run to bypass the current slot guard.
+- [x] Verify positive eligible domain matches and visible cards on all three pages after the selection fix below. The initial manual pull alone returned zero cards.
+
+## Explicit manual pull: 11 October, 12:44 PM Manila
+
+The user subsequently requested a manual news pull before the next scheduled slot. Added the local operator command `npx tsx scripts/pull-news.ts --manual` and ran it once. It permits an explicitly requested pull in an already used slot while keeping the shared lease, provider budgets, spacing, backoff and access checks. The authenticated HTTP endpoint continues to enforce scheduled slots; `?manual=true` cannot enable this operator mode.
+
+The manual job completed at **2026-10-11T04:44:49.791Z / 12:44:49 PM Manila**, with `skipped: false`, **76 saved/updated approved records** and `storage: ok`. This total includes previous eligible records, rather than 76 newly published news stories. All **16 NewsData calls succeeded**, producing 38 mapped results before duplicates and relevance/access checks. EIA returned 15 mapped records and EEA returned 75; total mapped results were 128. The job considered 84 candidates and approved 76; one was gated and seven had unknown access.
+
+GDELT failed with `request_accounting_unavailable` before fetching upstream. Its previously saved eligible articles were retained. The aggregate `sourcesFailed: false` means at least one provider succeeded; it does not indicate that GDELT recovered. Its last successful poll remains 10 October at 06:29 UTC.
+
+Read-only verification confirms the job state and storage are reachable. The saved eligible pool now contains 14 NewsData records and 53 GDELT records, with 65 surviving combined display gates. Nevertheless, the Energy, Environment and Business domain selections each still return **zero cards**. None of the eligible saved stories matches those pages' narrow phrases or their saved domain-query provenance. All domain query calls answered successfully, including genuinely empty replies. The solar-apartment technology story in the saved pool illustrates a coverage gap: its headline/teaser is relevant to energy, but does not contain the current exact energy phrases. Provider recovery and ingestion are verified; domain coverage remains unresolved and requires a reviewed matching/query adjustment, retaining the existing source, date and access checks.
+
+Rendered verification: the local homepage and all three domain pages returned HTTP 200. The homepage rendered **three news cards**, with diagnostics containing the completed manual job timestamp. Each domain Latest News section still rendered its empty state with zero cards, matching the database selections above.
+
+Validation of the manual option: **28 tests in 3 files**, TypeScript, changed-source/script ESLint and `git diff --check` pass. Tests cover normal scheduled claims, manual lease enforcement, fresh domain/topic calls, unavailable leases and the HTTP endpoint retaining its guard. No schema migration or code deployment was performed.
+
+- [x] Run the explicitly authorized manual pull and verify saved records and per-provider outcomes.
+- [x] Improve domain coverage with reviewed relevance rules; verify real rendered cards on all three pages. See the subsequent selection fix below.
+- [ ] Diagnose GDELT request-tracking failures without removing shared accounting or rate limits.
+- [ ] Deploy scheduler coverage changes and verify automatic runs with the deployed key.
+
+## Domain matching and Major Markets selection fix: 11 October
+
+The user reported that Energy was still empty and Major Markets still showed older content after the manual pull. A fresh read confirmed that relevant solar/fuel stories were already saved, but the Energy page's exact phrases did not select them. It also confirmed newer eligible market records dated 8 October (Guardian fuel prices) and 7 October (EIA winter energy expenditures).
+
+Two ordering problems affected Major Markets. The shared pool applied publisher limits while records were ordered by provider preference, before sorting by publication date. Older NewsData stories could therefore exclude newer GDELT stories from the same publisher. The homepage also appended EIA commentary after already selected news, preserving an older news story first, and skipped EIA entirely when two news cards were present.
+
+Implemented fixes:
+
+- Domain selection recognizes reviewed related terms alongside the original query phrases. Energy includes solar, electricity, batteries, hydrogen, fuel and related energy terms. The other three domains receive appropriate climate, environmental and sustainable-business vocabulary. Original provider query groups remain unchanged, so this selection change spends no additional credits.
+- Duplicate copies still prefer richer licensed metadata and retain query provenance. The surviving articles are sorted by original publication date before applying publisher limits, on ingestion and public reads.
+- Major Markets always compares saved NewsData/GDELT candidates with saved EIA commentary and selects the newest publications, excluding stories already in the default Global News view. Both reads use the shared saved-news cache. Source, topic, publication-date and access checks remain active; EIA remains separately attributed and cannot supply Global News cards.
+
+Local rendered verification returned HTTP 200 for all four domain pages and the homepage:
+
+| Section | Visible cards | Verified result |
+| --- | --- | --- |
+| Energy Latest News | 3 | Fuel stories dated 10/9 October and the solar technology story dated 9 October |
+| Environment Latest News | 3 | Local-food environmental impact and forest-restoration/management stories |
+| Sustainable Business Latest News | 2 | Solar sustainability award and sustainability funding commentary |
+| Climate Latest News | 3 | Climate policy, food-related emissions and the UN climate report |
+| Homepage Major Markets | 2 | Guardian fuel-pricing story, **8 October**; EIA winter energy expenditures, **7 October**, in that order |
+
+The page output matches native saved-record selections. Public reads perform zero article-access checks. No additional ingestion or provider probe was run for this selection fix; it uses the records already saved by the authorized manual pull. Publication dates are preserved, rather than changed to today's date.
+
+Validation: **154 tests across 12 files**, TypeScript, changed-source ESLint and `git diff --check` pass. Regression tests cover domain vocabulary without provider calls, exclusion of unrelated/unknown-access/official news candidates, recent GDELT surviving a publisher cap, publication ordering across providers, and recent EIA replacing two older market stories. The existing no-duplicate-Global-News, outage, attribution and source-gate tests still pass.
+
+The localhost issues are resolved. Deploy these changes to apply the selection fix to Vercel; automatic scheduling and GDELT request-tracking recovery remain separate outstanding checks.
 
 News now reads approved saved articles from the database. The new authenticated `/api/ingest/news` job pulls providers three times daily, at 6 AM, 2 PM and 10 PM Manila time. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the UTC configuration, saved-article rules and deployment blockers. Browsing no longer triggers news-provider calls.
 

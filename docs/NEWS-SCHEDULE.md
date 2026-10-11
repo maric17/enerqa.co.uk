@@ -1,6 +1,6 @@
 # Saved news and three daily pulls
 
-Implemented on 3 October 2026. News readers use approved records from the existing private `enerqa_connectors.external_records` table. Only authenticated `GET /api/ingest/news` performs news-provider pulls. This change creates no tables and requires no database migration.
+Implemented on 3 October 2026. News readers use approved records from the existing private `enerqa_connectors.external_records` table. Authenticated `GET /api/ingest/news` performs scheduled news-provider pulls; an explicit local operator command can perform a manual pull. This change creates no tables and requires no database migration.
 
 ## Schedule
 
@@ -14,19 +14,28 @@ Implemented on 3 October 2026. News readers use approved records from the existi
 
 As of the 11 October local coverage fix, each job fetches four NewsData topic baskets and twelve unique domain query groups once, GDELT's shared `all` query once, EIA RSS once and the three EEA RSS channels once. The NewsData baseline becomes **16 calls per pull / 48 per day**, within the unchanged shared limits of 25 requests per 15 minutes and 150 per day. GDELT remains three calls, EIA three feed calls and EEA nine feed calls per day. Existing shared budgets, provider disable checks, request spacing and backoff remain active. The job awaits fresh replies rather than receiving an old reply while a cache refresh runs in the background.
 
-Home, domain pages, industry pages, Global Intelligence news, news search and official EIA/EEA news reads use saved records. All domain and industry page-basket configurations select saved content without extra NewsData queries during browsing. The scheduler now requests the twelve domain groups to address missing domain coverage; industry groups still select from the same saved pool. When a URL is returned by several topic/domain queries, its saved record retains every matching query so a domain can recognize that provenance even when its exact phrase is absent from the headline/teaser. This local change requires code deployment before the live cron job can use it.
+Home, domain pages, industry pages, Global Intelligence news, news search and official EIA/EEA news reads use saved records. All domain and industry page-basket configurations select saved content without extra NewsData queries during browsing. Domains also use reviewed related terms, such as solar and diesel for Energy or pollution and forests for Environment, so relevant saved stories do not need to repeat a narrow query phrase. Industry selections retain their configured phrases. The scheduler requests the twelve domain groups to address missing domain coverage. When a URL is returned by several topic/domain queries, its saved record retains every matching query so a domain can recognize that provenance even when its exact phrase is absent from the headline/teaser. These local changes require code deployment before the live site can use them.
 
 ## Failure and freshness rules
 
 - A provider failure never clears previously saved articles. Healthy providers continue independently.
 - Articles retain original publication and retrieval times. The last successful provider poll is stored separately and displayed as the feed refresh time.
 - Repeated articles update existing provider/source records. Display deduplication uses the canonical article URL and prefers richer provider metadata.
+- Publisher limits apply after deduplication and sorting by publication date. Older NewsData metadata therefore cannot consume publisher slots before newer GDELT stories. Major Markets compares eligible saved news with saved EIA commentary on every render and picks the newest publications, excluding the default Global News cards. It does not prefer older news over newer commentary because of provider order or because two news slots were already filled.
 - A shared database control record claims one eight-hour schedule slot atomically. Duplicate calls in that slot skip provider work, including duplicate calls from another deployment sharing the database. A ten-minute lease also prevents overlapping runs. The route has a five-minute execution limit.
 - Each provider verifies at most 80 approved articles per run, considering new results and previous saved candidates. Unverified destinations are withheld. Page visits never run those article checks.
 - Existing publication-date rules still reject articles over 60 days old. Access evidence expires after seven days. Newer refused access evidence excludes a previously approved destination immediately on a fresh database read; the shared read cache can delay that change by up to its normal 60-second refresh interval.
 - Saved database reads share a 60-second cache. Failed database reads are not cached as healthy empty feeds; an existing cached result can remain available. Publication and access expiry checks are applied again when selecting cards.
 - Provider failures and missed successful polls produce stale notices. A successful empty provider reply records a healthy poll, adds no articles and preserves still-eligible saved records.
-- A failed run consumes its slot. There are no unlimited or automatic same-slot retries. After fixing configuration, the next scheduled slot can try again. Authenticated manual seed requests use the same guard and budgets.
+- A failed scheduled run consumes its slot. There are no automatic same-slot retries. After fixing configuration, the next scheduled slot can try again. Authenticated endpoint requests always use this guard, including requests containing `?manual=true`.
+
+## Explicit manual pull
+
+When an operator requests fresh news before the next scheduled slot, run `npx tsx scripts/pull-news.ts --manual` from the repository. It loads the local server environment and writes approved news to the configured shared database. A working `DATABASE_URI` and provider configuration are required; the local command does not need `CRON_SECRET` because it is not an HTTP endpoint.
+
+The manual option allows one requested pull in an already used slot. It still acquires the same ten-minute lease, so an active run prevents overlap. It uses the same fresh topic/domain requests, shared daily and rolling request limits, spacing, backoff, relevance rules and anonymous-access checks. The job records its `trigger` as `manual`, retains existing articles and reports provider failures separately from storage success. Manual runs spend additional provider credits; do not run the command repeatedly to address an upstream refusal or quota limit.
+
+After completion, verify positive saved domain matches and rendered cards. The shared read cache can take its normal 60-second refresh interval plus a background refresh to show changed records. Running the command locally does not deploy scheduler code or establish that the deployed provider key works.
 
 ## Deployment setup and remaining checks
 

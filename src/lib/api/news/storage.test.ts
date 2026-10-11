@@ -71,6 +71,21 @@ describe('shared scheduled-job guard', () => {
     expect(sql).toContain("< (EXCLUDED.record->>'slot')::timestamptz");
     expect(sql).toContain('leaseUntil');
     expect(JSON.parse(parameters[2]).token).toBe(claim?.token);
+    expect(parameters[3]).toBe(false);
+    expect(JSON.parse(parameters[2]).trigger).toBe('scheduled');
+  });
+
+  it('allows an explicit manual pull in a used slot while still requiring an expired lease', async () => {
+    mocks.query.mockResolvedValue({ rows: [{ record: {} }] });
+    expect(await claimNewsRefresh({ manual: true })).not.toBeNull();
+    const [sql, parameters] = mocks.query.mock.calls[0];
+    // The manual exception is inside the slot condition; the lease applies to both modes.
+    expect(sql).toContain('WHERE ($4::boolean OR (');
+    expect(sql).toContain("::timestamptz))\n        AND COALESCE((previous.record->>'leaseUntil')");
+    expect(parameters[3]).toBe(true);
+    expect(JSON.parse(parameters[2]).trigger).toBe('manual');
+    mocks.query.mockResolvedValue({ rows: [] });
+    expect(await claimNewsRefresh({ manual: true })).toBeNull();
   });
 
   it('returns no claim when the database rejects a duplicate slot', async () => {
