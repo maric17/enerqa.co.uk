@@ -6,6 +6,8 @@ import type { DataPortalSourcesConfig, Dataset } from '@/payload-types';
 const cms = vi.hoisted(() => ({ getPayload: vi.fn(), findGlobal: vi.fn(), find: vi.fn() }));
 vi.mock('payload', () => ({ getPayload: cms.getPayload }));
 vi.mock('@payload-config', () => ({ default: {} }));
+// Next supplies the request boundary at runtime; page unit tests do not have a request.
+vi.mock('next/server', () => ({ connection: async () => {} }));
 
 import DataPortalSourcesPage from './page';
 

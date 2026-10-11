@@ -5,6 +5,7 @@ import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import Link from 'next/link';
+import { connection } from 'next/server';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { Metadata } from 'next';
 import { enabledProviders } from '@/lib/api/core/registry';
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/data-portal/sources' },
 };
 export default async function DataPortalSourcesPage() {
+  // Retry CMS reads on each visit so an outage fallback cannot stay cached after recovery.
+  await connection();
   let config: Partial<DataPortalSourcesConfig> = {};
   let datasets: Dataset[] = [];
   let contentUnavailable = false;
