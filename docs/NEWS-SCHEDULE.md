@@ -28,22 +28,27 @@ Every slot still updates the shared store used by every news panel. This rotatio
 
 As of 11 October, Global Intelligence first reads saved news, research, official reports and disclosures from the same private table. Loading or reloading a filtered URL does not contact providers. Domains and industries come from Payload collections; topic, content type, date and geography choices come from site settings. The source filter lists enabled providers even when a provider has no saved records. Languages combine common language codes with saved metadata.
 
-Changing a filter or keyword uses `GET /api/intelligence/search` after 500 ms without another edit. Search and Apply run immediately. The server requests relevant enabled providers, checks every result against the complete filter selection, and saves verified original metadata. Fresh discoveries are combined with saved verified records. NewsData and keyword research use bounded targeted searches; EIA/EEA refresh their RSS channels, and SEC refreshes submissions from its existing issuer watchlist, then those results are filtered locally. These providers do not all offer the same native facets. Unsupported constraints are enforced after retrieval. Results are limited to fetched candidates plus the saved collection; pagination is local, not an exhaustive traversal of each provider’s entire archive.
+Changing a filter or keyword only edits the pending selection. Click Search or Apply filters (or submit the form with Enter) to apply that selection and request `GET /api/intelligence/search` immediately. Cards, result counts, applied-filter chips, the URL and pagination keep the last submitted selection until then. Clear All and chip removal also wait for submission. A pending-change notice explains when Apply filters is needed. This avoids spending provider requests while visitors are still choosing filters. The server requests relevant enabled providers, checks every result against the complete filter selection, and saves verified original metadata. Fresh discoveries are combined with saved verified records. NewsData and keyword research use bounded targeted searches; EIA/EEA refresh their RSS channels, and SEC refreshes submissions from its existing issuer watchlist, then those results are filtered locally. These providers do not all offer the same native facets. Unsupported constraints are enforced after retrieval. Results are limited to fetched candidates plus the saved collection; pagination is local, not an exhaustive traversal of each provider’s entire archive.
 
 Identical normalized selections share a 60-second cache and simultaneous requests are combined. Provider-cache bypass still uses the existing shared accounting, backoff, approved publishers, dates, rights and anonymous reading checks. Interactive NewsData requests consume the same 150/day and 25/15-minute allowance as ingestion. The 61/day schedule baseline excludes these interactive calls. Heavy search traffic can reduce the allowance available to later scheduled pulls; a larger plan or fewer live news searches is the next capacity step if this occurs.
 
 The browser cancels superseded requests and ignores old replies; cancellation does not refund upstream requests already started. Paging reuses fetched results. Failures retain matching saved cards with an explicit notice, and API keys remain server-only. ReliefWeb and DOAJ stay paused according to the existing provider registry. Initial saved research respects access-check expiry and newer refusals.
 
-Local verification on 11 October: a real browser also confirmed zero initial search requests, one request after selecting Energy / News / NewsData, 7 visible cards, and no browser errors. First-load HTTP 200, 12 visible saved cards and zero provider attempts during rendering. An Energy / News / NewsData filter request returned HTTP 200 and 7 matching cards, `sourcesFailed: false`, with exactly one NewsData attempt in shared request accounting. This verifies the local request and database paths; deployed interactive searches still require this change to be deployed.
+Local verification on 11 October: a real browser also confirmed zero initial search requests, one request after selecting Energy / News / NewsData, 7 visible cards, and no browser errors. First-load HTTP 200, 12 visible saved cards and zero provider attempts during rendering. An Energy / News / NewsData filter request returned HTTP 200 and 7 matching cards, `sourcesFailed: false`, with exactly one NewsData attempt in shared request accounting. This verifies the local request and database paths; deployed interactive searches had not yet been verified at that point.
 
 Validation: the full suite passed with 557 tests across 72 files. After adding the query-metadata preservation regression, all 47 saved-news tests passed. TypeScript, changed-file ESLint, `git diff --check`, and the production build passed; the build used `PAYLOAD_SCHEMA_PUSH=false`. Interactive searches preserve existing domain/industry query evidence when updating an article.
 
-OpenAlex verification: a local Research / OpenAlex / Solar / Past 30 days request returned an explicit source failure with no upstream attempt. Shared request accounting showed 80 OpenAlex calls already used in the UTC day; the local environment has no OpenAlex key, so the configured 80/day guard correctly refused another call. No research record was fabricated or written by this check.
+Before the new key was added, a local Research / OpenAlex / Solar / Past 30 days request returned an explicit source failure with no upstream attempt. Shared request accounting showed 80 OpenAlex calls already used in the UTC day; the local environment has no OpenAlex key, so the configured 80/day guard correctly refused another call. No research record was fabricated or written by this check.
 
-- [ ] Verify successful live OpenAlex search after restoring provider allowance.
-  - To do: add an `OPENALEX_API_KEY` to local and Vercel configuration, or wait for the next UTC daily reset; then select Research and Articles / OpenAlex and verify returned original links and saved evidence. The configured budget is 800/day with a key versus 80/day without one.
-- [ ] Verify this interactive-search behavior after deployment.
-  - To do: deploy these changes, confirm the first browser load makes no `/api/intelligence/search` request, change Energy / News / NewsData filters, and verify cards plus server-safe outcomes.
+After the user added `OPENALEX_API_KEY` and deployed on 11 October, the deployed Solar / Research / OpenAlex / Past 30 days request succeeded at `2026-10-11T06:35:51.226Z`: HTTP 200, seven matching papers, no source failure, one recorded OpenAlex attempt and seven verified original records saved. The key was also present locally and raised the configured allowance to 800/day. The existing local server still retained its earlier provider state; restarting only this workspace's development server with `PAYLOAD_SCHEMA_PUSH=false` restored live local searches. A subsequent local Renewable Energy / Energy Domain / Research / OpenAlex search returned five cards, no source failure and one upstream attempt. No credentials were printed or written to these notes.
+
+- [x] Verify successful live OpenAlex search after restoring provider allowance.
+  - Evidence: deployed seven-paper search and local five-card search succeeded, with shared request accounting and stored access evidence checked.
+- [x] Verify provider-backed interactive searches after deployment.
+  - Evidence: a real browser at `https://enerqa-co-uk.vercel.app/knowledge-hub/global-intelligence` made zero initial search requests and showed twelve saved cards. Selecting Research / OpenAlex and searching `renewable energy` made one search request and showed five cards with five original Read Full Paper links. Both stages had zero browser errors.
+- [ ] Deploy and verify the button-submitted filtering change.
+  - Local evidence: nine focused tests, TypeScript, changed-file ESLint and `git diff --check` passed. A real browser showed twelve saved cards and zero search requests before and after editing Research / OpenAlex / `renewable energy`. Clicking Apply filters made one successful search request and showed five papers, with no source failure or browser errors. Clear All reset the controls while retaining those results and the applied URL without another request.
+  - Next action: deploy the latest changes, then confirm selecting filters and typing sends no search requests until Search or Apply filters is clicked.
 
 Provider query syntax follows [OpenAlex Boolean search](https://help.openalex.org/api/searching/) and [date and language filter rules](https://help.openalex.org/api/filtering/). OpenAlex receives native publication-date and language constraints; every result still passes the full local selection. NewsData receives up to five selected languages under its [documented language parameter](https://newsdata.io/documentation).
 
@@ -82,6 +87,8 @@ After completion, verify positive saved domain matches and rendered cards. The s
 
 ## Deployment setup and remaining checks
 
+These setup findings describe the state on 3 October. Current cron evidence from 11 October appears below.
+
 The user deployed the news changes on 3 October. The authenticated seed completed at 00:30 UTC (8:30 AM Manila), and unauthorized access returned 401. Server database writes and reads are confirmed below. NewsData credentials, GDELT recovery and the three automatic scheduled invocations remain to be verified; local database connectivity is a separate unresolved issue.
 
 1. Fix the active server-side `NEWSDATA_API_KEY` in the Vercel environment serving the site. The user's deployed diagnostic screenshot showed HTTP 401 for all four NewsData queries and HTTP 429 for GDELT.
@@ -93,7 +100,24 @@ The user deployed the news changes on 3 October. The authenticated seed complete
 
 Vercel cron jobs target production deployments, even when the project is being used as a dev site. Three separate daily expressions are used so each job runs once daily; confirm the deployment accepts them on the current hosting plan. Hobby scheduling can run within the configured hour, so exact-minute execution is not promised. See [Vercel cron management](https://vercel.com/docs/cron-jobs/manage-cron-jobs) and [usage limits](https://vercel.com/docs/cron-jobs/usage-and-pricing).
 
-## Verification
+## Cron verification on 11 October
+
+The user's Vercel screenshot shows the 2 PM job invoked at approximately 2:29 PM Manila and returned HTTP 200. This timing is within Hobby's documented invocation hour. A read-only check of the shared database confirmed `trigger: scheduled`, `lastAttemptAt: 2026-10-11T06:29:24.125Z` and `lastCompletedAt: 2026-10-11T06:29:52.704Z`.
+
+- NewsData had nine upstream attempts in the preceding 15 minutes. The job sent sixteen more, reaching the site's shared 25-per-15-minute guard. Sixteen NewsData queries succeeded and the final five of the planned twenty-one were refused with `request_budget_reached`. The request ledger does not record caller origin, so the nine preceding attempts cannot be attributed individually to local searches, deployed searches or manual maintenance.
+- EIA and EEA succeeded. GDELT was unavailable with `request_accounting_unavailable`; this is an internal accounting/storage-path failure, with no provider HTTP status recorded, and is separate from the NewsData rolling limit.
+- Storage was `ok`, with 84 verified records processed/saved, including rechecked existing records; this does not mean 84 new articles. The aggregate HTTP 200 reflects partial provider success.
+- At `2026-10-11T06:56:29.129Z`, NewsData had zero attempts in the last 15 minutes and sixty in the UTC day, below the 150/day guard. The earlier rolling window had cleared. No new provider request was made to claim upstream recovery or retry the consumed job slot.
+- A subsequent public read of the deployed homepage returned HTTP 200, three Global News cards, two Major Markets cards and the latest completed-job timestamp. This confirms the saved page-read path without proving every page received a different article.
+
+- [x] Verify the automatic 2 PM job ran and wrote its saved outcomes.
+- [ ] Verify a complete NewsData scheduled batch with sufficient shared rolling allowance.
+  - Next action: deploy button-submitted Global Intelligence filtering to reduce unnecessary interactive calls, avoid manual pulls near the scheduled invocation, and inspect the next job's per-query outcomes. Reserving an allowance for scheduled work is a further improvement if visitor searches continue consuming its headroom.
+- [ ] Investigate GDELT's shared-request-accounting failure and verify a successful fresh scheduled pull.
+  - Next action: inspect database connection/transaction timing during concurrent provider reservations; keep the existing saved stories while investigating.
+- [ ] Verify the remaining 6 AM and 10 PM slots against deployed logs and stored completion timestamps.
+
+## Historical verification on 3 October
 
 Earlier manual seed attempt on 3 October 2026, before deployment: the deployed `https://enerqa-co-uk.vercel.app/api/ingest/news` returned HTTP 404. The local workspace had no configured `CRON_SECRET` or Vercel credentials, and a repeat `npm run db:check` timed out on both Supabase pooler ports (6543 and 5432) before authentication. No provider pull or database write was performed by that earlier attempt. The deployment subsequently resolved the missing live endpoint; local database connectivity still needs restoration for local builds/seeding.
 

@@ -13,15 +13,17 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
   domains: Choice[]; industries: Choice[]; sources: Choice[]; languages: Choice[]; labels: Record<string, string>;
 }) {
   const [filters, setFilters] = useState(initialFilters);
+  // Controls can change without affecting the applied results or spending a request.
+  const [draftFilters, setDraftFilters] = useState(initialFilters);
   const [items, setItems] = useState(initialItems);
   const [currentPage, setPage] = useState(initialPage);
   const [sourcesFailed, setSourcesFailed] = useState(initialSourcesFailed);
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState('');
   const [refreshed, setRefreshed] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const controller = useRef<AbortController | undefined>(undefined);
   const sequence = useRef(0);
+  const filtersChanged = filterUrl(draftFilters) !== filterUrl(filters);
   const matching = filterIntelligence(items, filters);
   const pages = Math.max(1, Math.ceil(matching.length / 12));
   const page = Math.min(pages, currentPage);
@@ -32,7 +34,7 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
   }))].map(choice => [choice.value, choice])).values()];
 
   // No mount-time request: the server already supplied the saved database collection.
-  useEffect(() => () => { clearTimeout(timer.current); controller.current?.abort(); sequence.current++; }, []);
+  useEffect(() => () => { controller.current?.abort(); sequence.current++; }, []);
 
   function changePage(next: number) {
     setPage(next);
@@ -40,52 +42,50 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
     window.history.replaceState(null, '', filterUrl(filters, next));
   }
 
-  function changeFilters(next: Filters, delay = 500) {
-    clearTimeout(timer.current);
+  async function applyFilters(next: Filters) {
+    // Only a submitted search replaces an in-flight search; edits stay pending.
     controller.current?.abort();
     const id = ++sequence.current;
     setFilters(next); setPage(1); setLoading(true); setNotice(''); setRefreshed(false);
     window.history.replaceState(null, '', filterUrl(next));
-    // Coalesce rapid selections and keyword typing before asking providers.
-    timer.current = setTimeout(async () => {
-      const abort = new AbortController();
-      controller.current = abort;
-      try {
-        const query = filterUrl(next).split('?')[1] ?? '';
-        const response = await fetch(`/api/intelligence/search?${query}`, { signal: abort.signal, cache: 'no-store' });
-        if (!response.ok) throw new Error('Source search failed.');
-        const result: LiveIntelligenceResult = await response.json();
-        if (id !== sequence.current) return;
-        setItems(previous => {
-          const merged = new Map(previous.map(item => [item.url, item]));
-          for (const item of result.items) merged.set(item.url, item);
-          return [...merged.values()].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
-        });
-        setSourcesFailed(result.sourcesFailed); setRefreshed(!result.sourcesFailed);
-        setNotice(result.sourcesFailed ? 'Sources could not be refreshed. Showing saved results where available.' :
-          result.partialFailure ? 'Some sources could not be refreshed. Saved results remain available.' : '');
-      } catch {
-        if (id !== sequence.current || abort.signal.aborted) return;
-        setNotice('Sources could not be refreshed. Showing saved results where available.');
-      } finally {
-        if (id === sequence.current) setLoading(false);
-      }
-    }, delay);
+    const abort = new AbortController();
+    controller.current = abort;
+    try {
+      const query = filterUrl(next).split('?')[1] ?? '';
+      const response = await fetch(`/api/intelligence/search?${query}`, { signal: abort.signal, cache: 'no-store' });
+      if (!response.ok) throw new Error('Source search failed.');
+      const result: LiveIntelligenceResult = await response.json();
+      if (id !== sequence.current) return;
+      setItems(previous => {
+        const merged = new Map(previous.map(item => [item.url, item]));
+        for (const item of result.items) merged.set(item.url, item);
+        return [...merged.values()].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
+      });
+      setSourcesFailed(result.sourcesFailed); setRefreshed(!result.sourcesFailed);
+      setNotice(result.sourcesFailed ? 'Sources could not be refreshed. Showing saved results where available.' :
+        result.partialFailure ? 'Some sources could not be refreshed. Saved results remain available.' : '');
+    } catch {
+      if (id !== sequence.current || abort.signal.aborted) return;
+      setNotice('Sources could not be refreshed. Showing saved results where available.');
+    } finally {
+      if (id === sequence.current) setLoading(false);
+    }
   }
   return <>
       <section aria-labelledby="intelligence-search"><h2 id="intelligence-search" className="mb-6 text-2xl font-bold">Search Global Intelligence</h2>
-        <IntelligenceFilters filters={filters} domains={domains} industries={industries} sources={sources} languages={availableLanguages} onFiltersChange={changeFilters} onSearch={() => changeFilters(filters, 0)} onClear={() => changeFilters({})} />
+        <IntelligenceFilters filters={draftFilters} domains={domains} industries={industries} sources={sources} languages={availableLanguages} onFiltersChange={setDraftFilters} onSearch={() => { void applyFilters(draftFilters); }} onClear={() => setDraftFilters({})} />
+        {filtersChanged && <p role="status" className="mt-4 text-sm text-gray-600">Filters changed. Click Apply filters to update results.</p>}
       </section>
       <section aria-labelledby="external-cards" className="space-y-6" aria-busy={loading}>
         <h2 id="external-cards" className="text-2xl font-bold">External Content Cards</h2>
         <p role="status">{loading ? 'Updating results…' : `${matching.length} open-access results${refreshed ? ' · Updated from sources' : ' · Saved collection'}`}</p>
         {notice && <p role="status" className="text-sm text-gray-600">{notice}</p>}
         <div className="flex flex-wrap gap-2">{Object.entries(filters).flatMap(([key, values]) => values.map(value => {
-          const next = { ...filters, [key]: values.filter(v => v !== value) };
-          if (key === 'continent' || key === 'region' || key === 'country') Object.assign(next, changeGeography({ continent: filters.continent ?? [], region: filters.region ?? [], country: filters.country ?? [] }, key, next[key]));
-          return <Link key={`${key}-${value}`} href={filterUrl(next)} onClick={e => { e.preventDefault(); changeFilters(next); }} aria-label={`Remove ${key}: ${labels[value] ?? value}`} className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm">{key}: {labels[value] ?? value} ×</Link>;
+          const next = { ...draftFilters, [key]: (draftFilters[key] ?? []).filter(v => v !== value) };
+          if (key === 'continent' || key === 'region' || key === 'country') Object.assign(next, changeGeography({ continent: draftFilters.continent ?? [], region: draftFilters.region ?? [], country: draftFilters.country ?? [] }, key, next[key]));
+          return <Link key={`${key}-${value}`} href={filterUrl(next)} onClick={e => { e.preventDefault(); setDraftFilters(next); }} aria-label={`Remove ${key}: ${labels[value] ?? value}`} className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm">{key}: {labels[value] ?? value} ×</Link>;
         }))}</div>
-        {shown.length === 0 && !loading && <p role="status" className="rounded border p-8">{sourcesFailed ? 'Sources are temporarily unavailable. Please try again later.' : 'No open-access results match these filters'}. <Link href={PATH} onClick={e => { e.preventDefault(); changeFilters({}); }} className="underline">Clear All</Link></p>}
+        {shown.length === 0 && !loading && <p role="status" className="rounded border p-8">{sourcesFailed ? 'Sources are temporarily unavailable. Please try again later.' : 'No open-access results match these filters'}. <Link href={PATH} onClick={e => { e.preventDefault(); setDraftFilters({}); }} className="underline">Clear All</Link></p>}
         <div className="grid gap-6 md:grid-cols-2">{shown.map(item => <article key={item.url} className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
           <p className="text-xs font-semibold uppercase text-[var(--color-primary-deep)]">{CONTENT_TYPES[item.type]} · Open access</p>
           <h3 className="text-xl font-bold" dir="auto">{item.title}</h3>
