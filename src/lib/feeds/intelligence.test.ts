@@ -37,6 +37,12 @@ describe('subject geography', () => {
 });
 
 describe('one Global Intelligence collection', () => {
+  it('keeps the industry news page and its View All link on the same sector vocabulary', () => {
+    const food = item('Is local food better for the environment?');
+    const solar = item('New solar farm increases electricity output');
+    expect(filterIntelligence([food, solar], { industry: ['agriculture-food-aquaculture'], type: ['news'] })).toEqual([food]);
+  });
+
   it('offers every type without requiring a domain query', () => {
     const all = ['news', 'research', 'official', 'disclosure'].map(t => item('Qatar solar energy', t as IntelligenceItem['type']));
     expect(filterIntelligence(all, {})).toHaveLength(4);

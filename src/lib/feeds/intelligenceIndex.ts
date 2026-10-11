@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { fetchNews, isNewsItemStale } from '@/lib/api/news';
 import { fetchResearchForThemes } from '@/lib/api/research';
 import { fetchSpecialistUpdates } from './official';
-import { DOMAIN_FEEDS, type SpecialistFeed } from './contextual';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, type SpecialistFeed } from './contextual';
 import { isStale } from '@/lib/api/core/provenance';
 import { tagIntelligence, type IntelligenceItem } from './intelligence';
 
@@ -50,7 +50,10 @@ export async function buildIntelligenceIndex() {
   return { items: unique, sourcesFailed };
 }
 
-const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-v1'], { revalidate: 3600, tags: ['global-intelligence'] });
+// Tagging uses these definitions. Changing sector terms must also change the
+// cache identity, or View All can retain empty results for the previous rules.
+const contextKey = JSON.stringify([DOMAIN_FEEDS, INDUSTRY_FEEDS]);
+const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-v1', contextKey], { revalidate: 3600, tags: ['global-intelligence'] });
 
 // Coalesce simultaneous /search and Global Intelligence requests on a cold cache.
 let inFlight: ReturnType<typeof cachedIntelligenceIndex> | undefined;

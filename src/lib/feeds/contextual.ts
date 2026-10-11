@@ -9,7 +9,7 @@ import type { ProviderId } from '@/lib/api/core/types';
  * the CMS because these are API query definitions, not editorial copy.
  *
  *  - newsBaskets: each inner array is one OR'd provider query from the PDF.
- *    Related domain terms also select relevant headlines from the saved pool,
+ *    Related sector terms also select relevant headlines from the saved pool,
  *    without spending extra provider credits during browsing (p. 226).
  *  - researchThemes: each theme is one query through the research connectors.
  *  - specialistFeeds: the "Specialist feeds for ..." line of the same page.
@@ -34,7 +34,7 @@ export const SPECIALIST_PROVIDER: Record<SpecialistFeed, ProviderId> = {
 export type ContextualFeed = {
   pdfPage: number;
   newsBaskets: string[][];
-  /** Reviewed domain vocabulary for saved headlines that omit the query's exact phrase. */
+  /** Reviewed sector vocabulary for saved headlines that omit the query's exact phrase. */
   relatedNewsTerms?: string[];
   researchThemes: string[];
   /**
@@ -144,14 +144,24 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
   },
 };
 
-export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
+export type IndustryFeed = ContextualFeed & {
+  /** Scheduled discovery requires both the sector and a sustainability topic. */
+  newsDiscoveryQuery: string;
+};
+
+export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
   'government-regulators-public-institutions': {
     pdfPage: 66,
+    newsDiscoveryQuery: '(government OR regulation) AND (climate OR energy OR emissions)',
     // p. 66: "Specialist feeds for I01R: reliefweb."
     specialistFeeds: ['reliefweb'],
     newsBaskets: [
       ['climate policy', 'national climate plan', 'NDC'],
       ['public investment', 'environmental regulation', 'energy policy'],
+    ],
+    relatedNewsTerms: [
+      'climate regulation', 'climate legislation', 'climate report', 'emissions rules',
+      'pollution rules', 'clean car rules', 'energy bill', 'energy regulator', 'climate funding',
     ],
     researchThemes: [
       'national climate policy MRV public institutions',
@@ -159,6 +169,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
     ],
   },
   'financial-institutions-investors-development-finance': {
+    newsDiscoveryQuery: '(bank OR investor OR finance) AND (climate OR energy OR ESG)',
     pdfPage: 72,
     // p. 72: "Specialist feeds for I02R: sec_edgar."
     specialistFeeds: ['sec_edgar'],
@@ -166,12 +177,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['green finance', 'climate finance', 'development finance'],
       ['green credit', 'sustainable investment', 'ESG risk'],
     ],
+    relatedNewsTerms: [
+      'green bond', 'bond market', 'bond sell', 'climate investment', 'investment fund',
+      'sustainability funding', 'financial disclosure', 'development bank', 'impact investment',
+    ],
     researchThemes: [
       'sustainable finance green credit taxonomy bankability',
       'climate finance environmental social investment risk',
     ],
   },
   'energy-utilities': {
+    newsDiscoveryQuery: '(utilities OR electricity OR solar) AND (energy OR climate OR emissions)',
     pdfPage: 78,
     // p. 78: "Specialist feeds for I03R: eia_rss, osti."
     specialistFeeds: ['eia_rss', 'osti'],
@@ -179,12 +195,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['electricity generation', 'renewable energy', 'power grid'],
       ['battery storage', 'energy utilities', 'energy efficiency'],
     ],
+    relatedNewsTerms: [
+      'solar', 'electricity', 'wind power', 'wind energy', 'wind farm', 'grid upgrade',
+      'energy bills', 'gas prices', 'coal plant', 'power plant', 'utilities',
+    ],
     researchThemes: [
       'electricity systems renewable energy storage grids',
       'energy utilities demand modelling efficiency feasibility',
     ],
   },
   'oil-gas-petrochemicals': {
+    newsDiscoveryQuery: '(oil OR gas OR petrochemical) AND (energy OR climate OR emissions)',
     pdfPage: 84,
     // p. 84: "Specialist feeds for I04R: eia_rss, osti, sec_edgar."
     specialistFeeds: ['eia_rss', 'osti', 'sec_edgar'],
@@ -192,12 +213,14 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['methane emissions', 'gas flaring', 'oil decarbonisation'],
       ['oil market', 'LNG', 'petrochemical energy efficiency'],
     ],
+    relatedNewsTerms: ['oil', 'fuel', 'diesel', 'natural gas', 'refinery', 'refineries', 'pipeline', 'petroleum', 'petrochemical*', 'methane'],
     researchThemes: [
       'oil gas methane flaring industrial decarbonisation',
       'petrochemical energy efficiency environmental assessment transition',
     ],
   },
   'industry-manufacturing-materials': {
+    newsDiscoveryQuery: '(manufacturing OR cement OR steel) AND (energy OR emissions OR environment)',
     pdfPage: 90,
     // p. 90: "Specialist feeds for I05R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],
@@ -205,12 +228,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['industrial decarbonisation', 'manufacturing energy efficiency'],
       ['circular manufacturing', 'cement emissions', 'cleaner production'],
     ],
+    relatedNewsTerms: [
+      'manufacturing', 'cement', 'steel', 'factory', 'factories', 'industrial emissions',
+      'industrial energy', 'recycled materials', 'material recycling', 'alternative leather',
+    ],
     researchThemes: [
       'manufacturing process emissions energy resource efficiency',
       'industrial circular economy cleaner production feasibility',
     ],
   },
   'infrastructure-real-estate-industrial-zones': {
+    newsDiscoveryQuery: '(building OR infrastructure) AND (energy OR climate OR emissions)',
     pdfPage: 96,
     // p. 96: "Specialist feeds for I06R: eea_rss, osti."
     specialistFeeds: ['eea_rss', 'osti'],
@@ -218,12 +246,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable infrastructure', 'green buildings', 'industrial zones'],
       ['climate resilient infrastructure', 'building energy efficiency'],
     ],
+    relatedNewsTerms: [
+      'rooftop solar', 'apartments', 'building emissions', 'building retrofit', 'heat pump',
+      'district heating', 'energy infrastructure', 'grid upgrade', 'gas ban', 'new homes',
+    ],
     researchThemes: [
       'green buildings infrastructure sustainability resilience lifecycle emissions',
       'industrial zones water energy environmental social assessment',
     ],
   },
   'transport-logistics-mobility': {
+    newsDiscoveryQuery: '(transport OR shipping OR aviation) AND (energy OR emissions OR climate)',
     pdfPage: 102,
     // p. 102: "Specialist feeds for I07R: eia_rss, osti."
     specialistFeeds: ['eia_rss', 'osti'],
@@ -231,12 +264,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['transport decarbonisation', 'low carbon mobility'],
       ['sustainable logistics', 'shipping emissions', 'electric fleets'],
     ],
+    relatedNewsTerms: [
+      'fuel prices', 'diesel prices', 'petrol prices', 'motorist*', 'electric car',
+      'electric vehicle', 'clean car', 'vehicle emissions', 'shipping fuel', 'aviation emissions',
+    ],
     researchThemes: [
       'transport emissions activity data MRV low carbon mobility',
       'logistics maritime aviation fuels fleet climate resilience',
     ],
   },
   'water-waste-circular-economy': {
+    newsDiscoveryQuery: '(water OR waste OR recycling) AND (climate OR environment OR circular)',
     pdfPage: 108,
     // p. 108: "Specialist feeds for I08R: eea_rss, reliefweb."
     specialistFeeds: ['eea_rss', 'reliefweb'],
@@ -244,12 +282,14 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['water reuse', 'wastewater treatment', 'water scarcity'],
       ['circular economy', 'waste recycling', 'resource recovery'],
     ],
+    relatedNewsTerms: ['water', 'wastewater', 'water supply', 'water shortage', 'recycling', 'plastic waste', 'waste recovery', 'waterway*'],
     researchThemes: [
       'water wastewater reuse circular economy resource recovery',
       'waste treatment recovery business models environmental compliance',
     ],
   },
   'agriculture-food-aquaculture': {
+    newsDiscoveryQuery: '(agriculture OR food OR aquaculture) AND (climate OR environment OR sustainability)',
     pdfPage: 114,
     // p. 114: "Specialist feeds for I09R: reliefweb, gbif_literature."
     specialistFeeds: ['reliefweb', 'gbif_literature'],
@@ -257,12 +297,18 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['climate smart agriculture', 'sustainable food systems'],
       ['solar irrigation', 'sustainable aquaculture', 'food carbon footprint'],
     ],
+    // "Farm" alone would incorrectly classify solar farms as agriculture.
+    relatedNewsTerms: [
+      'agricultur*', 'farming', 'farmer', 'food production', 'food systems', 'local food',
+      'food security', 'aquaculture', 'irrigation', 'crop yield', 'soil carbon', 'fisheries',
+    ],
     researchThemes: [
       'agriculture aquaculture climate resilience water energy biodiversity',
       'solar irrigation food carbon footprint lifecycle assessment',
     ],
   },
   'mining-natural-resources': {
+    newsDiscoveryQuery: '(mining OR minerals) AND (climate OR energy OR environment)',
     pdfPage: 120,
     // p. 120: "Specialist feeds for I10R: gbif_literature, eea_rss."
     specialistFeeds: ['gbif_literature', 'eea_rss'],
@@ -270,12 +316,14 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable mining', 'mine rehabilitation', 'mining biodiversity'],
       ['mining emissions', 'responsible minerals', 'mine water'],
     ],
+    relatedNewsTerms: ['mining', 'copper mine', 'coal mine', 'coal project', 'mineral extraction', 'rare earth', 'mine closure'],
     researchThemes: [
       'mining environmental social impacts biodiversity rehabilitation closure',
       'mine water pollution energy emissions responsible sourcing',
     ],
   },
   'tourism-hospitality-destinations': {
+    newsDiscoveryQuery: '(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment)',
     pdfPage: 126,
     // p. 126: "Specialist feeds for I11R: eea_rss, gbif_literature."
     specialistFeeds: ['eea_rss', 'gbif_literature'],
@@ -283,12 +331,14 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable tourism', 'green hotels', 'responsible destinations'],
       ['tourism climate resilience', 'hotel energy efficiency'],
     ],
+    relatedNewsTerms: ['tourism', 'hotel', 'hospitality', 'tourist', 'ecotourism', 'eco-tourism', 'sustainable travel'],
     researchThemes: [
       'tourism hospitality sustainability energy water waste carbon',
       'destination climate resilience biodiversity community impacts',
     ],
   },
   'technology-telecoms-data-infrastructure': {
+    newsDiscoveryQuery: '("data centre" OR datacenter OR telecom) AND (energy OR water OR emissions)',
     pdfPage: 132,
     // p. 132: "Specialist feeds for I12R: osti, eia_rss, sec_edgar."
     specialistFeeds: ['osti', 'eia_rss', 'sec_edgar'],
@@ -296,12 +346,17 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['data centre energy', 'sustainable telecoms', 'green data centres'],
       ['data centre water', 'digital infrastructure climate risk'],
     ],
+    relatedNewsTerms: [
+      'data centre', 'data center', 'datacenter', 'telecom*', 'digital infrastructure',
+      'tech companies', 'climate technology', 'climate tool', 'energy technology',
+    ],
     researchThemes: [
       'data centres energy efficiency cooling water renewable storage',
       'telecommunications ESG supply chain emissions digital MRV',
     ],
   },
   'healthcare-education-institutional-estates': {
+    newsDiscoveryQuery: '(hospital OR campus OR healthcare OR university) AND (climate OR energy OR environment)',
     pdfPage: 138,
     // p. 138: "Specialist feeds for I13R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],
@@ -309,6 +364,7 @@ export const INDUSTRY_FEEDS: Record<string, ContextualFeed> = {
       ['sustainable hospitals', 'green campuses', 'institutional energy efficiency'],
       ['healthcare decarbonisation', 'campus climate resilience'],
     ],
+    relatedNewsTerms: ['hospital', 'campus', 'university', 'universities', 'school', 'college', 'healthcare', 'health care', 'medical centre', 'medical center'],
     researchThemes: [
       'hospital campus estate energy water waste decarbonisation',
       'healthcare education institutional climate resilience ESG reporting',

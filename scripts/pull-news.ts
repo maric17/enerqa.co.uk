@@ -3,8 +3,9 @@ import path from 'node:path';
 
 async function main() {
   // Require an explicit operator choice because this writes to the shared news store.
-  if (process.argv.slice(2).join(' ') !== '--manual') {
-    console.error('Usage: npx tsx scripts/pull-news.ts --manual');
+  const args = process.argv.slice(2);
+  if (!args.includes('--manual') || new Set(args).size !== args.length || args.some(arg => !['--manual', '--industries'].includes(arg))) {
+    console.error('Usage: npx tsx scripts/pull-news.ts --manual [--industries]');
     process.exitCode = 1;
     return;
   }
@@ -13,8 +14,9 @@ async function main() {
   const { refreshScheduledNews } = await import('../src/lib/api/news/index');
   const { providerDatabase } = await import('../src/lib/api/core/storage');
   try {
-    console.log('Starting one manual news pull with the shared lease and provider budgets.');
-    const result = await refreshScheduledNews(undefined, { manual: true });
+    const industriesOnly = args.includes('--industries');
+    console.log(`Starting one manual ${industriesOnly ? 'industry' : 'news'} pull with the shared lease and provider budgets.`);
+    const result = await refreshScheduledNews(undefined, { manual: true, ...(industriesOnly ? { industriesOnly: true } : {}) });
     console.log(JSON.stringify(result));
     if (result.skipped || (result.storedItems === 0 && result.sourcesFailed)) process.exitCode = 1;
   } catch {
