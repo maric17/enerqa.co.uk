@@ -76,6 +76,7 @@ export function ostiOrganisation(record: Pick<OstiRecord, 'product_type' | 'jour
 export async function fetchOstiRecords(options: {
   search: string;
   rows?: number;
+  fresh?: boolean;
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const { search, rows = 6 } = options;
   if (!search.trim()) return fail('osti', 'no_results', 'No search term supplied.');
@@ -87,6 +88,7 @@ export async function fetchOstiRecords(options: {
   });
 
   const res = await fetchFromProvider<OstiRecord[]>('osti', `${BASE}?${params.toString()}`, {
+    fresh: options.fresh,
     // Shorter than the default: this host is known to hang, and a page render
     // must not wait on it.
     timeoutMs: 8000,

@@ -43,6 +43,8 @@ describe('relevance filtering', () => {
     ["Tasma Walton: 'I understand what it's like to be powerless'", 'The actor and writer on her Perth homecoming'],
     ['A weekend bursting at the seams with derbies', 'a gala weekend of derby games'],
     ["'Clear retribution': dismay as key Alzheimer's study cancelled", 'funding cuts that target DEI could delay diagnoses'],
+    ['People are pissed: union decries TSA removal of chairs for checkpoint staff', 'Airport staff campaign amid plunging morale'],
+    ['Zavier Gozo: You have to be uncomfortable to get to the highest levels', 'A footballer aims for more Premier League minutes'],
   ];
 
   it.each(REJECTED)('rejects off-topic story: %s', (title, summary) => {
@@ -58,6 +60,7 @@ describe('relevance filtering', () => {
     ['United States on track for record crude oil production in 2026', 'We forecast US crude oil production will average a record'],
     ['Corpus Christi LNG expansion makes facility the second-largest in the US', 'The expansion raises liquefaction capacity'],
     ['US veterans have greater levels of Pfas in their blood than civilians', 'Soil and water around military bases show elevated Pfas pollution'],
+    ['Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort', 'Development threatens coastal conservation'],
   ];
 
   it.each(ACCEPTED)('accepts on-topic story: %s', (title, summary) => {
@@ -81,6 +84,24 @@ describe('relevance filtering', () => {
     const diesel = stub('What goes into diesel prices?', 'driven by crude oil, retail margins and distribution costs');
     expect(matchesBasket(diesel, getBasket('business'))).toBe(true);
     expect(matchesBasket(diesel, getBasket('environment'))).toBe(false);
+  });
+
+  it.each([
+    'Tourism project threatens turtle nesting sites',
+    'Resort expansion threatens coral reefs',
+    'Hotel development accelerates habitat loss',
+    'New tourism project faces habitat destruction concerns',
+  ])('recognizes ecological tourism impacts in both the shared and environment pools: %s', title => {
+    expect(matchesBasket(stub(title), all)).toBe(true);
+    expect(matchesBasket(stub(title), getBasket('environment'))).toBe(true);
+    expect(matchesBasket(stub(title), getBasket('energy'))).toBe(false);
+  });
+
+  it.each([
+    ['Hotel wins customer service award', 'Its grounds include turtle nesting sites and coral reefs nearby.'],
+    ['Tourists watch turtles at the aquarium', 'Visitors attend a birthday party.'],
+  ])('does not admit general hotel or animal stories from passing nature mentions: %s', (title, summary) => {
+    expect(matchesBasket(stub(title, summary), all)).toBe(false);
   });
 });
 

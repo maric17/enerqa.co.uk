@@ -59,13 +59,14 @@ function filingUrl(cik: string, accession: string, document: string): string {
 export async function fetchIssuerFilings(options: {
   watchlist?: { cik: string; name: string }[];
   perIssuer?: number;
+  fresh?: boolean;
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const { watchlist = DEFAULT_WATCHLIST, perIssuer = 3 } = options;
 
   const responses = await Promise.all(
     watchlist.map(async (issuer) => ({
       issuer,
-      res: await fetchFromProvider<Submissions>('sec-edgar', `${BASE}/CIK${issuer.cik}.json`, { timeoutMs: 20000 }),
+      res: await fetchFromProvider<Submissions>('sec-edgar', `${BASE}/CIK${issuer.cik}.json`, { timeoutMs: 20000, fresh: options.fresh }),
     })),
   );
 

@@ -5,25 +5,29 @@ import { CONTENT_TYPES, type IntelligenceFilters as Filters } from '@/lib/feeds/
 import { NEWS_BASKETS } from '@/lib/api/news/types';
 
 type Choice = { value: string; label: string };
-export function IntelligenceFilters({ filters, domains, industries, sources, languages }: {
+export function IntelligenceFilters({ filters, domains, industries, sources, languages, onFiltersChange, onSearch, onClear }: {
   filters: Filters; domains: Choice[]; industries: Choice[]; sources: Choice[]; languages: Choice[];
+  onFiltersChange?: (filters: Filters) => void; onSearch?: () => void; onClear?: () => void;
 }) {
-  const [geo, setGeo] = useState<GeographySelection>({ continent: filters.continent ?? [], region: filters.region ?? [], country: filters.country ?? [] });
+  const [localGeo, setGeo] = useState<GeographySelection>({ continent: filters.continent ?? [], region: filters.region ?? [], country: filters.country ?? [] });
+  const geo = onFiltersChange ? { continent: filters.continent ?? [], region: filters.region ?? [], country: filters.country ?? [] } : localGeo;
   const [feedback, setFeedback] = useState('');
   const choices = (values: string[]): Choice[] => values.map(value => ({ value, label: value }));
   function field(name: string, label: string, options: Choice[], geographic = false) {
     const selected = geographic ? geo[name as keyof GeographySelection] : filters[name] ?? [];
     return <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold" key={name}>
       {label}
-      <select name={name} multiple size={4} defaultValue={geographic ? undefined : selected} value={geographic ? selected : undefined}
+      <select name={name} multiple size={4} defaultValue={geographic || onFiltersChange ? undefined : selected} value={geographic || onFiltersChange ? selected : undefined}
         className="w-full rounded border border-gray-300 bg-white p-2 font-normal focus:ring-2 focus:ring-[var(--color-primary-deep)]"
-        onChange={geographic ? e => {
+        onChange={e => {
           const values = Array.from(e.currentTarget.selectedOptions, o => o.value);
+          if (!geographic) { onFiltersChange?.({ ...filters, [name]: values }); return; }
           const next = changeGeography(geo, name as keyof GeographySelection, values);
           const removed = [...geo.country.filter(c => !next.country.includes(c)), ...geo.region.filter(r => !next.region.includes(r))];
           setGeo(next);
+          onFiltersChange?.({ ...filters, ...next });
           setFeedback(removed.length ? 'Conflicting country or region selections were cleared.' : 'Geography updated. Country selections also set their parent region and continent.');
-        } : undefined}>
+        }}>
         {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
     </label>;
@@ -32,10 +36,12 @@ export function IntelligenceFilters({ filters, domains, industries, sources, lan
   // Parent edits still clear conflicting children through changeGeography.
   const regions = REGIONS;
   const countries = COUNTRIES;
-  return <form method="GET" action="/knowledge-hub/global-intelligence" role="search" className="space-y-6">
+  return <form method="GET" action="/knowledge-hub/global-intelligence" role="search" className="space-y-6"
+    onSubmit={onSearch ? e => { e.preventDefault(); onSearch(); } : undefined}>
     <div className="flex flex-wrap gap-3">
       <label htmlFor="intelligence-query" className="sr-only">Search Global Intelligence</label>
-      <input id="intelligence-query" name="q" type="search" dir="auto" defaultValue={filters.q?.[0] ?? ''} maxLength={120}
+      <input id="intelligence-query" name="q" type="search" dir="auto" defaultValue={onFiltersChange ? undefined : filters.q?.[0] ?? ''}
+        value={onFiltersChange ? filters.q?.[0] ?? '' : undefined} onChange={onFiltersChange ? e => onFiltersChange({ ...filters, q: e.currentTarget.value ? [e.currentTarget.value] : [] }) : undefined} maxLength={120}
         placeholder="Search global intelligence by keyword or topic." className="min-w-0 flex-1 rounded border border-gray-300 bg-white p-3" />
       <button className="rounded bg-[var(--color-dark)] px-6 py-3 text-white font-semibold">Search</button>
     </div>
@@ -58,6 +64,6 @@ export function IntelligenceFilters({ filters, domains, industries, sources, lan
         {field('dateRange', 'Date Range', [{ value: '24h', label: 'Past 24 hours' }, { value: '7d', label: 'Past 7 days' }, { value: '30d', label: 'Past 30 days' }])}
       </div>
     </details>
-    <div className="flex gap-4 items-center"><button className="rounded bg-[var(--color-dark)] text-white px-5 py-2">Apply filters</button><a href="/knowledge-hub/global-intelligence" className="underline">Clear All</a></div>
+    <div className="flex gap-4 items-center"><button className="rounded bg-[var(--color-dark)] text-white px-5 py-2">Apply filters</button><a href="/knowledge-hub/global-intelligence" onClick={onClear ? e => { e.preventDefault(); onClear(); } : undefined} className="underline">Clear All</a></div>
   </form>;
 }

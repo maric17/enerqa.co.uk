@@ -135,7 +135,11 @@ const TOPIC_BASKETS: NewsBasket[] = [
     label: 'Environment and Nature',
     gdeltQuery: '(biodiversity OR pollution OR "circular economy")',
     newsdataQuery: 'biodiversity OR pollution OR "circular economy" OR recycling OR water OR nature',
-    keywords: ['environment*', 'biodiversity', 'nature', 'ecosystem', 'pollution', 'pollutant', 'circular', 'waste', 'water', 'forest', 'species', 'recycling'],
+    keywords: [
+      'environment*', 'biodiversity', 'nature', 'ecosystem', 'pollution', 'pollutant',
+      'circular', 'waste', 'water', 'forest', 'species', 'recycling',
+      'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
+    ],
   },
   {
     key: 'business',
@@ -290,6 +294,8 @@ const CORE_TOPIC_TERMS = [
   'environment*', 'biodiversity', 'ecosystem', 'pollution', 'pollutant', 'polluter',
   'circular economy', 'recycling', 'plastic', 'waste', 'wastewater', 'forest',
   'deforestation', 'wildlife', 'conservation', 'mining', 'pfas', 'air quality',
+  // Ecological impacts can be explicit without the headline saying "environment".
+  'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
   // ESG and sustainable finance
   'esg', 'green bond', 'climate finance', 'sustainable finance', 'green energy',
 ];

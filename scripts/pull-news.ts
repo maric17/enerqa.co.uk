@@ -4,8 +4,10 @@ import path from 'node:path';
 async function main() {
   // Require an explicit operator choice because this writes to the shared news store.
   const args = process.argv.slice(2);
-  if (!args.includes('--manual') || new Set(args).size !== args.length || args.some(arg => !['--manual', '--industries'].includes(arg))) {
-    console.error('Usage: npx tsx scripts/pull-news.ts --manual [--industries]');
+  const singleIndustry = args.length === 3 && args[0] === '--manual' && args[1] === '--industry' && !args[2].startsWith('--');
+  const normalPull = args.includes('--manual') && new Set(args).size === args.length && args.every(arg => ['--manual', '--industries'].includes(arg));
+  if (!normalPull && !singleIndustry) {
+    console.error('Usage: npx tsx scripts/pull-news.ts --manual [--industries | --industry <slug>]');
     process.exitCode = 1;
     return;
   }
@@ -14,9 +16,13 @@ async function main() {
   const { refreshScheduledNews } = await import('../src/lib/api/news/index');
   const { providerDatabase } = await import('../src/lib/api/core/storage');
   try {
-    const industriesOnly = args.includes('--industries');
+    const industriesOnly = singleIndustry || args.includes('--industries');
     console.log(`Starting one manual ${industriesOnly ? 'industry' : 'news'} pull with the shared lease and provider budgets.`);
-    const result = await refreshScheduledNews(undefined, { manual: true, ...(industriesOnly ? { industriesOnly: true } : {}) });
+    const result = await refreshScheduledNews(undefined, {
+      manual: true,
+      ...(industriesOnly ? { industriesOnly: true } : {}),
+      ...(singleIndustry ? { industrySlugs: [args[2]] } : {}),
+    });
     console.log(JSON.stringify(result));
     if (result.skipped || (result.storedItems === 0 && result.sourcesFailed)) process.exitCode = 1;
   } catch {

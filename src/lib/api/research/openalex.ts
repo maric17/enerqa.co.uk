@@ -156,12 +156,15 @@ export async function fetchOpenAlexWorks(options: {
   perPage?: number;
   /** Only works published on or after this date, ISO yyyy-mm-dd. */
   fromDate?: string;
+  fresh?: boolean;
+  languages?: string[];
 }): Promise<ConnectorResult<ResearchItem[]>> {
   const { search, perPage = 6, fromDate } = options;
   if (!search.trim()) return fail('openalex', 'no_results', 'No search term supplied.');
 
   const filters = ['is_oa:true'];
   if (fromDate) filters.push(`from_publication_date:${fromDate}`);
+  if (options.languages?.length) filters.push(`language:${options.languages.join('|')}`);
 
   const params = new URLSearchParams({
     filter: filters.join(','),
@@ -177,7 +180,7 @@ export async function fetchOpenAlexWorks(options: {
   const key = providerKey('openalex');
   if (key) params.set('api_key', key);
 
-  const res = await fetchFromProvider<{ results?: OpenAlexWork[] }>('openalex', `${BASE}?${params.toString()}`);
+  const res = await fetchFromProvider<{ results?: OpenAlexWork[] }>('openalex', `${BASE}?${params.toString()}`, { fresh: options.fresh });
   if (!res.ok) return res;
 
   const items: ResearchItem[] = [];

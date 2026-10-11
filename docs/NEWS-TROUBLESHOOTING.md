@@ -133,7 +133,7 @@ Added operator-only `--manual --industries` maintenance to the existing pull scr
 - All thirteen industry calls returned healthy replies, mapping **57 articles** in total. Tourism returned five and Healthcare seven, before relevance filtering and duplicate removal.
 - Twelve mapped candidates passed the site-topic check. After merging with previous NewsData candidates and applying source/date/URL/access rules, **14 existing approved records were saved/updated**, with `storage: ok` and `sourcesFailed: false`. These were not fourteen newly discovered articles; the eligible pool gained no new URLs.
 - Native selections and all thirteen rendered localhost pages still showed news on eleven industries. Tourism and Healthcare/Education remained empty. The healthy query responses did not supply eligible sector cards.
-- Broad discovery provenance is retained for diagnostics, but does not alone qualify an article for a sector. The Healthcare query found the existing local-food and rooftop-apartment-solar stories; incidental university references do not make these institutional-estates news. Tourism had no eligible saved result even through discovery provenance.
+- Broad discovery provenance is retained for diagnostics, but does not alone qualify an article for a sector. The Healthcare query found the existing local-food and rooftop-apartment-solar stories; incidental university references do not make these institutional-estates news. Tourism had no eligible saved result under the filter at that point. A later inspection identified a missing nature-topic term rejecting an appropriate Tourism candidate; see the follow-up below.
 - Providers not contacted by maintenance retain their saved health and last-success timestamps. The separate GDELT accounting failure was not retried or represented as recovered.
 
 Also checked all thirteen pages at `https://enerqa-co-uk.vercel.app`. The public responses returned HTTP 200 but only Government had news (one card); the other twelve sections were empty. A further Agriculture request with a unique query and `Cache-Control: no-cache` returned HTTP 200, `x-vercel-cache: MISS`, `age: 0`, and no news cards. Energy on the same alias still showed its earlier news fix. The localhost industry vocabulary fix is not reflected in that URL's observed output; the user's previous push alone does not establish that this production alias serves the latest industry code.
@@ -145,8 +145,28 @@ Validation: **185 tests across fifteen files**, TypeScript, changed-source ESLin
 - [x] Complete one bounded industry-only pull and verify storage and rendered results.
 - [ ] Deploy the latest industry selection and discovery changes to the production alias, then verify Agriculture and the other populated local sections there.
 - [ ] Confirm automatic scheduled execution and industry-query rotation in Vercel logs and saved timestamps.
-- [ ] Recheck Tourism and Healthcare when sector-relevant eligible articles are available. Future healthy pulls can still return no displayable stories; unrelated food/apartment/general climate stories must not fill these panels.
+- [x] Inspect Tourism's individual candidates and fix the rejected ecological headline; verify one stored and rendered card as described below.
+- [ ] Investigate Healthcare's individual candidates if that panel needs further repair; its eligible saved selection is still empty. Unrelated food/apartment/general climate stories must not fill it.
 - [ ] Resolve the separate GDELT request-tracking failure with its existing budget and spacing guards intact.
+
+## Tourism ecological-headline fix: 11 October, 1:49 PM Manila
+
+After the user's latest deployment, Agriculture on Vercel showed three news cards, confirming the earlier industry matching fix is now visible. Tourism remained empty locally and on that alias. A single tracked NewsData diagnostic query returned five candidates. Four were unrelated airport-staff, recruitment, regional-politics and football stories. The fifth was a recent Guardian tourism/conservation report from Tobago, rejected solely because its headline referred to turtle nesting without one of the recognised core nature terms. The earlier audit missed this filter rejection when treating Tourism as a sourcing gap.
+
+Added `turtle nest`, `coral reef`, `habitat loss` and `habitat destruction` to the headline topic gate, the Environment news basket and Nature domain matching. The headline still needs an explicit site topic; unrelated headlines cannot qualify through nature terms mentioned only in their teaser. No publisher, date, anonymous-access or provider-provenance rules were bypassed.
+
+Added a single-industry maintenance option to the trusted local command and ran `npx tsx scripts/pull-news.ts --manual --industry tourism-hospitality-destinations` once after passing checks. It used the shared lease and request accounting and completed at **13:49:20 Manila / 05:49:20 UTC**. Its single fresh query returned five candidates; one passed relevance. Fifteen approved NewsData records were saved/updated, consisting of fourteen previous candidates and **one newly saved Tourism article**, with `storage: ok` and fifteen successful anonymous-access verdicts. No topic/domain/RSS/GDELT poll was repeated, and untouched provider health was preserved.
+
+Fresh native selections now contain news on **12 of 13 industries**, with **Tourism: 1** and Healthcare/Education still zero. The Tourism article retains its provider publication timestamp, **10 October, 11:00:56 UTC**. The localhost Industry News section returned HTTP 200 and rendered that one card after the normal saved-read cache refreshed. Its Global Intelligence news link also returned HTTP 200 with a rendered reading link for the article. The deployed Agriculture page still showed three cards, while deployed Tourism remained empty before deployment of this additional filter correction.
+
+Validation: **201 tests across fifteen files**, TypeScript, changed-source ESLint and diff checks passed. Regressions cover the actual rejected headline, ecological synonyms/plurals, unrelated hotel/animal/airport/football headlines, Nature and Tourism saved reads, a one-query sector repair with the real destination-check path stubbed, invalid sector selections rejected before claiming, and no provider calls during subsequent page reads.
+
+- [x] Identify the candidate-level rejection and correct the nature vocabulary.
+- [x] Complete one scoped repair through the shared lease, budget and genuine article-access checks.
+- [x] Verify native Tourism selection and its rendered localhost card.
+- [x] Verify the rendered article link in the Tourism Global Intelligence news results.
+- [ ] Deploy this additional filter correction and confirm the Tourism card on the production alias.
+- [ ] Confirm the automatic scheduled pulls; local repair success does not establish Vercel cron/provider health.
 
 News now reads approved saved articles from the database. The new authenticated `/api/ingest/news` job pulls providers three times daily, at 6 AM, 2 PM and 10 PM Manila time. See [NEWS-SCHEDULE.md](NEWS-SCHEDULE.md) for the UTC configuration, saved-article rules and deployment blockers. Browsing no longer triggers news-provider calls.
 
