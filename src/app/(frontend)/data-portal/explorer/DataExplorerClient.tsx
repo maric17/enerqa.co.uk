@@ -492,7 +492,7 @@ export default function DataExplorerClient() {
             <div className="mb-4 flex justify-between items-center">
               <h2 className="font-bold text-xl text-gray-900">Original Gapminder Visualization</h2>
               <a href="https://www.gapminder.org/tools" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] text-sm font-bold hover:underline">
-                Open in new tab &nearr;
+                Open in new tab <span aria-hidden="true">↗</span>
               </a>
             </div>
 
