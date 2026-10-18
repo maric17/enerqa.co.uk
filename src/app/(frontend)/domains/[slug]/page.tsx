@@ -7,6 +7,7 @@ import { PageHero } from '@/components/ui/PageHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
 import { DOMAIN_FEEDS, newsPhrases, SPECIALIST_PROVIDER } from '@/lib/feeds/contextual';
 import { providerEnabled } from '@/lib/api/core/registry';
 import { NewsFeed } from '@/components/feeds/NewsFeed';
@@ -17,7 +18,6 @@ import { RelatedDataset } from '@/components/feeds/RelatedDataset';
 import { CuratedSources } from '@/components/feeds/CuratedSources';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
-import { APPROVED_DOMAIN_INDUSTRIES } from '@/lib/content/questionnaire';
 
 /**
  * Fetch one domain by slug.
@@ -28,6 +28,8 @@ import { APPROVED_DOMAIN_INDUSTRIES } from '@/lib/content/questionnaire';
  * industry documents rather than just their IDs.
  */
 const getDomain = cache(async (slug: string) => {
+  // Read saved editor selections on each request so CMS changes need no rebuild.
+  await connection();
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
     collection: 'domains',
@@ -35,13 +37,7 @@ const getDomain = cache(async (slug: string) => {
     limit: 1,
     depth: 1,
   });
-  const domain = result.docs[0];
-  if (!domain) return null;
-  const approvedSlugs = APPROVED_DOMAIN_INDUSTRIES[slug];
-  if (!approvedSlugs) return domain;
-  // Q14's mapping works immediately, even before the relationship write runs.
-  const industries = await payload.find({ collection: 'industries', where: { slug: { in: approvedSlugs } }, limit: 13, depth: 0 });
-  return { ...domain, relevantIndustries: approvedSlugs.flatMap(slug => industries.docs.filter(industry => industry.slug === slug)) };
+  return result.docs[0] ?? null;
 });
 
 // Handoff p. 227: every substantive page needs a unique title and description.
