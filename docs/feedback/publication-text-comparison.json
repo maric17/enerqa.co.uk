@@ -1,0 +1,486 @@
+[
+  {
+    "slug": "the-evolution-of-climate-change-understanding-and-response",
+    "sourceWords": 704,
+    "rebuiltWords": 642,
+    "matchRatio": 0.841,
+    "reviewGaps": [
+      {
+        "words": 79,
+        "before": "on adaptation equity and innovation will be vital for future climate resilience",
+        "sourceText": "references 1 intergovernmental panel on climate change ipcc climate change the ipcc scientific assessment cambridge university press 1990 2 unfccc the united nations framework convention on climate change un 1992 3 paris agreement adopted framework for global climate mitigation unfccc 2015 4 keeling c d 1960 the concentration and isotopic abundances of carbon dioxide in the atmosphere tellus 12 2 200 203 5 intergovernmental panel on climate change ipcc 2001 climate change 2001 the scientific basis cambridge university press",
+        "after": "economic and political resistance fossil fuel dependent economies and industries often resist"
+      }
+    ]
+  },
+  {
+    "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+    "sourceWords": 864,
+    "rebuiltWords": 815,
+    "matchRatio": 0.97,
+    "reviewGaps": []
+  },
+  {
+    "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+    "sourceWords": 1147,
+    "rebuiltWords": 781,
+    "matchRatio": 0.771,
+    "reviewGaps": [
+      {
+        "words": 38,
+        "before": "address climate related challenges this can be achieved using the following strategies",
+        "sourceText": "figure 2 another example of how recent climate events disrupt supply chains ship buildup at the panama canal due to drought and unpredictable weather patterns in 2023 15 weathering the storm climate resilience in supply chains 11 o",
+        "after": "avoiding over reliance on single regions or suppliers o sharing data across"
+      },
+      {
+        "words": 252,
+        "before": "ai reduces energy used for cooling google data centers by 40 4",
+        "sourceText": "tesla tesla online available best tesla powerwall in 2024 here 5 bcg online available https www bcg com publications 2023 how ai can speedup climate action utm 6 ibm online available https newsroom ibm com 2023 03 14 ibm launches rfp to help accelerate global water management solutions for vulnerable populations utm 7 seoul online available https english seoul go kr seoul to increase recycling rate to 79 by 2026 utm 8 microsoft online available https news microsoft com apac 2021 10 11 microsoft ai for earth named as one of 100 outstanding biodiversity positive practices and actions around the world 9 a m research online available artificial intelligence ai market size share trends 2033 10 i o s studies 14 october 2024 online available https instituteofsustainabilitystudies com insights lexicon what are scope 4 emissions 11 w b c f s d wbcsd guidance on avoided emissions helping business drive innovations and scale solutions toward net zero geneva amsterdam new delhi london new york singapore world business council for sustainable development wbcsd 2023 12 w r institute world resourced institute 05 november 2013 online available https www wri org insights do we need standard calculate avoided emissions 13 m d g g c l m a lauren shwisberg how to build clean energy portfolios a practical guide to next generation procurement practices rocky mountain institute basalt co 81621 usa 2020 14 p a online available https plana earth glossary scope 4 emissions weathering the storm climate resilience in supply chains 12 15",
+        "after": "p r atack panama canal authority blames queues on drought and draft"
+      },
+      {
+        "words": 30,
+        "before": "panama canal authority blames queues drought draft cut accessed 25 september 2024",
+        "sourceText": "16 j verschuur e e koks and j w hall systemic risks from climate related disruptions at ports nature climate change vol 13 no 8 p 804 806 2023 17",
+        "after": "l woetzel d pinner h samandari h engel m krishnan c kampel"
+      }
+    ]
+  },
+  {
+    "slug": "climate-change-and-war-a-complex-interplay",
+    "sourceWords": 1219,
+    "rebuiltWords": 1047,
+    "matchRatio": 0.92,
+    "reviewGaps": [
+      {
+        "words": 56,
+        "before": "",
+        "sourceText": "climate change and war a complex interplay how conflicts in ukraine palestine and sudan in 2024 are shaped by and impact the global climate crisis 13 climate change and war a complex interplay how conflicts in ukraine palestine and sudan in 2024 are shaped by and impact the global climate crisis by dr islam m awad",
+        "after": "in 2024 the world faces ongoing conflicts in ukraine palestine and sudan"
+      },
+      {
+        "words": 56,
+        "before": "migration and urban sprawl as millions flee the violence al jazeera 2024",
+        "sourceText": "destruction in ukraine s thermal power source state emergency service of ukraine handout via reuters an informal refugee settlement in tina sudan on oct 22 2023 source jérôme tubiana photos climate change and war a complex interplay how conflicts in ukraine palestine and sudan in 2024 are shaped by and impact the global climate crisis 14",
+        "after": "these crises illustrate that while war is an immediate human disaster the"
+      },
+      {
+        "words": 42,
+        "before": "country suffered from prolonged droughts crippling agricultural production and deepening food insecurity",
+        "sourceText": "water scarce areas in palestine gaza source abed rahim khatib anadolu agency on february 19 2024 climate change and war a complex interplay how conflicts in ukraine palestine and sudan in 2024 are shaped by and impact the global climate crisis 15",
+        "after": "the interaction between extreme weather events and ongoing conflict has created a"
+      }
+    ]
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "sourceWords": 1037,
+    "rebuiltWords": 920,
+    "matchRatio": 0.889,
+    "reviewGaps": [
+      {
+        "words": 58,
+        "before": "to report their progress and undergo international review to ensure accountability 13",
+        "sourceText": "the solution lies in bending the curve halting and reversing the five drivers of biodiversity loss by scaling back the footprint of human production and consumption the kunming montreal global biodiversity framework signed in 2022 by 188 countries agreed that bending the curve before 2030 was essential source robeco bloomberg greenhouse gases and climate change an overview 19",
+        "after": "implications of the paris agreement the paris agreement represents a historic milestone"
+      }
+    ]
+  },
+  {
+    "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
+    "sourceWords": 1012,
+    "rebuiltWords": 943,
+    "matchRatio": 0.953,
+    "reviewGaps": []
+  },
+  {
+    "slug": "ghg-emissions-the-burden-on-our-planet",
+    "sourceWords": 19,
+    "rebuiltWords": 243,
+    "matchRatio": 0.053,
+    "reviewGaps": []
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "sourceWords": 5099,
+    "rebuiltWords": 4374,
+    "matchRatio": 0.919,
+    "reviewGaps": [
+      {
+        "words": 36,
+        "before": "",
+        "sourceText": "exploring the rainbow of hydrogen technology a path to sustainable energy and climate resilience 24 exploring the rainbow of hydrogen technology a path to sustainable energy and climate resilience by quosay a ahmed and reem almlik",
+        "after": "abstract hydrogen technologies are gaining significant attention to decarbonize energy intensive sectors"
+      },
+      {
+        "words": 156,
+        "before": "advances allow for efficient and economical extraction from natural deposits he 2020",
+        "sourceText": "table 1 summary of hydrogen production methods by color emissions and applicability color production method emissions applicability gray steam methane reforming smr high co2 emissions cost effective widely used in industry but high emissions blue smr with carbon capture and storage ccs low co2 emissions due to ccs lower emissions option for industries with existing infrastructure green electrolysis powered by renewable energy zero direct emissions ideal for sectors requiring low carbon e g transport energy storage turquoise methane pyrolysis no direct co2 emissions solid carbon byproduct potential for regions with natural gas and solid carbon markets pink electrolysis powered by nuclear energy minimal emissions low carbon suitable for continuous industrial applications with nuclear power yellow electrolysis powered by grid electricity varies based on grid energy mix flexible emission levels dependent on regional grid composition white naturally occurring hydrogen in geological formations zero direct emissions extraction impact uncertain under research future potential if extraction methods are developed",
+        "after": "4 feasibility in developing and least developed countries the feasibility of hydrogen"
+      },
+      {
+        "words": 262,
+        "before": "hydrogen sector balancing hydrocarbon production with sustainable energy development hydrogen council 2021",
+        "sourceText": "table 2 assessment of hydrogen technology feasibility in different economic contexts figure 4 hydrogen technologies categorization source author s illustration exploring the rainbow of hydrogen technology a path to sustainable energy and climate resilience 30 hydrogen type economic context technical feasibility environmental impact gray low cost feasible in natural gas rich countries high emissions limit long term viability high mature technology with widespread adoption in industry high co2 emissions unsustainable for low carbon goals blue higher cost due to ccs suitable for gas rich areas with carbon storage infrastructure moderate dependent on ccs technology and storage infrastructure reduced emissions ccs mitigates co2 but relies on storage safety green high initial costs viable in regions with strong renewable infrastructure and financing moderate requires renewable energy infrastructure and high capital investment zero direct emissions ideal for low carbon applications turquoise emerging technology potential for natural gas regions with solid carbon markets low experimental stage with limited infrastructure and market support no co2 emissions carbon byproduct requires solid carbon markets pink limited to regions with nuclear power high costs and regulatory challenges low reliant on nuclear infrastructure and public acceptance minimal emissions limited by nuclear energy availability yellow variable emissions based on grid mix feasible where renewable share in grid is high moderate dependent on grid energy mix suitable where renewables are prevalent varies emissions depend on grid composition and renewables share white under research potential in areas with natural hydrogen deposits if extraction develops low early stage research limited knowledge on extraction feasibility zero direct emissions environmental impacts uncertain due to limited extraction data",
+        "after": "5 hydrogen technologies and climate change hydrogen technologies play a crucial role"
+      },
+      {
+        "words": 96,
+        "before": "infrastructure ccs technology and the development of hydrogen storage and distribution systems",
+        "sourceText": "table 3 emission reduction potential of hydrogen technologies by color hydrogen type emission reduction potential key factors for climate impact gray low high co2 emissions unsuitable for net zero goals blue moderate co2 reduction with ccs feasible transitional option green high zero direct emissions ideal for net zero targets turquoise moderate solid carbon byproduct low emissions but limited scaling pink high in nuclear capable regions minimal emissions reliant on nuclear infrastructure yellow variable depends on grid energy mix cleaner in renewable heavy grids white high if viable extraction zero direct emissions under research for sustainable use",
+        "after": "6 conclusion and recommendations conclusion hydrogen technology represents a versatile and promising"
+      }
+    ]
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "sourceWords": 9877,
+    "rebuiltWords": 7030,
+    "matchRatio": 0.761,
+    "reviewGaps": [
+      {
+        "words": 53,
+        "before": "",
+        "sourceText": "green credit lines in the gulf cooperation council evaluating opportunities overcoming challenges and assessing the impact on energy transition in qatar 33 green credit lines in the gulf cooperation council evaluating opportunities overcoming challenges and assessing the impact on energy transition in qatar by dr isalm m awad and dr quosay a ahmed",
+        "after": "abstract this study explores the potential of green credit lines gcls as"
+      },
+      {
+        "words": 183,
+        "before": "the following table compare between the conventional credit line and the gcl",
+        "sourceText": "table 1 difference between the conventional credit line and the green credit line feature credit line green credit line definition a pre approved loan amount that a borrower can access as needed up to a specified limit a specific type of credit line designed to finance environmentally friendly projects and initiatives purpose can be used for various purposes such as working capital debt consolidation or emergency expenses exclusively used for projects that promote environmental sustainability like renewable energy energy efficiency or pollution control eligibility based on creditworthiness income and other financial factors requires meeting specific criteria related to the project s environmental benefits and adherence to sustainability standards terms and conditions interest rates fees and repayment terms can vary depending on the borrower s credit profile and the lender s policies often comes with more favorable terms than traditional credit lines such as lower interest rates longer repayment periods or reduced fees to incentivize green investments examples personal credit lines business credit lines home equity lines of credit green credit lines for renewable energy projects energy efficient building upgrades or sustainable agriculture practices",
+        "after": "the gcc economies have been heavily reliant on oil and gas export"
+      },
+      {
+        "words": 39,
+        "before": "overcome funding barriers particularly for smes enabling faster adoption of sustainable practices",
+        "sourceText": "1 qatar s baseline scenario is a projection of future ghg emissions assuming no additional mitigation measures are implemented beyond those already planned before the ndc submission the 25 reduction target is measured against this projected emissions trajectory 35",
+        "after": "the study adopts a comprehensive approach that includes a literature review and"
+      },
+      {
+        "words": 270,
+        "before": "of qatar s strategic initiatives aimed at sustainable development and climate action",
+        "sourceText": "table 2 qatar s strategic plans for sustainable development and climate action category action plan description lead institution s national strategy qatar national vision 2030 outlines a long term vision for economic diversification environmental sustainability and human development emphasizes a balanced approach to economic growth and environmental protection qatar general secretariat for development planning qgsdp climate change strategy qatar national environment and climate change strategy qnecs establishes a national framework for mitigating climate change impacts and adapting to a changing climate sets national climate targets including those outlined in qatar s ndc and outlines various measures across different sectors ministry of municipality and environment mme nationally determined contribution ndc qatar s first ndc sets a national target to reduce greenhouse gas emissions by 25 by 2030 compared to a business as usual bau scenario ministry of municipality and environment mme energy sector qatarenergy sustainability strategy aims to reduce greenhouse gas emissions throughout the natural gas value chain focuses on improving energy efficiency reducing methane emissions and exploring carbon capture and storage ccs technologies qatarenergy renewable energy re strategy qatar national renewable energy re strategy aims to increase the share of re in the country s energy mix ministry of municipality and environment mme carbon capture and storage ccs qatarenergy ccs research and development explores the potential of ccs technologies to capture and store carbon emissions from the natural gas industry qatarenergy aero emissions reduction the qatar airways fuel optimization aims to reduce fuel consumption and carbon emissions from aircraft operations qatar airways zero emission targets n a n a n a source prepared by the authors based on published data",
+        "after": "in their recent national re strategy qatar focuses in three main objectives"
+      },
+      {
+        "words": 68,
+        "before": "taxonomies and are typically excluded from green financing the differentiation between green",
+        "sourceText": "3 a green lending market refers to the financial ecosystem specifically targeting environmentally sustainable projects which i ncludes products and services like green loans or bonds it aims to channel funds into renewable energy energy efficiency and other green initiatives by offering gcls local financial institutions can develop expertise in green financing and expand the market for environmental projects by providing specialized financial products world bank 2020 38",
+        "after": "and brown projects is critical to avoid greenwashing where projects are misleadingly"
+      },
+      {
+        "words": 306,
+        "before": "range of products and services available serving various segments of the market",
+        "sourceText": "table 3 key green finance initiatives offered by leading qatari banks bank green initiatives figure 5 gcl mechanism source authors illustration 39 qatar national bank qnb issued usd 600 million in green bonds doha bank green car loans green mortgage program green credit cards green accounts qatar development bank qdb green financing program provides preferential financing for eco friendly projects and products qatar central bank qcb regulatory and strategic efforts 1 facilitates green bond issuance 2 collaborates with qdb for green financing initiatives 3 encourages environmental and social considerations in bank governance dukhan bank 1 esg strategy implements a comprehensive strategy with a focus on sustainable finance 2 green products offers eco friendly vehicle financing and partners with gord for sustainable building practices international bank of qatar ibq n a qatar islamic bank qib 1 sustainable deposit sharia compliant product allocating funds to environmentally and socially responsible projects 2 sustainability strategy aims to be a leader in sharia compliant 1 sustainable finance aligns with un sdgs and qatar national visio n 2030 2 equator principles adopted framework to manage environmental and social risks in financed projects masraf al rayan 1 sustainable finance framework promotes environmental and social objectives through financing activities 2 green deposit qatar s first sharia compliant green deposit product 3 green vehicle finance campaign offers competitive financing for electric and hybrid vehicles ahli bank n a qatar international islamic bank qiib 1 sustainable finance framework promotes environmental and social benefits through financing activities aligned with green bond principles gbp social bond principles sbp green loan principles glp and social loan principles slp 2 green financi ng products offers financing for various green projects like re clean transportation energy efficiency and sustainable water management source compiled by the authors from multiple publicly accessible sources including annual reports official bank websites and sustainability publications reserch",
+        "after": "methodology research framework the paper proposes a conceptual framework to qualitatively assess"
+      },
+      {
+        "words": 57,
+        "before": "the three factors 1 financial institution performance 30 2 governmental frameworks 40",
+        "sourceText": "4 namely egyptian pollution abatement project ii ifc s commercializing sustainable energy finance program csef in turkey credit line for leasing to three turkish leasing companies ebrd green economy finance facility serbia green credit line to unicredit bank serbia figure 6 conceptual framework for evaluating the gcl potential in gcc and impact on energy transition 41 3",
+        "after": "internal capacities 30 the rationale for assigning these weights is grounded in"
+      },
+      {
+        "words": 374,
+        "before": "in gcc and impact on energy transition 41 3 internal capacities 30",
+        "sourceText": "the rationale for assigning these weights is grounded in the recognition of the fundamental importance of the governmental frameworks in ensuring the success and sustainability of the gcls 5 even if the performance and the internal capacities of the fis fully met the absence of a supportive governmental frameworks would significantly hinder the effectiveness of the gcls given these insights the governmental frameworks are prioritized with a 40 weight to reflect its critical role in supporting the gcl s success the comprehensive assessment of the national green finance strategy gcl regulatory and guidelines and green building standards ensures that the foundational conditions necessary for the gcl are in place the fis performance is essential for defining the specific eligibility criteria for the fis focusing on the financial performance of the fis and the commitment to the sustainability exposure to high carbon sectors internal cap acities focus on the specific design and implementation aspects of the gcl this includes the green finance expertise the availability of the green projects pipeline among other the sub indices for each factor are illustrated in table 4 with relative importance percentage out of 100 a pre defined scoring system e g 0 for no evidence 1 for limited evidence 2 for moderate evidence 3 for strong evidence will be applied to each sub indices scores for each factor will be calculate d and multiplied by their respective weights the final gclipi score for each country will be the sum of the weighted factors scores the gclipi scores will serve as a starting point for assessing the potential impact on the energy transition the below ex planatory note shows the scale definitions the model equations and the benchmark matrix 5 according to the oecd a clear national strategy for green finance is critical for mobilizing investments and ensuring that f inancial markets support sustainable development goals the international monetary fund imf emphasizes the importance of regulatory frameworks in ensuring financial stability and transparency which are crucial for the success of financial instruments like gcls imf 2023 the world bank highlights that the adoption of green building standards is a key indicator of a country s comm itment to sustainable development and can drive significant environmental benefits world bank 2023 1",
+        "after": "the performance of the fis 30 assesses the degree to which fis"
+      },
+      {
+        "words": 40,
+        "before": "the credit rating national green finance strategy 33 assessed by evaluating the",
+        "sourceText": "presence of relevant information in published materials the capacity of fis to undertake technical and financial assessments of energy efficiency and re project 50 measured by examining the conduction of the sustainable finance training program sustainable portfolio of the fis",
+        "after": "exposure to high carbon sectors 50 measured by the efforts to reduce"
+      },
+      {
+        "words": 77,
+        "before": "presence of green building standards or initiatives 33 assessed by evaluating the",
+        "sourceText": "presence of relevant information in published materials data sources fis websites annual reports industry reports central bank reports regulatory body websites government policy documents government policy documents national plans and related publications references world bank s financial intermediary funds fifs framework https www worldbank org en programs fin ancial intermediary funds wb 2023 adb 2023 wb financing energy efficiency part 2 credit lines 2018 derived from a review of various established gcl programs 43 figure 7 breakdown",
+        "after": "of the factors that composing the green credit implementation potential index gcipi"
+      },
+      {
+        "words": 603,
+        "before": "definition 0 1 2 3 financial institution performance financial performance of the",
+        "sourceText": "fis fp6 d and sd in default low ranging from ccc ccc ccc cc c med ranging from bbb bbb bbb bb bb bb b b b high ranging from aaa aa aa aa a a a sustainable portfolio of the fis exposure to high carbon sectors sp no significant efforts to reduce exposure to high carbon sectors some initial efforts towards sustainability and minor reductions in high carbon investments substantial commitment to sustainability and moderate reductions in exposure to high carbon sectors leader in sustainability with aggressive targets and substantial reductions in high carbon sector exposure governmental frameworks national green finance strategy ngfs no evidence of a national green finance strategy in publicly available data or reports indirect mention of a national green finance strategy in publicly available data or reports but no comprehensive details or dedicated strategy documents some documentation or references to a national green finance strategy possibly including high level goals or intentions but lacks detailed implementation plans or strategies clear evidence of a national green finance strategy with documented goals strategies and initial implementation plans available in publicly published reports regulations and guidelines for gcls reporting rg no evidence of specific regulations or guidelines for green credit lines gcl in publicly available data or reports direct mention of regulations or guidelines for green credit lines gcl but no comprehensive details or dedicated regulatory framework some documentation or references to regulations or guidelines for green credit lines gcl possibly including broad principles or intentions but lacks detailed implementation guidelines or clear evidence of specific regulations or guidelines for green credit lines gcl with documented criteria eligibility requirements and implementation guidelines available in publicly published reports 6 according to the s p global credit rating scale 45 regulatory frameworks presence of green building standards or initiatives gbs no evidence or acknowledgment of specific green building standards or initiatives in publicly available data or reports minimal or indirect mention of green building standards or initiatives but no comprehensive details or dedicated framework some documentation or references to green building standards or initiatives possibly including initial guidelines or principles but lacks widespread adoption or comprehensive implementation clear evidence of specific green building standards or initiatives with documented criteria certification processes and adoption by stakeholders available in publicly published reports internal capacities the capacity of financial institutions to undertake technical and financial assessments of energy efficiency and re project ctfa no evidence or acknowledgment of specific sustainable finance training programs or capacity building initiatives related to energy efficiency or renewable energy projects in publicly available data or reports indirect mention of sustainable finance training programs but no comprehensive details or dedicated framework for energy efficiency or renewable energy projects some documentation or references to sustainable finance training programs possibly including basic training or awareness sessions but lacks comprehensive coverage of technical and financial assessments clear evidence of specific sustainable finance training programs with documented curriculum training modules on technical and financial assessments for energy efficiency and renewable energy projects the green project pipeline gpp no evidence or acknowledgment of a specific green project pipeline or renewable energy targets in publicly available data or reports indirect mention of green project pipeline or renewable energy targets but no comprehensive details or dedicated framework for identifying and developing green project some documentation or references to green project pipeline or renewable energy targets possibly including preliminary listings or intentions but lacks a structured and detailed pipeline management system clear evidence of a specific green project pipeline with documented projects aligned with renewable energy targets stages of development and potential financing needs available in publicly published reports 46",
+        "after": "gcl potential impact indicator gclpii gclpii measures the expected influence of implementing"
+      },
+      {
+        "words": 86,
+        "before": "the re target ambitiousness score after converting it to a numerical value",
+        "sourceText": "figure 8 benchmark matrix for the green credit line potential impact indicator gclpii table 7 re target ambitiousness qatar re target ambitiousness note references national re strategy aiming to increase the re contribution from 5 to 18 by 2030 a significant increase in re contribution within a defined timeframe 2030 indicates a highly ambitious target qatar national re strategy may 2024 gclpii gcipi reta 2 gcipi green credit implementation potential index reta renewable energy target ambitiousness table 6 scale definition for gcl potential impact indicator gcipi",
+        "after": "highly ambitious 3 points the country has a target for re exceeding"
+      },
+      {
+        "words": 127,
+        "before": "use but significant efforts are required and challenges need to be addressed",
+        "sourceText": "47 ren21 renewables global status report 2023 uae re target ambitiousness note references the 50 target by 2050 represents a long term vision but is still ambitious compared to the region s average the 50 target by 2050 represents a long term vision but is still ambitious compared to the region s average uae net zero by 2050 strategic initiative iea world energy outlook 2023 ksa re target ambitiousness note references saudi arabia s vision 2030 targets 50 of its electricity generation from re sources by 2030 the 50 target by 2050 represents a long term vision but is still ambitious compared to the region s average saudi arabia vision 2030 iea executive director statement source prepared by the authors based on published documents and national plans",
+        "after": "analysis and discussion gcl implementation potential index gclipi this study aimed to"
+      },
+      {
+        "words": 51,
+        "before": "of re the gcl might act as catalyzer for enabling such transition",
+        "sourceText": "7 uae green agenda 2015 2030 state of green finance in the uae the first national survey on contributions of financial institutions to green economy 48 while the uae demonstrates strong green finance initiatives the relatively longer timeframe for re targets reduces the potential impact of gcls in accelerating the transition",
+        "after": "to sum up the study compared the gcl potential of qatar the"
+      },
+      {
+        "words": 875,
+        "before": "country needs to address its limitations to unlock full potential of gcls",
+        "sourceText": "49 table 8 the results of scoring the sub indices of the gclipi and references qatar sub index weight score weighted scores references financial institutions performance country scale fip 30 1 2 financial performance of the fis 0 5 3 1 5 1 credit rating s p global ratings 2022 sustainable portfolio of fis 0 5 2 1 2 loans to carbon intensive sectors total loans banks gulf cooperation council 2022 outlook sub index score 2 5 weighted sub index score 0 75 governmental frameworks gf 40 3 4 national green finance strategy 0 33 1 0 33 3 qatar central bank s plan 2017 2022 with intention to implement strategic actions on green finance regulations for gcl 0 33 0 0 no regulations found yet presence of green building standards or initiatives 0 33 3 0 99 5 qatar has 1 406 sustainability certified buildings according to the ministry of environment and climate change sub index score 1 32 weighted sub index score 0 528 internal capacities ic 30 5 6 7 the capacity of financial institutions to undertake technical and financial assessments of energy efficiency and re project 0 5 0 0 5 opportunities for the gcc to strengthen the sustainable finance ecosystem pwc research adapted from the atlantic council 2022 official public resources 2023 https www strategyand pwc com m1 en strategic foresight sector strategies financial services middle east green finance middle east green finance pdf the project pipeline 0 5 2 1 6 qatar national vision 2030 renewable energy goals sub index score 1 weighted sub index score 0 3 total gcl implementation potential index 1 578 uae sub index weight score weighted scores references financial institutions performance country scale fip 30 1 2 financial performance of the fis 0 5 3 1 5 1 liquid assets assets s p global ratings 2022 sustainable portfolio of fis 0 5 2 1 2 loans to carbon intensive sectors total loans banks gulf cooperation council 2022 outlook sub index score 2 5 weighted sub index score 0 75 governmental frameworks gf 40 8 9 national green finance strategy 0 33 2 0 66 8 uae sustainable finance framework 2021 2031 regulations for gcls reporting 0 33 0 0 no regulation found yet presence of green building standards or initiatives 0 33 3 0 99 9 estidama green building rating system uae sub index score 1 65 50 weighted sub index score 0 66 internal capacities ic 30 5 10 11 the capacity of financial institutions to undertake technical and financial assessments of energy efficiency and re project 0 5 1 0 5 5 opportunities for the gcc to strengthen the sustainable finance ecosystem pwc research adapted from the atlantic council 2022 official public resources 2023 https www strategyand pwc com m1 en strategic foresight sector strategies financial services middle east green finance middle east green finance pdf the project pipeline 0 5 2 1 10 emirates nbd green financing initiatives uae energy strategy 2050 dubai green fund sub index score 1 5 weighted sub index score 0 45 total gcl potential index 1 86 ksa sub index weight score weighted scores references financial institutions performance country scale fip 30 1 2 financial performance of the fis efficiency 0 5 3 1 5 1 liquid assets assets s p global ratings sustainable portfolio of fis 0 5 1 0 5 2 loans to carbon intensive sectors total loans banks gulf cooperation council 2022 outlook sub index score 2 weighted sub index score 0 6 governmental frameworks gf 40 12 13 national green finance strategy 0 33 3 0 99 12 green financing framework march 2024 https ndmc gov sa investorsrelations documents green financing framework ksa 28march2024 pdf regulations for gcl 0 33 0 0 no regulation found yet presence of green building standards or initiatives 0 33 3 0 99 13 mostadam certificate sub index score 1 98 weighted sub index score 0 792 internal capacities ic 30 5 14 15 the capacity of financial institutions to undertake technical and financial assessments of energy efficiency and re project 0 5 0 0 opportunities for the gcc to strengthen the sustainable finance ecosystem pwc research adapted from the atlantic council 2022 official public resources 2023 https www strategyand pwc com m1 en strategic foresight sector strategies financial services middle east green finance middle east green finance pdf the project pipeline 0 5 2 1 14 green financing framework march 2024 and giga projects sub index score 1 weighted sub index score 0 3 total gcl implementation potential index 1 692 51 table 9 the results of scoring the factors of the gcl potential impact indicator qatar re target ambitiousness score national re strategy aiming to increase the re contribution from 5 to 18 by 2030 3 high gclipi 1 58 gcl potential impact indicator 2 29 uae re target ambitiousness score the 50 target by 2050 represents a long term vision but is still ambitious compared to the region s average 2 5 medium gclipi 1 86 gcl potential impact indicator 2 18 ksa re target ambitiousness score saudi arabia s vision 2030 targets 50 of its electricity generation from re sources by 2030 3 high gclipi 1 69 gcl potential impact indicator 2 35",
+        "after": "as shown in the above table the three countries have good gcipi"
+      }
+    ]
+  },
+  {
+    "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+    "sourceWords": 1584,
+    "rebuiltWords": 1391,
+    "matchRatio": 0.889,
+    "reviewGaps": [
+      {
+        "words": 111,
+        "before": "contamination incineration on the other hand releases harmful pollutants and greenhouse gases",
+        "sourceText": "co2 capture and utilization scwt generates high pressure pure co2 which can be converted into value added products like urea methanol and other chemicals nutrient recovery treating treated sewage effluent tse can recover valuable nutrients like phosphorus and nitrogen for fertilizer production energy recovery scwt s high temperature effluent can be utilized for generating electricity or preheating incoming waste streams through combined heat and power chp systems salt separation gasification recovery of minerals and metals n2 recovery process liquid effluent renewable gas nh3 fertilizer energy carrier clean water fertilizers metals waste scwg mineral rich solids nh4 rich process water supercritical water technology a sustainable solution for waste management in qatar 56",
+        "after": "in contrast scwt eliminates these concerns by providing a clean and efficient"
+      },
+      {
+        "words": 87,
+        "before": "environmental impact scwt addresses critical challenges while contributing to a circular economy",
+        "sourceText": "1 feasibility study 2 stakeholder engagement 3 regulatory compliance and risk assessment concept development and feasibility study 1 detailed project planning 2 technology design and customization 3 pilot testing 4 financial planning and funding planning and design 1 procurement and construction 2 training and capacity building 3 integration with existing systems 4 monitoring and evaluation implementation 1 launch full scale operations public awareness and engagement 1 regulatory reporting and compliance full scale operation and optimization supercritical water technology a sustainable solution for waste management in qatar 57",
+        "after": "to unlock its full potential qatar must invest in research pilot projects"
+      }
+    ]
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "sourceWords": 1190,
+    "rebuiltWords": 1110,
+    "matchRatio": 0.963,
+    "reviewGaps": [
+      {
+        "words": 31,
+        "before": "",
+        "sourceText": "driving climate action through renewable energy finance insights from an expert 58 driving climate action through renewable energy finance insights from an expert by dr islam m awad and giovanni fabbio",
+        "after": "the urgency of addressing climate change has never been more apparent as"
+      }
+    ]
+  },
+  {
+    "slug": "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar",
+    "sourceWords": 769,
+    "rebuiltWords": 724,
+    "matchRatio": 0.966,
+    "reviewGaps": []
+  },
+  {
+    "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+    "sourceWords": 1356,
+    "rebuiltWords": 859,
+    "matchRatio": 0.775,
+    "reviewGaps": [
+      {
+        "words": 57,
+        "before": "initiatives focus on addressing this paradox by designing energy efficient ai models",
+        "sourceText": "0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 1 smart grids autonomous vehicles renewable energy optimization gtco2 year technology area 30 15 50 million tone increase in recycling rates reduction in solid waste plastic waste sorted the role of artificial intelligence in environmental sustainability 66 3",
+        "after": "ethical concerns balancing technological advancements with local ecological and social impacts is"
+      },
+      {
+        "words": 52,
+        "before": "steps in ensuring its role as a force for good 6 references",
+        "sourceText": "1 scoping out tracking nature across the supply chain cdp 2023 2 e thomson droughts are creating new supply chain problems this is what you need to know world economic forum 25 october 2023 online available https www weforum org agenda 2023 10 drought trade rivers supply chain accessed 25 september 2024",
+        "after": "3 google google online available deepmind ai reduces energy used for cooling"
+      },
+      {
+        "words": 309,
+        "before": "m research online available artificial intelligence ai market size share trends 2033",
+        "sourceText": "1 0 i o s studies 14 october 2024 online available https instituteofsustainabilitystudies com insights lexicon what are scope 4 emissions 1 1 w b c f s d wbcsd guidance on avoided emissions helping business drive innovations and scale solutions toward net zero geneva amsterdam new delhi london new york singapore world business council for sustainable development wbcsd 2023 1 2 w r institute world resourced institute 05 november 2013 online available https www wri org insights do we need standard calculate avoided emissions 1 3 m d g g c l m a lauren shwisberg how to build clean energy portfolios a practical guide to next generation procurement practices rocky mountain institute basalt co 81621 usa 2020 1 4 p a online available https plana earth glossary scope 4 emissions 1 5 p r atack panama canal authority blames queues on drought and draft cut ship technology com 11 august 2023 online available https www ship technology com news panama canal authority blames queues drought draft cut accessed 25 september 2024 1 6 j verschuur e e koks and j w hall systemic risks from climate related disruptions at ports nature climate change vol 13 no 8 p 804 806 2023 1 7 l woetzel d pinner h samandari h engel m krishnan c kampel and j graabak could climate become the weak link in your supply chain mckinsey global institute 6 august 2020 online available https www mckinsey com capabilities sustainability our insights could climate become the weak link in your supply chain accessed 25 september 2024 68 1 8 climate related supply chain risk are you prepared fti strategic communications fti consulting 15 december 2022 online available https fticommunications com climate related supply chain risk are you prepared accessed 25 september 2024 1 9 g g p protocol online available https ghgprotocol org standards guidance",
+        "after": ""
+      }
+    ]
+  },
+  {
+    "slug": "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake",
+    "sourceWords": 657,
+    "rebuiltWords": 594,
+    "matchRatio": 0.95,
+    "reviewGaps": [
+      {
+        "words": 32,
+        "before": "",
+        "sourceText": "the hidden costs of your burger and pizza what s really at stake 70 the hidden costs of your burger and pizza what s really at stake by dr islam m awad",
+        "after": "introduction when we buy a burger or pizza we assume the price"
+      }
+    ]
+  },
+  {
+    "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+    "sourceWords": 1175,
+    "rebuiltWords": 1080,
+    "matchRatio": 0.957,
+    "reviewGaps": []
+  },
+  {
+    "slug": "sustainable-tourism",
+    "sourceWords": 757,
+    "rebuiltWords": 703,
+    "matchRatio": 0.96,
+    "reviewGaps": []
+  },
+  {
+    "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+    "sourceWords": 794,
+    "rebuiltWords": 716,
+    "matchRatio": 0.947,
+    "reviewGaps": []
+  },
+  {
+    "slug": "empowering-communities-through-social-sustainability-a-call-to-action",
+    "sourceWords": 1615,
+    "rebuiltWords": 1547,
+    "matchRatio": 0.976,
+    "reviewGaps": []
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "sourceWords": 1344,
+    "rebuiltWords": 1287,
+    "matchRatio": 0.928,
+    "reviewGaps": [
+      {
+        "words": 72,
+        "before": "combat the urban heat island effect cooling cities and reducing energy consumption",
+        "sourceText": "bogotá colombia bogotá has successfully created a network of green corridors known as alamedas these corridors help regulate temperature reduce flooding and provide safe pathways for pedestrians and cyclists copenhagen denmark copenhagen aims to become the world s first carbon neutral city by 2025 partly through urban greening the city has invested in green rooftops parks and cycling infrastructure to reduce pollution and promote sustainable living the origins of urban greening 87",
+        "after": "from a health perspective access to green spaces has been linked to"
+      }
+    ]
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "sourceWords": 1325,
+    "rebuiltWords": 1100,
+    "matchRatio": 0.904,
+    "reviewGaps": [
+      {
+        "words": 47,
+        "before": "",
+        "sourceText": "environmental impacts of mercury use in artisanal gold mining in africa sudan case the amplifying effect of torrential rains and floods 89 environmental impacts of mercury use in artisanal gold mining in africa sudan case the amplifying effect of torrential rains and floods by yousif ibrahim hamza",
+        "after": "artisanal and small scale gold mining asgm is a crucial livelihood activity"
+      },
+      {
+        "words": 43,
+        "before": "in countries such as ghana mali burkina faso tanzania and zimbabwe the",
+        "sourceText": "figure 1 spotted areas for artisanal gold mining in sudan source ibrahim artisanal mining in sudan opportunities challenges and impacts 2015 environmental impacts of mercury use in artisanal gold mining in africa sudan case the amplifying effect of torrential rains and floods 90",
+        "after": "mercury to gold ratio used in these operations varies often ranging from"
+      },
+      {
+        "words": 42,
+        "before": "1 with substantial mercury losses into the environment 3 squeezing and filtration",
+        "sourceText": "figure 2 estimated mercury consumption for asgm and estimated number of asgm miners by country t y carsten 2016 environmental impacts of mercury use in artisanal gold mining in africa sudan case the amplifying effect of torrential rains and floods 91 o",
+        "after": "the gold mercury amalgam is collected and squeezed through a cloth to"
+      }
+    ]
+  },
+  {
+    "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+    "sourceWords": 692,
+    "rebuiltWords": 587,
+    "matchRatio": 0.918,
+    "reviewGaps": [
+      {
+        "words": 40,
+        "before": "",
+        "sourceText": "understanding the dpsir dpcer dpswr and dpser frameworks in analyzing the interactions between human activities and the environment 95 understanding the dpsir dpcer dpswr and dpser frameworks in analyzing the interactions between human activities and the environment by yasen hatim",
+        "after": "environmental challenges such as climate change pollution and biodiversity loss require comprehensive"
+      },
+      {
+        "words": 31,
+        "before": "uses of the frameworks each framework serves distinct purposes as shown below",
+        "sourceText": "figure 2 uses of the frameworks understanding the dpsir dpcer dpswr and dpser frameworks in analyzing the interactions between human activities and the environment 97 differences between the frameworks figure 3",
+        "after": "differences between the frameworks while all four frameworks share a common structure"
+      }
+    ]
+  },
+  {
+    "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+    "sourceWords": 2007,
+    "rebuiltWords": 1567,
+    "matchRatio": 0.759,
+    "reviewGaps": [
+      {
+        "words": 40,
+        "before": "",
+        "sourceText": "dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective 98 dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective by dr quosay a ahmed",
+        "after": "this paper is a contribution to the 6 th international workshop on"
+      },
+      {
+        "words": 74,
+        "before": "disciplines environmental managers and stakeholders and solve them by incorporating sustainable development",
+        "sourceText": "figure 12 dpsir framework drivers d root causes human activities e g population growth economic development pressures p direct environmental stresses e g emissions waste production state s current environmental conditions e g air quality water quality impact i effects on human health ecosystems economy response r actions taken to address issues e g policies regulations dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective 99",
+        "after": "1 drivers drivers are the underlying social economic and environmental factors that"
+      },
+      {
+        "words": 73,
+        "before": "stringent environmental standards for aquaculture operations including site selection and waste management",
+        "sourceText": "the dpsir framework provides a systematic approach to developing sustainable aquaculture in the red sea region aligning with saudi arabia s vision 2030 and global climate goals by addressing the drivers pressures and impacts of aquaculture and implementing targeted responses saudi arabia can achieve a balance between economic growth environmental conservation and climate resilience dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective 100 b",
+        "after": "technological innovations adoption of low impact practices such as integrated multi trophic"
+      },
+      {
+        "words": 253,
+        "before": "change considering the ambitious nationally determined contributions ndcs and net zero targets",
+        "sourceText": "table 10 climate impacts and opportunities on the aquaculture impacts opportunities temperature rise increasing sea temperatures threaten aquaculture operations by affecting fish health growth rates and species viability low carbon protein production aquaculture offers a sustainable alternative to land based protein sources aligning with gcc nations efforts to decarbonize food systems extreme weather events frequent storms and flooding events pose risks to aquaculture infrastructure and operations carbon sequestration integrating seaweed and other algae farming can act as carbon sinks directly contributing to ghg reduction targets sea level rise coastal aquaculture operations face infrastructure risks requiring adaptation in farm design and site selection circular economy models utilizing aquaculture waste in integrated multi trophic aquaculture imta systems can reduce environmental impacts and enhance resource efficiency biodiversity loss shifts in marine ecosystems due to warming waters can disrupt food chains critical for aquaculture species green and climate finance access to funds through mechanisms like the green climate fund or gcc s voluntary carbon markets can support sustainable aquaculture transitions ocean acidification higher levels of co2 absorption by oceans degrade water quality and marine ecosystems such as coral reefs that are essential for biodiversity and aquaculture energy transition incorporating renewable energy into aquaculture operations such as solar powered water pumps and aeration systems aids in meeting ndcs and reducing operational emissions nature based solutions mangrove and seagrass restoration alongside aquaculture development provides coastal protection biodiversity enhancement and carbon storage dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective 101",
+        "after": "climate adaptation the dpsir framework helps identify vulnerabilities and adaptive measures in"
+      },
+      {
+        "words": 78,
+        "before": "mangrove and seagrass integration with aquaculture systems leveraging beacon s regional expertise",
+        "sourceText": "climate adaptation measures include utilizing thermotolerant species designing resilient infrastructure to endure extreme weather and rising sea levels and integrating habitat restoration with aquaculture to bolster coastal resilience on the mitigation front s caling seaweed farming for carbon sequestration shifting towards offshore aquaculture to minimize land use pressure and transitioning to renewable energy sources in aquaculture operations are key strategies dpsir framework for sustainable aquaculture in the red sea region ksa a climate adaptation and mitigation perspective 102",
+        "after": "promote esg and sustainability standards 1 esg integration introduce comprehensive esg frameworks"
+      },
+      {
+        "words": 98,
+        "before": "and knowledge to implement sustainable aquaculture practices in alignment with international standards",
+        "sourceText": "references 1 food and agriculture organization of the united nations fao 2020 sustainable aquaculture development retrieved from www fao org 2 saudi vision 2030 2023 national transformation program goals for aquaculture retrieved from www vision2030 gov sa 3 duarte c m et al 2021 the role of marine aquaculture in climate mitigation nature communications 12 1 1 10 4 red sea development company 2022 marine biodiversity conservation and sustainable practices in the red sea retrieved from www theredsea sa 5 ipcc 2019 special report on the ocean and cryosphere in a changing climate retrieved from www ipcc ch",
+        "after": "given kaust s capabilities and collaborations several strategic steps are recommended leveraging"
+      }
+    ]
+  },
+  {
+    "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+    "sourceWords": 1725,
+    "rebuiltWords": 1627,
+    "matchRatio": 0.966,
+    "reviewGaps": [
+      {
+        "words": 32,
+        "before": "",
+        "sourceText": "the imperative for esg readiness tools unlocking benefits for companies institutions and society 103 the imperative for esg readiness tools unlocking benefits for companies institutions and society by enerqa s development team",
+        "after": "1 introduction environmental social and governance esg considerations have evolved from being"
+      }
+    ]
+  },
+  {
+    "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+    "sourceWords": 1037,
+    "rebuiltWords": 527,
+    "matchRatio": 0.674,
+    "reviewGaps": [
+      {
+        "words": 57,
+        "before": "a result of the use of its products services or initiatives 12",
+        "sourceText": "scope 1 direct emissions from owned or controlled sources scope 2 indirect emissions from purchased electricity heat or steam scope 3 indirect emissions throughout the value chain both upstream and downstream scope 4 emissions the concept of avoided emissions 108 figure 14 overview of emission categories scopes 1 2 3 and scope 4 prepared by yousif mohammed",
+        "after": "what is scope 4 emissions avoided emissions occur when an innovation or"
+      },
+      {
+        "words": 213,
+        "before": "figure 16 driving change through scope 4 prepared by yousif mohammed references",
+        "sourceText": "1 scoping out tracking nature across the supply chain cdp 2023 2 e thomson droughts are creating new supply chain problems this is what you need to know world economic forum 25 october 2023 online available https www weforum org agenda 2023 10 drought trade rivers supply chain accessed 25 september 2024 3 google google online available deepmind ai reduces energy used for cooling google data centers by 40 4 tesla tesla online available best tesla powerwall in 2024 here 5 bcg online available https www bcg com publications 2023 how ai can speedup climate action utm scope 4 emissions the concept of avoided emissions 110 6 ibm online available https newsroom ibm com 2023 03 14 ibm launches rfp to help accelerate global water management solutions for vulnerable populations utm 7 seoul online available https english seoul go kr seoul to increase recycling rate to 79 by 2026 utm 8 microsoft online available https news microsoft com apac 2021 10 11 microsoft ai for earth named as one of 100 outstanding biodiversity positive practices and actions around the world text launched 20in 202017 2c 20microsoft e2 80 99s 20 e2 80 9cai 20for 20earth e2 80 9d 20is 9 a m research online available artificial intelligence ai market size share trends 2033",
+        "after": "10 i o s studies 14 october 2024 online available https instituteofsustainabilitystudies"
+      },
+      {
+        "words": 171,
+        "before": "14 p a online available https plana earth glossary scope 4 emissions",
+        "sourceText": "15 p r atack panama canal authority blames queues on drought and draft cut ship technology com 11 august 2023 online available https www ship technology com news panama canal authority blames queues drought draft cut accessed 25 september 2024 16 j verschuur e e koks and j w hall systemic risks from climate related disruptions at ports nature climate change vol 13 no 8 p 804 806 2023 17 l woetzel d pinner h samandari h engel m krishnan c kampel and j graabak could climate become the weak link in your supply chain mckinsey global institute 6 august 2020 online available https www mckinsey com capabilities sustainability our insights could climate become the weak link in your supply chain accessed 25 september 2024 18 climate related supply chain risk are you prepared fti strategic communications fti consulting 15 december 2022 online available https fticommunications com climate related supply chain risk are you prepared accessed 25 september 2024 19 g g p protocol online available https ghgprotocol org standards guidance",
+        "after": ""
+      }
+    ]
+  }
+]

@@ -412,7 +412,8 @@ async function verified(items: NewsItem[], limit: number, check?: NewsOptions['c
     return verdict;
   } : check;
   const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check: countedCheck });
-  const records = passed.map(({ item, verdict }) => ({ ...item, accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt, accessEvidence: verdict.evidence, finalUrl: verdict.finalUrl }));
+  const records = passed.map(({ item, verdict }) => ({ ...item, imageUrl: verdict.imageUrl ?? item.imageUrl,
+    accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt, accessEvidence: verdict.evidence, finalUrl: verdict.finalUrl }));
   const stored = await storeRecords(records.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url, accessStatus: item.accessStatus, accessCheckedAt: item.accessCheckedAt, retrievedAt: item.retrievedAt, record: item })));
   if (diagnostics) {
     diagnostics.counts.verifiedOpen = records.length;

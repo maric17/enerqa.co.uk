@@ -27,6 +27,13 @@ describe('judging what the destination returned', () => {
     expect((v as AccessVerdict).checkedAt).toBe(checkedAt);
   });
 
+  it('preserves the publisher sharing image from an already verified HTML response', () => {
+    const page = article.replace('</head>', '<meta content="https://images.example.org/full.jpg?width=1600&amp;quality=90" property="og:image"></head>');
+    expect(judge({ ...base, head: bytes(page) })).toMatchObject({ status: 'verified_open', imageUrl: 'https://images.example.org/full.jpg?width=1600&quality=90' });
+    const gated = page.replace('</head>', '<script>{"isAccessibleForFree":false}</script></head>');
+    expect(judge({ ...base, head: bytes(gated) })).not.toHaveProperty('imageUrl');
+  });
+
   it('passes a real PDF and refuses a fake one', () => {
     expect((judge({ ...base, contentType: 'application/pdf', head: bytes('%PDF-1.7 ...') }) as AccessVerdict).status).toBe('verified_open');
     expect((judge({ ...base, contentType: 'application/pdf', head: bytes('<html>login</html>') }) as AccessVerdict).status).toBe('unknown');

@@ -5,11 +5,11 @@ import { Container } from '../ui/Container'
 
 export const AboutEnerqa = () => {
   return (
-    <section className="bg-[var(--color-dark)] py-10 my-[100px] overflow-visible relative z-10" id="about-enerqa">
-      <Container className="relative flex items-center justify-between min-h-[260px] overflow-visible">
+    <section className="relative bg-[var(--color-dark)] py-16 lg:py-20" id="about-enerqa">
+      <Container className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
         
         {/* Left Column (Content) */}
-        <div className="relative z-10 flex-[1.4] flex flex-col gap-7 text-left max-w-[52%]">
+        <div className="flex flex-col gap-7 text-left">
           <div>
             <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-primary)] m-0 mb-2">
               About Enerqa
@@ -26,14 +26,9 @@ export const AboutEnerqa = () => {
           </div>
         </div>
 
-        {/* Right Column (Overlapping Circle) */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 z-[100]">
-          <div className="relative w-[460px] h-[460px] overflow-visible z-[100]">
-            {/* Dark arc ring behind the image */}
-            <div className="absolute -inset-3 rounded-full bg-[#04192b]/55 z-0"></div>
-            <div className="absolute -inset-6 rounded-full bg-[#04192b]/25 z-0"></div>
-            <Image src="/assets/images/gas-energy.jpg" alt="About enerQA" width={460} height={460} className="w-full h-full object-cover rounded-full relative z-[101] block" />
-          </div>
+        {/* Use the supplied brand asset while a standalone symbol is located. */}
+        <div className="flex min-h-[160px] items-center justify-center border-t border-white/15 pt-10 md:min-h-[260px] md:border-l md:border-t-0 md:pl-10 md:pt-0">
+          <Image src="/images/logo-white.svg" alt="Enerqa" width={300} height={120} className="h-auto w-full max-w-[300px]" />
         </div>
       </Container>
     </section>

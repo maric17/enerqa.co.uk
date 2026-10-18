@@ -352,8 +352,8 @@ export function Header() {
                     <div className="mega-col mega-domains">
                       <p className="mega-col-title" id="mega-domains-label">Domains</p>
                       <ul className="mega-list" aria-labelledby="mega-domains-label">
-                        {DOMAINS.map((d) => (
-                          <li key={d.slug}><Link href={`/domains/${d.slug}`}>{d.title}</Link></li>
+                        {DOMAINS.map((d, index) => (
+                          <li key={d.slug}><Link href={`/domains/${d.slug}`}><span className="mega-domain-number" aria-hidden="true">0{index + 1}</span>{d.title}</Link></li>
                         ))}
                       </ul>
                     </div>
@@ -369,21 +369,9 @@ export function Header() {
                   </div>
 
                   <div className="mega-featured">
-                    <span className="featured-label">Featured</span>
-                    <Link href="/knowledge-hub" className="featured-card mb-6">
-                      {/* Decorative: the link is named by its text below. */}
-                      <Image src="/images/about_practitioners.jpg" alt="" fill sizes="280px" className="object-cover" />
-                      <div className="featured-content">
-                        {/* A <p>, not a heading: this panel is in the DOM before
-                            every page's <h1> (p. 227). Label from p. 174. */}
-                        <p>Explore the Knowledge Hub</p>
-                      </div>
-                    </Link>
-
-                    <div className="mega-featured-links mt-auto pt-4 border-t border-gray-100">
-                      <Link href="/project-development" className="block text-[13px] font-bold text-ink mb-2 transition-opacity hover:opacity-80">Project Development and Lifecycle Support</Link>
-                      <Link href="/domains-and-industries" className="block text-[13px] font-bold transition-opacity hover:opacity-80" style={{ color: 'var(--color-secondary)' }}>View All Domains and Industries &rarr;</Link>
-                    </div>
+                    <Link href="/project-development" className="text-sm font-semibold text-[var(--color-dark)] hover:underline">Project Development and Lifecycle Support &rarr;</Link>
+                    <Link href="/knowledge-hub" className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">Explore the Knowledge Hub &rarr;</Link>
+                    <Link href="/domains-and-industries" className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">View All Domains and Industries &rarr;</Link>
                   </div>
                 </div>
 

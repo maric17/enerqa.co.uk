@@ -56,13 +56,12 @@ export default async function GlobalIntelligencePage({ searchParams }: {
         domains={domains.docs.map(d => ({ value: d.slug, label: d.title }))}
         industries={industries.docs.map(d => ({ value: d.slug, label: d.title }))}
         sources={sources} languages={languages} labels={labels} />
-      <section aria-labelledby="source-context" className="rounded-xl bg-white border p-6 space-y-4">
-        <h2 id="source-context" className="text-2xl font-bold">Sources and Context</h2>
-        <p>NewsData.io results are delayed by at least 12 hours. Other sources follow their own publication schedules. Retrieval time is separate from publication time. Public reading does not grant permission to republish complete articles or images.</p>
-        <p>Coverage comes from the subject text, never a publisher’s address or an author’s affiliation. Geographic groupings follow <a href="https://unstats.un.org/unsd/methodology/m49/" className="underline">UN M49</a>. A place that cannot be identified is labelled Not Specified.</p>
-        <Link href="/data-portal/sources" className="underline">Sources and Methodology</Link>
-        {related?.status === 'ok' && related.hits.length > 0 && <nav aria-label="Related Enerqa content" className="flex flex-wrap gap-4">{related.groups.flatMap(group => group.hits.slice(0, 2)).map(hit => <Link key={hit.url} href={hit.url} className="underline">{hit.category}: {hit.title}</Link>)}</nav>}
+      <section aria-labelledby="source-context" className="border-t border-gray-200 pt-5 text-xs leading-relaxed text-gray-600 space-y-2">
+        <h2 id="source-context" className="text-sm font-semibold text-[var(--color-dark)]">Sources</h2>
+        <p>Content belongs to its original publishers. Free reading does not grant republication rights for articles or images. NewsData.io's free feed is delayed by at least 12 hours.</p>
+        <Link href="/data-portal/sources" className="underline">Sources, attribution and methodology</Link>
       </section>
+      {related?.status === 'ok' && related.hits.length > 0 && <nav aria-label="Related Enerqa content" className="flex flex-wrap gap-4 text-sm">{related.groups.flatMap(group => group.hits.slice(0, 2)).map(hit => <Link key={hit.url} href={hit.url} className="underline">{hit.category}: {hit.title}</Link>)}</nav>}
     </Container>
   </div>;
 }

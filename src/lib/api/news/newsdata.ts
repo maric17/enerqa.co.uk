@@ -176,6 +176,10 @@ export async function fetchNewsdataQuery(
     // behind a Suspense boundary, so waiting does not block the page.
     timeoutMs: 25000,
     rejectBody: rejectNewsdataBody,
+    errorCode: body => {
+      const code = (body as { results?: { code?: unknown } } | null)?.results?.code;
+      return typeof code === 'string' ? code : null;
+    },
   });
   if (!res.ok) return res;
 

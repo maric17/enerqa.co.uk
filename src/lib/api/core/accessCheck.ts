@@ -38,7 +38,20 @@ export type AccessVerdict = {
   evidence: string;
   /** Where the redirects ended, or null when nothing answered. */
   finalUrl: string | null;
+  /** Original publisher sharing image, when present on a verified readable page. */
+  imageUrl?: string;
 };
+
+function sharingImage(html: string): string | undefined {
+  for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
+    const attributes = Object.fromEntries([...match[0].matchAll(/([\w:-]+)\s*=\s*(["'])(.*?)\2/g)].map(attribute => [attribute[1].toLowerCase(), attribute[3]]));
+    if (!['og:image', 'twitter:image'].includes((attributes.property ?? attributes.name ?? '').toLowerCase())) continue;
+    try {
+      const url = new URL((attributes.content ?? '').replace(/&amp;/gi, '&'));
+      if (url.protocol === 'https:' && !url.username && !url.password && !/^(localhost|127\.|10\.|192\.168\.|\[)/i.test(url.hostname)) return url.href;
+    } catch { /* An absent or malformed image does not affect reading access. */ }
+  }
+}
 
 /** p. 209 "recheck periodically": a week. */
 export const RECHECK_SECONDS = 7 * 24 * 3600;
@@ -187,10 +200,13 @@ export function judge(input: {
     if (words < 150) {
       return { transient: true, verdict: at('unknown', `${where} returned a page with almost no readable text (a bot wall or a script-only shell).`) };
     }
-    return at(
+    const verdict = at(
       'verified_open',
       `${where} opened as a readable page (HTTP 200) with no sign-in, paywall or bot-challenge markers.`,
     );
+    // Reuse the HTML already fetched for this check; no extra publisher request.
+    const imageUrl = sharingImage(text);
+    return imageUrl ? { ...verdict, imageUrl } : verdict;
   }
 
   // Plain-text, XML, EPUB and data files: served whole without credentials is

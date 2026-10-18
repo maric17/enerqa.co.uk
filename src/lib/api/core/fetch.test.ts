@@ -67,6 +67,19 @@ function warned(spy: { mock: { calls: unknown[][] } }, text: string): number {
 }
 
 describe('request budgets count real upstream requests only (L379, L1016)', () => {
+  it('reports a symbolic validation code without logging provider error text or API keys', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stub(() => new Response(JSON.stringify({ results: { code: 'InvalidParameter', message: 'secret raw provider error' } }), { status: 422 }));
+    const result = await fetchFromProvider('newsdata', 'https://newsdata.io/api/1/latest?apikey=PRIVATE_KEY&q=climate', {
+      errorCode: body => (body as { results: { code: string } }).results.code,
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.message).toContain('HTTP 422 (InvalidParameter)');
+      expect(result.message).not.toMatch(/PRIVATE_KEY|secret raw provider error/);
+    }
+    expect(JSON.stringify(warning.mock.calls)).not.toMatch(/PRIVATE_KEY|secret raw provider error/);
+  });
   it('awaits a fresh scheduled reply even when a provider cache entry exists', async () => {
     const fetch = stub(okJson({ generation: 1 }), okJson({ generation: 2 }));
     const url = 'https://newsdata.io/api/1/latest?q=climate';

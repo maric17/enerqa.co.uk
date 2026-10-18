@@ -70,6 +70,8 @@ export type FetchOptions = {
    * that is really an error, so it is never cached or shown as data.
    */
   rejectBody?: (body: unknown) => BodyRejection | null;
+  /** A provider's symbolic error code, excluding raw text and credential-bearing URLs. */
+  errorCode?: (body: unknown) => string | null;
 };
 
 /** 
@@ -176,7 +178,9 @@ async function sendUpstream<T>(providerId: ProviderId, url: string, options: Fet
     if (!res.ok) {
       // A 4xx is about this one request (a bad query, a missing record), not
       // the provider's health, so it does not trip the breaker.
-      throw new UpstreamError('unavailable', `${name} returned HTTP ${res.status} for ${redactUrl(url).split('?')[0]}`);
+      const code = options.errorCode ? options.errorCode(await res.json().catch(() => null)) : null;
+      const safeCode = code && /^[A-Za-z][A-Za-z_]{0,63}$/.test(code) ? ` (${code})` : '';
+      throw new UpstreamError('unavailable', `${name} returned HTTP ${res.status}${safeCode} for ${redactUrl(url).split('?')[0]}`);
     }
 
     let body: unknown;

@@ -12,7 +12,8 @@ import {
 } from './firstFoldNews';
 
 // A recent timestamp so the shared date gate (max 60 days old) accepts it.
-const hoursAgo = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString();
+const fixtureNow = Date.now();
+const hoursAgo = (h: number) => new Date(fixtureNow - h * 3_600_000).toISOString();
 
 function item(id: string, title: string, overrides: Partial<NewsItem> = {}): NewsItem {
   return {
@@ -96,10 +97,11 @@ describe('buildNewsViews', () => {
     item('energy-2', 'Wind turbine orders rise', { publishedAt: hoursAgo(5) }),
   ];
 
-  it('builds one view per filter from the same pool, newest first, capped at the lead plus two', () => {
+  it('builds themed slides from eligible stories without padding a short feed', () => {
     const views = buildNewsViews(pool);
     expect(Object.keys(views)).toEqual(['all', 'climate', 'energy', 'environment', 'business']);
-    expect(views.all.map((i) => i.id)).toHaveLength(STORIES_PER_VIEW);
+    expect(STORIES_PER_VIEW).toBeGreaterThanOrEqual(5);
+    expect(views.all).toHaveLength(3); // Two Reuters stories and one Guardian pass the publisher cap.
     expect(views.all[0].title).toBe('Climate adaptation plan agreed');
   });
 

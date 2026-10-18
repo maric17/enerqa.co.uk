@@ -2764,3 +2764,85 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 @media (max-width: 560px) {
   .header-contact { display: none; }
 }
+
+/* October feedback: contained imagery and two equal-height feed sections. */
+.hero-insights.hero-feedback {
+  height: auto;
+  min-height: 0;
+  padding: 106px 0 24px;
+  justify-content: flex-start;
+  background: var(--color-dark);
+}
+.first-fold-grid { display: grid; gap: 12px; }
+.first-fold-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 4%);
+}
+.news-panel { display: grid; grid-template-rows: auto 1fr; }
+.news-panel-heading { display: grid; gap: 10px; padding: 14px 16px; }
+.news-slideshow { position: relative; min-height: 220px; background: var(--color-dark); }
+.news-slideshow-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgb(4 25 43 / 95%), rgb(4 25 43 / 70%) 60%, rgb(4 25 43 / 25%));
+}
+.news-slideshow-story {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  padding: 22px 20px 66px;
+  color: white;
+  text-decoration: none;
+}
+.news-slideshow-story:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+.news-slideshow-controls { position: absolute; right: 16px; bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.news-slideshow-arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 50%;
+  background: var(--color-dark);
+  color: white;
+}
+.news-slideshow-arrow:hover { background: var(--color-primary-deep); }
+.news-slideshow-arrow:disabled { cursor: default; opacity: .45; }
+.news-slideshow :focus-visible { outline: 2px solid white; outline-offset: -4px; }
+.domain-panel-details { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  /* Reserve the space so revealing a snippet does not move adjacent panels. */
+  .domain-panel-details { opacity: 0; transition: opacity .2s; }
+  .domain-panel:hover .domain-panel-details,
+  .domain-panel:focus-within .domain-panel-details { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .domain-panel-details { transition: none; } }
+@media (min-width: 1024px) {
+  .first-fold-grid { grid-auto-rows: minmax(180px, 1fr); }
+  .news-panel-heading { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 10px 16px; }
+  .news-panel-heading > div:last-child { max-width: 540px; }
+  .news-slideshow { min-height: 126px; }
+  .news-slideshow-story { max-width: calc(100% - 140px); padding: 12px 20px; }
+  .markets-panel [data-market-card] { padding-top: 0; }
+  .markets-panel .news-card-thumbnail { display: none; }
+}
+
+/* A domain directory and two balanced industry columns replace tinted boxes. */
+.mega-redesign .mega-top { display: block; padding: 28px 32px 18px; }
+.mega-redesign .mega-columns { grid-template-columns: minmax(260px, .85fr) minmax(0, 1.7fr); gap: 32px; }
+.mega-redesign .mega-col { padding: 0; border-radius: 0; background: transparent; }
+.mega-redesign .mega-domains { border-right: 1px solid var(--line); padding-right: 28px; }
+.mega-redesign .mega-col-title { margin: 0 0 14px; color: var(--color-primary-deep); font-size: 11px; letter-spacing: .14em; }
+.mega-redesign .mega-list a { white-space: normal; padding: 9px 0; line-height: 1.5; }
+.mega-redesign .mega-domains .mega-list a { display: flex; align-items: baseline; gap: 12px; border-top: 1px solid var(--line); font-size: 15px !important; }
+.mega-domain-number { flex-shrink: 0; color: var(--color-primary-deep); font-size: 11px; font-variant-numeric: tabular-nums; }
+.mega-redesign .mega-industries .mega-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.mega-redesign .mega-featured { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; border-top: 1px solid var(--line); margin-top: 20px; padding-top: 18px; }
+.mega-redesign .mega-cta { justify-content: flex-end; background: var(--color-dark); padding: 10px 32px; }
+@media (max-width: 1199px) {
+  .mega-redesign .mega-top { padding: 20px; }
+  .mega-redesign .mega-columns { gap: 20px; }
+  .mega-redesign .mega-domains { padding-right: 20px; }
+}

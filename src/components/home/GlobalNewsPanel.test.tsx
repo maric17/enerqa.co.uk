@@ -45,14 +45,21 @@ describe('GlobalNewsPanel (H03, p. 13)', () => {
     }
   });
 
-  it('shows the lead story plus two shorter ones, with publisher and date/time', () => {
+  it('shows one slide with its publisher and date/time, and navigates matching headlines and links', () => {
     render(<GlobalNewsPanel head={head} filters={NEWS_FILTERS} views={views} sourcesFailed={false} />);
     const region = screen.getByRole('region', { name: 'Global News' });
-    expect(within(region).getAllByRole('heading', { level: 3 })).toHaveLength(3);
-    expect(within(region).getAllByText('Reuters')).toHaveLength(3);
+    expect(within(region).getAllByRole('heading', { level: 3 })).toHaveLength(1);
+    expect(within(region).getAllByText('Reuters')).toHaveLength(1);
     expect(within(region).getAllByText('24 Sept 2026, 21:05 UTC')[0]).toHaveAttribute('datetime', '2026-09-24T21:05:00Z');
     // Only the lead card carries a teaser.
     expect(screen.getByText('A short licensed teaser.')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Next headline' }));
+    expect(screen.getByRole('link', { name: /Solar output record/ })).toHaveAttribute('href', 'https://www.reuters.com/b');
+    expect(screen.queryByRole('heading', { name: 'Climate adaptation plan agreed' })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Previous headline' }));
+    expect(screen.getByRole('heading', { name: 'Climate adaptation plan agreed' })).toBeInTheDocument();
+    fireEvent.keyDown(screen.getByRole('group', { name: 'News headlines' }), { key: 'ArrowLeft' });
+    expect(screen.getByRole('heading', { name: 'Green bond market grows' })).toBeInTheDocument();
   });
 
   it('filters the panel in place, with an active state, instead of linking away', () => {
@@ -68,7 +75,8 @@ describe('GlobalNewsPanel (H03, p. 13)', () => {
     expect(all).toHaveAttribute('aria-pressed', 'false');
     expect(screen.getByRole('heading', { name: 'Solar output record' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Climate adaptation plan agreed' })).not.toBeInTheDocument();
-    expect(screen.getByText('Energy: 1 story shown.')).toBeInTheDocument();
+    expect(screen.getByText(/Energy: 1 story shown\./)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Next headline' })).toBeDisabled();
   });
 
   it('says "No relevant updates are available." for an empty view (p. 226)', () => {

@@ -14,7 +14,7 @@ describe('news thumbnails', () => {
     expect(fallback.getAttribute('src')).toContain(encodeURIComponent('/images/banners/news-thumbnail-fallback.webp'));
     expect(fallback).toHaveAttribute('loading', 'eager');
     expect(article()).toHaveAttribute('src', imageUrl);
-    expect(article()).toHaveStyle({ opacity: '0' });
+    expect(article()).toHaveClass('opacity-0');
     fireEvent.error(article());
     expect(article()).toBeNull();
     expect(container.querySelector('[data-news-thumbnail]')).toBe(fallback);
@@ -24,7 +24,7 @@ describe('news thumbnails', () => {
     rerender(<NewsThumbnail imageUrl={nextImage} />);
     expect(article()).toHaveAttribute('src', nextImage);
     fireEvent.load(article());
-    await waitFor(() => expect(article()).toHaveStyle({ opacity: '1' }));
+    await waitFor(() => expect(article()).toHaveClass('opacity-100'));
   });
 
   it('provides a decorative fallback for a story with no image', () => {

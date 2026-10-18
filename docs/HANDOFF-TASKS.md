@@ -5,6 +5,8 @@ Every task below cites the PDF page(s) it comes from, so you can always go back 
 
 Page-by-page Markdown copy: [Enerqa Website Developer Handoff Revised.md](<Enerqa Website Developer Handoff Revised.md>). Its `Page N` headings match the PDF page numbers cited below.
 
+**New feedback — 15 October 2026:** [Website Feedback Task Board](WEBSITE-FEEDBACK-TASKS.md) tracks 30 feedback tasks from the supplied Website comments Markdown/DOCX, including the news-layout image. Those comments update the affected requirements below; earlier completion records do not verify these new requests. H04's live market-data proposal revisits the earlier commentary-only direction.
+
 **Status legend**
 
 | Mark | Meaning |

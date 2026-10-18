@@ -38,11 +38,11 @@ export const NEWS_FILTERS: NewsFilter[] = NEWS_BASKETS.map(({ key, label }) => (
  * Both are literal strings on purpose: Tailwind only generates classes it can
  * find written out in the source.
  */
-export const NEWS_AREA_HEIGHT = 'min-h-[150px]';
-export const NEWS_SKELETON_HEIGHT = 'h-[150px]';
+export const NEWS_AREA_HEIGHT = 'min-h-[96px]';
+export const NEWS_SKELETON_HEIGHT = 'h-[126px]';
 
-/** Lead story plus two shorter stories: what p. 13 fits inside the first viewport. */
-export const STORIES_PER_VIEW = 3;
+/** Enough slides for the requested five-story minimum when the feed can supply them. */
+export const STORIES_PER_VIEW = 8;
 
 /** "25 Sept 2026, 09:05 UTC". UTC so every visitor sees the same label. */
 export function formatDateTimeUtc(iso: string | null): string | null {
@@ -107,7 +107,18 @@ export function buildNewsViews(
   for (const { key } of NEWS_FILTERS) {
     const basket = getBasket(key);
     const matching = key === 'all' ? pool : pool.filter((item) => matchesBasket(item, basket));
-    views[key] = applyGate(matching).slice(0, perView);
+    const eligible = applyGate(matching);
+    // Reserve a place for each domain before filling with the newest stories.
+    // All entries still pass the shared rights, access and publisher gates.
+    if (key === 'all' && perView >= 4) {
+      const representatives = NEWS_FILTERS.filter(filter => filter.key !== 'all')
+        .map(filter => eligible.find(item => matchesBasket(item, getBasket(filter.key))))
+        .filter((item): item is NewsItem => Boolean(item));
+      views[key] = [...new Map([...representatives, ...eligible].map(item => [item.id, item])).values()]
+        .slice(0, perView).sort(byNewest);
+    } else {
+      views[key] = eligible.slice(0, perView);
+    }
   }
   return views;
 }

@@ -22,8 +22,8 @@ import {
  *
  * First fold (p. 15, p. 229): at 1366x768 this band has to sit inside the first
  * viewport together with the header, H01 and H02, ending around y 720. That is
- * why the type is compact, the lead story sits beside two shorter ones, and H04
- * is a small commentary panel.
+ * why the type and spacing are compact. October feedback stacks equal-height
+ * news and market panels, with imagery confined to the news slideshow.
  *
  * Sources (p. 13): "Use NewsData.io's delayed free feed and additional legacy
  * GDELT coverage", and H04 "uses eligible items from the same free news pool".
@@ -44,7 +44,6 @@ import {
 const MARKET_ITEMS = 2;
 
 const HEADING = 'm-0 text-[24px] font-bold leading-tight tracking-[-0.02em] text-white';
-const NARRATIVE = 'm-0 mt-1 text-[14px] leading-snug text-white/70';
 
 function NewsHeading() {
   return (
@@ -57,18 +56,18 @@ function NewsHeading() {
 function NewsNarrative() {
   // p. 13 H03 narrative, verbatim.
   return (
-    <p className="m-0 text-[14px] leading-snug text-white/70">
+    <p className="sr-only">
       Follow developments in climate action, energy, environment, nature, circularity, sustainable business and finance.
     </p>
   );
 }
 
-/** The H04 column: a two-row subgrid, like the H03 column (see NewsColumn). */
+/** H04 retains sourced commentary until a public-display quote feed is selected. */
 function MarketsColumn({ children }: { children: React.ReactNode }) {
   return (
     <section
       aria-labelledby="h04-major-markets"
-      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-2xl"
+      className="first-fold-panel markets-panel flex flex-col gap-2 p-3 text-left"
     >
       <div>
         <h2 id="h04-major-markets" className={HEADING}>
@@ -77,7 +76,7 @@ function MarketsColumn({ children }: { children: React.ReactNode }) {
         {/* p. 13 H04 copy, verbatim. No numerical feed is enabled: none has
             been confirmed free for public corporate display of the exact
             instruments, so p. 13 says to show open-access commentary only. */}
-        <p className={NARRATIVE}>
+        <p className="m-0 mt-1 text-xs leading-relaxed text-white/80">
           Read commentary on major market developments, investment conditions and economic trends from openly accessible sources.
         </p>
       </div>
@@ -87,10 +86,8 @@ function MarketsColumn({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * The frame both the skeleton and the loaded band use, so nothing moves
- * between them. On wide screens it is a 3-row grid (heads, cards, attribution)
- * and each column is a subgrid spanning the first two rows, so the H03 and H04
- * card rows always start on the same line.
+ * Skeleton and loaded feeds share a frame. Desktop rows have equal heights;
+ * mobile content expands naturally rather than clipping long headlines.
  */
 export function FeedsFrame({
   news,
@@ -102,13 +99,15 @@ export function FeedsFrame({
   attribution: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-y-6 lg:grid-cols-[1.9fr_1fr] lg:grid-rows-[auto_auto_auto] lg:gap-x-12 lg:gap-y-4">
-      {news}
-      {markets}
+    <div>
+      <div className="first-fold-grid">
+        {news}
+        {markets}
+      </div>
       {/* Source, delay and retrieval labelling (pp. 226, 229). The space is
           reserved so the fold does not move when the text arrives: one line on
           laptops, where it fits, two on narrower screens. */}
-      <div data-feed-attribution className="min-h-[34px] border-t border-white/10 pt-4 text-[12px] leading-snug text-white/50 lg:col-span-2 lg:min-h-[26px]">
+      <div data-feed-attribution className="mt-3 text-[11px] leading-relaxed text-white/75">
         {attribution}
       </div>
     </div>
@@ -125,7 +124,7 @@ export function FeedsFallback() {
           narrative={<NewsNarrative />}
           controls={<NewsFilterBar filters={NEWS_FILTERS} active="all" disabled />}
         >
-          <FeedSkeleton cards={2} columns="sm:grid-cols-[1.15fr_1fr]" cardHeight={NEWS_SKELETON_HEIGHT} />
+          <FeedSkeleton cards={1} columns="" cardHeight={NEWS_SKELETON_HEIGHT} />
         </NewsColumn>
       }
       markets={
@@ -166,13 +165,11 @@ function Attribution({ shown, sourcesFailed }: { shown: NewsItem[]; sourcesFaile
           </a>
         </React.Fragment>
       ))}
-      .{retrieved && ` Retrieved by Enerqa ${retrieved}`}
-      {delayed && `${retrieved ? '; free-feed' : ' Free-feed'} items can arrive up to ${NEWS_DELAY_HOURS} hours after publication`}
-      {(retrieved || delayed) && '.'}
-      {refreshed && ` Feed last refreshed ${refreshed}.`}
+      .{delayed && ` NewsData free feed delayed ${NEWS_DELAY_HOURS}h+.`}
+      {(refreshed || retrieved) && ` Updated ${refreshed ?? retrieved}.`}
       {/* p. 227: when the shared cache could not be refreshed, say so. */}
-      {stale && ' Showing the latest cached headlines; the feeds could not be refreshed since.'}
-      {' '}Links open the original publisher; Enerqa does not host or endorse them.
+      {stale && ' Cached headlines; refresh unavailable.'}
+      {' '}<a href="/data-portal/sources" className="underline underline-offset-2">Sources and rights</a>.
     </p>
   );
 }
@@ -231,7 +228,7 @@ export async function FeedsBody() {
             />
           ) : (
             <div className={NEWS_AREA_HEIGHT}>
-              <div className="flex flex-col divide-y divide-white/10">
+              <div className="grid gap-5 md:grid-cols-2">
                 {marketItems.map((item) => (
                   <NewsCard key={item.id} item={toCard(item)} marker="market" className="" />
                 ))}
@@ -253,7 +250,7 @@ export async function FeedsBody() {
 
 export const FirstFoldFeeds = () => (
   // Not a landmark itself: H03 and H04 are each their own labelled section.
-  <div data-first-fold-band className="w-full relative z-20 pb-12 lg:pb-16 pt-8">
+  <div data-first-fold-band className="relative z-20 w-full pt-5">
     <Container>
       <Suspense fallback={<FeedsFallback />}>
         <FeedsBody />

@@ -67,7 +67,7 @@ describe('homepage news and markets', () => {
     const markets = screen.getByRole('region', { name: 'Major Markets' });
     // Both panels keep thumbnails even when their provider supplies no image.
     expect(markets.querySelectorAll('[data-news-thumbnail]')).toHaveLength(1);
-    expect(screen.getByRole('region', { name: 'Global News' }).querySelectorAll('[data-news-thumbnail]')).toHaveLength(2);
+    expect(screen.getByRole('region', { name: 'Global News' }).querySelectorAll('[data-news-slide-image]')).toHaveLength(1);
     expect(within(markets).getByText('Energy prices climb')).toBeInTheDocument();
     expect(within(markets).queryByText('Climate adaptation plan agreed')).not.toBeInTheDocument();
     expect(screen.queryByText('No relevant updates are available.')).not.toBeInTheDocument();
