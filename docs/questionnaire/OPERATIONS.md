@@ -51,6 +51,10 @@ Server environment variables (private; never prefix these with NEXT_PUBLIC):
 | FORMS_RETENTION_ENABLED | Set true only after additive fields, legacy-record review and deletion verification |
 | NEWSLETTER_ENDED | Set true when the newsletter permanently closes; maintenance withdraws active subscriptions |
 
+Local SendPulse connection check, 11 October 2026: all four provider settings are present; client-credentials authentication returns HTTP 200, and mailing list `818733` exists and is active (HTTP 200). The configured sender is active but is outside `enerqa.co.uk` and reports `is_allowed_for_smtp=false`. The SMTP sender-list endpoint returns HTTP 500, and the sending-domain endpoint lists no domains. `SENDPULSE_ENABLED` is absent, so application sending remains off. These checks authenticated and read provider metadata only; they sent no email, changed no subscribers and did not verify deployment settings.
+
+- **To do:** Complete SendPulse SMTP onboarding/approval, obtain the client-approved production sender and access to the domain's DNS settings, authenticate the sending domain, and recheck SMTP permission. Configure the private settings in deployment, then run the delivery, unsubscribe/suppression and retry checks below before production activation.
+
 Contact submissions remain saved if SendPulse is off or delivery fails. Notifications go to info@enerqa.co.uk and contain the protected CMS record link, not the visitor’s message or email address. Pending notifications are retried by the maintenance job. Newsletter opt-in creates a separate newsletter record, preventing ordinary enquiry expiry from deleting an active subscription. Contact submission without the newsletter checkbox creates no subscription. Unsubscribe clears exact matching contact opt-ins and turns newsletter records into minimal suppression records; provider suppression is queued if delivery is unavailable.
 
 The separate optional newsletter save can fail after an enquiry succeeds. The contact confirmation then states the enquiry is saved and asks the visitor to retry the newsletter form. It does not ask them to resubmit the enquiry.
