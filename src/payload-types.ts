@@ -339,7 +339,7 @@ export interface Domain {
    */
   tags?: (number | Category)[] | null;
   /**
-   * Industries where this domain applies. Selected through the shared domain/industry taxonomy (handoff p. 28). Leave empty until the mapping is agreed.
+   * Select and reorder the industries shown on this domain page. Saved changes control the cards directly, like Capabilities. Leave empty to show only Explore All Industries.
    */
   relevantIndustries?: (number | Industry)[] | null;
   policyUpdates?: {

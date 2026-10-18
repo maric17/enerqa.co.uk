@@ -1,4 +1,4 @@
-// Q14 approved this exact mapping; stable slugs keep every link canonical.
+// Initial Q14 selections for content population; the domain pages read the CMS.
 const government = 'government-regulators-public-institutions';
 const oil = 'oil-gas-petrochemicals';
 const manufacturing = 'industry-manufacturing-materials';
