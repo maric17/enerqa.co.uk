@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { unstable_cache } from 'next/cache';
 import { providerDatabase } from '../core/storage';
 import { RECHECK_SECONDS } from '../core/accessCheck';
-import { hostnameOf, normaliseUrl, type NewsItem, type NewsProvider } from './types';
+import { hostnameOf, normaliseUrl, newsImageUrl, type NewsItem, type NewsProvider } from './types';
 import type { NewsDiagnostics } from './diagnostics';
 import { newsScheduleSlot } from './schedule';
 
@@ -23,7 +23,7 @@ type StoredNewsRow = {
   provider: string; source_id: string; destination: string; record: unknown;
   access_status: string; access_checked_at: Date | string | null;
   retrieved_at: Date | string;
-  verdict: { status?: string; checkedAt?: string } | null;
+  verdict: { status?: string; checkedAt?: string; imageUrl?: string } | null;
 };
 
 /** Read saved metadata and evidence only; never fall back to a provider request. */
@@ -57,6 +57,7 @@ async function readNewsStoreUncached(includeExpiredAccess = false): Promise<{ it
       if (row.verdict?.checkedAt && Date.parse(row.verdict.checkedAt) >= Date.parse(checkedAt) && row.verdict.status !== 'verified_open') return [];
       if (!includeExpiredAccess && Date.now() - Date.parse(checkedAt) > RECHECK_SECONDS * 1000) return [];
       return [{ ...item, id: normaliseUrl(item.url), domain: hostnameOf(item.url),
+        imageUrl: newsImageUrl(row.verdict?.imageUrl) ?? item.imageUrl,
         retrievedAt: new Date(retrievalTime).toISOString(), accessStatus: 'verified_open' as const, accessCheckedAt: checkedAt }];
     });
     return { items, state: state ?? {}, available: true };

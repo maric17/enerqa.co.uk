@@ -1,0 +1,463 @@
+{
+  "checkedAt": "2026-10-18T06:45:38.452Z",
+  "origin": "http://localhost:3004",
+  "checks": [
+    {
+      "width": 1366,
+      "status": 200,
+      "category": "Climate Action & Carbon Management",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 13.25,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 4.89,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 4.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-teaser",
+          "ratio": 9.3,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 14.79,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 10.3,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.45,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.49,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.31,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.12,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 14.48,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "status": 200,
+      "category": "Energy Systems & Transition",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 18.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 11.38,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 18.67,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 16.13,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 11.76,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.83,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.77,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.84,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.84,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.21,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "status": 200,
+      "category": "Environment, Nature & Circularity",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 18.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 11.29,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 18.35,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-teaser",
+          "ratio": 15.88,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 16.13,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 11.76,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.83,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.83,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.78,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.84,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.21,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "status": 200,
+      "category": "Sustainable Business, ESG & Finance",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 16.94,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 10.75,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 13.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.84,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.76,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.78,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.78,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.12,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "category": "Climate Action & Carbon Management",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 11.65,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 4.72,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 4.01,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-teaser",
+          "ratio": 7.38,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 12.61,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 9.94,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.35,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 10.71,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 10.72,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.11,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "category": "Energy Systems & Transition",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 18.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 11.3,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 18.67,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 16.12,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 11.61,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.71,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.69,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.77,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.34,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "category": "Environment, Nature & Circularity",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 18.97,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 11.29,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 18.35,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-teaser",
+          "ratio": 15.75,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-source",
+          "ratio": 16.12,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-attribution",
+          "ratio": 11.68,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.71,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.69,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.34,
+          "required": 4.5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "category": "Sustainable Business, ESG & Finance",
+      "contrast": [
+        {
+          "selector": ".home-hero-search h1",
+          "ratio": 12.42,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-eyebrow",
+          "ratio": 10.95,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-story h2",
+          "ratio": 16.13,
+          "required": 3
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 100,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.63,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-categories button",
+          "ratio": 11.56,
+          "required": 4.5
+        },
+        {
+          "selector": ".home-hero-view-all",
+          "ratio": 16.33,
+          "required": 4.5
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

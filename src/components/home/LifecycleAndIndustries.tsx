@@ -93,7 +93,7 @@ export const LifecycleAndIndustries = () => (
       <Container>
         <div className="mb-10 grid items-start gap-x-16 gap-y-4 lg:grid-cols-2">
           <Typography variant="h2" className="home-h2 text-[var(--color-ink)]">
-            Industries We Work In
+            Industries
           </Typography>
           <div>
             <p className="m-0 text-[17px] font-light leading-relaxed text-[var(--ink-soft)]">

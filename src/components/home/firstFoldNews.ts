@@ -38,11 +38,11 @@ export const NEWS_FILTERS: NewsFilter[] = NEWS_BASKETS.map(({ key, label }) => (
  * Both are literal strings on purpose: Tailwind only generates classes it can
  * find written out in the source.
  */
-export const NEWS_AREA_HEIGHT = 'min-h-[150px]';
-export const NEWS_SKELETON_HEIGHT = 'h-[150px]';
+export const NEWS_AREA_HEIGHT = 'min-h-[96px]';
+export const NEWS_SKELETON_HEIGHT = 'h-[126px]';
 
-/** Lead story plus two shorter stories: what p. 13 fits inside the first viewport. */
-export const STORIES_PER_VIEW = 3;
+/** Enough slides for the requested five-story minimum when the feed can supply them. */
+export const STORIES_PER_VIEW = 8;
 
 /** "25 Sept 2026, 09:05 UTC". UTC so every visitor sees the same label. */
 export function formatDateTimeUtc(iso: string | null): string | null {
@@ -107,7 +107,18 @@ export function buildNewsViews(
   for (const { key } of NEWS_FILTERS) {
     const basket = getBasket(key);
     const matching = key === 'all' ? pool : pool.filter((item) => matchesBasket(item, basket));
-    views[key] = applyGate(matching).slice(0, perView);
+    const eligible = applyGate(matching);
+    // Reserve a place for each domain before filling with the newest stories.
+    // All entries still pass the shared rights, access and publisher gates.
+    if (key === 'all' && perView >= 4) {
+      const representatives = NEWS_FILTERS.filter(filter => filter.key !== 'all')
+        .map(filter => eligible.find(item => matchesBasket(item, getBasket(filter.key))))
+        .filter((item): item is NewsItem => Boolean(item));
+      views[key] = [...new Map([...representatives, ...eligible].map(item => [item.id, item])).values()]
+        .slice(0, perView).sort(byNewest);
+    } else {
+      views[key] = eligible.slice(0, perView);
+    }
   }
   return views;
 }
@@ -129,4 +140,36 @@ export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2):
   // News and official commentary can be merged in either order; publication
   // date decides which stories get the publisher slots and the visible cards.
   return applyGate(withoutShown(matching, shown, matching.length).sort(byNewest)).slice(0, limit);
+}
+
+export type HeroCategoryKey = Exclude<NewsBasketKey, 'all'>;
+export type HeroSlide = {
+  key: HeroCategoryKey;
+  label: string;
+  item: NewsCardData | null;
+  sourcesFailed: boolean;
+  retrievedAt: string | null;
+  delayed: boolean;
+  stale: boolean;
+};
+
+/** The hero contains only the four domains; markets has its own section. */
+export const HERO_CATEGORIES: { key: HeroCategoryKey; label: string }[] = [
+  { key: 'climate', label: 'Climate Action & Carbon Management' },
+  { key: 'energy', label: 'Energy Systems & Transition' },
+  { key: 'environment', label: 'Environment, Nature & Circularity' },
+  { key: 'business', label: 'Sustainable Business, ESG & Finance' },
+];
+
+/** Reuse the saved feed and its access gates; selecting slides costs no API calls. */
+export function selectHeroStories(pool: NewsItem[]): (NewsItem | null)[] {
+  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
+  const selected: NewsItem[] = [];
+  return HERO_CATEGORIES.map(category => {
+    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
+    // Prefer a different headline for each domain when the feed has enough stories.
+    const story = matches.find(item => !selected.some(previous => previous.id === item.id)) ?? matches[0] ?? null;
+    if (story) selected.push(story);
+    return story;
+  });
 }

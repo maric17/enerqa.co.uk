@@ -1,0 +1,95 @@
+{
+  "checkedAt": "2026-10-18T07:19:23.319Z",
+  "origin": "http://localhost:3000",
+  "viewports": [
+    {
+      "width": 1366,
+      "status": 200,
+      "alignment": "center",
+      "labels": [
+        "01 / Climate",
+        "02 / Energy",
+        "03 / Environment",
+        "04 / Business"
+      ],
+      "domainLinks": [
+        "/domains/climate-action-carbon-management",
+        "/domains/energy-systems-transition",
+        "/domains/environment-nature-circularity",
+        "/domains/sustainable-business-esg-finance"
+      ],
+      "decorativeDomainImages": 0,
+      "emojiIcons": false,
+      "industryHeading": "Industries",
+      "industryLinks": 13,
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "status": 200,
+      "alignment": "center",
+      "labels": [
+        "01 / Climate",
+        "02 / Energy",
+        "03 / Environment",
+        "04 / Business"
+      ],
+      "domainLinks": [
+        "/domains/climate-action-carbon-management",
+        "/domains/energy-systems-transition",
+        "/domains/environment-nature-circularity",
+        "/domains/sustainable-business-esg-finance"
+      ],
+      "decorativeDomainImages": 0,
+      "emojiIcons": false,
+      "industryHeading": "Industries",
+      "industryLinks": 13,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "alignment": "center",
+      "labels": [
+        "01 / Climate",
+        "02 / Energy",
+        "03 / Environment",
+        "04 / Business"
+      ],
+      "domainLinks": [
+        "/domains/climate-action-carbon-management",
+        "/domains/energy-systems-transition",
+        "/domains/environment-nature-circularity",
+        "/domains/sustainable-business-esg-finance"
+      ],
+      "decorativeDomainImages": 0,
+      "emojiIcons": false,
+      "industryHeading": "Industries",
+      "industryLinks": 13,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "status": 200,
+      "alignment": "center",
+      "labels": [
+        "01 / Climate",
+        "02 / Energy",
+        "03 / Environment",
+        "04 / Business"
+      ],
+      "domainLinks": [
+        "/domains/climate-action-carbon-management",
+        "/domains/energy-systems-transition",
+        "/domains/environment-nature-circularity",
+        "/domains/sustainable-business-esg-finance"
+      ],
+      "decorativeDomainImages": 0,
+      "emojiIcons": false,
+      "industryHeading": "Industries",
+      "industryLinks": 13,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

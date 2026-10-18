@@ -22,8 +22,7 @@ export function NewsThumbnail({ imageUrl, lead = false, stacked = false }: { ima
         <Image
           key={imageUrl} src={imageUrl} alt="" fill sizes={sizes} loading="lazy"
           unoptimized referrerPolicy="no-referrer" data-article-thumbnail
-          className="object-cover transition-opacity motion-reduce:transition-none"
-          style={{ opacity: loadedUrl === imageUrl ? 1 : 0 }}
+          className={`object-cover transition-opacity motion-reduce:transition-none ${loadedUrl === imageUrl ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setLoadedUrl(imageUrl)}
           onError={() => setFailedUrl(imageUrl)}
         />

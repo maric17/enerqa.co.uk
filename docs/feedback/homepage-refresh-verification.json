@@ -1,0 +1,99 @@
+{
+  "checkedAt": "2026-10-18T02:58:16.635Z",
+  "viewports": [
+    {
+      "width": 1366,
+      "overflow": false,
+      "feedBottom": 760.78125
+    },
+    {
+      "width": 1024,
+      "overflow": false,
+      "feedBottom": 764.328125
+    },
+    {
+      "width": 1199,
+      "overflow": false,
+      "feedBottom": 752.34375
+    },
+    {
+      "width": 1200,
+      "overflow": false,
+      "feedBottom": 760.78125
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "feedBottom": 1047.15625
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "feedBottom": 1445
+    },
+    {
+      "width": 320,
+      "overflow": false,
+      "feedBottom": 1630.5625
+    }
+  ],
+  "contrast": [
+    {
+      "selector": ".home-introduction-description",
+      "ratio": 11.83
+    },
+    {
+      "selector": ".markets-panel h2",
+      "ratio": 14.42
+    },
+    {
+      "selector": "[data-market-card] h3",
+      "ratio": 14.42
+    },
+    {
+      "selector": "[data-market-card] h3",
+      "ratio": 14.42
+    },
+    {
+      "selector": "[data-market-card] time",
+      "ratio": 11.54
+    },
+    {
+      "selector": "[data-market-card] time",
+      "ratio": 11.54
+    },
+    {
+      "selector": "[data-feed-attribution]",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".news-panel [aria-pressed=\"true\"]",
+      "ratio": 4.98
+    },
+    {
+      "selector": "#cta h2",
+      "ratio": 9.84
+    },
+    {
+      "selector": "#cta h2",
+      "ratio": 14.42
+    },
+    {
+      "selector": "#cta label",
+      "ratio": 12.47
+    },
+    {
+      "selector": "#cta label",
+      "ratio": 9.69
+    },
+    {
+      "selector": "#cta p",
+      "ratio": 10.79
+    },
+    {
+      "selector": "#cta p",
+      "ratio": 10.79
+    }
+  ],
+  "errors": []
+}

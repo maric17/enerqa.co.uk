@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-18T07:11:51.217Z",
+  "consoleErrors": [
+    "%c%s%c revalidating cache with key: ()=>probe(url)-access-check,https://doi.org/10.5194/egusphere-egu25-14671-[] background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {transient: true, verdict: Object}",
+    "%c%s%c revalidating cache with key: ()=>probe(url)-access-check,http://dx.doi.org/10.5194/egusphere-egu23-11521-[] background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {transient: true, verdict: Object}"
+  ],
+  "pageErrors": [],
+  "status": 200,
+  "researchHeading": 1,
+  "revalidationErrors": [
+    "%c%s%c revalidating cache with key: ()=>probe(url)-access-check,https://doi.org/10.5194/egusphere-egu25-14671-[] background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {transient: true, verdict: Object}",
+    "%c%s%c revalidating cache with key: ()=>probe(url)-access-check,http://dx.doi.org/10.5194/egusphere-egu23-11521-[] background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {transient: true, verdict: Object}"
+  ]
+}

@@ -1,0 +1,912 @@
+{
+  "the-evolution-of-climate-change-understanding-and-response": {
+    "startPage": 8,
+    "endPage": 9,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-009-01.webp",
+        "width": 1432,
+        "height": 717,
+        "page": 9,
+        "caption": "",
+        "alt": "Global temperature anomalies over time, with milestones in climate science.",
+        "afterText": "In 1958, Keeling established a measurement station at the Mauna Loa Observatory in Hawaii. This remote location, away from industrial pollution, was chosen to capture a baseline measurement of atmospheric CO₂. Initial readings were groundbreaking: they revealed an annual cycle of CO₂ levels fluctuating with plant growth in the Northern Hemisphere. Over time, the data revealed an unequivocal trend — CO₂ concentrations were steadily increasing."
+      }
+    ],
+    "originalPdf": "/publications/archive/the-evolution-of-climate-change-understanding-and-response.pdf"
+  },
+  "climate-forcers-the-hidden-drivers-of-global-warming": {
+    "startPage": 10,
+    "endPage": 11,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-010-01.webp",
+        "width": 1749,
+        "height": 906,
+        "page": 10,
+        "caption": "",
+        "alt": "Climate forcers and their warming and cooling effects on Earth.",
+        "afterText": "We often hear about carbon dioxide as the primary reason behind global warming, but there's more to the story. A variety of substances, known as climate forcers, are playing a significant role in heating or cooling our planet. Let's delve into the world of climate forcers and understand how they're contributing to the climate crisis."
+      }
+    ],
+    "originalPdf": "/publications/archive/climate-forcers-the-hidden-drivers-of-global-warming.pdf"
+  },
+  "weathering-the-storm-climate-resilience-in-supply-chains": {
+    "startPage": 12,
+    "endPage": 14,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-012-01.webp",
+        "width": 861,
+        "height": 618,
+        "page": 12,
+        "caption": "Figure 2: Another example of how recent climate events disrupt supply chains: Ship Buildup at the Panama Canal due to drought and unpredictable weather patterns in 2023 [15].",
+        "alt": "Map of European transport routes and supply-chain disruption risks.",
+        "afterText": "Not only are supply chains significant contributors to climate change through greenhouse gas emissions, but they are also increasingly impacted by its adverse effects. A study from the University of Oxford estimates that climate change is already jeopardizing global trade and economic activity, putting a staggering US$81 billion of trade and US$122 billion of economic activity at risk annually. Climate-related events such as extreme weather, rising sea levels, and natural disasters pose significant risks to supply chain operations. For example, the summer of 2022 brought low water levels to the Rhine River, causing severe delays to shipping arrivals and departures. Some vessels were forced to sail with cargoes at just 25% of capacity as Europe endured its worst drought in 500 years [3]."
+      },
+      {
+        "src": "/images/publications/archive/page-013-01.webp",
+        "width": 1085,
+        "height": 512,
+        "page": 13,
+        "caption": "",
+        "alt": "World map of direct downtime risk affecting supply chains.",
+        "afterText": "Not only are supply chains significant contributors to climate change through greenhouse gas emissions, but they are also increasingly impacted by its adverse effects. A study from the University of Oxford estimates that climate change is already jeopardizing global trade and economic activity, putting a staggering US$81 billion of trade and US$122 billion of economic activity at risk annually. Climate-related events such as extreme weather, rising sea levels, and natural disasters pose significant risks to supply chain operations. For example, the summer of 2022 brought low water levels to the Rhine River, causing severe delays to shipping arrivals and departures. Some vessels were forced to sail with cargoes at just 25% of capacity as Europe endured its worst drought in 500 years [3]."
+      }
+    ],
+    "originalPdf": "/publications/archive/weathering-the-storm-climate-resilience-in-supply-chains.pdf"
+  },
+  "climate-change-and-war-a-complex-interplay": {
+    "startPage": 15,
+    "endPage": 17,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-015-01.webp",
+        "width": 1042,
+        "height": 611,
+        "page": 15,
+        "caption": "",
+        "alt": "Fire damaging industrial infrastructure during conflict.",
+        "afterText": "For instance, the war in Ukraine has led to the destruction of key energy infrastructure, including the Zaporizhzhia Nuclear Power Plant, raising concerns of catastrophic contamination (BBC News, 2024). In Palestine, the bombardment of cities has destroyed natural habitats and damaged water supplies, while in Sudan, deforestation and desertification are rapidly increasing due to uncontrolled migration and urban sprawl as millions flee the violence (Al Jazeera, 2024)."
+      },
+      {
+        "src": "/images/publications/archive/page-015-02.webp",
+        "width": 942,
+        "height": 616,
+        "page": 15,
+        "caption": "Source: Jérôme Tubiana photos.",
+        "alt": "Temporary shelters in a displacement camp.",
+        "afterText": "For instance, the war in Ukraine has led to the destruction of key energy infrastructure, including the Zaporizhzhia Nuclear Power Plant, raising concerns of catastrophic contamination (BBC News, 2024). In Palestine, the bombardment of cities has destroyed natural habitats and damaged water supplies, while in Sudan, deforestation and desertification are rapidly increasing due to uncontrolled migration and urban sprawl as millions flee the violence (Al Jazeera, 2024)."
+      },
+      {
+        "src": "/images/publications/archive/page-016-01.webp",
+        "width": 1040,
+        "height": 650,
+        "page": 16,
+        "caption": "",
+        "alt": "People collecting water from a tanker.",
+        "afterText": "One often overlooked consequence of war is its impact on GHG emissions. A recent study published by the Journal of Environmental Science and Policy revealed that military operations, including the movement of troops and equipment, fuel massive carbon emissions. In Ukraine, the burning of fossil fuels to power military operations and replace damaged infrastructure has pushed carbon emissions back up, negating progress made in recent years (Environmental Science and Policy, 2023)."
+      },
+      {
+        "src": "/images/publications/archive/page-017-01.webp",
+        "width": 660,
+        "height": 441,
+        "page": 17,
+        "caption": "Source: AFP PHOTO / ASHRAF SHAZLY.",
+        "alt": "Temporary homes and belongings in a displacement settlement.",
+        "afterText": "Wars create large-scale displacement, and when combined with climate impacts, the situation worsens. In Sudan, nearly 4 million people have been displaced by the ongoing conflict, exacerbating environmental stress in neighboring countries where refugee camps are located. The lack of sustainable infrastructure in these camps leads to deforestation and water pollution, which not only damages the environment but also undermines the quality of life for displaced people (UNHCR, 2024). According to the  World Bank , climate-induced migration is expected to increase dramatically if climate action and conflict resolution are not prioritized in global policy discussions."
+      }
+    ],
+    "originalPdf": "/publications/archive/climate-change-and-war-a-complex-interplay.pdf"
+  },
+  "greenhouse-gases-and-climate-change-an-overview": {
+    "startPage": 18,
+    "endPage": 21,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-018-01.webp",
+        "width": 763,
+        "height": 650,
+        "page": 18,
+        "caption": "",
+        "alt": "Diagram of greenhouse gases and the greenhouse effect.",
+        "afterText": "Greenhouse gases (GHGs) are atmospheric constituents that absorb and emit infrared radiation, contributing to the greenhouse effect and global warming. The most significant GHGs include carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O). Human activities such as the burning of fossil fuels, industrial processes, and deforestation have dramatically increased the concentration of these gases, leading to a rise in global average temperatures[1][2]."
+      },
+      {
+        "src": "/images/publications/archive/page-019-01.webp",
+        "width": 1025,
+        "height": 628,
+        "page": 19,
+        "caption": "",
+        "alt": "Observed and projected changes in Earth's average temperature.",
+        "afterText": "The Intergovernmental Panel on Climate Change (IPCC), the leading international authority on climate science, has consistently emphasized the overwhelming evidence linking human activities to climate change. In its Fifth Assessment Report (AR5), the IPCC concluded that it is \"extremely likely\" that human influence has been the dominant cause of observed warming since the mid-20th century[3][4]. This conclusion reflects the consensus of thousands of scientists worldwide and underscores the urgency of mitigating anthropogenic emissions."
+      },
+      {
+        "src": "/images/publications/archive/page-019-02.webp",
+        "width": 449,
+        "height": 253,
+        "page": 19,
+        "caption": "",
+        "alt": "Waves reaching a palm-lined coast.",
+        "afterText": "The Intergovernmental Panel on Climate Change (IPCC), the leading international authority on climate science, has consistently emphasized the overwhelming evidence linking human activities to climate change. In its Fifth Assessment Report (AR5), the IPCC concluded that it is \"extremely likely\" that human influence has been the dominant cause of observed warming since the mid-20th century[3][4]. This conclusion reflects the consensus of thousands of scientists worldwide and underscores the urgency of mitigating anthropogenic emissions."
+      },
+      {
+        "src": "/images/publications/archive/page-019-03.webp",
+        "width": 450,
+        "height": 276,
+        "page": 19,
+        "caption": "",
+        "alt": "Floodwater surrounding homes and infrastructure.",
+        "afterText": "The consequences of climate change are already evident and are expected to intensify in the coming decades. These include:"
+      },
+      {
+        "src": "/images/publications/archive/page-020-01.webp",
+        "width": 801,
+        "height": 558,
+        "page": 20,
+        "caption": "",
+        "alt": "Biodiversity change over time and alternative pathways for recovery.",
+        "afterText": "The consequences of climate change are already evident and are expected to intensify in the coming decades. These include:"
+      },
+      {
+        "src": "/images/publications/archive/page-020-02.webp",
+        "width": 1007,
+        "height": 392,
+        "page": 20,
+        "caption": "",
+        "alt": "Three illustrated steps explaining the greenhouse effect.",
+        "afterText": "The solution lies in ‘bending the curve’ – halting and reversing the five drivers of biodiversity loss by scaling back the footprint of human production and consumption. The Kunming-Montreal Global Biodiversity Framework signed in 2022 by 188 countries agreed that bending the curve before 2030 was essential."
+      }
+    ],
+    "originalPdf": "/publications/archive/greenhouse-gases-and-climate-change-an-overview.pdf"
+  },
+  "breathing-vs-burning-the-carbon-footprint-contrast": {
+    "startPage": 22,
+    "endPage": 23,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-023-01.webp",
+        "width": 783,
+        "height": 962,
+        "page": 23,
+        "caption": "Fig-1: Global CO2 Emissions: A Disparity in Responsibility (Author’s illustration)",
+        "alt": "Comparison of human respiration and fossil-fuel combustion carbon emissions.",
+        "afterText": "Humans and Animals: Through cellular respiration, humans and animals inhale oxygen and exhale CO2. The amount of CO2 produced depends on metabolic activity, which is influenced by factors like physical activity, diet, and body size. On average, a human exhales about 1 kilogram of CO2 daily (Houghton, 2007). Plants: Plants contribute to atmospheric CO2 during respiration, particularly at night when photosynthesis ceases. However, plants act as net carbon sinks because they absorb more CO2 for photosynthesis than they emit (Raven et al., 2021). Microorganisms: Decomposers, such as fungi and bacteria, break down organic matter, releasing CO2. This process is vital for nutrient recycling in ecosystems but also adds to natural CO2 emissions (Schlesinger & Bernhardt, 2013). Oceans: Marine life, including plankton, contributes to the carbon cycle. While some marine organisms emit CO2, oceans also absorb significant amounts of CO2 from the atmosphere, acting as a natural buffer (Sabine et al., 2004)."
+      }
+    ],
+    "originalPdf": "/publications/archive/breathing-vs-burning-the-carbon-footprint-contrast.pdf"
+  },
+  "ghg-emissions-the-burden-on-our-planet": {
+    "startPage": 24,
+    "endPage": 24,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-024-01.webp",
+        "width": 1047,
+        "height": 1193,
+        "page": 24,
+        "caption": "",
+        "alt": "Infographic tracing historical greenhouse-gas emissions and annual changes.",
+        "afterText": "Greenhouse gases (GHG) emissions are a serious issue for our world. It has been demonstrated that in recent decades, the rise has accelerated. It is evident that, overall, the trend has been upward over the past 170 years, from 4.2 to approximately 54 billion tons of CO2 equivalent (CO2eq) (an increase of 1183%), between 1850 and 2022. However, the last 40 years of the same period have accounted for more than 50% of all emissions. Put otherwise, a little 23% of that timeframe accounted for over half of the emissions during the same timeframe."
+      }
+    ],
+    "originalPdf": "/publications/archive/ghg-emissions-the-burden-on-our-planet.pdf"
+  },
+  "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience": {
+    "startPage": 26,
+    "endPage": 34,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-028-01.webp",
+        "width": 709,
+        "height": 807,
+        "page": 28,
+        "caption": "Figure-1: Hydrogen production technologies and its environmental impacts – categorized by color (Authors illustration)",
+        "alt": "Hydrogen colour categories and their production methods.",
+        "afterText": "5. Hydrogen Technologies and Climate Change"
+      },
+      {
+        "src": "/images/publications/archive/page-029-table.webp",
+        "width": 1583,
+        "height": 705,
+        "page": 29,
+        "caption": "Hydrogen production methods, emissions and applicability by colour",
+        "alt": "Hydrogen production methods, emissions and applicability by colour",
+        "transcript": "Table 1: Summary of Hydrogen Production Methods by Color, Emissions, and Applicability. \nColor \nProduction Method \nEmissions \nApplicability \nGray \nSteam Methane Reforming \n(SMR) \nHigh CO2‚‚ emissions \nCost-effective; widely used in industry but \nhigh emissions \nBlue \nSMR with Carbon Capture \nand Storage (CCS) \nLow CO2‚‚ emissions due to \nCCS \nLower emissions option for industries with \nexisting infrastructure \nGreen \nElectrolysis powered by \nrenewable energy \nZero direct emissions \nIdeal for sectors requiring low carbon, e.g., \ntransport, energy storage \nTurquoise \nMethane Pyrolysis \nNo direct CO2‚‚ emissions; \nsolid carbon byproduct \nPotential for regions with natural gas and \nsolid carbon markets \nPink \nElectrolysis powered by \nnuclear energy \nMinimal emissions; low-\ncarbon \nSuitable for continuous industrial \napplications with nuclear power \nYellow \nElectrolysis powered by \ngrid electricity \nVaries based on grid energy \nmix \nFlexible; emission levels dependent on \nregional grid composition \nWhite \nNaturally occurring \nhydrogen in geological \nformations \nZero direct emissions; \nextraction impact uncertain \nUnder research; future potential if \nextraction methods are developed",
+        "afterText": "White hydrogen, or naturally occurring hydrogen, is found in specific geological formations. Although it has potential as a clean hydrogen source, it remains underdeveloped, with significant challenges in extraction and storage. White hydrogen offers a unique opportunity if technology advances allow for efficient and economical extraction from natural deposits (He, 2020)."
+      },
+      {
+        "src": "/images/publications/archive/page-031-01.webp",
+        "width": 773,
+        "height": 825,
+        "page": 31,
+        "caption": "Figure 4: Hydrogen Technologies Categorization (Source: Author's illustration)",
+        "alt": "Matrix comparing hydrogen pathways with development and environmental impacts.",
+        "afterText": "5. Hydrogen Technologies and Climate Change"
+      },
+      {
+        "src": "/images/publications/archive/page-032-table.webp",
+        "width": 1459,
+        "height": 936,
+        "page": 32,
+        "caption": "Hydrogen technology feasibility in different economic contexts",
+        "alt": "Hydrogen technology feasibility in different economic contexts",
+        "transcript": "Hydrogen \nType \nEconomic Context \nTechnical Feasibility \nEnvironmental Impact \nGray \nLow-cost; feasible in natural \ngas-rich countries; high \nemissions limit long-term \nviability \nHigh; mature technology with \nwidespread adoption in industry \nHigh CO2‚ emissions; \nunsustainable for low-carbon \ngoals \nBlue \nHigher cost due to CCS; \nsuitable for gas-rich areas with \ncarbon storage infrastructure \nModerate; dependent on CCS \ntechnology and storage \ninfrastructure \nReduced emissions; CCS \nmitigates CO2‚‚ but relies on \nstorage safety \nGreen \nHigh initial costs; viable in \nregions with strong renewable \ninfrastructure and financing \nModerate; requires renewable \nenergy infrastructure and high \ncapital investment \nZero direct emissions; ideal for \nlow-carbon applications \nTurquoise \nEmerging technology; potential \nfor natural gas regions with \nsolid carbon markets \nLow; experimental stage with \nlimited infrastructure and \nmarket support \nNo CO2‚‚ emissions; carbon \nbyproduct requires solid carbon \nmarkets \nPink \nLimited to regions with nuclear \npower; high costs and \nregulatory challenges \nLow; reliant on nuclear \ninfrastructure and public \nacceptance \nMinimal emissions; limited by \nnuclear energy availability \nYellow \nVariable emissions based on \ngrid mix; feasible where \nrenewable share in grid is high \nModerate; dependent on grid \nenergy mix, suitable where \nrenewables are prevalent \nVaries; emissions depend on \ngrid composition and \nrenewables share \nWhite \nUnder research; potential in \nareas with natural hydrogen \ndeposits if extraction develops \nLow; early-stage research, \nlimited knowledge on extraction \nfeasibility \nZero direct emissions; \nenvironmental impacts \nuncertain due to limited \nextraction data",
+        "afterText": "Green hydrogen presents a major opportunity due to the GCC’s substantial solar potential, offering a pathway to diversify energy portfolios and meet decarbonization goals. Countries like Saudi Arabia and the UAE are investing in large-scale solar plants, which could support green hydrogen production (IRENA, 2021). Oman is also emerging as a green hydrogen hub, with planned projects to serve both domestic and export markets (UNDP, 2021). Yet, green hydrogen development requires high initial investments and extensive renewable energy infrastructure, which may be challenging to implement rapidly in Iraq due to economic and infrastructure constraints (World Bank, 2022). Despite these challenges, the GCC countries and Iraq can leverage their strategic geographic position to access both European and Asian hydrogen markets, creating a competitive export opportunity. With supportive policies and investment in infrastructure, these countries can potentially transition from traditional fossil fuel economies to global leaders in the hydrogen sector, balancing hydrocarbon production with sustainable energy development (Hydrogen Council, 2021)."
+      },
+      {
+        "src": "/images/publications/archive/page-033-table.webp",
+        "width": 1583,
+        "height": 357,
+        "page": 33,
+        "caption": "Emission-reduction potential of hydrogen technologies",
+        "alt": "Emission-reduction potential of hydrogen technologies",
+        "transcript": "Table 3: Emission Reduction Potential of Hydrogen Technologies by Color \nHydrogen Type \nEmission Reduction Potential \nKey Factors for Climate Impact \nGray \nLow \nHigh CO₂ emissions; unsuitable for net-zero goals \nBlue \nModerate \nCO₂ reduction with CCS; feasible transitional option \nGreen \nHigh \nZero direct emissions; ideal for net-zero targets \nTurquoise \nModerate \nSolid carbon byproduct; low emissions but limited scaling \nPink \nHigh (in nuclear-capable regions) \nMinimal emissions; reliant on nuclear infrastructure \nYellow \nVariable \nDepends on grid energy mix; cleaner in renewable-heavy grids \nWhite \nHigh (if viable extraction) \nZero direct emissions; under research for sustainable use",
+        "afterText": "By providing carbon-free or lower-carbon alternatives, hydrogen technologies have significant potential to aid global decarbonization efforts. However, realizing this potential will depend on continued advancements in renewable energy infrastructure, CCS technology, and the development of hydrogen storage and distribution systems."
+      }
+    ],
+    "originalPdf": "/publications/archive/exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience.pdf"
+  },
+  "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in": {
+    "startPage": 35,
+    "endPage": 55,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-036-table.webp",
+        "width": 1583,
+        "height": 752,
+        "page": 36,
+        "caption": "Comparison of conventional credit lines and green credit lines",
+        "alt": "Comparison of conventional credit lines and green credit lines",
+        "transcript": "Table 1: Difference between the conventional credit line and the green credit line \nFeature \nCredit Line \nGreen Credit Line \nDefinition \nA pre-approved loan amount that a \nborrower can access as needed, up to \na specified limit. \nA specific type of credit line designed to finance \nenvironmentally friendly projects and initiatives. \nPurpose \nCan be used for various purposes, \nsuch \nas \nworking \ncapital, \ndebt \nconsolidation, \nor \nemergency \nexpenses. \nExclusively \nused \nfor \nprojects \nthat \npromote \nenvironmental sustainability, like renewable energy, \nenergy efficiency, or pollution control. \nEligibility \nBased on creditworthiness, income, \nand other financial factors. \nRequires meeting specific criteria related to the \nproject's environmental benefits and adherence to \nsustainability standards. \nTerms \nand \nConditions \nInterest rates, fees, and repayment \nterms can vary depending on the \nborrower's credit profile and the \nlender's policies. \nOften comes with more favorable terms than \ntraditional credit lines, such as lower interest rates, \nlonger repayment periods, or reduced fees, to \nincentivize green investments. \nExamples \nPersonal credit lines, business credit \nlines, home equity lines of credit \nGreen credit lines for renewable energy projects, \nenergy-efficient building upgrades, or sustainable \nagriculture practices.",
+        "afterText": "The following table compare between the conventional credit line and the GCL."
+      },
+      {
+        "src": "/images/publications/archive/page-040-01.webp",
+        "width": 1455,
+        "height": 550,
+        "page": 40,
+        "caption": "Figure 5: GCL Mechanism Source: Authors illustration.",
+        "alt": "Green Credit Line Implementation Potential Index framework.",
+        "afterText": "Conversely, brown projects are characterized by activities that significantly contribute to carbon emissions and environmental degradation. Examples of brown projects include fossil fuel extraction, coal mining, and the development of new oil and gas infrastructure. These activities are not aligned with the sustainability goals outlined by the GLP and other taxonomies and are typically excluded from green financing. The differentiation between green and brown projects is critical to avoid \"greenwashing,\" where projects are misleadingly marketed as environmentally friendly without meeting the necessary sustainability criteria. Greenwashing can undermine the integrity of green finance and erode investor and public trust. By adhering to established taxonomies such as the GLP, EU Taxonomy, and Climate Bonds Standard, financial institutions can ensure that only genuinely sustainable projects receive green financing, thereby maintaining the integrity of green credit lines. This adherence involves rigorous assessment and verification processes to confirm that projects meet the relevant criteria and deliver the intended environmental benefits [31] [32]."
+      },
+      {
+        "src": "/images/publications/archive/page-042-01.webp",
+        "width": 797,
+        "height": 717,
+        "page": 42,
+        "caption": "Figure 6: conceptual framework for evaluating the GCL potential in GCC and impact on energy transition",
+        "alt": "Factors composing the Green Credit Line Implementation Potential Index.",
+        "afterText": "Green Credit Line Implementation Potential Index (GCLIPI):  this index assesses the potentiality of the GCL establishment by the FIs and considers three main factors namely; (1) Financial Institution Performance (based on common aspects specified by frameworks employed by many donors and development banks, such as those used by the World Bank, OECD DAC, IFC, GCF, and ADB), (2) Governmental Frameworks (based on WB, 2023, ADB, 2023), and 4 (3) FIS Internal Capacities (derived from a review of various established GCL programs). While these factors reflect the financial sector's readiness to integrate GCLs into their operations, they represent a preliminary assessment towards a more comprehensive evaluation."
+      },
+      {
+        "src": "/images/publications/archive/page-044-table.webp",
+        "width": 2171,
+        "height": 1004,
+        "page": 44,
+        "caption": "Green-credit potential index factors, measures and data sources",
+        "alt": "Green-credit potential index factors, measures and data sources",
+        "transcript": "Factors \n1 \n2 \n3 \nFinancial Institution \nPerformance (30%) \nMeasurement  \nGovernmental \nFrameworks (40%) \nMeasurement  \nInternal Capacities \n(30%) \nMeasurement  \nWeighted \nsub-indices   \nFinancial performance of \nthe FIs (50%) \nmeasured by the \ncredit rating \nNational Green \nFinance Strategy  \n(33%) \nassessed by evaluating \nthe presence of \nrelevant information in \npublished materials. \nThe capacity of FIs to \nundertake technical \nand financial \nassessments of energy \nefficiency and RE \nproject \n50%) \nmeasured by \nexamining the \nconduction of the \nSustainable finance \ntraining program. \nSustainable portfolio of \nthe Fis (exposure to \nhigh-carbon sectors) \n(50%) \nmeasured by the \nefforts to reduce \nexposure to high-\ncarbon sectors \n(Loans to carbon \nintensive sectors / \nTotal loans) \nRegulations for GCLs \n(33%) \nassessed by evaluating \nthe presence of \nrelevant information in \npublished materials. \nThe green projects \npipeline \n(50%) \nassessed by \nevaluating the \npresence of \nrelevant \ninformation in \npublished \nmaterials. \nPresence of green \nbuilding standards or \ninitiatives  \n(33%) \nassessed by evaluating \nthe presence of \nrelevant information in \npublished materials. \nData \nSources \nFIs websites, annual reports industry reports, \ncentral bank reports. \nRegulatory body websites, government policy \ndocuments \ngovernment policy documents, national plans \nand related publications. \nReferences \nWorld Bank’s Financial Intermediary Funds \n(FIFs) Framework, \nhttps://www.worldbank.org/en/programs/fin\nancial-intermediary-funds \nWB, 2023, ADB, 2023,  \nWB, Financing Energy Efficiency, Part 2: Credit \nLines, 2018. \nDerived from a review of various established \nGCL programs.",
+        "afterText": "The rationale for assigning these weights is grounded in the recognition of the fundamental importance of the governmental frameworks in ensuring the success and sustainability of the GCLs. Even if the performance and the internal capacities of the FIs fully met, the absence of a supportive governmental frameworks would significantly hinder the effectiveness of the GCLs. Given these insights, the governmental frameworks are prioritized with a 40% weight to reflect its critical role in supporting the GCL's success. The comprehensive assessment of the  national green finance strategy ,  GCL regulatory and guidelines , and  green building standards  ensures that the foundational conditions necessary for the GCL are in place. The FIS performance is essential for defining the specific eligibility criteria for the FIs, focusing on the  financial performance  of the FIs and the commitment to the  sustainability (exposure to high-carbon sectors) . Internal capacities focus on the specific design and implementation aspects of the GCL. This includes the  green finance expertise , the availability of the  green projects pipeline  among other. The sub-indices for each factor are illustrated in Table 4 with relative importance percentage (out of 100%). A pre-defined scoring system (e.g., 0 for no evidence, 1 for limited evidence, 2 for moderate evidence, 3 for strong evidence) will be applied to each sub-indices. Scores for each factor will be calculated and multiplied by their respective weights. The final GCLIPI score for each country will be the sum of the weighted factors scores. The GCLIPI scores will serve as a starting point for assessing the potential impact on the energy transition. The below explanatory note shows the scale definitions, the model equations and the benchmark matrix."
+      },
+      {
+        "src": "/images/publications/archive/page-045-01.webp",
+        "width": 2334,
+        "height": 1064,
+        "page": 45,
+        "caption": "Figure 7: Breakdown of the factors that composing the Green Credit Implementation Potential Index (GCIPI)",
+        "alt": "Detailed breakdown of green-credit implementation factors and sub-indices.",
+        "afterText": "[39] World Bank. \"Climate Investment Funds.\". https://fiftrustee.worldbank.org/en/about/unit/dfi/fiftrustee/funds."
+      },
+      {
+        "src": "/images/publications/archive/page-046-table.webp",
+        "width": 2173,
+        "height": 1318,
+        "page": 46,
+        "caption": "Green-credit implementation scale definitions and criteria",
+        "alt": "Green-credit implementation scale definitions and criteria",
+        "transcript": "Table 5: Scale Definition for GCL Implementation Potential Index (GCIPI): Criteria and Sub-Indicators \nFactors \nSub-indices \nAbbreviati\non \nScale definition \n0 \n1 \n2 \n3 \nFinancial \nInstitution \nPerformance \nFinancial performance \nof the FIs \nFP6 \nD and SD (In default)  \nLow: ranging from \nCCC+, CCC, CCC-, CC, \nC. \nMed: ranging from \nBBB+, BBB, BBB-, BB+, \nBB, BB-, B+, B, B-. \nHigh: ranging from AAA, \nAA+, AA, AA-, A+, A, A-  \nSustainable portfolio of \nthe Fis (exposure to \nhigh-carbon sectors) \nSP \nNo significant efforts \nto reduce exposure to \nhigh-carbon sectors \nSome initial efforts \ntowards \nsustainability, \nand \nminor reductions in \nhigh-carbon \ninvestments \nSubstantial \ncommitment \nto \nsustainability, \nand \nmoderate reductions \nin exposure to high-\ncarbon sectors \nLeader in sustainability, \nwith aggressive targets \nand substantial reductions \nin \nhigh-carbon \nsector \nexposure \nGovernmental \nFrameworks \nNational Green Finance \nStrategy \nNGFS \nNo evidence of a \nNational \nGreen \nFinance Strategy in \npublicly available data \nor reports \nIndirect mention of \na National Green \nFinance Strategy in \npublicly \navailable \ndata or reports, but \nno comprehensive \ndetails or dedicated \nstrategy documents \nSome documentation \nor references to a \nNational \nGreen \nFinance \nStrategy, \npossibly \nincluding \nhigh-level \ngoals or \nintentions, but lacks \ndetailed \nimplementation plans \nor strategies \nClear \nevidence \nof \na \nNational Green Finance \nStrategy with documented \ngoals, strategies, and initial \nimplementation \nplans \navailable \nin \npublicly \npublished reports. \nRegulations \nand \nGuidelines for GCLs -\nReporting \nRG \nNo \nevidence \nof \nspecific regulations or \nguidelines for Green \nCredit Lines (GCL) in \npublicly available data \nor reports \nDirect mention of \nregulations \nor \nguidelines for Green \nCredit Lines (GCL), \nbut \nno \ncomprehensive \ndetails or dedicated \nregulatory \nframework. \nSome documentation \nor \nreferences \nto \nregulations \nor \nguidelines for Green \nCredit Lines (GCL), \npossibly \nincluding \nbroad principles or \nintentions, but lacks \ndetailed \nimplementation \nguidelines \nor \nClear evidence of specific \nregulations or guidelines \nfor Green Credit Lines \n(GCL), with documented \ncriteria, \neligibility \nrequirements, \nand \nimplementation guidelines \navailable \nin \npublicly \npublished reports.",
+        "afterText": "The rationale for assigning these weights is grounded in the recognition of the fundamental importance of the governmental frameworks in ensuring the success and sustainability of the GCLs. Even if the performance and the internal capacities of the FIs fully met, the absence of a supportive governmental frameworks would significantly hinder the effectiveness of the GCLs. Given these insights, the governmental frameworks are prioritized with a 40% weight to reflect its critical role in supporting the GCL's success. The comprehensive assessment of the  national green finance strategy ,  GCL regulatory and guidelines , and  green building standards  ensures that the foundational conditions necessary for the GCL are in place. The FIS performance is essential for defining the specific eligibility criteria for the FIs, focusing on the  financial performance  of the FIs and the commitment to the  sustainability (exposure to high-carbon sectors) . Internal capacities focus on the specific design and implementation aspects of the GCL. This includes the  green finance expertise , the availability of the  green projects pipeline  among other. The sub-indices for each factor are illustrated in Table 4 with relative importance percentage (out of 100%). A pre-defined scoring system (e.g., 0 for no evidence, 1 for limited evidence, 2 for moderate evidence, 3 for strong evidence) will be applied to each sub-indices. Scores for each factor will be calculated and multiplied by their respective weights. The final GCLIPI score for each country will be the sum of the weighted factors scores. The GCLIPI scores will serve as a starting point for assessing the potential impact on the energy transition. The below explanatory note shows the scale definitions, the model equations and the benchmark matrix."
+      },
+      {
+        "src": "/images/publications/archive/page-047-table.webp",
+        "width": 2173,
+        "height": 1435,
+        "page": 47,
+        "caption": "Green-credit implementation scale definitions, continued",
+        "alt": "Green-credit implementation scale definitions, continued",
+        "transcript": "regulatory \nframeworks \nPresence \nof \ngreen \nbuilding standards or \ninitiatives \nGBS \nNo \nevidence \nor \nacknowledgment \nof \nspecific green building \nstandards \nor \ninitiatives in publicly \navailable \ndata \nor \nreports \nMinimal or indirect \nmention of green \nbuilding \nstandards \nor initiatives, but no \ncomprehensive \ndetails or dedicated \nframework \nSome documentation \nor references to green \nbuilding standards or \ninitiatives, \npossibly \nincluding \ninitial \nguidelines \nor \nprinciples, but lacks \nwidespread adoption \nor \ncomprehensive \nimplementation \nClear evidence of specific \ngreen building standards \nor \ninitiatives \nwith \ndocumented \ncriteria, \ncertification \nprocesses, \nand \nadoption \nby \nstakeholders available in \npublicly published reports \nInternal \nCapacities \nThe \ncapacity \nof \nfinancial institutions to \nundertake \ntechnical \nand \nfinancial \nassessments of energy \nefficiency \nand \nRE \nproject \nCTFA \nNo \nevidence \nor \nacknowledgment \nof \nspecific \nSustainable \nFinance \ntraining \nprograms or capacity \nbuilding \ninitiatives \nrelated \nto \nenergy \nefficiency \nor \nrenewable \nenergy \nprojects in publicly \navailable \ndata \nor \nreports \nIndirect mention of \nSustainable Finance \ntraining programs, \nbut \nno \ncomprehensive \ndetails or dedicated \nframework \nfor \nenergy efficiency or \nrenewable \nenergy \nprojects \nSome documentation \nor \nreferences \nto \nSustainable \nFinance \ntraining \nprograms, \npossibly \nincluding \nbasic \ntraining \nor \nawareness \nsessions, \nbut \nlacks \ncomprehensive \ncoverage of technical \nand \nfinancial \nassessments \nClear evidence of specific \nSustainable \nFinance \ntraining \nprograms \nwith \ndocumented \ncurriculum, \ntraining \nmodules \non \ntechnical \nand \nfinancial \nassessments for energy \nefficiency and renewable \nenergy projects \nthe \ngreen \nproject \npipeline \nGPP \nNo \nevidence \nor \nacknowledgment of a \nspecific green project \npipeline or renewable \nenergy \ntargets \nin \npublicly available data \nor reports \nindirect mention of \ngreen \nproject \npipeline \nor \nrenewable \nenergy \ntargets, \nbut \nno \ncomprehensive \ndetails or dedicated \nframework \nfor \nidentifying \nand \ndeveloping \ngreen \nproject \nSome documentation \nor references to green \nproject pipeline or \nrenewable \nenergy \ntargets, \npossibly \nincluding preliminary \nlistings or intentions, \nbut lacks a structured \nand detailed pipeline \nmanagement system \nClear evidence of a specific \ngreen project pipeline with \ndocumented \nprojects \naligned with renewable \nenergy targets, stages of \ndevelopment, \nand \npotential financing needs \navailable \nin \npublicly \npublished reports",
+        "afterText": "The rationale for assigning these weights is grounded in the recognition of the fundamental importance of the governmental frameworks in ensuring the success and sustainability of the GCLs. Even if the performance and the internal capacities of the FIs fully met, the absence of a supportive governmental frameworks would significantly hinder the effectiveness of the GCLs. Given these insights, the governmental frameworks are prioritized with a 40% weight to reflect its critical role in supporting the GCL's success. The comprehensive assessment of the  national green finance strategy ,  GCL regulatory and guidelines , and  green building standards  ensures that the foundational conditions necessary for the GCL are in place. The FIS performance is essential for defining the specific eligibility criteria for the FIs, focusing on the  financial performance  of the FIs and the commitment to the  sustainability (exposure to high-carbon sectors) . Internal capacities focus on the specific design and implementation aspects of the GCL. This includes the  green finance expertise , the availability of the  green projects pipeline  among other. The sub-indices for each factor are illustrated in Table 4 with relative importance percentage (out of 100%). A pre-defined scoring system (e.g., 0 for no evidence, 1 for limited evidence, 2 for moderate evidence, 3 for strong evidence) will be applied to each sub-indices. Scores for each factor will be calculated and multiplied by their respective weights. The final GCLIPI score for each country will be the sum of the weighted factors scores. The GCLIPI scores will serve as a starting point for assessing the potential impact on the energy transition. The below explanatory note shows the scale definitions, the model equations and the benchmark matrix."
+      },
+      {
+        "src": "/images/publications/archive/page-048-01.webp",
+        "width": 1783,
+        "height": 571,
+        "page": 48,
+        "caption": "",
+        "alt": "Green-credit index scores and comparison matrix.",
+        "afterText": "[39] World Bank. \"Climate Investment Funds.\". https://fiftrustee.worldbank.org/en/about/unit/dfi/fiftrustee/funds."
+      },
+      {
+        "src": "/images/publications/archive/page-048-table.webp",
+        "width": 1663,
+        "height": 704,
+        "page": 48,
+        "caption": "Green-credit assessment criteria and scoring table",
+        "alt": "Green-credit assessment criteria and scoring table",
+        "transcript": "Figure 8: Benchmark matrix for the Green Credit Line Potential Impact Indicator (GCLPII) \nGCLPII  = (GCIPI + RETA) / 2 \n \n \n \n \nGCIPI: Green Credit Implementation Potential Index  \nRETA: Renewable Energy Target Ambitiousness",
+        "afterText": "The country has ambitious target for high RE use, but significant efforts are required and challenges need to be addressed."
+      },
+      {
+        "src": "/images/publications/archive/page-049-table.webp",
+        "width": 1633,
+        "height": 650,
+        "page": 49,
+        "caption": "Renewable-energy target ambitiousness assessment",
+        "alt": "Renewable-energy target ambitiousness assessment",
+        "transcript": "• \nREN21 \nRenewables \nGlobal Status Report \n2023. \nUAE \nRE Target Ambitiousness \nNote  \nReferences  \nThe 50% target by 2050 represents a long-term \nvision but is still ambitious compared to the \nregion's average \nThe 50% target by 2050 represents a \nlong-term vision but is still ambitious \ncompared to the region's average \n• \nUAE Net Zero by 2050 \nStrategic Initiative. \n• \nIEA \nWorld \nEnergy \nOutlook 2023. \nKSA \nRE Target Ambitiousness \nNote  \nReferences  \nSaudi Arabia's Vision 2030 targets 50% of its \nelectricity generation from RE sources by 2030 \nThe 50% target by 2050 represents a \nlong-term vision but is still ambitious \ncompared to the region's average \n• \nSaudi \nArabia \nVision \n2030. \n• \nIEA Executive Director \nstatement.",
+        "afterText": "The country has ambitious target for high RE use, but significant efforts are required and challenges need to be addressed."
+      },
+      {
+        "src": "/images/publications/archive/page-051-table.webp",
+        "width": 2173,
+        "height": 1435,
+        "page": 51,
+        "caption": "Green-credit implementation scoring and references for Qatar",
+        "alt": "Green-credit implementation scoring and references for Qatar",
+        "transcript": "Table 8:The results of scoring the sub-indices of the GCLIPI and references \nQatar \nSub-index \nweight \nScore \nweighted \nscores \nReferences \nFinancial Institutions Performance - country scale \n(FIP) \n30% \n(1,2) \nFinancial performance of the FIs \n0.5 \n3 \n1.5 \n(1) Credit rating, S&P Global Ratings 2022 \nSustainable Portfolio of FIs \n0.5 \n2 \n1 \n(2) Loans to carbon intensive sectors / Total loans, Banks — Gulf Cooperation Council: 2022 \nOutlook \nSub index score \n2.5 \n \nweighted sub index score \n0.75 \n \n \n \nGovernmental Frameworks (GF) \n40% \n(3,4,) \nNational Green Finance Strategy \n0.33 \n1 \n0.33 \n(3) Qatar Central Bank's Plan (2017-2022) with intention to implement strategic actions on green \nfinance \nRegulations for GCL \n0.33 \n0 \n0 \nNo regulations found yet. \nPresence of green building standards or initiatives \n0.33 \n3 \n0.99 \n(5) Qatar has 1,406 sustainability certified buildings, according to the Ministry of Environment and \nClimate Change \nSub index score \n1.32 \n \nweighted sub index score \n0.528 \n \n \n \nInternal Capacities (IC) \n30% \n(5,6,7) \nThe capacity of financial institutions to undertake \ntechnical and financial assessments of energy \nefficiency and RE project \n0.5 \n0 \n0 \n(5) Opportunities for the GCC to strengthen the sustainable finance ecosystem, PwC research \nadapted from the Atlantic Council, 2022. Official public resources, 2023 \nhttps://www.strategyand.pwc.com/m1/en/strategic-foresight/sector-strategies/financial-\nservices/middle-east-green-finance/middle-east-green-finance.pdf \nthe project pipeline \n0.5 \n2 \n1 \n(6) Qatar National Vision 2030 - Renewable Energy Goals \nSub index score \n1 \n \nweighted sub index score \n0.3 \n \nTotal GCL Implementation Potential Index \n1.578 \n \n \n \n \n \n \n \n \nUAE \nSub-index \nweight \nScore \nweighted \nscores \nReferences \nFinancial Institutions Performance - country scale \n(FIP) \n30% \n(1,2) \nFinancial performance of the FIs \n0.5 \n3 \n1.5 \n(1) Liquid assets/assets (%), S&P Global Ratings, 2022 \nSustainable Portfolio of FIs \n0.5 \n2 \n1 \n(2) Loans to carbon intensive sectors / Total loans, Banks — Gulf Cooperation Council: 2022 \nOutlook \nSub index score \n2.5 \n \nweighted sub index score \n0.75 \n \n \n \nGovernmental Frameworks (GF) \n40% \n(8,9) \nNational Green Finance Strategy \n0.33 \n2 \n0.66 \n(8) UAE Sustainable Finance Framework \n 2021 - 2031 \nRegulations for GCLs -Reporting \n0.33 \n0 \n0 \nNo regulation found yet \nPresence of green building standards or initiatives \n0.33 \n3 \n0.99 \n(9) Estidama Green Building Rating System (UAE) \nSub index score \n1.65",
+        "afterText": "This study aimed to assess the GCL potential of Qatar compared to the UAE, and KSA by developing a GCL Implementation Potential Index. According to the first national survey on contributions of the FIs to Green Economy, the UAE appears to be the only country among the three with existing GCL within their green finance offerings. This suggests a potential head start for the UAE in terms of GCL implementation. Regarding the degree to which the financial system within the three countries is prepared to establish the GCL, which measured by the financial performance, and the sustainable portfolio of FIs, Qatar and UAE scored highest in this sub-indicator, indicating both the health of the FIs and higher commitment by the FIs to sustainability and energy transition. Regarding the governmental frameworks in the three countries, the analysis revealed that while each country has implemented supportive policies and took steps toward the green finance, the KSA demonstrated a more developed and comprehensive green Financing Framework. Qatar and the UAE could benefit from exploring similar initiatives to enhance their GCL potential. For the internal capacities (measured by the green finance expertise, green projects pipeline), while all three countries showed similar results regarding the green projects pipeline, the UAE demonstrates a documented effort regarding the sustainable finance training. Based on the factors analyzed, UAE appears to be the most prepared for GCL establishment by the FIs and deployment. The KSA shows promise with a focus on building enabling governmental frameworks. While Qatar is possessing a strong financial sector, limitations in the enabling environment criteria hinder its immediate GCL readiness."
+      },
+      {
+        "src": "/images/publications/archive/page-052-table.webp",
+        "width": 2173,
+        "height": 1302,
+        "page": 52,
+        "caption": "Green-credit implementation scoring and references for the UAE",
+        "alt": "Green-credit implementation scoring and references for the UAE",
+        "transcript": "weighted sub index score \n0.66 \n \n \n \nInternal Capacities (IC) \n30% \n(5, 10, 11) \nThe capacity of financial institutions to undertake \ntechnical and financial assessments of energy \nefficiency and RE project \n0.5 \n1 \n0.5 \n(5) Opportunities for the GCC to strengthen the sustainable finance ecosystem, PwC research \nadapted from the Atlantic Council, 2022. Official public resources, 2023 \nhttps://www.strategyand.pwc.com/m1/en/strategic-foresight/sector-strategies/financial-\nservices/middle-east-green-finance/middle-east-green-finance.pdf \nThe project pipeline \n0.5 \n2 \n1 \n(10) Emirates NBD Green Financing Initiatives, UAE Energy Strategy 2050, Dubai Green Fund. \nSub index score \n1.5 \n \nweighted sub index score \n0.45 \n \nTotal GCL Potential Index \n1.86 \n \n \n \n \n \n \n \n \n \n \n \n \n \nKSA \nSub-index \nweight \nScore \nweighted \nscores \nReferences \nFinancial Institutions Performance - country scale \n(FIP) \n30% \n(1,2) \nFinancial performance of the FIs (efficiency) \n0.5 \n3 \n1.5 \n1) Liquid assets/assets (%), S&P Global Ratings \nSustainable Portfolio of FIs \n0.5 \n1 \n0.5 \n(2) Loans to carbon intensive sectors / Total loans, Banks — Gulf Cooperation Council: 2022 \nOutlook \nSub index score \n2 \n \nweighted sub index score \n0.6 \n \n \n \nGovernmental Frameworks (GF) \n40% \n(12, 13) \nNational Green Finance Strategy \n0.33 \n3 \n0.99 \n(12) Green Financing Framework March 2024, \nhttps://ndmc.gov.sa/investorsrelations/Documents/Green-Financing-Framework-KSA-\n28March2024.pdf \nRegulations for GCL \n0.33 \n0 \n0 \nNo regulation found yet \nPresence of green building standards or initiatives \n0.33 \n3 \n0.99 \n(13) MOSTADAM Certificate \nSub index score \n1.98 \n \nweighted sub index score \n0.792 \n \n \n \nInternal Capacities (IC) \n30% \n(5, 14, 15) \nThe capacity of financial institutions to undertake \ntechnical and financial assessments of energy \nefficiency and RE project \n0.5 \n0 \n0 \nOpportunities for the GCC to strengthen the sustainable finance ecosystem, PwC research adapted \nfrom the Atlantic Council, 2022. Official public resources, 2023 \nhttps://www.strategyand.pwc.com/m1/en/strategic-foresight/sector-strategies/financial-\nservices/middle-east-green-finance/middle-east-green-finance.pdf \nthe project pipeline \n0.5 \n2 \n1 \n(14) Green Financing Framework \n March 2024 and Giga projects \nSub index score \n1 \n \nweighted sub index score \n0.3 \n \nTotal GCL Implementation Potential Index \n1.692",
+        "afterText": "This study aimed to assess the GCL potential of Qatar compared to the UAE, and KSA by developing a GCL Implementation Potential Index. According to the first national survey on contributions of the FIs to Green Economy, the UAE appears to be the only country among the three with existing GCL within their green finance offerings. This suggests a potential head start for the UAE in terms of GCL implementation. Regarding the degree to which the financial system within the three countries is prepared to establish the GCL, which measured by the financial performance, and the sustainable portfolio of FIs, Qatar and UAE scored highest in this sub-indicator, indicating both the health of the FIs and higher commitment by the FIs to sustainability and energy transition. Regarding the governmental frameworks in the three countries, the analysis revealed that while each country has implemented supportive policies and took steps toward the green finance, the KSA demonstrated a more developed and comprehensive green Financing Framework. Qatar and the UAE could benefit from exploring similar initiatives to enhance their GCL potential. For the internal capacities (measured by the green finance expertise, green projects pipeline), while all three countries showed similar results regarding the green projects pipeline, the UAE demonstrates a documented effort regarding the sustainable finance training. Based on the factors analyzed, UAE appears to be the most prepared for GCL establishment by the FIs and deployment. The KSA shows promise with a focus on building enabling governmental frameworks. While Qatar is possessing a strong financial sector, limitations in the enabling environment criteria hinder its immediate GCL readiness."
+      },
+      {
+        "src": "/images/publications/archive/page-053-table.webp",
+        "width": 1583,
+        "height": 648,
+        "page": 53,
+        "caption": "Green-credit potential impact indicator scores",
+        "alt": "Green-credit potential impact indicator scores",
+        "transcript": "Table 9: The results of Scoring the factors of the GCL Potential Impact Indicator \nQatar \nRE Target Ambitiousness \nScore  \nNational RE Strategy aiming to increase the RE contribution from 5% to 18% by 2030 \n3 \nHigh  \nGCLIPI \n1.58 \n  \nGCL Potential Impact Indicator \n2.29 \n  \nUAE \nRE Target Ambitiousness \nScore  \nThe 50% target by 2050 represents a long-term vision but is still ambitious compared to the region's \naverage \n2.5 \nMedium \nGCLIPI \n1.86 \n  \nGCL Potential Impact Indicator \n2.18 \n  \nKSA \nRE Target Ambitiousness \nScore  \nSaudi Arabia's Vision 2030 targets 50% of its electricity generation from RE sources by 2030 \n3 \nHigh  \nGCLIPI \n1.69 \n  \nGCL Potential Impact Indicator  \n2.35",
+        "afterText": "As shown in the above table, the three countries have good GCIPI and ambitious renewable energy targets, indicating a favorable environment for green credit lines to effectively support the transition to cleaner energy sources."
+      }
+    ],
+    "originalPdf": "/publications/archive/green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in.pdf"
+  },
+  "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar": {
+    "startPage": 56,
+    "endPage": 59,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-056-01.webp",
+        "width": 677,
+        "height": 517,
+        "page": 56,
+        "caption": "",
+        "alt": "Water phase diagram identifying the supercritical region.",
+        "afterText": "Qatar’s rapid industrialization and urbanization have resulted in escalating waste generation, placing enormous stress on its existing waste management infrastructure. With limited land availability and the environmental hazards posed by traditional waste management methods such as incineration and landfilling, there is an urgent need for innovative and sustainable approaches. Supercritical Water Technology (SCWT) emerges as a transformative solution, capable of efficiently treating waste, recovering valuable resources, and aligning with Qatar’s vision for sustainable development under its National Vision 2030."
+      },
+      {
+        "src": "/images/publications/archive/page-057-table.webp",
+        "width": 914,
+        "height": 734,
+        "page": 57,
+        "caption": "Supercritical water technology resource-recovery process",
+        "alt": "Supercritical water technology resource-recovery process",
+        "transcript": "• CO2 capture and utilization: SCWT generates high-pressure pure \nCO2, which can be converted into value-added products like urea, \nmethanol, and other chemicals. \n• Nutrient recovery: Treating treated sewage effluent (TSE) can \nrecover valuable nutrients like phosphorus and nitrogen for \nfertilizer production. \n• Energy recovery: SCWT's high-temperature effluent can be utilized \nfor generating electricity or preheating incoming waste streams \nthrough combined heat and power (CHP) systems. \n \n \n \nSalt separation \nGasification \nRecovery of \nMinerals and \nMetals \nN2 Recovery \nprocess \nLiquid effluent \nRenewable Gas \n   NH3 -fertilizer \nEnergy carrier \nClean water \nFertilizers \nMetals \nWaste \nSCWG \nMineral-rich solids \nNH4+-rich process water",
+        "afterText": "SCWT also facilitates nutrient recovery, particularly from treated sewage effluent (TSE). By extracting essential elements such as phosphorus and nitrogen, the technology supports the production of fertilizers, which can be used in agriculture to enhance soil fertility. This aligns with Qatar’s goals of achieving greater resource efficiency and reducing its dependence on imported agricultural inputs. Energy recovery is another significant benefit of SCWT. The high-temperature effluent produced during the process can be harnessed for electricity generation or used to preheat incoming waste streams. By integrating combined heat and power (CHP) systems, SCWT can further enhance energy efficiency and contribute to Qatar’s renewable energy targets."
+      }
+    ],
+    "originalPdf": "/publications/archive/supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar.pdf"
+  },
+  "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert": {
+    "startPage": 60,
+    "endPage": 63,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-060-01.webp",
+        "width": 806,
+        "height": 806,
+        "page": 60,
+        "caption": "",
+        "alt": "A technician inspecting a solar panel.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      },
+      {
+        "src": "/images/publications/archive/page-060-02.webp",
+        "width": 562,
+        "height": 359,
+        "page": 60,
+        "caption": "",
+        "alt": "Renewable-energy finance challenges and barriers.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      },
+      {
+        "src": "/images/publications/archive/page-061-01.webp",
+        "width": 1047,
+        "height": 511,
+        "page": 61,
+        "caption": "",
+        "alt": "Factors affecting access to renewable-energy financing.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      },
+      {
+        "src": "/images/publications/archive/page-061-02.webp",
+        "width": 1047,
+        "height": 484,
+        "page": 61,
+        "caption": "",
+        "alt": "Factors affecting expected returns on renewable-energy projects.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      },
+      {
+        "src": "/images/publications/archive/page-062-01.webp",
+        "width": 1050,
+        "height": 493,
+        "page": 62,
+        "caption": "",
+        "alt": "Components of renewable-energy technology and project costs.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      },
+      {
+        "src": "/images/publications/archive/page-062-02.webp",
+        "width": 518,
+        "height": 431,
+        "page": 62,
+        "caption": "",
+        "alt": "Wind turbines and solar panels.",
+        "afterText": "Renewable Energy Finance: Key Considerations"
+      }
+    ],
+    "originalPdf": "/publications/archive/driving-climate-action-through-renewable-energy-finance-insights-from-an-expert.pdf"
+  },
+  "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar": {
+    "startPage": 64,
+    "endPage": 65,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-064-01.webp",
+        "width": 1600,
+        "height": 448,
+        "page": 64,
+        "caption": "",
+        "alt": "Charts showing renewable-energy certificate market trends.",
+        "afterText": "As a signatory to the Paris Agreement, the State of Qatar has reaffirmed its commitment to combating climate change by setting ambitious targets. The State aims to reduce greenhouse gas (GHG) emissions by 25% from 2010 levels and achieve an 18% share of renewable energy, primarily solar photovoltaics (PV), in its electricity generation mix by 2030. This is a significant challenge, especially given Qatar’s status as having the highest GHG emissions per capita globally. Qatar’s economy, heavily reliant on its abundant natural gas reserves, reached a record Gross Domestic Product (GDP) of USD 236 billion in 2022, with projections suggesting growth to USD 320 billion by 2030. To accommodate this economic expansion, the Qatar National Renewable Energy Strategy (QNRES) anticipates energy demand to rise to 11,500 Megawatts (MW) by 2030, up from 9,600 MW in 2021. Consequently, the supply capacity from conventional sources is planned at 13,200 MW, necessitating approximately 2,900 MW of solar PV capacity to meet the 18% renewable energy target."
+      }
+    ],
+    "originalPdf": "/publications/archive/i-recs-a-catalyst-for-renewable-energy-investment-in-qatar.pdf"
+  },
+  "the-role-of-artificial-intelligence-in-environmental-sustainability": {
+    "startPage": 66,
+    "endPage": 70,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-067-01.webp",
+        "width": 900,
+        "height": 334,
+        "page": 67,
+        "caption": "",
+        "alt": "Bar chart comparing AI model energy use.",
+        "afterText": "AI technologies could contribute to reducing global CO₂ emissions by up to 10%, showcasing their transformative potential in the fight against climate change. [5]"
+      },
+      {
+        "src": "/images/publications/archive/page-068-01.webp",
+        "width": 750,
+        "height": 396,
+        "page": 68,
+        "caption": "",
+        "alt": "Chart of AI model growth over time.",
+        "afterText": "AI's capabilities are expected to grow with advancements in quantum computing and IoT integration. Future applications include precision agriculture, enhanced carbon capture methods, and AI-driven urban planning to create smart, sustainable cities."
+      }
+    ],
+    "originalPdf": "/publications/archive/the-role-of-artificial-intelligence-in-environmental-sustainability.pdf"
+  },
+  "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake": {
+    "startPage": 72,
+    "endPage": 73,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-072-01.webp",
+        "width": 1300,
+        "height": 725,
+        "page": 72,
+        "caption": "",
+        "alt": "Conventional and climate-friendly burgers compared by price, social costs and emissions.",
+        "afterText": "An externality is a cost or benefit affecting those not directly involved in a transaction (Coase, 1960). For instance, the price of a burger includes production and profit costs, but not the pollution from cattle farming, the carbon emissions from transportation, or water use for feed crops. These are  negative externalities , which harm society without being accounted for in pricing. On the other hand,  positive externalities , such as cleaner air from tree planting, provide societal benefits without cost. Ignoring externalities results in distorted pricing, misinforming consumer choices (Hardin, 1968)."
+      }
+    ],
+    "originalPdf": "/publications/archive/the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake.pdf"
+  },
+  "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability": {
+    "startPage": 74,
+    "endPage": 76,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-074-01.webp",
+        "width": 1793,
+        "height": 1025,
+        "page": 74,
+        "caption": "",
+        "alt": "World map assembled from foods.",
+        "afterText": "Reducing domestic food waste is not just a trend— it's a necessity. Every year, humanity generates between 2.1 billion and 2.3 billion tonnes of municipal solid waste, a significant portion of which is food waste. Alarmingly, some 2.7 billion people lack access to waste collection, with 2 billion of them living in rural areas. Waste pollution is a growing threat to human well-being, economic prosperity, and the environment, contributing to the triple planetary crisis of climate change, nature and biodiversity loss, and pollution. Without urgent action, annual municipal solid waste generation is projected to reach 3.8 billion tones by 2050 (source: United Nations Environment Programme, International Day of Zero Waste 2024)."
+      },
+      {
+        "src": "/images/publications/archive/page-075-01.webp",
+        "width": 1345,
+        "height": 627,
+        "page": 75,
+        "caption": "",
+        "alt": "Food-waste quantities compared across categories.",
+        "afterText": "Addressing food waste requires a combination of behavioral changes, policy interventions, and technological advancements. Individuals can reduce waste through better meal planning, understanding food labeling, and proper storage. Governments play a critical role in implementing food redistribution policies, enforcing sustainable packaging laws, and investing in infrastructure to minimize losses in supply chains. Additionally, waste-to-energy technologies and improved storage facilities can help repurpose unavoidable waste and reduce post-harvest losses in low-income regions."
+      },
+      {
+        "src": "/images/publications/archive/page-075-02.webp",
+        "width": 601,
+        "height": 406,
+        "page": 75,
+        "caption": "",
+        "alt": "Practical ways to reduce food waste at home.",
+        "afterText": "The above figure illustrates the global direct costs of municipal solid waste management are expected to increase significantly by 2050 if waste generation continues to rise unchecked. By taking action now to reduce food waste at home, we can contribute to a circular economy and mitigate these costs."
+      }
+    ],
+    "originalPdf": "/publications/archive/practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability.pdf"
+  },
+  "sustainable-tourism": {
+    "startPage": 77,
+    "endPage": 79,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-077-01.webp",
+        "width": 1432,
+        "height": 778,
+        "page": 77,
+        "caption": "",
+        "alt": "Sustainable destination with green buildings, trees and renewable energy.",
+        "afterText": "Tourism is a powerful driver of economic growth and cultural exchange, offering people the chance to explore new places and immerse themselves in different cultures. However, unregulated tourism can harm the environment, disrupt local communities, and undermine the destinations it seeks to celebrate. Sustainable tourism addresses these challenges by promoting practices that minimize negative impacts while maximizing benefits for all stakeholders involved (UNWTO, 2023). This guide explores the principles of sustainable tourism and its importance in ensuring that destinations are preserved for future generations."
+      },
+      {
+        "src": "/images/publications/archive/page-078-01.webp",
+        "width": 1275,
+        "height": 804,
+        "page": 78,
+        "caption": "",
+        "alt": "Three pillars of sustainable tourism: economic, environmental and social sustainability.",
+        "afterText": "Environmental Sustainability:  Protecting ecosystems, conserving resources, and reducing pollution caused by tourism activities. Social Sustainability:  Preserving cultural heritage, respecting local traditions, and fostering community engagement. Economic Sustainability:  Ensuring that tourism generates equitable economic benefits for local communities, promoting long-term prosperity (UNWTO, 2017)."
+      }
+    ],
+    "originalPdf": "/publications/archive/sustainable-tourism.pdf"
+  },
+  "the-hidden-link-between-cigarette-smoking-and-climate-change": {
+    "startPage": 80,
+    "endPage": 81,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-080-01.webp",
+        "width": 743,
+        "height": 490,
+        "page": 80,
+        "caption": "",
+        "alt": "Annual carbon footprint of the cigarette industry by lifecycle stage.",
+        "afterText": "The journey of a cigarette begins with tobacco farming, a process that heavily relies on deforestation. Vast areas of forests are cleared to make way for tobacco plantations. According to the World Health Organization (WHO), tobacco farming is responsible for the loss of 200,000 hectares of forests each year. These forests, which act as carbon sinks, are vital in absorbing CO2 from the atmosphere. When they are destroyed, the carbon stored in trees is released back into the atmosphere, contributing to global warming."
+      },
+      {
+        "src": "/images/publications/archive/page-081-01.webp",
+        "width": 713,
+        "height": 920,
+        "page": 81,
+        "caption": "",
+        "alt": "Environmental impacts across the cigarette lifecycle.",
+        "afterText": "Cigarette butts are the most discarded waste item worldwide, with about 4.5 trillion butts littered each year. These butts are not just unsightly; they are also toxic. They leach harmful chemicals, such as nicotine, heavy metals, and carcinogens, into the soil and waterways, harming wildlife and ecosystems."
+      }
+    ],
+    "originalPdf": "/publications/archive/the-hidden-link-between-cigarette-smoking-and-climate-change.pdf"
+  },
+  "empowering-communities-through-social-sustainability-a-call-to-action": {
+    "startPage": 82,
+    "endPage": 85,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-082-01.webp",
+        "width": 1047,
+        "height": 486,
+        "page": 82,
+        "caption": "",
+        "alt": "The seventeen United Nations Sustainable Development Goals.",
+        "afterText": "Why Social Sustainability Matters"
+      }
+    ],
+    "originalPdf": "/publications/archive/empowering-communities-through-social-sustainability-a-call-to-action.pdf"
+  },
+  "the-origins-of-urban-greening": {
+    "startPage": 86,
+    "endPage": 90,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-086-01.webp",
+        "width": 601,
+        "height": 434,
+        "page": 86,
+        "caption": "",
+        "alt": "Vegetation integrated into a building facade.",
+        "afterText": "Integrating urban greening with existing infrastructure allows cities to enhance their sustainability without requiring extensive land or resources. Key strategies include:"
+      },
+      {
+        "src": "/images/publications/archive/page-086-02.webp",
+        "width": 480,
+        "height": 305,
+        "page": 86,
+        "caption": "",
+        "alt": "Green roofs on urban buildings.",
+        "afterText": "Green Roofs and Walls:  Installing vegetation on the roofs and walls of buildings can significantly reduce heat in cities, improve air quality, and add aesthetic appeal. Cities like Toronto and Singapore have implemented green roof policies to encourage such installations."
+      },
+      {
+        "src": "/images/publications/archive/page-087-01.webp",
+        "width": 641,
+        "height": 402,
+        "page": 87,
+        "caption": "",
+        "alt": "Urban skyline framed by trees and green space.",
+        "afterText": "Repurposing Abandoned Spaces:  Old industrial sites and vacant lots can be converted into parks or community gardens. For instance, New York's High Line, a former railway line, is now a renowned elevated greenway that combines recreation with biodiversity."
+      },
+      {
+        "src": "/images/publications/archive/page-087-02.webp",
+        "width": 1401,
+        "height": 934,
+        "page": 87,
+        "caption": "",
+        "alt": "Singapore's Gardens by the Bay, including its original image credit.",
+        "afterText": "Successful Examples of Urban Greening"
+      },
+      {
+        "src": "/images/publications/archive/page-088-01.webp",
+        "width": 1038,
+        "height": 542,
+        "page": 88,
+        "caption": "",
+        "alt": "Copenhagen's CopenHill green roof, including its original image credit.",
+        "afterText": "Singapore:  Often considered a \"City in a Garden\" Singapore is a leading example of urban greening. Initiatives like Gardens by the Bay, vertical gardens on high-rise buildings, and extensive tree-planting programs have transformed Singapore into a green oasis that balances urbanisation with nature."
+      },
+      {
+        "src": "/images/publications/archive/page-088-02.webp",
+        "width": 1038,
+        "height": 603,
+        "page": 88,
+        "caption": "",
+        "alt": "Green public space beneath a Bangkok expressway, including its original image credit.",
+        "afterText": "Copenhagen, Denmark:  Copenhagen aims to become the world's first carbon-neutral city by 2025, partly through urban greening. The city has invested in green rooftops, parks, and cycling infrastructure to reduce pollution and promote sustainable living."
+      }
+    ],
+    "originalPdf": "/publications/archive/the-origins-of-urban-greening.pdf"
+  },
+  "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods": {
+    "startPage": 91,
+    "endPage": 95,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-091-01.webp",
+        "width": 1150,
+        "height": 488,
+        "page": 91,
+        "caption": "",
+        "alt": "Artisanal gold-mining site and processing equipment.",
+        "afterText": "This article examines the environmental impacts of mercury in ASGM in Sudan, emphasizing the intensification of these effects due to extreme weather events."
+      },
+      {
+        "src": "/images/publications/archive/page-091-02.webp",
+        "width": 510,
+        "height": 518,
+        "page": 91,
+        "caption": "Figure 1: spotted areas for artisanal gold mining in Sudan (Source: Ibrahim, Artisanal Mining in Sudan - Opportunities, Challenges and Impacts, 2015)",
+        "alt": "Map locating mining areas in Sudan.",
+        "afterText": "This article examines the environmental impacts of mercury in ASGM in Sudan, emphasizing the intensification of these effects due to extreme weather events."
+      },
+      {
+        "src": "/images/publications/archive/page-092-01.webp",
+        "width": 612,
+        "height": 361,
+        "page": 92,
+        "caption": "Figure 2: Estimated mercury consumption for ASGM and estimated number of ASGM miners by country t/y. Carsten, 2016)",
+        "alt": "Country comparison of mercury emissions from artisanal gold mining.",
+        "afterText": "This article examines the environmental impacts of mercury in ASGM in Sudan, emphasizing the intensification of these effects due to extreme weather events."
+      },
+      {
+        "src": "/images/publications/archive/page-092-02.webp",
+        "width": 1039,
+        "height": 585,
+        "page": 92,
+        "caption": "",
+        "alt": "Illustrated examples of mercury use in gold processing.",
+        "afterText": "This article examines the environmental impacts of mercury in ASGM in Sudan, emphasizing the intensification of these effects due to extreme weather events."
+      },
+      {
+        "src": "/images/publications/archive/page-093-01.webp",
+        "width": 778,
+        "height": 391,
+        "page": 93,
+        "caption": "",
+        "alt": "Elemental-analysis spectrum of a mining sample.",
+        "afterText": "While figure- 4 shows Mercury-to-Gold Ratio (X Hg:1 Au) Loss During the Burning of Concentrated Amalgam (Marsa) Operation"
+      },
+      {
+        "src": "/images/publications/archive/page-093-02.webp",
+        "width": 747,
+        "height": 400,
+        "page": 93,
+        "caption": "",
+        "alt": "Second elemental-analysis spectrum of a mining sample.",
+        "afterText": "While figure- 4 shows Mercury-to-Gold Ratio (X Hg:1 Au) Loss During the Burning of Concentrated Amalgam (Marsa) Operation"
+      },
+      {
+        "src": "/images/publications/archive/page-094-01.webp",
+        "width": 1056,
+        "height": 351,
+        "page": 94,
+        "caption": "",
+        "alt": "Photographs documenting mining sites, communities and flooding.",
+        "afterText": "While figure- 4 shows Mercury-to-Gold Ratio (X Hg:1 Au) Loss During the Burning of Concentrated Amalgam (Marsa) Operation"
+      }
+    ],
+    "originalPdf": "/publications/archive/environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods.pdf"
+  },
+  "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment": {
+    "startPage": 97,
+    "endPage": 99,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-097-01.webp",
+        "width": 1006,
+        "height": 626,
+        "page": 97,
+        "caption": "",
+        "alt": "DPSIR framework linking drivers, pressures, state, impacts and responses.",
+        "afterText": "Environmental challenges such as climate change, pollution, and biodiversity loss require comprehensive frameworks for analysis and management. The  International Environmental Assessment and Strategy Centre (IEASC) , which is a research institute associated with the  United Nations Environment Programme (UNEP)  develop framework called DPSIR in the late 1990s and has since become a widely used tool in environmental assessment and policy analysis The DPSIR framework provides a structured approach to understanding the causal relationship between human activities and environmental impacts. This article discusses the original DPSIR framework and its derivatives — DPCER, DPSWR, and DPSER— highlighting their unique features and applications."
+      },
+      {
+        "src": "/images/publications/archive/page-098-01.webp",
+        "width": 1047,
+        "height": 454,
+        "page": 98,
+        "caption": "",
+        "alt": "Comparison of environmental assessment frameworks.",
+        "afterText": "The DPSER framework highlights ecosystem services:"
+      },
+      {
+        "src": "/images/publications/archive/page-099-01.webp",
+        "width": 1023,
+        "height": 361,
+        "page": 99,
+        "caption": "",
+        "alt": "Diagram linking environmental inputs, state and impacts.",
+        "afterText": "Differences Between the Frameworks"
+      }
+    ],
+    "originalPdf": "/publications/archive/understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment.pdf"
+  },
+  "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective": {
+    "startPage": 100,
+    "endPage": 104,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-100-table.webp",
+        "width": 1597,
+        "height": 420,
+        "page": 100,
+        "caption": "DPSIR framework linking drivers, pressures, state, impacts and responses",
+        "alt": "DPSIR framework linking drivers, pressures, state, impacts and responses",
+        "transcript": "DRIVERS (D): ROOT \nCAUSES/HUMAN ACTIVITIES \n(E.G., POPULATION GROWTH, \nECONOMIC DEVELOPMENT) \nPRESSURES (P): DIRECT \nENVIRONMENTAL STRESSES \n(E.G., EMISSIONS, WASTE \nPRODUCTION)\nSTATE (S): CURRENT \nENVIRONMENTAL CONDITIONS \n(E.G., AIR QUALITY, WATER \nQUALITY)\nIMPACT (I): EFFECTS ON \nHUMAN HEALTH, ECOSYSTEMS, \nECONOMY\nRESPONSE (R): ACTIONS TAKEN \nTO ADDRESS ISSUES (E.G., \nPOLICIES, REGULATIONS)",
+        "afterText": "DPSIR (drivers, pressures, state, impact, and response model of intervention) is a causal framework used to describe the interactions between society and the environment. It seeks to analyze and assess environmental problems by bringing together various scientific disciplines, environmental managers, and stakeholders, and solve them by incorporating sustainable development."
+      },
+      {
+        "src": "/images/publications/archive/page-102-table.webp",
+        "width": 1583,
+        "height": 998,
+        "page": 102,
+        "caption": "Climate impacts and opportunities for aquaculture",
+        "alt": "Climate impacts and opportunities for aquaculture",
+        "transcript": "Impacts \nOpportunities \nTemperature Rise: Increasing sea temperatures \nthreaten aquaculture operations by affecting fish \nhealth, growth rates, and species viability. \nLow-Carbon Protein Production: Aquaculture offers a \nsustainable alternative to land-based protein sources, \naligning with GCC nations' efforts to decarbonize food \nsystems. \nExtreme Weather Events: Frequent storms and \nflooding \nevents \npose \nrisks \nto \naquaculture \ninfrastructure and operations. \nCarbon Sequestration: Integrating seaweed and other \nalgae farming can act as carbon sinks, directly contributing \nto GHG reduction targets. \nSea-Level Rise: Coastal aquaculture operations face \ninfrastructure risks, requiring adaptation in farm \ndesign and site selection. \nCircular Economy Models: Utilizing aquaculture waste in \nIntegrated Multi-Trophic Aquaculture (IMTA) systems can \nreduce environmental impacts and enhance resource \nefficiency. \nBiodiversity Loss: Shifts in marine ecosystems due to \nwarming waters can disrupt food chains critical for \naquaculture species. \nGreen and Climate Finance: Access to funds through \nmechanisms like the Green Climate Fund or GCC’s \nvoluntary carbon markets can support sustainable \naquaculture transitions. \nOcean Acidification: Higher levels of CO2 \nabsorption by oceans degrade water quality and \nmarine ecosystems, such as coral reefs that are \nessential for biodiversity and aquaculture. \nEnergy Transition: Incorporating renewable energy into \naquaculture operations, such as solar-powered water \npumps and aeration systems, aids in meeting NDCs and \nreducing operational emissions. \nNature-Based Solutions: Mangrove and seagrass \nrestoration alongside aquaculture development provides \ncoastal protection, biodiversity enhancement, and carbon \nstorage.",
+        "afterText": "Aquaculture in the Kingdom of Saudi Arabia (KSA) and the Gulf Cooperation Council (GCC) region presents both challenges and opportunities when examined through the lens of climate change, considering the ambitious nationally determined contributions (NDCs) and net-zero targets."
+      }
+    ],
+    "originalPdf": "/publications/archive/dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective.pdf"
+  },
+  "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society": {
+    "startPage": 105,
+    "endPage": 108,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-105-01.webp",
+        "width": 1578,
+        "height": 865,
+        "page": 105,
+        "caption": "",
+        "alt": "Cover of Enerqa's ESG readiness tool.",
+        "afterText": "5. EnerQA’s ESG readiness tool"
+      },
+      {
+        "src": "/images/publications/archive/page-108-01.webp",
+        "width": 630,
+        "height": 688,
+        "page": 108,
+        "caption": "",
+        "alt": "ESG readiness assessment worksheet and results chart.",
+        "afterText": "5. EnerQA’s ESG readiness tool"
+      },
+      {
+        "src": "/images/publications/archive/page-108-02.webp",
+        "width": 629,
+        "height": 687,
+        "page": 108,
+        "caption": "",
+        "alt": "Second ESG readiness assessment worksheet and results chart.",
+        "afterText": "5. EnerQA’s ESG readiness tool"
+      }
+    ],
+    "originalPdf": "/publications/archive/the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society.pdf"
+  },
+  "scope-4-emissions-the-concept-of-avoided-emissions": {
+    "startPage": 109,
+    "endPage": 112,
+    "figures": [
+      {
+        "src": "/images/publications/archive/page-109-01.webp",
+        "width": 1281,
+        "height": 615,
+        "page": 109,
+        "caption": "",
+        "alt": "Avoiding emissions through sustainable solutions.",
+        "afterText": "Why Do Scope 4 Emissions Matter?"
+      },
+      {
+        "src": "/images/publications/archive/page-110-01.webp",
+        "width": 1491,
+        "height": 979,
+        "page": 110,
+        "caption": "",
+        "alt": "Comparison of Scope 1, 2, 3 and Scope 4 emissions.",
+        "afterText": "Why Do Scope 4 Emissions Matter?"
+      },
+      {
+        "src": "/images/publications/archive/page-111-01.webp",
+        "width": 986,
+        "height": 521,
+        "page": 111,
+        "caption": "",
+        "alt": "Benefits of addressing Scope 4 emissions.",
+        "afterText": "Showcasing Climate Leadership: Highlighting how your organization’s solutions address climate change at scale. Enhancing Market Competitiveness: Differentiating your products and services as sustainable, appealing to environmentally conscious customers. Strengthening Stakeholder Engagement: Attracting investors and partners who prioritize sustainability in their decision-making. Fostering Innovation: Inspiring the development of climate-smart technologies and services."
+      },
+      {
+        "src": "/images/publications/archive/page-111-02.webp",
+        "width": 1082,
+        "height": 590,
+        "page": 111,
+        "caption": "",
+        "alt": "Scope 4 benefits for emissions reduction, innovation, catalysis and low-carbon transition.",
+        "afterText": "Standardization Gaps: The absence of globally accepted frameworks can lead to inconsistent interpretations. Risk of Double Counting: Overlapping claims of avoided emissions by multiple entities in the value chain may compromise reporting accuracy. [11] Complex Verification Processes: Calculating avoided emissions requires robust data and meticulous life-cycle analysis."
+      }
+    ],
+    "originalPdf": "/publications/archive/scope-4-emissions-the-concept-of-avoided-emissions.pdf"
+  },
+  "sudan-s-energy-balance-2020": {
+    "startPage": null,
+    "endPage": null,
+    "figures": [
+      {
+        "src": "/images/publications/archive/sudan-energy-balance-2020.png",
+        "width": 1920,
+        "height": 960,
+        "page": null,
+        "sourceUrl": "https://www.enerqa.co.uk/sudan-s-energy-balance-2020",
+        "caption": "Sudan's energy balance, 2020. All units are in kilotons of oil equivalent (kTOE).",
+        "alt": "Sankey diagram of Sudan's 2020 energy supply, transformation losses and consumption by sector, in kilotons of oil equivalent.",
+        "afterText": "Energy supply, transformation and consumption"
+      }
+    ]
+  }
+}

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react';
 import { resolveMediaUrl } from '@/lib/utils';
 import { PublicationCover } from '@/components/publications/PublicationCover';
+import { PublicationBody } from '@/components/publications/PublicationBody';
 import { publicationImage } from '@/components/publications/publicationImage';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -274,12 +275,9 @@ export default async function PublicationSinglePage({ params }: Props) {
             <Typography variant="h3" className="mb-6">{post.heading}</Typography>
           )}
           
-          {/* PUBL02 Summary and Tags */}
-          <div className="mb-10 p-6 bg-gray-50 border border-gray-200 rounded-xl">
-            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Executive Summary</h2>
-            <p className="text-gray-700 font-medium mb-4">{post.excerpt}</p>
+          {/* Keep topic metadata without repeating the Executive Summary. */}
             {topics.length > 0 && (
-              <div className="flex gap-2 flex-wrap mt-4">
+              <div className="mb-8 flex gap-2 flex-wrap" aria-label="Article topics">
                 {topics.map((t: any) => (
                   <span key={typeof t === 'object' ? t.id : String(t)} className="bg-white border border-gray-200 px-3 py-1 rounded-full text-xs font-bold text-gray-600">
                     {typeof t === 'object' ? t.title : String(t)}
@@ -287,11 +285,9 @@ export default async function PublicationSinglePage({ params }: Props) {
                 ))}
               </div>
             )}
-          </div>
-          
           <div className="prose prose-lg prose-ink max-w-none">
             {post.content ? (
-              <RichText data={post.content} converters={jsxConverters} />
+              <PublicationBody slug={post.slug} data={post.content} converters={jsxConverters} />
             ) : null}
           </div>
 

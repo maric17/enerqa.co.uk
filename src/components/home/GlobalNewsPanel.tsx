@@ -1,268 +1,135 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import type { NewsBasketKey } from '@/lib/api/news/types';
+import Image from 'next/image';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import type { NewsDiagnostics } from '@/lib/api/news/diagnostics';
-import { SourceUnavailable } from '../ui/SourceUnavailable';
-import { NewsCard } from './NewsCard';
-import { NEWS_AREA_HEIGHT, type NewsCardData, type NewsFilter } from './firstFoldNews';
-import { HERO_ROTATION_MS, useHeroNews } from './HeroNewsBackground';
+import { Container } from '../ui/Container';
+import type { HeroSlide, NewsCardData } from './firstFoldNews';
 
-/**
- * H03 filters + cards (p. 13). The five filters now filter THIS panel in place,
- * with a visible and announced active state, instead of linking away to Global
- * Intelligence. Every view arrives pre-built from the server's cached pool, so
- * switching costs no request and cannot fail.
- */
+export const HERO_ROTATION_MS = 8000;
+const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
+const subscribeMotion = (notify: () => void) => {
+  const media = window.matchMedia(reducedMotionQuery);
+  media.addEventListener('change', notify);
+  return () => media.removeEventListener('change', notify);
+};
+const prefersReducedMotion = () => window.matchMedia(reducedMotionQuery).matches;
 
-export function NewsFilterBar({
-  filters,
-  active,
-  onSelect,
-  disabled = false,
-}: {
-  filters: NewsFilter[];
-  active: NewsBasketKey;
-  onSelect?: (key: NewsBasketKey) => void;
-  disabled?: boolean;
-}) {
-  return (
-    // Toggle buttons rather than tabs: they narrow one list, they do not
-    // switch between separate panels. aria-pressed carries the active state.
-    <div role="group" aria-label="Filter global news by theme" className="flex flex-wrap gap-1.5">
-      {filters.map((filter) => {
-        const isActive = filter.key === active;
-        return (
-          <button
-            key={filter.key}
-            type="button"
-            aria-pressed={isActive}
-            disabled={disabled}
-            onClick={() => onSelect?.(filter.key)}
-            className={`rounded-full border px-3 py-1 text-[12px] font-medium transition-colors duration-200 disabled:cursor-default ${
-              isActive
-                ? 'border-white bg-white/20 text-white shadow-inner'
-                : 'border-white/10 bg-white/5 text-white/70 hover:bg-white/15 hover:text-white'
-            }`}
-          >
-            {filter.label}
-          </button>
-        );
-      })}
-    </div>
-  );
+function SlideImage({ item }: { item: NewsCardData | null }) {
+  const [failed, setFailed] = useState(false);
+  const remote = Boolean(item?.imageUrl && !failed);
+  return <Image src={remote ? item!.imageUrl! : '/images/banners/news-thumbnail-fallback.webp'} alt="" fill sizes="100vw"
+    unoptimized={remote} loading="eager" referrerPolicy="no-referrer" className="home-hero-image" data-news-slide-image
+    onError={() => setFailed(true)} onLoad={event => {
+      // Small provider thumbnails cannot fill a screen sharply; use the local image.
+      if (remote && event.currentTarget.naturalWidth < Math.min(640, event.currentTarget.clientWidth)) setFailed(true);
+    }} />;
 }
 
-/** p. 13 H03 action. p. 7: the main action sits below the narrative. */
-function ViewAllNews() {
-  return (
-    <Link
-      href="/knowledge-hub/global-intelligence"
-      className="shrink-0 text-[13px] font-semibold text-teal-400 no-underline transition-colors hover:text-teal-300"
-    >
-      View All News &rarr;
-    </Link>
-  );
-}
-
-/**
- * The H03 column. On wide screens it is a two-row subgrid of the band (see
- * FirstFoldFeeds), so its card row starts on exactly the same line as H04's,
- * however the two narratives wrap. Shared by the loaded panel and the skeleton.
- *
- * Heading and narrative, then the filters with the action beside them. That
- * is the same height as H04's heading and three-line narrative, so neither
- * column pushes the shared row taller (p. 15: the band ends near y 720).
- */
-export function NewsColumn({
-  head,
-  narrative,
-  controls,
-  backgroundControls,
-  children,
-  onMouseEnter,
-  onMouseLeave,
-  onFocusCapture,
-  onBlurCapture,
-}: {
-  /** The H03 heading, rendered on the server. */
-  head: React.ReactNode;
-  /** The p. 13 narrative, rendered on the server. */
-  narrative?: React.ReactNode;
-  /** The filter group. */
-  controls: React.ReactNode;
-  /** Optional image controls belong in the heading row, keeping both panels aligned. */
-  backgroundControls?: React.ReactNode;
-  /** The card area. */
-  children: React.ReactNode;
-  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
-  onFocusCapture?: React.FocusEventHandler<HTMLElement>;
-  onBlurCapture?: React.FocusEventHandler<HTMLElement>;
-}) {
-  return (
-    <section
-      aria-labelledby="h03-global-news"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocusCapture={onFocusCapture}
-      onBlurCapture={onBlurCapture}
-      className="flex flex-col gap-4 text-left lg:row-span-2 lg:grid lg:grid-rows-subgrid bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-2xl"
-    >
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1">
-          {head}
-          {narrative}
-        </div>
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-          {controls}
-          <ViewAllNews />
-        </div>
-        {backgroundControls}
-      </div>
-      <div>{children}</div>
-    </section>
-  );
-}
-
-export function GlobalNewsPanel({
-  head,
-  narrative,
-  filters,
-  views,
-  sourcesFailed,
-  diagnostics,
-}: {
-  head: React.ReactNode;
-  narrative?: React.ReactNode;
-  filters: NewsFilter[];
-  views: Record<NewsBasketKey, NewsCardData[]>;
-  /** Every provider failed, as opposed to answering with nothing relevant (p. 226). */
-  sourcesFailed: boolean;
+/** One full-screen story per category, with keyboard controls and pausable motion. */
+export function GlobalNewsPanel({ slides, loading = false, diagnostics }: {
+  slides: HeroSlide[];
+  loading?: boolean;
   diagnostics?: NewsDiagnostics;
 }) {
-  const [active, setActive] = useState<NewsBasketKey>('all');
-  useEffect(() => {
-    // Opt in per browser visit; this summary contains no server credentials.
-    if (new URLSearchParams(window.location.search).get('newsDebug') !== '1') return;
-    console.info('[enerqa:news:homepage]', JSON.stringify({
-      sourcesFailed,
-      viewCounts: Object.fromEntries(Object.entries(views).map(([key, cards]) => [key, cards.length])),
-      diagnostics,
-    }));
-  }, [diagnostics, sourcesFailed, views]);
-  const items = useMemo(() => views[active] ?? [], [views, active]);
-  // The lead is the first story that carries a licensed teaser, so the large
-  // slot is filled; the rest keep their order. GDELT items carry none.
-  const leadIndex = Math.max(0, items.findIndex((item) => Boolean(item.teaser)));
-  const lead = items[leadIndex];
-  const rest = items.filter((_, i) => i !== leadIndex);
-  const activeLabel = filters.find((f) => f.key === active)?.label ?? '';
-  const hero = useHeroNews();
-  const setStory = hero?.setStory;
-  const [featuredId, setFeaturedId] = useState<string | null>(null);
+  const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(true);
-  const [hidden, setHidden] = useState(false);
-  // Start with the same lead displayed in the panel; do not reorder headlines during rotation.
-  const stories = useMemo(() => items.length ? [items[leadIndex], ...items.filter((_, i) => i !== leadIndex)] : [], [items, leadIndex]);
-  const featuredIndex = Math.max(0, stories.findIndex((item) => item.id === featuredId));
-  const featured = stories[featuredIndex] ?? null;
+  const [announcement, setAnnouncement] = useState('');
+  const tabs = useRef<HTMLDivElement>(null);
+  const reducedMotion = useSyncExternalStore(subscribeMotion, prefersReducedMotion, () => true);
+  const slide = slides[active] ?? slides[0];
+  const item = slide?.item;
+  const playing = !paused && !reducedMotion && !loading;
 
   useEffect(() => {
-    if (!setStory) return;
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateMotion = () => setReducedMotion(motion.matches);
-    const updateVisibility = () => setHidden(document.hidden);
-    updateMotion();
-    updateVisibility();
-    motion.addEventListener('change', updateMotion);
-    document.addEventListener('visibilitychange', updateVisibility);
-    return () => {
-      motion.removeEventListener('change', updateMotion);
-      document.removeEventListener('visibilitychange', updateVisibility);
-    };
-  }, [setStory]);
-
-  // A refreshed pool or a new theme starts again with its lead story.
-  useEffect(() => { setFeaturedId(null); }, [items]);
-  useEffect(() => {
-    setStory?.(featured);
-  }, [featured, setStory]);
-  useEffect(() => () => setStory?.(null), [setStory]);
-
-  useEffect(() => {
-    if (!setStory || stories.length < 2 || paused || hovered || focused || reducedMotion || hidden) return;
+    if (!playing || hovered || slides.length < 2) return;
     const timer = window.setInterval(() => {
-      setFeaturedId(stories[(featuredIndex + 1) % stories.length].id);
+      // Avoid moving a story while someone is reading or typing in the search.
+      if (!document.hidden && !document.querySelector('.home-hero-search:focus-within')) {
+        setActive(index => (index + 1) % slides.length);
+      }
     }, HERO_ROTATION_MS);
     return () => window.clearInterval(timer);
-  }, [setStory, stories, featuredIndex, paused, hovered, focused, reducedMotion, hidden]);
+  }, [playing, hovered, slides.length, active]);
 
-  const backgroundControls = hero && stories.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-2 text-[12px] text-white/80" role="group" aria-label="News background controls">
-          <span>{hero.backgroundStoryId ? 'Background' : 'Default background'} {featuredIndex + 1} / {stories.length}</span>
-          {stories.map((item, index) => (
-            <button
-              key={item.id} type="button"
-              aria-label={`Show background for ${item.title}`}
-              aria-pressed={featured?.id === item.id}
-              onClick={() => { setFeaturedId(item.id); setPaused(true); }}
-              className={`hero-news-selector ${featured?.id === item.id ? 'is-active' : ''}`}
-            >
-              {index + 1}
-            </button>
-          ))}
-          {stories.length > 1 && !reducedMotion && (
-            <button type="button" className="hero-news-pause" onClick={() => setPaused(!paused)}
-              aria-label={paused ? 'Resume news background rotation' : 'Pause news background rotation'}>
-              {paused ? 'Resume' : 'Pause'}
-            </button>
-          )}
+  useEffect(() => {
+    // Keep the selected category visible in the horizontally scrollable mobile strip.
+    const tab = tabs.current?.querySelector<HTMLElement>('[aria-pressed="true"]');
+    if (tab && tabs.current) tabs.current.scrollLeft = tab.offsetLeft - tabs.current.offsetLeft;
+  }, [active]);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('newsDebug') !== '1') return;
+    console.info('[enerqa:news:homepage]', JSON.stringify({
+      viewCounts: Object.fromEntries(slides.map(entry => [entry.key, entry.item ? 1 : 0])), diagnostics,
+    }));
+  }, [diagnostics, slides]);
+
+  const select = (index: number) => {
+    setActive(index);
+    setPaused(true);
+    const selected = slides[index];
+    setAnnouncement(`${selected.label}: ${selected.item?.title ?? (selected.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.')}`);
+  };
+  const step = (direction: number) => select((active + direction + slides.length) % slides.length);
+
+  if (!slide) return null;
+  return <div className="home-hero-feed" role="group" aria-roledescription="carousel" aria-label="Domain news"
+    aria-busy={loading} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    onFocusCapture={event => {
+      // Keep manual reading stable; the play button manages its own focus and state.
+      if (!(event.target as HTMLElement).closest('[data-hero-playback]')) setPaused(true);
+    }}>
+    <SlideImage key={`${item?.id ?? 'empty'}:${item?.imageUrl ?? ''}`} item={item ?? null} />
+    <div className="home-hero-shade" aria-hidden="true" />
+    <Container className="home-hero-editorial">
+      <div className="home-hero-story" role="group" aria-roledescription="slide" aria-label={`${active + 1} of ${slides.length}: ${slide.label}`}>
+        <p className="home-hero-eyebrow">Global News</p>
+        {loading ? <div className="home-hero-loading" role="status">Loading the latest headlines…</div> : item ? <>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="home-hero-story-link" data-news-card>
+            <h2>{item.title}<ArrowUpRight aria-hidden="true" /></h2>
+            {item.teaser && <p className="home-hero-teaser">{item.teaser}</p>}
+            <span className="sr-only"> (opens the original article in a new tab)</span>
+          </a>
+          <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
+          <p className="home-hero-attribution" data-feed-attribution>
+            {slide.delayed && 'NewsData free feed delayed 12h+. '}
+            {slide.retrievedAt && `Updated ${slide.retrievedAt}. `}
+            {slide.stale && 'Cached headline; refresh unavailable. '}
+            <Link href="/data-portal/sources">Sources and rights</Link>
+          </p>
+        </> : <div className="home-hero-empty">
+          <h2>{slide.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.'}</h2>
+          <p>{slide.label}</p>
+          <Link href={`/knowledge-hub/global-intelligence?theme=${slide.key}`}>Browse Global Intelligence <ArrowUpRight aria-hidden="true" /></Link>
+        </div>}
+      </div>
+      <div className="home-hero-footer">
+        <div ref={tabs} className="home-hero-categories" role="group" aria-label="Choose a domain"
+          onKeyDown={event => {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+              event.preventDefault();
+              const index = (active + (event.key === 'ArrowLeft' ? -1 : 1) + slides.length) % slides.length;
+              select(index);
+              tabs.current?.querySelectorAll('button')[index]?.focus();
+            }
+          }}>
+          {slides.map((category, index) => <button key={category.key} type="button" aria-pressed={index === active}
+            disabled={loading} onClick={() => select(index)}>{category.label}</button>)}
         </div>
-  ) : null;
-
-  return (
-    <NewsColumn
-      head={head}
-      narrative={narrative}
-      controls={<NewsFilterBar filters={filters} active={active} onSelect={setActive} disabled={sourcesFailed} />}
-      backgroundControls={backgroundControls}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocusCapture={() => setFocused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
-      }}
-    >
-      {/* Announces the result of a filter change to screen-reader users. */}
-      <p aria-live="polite" className="sr-only">
-        {active === 'all' ? '' : `${activeLabel}: ${items.length} ${items.length === 1 ? 'story' : 'stories'} shown.`}
-      </p>
-
-      {items.length === 0 ? (
-        <SourceUnavailable
-          variant={sourcesFailed ? 'unavailable' : 'empty'}
-          nearest={{ href: '/knowledge-hub/global-intelligence', label: 'browse Global Intelligence' }}
-          className={NEWS_AREA_HEIGHT}
-        />
-      ) : (
-        // Lead story on the left, two shorter ones stacked on the right: the
-        // "lead story plus two shorter stories" p. 13 fits inside the fold.
-        <div className={`grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-[1.15fr_1fr] ${NEWS_AREA_HEIGHT}`}>
-          <NewsCard item={lead} lead showTeaser marker="news" className="" active={featured?.id === lead.id} />
-          {rest.length > 0 && (
-            <div className="flex flex-col divide-y divide-white/10 border-t border-white/10 pt-3 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
-              {rest.map((item) => (
-                <NewsCard key={item.id} item={item} marker="news" className="" active={featured?.id === item.id} />
-              ))}
-            </div>
-          )}
+        <div className="home-hero-controls">
+          <Link href="/knowledge-hub/global-intelligence" className="home-hero-view-all">View All News <ArrowUpRight aria-hidden="true" /></Link>
+          <span className="home-hero-count" aria-hidden="true">{active + 1} / {slides.length}</span>
+          <button type="button" aria-label="Previous headline" disabled={loading} onClick={() => step(-1)}><ArrowLeft aria-hidden="true" /></button>
+          <button type="button" aria-label="Next headline" disabled={loading} onClick={() => step(1)}><ArrowRight aria-hidden="true" /></button>
+          <button type="button" data-hero-playback aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}
+            disabled={loading || reducedMotion} onClick={() => setPaused(value => !value)}>{playing ? <Pause aria-hidden="true" /> : <Play aria-hidden="true" />}</button>
         </div>
-      )}
-    </NewsColumn>
-  );
+      </div>
+    </Container>
+    <p className="sr-only" aria-live="polite" aria-atomic="true">{announcement}</p>
+  </div>;
 }

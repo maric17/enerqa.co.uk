@@ -105,6 +105,14 @@ export default async function DataPortalSourcesPage() {
               </p>
             )}
             
+            <section id="market-data" aria-labelledby="market-data-heading" className="scroll-mt-28">
+              <h2 id="market-data-heading" className="mb-4 text-2xl font-bold text-[var(--ink)]">Market prices and commentary</h2>
+              <p className="text-[var(--ink-soft)] leading-relaxed">The homepage uses TradingView’s free market widget to display selected U.S.-listed company share prices, daily currency and percentage changes, and price history. U.S. stock quotes are delayed; the widget identifies the available trading session and data status. Prices for the selected shares are in USD.</p>
+              <p className="text-[var(--ink-soft)] leading-relaxed">TradingView hosts the chart. It loads after you allow embedded content or choose to load this chart. Its branding and attribution remain visible. This is a display-only view: its prices are not copied into our datasets or offered as Data Portal downloads.</p>
+              <p className="text-[var(--ink-soft)] leading-relaxed">Market commentary comes from the site’s separately sourced news feed and U.S. Energy Information Administration reporting. Each story carries its own publisher, publication time and retrieval or cache status. Commentary may cover the wider economy rather than the company selected in the chart.</p>
+              <p className="flex flex-wrap gap-x-6 gap-y-2 text-sm"><a href="https://www.tradingview.com/widget-docs/faq/data/" target="_blank" rel="noopener noreferrer" className="text-[var(--green-deep)] underline">TradingView data and delays</a><a href="https://www.tradingview.com/widget-docs/markets/north-america/" target="_blank" rel="noopener noreferrer" className="text-[var(--green-deep)] underline">Available U.S. market data</a><Link href="/cookie-choices" className="text-[var(--green-deep)] underline">Manage embedded content</Link></p>
+            </section>
+
             {/* S02: Source Directory */}
             <div id="directory" className="flex flex-col gap-8">
               <div className="border-b border-gray-200 pb-4">

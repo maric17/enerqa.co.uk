@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-18T07:18:25.775Z",
+  "pages": [
+    {
+      "origin": "https://enerqa-co-uk.vercel.app",
+      "status": 200,
+      "title": "Domains and Industries | Enerqa",
+      "domainHeading": "Our Domains",
+      "domainAlignment": "start",
+      "domainLabels": [],
+      "domainText": "Our Domains\n\nEach domain brings together a distinct set of technical, environmental, commercial and investment questions. Select a domain to explore its full narrative, specific work areas and related knowledge, data and tools.\n\nClimate Action & Carbon Management\n\nClimate change action becomes credible when commitments are translated into practical programmes, measurable results and investable projects. The starting point may be a national climate target, a corporate decarbonisation ambition, a sectoral challenge or an individual project opportunity. In every case, the pathway must be grounded in reliable emissions data and a clear understanding of climate risks and priorities.\n\nExplore Climate Action & Carbon Management\n⚡\nEnergy Systems & Transition\n\nThe energy transition is reshaping how energy is produced, managed, financed and consumed. Governments, businesses and project developers must identify solutions that lower costs and emissions without compromising reliability, resilience or commercial performance.\n\nExplore Energy Systems & Transition\n🌱\nEnvironment, Nature & Circularity\n\nProjects and operations depend on healthy environmental, social and natural systems. Understanding that relationship early makes it possible to manage impacts, meet regulatory and safeguard requirements, reduce liabilities and improve project design.\n\nExplore Environment, Nature & Circularity\nSustainable Business, ESG & Finance\n\nSustainability creates lasting value when it influences strategy, governance, investment and daily operations. ESG strategy and reporting therefore begin with understanding what is material to an organisation, where climate and ESG risks arise, how responsible supply chains are managed, and whether internal systems are ready to deliver and measure improvement.\n\nExplore Sustainable Business, ESG & Finance",
+      "domainIllustrations": 6,
+      "industryHeading": "Industries We Work In",
+      "industryLinks": 13,
+      "overflow": false
+    },
+    {
+      "origin": "http://localhost:3000",
+      "status": 200,
+      "title": "Domains and Industries | Enerqa",
+      "domainHeading": "Our Domains",
+      "domainAlignment": "center",
+      "domainLabels": [
+        "01 / Climate",
+        "02 / Energy",
+        "03 / Environment",
+        "04 / Business"
+      ],
+      "domainText": "Our Domains\n\nEach domain brings together a distinct set of technical, environmental, commercial and investment questions. Select a domain to explore its full narrative, specific work areas and related knowledge, data and tools.\n\n01 / CLIMATE\n\nClimate Action & Carbon Management\n\nClimate change action becomes credible when commitments are translated into practical programmes, measurable results and investable projects. The starting point may be a national climate target, a corporate decarbonisation ambition, a sectoral challenge or an individual project opportunity. In every case, the pathway must be grounded in reliable emissions data and a clear understanding of climate risks and priorities.\n\nExplore Climate Action & Carbon Management\n\n02 / ENERGY\n\nEnergy Systems & Transition\n\nThe energy transition is reshaping how energy is produced, managed, financed and consumed. Governments, businesses and project developers must identify solutions that lower costs and emissions without compromising reliability, resilience or commercial performance.\n\nExplore Energy Systems & Transition\n\n03 / ENVIRONMENT\n\nEnvironment, Nature & Circularity\n\nProjects and operations depend on healthy environmental, social and natural systems. Understanding that relationship early makes it possible to manage impacts, meet regulatory and safeguard requirements, reduce liabilities and improve project design.\n\nExplore Environment, Nature & Circularity\n\n04 / BUSINESS\n\nSustainable Business, ESG & Finance\n\nSustainability creates lasting value when it influences strategy, governance, investment and daily operations. ESG strategy and reporting therefore begin with understanding what is material to an organisation, where climate and ESG risks arise, how responsible supply chains are managed, and whether internal systems are ready to deliver and measure improvement.\n\nExplore Sustainable Business, ESG & Finance",
+      "domainIllustrations": 0,
+      "industryHeading": "Industries",
+      "industryLinks": 13,
+      "overflow": false
+    }
+  ]
+}

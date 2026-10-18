@@ -1,0 +1,332 @@
+{
+  "checkedAt": "2026-10-18T02:57:56.570Z",
+  "viewports": [
+    {
+      "width": 1366,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 321.90625,
+        "bottom": 513.40625,
+        "height": 191.5,
+        "width": 1200
+      },
+      "markets": {
+        "top": 525.40625,
+        "bottom": 716.90625,
+        "height": 191.5,
+        "width": 1200
+      },
+      "feedBottom": 760.78125,
+      "image": {
+        "naturalWidth": 768,
+        "displayedWidth": 1198,
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1200&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 325.578125,
+        "bottom": 509.078125,
+        "height": 183.5,
+        "width": 944
+      },
+      "markets": {
+        "top": 521.078125,
+        "bottom": 704.578125,
+        "height": 183.5,
+        "width": 944
+      },
+      "feedBottom": 764.328125,
+      "image": {
+        "naturalWidth": 671,
+        "displayedWidth": 942,
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1080&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 525.125,
+        "bottom": 919.125,
+        "height": 394,
+        "width": 342
+      },
+      "markets": {
+        "top": 935.125,
+        "bottom": 1355.375,
+        "height": 420.25,
+        "width": 342
+      },
+      "feedBottom": 1445,
+      "image": {
+        "naturalWidth": 342,
+        "displayedWidth": 340,
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 581.8125,
+        "bottom": 1010.8125,
+        "height": 429,
+        "width": 272
+      },
+      "markets": {
+        "top": 1026.8125,
+        "bottom": 1523.0625,
+        "height": 496.25,
+        "width": 272
+      },
+      "feedBottom": 1630.5625,
+      "image": {
+        "naturalWidth": 272,
+        "displayedWidth": 270,
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+      },
+      "carouselNavigation": true
+    }
+  ],
+  "pages": [
+    {
+      "menuDomainLinks": 4,
+      "menuIndustryLinks": 13
+    },
+    {
+      "path": "/domains-and-industries",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "path": "/knowledge-hub",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "publicationFilterLabels": [
+        "Domain"
+      ]
+    },
+    {
+      "path": "/knowledge-hub/global-intelligence",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "slug": "the-evolution-of-climate-change-understanding-and-response",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "climate-change-and-war-a-complex-interplay",
+      "status": 200,
+      "figures": 4,
+      "expected": 4,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "greenhouse-gases-and-climate-change-an-overview",
+      "status": 200,
+      "figures": 6,
+      "expected": 6,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "ghg-emissions-the-burden-on-our-planet",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+      "status": 200,
+      "figures": 5,
+      "expected": 5,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+      "status": 200,
+      "figures": 13,
+      "expected": 13,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+      "status": 200,
+      "figures": 6,
+      "expected": 6,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+      "status": 200,
+      "figures": 3,
+      "expected": 3,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "sustainable-tourism",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "empowering-communities-through-social-sustainability-a-call-to-action",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "the-origins-of-urban-greening",
+      "status": 200,
+      "figures": 6,
+      "expected": 6,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+      "status": 200,
+      "figures": 7,
+      "expected": 7,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+      "status": 200,
+      "figures": 3,
+      "expected": 3,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+      "status": 200,
+      "figures": 2,
+      "expected": 2,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+      "status": 200,
+      "figures": 3,
+      "expected": 3,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+      "status": 200,
+      "figures": 4,
+      "expected": 4,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    },
+    {
+      "slug": "sudan-s-energy-balance-2020",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    }
+  ],
+  "errors": []
+}

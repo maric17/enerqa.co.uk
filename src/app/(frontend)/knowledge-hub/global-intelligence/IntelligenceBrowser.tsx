@@ -72,13 +72,13 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
     }
   }
   return <>
-      <section aria-labelledby="intelligence-search"><h2 id="intelligence-search" className="mb-6 text-2xl font-bold">Search Global Intelligence</h2>
+      <section aria-labelledby="intelligence-search" className="rounded-2xl border border-gray-200 bg-white p-5 md:p-8"><h2 id="intelligence-search" className="mb-6 text-2xl font-bold">Search Global Intelligence</h2>
         <IntelligenceFilters filters={draftFilters} domains={domains} industries={industries} sources={sources} languages={availableLanguages} onFiltersChange={setDraftFilters} onSearch={() => { void applyFilters(draftFilters); }} onClear={() => setDraftFilters({})} />
         {filtersChanged && <p role="status" className="mt-4 text-sm text-gray-600">Filters changed. Click Apply filters to update results.</p>}
       </section>
       <section aria-labelledby="external-cards" className="space-y-6" aria-busy={loading}>
-        <h2 id="external-cards" className="text-2xl font-bold">External Content Cards</h2>
-        <p role="status">{loading ? 'Updating results…' : `${matching.length} open-access results${refreshed ? ' · Updated from sources' : ' · Saved collection'}`}</p>
+        <h2 id="external-cards" className="text-2xl font-bold">Results</h2>
+        <p role="status" className="border-b border-gray-200 pb-4 text-sm text-gray-600">{loading ? 'Updating results…' : `${matching.length} open-access results${refreshed ? ' · Updated from sources' : ' · Saved collection'}`}</p>
         {notice && <p role="status" className="text-sm text-gray-600">{notice}</p>}
         <div className="flex flex-wrap gap-2">{Object.entries(filters).flatMap(([key, values]) => values.map(value => {
           const next = { ...draftFilters, [key]: (draftFilters[key] ?? []).filter(v => v !== value) };
@@ -86,18 +86,23 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
           return <Link key={`${key}-${value}`} href={filterUrl(next)} onClick={e => { e.preventDefault(); setDraftFilters(next); }} aria-label={`Remove ${key}: ${labels[value] ?? value}`} className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm">{key}: {labels[value] ?? value} ×</Link>;
         }))}</div>
         {shown.length === 0 && !loading && <p role="status" className="rounded border p-8">{sourcesFailed ? 'Sources are temporarily unavailable. Please try again later.' : 'No open-access results match these filters'}. <Link href={PATH} onClick={e => { e.preventDefault(); setDraftFilters({}); }} className="underline">Clear All</Link></p>}
-        <div className="grid gap-6 md:grid-cols-2">{shown.map(item => <article key={item.url} className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
+        <div className="grid gap-6 md:grid-cols-2">{shown.map(item => <article key={item.url} className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 space-y-3 transition-colors hover:border-[var(--color-primary-deep)]">
           <p className="text-xs font-semibold uppercase text-[var(--color-primary-deep)]">{CONTENT_TYPES[item.type]} · Open access</p>
-          <h3 className="text-xl font-bold" dir="auto">{item.title}</h3>
-          {item.summary && <p dir="auto" className="text-gray-700">{item.summary}</p>}
+          <h3 className="text-xl font-bold leading-snug" dir="auto"><a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:underline underline-offset-4">{item.title}</a></h3>
+          {item.summary && <p dir="auto" className="line-clamp-3 text-sm leading-relaxed text-gray-700">{item.summary}</p>}
           <p className="text-sm">{item.type === 'disclosure' ? 'Issuer: ' : ''}{item.publisher}{item.documentType && ` · ${item.documentType}`}</p>
-          {item.authors.length > 0 && <p className="text-sm">Authors: {item.authors.join(', ')}</p>}
-          {item.doi && <p className="text-sm break-words">DOI: {item.doi}</p>}
           <p className="text-sm">{item.type === 'disclosure' ? 'Filed' : 'Published'}: {item.publishedAt ? <time dateTime={item.publishedAt}>{new Date(item.publishedAt).toLocaleDateString('en-GB', { timeZone: 'UTC' })}</time> : 'Date not supplied'}</p>
           <p className="text-xs text-gray-600">Source: {item.source} · Retrieved {new Date(item.retrievedAt).toLocaleString('en-GB', { timeZone: 'UTC' })} UTC</p>
-          <p className="text-xs">Coverage: {[...item.coverage.region, ...item.coverage.scope].join(', ') || item.coverage.continent.join(', ')}</p>
+          <details className="text-xs leading-relaxed text-gray-600">
+            <summary className="cursor-pointer font-semibold">Details and coverage</summary>
+            <div className="mt-2 space-y-2">
+              {item.authors.length > 0 && <p>Authors: {item.authors.join(', ')}</p>}
+              {item.doi && <p className="break-words">DOI: {item.doi}</p>}
+              <p>Coverage: {[...item.coverage.region, ...item.coverage.scope].join(', ') || item.coverage.continent.join(', ')}</p>
+            </div>
+          </details>
           {item.stale && <p className="text-sm font-semibold">Showing the latest cached release; the source could not be refreshed.</p>}
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="inline-block font-semibold underline">{readingAction(item.type)}</a>
+          <div className="mt-auto pt-3"><a href={item.url} target="_blank" rel="noopener noreferrer" className="inline-block text-sm font-semibold text-[var(--color-primary-deep)] underline underline-offset-4">{readingAction(item.type)}</a></div>
         </article>)}</div>
         {pages > 1 && <nav aria-label="Results pages" className="flex justify-center gap-6">
           {page > 1 && <Link href={filterUrl(filters, page - 1)} onClick={e => { e.preventDefault(); changePage(page - 1); }} className="underline">Previous page</Link>}

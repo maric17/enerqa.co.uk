@@ -5,6 +5,10 @@ Every task below cites the PDF page(s) it comes from, so you can always go back 
 
 Page-by-page Markdown copy: [Enerqa Website Developer Handoff Revised.md](<Enerqa Website Developer Handoff Revised.md>). Its `Page N` headings match the PDF page numbers cited below.
 
+**New feedback — 15 October 2026:** [Website Feedback Task Board](WEBSITE-FEEDBACK-TASKS.md) tracks 30 feedback tasks from the supplied Website comments Markdown/DOCX, including the news-layout image. Those comments update the affected requirements below; earlier completion records do not verify these new requests. H04's live market-data proposal revisits the earlier commentary-only direction. The [18 October homepage review](feedback/HOMEPAGE-REVIEW-2026-10-18.md) records the latest local design refinement; 24 feedback tasks are implemented/researched and six remain open.
+
+**Latest homepage direction — 18 October:** The user selected a full-screen domain-news hero with a separate Major Markets section below it. The free TradingView widget now supplies delayed company prices, signed changes and a chart beside sourced commentary; markets is removed from hero selection. [Implementation, paid upgrade costs and verification](feedback/MAJOR-MARKETS-2026-10-18.md). This supersedes earlier compact-first-fold/commentary-only layout notes; paid real-time activation remains a future decision.
+
 **Status legend**
 
 | Mark | Meaning |

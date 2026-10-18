@@ -9,7 +9,6 @@ import { queryTerms } from '../search/searchIndex';
 import {
   ARCHIVE_LABELS,
   EMPTY_SELECTION,
-  FACET_KEYS,
   LANGUAGE_LABELS,
   PER_PAGE,
   facetCounts,
@@ -35,6 +34,9 @@ const FACET_LABELS: Record<FacetKey, string> = {
   year: 'Year',
   language: 'Language',
 };
+
+// The feedback keeps metadata on cards, but only Domain is a listing filter.
+const FACET_KEYS: FacetKey[] = ['domain'];
 
 // The visible label of a facet value (slugs and codes become names).
 const labelFor = (key: FacetKey, value: string, related: Map<string, string>) => {
@@ -79,19 +81,14 @@ export default function KnowledgeHubClient({ publications }: { publications: Pub
     return out;
   }, [publications, relatedTitles]);
 
-  // ?domain= and ?industry= come from the domain pages' "Explore Enerqa
-  // Publication" link (p. 29) and the industry pages' "Explore Related
-  // Publications" link. Read after load so the page itself stays static. A value
-  // is applied only if some publication carries it, so a link from an untagged
-  // domain never lands on an empty list.
+  // Only Domain is restored from URLs. Old industry/type/year/language/topic
+  // parameters must not restrict results through a filter users cannot see.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const domain = params.get('domain');
-    const industry = params.get('industry');
     setSelected((prev) => ({
       ...prev,
       domain: domain && facets.domain.includes(domain) ? [domain] : prev.domain,
-      industry: industry && facets.industry.includes(industry) ? [industry] : prev.industry,
     }));
   }, [facets]);
 
@@ -159,9 +156,9 @@ export default function KnowledgeHubClient({ publications }: { publications: Pub
       <Container>
         {/* K03 Find a Publication */}
         <div className="mb-10 max-w-3xl">
-          <h2 id="k03-heading" className="m-0 mb-5 text-3xl font-bold text-[var(--color-dark)]">Find a Publication</h2>
+          <h2 id="k03-heading" className="m-0 mb-5 text-3xl font-bold text-[var(--color-dark)]">Search a topic</h2>
           <form role="search" className="relative" onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="publication-search" className="sr-only">Search Enerqa publications</label>
+            <label htmlFor="publication-search" className="sr-only">Search a topic</label>
             <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" aria-hidden="true" />
             <input
               id="publication-search"

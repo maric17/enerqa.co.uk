@@ -20,6 +20,13 @@ describe('safe news diagnostics', () => {
     expect(JSON.stringify(diagnostics)).not.toContain('https://');
   });
 
+  it('identifies an unsupported publisher filter without exposing the provider response', () => {
+    const diagnostics = createNewsDiagnostics('all');
+    noteNewsProvider(diagnostics, 'newsdata', fail('newsdata', 'unavailable', 'HTTP 422 (UnsupportedFilter) for https://newsdata.io/?apikey=private'));
+    expect(diagnostics.providers[0]).toMatchObject({ issue: 'unsupported_filter', httpStatus: 422 });
+    expect(JSON.stringify(diagnostics)).not.toContain('private');
+  });
+
   it('only logs in a deployed build when NEWS_DEBUG is enabled', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('NEWS_DEBUG', undefined);
