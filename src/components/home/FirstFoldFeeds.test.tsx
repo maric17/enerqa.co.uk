@@ -1,183 +1,67 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchNews, PAGE_NEWS_PROVIDERS, type NewsItem, type NewsResult } from '@/lib/api/news';
-import { FeedsBody } from './FirstFoldFeeds';
+import { FeedsBody, FeedsFallback } from './FirstFoldFeeds';
+import { HERO_CATEGORIES, selectHeroStories } from './firstFoldNews';
 
-// Stub provider traffic so these checks cover homepage selection without spending credits.
-vi.mock('@/lib/api/news', async (importOriginal) => ({
-  ...await importOriginal<typeof import('@/lib/api/news')>(),
-  fetchNews: vi.fn(),
-}));
-
-function item(id: string, title: string): NewsItem {
-  const url = `https://www.theguardian.com/${id}`;
-  return {
-    id: url, url, title, summary: null, domain: 'theguardian.com',
-    publisher: 'The Guardian', provider: 'newsdata', providerLabel: 'NewsData.io',
-    publishedAt: new Date(Date.now() - 3_600_000).toISOString(),
-    retrievedAt: new Date().toISOString(), language: 'en', rights: '', regions: [],
-    accessStatus: 'verified_open',
-  };
-}
-
-function result(items: NewsItem[], sourcesFailed = false, official = false): NewsResult {
-  return {
-    items, sources: [], availableRegions: [], availableLanguages: [],
-    retrievedAt: new Date().toISOString(), unavailable: items.length === 0,
-    sourcesFailed, newsSourcesFailed: sourcesFailed,
-    providerStatus: official
-      ? { eia_rss: sourcesFailed ? 'unavailable' : 'ok' }
-      : sourcesFailed
-        ? { newsdata: 'unavailable', gdelt: 'rate_limited' }
-        : { newsdata: 'ok', gdelt: 'ok' },
-    hasDelayedSource: items.length > 0, stale: false,
-  };
-}
+// Provider calls are stubbed so these checks exercise selection without spending credits.
+vi.mock('@/lib/api/news', async importOriginal => ({ ...await importOriginal<typeof import('@/lib/api/news')>(), fetchNews: vi.fn() }));
+const item = (id: string, title: string): NewsItem => ({
+  id, url: `https://www.theguardian.com/${id}`, title, summary: null, domain: 'theguardian.com',
+  publisher: 'The Guardian', provider: 'newsdata', providerLabel: 'NewsData.io',
+  publishedAt: new Date(Date.now() - 3_600_000).toISOString(), retrievedAt: new Date().toISOString(),
+  language: 'en', rights: '', regions: [], accessStatus: 'verified_open',
+});
+const result = (items: NewsItem[], failed = false, official = false): NewsResult => ({
+  items, sources: [], availableRegions: [], availableLanguages: [], retrievedAt: new Date().toISOString(),
+  unavailable: !items.length, sourcesFailed: failed, newsSourcesFailed: failed,
+  providerStatus: official ? { eia_rss: failed ? 'unavailable' : 'ok' } : { newsdata: failed ? 'unavailable' : 'ok', gdelt: failed ? 'rate_limited' : 'ok' },
+  hasDelayedSource: !!items.length, stale: false,
+});
 
 beforeEach(() => {
   vi.clearAllMocks();
-  // EIA is empty by default; each scenario supplies its own news-pool result first.
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
   vi.mocked(fetchNews).mockResolvedValue(result([], false, true));
 });
 
-function eiaItem(id: string, title: string): NewsItem {
-  const url = `https://www.eia.gov/todayinenergy/detail.php?id=${id}`;
-  return {
-    ...item(id, title), id: url, url, domain: 'eia.gov',
-    publisher: 'U.S. Energy Information Administration',
-    provider: 'eia_rss', providerLabel: 'U.S. EIA',
-    // Give fixtures a stable ordering: ordinary news is newer unless a test says otherwise.
-    publishedAt: new Date(Date.now() - 2 * 3_600_000).toISOString(),
-  };
-}
-
-describe('homepage news and markets', () => {
-  it('uses one news-only pool and shows market stories discovered in other topic feeds', async () => {
-    // Two Guardian headlines fill its Global News cap; its energy-price story belongs in Markets.
-    vi.mocked(fetchNews).mockResolvedValueOnce(result([
-      item('climate', 'Climate adaptation plan agreed'),
-      item('nature', 'Forest biodiversity loss slows'),
-      item('energy', 'Energy prices climb'),
-    ]));
+describe('hero saved-feed integration', () => {
+  it('selects one relevant story per domain without adding Markets to the hero', async () => {
+    const stories = [item('c', 'Climate adaptation plan agreed'), item('e', 'Solar energy output record'),
+      item('n', 'Forest biodiversity loss slows'), item('b', 'Green bond investment grows'), item('m', 'Energy prices climb')];
+    vi.mocked(fetchNews).mockResolvedValueOnce(result(stories));
     render(await FeedsBody());
-
-    expect(fetchNews).toHaveBeenNthCalledWith(1, 'all', 80, {
-      maxPerPublisher: 10, providers: PAGE_NEWS_PROVIDERS,
-    });
-    const markets = screen.getByRole('region', { name: 'Major Markets' });
-    // Both panels keep thumbnails even when their provider supplies no image.
-    expect(markets.querySelectorAll('[data-news-thumbnail]')).toHaveLength(1);
-    expect(screen.getByRole('region', { name: 'Global News' }).querySelectorAll('[data-news-slide-image]')).toHaveLength(1);
-    expect(within(markets).getByText('Energy prices climb')).toBeInTheDocument();
-    expect(within(markets).queryByText('Climate adaptation plan agreed')).not.toBeInTheDocument();
-    expect(screen.queryByText('No relevant updates are available.')).not.toBeInTheDocument();
+    expect(fetchNews).toHaveBeenNthCalledWith(1, 'all', 80, { maxPerPublisher: 10, providers: PAGE_NEWS_PROVIDERS });
+    for (let index = 0; index < HERO_CATEGORIES.length; index++) {
+      fireEvent.click(screen.getByRole('button', { name: HERO_CATEGORIES[index].label }));
+      expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(1);
+      expect(screen.getByRole('heading', { name: stories[index].title })).toBeInTheDocument();
+    }
+    expect(fetchNews).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole('button', { name: 'Major Markets' })).not.toBeInTheDocument();
   });
 
-  it('reports an outage when the requested news providers fail', async () => {
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([], true))
-      .mockResolvedValueOnce(result([], true, true));
-    render(await FeedsBody());
-
-    expect(screen.getAllByText('This source is temporarily unavailable.')).toHaveLength(2);
-    expect(screen.getByText(/External news sources are unavailable right now/)).toBeInTheDocument();
-    expect(screen.queryByText('No relevant updates are available.')).not.toBeInTheDocument();
+  it('does not let one publisher cap leave the later domains empty', () => {
+    const stories = [item('c', 'Climate adaptation plan agreed'), item('e', 'Solar energy output record'),
+      item('n', 'Forest biodiversity loss slows'), item('b', 'Green bond investment grows')];
+    expect(selectHeroStories(stories).slice(0, 4).map(story => story?.id)).toEqual(['c', 'e', 'n', 'b']);
   });
 
-  it('does not call an answered but empty feed an outage', async () => {
+  it('distinguishes an empty answered feed from an outage', async () => {
     vi.mocked(fetchNews).mockResolvedValueOnce(result([]));
     render(await FeedsBody());
-
-    expect(screen.getAllByText('No relevant updates are available.')).toHaveLength(2);
-    expect(screen.queryByText(/External news sources are unavailable right now/)).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'No relevant updates are available.' })).toBeInTheDocument();
+    expect(screen.queryByText('This source is temporarily unavailable.')).not.toBeInTheDocument();
   });
 
-  it('fills an empty market panel with verified EIA price commentary', async () => {
-    const prices = eiaItem('1', 'Natural gas prices fall');
-    const diesel = eiaItem('2', 'What goes into diesel prices?');
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([]))
-      .mockResolvedValueOnce(result([prices, diesel], false, true));
-    render(await FeedsBody());
-
-    const markets = screen.getByRole('region', { name: 'Major Markets' });
-    expect(within(markets).getByRole('link', { name: /Natural gas prices fall/ })).toHaveAttribute('href', prices.url);
-    expect(within(markets).getByText('What goes into diesel prices?')).toBeInTheDocument();
-    expect(within(markets).getByText('EIA commentary focuses on U.S. energy markets.')).toBeInTheDocument();
-    expect(within(markets).getAllByText('U.S. Energy Information Administration')).toHaveLength(2);
-    expect(markets.querySelectorAll('[data-news-thumbnail]')).toHaveLength(2);
-    expect(within(markets).queryByText('No relevant updates are available.')).not.toBeInTheDocument();
-    expect(within(screen.getByRole('region', { name: 'Global News' })).queryByText(prices.title)).not.toBeInTheDocument();
-    expect(fetchNews).toHaveBeenNthCalledWith(2, 'business', 2, {
-      providers: ['eia_rss'], maxPerPublisher: 10,
-    });
-    expect(screen.getByRole('link', { name: 'U.S. EIA' })).toBeInTheDocument();
+  it('rejects disallowed publishers and irrelevant stories before selecting hero images', () => {
+    const unsafe = { ...item('blocked', 'Climate adaptation plan agreed'), domain: 'unknown.example' };
+    expect(selectHeroStories([unsafe, item('sport', 'Team wins football final')])).toEqual([null, null, null, null]);
   });
 
-  it('keeps Markets populated when the news providers fail but EIA answers', async () => {
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([], true))
-      .mockResolvedValueOnce(result([eiaItem('1', 'Natural gas prices fall')], false, true));
-    render(await FeedsBody());
-
-    expect(screen.getAllByText('This source is temporarily unavailable.')).toHaveLength(1);
-    expect(within(screen.getByRole('region', { name: 'Major Markets' })).getByText('Natural gas prices fall')).toBeInTheDocument();
-    expect(screen.queryByText(/External news sources are unavailable right now/)).not.toBeInTheDocument();
-  });
-
-  it('keeps newer news commentary first when combining it with EIA', async () => {
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([
-        item('climate', 'Climate adaptation plan agreed'),
-        item('nature', 'Forest biodiversity loss slows'),
-        item('market', 'Green bond investment grows'),
-      ]))
-      .mockResolvedValueOnce(result([
-        eiaItem('1', 'Natural gas prices fall'),
-        eiaItem('2', 'What goes into diesel prices?'),
-      ], false, true));
-    render(await FeedsBody());
-
-    const markets = screen.getByRole('region', { name: 'Major Markets' });
-    expect(within(markets).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual([
-      'Green bond investment grows', 'Natural gas prices fall',
-    ]);
-  });
-
-  it('compares saved commentary even when news fills Markets, keeping news when it is newer', async () => {
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([
-        item('climate', 'Climate adaptation plan agreed'),
-        item('nature', 'Forest biodiversity loss slows'),
-        item('market', 'Green bond investment grows'),
-        item('prices', 'Energy prices climb'),
-      ]))
-      .mockResolvedValueOnce(result([eiaItem('old', 'Natural gas prices fall')], false, true));
-    render(await FeedsBody());
-
-    expect(fetchNews).toHaveBeenCalledTimes(2);
-    expect(screen.queryByText('EIA commentary focuses on U.S. energy markets.')).not.toBeInTheDocument();
-  });
-
-  it('replaces two older market news stories with newer saved EIA commentary', async () => {
-    const old = (id: string, title: string) => ({ ...item(id, title), publishedAt: new Date(Date.now() - 5 * 86400000).toISOString() });
-    vi.mocked(fetchNews)
-      .mockResolvedValueOnce(result([
-        item('climate', 'Climate adaptation plan agreed'),
-        item('nature', 'Forest biodiversity loss slows'),
-        old('market', 'Green bond investment grows'),
-        old('prices', 'Energy prices climb'),
-      ]))
-      .mockResolvedValueOnce(result([
-        eiaItem('new-1', 'Natural gas prices fall'),
-        eiaItem('new-2', 'What goes into diesel prices?'),
-      ], false, true));
-    render(await FeedsBody());
-
-    const markets = screen.getByRole('region', { name: 'Major Markets' });
-    expect(within(markets).getAllByRole('heading', { level: 3 }).map(h => h.textContent)).toEqual([
-      'Natural gas prices fall', 'What goes into diesel prices?',
-    ]);
-    expect(within(markets).queryByText('Green bond investment grows')).not.toBeInTheDocument();
+  it('keeps category positions and a loading message before the database answers', () => {
+    render(<FeedsFallback />);
+    expect(screen.getByRole('status')).toHaveTextContent('Loading the latest headlines');
+    for (const category of HERO_CATEGORIES) expect(screen.getByRole('button', { name: category.label })).toBeDisabled();
   });
 });

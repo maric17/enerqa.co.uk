@@ -36,6 +36,7 @@ export function noteNewsProvider(diagnostics: NewsDiagnostics, provider: NewsPro
   if (!result.ok) {
     if (/shared request accounting.*not configured/i.test(message)) issue = 'request_accounting_not_configured';
     else if (/shared request accounting.*unavailable/i.test(message)) issue = 'request_accounting_unavailable';
+    else if (/UnsupportedFilter/.test(message)) issue = 'unsupported_filter';
     else if (/budget/i.test(message)) issue = 'request_budget_reached';
     else if (/spacing/i.test(message)) issue = 'request_spacing_limit';
     else if (/query.*(long|length|cap)/i.test(message)) issue = 'query_limit';

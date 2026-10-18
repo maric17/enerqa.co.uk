@@ -1,0 +1,183 @@
+{
+  "checkedAt": "2026-10-18T06:53:32.926Z",
+  "origin": "http://localhost:3000",
+  "viewports": [
+    {
+      "width": 1366,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "hero": {
+        "top": 0,
+        "bottom": 768,
+        "left": 0,
+        "right": 1366,
+        "width": 1366,
+        "height": 768
+      },
+      "markets": {
+        "top": 768,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1366,
+        "width": 1366,
+        "height": 768
+      },
+      "quotes": {
+        "top": 997.3125,
+        "bottom": 1447.8125,
+        "left": 83,
+        "right": 774.25,
+        "width": 691.25,
+        "height": 450.5
+      },
+      "commentary": {
+        "top": 997.3125,
+        "bottom": 1447.8125,
+        "left": 806.25,
+        "right": 1283,
+        "width": 476.75,
+        "height": 450.5
+      },
+      "requestsBeforeConsent": 0,
+      "chartLoaded": true,
+      "chartText": "\t\n\t\n\t\n\t\nNEE\nD\nNextEra Energy\n79.80\n+1.06%\n+0.84\nFSLR\nD\nFirst Solar\n172.64\n−3.45%\n−6.17\nTSLA\nD\nTesla\n354.72\n−2.13%\n−7.72\nXOM\nD\nExxon Mobil\n178.98\n+2.46%\n+4.30\nSHEL\nD\nShell\n106.66\n+3.00%\n+3.11\nMSFT\nD\nMicrosoft\n529.05\n−1.93%\n−10.39",
+      "noOverflowAfterLoad": true,
+      "consentWithdrawal": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "hero": {
+        "top": 0,
+        "bottom": 768,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 768
+      },
+      "markets": {
+        "top": 768,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 768
+      },
+      "quotes": {
+        "top": 991.40625,
+        "bottom": 1441.90625,
+        "left": 40,
+        "right": 579.75,
+        "width": 539.75,
+        "height": 450.5
+      },
+      "commentary": {
+        "top": 991.40625,
+        "bottom": 1441.90625,
+        "left": 611.75,
+        "right": 984,
+        "width": 372.25,
+        "height": 450.5
+      },
+      "requestsBeforeConsent": 0,
+      "chartLoaded": true,
+      "chartText": "\t\n\t\n\t\n\t\nNEE\nD\nNextEra Energy\n79.80\n+1.06%\n+0.84\nFSLR\nD\nFirst Solar\n172.64\n−3.45%\n−6.17\nTSLA\nD\nTesla\n354.72\n−2.13%\n−7.72\nXOM\nD\nExxon Mobil\n178.98\n+2.46%\n+4.30\nSHEL\nD\nShell\n106.66\n+3.00%\n+3.11\nMSFT\nD\nMicrosoft\n529.05\n−1.93%\n−10.39",
+      "noOverflowAfterLoad": true,
+      "consentWithdrawal": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "hero": {
+        "top": 0,
+        "bottom": 844,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 844
+      },
+      "markets": {
+        "top": 844,
+        "bottom": 2283.3125,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1439.3125
+      },
+      "quotes": {
+        "top": 1058.859375,
+        "bottom": 1569.359375,
+        "left": 24,
+        "right": 366,
+        "width": 342,
+        "height": 510.5
+      },
+      "commentary": {
+        "top": 1601.359375,
+        "bottom": 2140.9375,
+        "left": 24,
+        "right": 366,
+        "width": 342,
+        "height": 539.578125
+      },
+      "requestsBeforeConsent": 0,
+      "chartLoaded": true,
+      "chartText": "\t\n\t\n\t\n\t\n1D\n1M\n3M\n1Y\n5Y\nAll\nNEE\nD\nNextEra Energy\n79.80\n+1.06%\n+0.84\nFSLR\nD\nFirst Solar\n172.64\n−3.45%\n−6.17\nTSLA\nD\nTesla\n354.72\n−2.13%\n−7.72\nXOM\nD\nExxon Mobil\n178.98\n+2.46%\n+4.30\nSHEL\nD\nShell\n106.66\n+3.00%\n+3.11\nMSFT\nD\nMicrosoft\n529.05\n−1.93%\n−10.39",
+      "noOverflowAfterLoad": true,
+      "consentWithdrawal": true
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "overflow": false,
+      "hero": {
+        "top": 0,
+        "bottom": 740,
+        "left": 0,
+        "right": 320,
+        "width": 320,
+        "height": 740
+      },
+      "markets": {
+        "top": 740,
+        "bottom": 2343.078125,
+        "left": 0,
+        "right": 320,
+        "width": 320,
+        "height": 1603.078125
+      },
+      "quotes": {
+        "top": 977.25,
+        "bottom": 1498.9375,
+        "left": 24,
+        "right": 296,
+        "width": 272,
+        "height": 521.6875
+      },
+      "commentary": {
+        "top": 1530.9375,
+        "bottom": 2183.109375,
+        "left": 24,
+        "right": 296,
+        "width": 272,
+        "height": 652.171875
+      },
+      "requestsBeforeConsent": 0,
+      "chartLoaded": true,
+      "chartText": "\t\n\t\n\t\n\t\nNEE\nD\nNextEra Energy\n79.80\n+1.06%\n+0.84\nFSLR\nD\nFirst Solar\n172.64\n−3.45%\n−6.17\nTSLA\nD\nTesla\n354.72\n−2.13%\n−7.72\nXOM\nD\nExxon Mobil\n178.98\n+2.46%\n+4.30\nSHEL\nD\nShell\n106.66\n+3.00%\n+3.11\nMSFT\nD\nMicrosoft\n529.05\n−1.93%\n−10.39",
+      "noOverflowAfterLoad": true,
+      "consentWithdrawal": true
+    }
+  ],
+  "blockedProvider": {
+    "honestFailure": true,
+    "sourceLink": true
+  },
+  "errors": []
+}

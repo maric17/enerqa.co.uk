@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-18T06:55:23.881Z",
+  "origin": "http://localhost:3004",
+  "scenarios": [
+    {
+      "scenario": "withdraw-consent",
+      "delayedLoaderReleasedAfterRemoval": true,
+      "iframeErrors": [],
+      "pageErrors": [],
+      "consoleErrors": []
+    },
+    {
+      "scenario": "navigate-away",
+      "delayedLoaderReleasedAfterRemoval": true,
+      "iframeErrors": [],
+      "pageErrors": [],
+      "consoleErrors": []
+    }
+  ]
+}

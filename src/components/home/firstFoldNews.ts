@@ -141,3 +141,35 @@ export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2):
   // date decides which stories get the publisher slots and the visible cards.
   return applyGate(withoutShown(matching, shown, matching.length).sort(byNewest)).slice(0, limit);
 }
+
+export type HeroCategoryKey = Exclude<NewsBasketKey, 'all'>;
+export type HeroSlide = {
+  key: HeroCategoryKey;
+  label: string;
+  item: NewsCardData | null;
+  sourcesFailed: boolean;
+  retrievedAt: string | null;
+  delayed: boolean;
+  stale: boolean;
+};
+
+/** The hero contains only the four domains; markets has its own section. */
+export const HERO_CATEGORIES: { key: HeroCategoryKey; label: string }[] = [
+  { key: 'climate', label: 'Climate Action & Carbon Management' },
+  { key: 'energy', label: 'Energy Systems & Transition' },
+  { key: 'environment', label: 'Environment, Nature & Circularity' },
+  { key: 'business', label: 'Sustainable Business, ESG & Finance' },
+];
+
+/** Reuse the saved feed and its access gates; selecting slides costs no API calls. */
+export function selectHeroStories(pool: NewsItem[]): (NewsItem | null)[] {
+  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
+  const selected: NewsItem[] = [];
+  return HERO_CATEGORIES.map(category => {
+    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
+    // Prefer a different headline for each domain when the feed has enough stories.
+    const story = matches.find(item => !selected.some(previous => previous.id === item.id)) ?? matches[0] ?? null;
+    if (story) selected.push(story);
+    return story;
+  });
+}

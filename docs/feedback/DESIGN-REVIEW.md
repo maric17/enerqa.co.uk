@@ -1,6 +1,10 @@
 # Feedback implementation — design review
 
+**Latest homepage refinement:** [18 October review, previews and outstanding work](HOMEPAGE-REVIEW-2026-10-18.md). The screenshots below now show the refreshed homepage. The original design rationale follows.
+
 Prepared 15 October 2026. Local preview: [homepage](http://localhost:3000), [Domains and Industries](http://localhost:3000/domains-and-industries), [Knowledge Hub](http://localhost:3000/knowledge-hub), [Global Intelligence](http://localhost:3000/knowledge-hub/global-intelligence).
+
+**Latest homepage preview — 18 October:** The user chose the full-screen hero plus a separate market section below it. [Current hero](HERO-REVIEW-2026-10-18.md), [free chart and commentary](MAJOR-MARKETS-2026-10-18.md), [desktop markets](screenshots/major-markets-1366.png), [mobile markets](screenshots/major-markets-390.png). This supersedes the earlier homepage layout and quote-column status described below.
 
 ## Implemented direction
 

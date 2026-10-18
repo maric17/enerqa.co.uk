@@ -1,4 +1,3 @@
-import { unstable_cache } from 'next/cache';
 import { savedAccessCheck, saveAccessCheck } from './storage';
 import type { AccessStatus, Provenance } from './types';
 
@@ -25,9 +24,9 @@ import type { AccessStatus, Provenance } from './types';
  * Cost control: only records that could be displayed are checked (callers
  * walk their ranked list and stop once they have enough), at most
  * MAX_CONCURRENT at a time, each with a short timeout. A definitive verdict is
- * cached for RECHECK_SECONDS in Next's shared cache, which is the "recheck
- * periodically" p. 209 asks for; an uncertain one is remembered in memory for
- * a short while and then tried again.
+ * saved for RECHECK_SECONDS in the shared database. Temporary failures use
+ * a short retry interval. A local memo and pending-request map prevent repeated
+ * checks without serving expired approvals during background revalidation.
  */
 
 export type AccessVerdict = {
@@ -232,7 +231,7 @@ async function withSlot<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-/** One anonymous request. Throws a Transient so nothing uncertain is cached. */
+/** One anonymous request. Temporary failures are handled by the caller with a short retry. */
 async function probe(url: string): Promise<AccessVerdict> {
   // Keep the slot through body reading, so slow documents cannot evade the cap.
   return withSlot(async () => {
@@ -270,31 +269,37 @@ type Memo = { verdict: AccessVerdict; until: number };
 const memoKey = '__enerqaAccessChecks';
 const g = globalThis as unknown as { [memoKey]?: Map<string, Memo> };
 const memo: Map<string, Memo> = (g[memoKey] ??= new Map());
+const pendingChecks = new Map<string, Promise<AccessVerdict>>();
 
 /**
- * The verdict for one destination: shared cache, then memory, then a real
- * request. Never throws; anything uncertain is `unknown`.
+ * Reuse fresh local/shared evidence and await a fresh check once it expires.
+ * Never throws; anything uncertain is `unknown`.
  */
 export async function checkAccess(url: string, now = Date.now()): Promise<AccessVerdict> {
   const remembered = memo.get(url);
   if (remembered && remembered.until > now) return remembered.verdict;
+  const pending = pendingChecks.get(url);
+  if (pending) return pending;
 
+  const attempt = loadAccessCheck(url, now);
+  pendingChecks.set(url, attempt);
+  try {
+    return await attempt;
+  } finally {
+    pendingChecks.delete(url);
+  }
+}
+
+async function loadAccessCheck(url: string, now: number): Promise<AccessVerdict> {
   try {
     const saved = await savedAccessCheck(url);
     if (saved) {
       memo.set(url, { verdict: saved, until: Date.parse(saved.checkedAt) + (saved.status === 'unknown' ? RETRY_UNCERTAIN_MS : RECHECK_SECONDS * 1000) });
       return saved;
     }
-    let verdict: AccessVerdict;
-    try {
-      verdict = await unstable_cache(() => probe(url), ['access-check', url], {
-        revalidate: RECHECK_SECONDS,
-        tags: ['access-check'],
-      })();
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('incrementalCache missing')) verdict = await probe(url);
-      else throw error;
-    }
+    // The database already owns expiry. A second stale cache could return an old
+    // approval while a temporary failure escapes into Next's background logger.
+    const verdict = await probe(url);
     await saveAccessCheck(url, verdict, RECHECK_SECONDS);
     memo.set(url, { verdict, until: Date.parse(verdict.checkedAt) + RECHECK_SECONDS * 1000 });
     return verdict;

@@ -1,0 +1,98 @@
+{
+  "checkedAt": "2026-10-18T06:48:09.176Z",
+  "scope": "Native Enerqa section text; the external TradingView iframe owns its own presentation.",
+  "contrast": [
+    {
+      "selector": ".home-markets-eyebrow",
+      "ratio": 4.83
+    },
+    {
+      "selector": ".home-markets-heading h2",
+      "ratio": 13.41
+    },
+    {
+      "selector": ".home-markets-heading > p:last-child",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".home-markets-column-heading h3",
+      "ratio": 13.41
+    },
+    {
+      "selector": ".home-markets-column-heading h3",
+      "ratio": 13.41
+    },
+    {
+      "selector": ".home-markets-column-heading > span",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-chart-consent p",
+      "ratio": 11.54
+    },
+    {
+      "selector": ".market-chart-consent p",
+      "ratio": 11.54
+    },
+    {
+      "selector": ".market-chart-consent button",
+      "ratio": 14.42
+    },
+    {
+      "selector": ".market-chart-credit a",
+      "ratio": 4.83
+    },
+    {
+      "selector": ".market-chart-credit a",
+      "ratio": 4.83
+    },
+    {
+      "selector": ".market-commentary-meta span",
+      "ratio": 4.83
+    },
+    {
+      "selector": ".market-commentary-meta span",
+      "ratio": 4.83
+    },
+    {
+      "selector": ".market-commentary-meta time",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-commentary-meta time",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-commentary-story h4 a",
+      "ratio": 13.41
+    },
+    {
+      "selector": ".market-commentary-story h4 a",
+      "ratio": 13.41
+    },
+    {
+      "selector": ".market-commentary-teaser",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-commentary-teaser",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-commentary-retrieved",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".market-commentary-retrieved",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".home-markets-note",
+      "ratio": 10.73
+    },
+    {
+      "selector": ".home-markets-note a",
+      "ratio": 4.83
+    }
+  ]
+}

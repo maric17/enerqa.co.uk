@@ -25,20 +25,19 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
   const consentId = useId();
 
   return (
-    <section className="band bg-slate-900" id="cta" style={{ padding: '80px 0 120px' }}>
+    <section className="band" id="cta" style={{ padding: '64px 0' }}>
       <Container>
-        <div className="relative bg-slate-800/40 backdrop-blur-xl rounded-[32px] p-8 lg:p-16 border border-white/10 overflow-hidden">
-          <div className="absolute -top-[100px] -left-[100px] w-[400px] h-[400px] bg-teal-400/20 blur-[100px] rounded-full pointer-events-none"></div>
-          <div className="absolute -bottom-[100px] -right-[100px] w-[400px] h-[400px] bg-sky-400/20 blur-[100px] rounded-full pointer-events-none"></div>
+        <div className="relative rounded-2xl bg-[var(--color-dark)] p-6 text-white md:p-10 lg:p-12">
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px', position: 'relative', zIndex: 10 }}>
+          {/* Solid navy makes the form readable; flexible columns fit narrow phones. */}
+          <div className="grid min-w-0 gap-10 md:grid-cols-2 md:gap-12">
 
           {/* H12 Stay Informed (Teal) */}
-          <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 lg:p-12 flex flex-col justify-center transition-all hover:-translate-y-1 hover:border-teal-400/30">
-            <Typography variant="h2" className="home-h2 mb-4 bg-gradient-to-r from-teal-400 to-teal-300 bg-clip-text text-transparent">
+          <div className="flex min-w-0 flex-col justify-center">
+            <Typography variant="h2" className="home-h2 mb-4 text-teal-300">
               <span className="en">Stay Informed</span>
             </Typography>
-            <p className="text-[15px] text-white/70 leading-relaxed mb-8 font-light">
+            <p className="text-[15px] text-white/85 leading-relaxed mb-8 font-light">
               <span className="en">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</span>
             </p>
 
@@ -46,7 +45,7 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
               {/* role="status" so the result is announced, not only shown. */}
               <div role="status" aria-live="polite">
                 {state.message && (
-                  <div style={{ background: state.success ? 'rgba(0,207,200,0.1)' : 'rgba(255,0,0,0.1)', color: state.success ? 'var(--color-primary-dark)' : 'red', padding: '12px 16px', borderRadius: '8px', fontSize: '14px', fontWeight: 500 }}>
+                  <div style={{ background: state.success ? 'rgba(0,207,200,0.1)' : 'rgba(255,0,0,0.1)', color: state.success ? '#99f6e4' : '#fecaca', padding: '12px 16px', borderRadius: '8px', fontSize: '14px', fontWeight: 500 }}>
                     {state.message}
                   </div>
                 )}
@@ -59,8 +58,8 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
               {/* Input Row */}
               <div className="cta-input-row flex bg-white/5 border border-white/10 rounded-full overflow-hidden items-center w-full shadow-lg transition-colors focus-within:border-teal-400/50 focus-within:bg-white/10">
                 <label htmlFor={emailId} className="sr-only">Email address (required)</label>
-                <input id={emailId} type="email" name="email" autoComplete="email" placeholder="* Your email address" required className="flex-1 min-w-0 py-3.5 px-6 border-none bg-transparent text-white text-[15px] outline-none placeholder:text-white/40" disabled={state.success || isPending} />
-                <button type="submit" disabled={state.success || isPending} className="bg-teal-400 hover:bg-teal-500 text-teal-950 font-semibold border-none px-8 py-3.5 text-[14px] cursor-pointer flex items-center gap-2 transition-colors whitespace-nowrap disabled:opacity-70">
+                <input id={emailId} type="email" name="email" autoComplete="email" placeholder="* Your email address" required className="flex-1 min-w-0 py-3.5 px-4 border-none bg-transparent text-white text-[15px] outline-none placeholder:text-white/70" disabled={state.success || isPending} />
+                <button type="submit" disabled={state.success || isPending} className="bg-teal-400 hover:bg-teal-500 text-teal-950 font-semibold border-none px-4 py-3.5 text-[14px] cursor-pointer flex items-center gap-2 transition-colors whitespace-nowrap disabled:opacity-70">
                   <span>{isPending ? 'Subscribing…' : 'Subscribe'}</span>
                 </button>
               </div>
@@ -68,7 +67,7 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
               {/* Consent Checkbox */}
               <div className="flex items-start gap-3 mt-4">
                 <input type="checkbox" id={consentId} name="consent" required disabled={state.success || isPending} className="mt-1 w-4 h-4 rounded bg-transparent border border-white/30 accent-teal-400 cursor-pointer" />
-                <label htmlFor={consentId} className="text-[13px] text-white/50 leading-relaxed cursor-pointer">
+                <label htmlFor={consentId} className="text-[13px] text-white/80 leading-relaxed cursor-pointer">
                   {privacyHref ? (
                     <>I agree with the terms of the <a href={privacyHref} className="text-teal-400 underline decoration-teal-400/30 font-medium hover:text-teal-300">Privacy Notice</a> and consent to my personal data being processed.</>
                   ) : (
@@ -80,11 +79,11 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
           </div>
 
           {/* H13 Discuss Your Project (Navy) */}
-          <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 lg:p-12 flex flex-col justify-center transition-all hover:-translate-y-1 hover:border-sky-400/30">
-            <Typography variant="h2" className="home-h2 mb-4 bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">
+          <div className="flex min-w-0 flex-col justify-center border-t border-white/20 pt-8 md:border-l md:border-t-0 md:pl-12 md:pt-0">
+            <Typography variant="h2" className="home-h2 mb-4 text-white">
               <span className="en">Discuss Your Project</span>
             </Typography>
-            <p className="text-[15px] text-white/70 leading-relaxed mb-8 font-light">
+            <p className="text-[15px] text-white/85 leading-relaxed mb-8 font-light">
               <span className="en">Share an idea, an investment opportunity or a challenge at any stage of development. An initial conversation can help define the evidence and support needed next.</span>
             </p>
             <a href="/contact?intent=project" className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold no-underline px-8 py-3.5 rounded-full text-[14px] w-fit transition-all hover:bg-white/20 hover:border-sky-400 hover:text-sky-300">

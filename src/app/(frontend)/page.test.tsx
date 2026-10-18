@@ -9,6 +9,7 @@ import HomePage from './page'
 // The hero renders the feed children in the first viewport.
 vi.mock('@/components/home/Hero', () => ({ Hero: ({ children }: { children: React.ReactNode }) => <div data-testid="hero">{children}</div> }))
 vi.mock('@/components/home/KnowledgeTeaser', () => ({ KnowledgeTeaser: () => <div data-testid="knowledge-teaser" /> }))
+vi.mock('@/components/home/MajorMarkets', () => ({ MajorMarkets: () => <div data-testid="major-markets" /> }))
 vi.mock('@/components/home/FirstFoldFeeds', () => ({ FirstFoldFeeds: () => <div data-testid="first-fold-feeds" /> }))
 vi.mock('@/components/home/LifecycleAndIndustries', () => ({ LifecycleAndIndustries: () => <div data-testid="lifecycle-industries" /> }))
 vi.mock('@/components/home/DataPortalTeaser', () => ({ DataPortalTeaser: () => <div data-testid="data-portal-teaser" /> }))
@@ -26,6 +27,7 @@ describe('HomePage', () => {
     expect(screen.getByTestId('hero')).toBeInTheDocument()
     expect(screen.getByTestId('knowledge-teaser')).toBeInTheDocument()
     expect(screen.getByTestId('first-fold-feeds')).toBeInTheDocument()
+    expect(screen.getByTestId('major-markets')).toBeInTheDocument()
     expect(screen.getByTestId('lifecycle-industries')).toBeInTheDocument()
     expect(screen.getByTestId('data-portal-teaser')).toBeInTheDocument()
     expect(screen.getByTestId('transition-priorities')).toBeInTheDocument()
@@ -34,14 +36,15 @@ describe('HomePage', () => {
     expect(screen.getByTestId('contact-cta')).toBeInTheDocument()
   })
 
-  // pp. 13-15 list the segments H01-H13 in this order; H03/H04 must follow the
-  // hero directly so they stay in the first fold (p. 15, p. 229).
+  // The latest direction keeps domain news inside the full-screen hero and
+  // places the separate market section immediately after it.
   it('renders the segments in the spec order', async () => {
     const { container } = render(await HomePage())
     const order = [...container.querySelectorAll('[data-testid]')].map((el) => el.getAttribute('data-testid'))
     expect(order).toEqual([
       'hero', // H01 + H02
-      'first-fold-feeds', // H03 + H04
+      'first-fold-feeds', // H03
+      'major-markets', // H04
       'transition-priorities', // H05
       'lifecycle-industries', // H06 + H07
       'knowledge-teaser', // H08

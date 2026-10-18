@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T05:06:56.186Z",
+  "checkedAt": "2026-10-18T02:57:56.570Z",
   "viewports": [
     {
       "width": 1366,
@@ -7,22 +7,22 @@
       "status": 200,
       "overflow": false,
       "news": {
-        "top": 332.578125,
-        "bottom": 516.078125,
-        "height": 183.5,
+        "top": 321.90625,
+        "bottom": 513.40625,
+        "height": 191.5,
         "width": 1200
       },
       "markets": {
-        "top": 528.078125,
-        "bottom": 711.578125,
-        "height": 183.5,
+        "top": 525.40625,
+        "bottom": 716.90625,
+        "height": 191.5,
         "width": 1200
       },
-      "feedBottom": 741.453125,
+      "feedBottom": 760.78125,
       "image": {
         "naturalWidth": 768,
         "displayedWidth": 1198,
-        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1200&q=75"
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1200&q=75"
       },
       "carouselNavigation": true
     },
@@ -32,22 +32,22 @@
       "status": 200,
       "overflow": false,
       "news": {
-        "top": 321.078125,
-        "bottom": 504.578125,
+        "top": 325.578125,
+        "bottom": 509.078125,
         "height": 183.5,
         "width": 944
       },
       "markets": {
-        "top": 516.578125,
-        "bottom": 700.078125,
+        "top": 521.078125,
+        "bottom": 704.578125,
         "height": 183.5,
         "width": 944
       },
-      "feedBottom": 729.953125,
+      "feedBottom": 764.328125,
       "image": {
         "naturalWidth": 671,
         "displayedWidth": 942,
-        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1080&q=75"
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1080&q=75"
       },
       "carouselNavigation": true
     },
@@ -57,22 +57,22 @@
       "status": 200,
       "overflow": false,
       "news": {
-        "top": 511.34375,
-        "bottom": 905.34375,
+        "top": 525.125,
+        "bottom": 919.125,
         "height": 394,
         "width": 342
       },
       "markets": {
-        "top": 917.34375,
-        "bottom": 1306.59375,
-        "height": 389.25,
+        "top": 935.125,
+        "bottom": 1355.375,
+        "height": 420.25,
         "width": 342
       },
-      "feedBottom": 1372.21875,
+      "feedBottom": 1445,
       "image": {
         "naturalWidth": 342,
         "displayedWidth": 340,
-        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
       },
       "carouselNavigation": true
     },
@@ -82,22 +82,22 @@
       "status": 200,
       "overflow": false,
       "news": {
-        "top": 567.6875,
-        "bottom": 985.6875,
-        "height": 418,
+        "top": 581.8125,
+        "bottom": 1010.8125,
+        "height": 429,
         "width": 272
       },
       "markets": {
-        "top": 997.6875,
-        "bottom": 1476.1875,
-        "height": 478.5,
+        "top": 1026.8125,
+        "bottom": 1523.0625,
+        "height": 496.25,
         "width": 272
       },
-      "feedBottom": 1559.6875,
+      "feedBottom": 1630.5625,
       "image": {
         "naturalWidth": 272,
         "displayedWidth": 270,
-        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+        "src": "http://localhost:3002/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
       },
       "carouselNavigation": true
     }

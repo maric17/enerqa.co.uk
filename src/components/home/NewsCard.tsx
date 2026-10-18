@@ -33,6 +33,8 @@ export function NewsCard({
   active?: boolean;
 }) {
   const stacked = marker === 'news';
+  // Market commentary sits on paper; the shared news cards retain their dark surface.
+  const market = marker === 'market';
   // No card box: a bordered, fixed-height box looked empty whenever a provider
   // licensed no teaser. The lead reads as a lead through its size; the rest
   // are rows divided by hairlines (the parent list draws the dividers).
@@ -49,7 +51,7 @@ export function NewsCard({
       <NewsThumbnail imageUrl={item.imageUrl} lead={lead} stacked={stacked} />
       <div className="flex w-full min-w-0 flex-1 flex-col gap-1.5">
       <h3
-        className={`m-0 font-semibold text-white decoration-[var(--color-primary)] decoration-2 underline-offset-4 group-hover:underline ${
+        className={`m-0 font-semibold ${market ? 'text-[var(--ink)]' : 'text-white'} decoration-[var(--color-primary)] decoration-2 underline-offset-4 group-hover:underline ${
           lead ? 'text-[16px] leading-[1.3] tracking-[-0.01em]' : stacked ? 'text-[13px] leading-snug' : 'text-[14px] leading-snug'
         }`}
       >
@@ -59,18 +61,18 @@ export function NewsCard({
       {/* The publisher's own words, only where the provider licenses them.
           GDELT items carry none, so this simply does not render. */}
       {showTeaser && item.teaser && (
-        <p className="m-0 line-clamp-2 text-[14px] leading-relaxed text-white/70">{item.teaser}</p>
+        <p className={`m-0 line-clamp-2 text-[14px] leading-relaxed ${market ? 'text-[var(--ink-soft)]' : 'text-white/70'}`}>{item.teaser}</p>
       )}
 
-      <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] text-white/70">
-        <span className="font-semibold text-teal-300">{item.publisher}</span>
+      <p className={`m-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] ${market ? 'text-[var(--ink-soft)]' : 'text-white/70'}`}>
+        <span className={`font-semibold ${market ? 'text-[var(--green-deep)]' : 'text-teal-300'}`}>{item.publisher}</span>
         {item.publishedAt && item.dateLabel && (
           <time dateTime={item.publishedAt}>{item.dateLabel}</time>
         )}
         <span className="sr-only">(opens the original article in a new tab)</span>
         <ArrowUpRight
           aria-hidden="true"
-          className="h-3.5 w-3.5 shrink-0 text-white/50 transition-colors group-hover:text-teal-200"
+          className={`h-3.5 w-3.5 shrink-0 ${market ? 'text-[var(--green-deep)]' : 'text-white/50 group-hover:text-teal-200'}`}
         />
       </p>
       {/* Reserve the badge space so changing the active image cannot move the headlines. */}

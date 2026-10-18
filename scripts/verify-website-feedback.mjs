@@ -13,12 +13,14 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => report.errors.push(error.message));
     const response = await page.goto(origin, { waitUntil: 'networkidle' });
-    await page.getByRole('heading', { name: 'Global News', exact: true }).waitFor();
+    await page.locator('.home-hero-feed[aria-busy="false"]').waitFor();
     const geometry = await page.evaluate(() => {
       const box = selector => { const r = document.querySelector(selector)?.getBoundingClientRect(); return r ? { top: r.top, bottom: r.bottom, height: r.height, width: r.width } : null; };
       const image = document.querySelector('[data-news-slide-image]');
-      return { overflow: document.documentElement.scrollWidth > innerWidth, news: box('.news-panel'), markets: box('.markets-panel'),
-        feedBottom: box('[data-first-fold-band]')?.bottom, image: image ? { naturalWidth: image.naturalWidth, displayedWidth: image.clientWidth, src: image.currentSrc } : null };
+      return { overflow: document.documentElement.scrollWidth > innerWidth, hero: box('.home-hero'),
+        search: box('.home-hero-search'), story: box('.home-hero-story'), footer: box('.home-hero-footer'),
+        categoryCount: document.querySelectorAll('.home-hero-categories button').length,
+        image: image ? { naturalWidth: image.naturalWidth, displayedWidth: image.clientWidth, src: image.currentSrc } : null };
     });
     await page.screenshot({ path: `${output}/home-${width}.png` });
     const next = page.getByRole('button', { name: 'Next headline', exact: true });
@@ -61,7 +63,9 @@ try {
   const requestedArticle = process.argv.indexOf('--article');
   const articleEntries = requestedArticle >= 0 ? Object.entries(manifest).filter(([slug]) => slug === process.argv[requestedArticle + 1]) : Object.entries(manifest);
   for (const [slug, entry] of process.argv.includes('--screenshots-only') ? [] : articleEntries) {
-    const response = await page.goto(`${origin}/knowledge-hub/${slug}`, { waitUntil: 'domcontentloaded' });
+    const response = await page.goto(`${origin}/knowledge-hub/${slug}`, { waitUntil: 'networkidle' });
+    // Wait for streamed content and hydration before inspecting or loading figures.
+    if (entry.figures.length) await page.locator('[data-archive-figure]').first().waitFor();
     const count = await page.locator('[data-archive-figure]').count();
     const summaries = await page.getByRole('heading', { name: 'Executive Summary', exact: true }).count();
     // Exercise every local figure, including those normally loaded on scroll.
@@ -82,7 +86,7 @@ try {
   await writeFile(reportPath, JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify({ viewports: report.viewports, checkedPages: report.pages.length, errors: report.errors }, null, 2));
   const failures = report.viewports.filter(view => view.status !== 200 || view.overflow || view.carouselNavigation === false ||
-    (view.width >= 1024 && (Math.abs(view.news.height - view.markets.height) > 1 || view.feedBottom > view.height)));
+    view.categoryCount !== 4 || view.hero.height !== view.height || view.story.top < view.search.bottom + 12 || view.footer.bottom > view.hero.bottom + 1);
   const pageFailures = report.pages.filter(page => page.status && page.status !== 200 || page.failedImages || page.executiveSummaries || page.figures !== undefined && page.figures !== page.expected);
   if (failures.length || pageFailures.length || report.errors.length) throw new Error('Local visual acceptance failed; inspect browser-verification.json.');
 } finally {

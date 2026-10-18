@@ -143,7 +143,7 @@ export async function savedAccessCheck(url: string): Promise<import('./accessChe
 export async function saveAccessCheck(url: string, verdict: import('./accessCheck').AccessVerdict, seconds: number): Promise<void> {
   const db = pool();
   if (!db) return;
-  // Expiry follows the actual check time, including when Next returns a cached verdict.
+  // Expiry follows the actual check time, rather than the time this evidence is saved.
   try {
     await db.query(`INSERT INTO enerqa_connectors.access_checks(url, verdict, expires_at) VALUES ($1, $2::jsonb, $3::timestamptz + $4 * interval '1 second')
       ON CONFLICT(url) DO UPDATE SET verdict=EXCLUDED.verdict, expires_at=EXCLUDED.expires_at`, [url, JSON.stringify(verdict), verdict.checkedAt, seconds]);

@@ -2,7 +2,7 @@
 
 Created 15 October 2026 from [Website comments.md](<Website comments.md>) and [Website comments.docx](<Website comments.docx>). The wording in both sources was checked, and the embedded news reference image was inspected.
 
-**23 tasks are implemented or researched; 7 remain open.** Checked implementation tasks refer to local verification, not deployment. Provider research tasks are complete as recommendations; they do not authorize a subscription or activation. Keep unresolved provider and editorial decisions open.
+**24 tasks are implemented or researched; 6 remain open.** Checked implementation tasks refer to local verification, not deployment. Provider research tasks are complete as recommendations; they do not authorize a subscription or activation. Keep unresolved provider and editorial decisions open.
 
 These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TASKS.md). Earlier completion records remain historical evidence and do not establish acceptance of this feedback. In particular, H04 now requests an evaluation of live market data alongside commentary, changing the earlier commentary-only direction. The separate [AI Search deferral](AI-SEARCH-TASKS.md) remains in effect.
 
@@ -35,6 +35,7 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Dependency:** Recheck against WF-04's final dimensions and any provider change selected through WF-07.
 
 - [ ] **WF-06 — Investigate delayed news updates.**
+  - **To do:** Developer: inspect the NewsData HTTP 422 validation response without logging credentials; correct the request/account issue and verify two successful scheduled refreshes. Latest read-only audit on 18 October still records failed attempts.
   - **Source:** NewsData.io appears a day or more behind and seems to change about every two days.
   - **Done when:** Compare source publication times, provider availability, ingestion schedules, cache ages and displayed results. Identify whether the delay comes from the subscription, provider, ingestion, cache or deployment. Document a fix and verify the resulting update interval without claiming fresher data than the provider supplies.
 
@@ -55,12 +56,15 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Done when:** Create and review a layout showing the two panels one above the other with equal heights at agreed desktop viewport sizes, targeting visibility within the first fold. Show how H01, navigation and both panels fit together. If the available height conflicts with readability, show that constraint in the preview and record the selected compromise. Mobile remains readable and can extend below the fold.
   - **Dependency:** Coordinate with WF-04 and WF-10; confirm the desktop viewport and layout through the design preview.
 
-- [ ] **WF-10 — Split Major Markets into data and commentary columns.**
+- [x] **WF-10 — Split Major Markets into data and commentary columns.**
+  - **Implemented free scope — 18 October:** TradingView’s free delayed stock-price/chart widget is separate from sourced commentary. The user chose to keep the full-screen hero and place this section directly below it. Six initial U.S. company symbols are configured; no paid feed is active. See [implementation and proposal](feedback/MAJOR-MARKETS-2026-10-18.md).
+  - **Future paid upgrade:** Confirm the final company/exchange list and obtain an external-display quote before replacing the free widget with a paid API. This is not needed to use the current free display.
   - **Source:** One column for tickers, changes and graphs; another for commentary, with widths chosen to suit the API.
   - **Done when:** The selected market feed supplies a readable data column and a distinct commentary column. Column widths suit their content and stack on small screens. Quotes and commentary show their relevant timestamps, sources and delayed/unavailable states without implying unsupported live coverage.
-  - **Dependency:** WF-08 provider/scope selection and WF-09 layout.
+  - **Dependency:** Current scope selects the free TradingView display. The user confirmed full-screen hero plus markets below, superseding the earlier combined-first-fold target.
 
 - [ ] **WF-11 — Review and simplify the news/markets footnote.**
+  - **To do:** Developer: keep the current attribution and delay/cache disclosures; finalize mandatory wording and placement against the selected provider contract.
   - **Source:** Determine whether the footnote is legally necessary, can move to Sources, or should be shorter and smaller.
   - **Done when:** Check the applicable provider terms and required rights-of-use notices. Record what must remain beside the panels and what may move to the Sources page. Implement a concise, smaller but readable note with a Sources link where appropriate; retain mandatory attribution and disclosures.
   - **Dependency:** WF-07 and WF-08 determine the applicable provider terms.
@@ -100,6 +104,8 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
 
 ## O01 — Domains and Industries overview
 
+**Deployment gap verified 18 October:** The public Vercel page still has the left-aligned heading, mixed domain icons/emoji and “Industries We Work In.” The local page already implements WF-18–WF-20 and passed fresh checks at 1366, 1024, 390 and 320 px. [Comparison and next action](feedback/DOMAINS-OVERVIEW-2026-10-18.md). These checked implementation tasks do not mean the public deployment is updated.
+
 - [x] **WF-18 — Evaluate centering the “Our Domains” title.**
   - **Source:** “See if it would be better to centre” the title.
   - **Done when:** Compare centered and current alignment in context on desktop and mobile, record the selected treatment and apply it. Treat centering as a proposal to evaluate rather than a confirmed requirement.
@@ -113,6 +119,7 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Done when:** The heading on `/domains-and-industries` reads exactly “Industries,” including its corresponding accessible label or editable heading value.
 
 - [ ] **WF-21 — Review related-data sections across every domain and industry with the client.**
+  - **To do:** Client and developer: review the 17 rows in feedback/RELATED-DATA-REVIEW.md and agree the measures, geography and source mapping.
   - **Source:** Revise these sections together, dependent on the proposed API changes.
   - **Done when:** Inventory every domain and industry related-data section, prepare a proposed mapping of relevant datasets/feeds, identify gaps and review it with the client. Implement the agreed mapping with accurate sources, update expectations and unavailable-data behavior, then verify all affected pages.
   - **Dependency:** WF-07/WF-08 recommendations and the selected provider scope. Client input is needed for the joint content review.
@@ -120,11 +127,13 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
 ## Knowledge Hub and article pages
 
 - [ ] **WF-22 — Audit and restore incomplete article content.**
+  - **To do:** Editor: resolve the source-edition and reference differences in feedback/publication-text-comparison.json before replacing article body text.
   - **Source:** “The articles are incomplete.”
   - **Done when:** Compare every published article with its supplied original and record missing sections, text, tables and other content in a per-article checklist. Restore the missing material and verify the saved content and rendered pages. Track infographic restoration under WF-23.
   - **Dependency:** Coordinate with WF-24 so the explicitly requested Executive Summary removal is not reversed during restoration.
 
 - [ ] **WF-23 — Restore missing article infographics.**
+  - **To do:** Editor and developer: compare every original page against the 80 recovered visuals, including non-image drawings, captions and exact placement.
   - **Source:** “All infographics are not there!”
   - **Done when:** Inventory expected infographics against original publication files and available assets, match each to its article and restore it in the correct position with readable rendering, captions/credits where supplied and useful alternative text. Record unavailable originals as explicit content gaps. Verify every affected article on desktop and mobile.
   - **Dependency:** Use WF-22's article inventory and the existing [publication-image notes](PUBLICATION-IMAGES.md).
@@ -157,6 +166,7 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Done when:** The user-facing heading reads “Results,” with consistent accessible wording and empty/loading states. Result behavior remains intact.
 
 - [ ] **WF-30 — Review and improve the overall Global Intelligence page.**
+  - **To do:** Client: review the implemented Global Intelligence preview in feedback/DESIGN-REVIEW.md and identify the remaining layout/content changes.
   - **Source:** “This page needs a lot of work.”
   - **Done when:** Audit the page's hierarchy, density, result presentation, filtering, source placement and mobile usability. Produce a concrete list of improvements and a design preview for client review, then implement the agreed scope and verify it. WF-27–WF-29 cover the explicit text/source changes; this task captures the broader request without inventing unspecified requirements.
   - **Dependency:** Align the preview with WF-27–WF-29 and any applicable provider decisions. Client feedback is needed to settle the broader redesign scope.
@@ -179,7 +189,7 @@ Restored **80 original images, tables and diagrams across all 25 articles**: 64 
 | Open task | Current result and remaining work |
 | --- | --- |
 | WF-06 | Saved jobs record NewsData HTTP 422 and GDELT HTTP 429; current local NewsData checks stop before a request because the key is absent. Restore valid provider access, identify the specific validation error and verify successful scheduled freshness. |
-| WF-10 | Existing sourced commentary remains available. Select the quote provider, company/exchange list and display licence before adding the numerical quote/chart column. |
+| WF-10 — completed 18 October | Free delayed TradingView quotes/charts now sit beside eligible commentary. A future paid API is a separate upgrade decision. |
 | WF-11 | Existing footnotes are shorter and retain provider/delay/cache notices plus Sources. Final mandatory placement depends on the selected provider/exchange contract. |
 | WF-21 | All four domains and thirteen industries are inventoried in the [joint review matrix](feedback/RELATED-DATA-REVIEW.md). Agree measures, geography and source scope before changing saved mappings. |
 | WF-23 | 80 recovered visuals load correctly across all 25 articles, and complete archive PDFs are available. Final source-by-source comparison of remaining non-image drawings/callouts and exact placement remains part of the publication review; this task is not closed solely because the recovered files render. |
@@ -187,3 +197,24 @@ Restored **80 original images, tables and diagrams across all 25 articles**: 64 
 | WF-30 | A concrete Global Intelligence improvement is implemented, with clearer result cards, secondary metadata disclosure and concise Sources. The [preview](feedback/DESIGN-REVIEW.md) needs the client's broader review to define any additional redesign scope. |
 
 Provider research is in [API-RECOMMENDATIONS.md](feedback/API-RECOMMENDATIONS.md), including prices, Exa suitability, usage estimates and unresolved public-display/image rights. No paid provider was activated, and the separate AI Search deferral remains in effect.
+
+## Homepage review — 18 October 2026
+
+**The comments are not all complete: 23 tasks are implemented/researched and seven remain open.** Research completion does not mean a paid feed is integrated. Local implementation does not establish production deployment or client acceptance.
+
+The refreshed homepage preserves the approved copy and section order, stacked equal-height news/market sections, contained slideshow images, manual headline arrows, static image-free domains and Industries heading. It separates the navy introduction/search from a light feed band, improves text contrast and market-column separation, replaces the washed-out newsletter/contact treatment with solid navy, and removes the unused Data Portal column when no eligible dataset exists. No prices, stories or datasets were fabricated, and no CMS content was changed.
+
+A fresh read-only database audit confirms 25 published article bodies still match the saved reconstruction. The template supplies recovered visuals separately, so zero image blocks inside those CMS bodies does not mean zero rendered figures. The news scheduler last attempted a refresh at **06:29 on 18 October (Asia/Manila)**; NewsData returned **HTTP 422**, GDELT returned **HTTP 429**, and EIA/EEA succeeded. NewsData's last successful refresh remains 12 October UTC. These are saved-job observations, not a fresh direct provider probe. See [current audit](feedback/current-content-audit.json).
+
+See [homepage review and evidence](feedback/HOMEPAGE-REVIEW-2026-10-18.md) for validation, screenshots and the seven outstanding actions. The existing provider recommendations are dated 15 October; no prices or provider terms were revalidated during this visual review.
+
+
+## Latest hero and market direction — 18 October 2026
+
+**Current total: 24 tasks implemented/researched; six remain open.** Earlier implementation reviews above are historical. The latest user direction supersedes the compact hero, contained-image and shared-first-fold layout: keep the EY-inspired full-screen news hero, with one headline per domain, and put Major Markets in its own section immediately below it. Major Markets is removed from the hero categories.
+
+WF-10 is now implemented for the selected free scope: delayed company quotes, daily absolute/percentage changes and a chart in a wider column, with separate sourced commentary. The free widget retains TradingView attribution, explicit delay labels and embedded-content consent. The initial watchlist is NEE, FSLR, TSLA, XOM, SHEL and MSFT. Paid real-time coverage has not been activated. WF-11 remains open for the full provider-specific rights/footnote review; a later paid exchange contract can introduce additional terms.
+
+[Implementation and paid proposal](feedback/MAJOR-MARKETS-2026-10-18.md), [market browser checks](feedback/major-markets-verification.json), [hero browser checks](feedback/hero-verification.json), [desktop market preview](feedback/screenshots/major-markets-1366.png), [mobile market preview](feedback/screenshots/major-markets-390.png).
+
+Verified locally: 577 tests across 77 files, TypeScript, changed-code ESLint and the production build. The actual free widget was checked for prices, signed daily changes and chart rendering; blocked-provider and consent-withdrawal states were exercised. Hero/markets occupy equal screen heights at 1366×768 and 1024×768, with no page overflow at those widths or 390/320px mobile. These checks do not establish public deployment.

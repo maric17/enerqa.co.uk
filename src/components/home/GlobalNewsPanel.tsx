@@ -1,126 +1,135 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import type { NewsBasketKey } from '@/lib/api/news/types';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import type { NewsDiagnostics } from '@/lib/api/news/diagnostics';
-import { SourceUnavailable } from '../ui/SourceUnavailable';
-import { Button } from '../ui/Button';
-import { NEWS_AREA_HEIGHT, type NewsCardData, type NewsFilter } from './firstFoldNews';
+import { Container } from '../ui/Container';
+import type { HeroSlide, NewsCardData } from './firstFoldNews';
 
-export function NewsFilterBar({ filters, active, onSelect, disabled = false }: {
-  filters: NewsFilter[];
-  active: NewsBasketKey;
-  onSelect?: (key: NewsBasketKey) => void;
-  disabled?: boolean;
-}) {
-  return <div role="group" aria-label="Filter global news by theme" className="flex flex-wrap gap-1">
-    {filters.map(filter => <Button key={filter.key} type="button" variant="plain" aria-pressed={filter.key === active}
-      disabled={disabled} onClick={() => onSelect?.(filter.key)}
-      className={`min-h-8 rounded-full border px-2.5 py-1 text-xs disabled:cursor-default ${filter.key === active ? 'border-teal-300/60 bg-teal-300/10 text-teal-200' : 'border-white/20 text-white/80 hover:border-white/50'}`}>
-      {filter.label}
-    </Button>)}
-  </div>;
-}
+export const HERO_ROTATION_MS = 8000;
+const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
+const subscribeMotion = (notify: () => void) => {
+  const media = window.matchMedia(reducedMotionQuery);
+  media.addEventListener('change', notify);
+  return () => media.removeEventListener('change', notify);
+};
+const prefersReducedMotion = () => window.matchMedia(reducedMotionQuery).matches;
 
-// The same frame is used while the saved feed streams in to avoid layout jumps.
-export function NewsColumn({ head, narrative, controls, children }: {
-  head: React.ReactNode;
-  narrative?: React.ReactNode;
-  controls: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return <section aria-labelledby="h03-global-news" className="first-fold-panel news-panel">
-    <div className="news-panel-heading">
-      <div>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          {head}
-          <Link href="/knowledge-hub/global-intelligence" className="text-xs font-semibold text-teal-200 hover:underline">View All News &rarr;</Link>
-        </div>
-        {narrative && <div className="mt-1 hidden xl:block">{narrative}</div>}
-      </div>
-      <div>{controls}</div>
-    </div>
-    {children}
-  </section>;
-}
-
-function SlideImage({ item }: { item: NewsCardData }) {
+function SlideImage({ item }: { item: NewsCardData | null }) {
   const [failed, setFailed] = useState(false);
-  return <Image src={!failed && item.imageUrl ? item.imageUrl : '/images/banners/news-thumbnail-fallback.webp'} alt="" fill
-    sizes="(min-width: 1280px) 1200px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)"
-    unoptimized={Boolean(!failed && item.imageUrl)} loading="eager" referrerPolicy="no-referrer"
-    className="object-cover" data-news-slide-image onError={() => setFailed(true)}
-    onLoad={event => {
-      // A provider can return a signed 140px thumbnail for a 1200px slide.
-      // Keep its URL intact and use the sharp local fallback rather than upscale it.
-      if (item.imageUrl && !failed && event.currentTarget.naturalWidth < Math.min(640, event.currentTarget.clientWidth)) setFailed(true);
+  const remote = Boolean(item?.imageUrl && !failed);
+  return <Image src={remote ? item!.imageUrl! : '/images/banners/news-thumbnail-fallback.webp'} alt="" fill sizes="100vw"
+    unoptimized={remote} loading="eager" referrerPolicy="no-referrer" className="home-hero-image" data-news-slide-image
+    onError={() => setFailed(true)} onLoad={event => {
+      // Small provider thumbnails cannot fill a screen sharply; use the local image.
+      if (remote && event.currentTarget.naturalWidth < Math.min(640, event.currentTarget.clientWidth)) setFailed(true);
     }} />;
 }
 
-export function GlobalNewsPanel({ head, narrative, filters, views, sourcesFailed, diagnostics }: {
-  head: React.ReactNode;
-  narrative?: React.ReactNode;
-  filters: NewsFilter[];
-  views: Record<NewsBasketKey, NewsCardData[]>;
-  sourcesFailed: boolean;
+/** One full-screen story per category, with keyboard controls and pausable motion. */
+export function GlobalNewsPanel({ slides, loading = false, diagnostics }: {
+  slides: HeroSlide[];
+  loading?: boolean;
   diagnostics?: NewsDiagnostics;
 }) {
-  const [active, setActive] = useState<NewsBasketKey>('all');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const items = views[active] ?? [];
-  // An ID survives feed refreshes; if removed, selection returns to the first story.
-  const selectedIndex = Math.max(0, items.findIndex(item => item.id === selectedId));
-  const featured = items[selectedIndex];
-  const activeLabel = filters.find(filter => filter.key === active)?.label ?? '';
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
+  const tabs = useRef<HTMLDivElement>(null);
+  const reducedMotion = useSyncExternalStore(subscribeMotion, prefersReducedMotion, () => true);
+  const slide = slides[active] ?? slides[0];
+  const item = slide?.item;
+  const playing = !paused && !reducedMotion && !loading;
+
+  useEffect(() => {
+    if (!playing || hovered || slides.length < 2) return;
+    const timer = window.setInterval(() => {
+      // Avoid moving a story while someone is reading or typing in the search.
+      if (!document.hidden && !document.querySelector('.home-hero-search:focus-within')) {
+        setActive(index => (index + 1) % slides.length);
+      }
+    }, HERO_ROTATION_MS);
+    return () => window.clearInterval(timer);
+  }, [playing, hovered, slides.length, active]);
+
+  useEffect(() => {
+    // Keep the selected category visible in the horizontally scrollable mobile strip.
+    const tab = tabs.current?.querySelector<HTMLElement>('[aria-pressed="true"]');
+    if (tab && tabs.current) tabs.current.scrollLeft = tab.offsetLeft - tabs.current.offsetLeft;
+  }, [active]);
+
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('newsDebug') !== '1') return;
-    console.info('[enerqa:news:homepage]', JSON.stringify({ sourcesFailed,
-      viewCounts: Object.fromEntries(Object.entries(views).map(([key, cards]) => [key, cards.length])), diagnostics }));
-  }, [diagnostics, sourcesFailed, views]);
+    console.info('[enerqa:news:homepage]', JSON.stringify({
+      viewCounts: Object.fromEntries(slides.map(entry => [entry.key, entry.item ? 1 : 0])), diagnostics,
+    }));
+  }, [diagnostics, slides]);
 
-  const step = (direction: number) => {
-    if (items.length > 1) setSelectedId(items[(selectedIndex + direction + items.length) % items.length].id);
+  const select = (index: number) => {
+    setActive(index);
+    setPaused(true);
+    const selected = slides[index];
+    setAnnouncement(`${selected.label}: ${selected.item?.title ?? (selected.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.')}`);
   };
-  return <NewsColumn head={head} narrative={narrative}
-    controls={<NewsFilterBar filters={filters} active={active} disabled={sourcesFailed}
-      onSelect={key => { setActive(key); setSelectedId(null); }} />}>
-    <div className="sr-only" aria-live="polite" aria-atomic="true">
-      {active !== 'all' && `${activeLabel}: ${items.length} ${items.length === 1 ? 'story' : 'stories'} shown.`}
-      {featured && ` Story ${selectedIndex + 1} of ${items.length}: ${featured.title}`}
-    </div>
-    {!featured ? <SourceUnavailable variant={sourcesFailed ? 'unavailable' : 'empty'}
-      nearest={{ href: '/knowledge-hub/global-intelligence', label: 'browse Global Intelligence' }} className={NEWS_AREA_HEIGHT} /> :
-      <div className="news-slideshow" role="group" aria-roledescription="carousel" aria-label="News headlines"
-        onKeyDown={event => {
-          if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-            event.preventDefault(); step(event.key === 'ArrowLeft' ? -1 : 1);
-          }
-        }}>
-        <SlideImage key={`${featured.id}:${featured.imageUrl}`} item={featured} />
-        <div className="news-slideshow-shade" aria-hidden="true" />
-        <a href={featured.url} target="_blank" rel="noopener noreferrer" className="news-slideshow-story" data-news-card>
-          <p className="m-0 mb-2 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-white/90">
-            <span className="text-teal-200">{featured.publisher}</span>
-            {featured.publishedAt && featured.dateLabel && <time dateTime={featured.publishedAt}>{featured.dateLabel}</time>}
+  const step = (direction: number) => select((active + direction + slides.length) % slides.length);
+
+  if (!slide) return null;
+  return <div className="home-hero-feed" role="group" aria-roledescription="carousel" aria-label="Domain news"
+    aria-busy={loading} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    onFocusCapture={event => {
+      // Keep manual reading stable; the play button manages its own focus and state.
+      if (!(event.target as HTMLElement).closest('[data-hero-playback]')) setPaused(true);
+    }}>
+    <SlideImage key={`${item?.id ?? 'empty'}:${item?.imageUrl ?? ''}`} item={item ?? null} />
+    <div className="home-hero-shade" aria-hidden="true" />
+    <Container className="home-hero-editorial">
+      <div className="home-hero-story" role="group" aria-roledescription="slide" aria-label={`${active + 1} of ${slides.length}: ${slide.label}`}>
+        <p className="home-hero-eyebrow">Global News</p>
+        {loading ? <div className="home-hero-loading" role="status">Loading the latest headlines…</div> : item ? <>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="home-hero-story-link" data-news-card>
+            <h2>{item.title}<ArrowUpRight aria-hidden="true" /></h2>
+            {item.teaser && <p className="home-hero-teaser">{item.teaser}</p>}
+            <span className="sr-only"> (opens the original article in a new tab)</span>
+          </a>
+          <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
+          <p className="home-hero-attribution" data-feed-attribution>
+            {slide.delayed && 'NewsData free feed delayed 12h+. '}
+            {slide.retrievedAt && `Updated ${slide.retrievedAt}. `}
+            {slide.stale && 'Cached headline; refresh unavailable. '}
+            <Link href="/data-portal/sources">Sources and rights</Link>
           </p>
-          <h3 className="m-0 text-lg font-semibold leading-snug tracking-tight text-white md:text-xl">{featured.title}</h3>
-          {featured.teaser && <p className="m-0 mt-2 hidden max-w-3xl text-sm leading-relaxed text-white/90 2xl:line-clamp-1">{featured.teaser}</p>}
-          <span className="sr-only"> (opens the original article in a new tab)</span>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="absolute right-4 top-4 h-3 w-3 text-white/80" aria-hidden="true" />
-        </a>
-        <div className="news-slideshow-controls">
-          <span className="mr-1 text-xs tabular-nums text-white/90" aria-hidden="true">{selectedIndex + 1} / {items.length}</span>
-          <Button type="button" variant="plain" className="news-slideshow-arrow" aria-label="Previous headline" disabled={items.length < 2} onClick={() => step(-1)}>
-            <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" aria-hidden="true" />
-          </Button>
-          <Button type="button" variant="plain" className="news-slideshow-arrow" aria-label="Next headline" disabled={items.length < 2} onClick={() => step(1)}>
-            <FontAwesomeIcon icon={faArrowRight} className="h-4 w-4" aria-hidden="true" />
-          </Button>
+        </> : <div className="home-hero-empty">
+          <h2>{slide.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.'}</h2>
+          <p>{slide.label}</p>
+          <Link href={`/knowledge-hub/global-intelligence?theme=${slide.key}`}>Browse Global Intelligence <ArrowUpRight aria-hidden="true" /></Link>
+        </div>}
+      </div>
+      <div className="home-hero-footer">
+        <div ref={tabs} className="home-hero-categories" role="group" aria-label="Choose a domain"
+          onKeyDown={event => {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+              event.preventDefault();
+              const index = (active + (event.key === 'ArrowLeft' ? -1 : 1) + slides.length) % slides.length;
+              select(index);
+              tabs.current?.querySelectorAll('button')[index]?.focus();
+            }
+          }}>
+          {slides.map((category, index) => <button key={category.key} type="button" aria-pressed={index === active}
+            disabled={loading} onClick={() => select(index)}>{category.label}</button>)}
         </div>
-      </div>}
-  </NewsColumn>;
+        <div className="home-hero-controls">
+          <Link href="/knowledge-hub/global-intelligence" className="home-hero-view-all">View All News <ArrowUpRight aria-hidden="true" /></Link>
+          <span className="home-hero-count" aria-hidden="true">{active + 1} / {slides.length}</span>
+          <button type="button" aria-label="Previous headline" disabled={loading} onClick={() => step(-1)}><ArrowLeft aria-hidden="true" /></button>
+          <button type="button" aria-label="Next headline" disabled={loading} onClick={() => step(1)}><ArrowRight aria-hidden="true" /></button>
+          <button type="button" data-hero-playback aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}
+            disabled={loading || reducedMotion} onClick={() => setPaused(value => !value)}>{playing ? <Pause aria-hidden="true" /> : <Play aria-hidden="true" />}</button>
+        </div>
+      </div>
+    </Container>
+    <p className="sr-only" aria-live="polite" aria-atomic="true">{announcement}</p>
+  </div>;
 }

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T04:33:56.245Z",
+  "checkedAt": "2026-10-18T02:54:10.266Z",
   "publications": [
     {
       "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
@@ -205,15 +205,15 @@
   "feeds": [
     {
       "provider": "eia_rss",
-      "saved_records": 20,
-      "latest_retrieval": "2026-10-14T22:29:19.000Z",
-      "latest_publication": "2026-10-14T14:00:00.000Z",
+      "saved_records": 21,
+      "latest_retrieval": "2026-10-17T22:29:19.000Z",
+      "latest_publication": "2026-10-16T14:00:00.000Z",
       "with_images": 0
     },
     {
       "provider": "eea_rss",
       "saved_records": 5,
-      "latest_retrieval": "2026-10-14T22:29:22.000Z",
+      "latest_retrieval": "2026-10-17T22:29:22.000Z",
       "latest_publication": "2026-10-13T06:00:00.000Z",
       "with_images": 0
     },
@@ -226,19 +226,19 @@
     },
     {
       "provider": "gdelt",
-      "saved_records": 53,
-      "latest_retrieval": "2026-10-12T22:29:30.000Z",
-      "latest_publication": "2026-10-08T05:30:00Z",
-      "with_images": 53
+      "saved_records": 59,
+      "latest_retrieval": "2026-10-16T22:29:27.000Z",
+      "latest_publication": "2026-10-16T15:45:00Z",
+      "with_images": 59
     }
   ],
   "newsJob": {
-    "lastAttemptAt": "2026-10-14T22:29:15.994Z",
-    "lastCompletedAt": "2026-10-14T22:29:48.037Z",
+    "lastAttemptAt": "2026-10-17T22:29:16.019Z",
+    "lastCompletedAt": "2026-10-17T22:29:48.991Z",
     "lastSuccessAt": {
-      "gdelt": "2026-10-12T22:29:47.916Z",
-      "eea_rss": "2026-10-14T22:29:48.037Z",
-      "eia_rss": "2026-10-14T22:29:47.406Z",
+      "gdelt": "2026-10-16T22:29:46.057Z",
+      "eea_rss": "2026-10-17T22:29:48.991Z",
+      "eia_rss": "2026-10-17T22:29:48.325Z",
       "newsdata": "2026-10-12T06:29:49.832Z"
     },
     "providers": [
@@ -289,12 +289,12 @@
       },
       {
         "issue": null,
-        "items": 16,
+        "items": 18,
         "stale": false,
         "outcome": "ok",
         "provider": "eia_rss",
         "httpStatus": null,
-        "retrievedAt": "2026-10-14T22:29:19.000Z"
+        "retrievedAt": "2026-10-17T22:29:19.000Z"
       },
       {
         "issue": null,
@@ -303,7 +303,7 @@
         "outcome": "ok",
         "provider": "eea_rss",
         "httpStatus": null,
-        "retrievedAt": "2026-10-14T22:29:21.000Z"
+        "retrievedAt": "2026-10-17T22:29:21.000Z"
       },
       {
         "issue": "unavailable",

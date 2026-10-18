@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { Hero } from '@/components/home/Hero'
 import { FirstFoldFeeds } from '@/components/home/FirstFoldFeeds'
+import { MajorMarkets } from '@/components/home/MajorMarkets'
 import { LifecycleAndIndustries } from '@/components/home/LifecycleAndIndustries'
 import { DataPortalTeaser } from '@/components/home/DataPortalTeaser'
 import { KnowledgeTeaser } from '@/components/home/KnowledgeTeaser'
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
  * H01 Project Development for a Sustainable Future  -> Hero
  * H02 Ask Explore Discover                          -> Hero (search + chips)
  * H03 Global News                                   -> FirstFoldFeeds
- * H04 Major Markets                                 -> FirstFoldFeeds
+ * H04 Major Markets                                 -> MajorMarkets
  * H05 Explore Our Domains                           -> TransitionPriorities
  * H06 Project Development and Lifecycle Support     -> LifecycleAndIndustries
  * H07 Industries We Work In                         -> LifecycleAndIndustries
@@ -36,9 +37,8 @@ export const metadata: Metadata = {
  * H11 About Enerqa                                  -> AboutEnerqa
  * H12 Stay Informed / H13 Discuss Your Project      -> ContactCTA (H12 first)
  *
- * First fold (p. 15, 229): at 1366x768 the header, H01, H02, H03 and H04 must
- * all be visible without scrolling. H03 and H04 sit in their own compact light
- * band directly below a compact hero, and that band ends around y 720.
+ * October 18 direction replaces the compact first fold with a full-screen
+ * editorial hero. H03 has four domain slides; H04 is a separate section below.
  *
  * No per-section fade-in: eight identical entrance animations added motion
  * without meaning, and the page reads calmer without them.
@@ -52,10 +52,11 @@ export default async function HomePage() {
   return (
     <>
       <Hero>
-        {/* H03 Global News + H04 Major Markets */}
+        {/* One saved headline per domain. */}
         <FirstFoldFeeds />
       </Hero>
 
+      <MajorMarkets />
       <TransitionPriorities />
       <LifecycleAndIndustries />
       <Suspense fallback={<div aria-hidden="true" className="min-h-[560px] bg-[var(--color-dark)]" />}>

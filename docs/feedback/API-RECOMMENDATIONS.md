@@ -6,7 +6,7 @@ Checked **15 October 2026** for WF-05–WF-08 and WF-11. Prices below are publis
 
 Trial **The News API** for the general news feed and **Exa** for targeted discovery. The former has a published USD 19/month entry plan; Exa can fit the USD 10–20 target with scheduled metadata-only searches. Evaluate actual topic coverage, publication-date accuracy and usable images before selecting either. Neither an image URL nor a search subscription establishes permission to republish the underlying photograph. [The News API pricing](https://www.thenewsapi.com/pricing), [Exa pricing](https://exa.ai/pricing).
 
-For stock quotes, obtain a commercial display quote from **Twelve Data** first, using a specific list of companies/exchanges. Its displayed Venture configuration is USD 499/month; the same page also advertises a lower “from USD 149” configuration, so a confirmed plan/exchange quote is necessary. Pair it with sourced market commentary rather than presenting sentiment scores as editorial analysis. [Twelve Data business pricing](https://twelvedata.com/pricing-business).
+For a future paid stock-quote upgrade, obtain a commercial display quote from **Twelve Data** first, using a specific list of companies/exchanges. Its displayed Venture configuration is USD 499/month; the same page also advertises a lower “from USD 149” configuration, so a confirmed plan/exchange quote is necessary. Pair it with sourced market commentary rather than presenting sentiment scores as editorial analysis. [Twelve Data business pricing](https://twelvedata.com/pricing-business).
 
 ## News shortlist
 
@@ -26,6 +26,24 @@ Exa is an identifiable API service with public documentation, pricing and contra
 **Illustrative Exa budget:** four domain queries every two hours, for 30 days, produce 1,440 searches. At USD 7/1,000, base search cost is **USD 10.08/month**. Fetching ten pages of content for every search would add USD 14.40 at USD 1/1,000 pages per content type, exceeding USD 20 combined. Start with result metadata; avoid full text, generated summaries, deep searches and monitors in that estimate. Budget controls must cover retries and interactive searches too. [Exa pricing](https://exa.ai/pricing).
 
 The News API's 100-request/day free allowance can support a small four-query trial at two-hour intervals (48 requests/day). This is a coverage experiment, subject to its terms, rather than approval to use it commercially. [Pricing](https://www.thenewsapi.com/pricing), [terms](https://www.thenewsapi.com/tos).
+
+## Free market display selected — 18 October 2026
+
+Use **TradingView's free Market Overview widget** for the first version, with the existing sourced news/EIA commentary beside it. Published widget subscription cost: **USD 0/month**; no API key is needed. The homepage implements this display-only option, keeps TradingView attribution visible, and uses the site's embedded-content consent preference. The initial watchlist is NextEra Energy (NEE), First Solar (FSLR), Tesla (TSLA), Exxon Mobil (XOM), Shell's U.S.-listed shares (SHEL), and Microsoft (MSFT). All selected listings are quoted in USD. The client can replace this initial watchlist with preferred companies and exchanges. [TradingView free widgets](https://www.tradingview.com/widget/), [Market Overview](https://www.tradingview.com/widget-docs/widgets/watchlists/market-overview/).
+
+**This does not establish live exchange coverage.** TradingView lists delayed Cboe One data for NYSE/Nasdaq widget stocks. The homepage labels the quotes as delayed. The widget supplies the current available session, price changes and history; the adjacent commentary has separate timestamps and is not an explanation of each selected stock's movement. No quote is fabricated or copied into the Data Portal. An upgraded personal TradingView subscription does not upgrade widget data rights. [Available U.S. markets](https://www.tradingview.com/widget-docs/markets/north-america/), [widget data FAQ](https://www.tradingview.com/widget-docs/faq/data/).
+
+The user selected **keep the full-screen hero and place Major Markets below it**. The four domain categories remain in the hero; markets is a separate section. On desktop the sections each reserve at least one screen of space; mobile data and commentary stack. This explicitly supersedes fitting both into one first-screen fold.
+
+### Paid upgrade proposal, checked 18 October 2026
+
+| Option | Published monthly price | What changes | Commentary and next action |
+| --- | --- | --- | --- |
+| **Twelve Data Venture — recommended first quote** | Business page advertises **from USD 149**, while its displayed configuration is **USD 499**. Budget USD 499 pending a written quote. | API access for prices and history with external display; real-time U.S./EU coverage depends on selected exchanges and entitlements. | Keep existing commentary for USD 0 extra, or add Marketaux Basic at USD 29/month. Confirm precise symbols, refresh/streaming allowance, caching, attribution and exchange charges. |
+| **EODHD Enterprise / custom** | Enterprise **USD 2,499/month**; custom from USD 399/month, subject to quote. | A broader data package including time series and news. Global live/delayed coverage varies. | Require an agreement covering the public homepage and exchange data. Its USD 399 internal-use package is not the website solution. |
+| **Marketaux Basic — optional news companion** | **USD 29/month**, 2,500 requests/day and up to 20 articles/request. | Symbol-filtered financial news alongside a separately licensed price chart. | This supplies reporting, not stock quotes. Confirm the intended publisher text/image display rights. |
+
+Illustrative paid budget: **USD 499/month** for the displayed Twelve Data setup plus existing commentary, or **USD 528/month** with Marketaux Basic, before taxes and exchange/display add-ons. No subscriptions or paid requests were enabled. Sources: [Twelve Data business pricing](https://twelvedata.com/pricing-business), [EODHD commercial pricing](https://eodhd.com/commercial-pricing), [Marketaux pricing](https://www.marketaux.com/pricing).
 
 ## Markets shortlist
 

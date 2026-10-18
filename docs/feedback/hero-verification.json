@@ -1,0 +1,1042 @@
+{
+  "checkedAt": "2026-10-18T06:42:23.249Z",
+  "viewports": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1080,
+            "height": 1080,
+            "width": 1920
+          },
+          "search": {
+            "top": 120,
+            "bottom": 308.8125,
+            "height": 188.8125,
+            "width": 760
+          },
+          "story": {
+            "top": 610.515625,
+            "bottom": 938.8125,
+            "height": 328.296875,
+            "width": 1080
+          },
+          "footer": {
+            "top": 978.8125,
+            "bottom": 1056,
+            "height": 77.1875,
+            "width": 1608
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 1920
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1080,
+            "height": 1080,
+            "width": 1920
+          },
+          "search": {
+            "top": 120,
+            "bottom": 308.8125,
+            "height": 188.8125,
+            "width": 760
+          },
+          "story": {
+            "top": 733.515625,
+            "bottom": 938.8125,
+            "height": 205.296875,
+            "width": 1080
+          },
+          "footer": {
+            "top": 978.8125,
+            "bottom": 1056,
+            "height": 77.1875,
+            "width": 1608
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1920
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1080,
+            "height": 1080,
+            "width": 1920
+          },
+          "search": {
+            "top": 120,
+            "bottom": 308.8125,
+            "height": 188.8125,
+            "width": 760
+          },
+          "story": {
+            "top": 667.515625,
+            "bottom": 938.8125,
+            "height": 271.296875,
+            "width": 1080
+          },
+          "footer": {
+            "top": 978.8125,
+            "bottom": 1056,
+            "height": 77.1875,
+            "width": 1608
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 1920
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1080,
+            "height": 1080,
+            "width": 1920
+          },
+          "search": {
+            "top": 120,
+            "bottom": 308.8125,
+            "height": 188.8125,
+            "width": 760
+          },
+          "story": {
+            "top": 795.828125,
+            "bottom": 938.8125,
+            "height": 142.984375,
+            "width": 1080
+          },
+          "footer": {
+            "top": 978.8125,
+            "bottom": 1056,
+            "height": 77.1875,
+            "width": 1608
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 768,
+            "displayedWidth": 1920
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1366
+          },
+          "search": {
+            "top": 120,
+            "bottom": 302.71875,
+            "height": 182.71875,
+            "width": 760
+          },
+          "story": {
+            "top": 388.078125,
+            "bottom": 638.8125,
+            "height": 250.734375,
+            "width": 1080
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 1200
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 1366
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1366
+          },
+          "search": {
+            "top": 120,
+            "bottom": 302.71875,
+            "height": 182.71875,
+            "width": 760
+          },
+          "story": {
+            "top": 454.078125,
+            "bottom": 638.8125,
+            "height": 184.734375,
+            "width": 1080
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 1200
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1366
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1366
+          },
+          "search": {
+            "top": 120,
+            "bottom": 302.71875,
+            "height": 182.71875,
+            "width": 760
+          },
+          "story": {
+            "top": 388.078125,
+            "bottom": 638.8125,
+            "height": 250.734375,
+            "width": 1080
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 1200
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1366
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1366
+          },
+          "search": {
+            "top": 120,
+            "bottom": 302.71875,
+            "height": 182.71875,
+            "width": 760
+          },
+          "story": {
+            "top": 506.109375,
+            "bottom": 638.8125,
+            "height": 132.703125,
+            "width": 1080
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 1200
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 546,
+            "displayedWidth": 1366
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1024
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 411.484375,
+            "bottom": 638.8125,
+            "height": 227.328125,
+            "width": 944
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1024
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 477.484375,
+            "bottom": 638.8125,
+            "height": 161.328125,
+            "width": 944
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1024
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 411.484375,
+            "bottom": 638.8125,
+            "height": 227.328125,
+            "width": 944
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 768,
+            "height": 768,
+            "width": 1024
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 517.8125,
+            "bottom": 638.8125,
+            "height": 121,
+            "width": 944
+          },
+          "footer": {
+            "top": 666.8125,
+            "bottom": 744,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 728,
+            "displayedWidth": 1024
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 614,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": -30,
+            "bottom": 637.515625,
+            "height": 667.515625,
+            "width": 1024
+          },
+          "search": {
+            "top": 90,
+            "bottom": 255.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 287.21875,
+            "bottom": 508.328125,
+            "height": 221.109375,
+            "width": 944
+          },
+          "footer": {
+            "top": 536.328125,
+            "bottom": 613.515625,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": -30,
+            "bottom": 635.21875,
+            "height": 665.21875,
+            "width": 1024
+          },
+          "search": {
+            "top": 90,
+            "bottom": 255.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 350.921875,
+            "bottom": 506.03125,
+            "height": 155.109375,
+            "width": 944
+          },
+          "footer": {
+            "top": 534.03125,
+            "bottom": 611.21875,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": -30,
+            "bottom": 637.515625,
+            "height": 667.515625,
+            "width": 1024
+          },
+          "search": {
+            "top": 90,
+            "bottom": 255.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 287.21875,
+            "bottom": 508.328125,
+            "height": 221.109375,
+            "width": 944
+          },
+          "footer": {
+            "top": 536.328125,
+            "bottom": 613.515625,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 1024
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": -30,
+            "bottom": 635.21875,
+            "height": 665.21875,
+            "width": 1024
+          },
+          "search": {
+            "top": 90,
+            "bottom": 255.21875,
+            "height": 165.21875,
+            "width": 760
+          },
+          "story": {
+            "top": 388.140625,
+            "bottom": 506.03125,
+            "height": 117.890625,
+            "width": 944
+          },
+          "footer": {
+            "top": 534.03125,
+            "bottom": 611.21875,
+            "height": 77.1875,
+            "width": 944
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 728,
+            "displayedWidth": 1024
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1024,
+            "height": 1024,
+            "width": 768
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 688
+          },
+          "story": {
+            "top": 602.203125,
+            "bottom": 847.3125,
+            "height": 245.109375,
+            "width": 688
+          },
+          "footer": {
+            "top": 875.3125,
+            "bottom": 1000,
+            "height": 124.6875,
+            "width": 688
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 768
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1024,
+            "height": 1024,
+            "width": 768
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 688
+          },
+          "story": {
+            "top": 692.203125,
+            "bottom": 847.3125,
+            "height": 155.109375,
+            "width": 688
+          },
+          "footer": {
+            "top": 875.3125,
+            "bottom": 1000,
+            "height": 124.6875,
+            "width": 688
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 768
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1024,
+            "height": 1024,
+            "width": 768
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 688
+          },
+          "story": {
+            "top": 602.203125,
+            "bottom": 847.3125,
+            "height": 245.109375,
+            "width": 688
+          },
+          "footer": {
+            "top": 875.3125,
+            "bottom": 1000,
+            "height": 124.6875,
+            "width": 688
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 768
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 1024,
+            "height": 1024,
+            "width": 768
+          },
+          "search": {
+            "top": 120,
+            "bottom": 285.21875,
+            "height": 165.21875,
+            "width": 688
+          },
+          "story": {
+            "top": 729.421875,
+            "bottom": 847.3125,
+            "height": 117.890625,
+            "width": 688
+          },
+          "footer": {
+            "top": 875.3125,
+            "bottom": 1000,
+            "height": 124.6875,
+            "width": 688
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 712,
+            "displayedWidth": 768
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 844,
+            "height": 844,
+            "width": 390
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 342
+          },
+          "story": {
+            "top": 396.1875,
+            "bottom": 691.21875,
+            "height": 295.03125,
+            "width": 342
+          },
+          "footer": {
+            "top": 711.21875,
+            "bottom": 824,
+            "height": 112.78125,
+            "width": 342
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 390
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 844,
+            "height": 844,
+            "width": 390
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 342
+          },
+          "story": {
+            "top": 483.5625,
+            "bottom": 691.21875,
+            "height": 207.65625,
+            "width": 342
+          },
+          "footer": {
+            "top": 711.21875,
+            "bottom": 824,
+            "height": 112.78125,
+            "width": 342
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 390
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 844,
+            "height": 844,
+            "width": 390
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 342
+          },
+          "story": {
+            "top": 396.1875,
+            "bottom": 691.21875,
+            "height": 295.03125,
+            "width": 342
+          },
+          "footer": {
+            "top": 711.21875,
+            "bottom": 824,
+            "height": 112.78125,
+            "width": 342
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 390
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 844,
+            "height": 844,
+            "width": 390
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 342
+          },
+          "story": {
+            "top": 554.65625,
+            "bottom": 691.21875,
+            "height": 136.5625,
+            "width": 342
+          },
+          "footer": {
+            "top": 711.21875,
+            "bottom": 824,
+            "height": 112.78125,
+            "width": 342
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 390,
+            "displayedWidth": 390
+          },
+          "storyCount": 0
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "slides": [
+        {
+          "category": "Climate Action & Carbon Management",
+          "title": "US voters want action on global heating. So why are midterm candidates ‘climate hushing’?",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 740,
+            "height": 740,
+            "width": 320
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 272
+          },
+          "story": {
+            "top": 337.625,
+            "bottom": 587.21875,
+            "height": 249.59375,
+            "width": 272
+          },
+          "footer": {
+            "top": 607.21875,
+            "bottom": 720,
+            "height": 112.78125,
+            "width": 272
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 1200,
+            "displayedWidth": 320
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Energy Systems & Transition",
+          "title": "Attacks on Ukraine power plants show Russia has given up on military victory | Ukraine",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 740,
+            "height": 740,
+            "width": 320
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 272
+          },
+          "story": {
+            "top": 352.625,
+            "bottom": 587.21875,
+            "height": 234.59375,
+            "width": 272
+          },
+          "footer": {
+            "top": 607.21875,
+            "bottom": 720,
+            "height": 112.78125,
+            "width": 272
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 320
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Environment, Nature & Circularity",
+          "title": "Brazilian Amazon deforestation falls to lowest on record as pivotal vote looms",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 740,
+            "height": 740,
+            "width": 320
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 272
+          },
+          "story": {
+            "top": 366.125,
+            "bottom": 587.21875,
+            "height": 221.09375,
+            "width": 272
+          },
+          "footer": {
+            "top": 607.21875,
+            "bottom": 720,
+            "height": 112.78125,
+            "width": 272
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 0,
+            "displayedWidth": 320
+          },
+          "storyCount": 1
+        },
+        {
+          "category": "Sustainable Business, ESG & Finance",
+          "title": "No relevant updates are available.",
+          "overflow": false,
+          "hero": {
+            "top": 0,
+            "bottom": 740,
+            "height": 740,
+            "width": 320
+          },
+          "search": {
+            "top": 108,
+            "bottom": 232.625,
+            "height": 124.625,
+            "width": 272
+          },
+          "story": {
+            "top": 425.84375,
+            "bottom": 587.21875,
+            "height": 161.375,
+            "width": 272
+          },
+          "footer": {
+            "top": 607.21875,
+            "bottom": 720,
+            "height": 112.78125,
+            "width": 272
+          },
+          "selectedCategoryVisible": true,
+          "image": {
+            "naturalWidth": 320,
+            "displayedWidth": 320
+          },
+          "storyCount": 0
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "interactions": {
+    "next": true,
+    "previous": true,
+    "keyboardWrap": true,
+    "reducedMotion": true,
+    "search": true
+  }
+}

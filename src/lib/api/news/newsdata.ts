@@ -46,14 +46,16 @@ export const PAGE_BASKET_SECONDS = 12 * 3600;
  *
  * This is NOT the access gate. p. 210 is explicit that the post-ingestion
  * allowlist is "the definitive gate", and that is applied in the aggregator.
- * Two practical notes:
+ * Practical notes:
  *  - The free plan rejects more than five domains per query with
  *    "Number of domain cannot exceeded 5 in a single query."
- *  - These five are the allowlisted domains NewsData actually indexes as news
- *    publishers. Institutional sites (unfccc.int, esa.int) are covered by the
- *    RSS and GDELT connectors instead.
+ *  - On 18 October, worldbank.org returned UnsupportedFilter even though the
+ *    other four domains succeeded individually. One unsupported publisher
+ *    invalidated every basket. Keep World Bank in the definitive allowlist;
+ *    discover its articles through the other connectors instead.
+ *  - Institutional sites not indexed here use RSS and GDELT coverage.
  */
-const PREFILTER_DOMAINS = ['reuters.com', 'theguardian.com', 'iea.org', 'worldbank.org', 'un.org'];
+const PREFILTER_DOMAINS = ['reuters.com', 'theguardian.com', 'iea.org', 'un.org'];
 
 const RIGHTS =
   'Metadata discovery under the NewsData.io free commercial plan. Headline, supplied description and link only; publisher retains article and image rights.';

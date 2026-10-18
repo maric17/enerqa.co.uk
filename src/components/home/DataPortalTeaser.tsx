@@ -56,7 +56,8 @@ export const DataPortalTeaser = async () => {
   return (
     <section className="bg-[var(--paper-alt)] py-16 lg:py-20" aria-labelledby="h09-data-portal">
       <Container>
-        <div className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-10 md:grid-cols-[1fr_1.1fr]">
+        {/* Reserve a second column only when an eligible dataset exists. */}
+        <div className={`mx-auto grid grid-cols-1 items-center gap-10 ${dataset ? 'max-w-5xl md:grid-cols-[1fr_1.1fr]' : 'max-w-3xl'}`}>
           <div>
             <Typography variant="h2" id="h09-data-portal" className="home-h2 mb-4 text-[var(--color-ink)]">
               Explore the Data Portal
