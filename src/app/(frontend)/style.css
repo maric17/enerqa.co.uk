@@ -2926,6 +2926,14 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   letter-spacing: -.025em;
   text-wrap: balance;
 }
+/* Keep the introduction readable over the image and fluid on narrow screens. */
+.home-hero-description {
+  max-width: 68ch;
+  margin: 0 0 20px;
+  color: #e1edf2;
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.5;
+}
 .home-hero-search form {
   display: flex;
   align-items: center;

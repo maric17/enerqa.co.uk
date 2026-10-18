@@ -28,6 +28,10 @@ export const Hero = ({ children }: { children?: React.ReactNode }) => {
       <Container className="home-hero-search-layer">
         <div className="home-hero-search">
           <h1>Project Development for a Sustainable Future</h1>
+          {/* Explain Enerqa's scope directly below the title, before the search. */}
+          <p className="home-hero-description">
+            From an initial idea to feasibility, finance and implementation, Enerqa develops projects across climate action, energy transition, environment, nature, circularity, ESG and sustainable finance.
+          </p>
           <form onSubmit={event => { event.preventDefault(); runSearch(query) }} role="search" aria-label="Explore Enerqa">
             <label htmlFor="home-hero-query" className="sr-only">Ask a question or explore a topic</label>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
