@@ -1,0 +1,33 @@
+services:
+  umami:
+    # Official 3.4.0 image digest checked at GHCR on 3 Oct 2026; no automatic upgrade.
+    image: ghcr.io/umami-software/umami@sha256:85909afc45bdcda1917394594a087421fdbb05610fded0fa9f6fb861abb2f367
+    ports:
+      # Put an HTTPS reverse proxy in front. Do not expose the administration port directly.
+      - "127.0.0.1:3001:3000"
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD:?Set a random hex database password}@db:5432/umami
+      APP_SECRET: ${UMAMI_APP_SECRET:?Set a random application secret}
+      TWO_FACTOR_ENCRYPTION_KEY: ${UMAMI_2FA_KEY:?Set a 64-character hex encryption key}
+    depends_on:
+      db:
+        condition: service_healthy
+    init: true
+    restart: unless-stopped
+  db:
+    # Dedicated analytics storage; never point Umami at the shared website CMS database.
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD:?Set a random hex database password}
+    volumes:
+      - umami-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+volumes:
+  umami-data:

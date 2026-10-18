@@ -1,7 +1,19 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+// Handoff p. 227: this stays the ONE canonical lifecycle page - every
+// contextual lifecycle module elsewhere on the site points back here, so the
+// canonical URL matters more than usual.
+export const metadata: Metadata = {
+  title: 'Project Development and Lifecycle Support',
+  description:
+    'From needs assessment and feasibility to finance, delivery and MRV - the ten-stage lifecycle Enerqa applies across climate, energy, environment and ESG projects.',
+  alternates: { canonical: '/project-development' },
+};
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { ProjectLifecycle } from '@/components/shared/ProjectLifecycle';
 
 export default function ProjectDevelopmentPage() {
   return (
@@ -10,8 +22,15 @@ export default function ProjectDevelopmentPage() {
       {/* P01 Project Development and Lifecycle Support */}
       <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-8 leading-tight text-white">Project Development and Lifecycle Support</h1>
+          {/* Keep title, lifecycle and narrative in this order on every screen. */}
+          <div className="mx-auto flex max-w-4xl flex-col gap-10">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white text-center">Project Development and Lifecycle Support</h1>
+            <nav
+              aria-label="Project lifecycle stages"
+              className="w-full rounded-2xl bg-paper-alt p-6 text-ink lg:p-0"
+            >
+              <ProjectLifecycle />
+            </nav>
             <div className="prose prose-lg prose-invert max-w-none text-gray-300">
               <p className="mb-6 leading-relaxed">
                 Projects are better positioned for investment and successful delivery when the underlying opportunity is clearly defined, thoroughly tested and properly structured. An initial need or idea must be developed into a coherent concept, assessed for technical, commercial, financial, environmental and social feasibility, and translated into a credible business and delivery model.
@@ -44,40 +63,6 @@ export default function ProjectDevelopmentPage() {
             <p className="text-lg text-gray-600 leading-relaxed mb-8">
               Clients may engage Enerqa throughout the complete project cycle or at a specific point where further evidence, structure or delivery support is required.
             </p>
-            
-            {/* 10 Anchor Links */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--color-paper-alt)] p-8 rounded-xl border border-gray-200">
-              <a href="#needs-opportunity" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">01</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Needs and Opportunity Assessment</span>
-              </a>
-              <a href="#idea-concept" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">02</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Idea and Concept Development</span>
-              </a>
-              <a href="#feasibility" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">03</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Pre-Feasibility and Feasibility Studies</span>
-              </a>
-              <a href="#business-financial" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">04</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Business and Financial Modelling</span>
-              </a>
-              <a href="#finance-partnership" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">05</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Finance and Partnership Structuring</span>
-              </a>
-              <a href="#design-tendering" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">06</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Design, Tendering and Procurement Support</span>
-              </a>
-              <a href="#implementation-management" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">07</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Implementation and Project Management Support</span>
-              </a>
-              <a href="#mrv-monitoring" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">08</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">MRV, Monitoring and Evaluation</span>
-              </a>
-              <a href="#operational-improvement" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">09</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Operational Improvement</span>
-              </a>
-              <a href="#evaluation-transition" className="flex items-start gap-3 group text-[var(--color-dark)] hover:text-[var(--color-secondary)] transition-colors">
-                <span className="text-[var(--color-primary)] font-bold">10</span> <span className="font-medium underline decoration-gray-300 group-hover:decoration-[var(--color-secondary)] underline-offset-4">Evaluation, Valuation, Transition and Exit</span>
-              </a>
-            </div>
           </div>
 
           <div className="space-y-16 max-w-4xl relative border-l-2 border-gray-100 pl-8 ml-4">
@@ -138,7 +123,7 @@ export default function ProjectDevelopmentPage() {
             {/* Step 7 */}
             <div id="implementation-management" className="scroll-mt-24 relative">
               <div className="absolute -left-[41px] top-0 w-8 h-8 rounded-full bg-white border-2 border-[var(--color-primary)] text-[var(--color-dark)] font-bold flex items-center justify-center text-sm z-10">07</div>
-              <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-4">Implementation and Project Management Support</h3>
+              <h3 className="text-2xl font-bold text-[var(--color-dark)] mb-4">Implementation and Project-Management Support</h3>
               <p className="text-gray-600 mb-4 leading-relaxed">Implementation turns the developed concept into functioning assets, systems or programmes. Effective project management coordinates scope, schedules, budgets, contractors, partners, approvals and stakeholder responsibilities while maintaining oversight of quality, risk and agreed outcomes.</p>
               <p className="text-gray-600 mb-4 leading-relaxed">Progress reviews, issue tracking, change control and structured reporting allow emerging challenges to be addressed before they undermine delivery. Environmental, social, technical and financial commitments established during project preparation should remain visible throughout implementation.</p>
               <p className="text-gray-600 leading-relaxed">Support may continue through construction, system deployment, commissioning, operational readiness, handover and the transition into routine operation.</p>
@@ -255,7 +240,7 @@ export default function ProjectDevelopmentPage() {
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
               Whether you are exploring an early idea, assessing project feasibility, preparing for investment, moving towards implementation or seeking to improve an existing operation, the starting point is a clear understanding of the opportunity and the decisions ahead.
             </p>
-            <p className="text-lg text-gray-400 mb-10 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-3xl mx-auto">
               Share the project's purpose, location, current stage and principal challenges with Enerqa. An initial discussion can identify the technical, commercial, financial, environmental, social or implementation questions that need to be resolved and establish an appropriate scope of support.
               <br/><br/>
               A complete project brief is not required. Where available, provide the sector or industry, intended outcome, work already completed, stakeholders involved and the type of assistance being considered.

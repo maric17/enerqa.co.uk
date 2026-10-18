@@ -10,6 +10,10 @@ export default defineConfig({
     globals: true,
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
+      // Server actions use Payload's Next alias; resolve it before applying their test mocks.
+      '@payload-config': path.resolve(import.meta.dirname, './src/payload.config.ts'),
+      // Next resolves this marker itself; tests use the installed empty server entry.
+      'server-only': path.resolve(import.meta.dirname, './node_modules/next/dist/compiled/server-only/empty.js'),
     },
   },
 })

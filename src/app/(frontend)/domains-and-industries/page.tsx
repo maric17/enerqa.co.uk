@@ -1,7 +1,24 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Globe, BarChart2 } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@/components/ui/Container';
+
+// Static metadata: this page's content never changes per-request, so a plain
+// `metadata` object is enough (no need for the async `generateMetadata`).
+// The root layout appends " | Enerqa" to the title via its template.
+// Handoff p. 227: unique descriptive title + meta description on every page.
+export const metadata: Metadata = {
+  title: 'Domains and Industries',
+  description:
+    "Enerqa's work is organised around four interconnected domains and thirteen industries, connected by project development, data, modelling and MRV.",
+  alternates: {
+    // Canonical URL stops the retired /services pages competing with this one
+    // once the redirects in the handoff redirect register (p. 228) are in place.
+    canonical: '/domains-and-industries',
+  },
+};
 
 export default function DomainsAndIndustriesPage() {
   return (
@@ -17,10 +34,10 @@ export default function DomainsAndIndustriesPage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#domains" className="inline-flex items-center gap-2 bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors">
-                Explore Domains <ArrowRight className="w-4 h-4" />
+                Explore Domains <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-4 h-4" />
               </a>
               <a href="#industries" className="inline-flex items-center gap-2 bg-white text-[var(--color-dark)] font-bold py-3 px-6 rounded-full border border-gray-300 hover:border-[var(--color-dark)] transition-colors">
-                Explore Industries <ArrowRight className="w-4 h-4" />
+                Explore Industries <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -30,49 +47,49 @@ export default function DomainsAndIndustriesPage() {
       {/* O02 Our Domains */}
       <section id="domains" className="py-20 scroll-mt-20">
         <Container>
-          <div className="mb-12">
+          <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Our Domains</h2>
-            <p className="text-lg text-gray-600 max-w-3xl">Each domain brings together a distinct set of technical, environmental, commercial and investment questions. Select a domain to explore its full narrative, specific work areas and related knowledge, data and tools.</p>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Each domain brings together a distinct set of technical, environmental, commercial and investment questions. Select a domain to explore its full narrative, specific work areas and related knowledge, data and tools.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* O02 1 */}
             <div className="bg-white p-8 md:p-10 rounded-xl border border-gray-200 hover:border-[var(--color-primary)] hover:shadow-lg transition-all flex flex-col h-full group">
-              <Globe className="w-12 h-12 text-[var(--color-primary)] mb-6" />
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary-deep)]">01 / Climate</p>
               <h3 className="text-2xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors mb-4">Climate Action &amp; Carbon Management</h3>
               <p className="text-gray-600 mb-8 flex-grow leading-relaxed">Climate change action becomes credible when commitments are translated into practical programmes, measurable results and investable projects. The starting point may be a national climate target, a corporate decarbonisation ambition, a sectoral challenge or an individual project opportunity. In every case, the pathway must be grounded in reliable emissions data and a clear understanding of climate risks and priorities.</p>
               <Link href="/domains/climate-action-carbon-management" className="text-[var(--color-secondary)] font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                Explore Climate Action &amp; Carbon Management <ArrowRight className="w-5 h-5" />
+                Explore Climate Action &amp; Carbon Management <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
               </Link>
             </div>
 
             {/* O02 2 */}
             <div className="bg-white p-8 md:p-10 rounded-xl border border-gray-200 hover:border-[var(--color-primary)] hover:shadow-lg transition-all flex flex-col h-full group">
-              <div className="w-12 h-12 text-[var(--color-primary)] mb-6 flex items-center text-3xl">⚡</div>
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary-deep)]">02 / Energy</p>
               <h3 className="text-2xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors mb-4">Energy Systems &amp; Transition</h3>
               <p className="text-gray-600 mb-8 flex-grow leading-relaxed">The energy transition is reshaping how energy is produced, managed, financed and consumed. Governments, businesses and project developers must identify solutions that lower costs and emissions without compromising reliability, resilience or commercial performance.</p>
               <Link href="/domains/energy-systems-transition" className="text-[var(--color-secondary)] font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                Explore Energy Systems &amp; Transition <ArrowRight className="w-5 h-5" />
+                Explore Energy Systems &amp; Transition <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
               </Link>
             </div>
 
             {/* O02 3 */}
             <div className="bg-white p-8 md:p-10 rounded-xl border border-gray-200 hover:border-[var(--color-primary)] hover:shadow-lg transition-all flex flex-col h-full group">
-              <div className="w-12 h-12 text-[var(--color-primary)] mb-6 flex items-center text-3xl">🌱</div>
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary-deep)]">03 / Environment</p>
               <h3 className="text-2xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors mb-4">Environment, Nature &amp; Circularity</h3>
               <p className="text-gray-600 mb-8 flex-grow leading-relaxed">Projects and operations depend on healthy environmental, social and natural systems. Understanding that relationship early makes it possible to manage impacts, meet regulatory and safeguard requirements, reduce liabilities and improve project design.</p>
               <Link href="/domains/environment-nature-circularity" className="text-[var(--color-secondary)] font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                Explore Environment, Nature &amp; Circularity <ArrowRight className="w-5 h-5" />
+                Explore Environment, Nature &amp; Circularity <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
               </Link>
             </div>
 
             {/* O02 4 */}
             <div className="bg-white p-8 md:p-10 rounded-xl border border-gray-200 hover:border-[var(--color-primary)] hover:shadow-lg transition-all flex flex-col h-full group">
-              <BarChart2 className="w-12 h-12 text-[var(--color-primary)] mb-6" />
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary-deep)]">04 / Business</p>
               <h3 className="text-2xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors mb-4">Sustainable Business, ESG &amp; Finance</h3>
               <p className="text-gray-600 mb-8 flex-grow leading-relaxed">Sustainability creates lasting value when it influences strategy, governance, investment and daily operations. ESG strategy and reporting therefore begin with understanding what is material to an organisation, where climate and ESG risks arise, how responsible supply chains are managed, and whether internal systems are ready to deliver and measure improvement.</p>
               <Link href="/domains/sustainable-business-esg-finance" className="text-[var(--color-secondary)] font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                Explore Sustainable Business, ESG &amp; Finance <ArrowRight className="w-5 h-5" />
+                Explore Sustainable Business, ESG &amp; Finance <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -83,7 +100,7 @@ export default function DomainsAndIndustriesPage() {
       <section id="industries" className="py-20 bg-[var(--color-paper-alt)] border-t border-gray-200 scroll-mt-20">
         <Container>
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Industries We Work In</h2>
+            <h2 className="text-3xl font-bold text-[var(--color-dark)] mb-4">Industries</h2>
             <p className="text-lg text-gray-600 max-w-3xl">The same development discipline can be applied across different sectors, with the evidence, risks and delivery requirements adapted to the industry. Select an industry to explore the relevant domains and forms of support.</p>
           </div>
 
@@ -109,8 +126,8 @@ export default function DomainsAndIndustriesPage() {
                 className="group flex justify-between items-center p-6 md:p-8 hover:bg-[var(--color-paper-alt)] transition-colors"
               >
                 <span className="text-xl font-bold text-[var(--color-dark)] group-hover:text-[var(--color-secondary)] transition-colors">{industry.name}</span>
-                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[var(--color-secondary)] group-hover:text-white transition-all text-gray-400">
-                  <ArrowRight className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[var(--color-secondary)] group-hover:text-white transition-all text-gray-500">
+                  <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
                 </div>
               </Link>
             ))}
@@ -127,7 +144,7 @@ export default function DomainsAndIndustriesPage() {
               A project can begin with a need, an idea, an existing study or an operating asset. Concept development, feasibility, financing, delivery and performance measurement connect technical analysis with the decisions required at each stage.
             </p>
             <Link href="/project-development" className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-[var(--color-dark)] font-bold py-4 px-8 rounded-full hover:bg-[var(--color-primary-dark)] transition-colors">
-              Explore Our Project Development Approach <ArrowRight className="w-5 h-5" />
+              Explore Our Project Development Approach <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" className="w-5 h-5" />
             </Link>
           </div>
         </Container>

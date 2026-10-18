@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact CTA Designs</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: #0b1120;
+      color: #fff;
+      padding: 3rem;
+      overflow-x: hidden;
+    }
+
+    .option-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #a7f3d0;
+    }
+    .option-desc {
+      text-align: center;
+      margin-bottom: 4rem;
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-bottom: 8rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    /* Option A: Glowing Glass */
+    .opt-a-wrapper {
+      position: relative;
+      background: #0f172a;
+      border-radius: 32px;
+      padding: 4rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+
+    .glow-1 {
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: rgba(52, 211, 153, 0.3);
+      filter: blur(100px);
+      border-radius: 50%;
+    }
+    .glow-2 {
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: rgba(56, 189, 248, 0.2);
+      filter: blur(100px);
+      border-radius: 50%;
+    }
+
+    .opt-a-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .opt-a-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    .opt-a-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #ffffff, #e2e8f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .opt-a-card:nth-child(1) .opt-a-title {
+      background: linear-gradient(to right, #34d399, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .opt-a-text {
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Option B: Premium Gradients & Grain */
+    .opt-b-card {
+      border-radius: 24px;
+      padding: 3.5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .opt-b-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .opt-b-teal {
+      background: linear-gradient(135deg, #0f766e 0%, #064e3b 100%);
+      border: 1px solid rgba(52,211,153,0.2);
+    }
+    .opt-b-navy {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .opt-b-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .opt-b-text {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Form Elements */
+    .input-row {
+      display: flex;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s;
+    }
+    .input-row:focus-within {
+      border-color: #34d399;
+      background: rgba(255,255,255,0.1);
+    }
+    .opt-b-teal .input-row {
+      background: rgba(0,0,0,0.2);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 1rem 1.5rem;
+      color: #fff;
+      outline: none;
+      font-size: 1rem;
+    }
+    .input-field::placeholder { color: rgba(255,255,255,0.4); }
+
+    .btn-submit {
+      background: #34d399;
+      color: #064e3b;
+      font-weight: 600;
+      border: none;
+      padding: 0 2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #10b981; color: white;}
+    
+    .opt-b-teal .btn-submit {
+      background: #fff;
+      color: #0f766e;
+    }
+    .opt-b-teal .btn-submit:hover { background: #e2e8f0; }
+
+    .checkbox-row {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      align-items: flex-start;
+    }
+    .checkbox-row input { margin-top: 0.25rem; }
+    .checkbox-row a { color: #34d399; text-decoration: none; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 99px;
+      font-weight: 600;
+      width: fit-content;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: #34d399;
+      color: #34d399;
+    }
+    .opt-b-navy .btn-outline {
+      background: #34d399;
+      color: #064e3b;
+      border: none;
+    }
+    .opt-b-navy .btn-outline:hover {
+      background: #10b981;
+      color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Option A -->
+  <div class="container">
+    <h2 class="option-title">Option 1: Glowing Glassmorphism</h2>
+    <p class="option-desc">Cards hover over a shared dark panel with subtle neon back-glows. Keeps the sections unified while making them pop.</p>
+    
+    <div class="opt-a-wrapper">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+      
+      <div class="grid-2">
+        <!-- Newsletter -->
+        <div class="opt-a-card">
+          <h3 class="opt-a-title">Stay Informed</h3>
+          <p class="opt-a-text">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</p>
+          <form>
+            <div class="input-row">
+              <input type="email" class="input-field" placeholder="* Your email address">
+              <button class="btn-submit">Subscribe</button>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox">
+              <label>I agree with the terms of the <a href="#">Privacy Notice</a> and consent to my personal data being processed.</label>
+            </div>
+          </form>
+        </div>
+
+        <!-- Discuss Project -->
+        <div class="opt-a-card">
+          <h3 class="opt-a-title">Discuss Your Project</h3>
+          <p class="opt-a-text">Share an idea, an investment opportunity or a challenge at any stage of development. An initial conversation can help define the evidence and support needed next.</p>
+          <a href="#" class="btn-outline">
+            Discuss Your Project
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Option B -->
+  <div class="container">
+    <h2 class="option-title">Option 2: Deep Gradients & Noise Texture</h2>
+    <p class="option-desc">Rich, premium gradients with a very subtle noise texture overlay for a physical, high-end print feel.</p>
+    
+    <div class="grid-2">
+      <!-- Newsletter -->
+      <div class="opt-b-card opt-b-teal">
+        <h3 class="opt-b-title">Stay Informed</h3>
+        <p class="opt-b-text">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</p>
+        <form style="position: relative; z-index: 1;">
+          <div class="input-row">
+            <input type="email" class="input-field" placeholder="* Your email address">
+            <button class="btn-submit">Subscribe</button>
+          </div>
+          <div class="checkbox-row" style="color: rgba(255,255,255,0.7);">
+            <input type="checkbox">
+            <label>I agree with the terms of the <a href="#" style="color:#fff;">Privacy Notice</a> and consent to my personal data being processed.</label>
+          </div>
+        </form>
+      </div>
+
+      <!-- Discuss Project -->
+      <div class="opt-b-card opt-b-navy">
+        <h3 class="opt-b-title">Discuss Your Project</h3>
+        <p class="opt-b-text">Share an idea, an investment opportunity or a challenge at any stage of development. An initial conversation can help define the evidence and support needed next.</p>
+        <a href="#" class="btn-outline" style="position: relative; z-index: 1;">
+          Discuss Your Project
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

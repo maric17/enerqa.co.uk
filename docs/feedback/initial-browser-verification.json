@@ -1,0 +1,131 @@
+{
+  "viewports": [
+    {
+      "width": 1366,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 358.578125,
+        "bottom": 621.171875,
+        "height": 262.59375,
+        "width": 1200
+      },
+      "markets": {
+        "top": 633.171875,
+        "bottom": 895.765625,
+        "height": 262.59375,
+        "width": 1200
+      },
+      "feedBottom": 925.640625,
+      "image": {
+        "naturalWidth": 140,
+        "displayedWidth": 1198,
+        "src": "https://i.guim.co.uk/img/media/364e267f5046e17aa517e0e159f2c8d2154218ce/616_0_4167_3334/master/4167.jpg?width=140&quality=85&auto=format&fit=max&s=a5ba1f2de783d83ebac92561b4faf797"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 347.078125,
+        "bottom": 596.578125,
+        "height": 249.5,
+        "width": 944
+      },
+      "markets": {
+        "top": 608.578125,
+        "bottom": 858.078125,
+        "height": 249.5,
+        "width": 944
+      },
+      "feedBottom": 887.953125,
+      "image": {
+        "naturalWidth": 140,
+        "displayedWidth": 942,
+        "src": "https://i.guim.co.uk/img/media/364e267f5046e17aa517e0e159f2c8d2154218ce/616_0_4167_3334/master/4167.jpg?width=140&quality=85&auto=format&fit=max&s=a5ba1f2de783d83ebac92561b4faf797"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 537.34375,
+        "bottom": 931.34375,
+        "height": 394,
+        "width": 342
+      },
+      "markets": {
+        "top": 943.34375,
+        "bottom": 1344.59375,
+        "height": 401.25,
+        "width": 342
+      },
+      "feedBottom": 1410.21875,
+      "image": {
+        "naturalWidth": 140,
+        "displayedWidth": 340,
+        "src": "https://i.guim.co.uk/img/media/364e267f5046e17aa517e0e159f2c8d2154218ce/616_0_4167_3334/master/4167.jpg?width=140&quality=85&auto=format&fit=max&s=a5ba1f2de783d83ebac92561b4faf797"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 593.6875,
+        "bottom": 1032.28125,
+        "height": 438.59375,
+        "width": 272
+      },
+      "markets": {
+        "top": 1044.28125,
+        "bottom": 1586.03125,
+        "height": 541.75,
+        "width": 272
+      },
+      "feedBottom": 1669.53125,
+      "image": {
+        "naturalWidth": 140,
+        "displayedWidth": 270,
+        "src": "https://i.guim.co.uk/img/media/364e267f5046e17aa517e0e159f2c8d2154218ce/616_0_4167_3334/master/4167.jpg?width=140&quality=85&auto=format&fit=max&s=a5ba1f2de783d83ebac92561b4faf797"
+      },
+      "carouselNavigation": true
+    }
+  ],
+  "pages": [
+    {
+      "menuDomainLinks": 4,
+      "menuIndustryLinks": 13
+    },
+    {
+      "path": "/domains-and-industries",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "path": "/knowledge-hub",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "publicationFilterLabels": [
+        "Domain"
+      ]
+    },
+    {
+      "path": "/knowledge-hub/global-intelligence",
+      "status": 200,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

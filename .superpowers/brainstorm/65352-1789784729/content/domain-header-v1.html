@@ -1,0 +1,65 @@
+<h2>Domain Hero Redesign</h2>
+<p class="subtitle">Which layout works best for adding an image to the domain header?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Split Layout (Text Left, Image Right)</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div style="display: flex; gap: 1rem; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff;">
+          <div style="flex: 1; padding: 1.5rem;">
+            <div style="font-size: 0.75rem; color: #00cfc8; margin-bottom: 0.5rem; font-weight: bold;">Home / Domains / Title</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #0972b8; margin-bottom: 1rem;">Climate Action & Carbon Management</div>
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 1rem; line-height: 1.4;">Climate change action becomes credible when commitments are translated into practical programmes.</div>
+            <div style="display: inline-block; background: #00cfc8; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Discuss Your Project</div>
+          </div>
+          <div style="flex: 1; background: #eee; display: flex; align-items: center; justify-content: center; min-height: 200px;">
+            <span style="color: #999;">[ Hero Image ]</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 1rem;">Balances text readability with strong visual impact. Very common in modern corporate sites.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Overlay Layout (Full-Width Image)</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div style="position: relative; border-radius: 8px; overflow: hidden; background: #222; min-height: 200px; display: flex; align-items: flex-end; padding: 1.5rem;">
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(9,114,184,0.9), rgba(0,207,200,0.5)); z-index: 1;"></div>
+          <div style="position: relative; z-index: 2; color: #fff; max-width: 70%;">
+            <div style="font-size: 0.75rem; color: #00cfc8; margin-bottom: 0.5rem; font-weight: bold;">Home / Domains / Title</div>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Climate Action & Carbon Management</div>
+            <div style="font-size: 0.875rem; color: #f0f0f0; margin-bottom: 1rem; line-height: 1.4;">Climate change action becomes credible when commitments are translated into practical programmes.</div>
+            <div style="display: inline-block; background: #00cfc8; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Discuss Your Project</div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 1rem;">Highly immersive and premium. Uses the brand gradient over the image.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Stacked Layout (Image Banner above Centered Text)</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff;">
+          <div style="background: #eee; height: 100px; display: flex; align-items: center; justify-content: center;">
+             <span style="color: #999;">[ Wide Hero Image ]</span>
+          </div>
+          <div style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 0.75rem; color: #00cfc8; margin-bottom: 0.5rem; font-weight: bold;">Home / Domains / Title</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #0972b8; margin-bottom: 1rem;">Climate Action & Carbon Management</div>
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 1rem; line-height: 1.4; max-width: 80%; margin-left: auto; margin-right: auto;">Climate change action becomes credible when commitments are translated into practical programmes.</div>
+            <div style="display: inline-block; background: #00cfc8; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Discuss Your Project</div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 1rem;">Editorial and clean. Good if images are abstract or decorative.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,436 @@
+{
+  "status": "applied_and_locally_verified",
+  "authorisation": "User authorised relevant domain, industry, tool and dataset assignments on 11 October 2026, with Codex choosing the matches. Tools and datasets remain empty without a clear published match.",
+  "source": "Current CMS article titles, excerpts and bodies; existing domain/industry records, validated tools and verified-open datasets.",
+  "articles": [
+    {
+      "slug": "the-evolution-of-climate-change-understanding-and-response",
+      "title": "The Evolution of Climate Change Understanding and Response",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "government-regulators-public-institutions",
+        "healthcare-education-institutional-estates"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Climate science history and international climate agreements are relevant to public policy and education."
+    },
+    {
+      "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+      "title": "Climate Forcers: The Hidden Drivers of Global Warming",
+      "domains": [
+        "climate-action-carbon-management",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "oil-gas-petrochemicals",
+        "industry-manufacturing-materials",
+        "agriculture-food-aquaculture"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Long- and short-lived climate forcers from fossil fuels, industrial gases and agricultural emissions; country emissions provide related context."
+    },
+    {
+      "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+      "title": "Weathering the Storm: Climate Resilience in Supply Chains",
+      "domains": [
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "transport-logistics-mobility",
+        "industry-manufacturing-materials",
+        "infrastructure-real-estate-industrial-zones"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Supply-chain emissions and climate disruption affect transport, manufacturing facilities and ports; emissions inventories provide supporting context."
+    },
+    {
+      "slug": "climate-change-and-war-a-complex-interplay",
+      "title": "Climate Change and War: A Complex Interplay",
+      "domains": [
+        "climate-action-carbon-management",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Climate security, environmental governance, displacement and climate-resilient recovery are public-policy priorities. No available tool or dataset specifically covers the conflict analysis."
+    },
+    {
+      "slug": "greenhouse-gases-and-climate-change-an-overview",
+      "title": "Greenhouse Gases and Climate Change: An Overview",
+      "domains": [
+        "climate-action-carbon-management",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "government-regulators-public-institutions",
+        "energy-utilities",
+        "industry-manufacturing-materials"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Greenhouse gases, fossil-fuel and industrial emissions, biodiversity impacts and Paris Agreement policy; country greenhouse-gas data is directly relevant."
+    },
+    {
+      "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
+      "title": "Breathing vs. Burning: The Carbon Footprint Contrast",
+      "domains": [
+        "climate-action-carbon-management",
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "energy-utilities",
+        "oil-gas-petrochemicals"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Compares the biological carbon cycle with fossil-fuel combustion and its emissions footprint; energy-sector and country emissions context fits."
+    },
+    {
+      "slug": "ghg-emissions-the-burden-on-our-planet",
+      "title": "GHG EMISSIONS – The Burden on Our Planet",
+      "domains": [
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Overview of the greenhouse-gas burden and the need for emissions management, relevant to climate policy and country emissions inventories."
+    },
+    {
+      "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+      "title": "Exploring the Rainbow of Hydrogen Technology: A Path to Sustainable Energy and Climate Resilience",
+      "domains": [
+        "energy-systems-transition",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "energy-utilities",
+        "oil-gas-petrochemicals",
+        "industry-manufacturing-materials",
+        "transport-logistics-mobility"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Hydrogen production pathways, natural-gas feedstocks and decarbonisation of heavy industry and transport. No published hydrogen-specific tool or dataset is available."
+    },
+    {
+      "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+      "title": "Green Credit Lines in the Gulf Cooperation Council: Evaluating Opportunities, Overcoming Challenges, and Assessing the Impact on Energy Transition in ",
+      "domains": [
+        "sustainable-business-esg-finance",
+        "energy-systems-transition",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "financial-institutions-investors-development-finance",
+        "energy-utilities",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Green credit lines, financial institutions and national policy for renewable investment and mitigation; country emissions inform the mitigation context. The green-project scoring tool is unvalidated and is not linked."
+    },
+    {
+      "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+      "title": "Supercritical Water Technology (SCWT) - A Sustainable Solution for Waste Management in Qatar",
+      "domains": [
+        "environment-nature-circularity",
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "water-waste-circular-economy",
+        "industry-manufacturing-materials"
+      ],
+      "tools": [],
+      "datasets": [
+        "municipal-waste"
+      ],
+      "rationale": "Supercritical water waste treatment, wastewater reuse, industrial waste, nutrient recovery and energy recovery; municipal waste statistics relate to the waste-management context."
+    },
+    {
+      "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+      "title": "Driving Climate Action Through Renewable Energy Finance: Insights from an Expert",
+      "domains": [
+        "sustainable-business-esg-finance",
+        "energy-systems-transition",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "financial-institutions-investors-development-finance",
+        "energy-utilities",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [
+        "easysolar"
+      ],
+      "datasets": [],
+      "rationale": "Renewable-project financing, investment returns and public-private finance; easySOLAR supports initial solar-project cost and financial-performance assessment."
+    },
+    {
+      "slug": "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar",
+      "title": "I-RECs - A catalyst for renewable energy investment in Qatar",
+      "domains": [
+        "energy-systems-transition",
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "energy-utilities",
+        "financial-institutions-investors-development-finance",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [
+        "easysolar"
+      ],
+      "datasets": [
+        "solar-resource",
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Solar PV deployment, renewable-electricity certificates, investment and emissions targets in Qatar; solar-resource data and easySOLAR support solar assessment, with country emissions providing context."
+    },
+    {
+      "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+      "title": "The Role of Artificial Intelligence in Environmental Sustainability",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management",
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "technology-telecoms-data-infrastructure",
+        "energy-utilities",
+        "water-waste-circular-economy"
+      ],
+      "tools": [],
+      "datasets": [
+        "greenhouse-gas-emissions",
+        "municipal-waste"
+      ],
+      "rationale": "AI applications in climate monitoring, efficient energy systems and water/waste management; emissions and waste datasets are related evidence. No published AI-specific tool is available."
+    },
+    {
+      "slug": "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake",
+      "title": "The Hidden Costs of Your Burger and Pizza: What’s Really at Stake?",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [
+        "adjusted-net-savings",
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Food-production externalities, environmental costs, carbon taxes and resource depletion; adjusted net savings captures pollution/resource costs at country level, and emissions data adds context."
+    },
+    {
+      "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+      "title": "Practical Tips for Reducing Food Waste at Home: A Step Towards Sustainability",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture",
+        "water-waste-circular-economy"
+      ],
+      "tools": [],
+      "datasets": [
+        "municipal-waste"
+      ],
+      "rationale": "Domestic food waste, methane, municipal-waste generation and circular consumption; municipal-waste data is a direct subject match."
+    },
+    {
+      "slug": "sustainable-tourism",
+      "title": "Sustainable Tourism",
+      "domains": [
+        "environment-nature-circularity",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "tourism-hospitality-destinations"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Responsible tourism, ecosystem protection, cultural heritage and benefits for local communities. No available tool or dataset specifically covers tourism impacts."
+    },
+    {
+      "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+      "title": "The Hidden Link Between Cigarette Smoking and Climate Change",
+      "domains": [
+        "climate-action-carbon-management",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "healthcare-education-institutional-estates",
+        "industry-manufacturing-materials",
+        "agriculture-food-aquaculture",
+        "water-waste-circular-economy"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "The tobacco lifecycle connects farming and deforestation, manufacturing emissions, litter and public-health education. No tobacco-specific tool or dataset is available."
+    },
+    {
+      "slug": "empowering-communities-through-social-sustainability-a-call-to-action",
+      "title": "Empowering Communities Through Social Sustainability: A Call to Action",
+      "domains": [
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "government-regulators-public-institutions",
+        "healthcare-education-institutional-estates"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Social inclusion, equality, migration, public services, health and education are the social pillar of sustainability. No direct matching tool or dataset is available."
+    },
+    {
+      "slug": "the-origins-of-urban-greening",
+      "title": "The Origins of Urban Greening",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "infrastructure-real-estate-industrial-zones",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [
+        "greenscale-pro"
+      ],
+      "datasets": [],
+      "rationale": "Urban green roofs, adaptive infrastructure, city planning, cooling and resilience; GreenScale Pro directly supports sustainability and resilience assessment in buildings and infrastructure."
+    },
+    {
+      "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+      "title": "Environmental Impacts of Mercury Use in Artisanal Gold Mining in Africa (Sudan- case): The Amplifying Effect of Torrential Rains and Floods",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "mining-natural-resources",
+        "water-waste-circular-economy",
+        "healthcare-education-institutional-estates"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Artisanal mining, mercury pollution, flood-driven contamination and public-health hazards. The ESIA tool is unvalidated, and no published mercury-pollution dataset is available."
+    },
+    {
+      "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+      "title": "Understanding the DPSIR, DPCER, DPSWR, and DPSER Frameworks in analyzing the interactions between human activities and the environment",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management"
+      ],
+      "industries": [
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Environmental assessment frameworks support policymakers and researchers evaluating pressures, state, impacts and responses. No published framework-specific tool or dataset is available."
+    },
+    {
+      "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+      "title": "DPSIR Framework for Sustainable Aquaculture in the Red Sea Region (KSA): A Climate Adaptation and Mitigation Perspective",
+      "domains": [
+        "environment-nature-circularity",
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "agriculture-food-aquaculture",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [
+        "esg-readiness"
+      ],
+      "datasets": [],
+      "rationale": "Aquaculture, marine ecosystems, climate adaptation and mitigation, policy responses and explicit ESG integration recommendations; the ESG Readiness Tool supports that ESG assessment. No published aquaculture-specific dataset is available."
+    },
+    {
+      "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+      "title": "The Imperative for ESG Readiness Tools: Unlocking Benefits for Companies, Institutions, and Society",
+      "domains": [
+        "sustainable-business-esg-finance"
+      ],
+      "industries": [
+        "financial-institutions-investors-development-finance",
+        "government-regulators-public-institutions",
+        "industry-manufacturing-materials"
+      ],
+      "tools": [
+        "esg-readiness"
+      ],
+      "datasets": [],
+      "rationale": "Corporate ESG assessment, investor expectations, reporting and regulation; the article explicitly discusses Enerqa’s ESG Readiness Tool. No dataset covers the full ESG-readiness assessment."
+    },
+    {
+      "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+      "title": "Scope 4 Emissions: The Concept of Avoided Emissions",
+      "domains": [
+        "climate-action-carbon-management",
+        "sustainable-business-esg-finance",
+        "energy-systems-transition",
+        "environment-nature-circularity"
+      ],
+      "industries": [
+        "energy-utilities",
+        "industry-manufacturing-materials",
+        "transport-logistics-mobility",
+        "water-waste-circular-economy"
+      ],
+      "tools": [
+        "easysolar"
+      ],
+      "datasets": [
+        "greenhouse-gas-emissions"
+      ],
+      "rationale": "Avoided emissions from renewable power, low-carbon products, transport and recycling; easySOLAR estimates avoided solar-project emissions and country inventories provide emissions context."
+    },
+    {
+      "slug": "sudan-s-energy-balance-2020",
+      "title": "Sudan's Energy Balance 2020",
+      "domains": [
+        "energy-systems-transition"
+      ],
+      "industries": [
+        "energy-utilities",
+        "oil-gas-petrochemicals",
+        "government-regulators-public-institutions"
+      ],
+      "tools": [],
+      "datasets": [],
+      "rationale": "Sudan energy supply, petroleum imports/refining, electricity transformation and national energy-policy planning. No published dataset reproduces the 2020 energy balance, and no tool directly matches it."
+    }
+  ]
+}

@@ -1,139 +1,185 @@
-import { resolveMediaUrl } from "@/lib/utils";
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { Search } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
+import { ExternalSearchResults } from './ExternalSearchResults';
+import { AIResponse } from './AIResponse';
+import { getSearchIndex } from './loadIndex';
+import {
+  SEARCH_COPY,
+  excerptFor,
+  formatSourceDate,
+  readQuery,
+  runSearch,
+  type SearchHit,
+} from './searchIndex';
 
-const SITE_INDEX = [
-  { title:'Home', url:'/' },
-  { title:'About', url:'/about' },
-  { title:'Domains & Services', url:'/services' },
-  { title:'Projects', url:'/projects' },
-  { title:'Knowledge Hub', url:'/knowledge-hub' },
-  { title:'Insights', url:'/insights' },
-  { title:'Team', url:'/team' },
-  { title:'Contact', url:'/contact' },
+// p. 227: "Noindex search results". The layout appends " | Enerqa".
+export const metadata: Metadata = {
+  title: 'Search',
+  description: 'Search Enerqa’s domains, industries, publications, data and tools.',
+  robots: { index: false, follow: false },
+};
+
+// p. 13 H02 suggested chips.
+const SUGGESTIONS = [
+  'How can a climate project attract finance?',
+  'Explore renewable-energy feasibility',
+  'What does ESG readiness involve?',
 ];
 
-export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const params = await searchParams;
-  const q = params.q || '';
-  
-  const siteResults = q.trim() 
-    ? SITE_INDEX.filter(item => item.title.toLowerCase().includes(q.trim().toLowerCase()))
-    : [];
+// The AI04 empty state, with its last words linked to the domains overview.
+const EMPTY_LINK_TEXT = 'explore our domains';
+const EMPTY_BEFORE_LINK = SEARCH_COPY.empty.slice(0, SEARCH_COPY.empty.indexOf(EMPTY_LINK_TEXT));
 
-  let cmsResults: { title: string; url: string; excerpt?: string; type: string }[] = [];
+function StatusBox({ children }: { children: React.ReactNode }) {
+  return (
+    <p role="status" className="text-gray-600 bg-gray-50 p-8 rounded-xl border border-gray-200 m-0">
+      {children}
+    </p>
+  );
+}
 
-  if (q.trim()) {
-    const payload = await getPayload({ config: configPromise });
-    
-    // Query collections
-    const [insightsReq, publicationsReq, toolsReq, projectsReq] = await Promise.all([
-      payload.find({
-        collection: 'insights',
-        where: { or: [{ title: { like: q } }, { excerpt: { like: q } }] },
-      }),
-      payload.find({
-        collection: 'publications',
-        where: { or: [{ title: { like: q } }, { excerpt: { like: q } }] },
-      }),
-      payload.find({
-        collection: 'tools',
-        where: { or: [{ title: { like: q } }, { desc: { like: q } }] },
-      }),
-      payload.find({
-        collection: 'projects',
-        where: { or: [{ title: { like: q } }, { description: { like: q } }] },
-      }),
-    ]);
+function ResultCard({ hit, terms }: { hit: SearchHit; terms: string[] }) {
+  const excerpt = excerptFor(hit.excerpt ?? hit.body, terms);
+  const date = formatSourceDate(hit.date, hit.dateVerified);
+  return (
+    <li>
+      <Link
+        href={hit.url}
+        className="block p-6 bg-white border border-gray-200 rounded-xl hover:shadow-md hover:border-gray-300 transition-all group"
+      >
+        <span className="flex items-start justify-between gap-4 mb-2">
+          <span dir="auto" className="text-lg font-bold text-[var(--color-dark)] group-hover:text-[var(--color-primary)] transition-colors">
+            {hit.title}
+          </span>
+          <span className="shrink-0 text-[11px] uppercase tracking-wider font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded">
+            {hit.category}
+          </span>
+        </span>
+        {excerpt && <span dir="auto" className="block text-gray-600 text-sm mb-3">{excerpt}</span>}
+        {/* p. 202: "Show a short relevant excerpt and the canonical destination." */}
+        <span className="block text-xs text-gray-600">
+          <span className="text-[var(--color-secondary)] font-semibold">{hit.url}</span>
+          {date && <> · <time dateTime={hit.date ?? undefined}>{date}</time></>}
+        </span>
+      </Link>
+    </li>
+  );
+}
 
-    // Format results
-    const insights = insightsReq.docs.map((doc) => ({
-      title: String(doc.title),
-      url: '/insights',
-      excerpt: doc.excerpt ? String(doc.excerpt) : undefined,
-      type: 'Insight'
-    }));
+/** AI02 + AI03 for one query. Streams in behind the AI04 loading state. */
+async function SearchResults({ query }: { query: string }) {
+  const outcome = await runSearch(query, getSearchIndex);
 
-    const publications = publicationsReq.docs.map((doc) => ({
-      title: String(doc.title),
-      url: '/knowledge-hub',
-      excerpt: doc.excerpt ? String(doc.excerpt) : undefined,
-      type: 'Publication'
-    }));
+  // p. 202: "Do not invent an answer when source retrieval fails" - so no AI
+  // answer either, only the failure state.
+  if (outcome.status === 'failed') return <StatusBox>{SEARCH_COPY.failure}</StatusBox>;
 
-    const tools = toolsReq.docs.map((doc) => ({
-      title: String(doc.title),
-      url: '/knowledge-hub',
-      excerpt: doc.desc ? String(doc.desc) : undefined,
-      type: 'Tool'
-    }));
-
-    const projects = projectsReq.docs.map((doc) => ({
-      title: String(doc.title),
-      url: '/projects',
-      excerpt: doc.description ? String(doc.description) : undefined,
-      type: 'Project'
-    }));
-
-    cmsResults = [...insights, ...publications, ...tools, ...projects];
-  }
-
-  // Combine results
-  const allResults = [...siteResults.map(s => ({ ...s, excerpt: 'Site Page', type: 'Page' })), ...cmsResults];
+  const { groups, terms } = outcome;
 
   return (
     <>
-      <section className="relative w-full h-[45vh] min-h-[300px] flex items-center justify-center bg-ink text-white overflow-hidden py-[100px]">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('/assets/images/hero-bg.jpg')]"></div>
-        <div className="hero-insights-overlay z-10 opacity-80"></div>
-        
-        <Container className="w-full relative z-20 flex flex-col gap-6 items-start mt-auto md:mt-0 max-md:justify-end max-md:h-full max-md:pb-12 h-full justify-center">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/" className="text-white/60 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white">Search</span>
+      {/* AI02 Answer and Sources */}
+      <section aria-labelledby="answer-heading" className="flex flex-col gap-4">
+        <Typography variant="h2" id="answer-heading" className="text-[var(--color-dark)] m-0">
+          Answer and Sources
+        </Typography>
+        <Suspense fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
+          <AIResponse query={query} />
+        </Suspense>
+      </section>
+
+      {/* AI03 Relevant Enerqa Content, grouped as p. 202 lists */}
+      <section aria-labelledby="results-heading" className="flex flex-col gap-6">
+        <Typography variant="h2" id="results-heading" className="text-[var(--color-dark)] m-0">
+          Relevant Enerqa Content
+        </Typography>
+
+        {groups.length === 0 ? (
+          <StatusBox>
+            {EMPTY_BEFORE_LINK}
+            <Link href="/domains-and-industries" className="underline font-semibold">{EMPTY_LINK_TEXT}</Link>.
+          </StatusBox>
+        ) : (
+          groups.map((g) => (
+            <div key={g.group} className="flex flex-col gap-4">
+              <h3 className="text-xl font-bold text-[var(--color-dark)] m-0">{g.heading}</h3>
+              <ul className="list-none p-0 m-0 flex flex-col gap-4">
+                {g.hits.map((hit) => <ResultCard key={hit.url} hit={hit} terms={terms} />)}
+              </ul>
+            </div>
+          ))
+        )}
+      </section>
+    </>
+  );
+}
+
+export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string | string[] }> }) {
+  const q = readQuery((await searchParams).q);
+
+  return (
+    <div className="bg-[var(--color-paper)] min-h-screen pt-[70px]">
+      <section className="bg-[var(--color-dark)] text-white py-20 border-b border-gray-800">
+        <Container>
+          <div className="max-w-4xl mx-auto flex flex-col gap-6">
+            <Typography variant="h1" className="text-white m-0">
+              Ask and Explore
+            </Typography>
+
+            {/* AI01 Ask and Explore: the query stays editable and in the URL (p. 202). */}
+            <form action="/search" method="GET" role="search" className="relative w-full max-w-2xl mt-4">
+              <label htmlFor="search-q" className="sr-only">Search Enerqa</label>
+              <input
+                id="search-q"
+                type="search"
+                name="q"
+                defaultValue={q}
+                placeholder={SEARCH_COPY.placeholder}
+                maxLength={300}
+                // Arabic queries render right-to-left (p. 227 Arabic tests).
+                dir="auto"
+                className="w-full px-6 py-4 rounded-full text-[var(--color-dark)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-deep)] text-lg pe-14"
+              />
+              <button
+                type="submit"
+                aria-label="Search"
+                className="absolute end-3 top-1/2 -translate-y-1/2 p-2 bg-[var(--color-primary)] text-[var(--color-dark)] rounded-full hover:bg-[var(--color-primary-dark)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+              </button>
+            </form>
+
+            <div className="flex flex-wrap gap-2 mt-2">
+              {SUGGESTIONS.map((suggestion) => (
+                <Link key={suggestion} href={`/search?q=${encodeURIComponent(suggestion)}`} className="text-xs bg-gray-800 border border-gray-700 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-full transition-colors">
+                  {suggestion}
+                </Link>
+              ))}
+            </div>
           </div>
-          <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            <span className="en block">Search Results</span>
-          </Typography>
         </Container>
       </section>
 
-      <Section theme="light">
-        <Container>
-          <div className="max-w-4xl mx-auto py-12">
-            <Typography variant="h3" className="mb-8">
-              {q ? `Showing results for "${q}"` : "Enter a search term to find what you are looking for."}
-            </Typography>
-
-            {q.trim() !== '' && allResults.length === 0 ? (
-              <div className="text-ink-soft text-lg bg-black/5 p-8 rounded-2xl">
-                No matches found for &quot;{q}&quot; — try a different term.
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {allResults.map((item, idx) => (
-                  <Link 
-                    key={item.url + idx} 
-                    href={item.url} 
-                    className="block p-6 bg-white border border-black/5 rounded-xl hover:shadow-md hover:border-black/10 transition-all group"
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <Typography variant="h4" className="text-ink m-0 group-hover:text-primary transition-colors">{item.title}</Typography>
-                      <span className="text-[11px] uppercase tracking-wider font-bold text-ink-soft bg-black/5 px-2 py-1 rounded">{item.type}</span>
-                    </div>
-                    {item.excerpt && <p className="text-ink-soft text-sm mb-3 line-clamp-2">{item.excerpt}</p>}
-                    <div className="text-ink-soft text-xs font-semibold">Navigate to {item.type}</div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </Container>
-      </Section>
-    </>
+      {q !== '' && (
+        <Section theme="light">
+          <Container>
+            <div className="max-w-4xl mx-auto py-12 flex flex-col gap-12">
+              {/* Keyed on the query so a new search shows the loading state again. */}
+              <Suspense key={q} fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
+                <SearchResults query={q} />
+              </Suspense>
+              <Suspense fallback={<StatusBox>{SEARCH_COPY.loading}</StatusBox>}>
+                <ExternalSearchResults query={q} />
+              </Suspense>
+            </div>
+          </Container>
+        </Section>
+      )}
+    </div>
   );
 }

@@ -1,0 +1,147 @@
+{
+  "checkedAt": "2026-10-15T05:14:05.263Z",
+  "viewports": [
+    {
+      "width": 1366,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 332.578125,
+        "bottom": 516.078125,
+        "height": 183.5,
+        "width": 1200
+      },
+      "markets": {
+        "top": 528.078125,
+        "bottom": 711.578125,
+        "height": 183.5,
+        "width": 1200
+      },
+      "feedBottom": 741.453125,
+      "image": {
+        "naturalWidth": 768,
+        "displayedWidth": 1198,
+        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1200&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 321.078125,
+        "bottom": 504.578125,
+        "height": 183.5,
+        "width": 944
+      },
+      "markets": {
+        "top": 516.578125,
+        "bottom": 700.078125,
+        "height": 183.5,
+        "width": 944
+      },
+      "feedBottom": 729.953125,
+      "image": {
+        "naturalWidth": 671,
+        "displayedWidth": 942,
+        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=1080&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 511.34375,
+        "bottom": 905.34375,
+        "height": 394,
+        "width": 342
+      },
+      "markets": {
+        "top": 917.34375,
+        "bottom": 1306.59375,
+        "height": 389.25,
+        "width": 342
+      },
+      "feedBottom": 1372.21875,
+      "image": {
+        "naturalWidth": 342,
+        "displayedWidth": 340,
+        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+      },
+      "carouselNavigation": true
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "overflow": false,
+      "news": {
+        "top": 567.6875,
+        "bottom": 985.6875,
+        "height": 418,
+        "width": 272
+      },
+      "markets": {
+        "top": 997.6875,
+        "bottom": 1476.1875,
+        "height": 478.5,
+        "width": 272
+      },
+      "feedBottom": 1559.6875,
+      "image": {
+        "naturalWidth": 272,
+        "displayedWidth": 270,
+        "src": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=384&q=75"
+      },
+      "carouselNavigation": true
+    }
+  ],
+  "pages": [
+    {
+      "menuDomainLinks": 4,
+      "menuIndustryLinks": 13
+    },
+    {
+      "path": "/domains-and-industries",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "path": "/knowledge-hub",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "publicationFilterLabels": [
+        "Domain"
+      ]
+    },
+    {
+      "path": "/knowledge-hub/global-intelligence",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+      "status": 200,
+      "figures": 1,
+      "expected": 1,
+      "failedImages": 0,
+      "executiveSummaries": 0
+    }
+  ],
+  "errors": [],
+  "imageResolution": [
+    {
+      "naturalWidth": 1200,
+      "displayedWidth": 1120,
+      "sizes": "(min-width: 1280px) 1200px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)"
+    }
+  ]
+}

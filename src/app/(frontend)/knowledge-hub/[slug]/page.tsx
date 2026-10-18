@@ -10,6 +10,10 @@ import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react';
 import { resolveMediaUrl } from '@/lib/utils';
+import { PublicationCover } from '@/components/publications/PublicationCover';
+import { PublicationBody } from '@/components/publications/PublicationBody';
+import { publicationImage } from '@/components/publications/publicationImage';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
@@ -114,10 +118,14 @@ export async function generateMetadata({ params }: Props) {
   const payload = await getPayload({ config: configPromise });
   const posts = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       slug: {
         equals: slug,
       },
+      // Same rule as the list and the sitemap: only real articles get a page.
+      recordKind: { equals: 'article' },
     },
     limit: 1,
   });
@@ -128,6 +136,9 @@ export async function generateMetadata({ params }: Props) {
     return {};
   }
 
+  // Editors can keep a separate sharing image; otherwise use the article cover.
+  const sharingImage = publicationImage({ ogImage: post.ogImage }) ?? publicationImage(post);
+
   return {
     title: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
@@ -135,7 +146,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: post.metaTitle || post.title,
       description: post.metaDescription || post.excerpt,
-      images: post.ogImage && typeof post.ogImage === 'object' && post.ogImage !== null && 'url' in post.ogImage && resolveMediaUrl(post.ogImage.url) ? [resolveMediaUrl(post.ogImage.url)] : [],
+      images: sharingImage ? [sharingImage.src] : [],
     },
   };
 }
@@ -146,10 +157,14 @@ export default async function PublicationSinglePage({ params }: Props) {
   const payload = await getPayload({ config: configPromise });
   const posts = await payload.find({
     collection: 'publications',
+    overrideAccess: false,
+    draft: false,
     where: {
       slug: {
         equals: slug,
       },
+      // Same rule as the list and the sitemap: only real articles get a page.
+      recordKind: { equals: 'article' },
     },
     limit: 1,
   });
@@ -161,33 +176,84 @@ export default async function PublicationSinglePage({ params }: Props) {
   }
 
   const topics = Array.isArray(post.topic) ? post.topic : [];
+  const domains = Array.isArray(post.domains) ? post.domains : [];
+  const industries = Array.isArray(post.industries) ? post.industries : [];
+  const datasets = Array.isArray(post.datasets) ? post.datasets : [];
+  const tools = Array.isArray(post.tools) ? post.tools : [];
+
+  const orConditions: any[] = [];
+  if (domains.length > 0) orConditions.push({ domains: { in: domains.map((d: any) => typeof d === 'object' ? d.id : d) } });
+  if (industries.length > 0) orConditions.push({ industries: { in: industries.map((i: any) => typeof i === 'object' ? i.id : i) } });
+  if (datasets.length > 0) orConditions.push({ datasets: { in: datasets.map((d: any) => typeof d === 'object' ? d.id : d) } });
+  if (tools.length > 0) orConditions.push({ tools: { in: tools.map((t: any) => typeof t === 'object' ? t.id : t) } });
+  // Fallback to topic if no other tags
+  if (orConditions.length === 0 && topics.length > 0) orConditions.push({ topic: { in: topics.map((t: any) => typeof t === 'object' ? t.id : t) } });
+
+  const related = await payload.find({
+    collection: 'publications',
+    overrideAccess: false,
+    draft: false,
+    where: {
+      id: { not_equals: post.id },
+      recordKind: { equals: 'article' },
+      ...(orConditions.length > 0 ? { or: orConditions } : { id: { equals: 'non-existent' } })
+    },
+    limit: 3,
+  });
 
   return (
     <>
-      <section className="relative w-full h-[60vh] min-h-[400px] flex items-end pb-16 bg-ink text-white overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-[url('/assets/images/gas-energy.jpg')]"></div>
-        <div className="hero-insights-overlay z-10 opacity-80"></div>
+      {/* A01 Article Intro */}
+      {/* Let long titles expand the cover and clear the fixed navigation. */}
+      <section className="relative w-full min-h-[max(400px,60vh)] flex items-end pt-36 pb-16 bg-ink text-white overflow-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: post.title,
+              description: post.excerpt,
+              datePublished: post.dateVerified === false ? undefined : post.date,
+              dateModified: post.updatedAt,
+              author: post.author ? {
+                '@type': 'Person',
+                name: typeof post.author === 'string' ? post.author : (post.author as any).name || 'Enerqa',
+              } : undefined,
+            }),
+          }}
+        />
+        <PublicationCover image={publicationImage(post)} />
         
         <Container className="relative z-20 flex flex-col gap-4">
-          <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/60 mb-2">
-            <Link href="/knowledge-hub#publications" className="text-white/60 hover:text-white transition-colors no-underline">Knowledge Hub</Link> 
-            {topics.length > 0 && <span className="mx-1 text-white/60">/</span>}
-            {topics.map((cat, i: number) => (
-              <React.Fragment key={typeof cat === 'object' && cat !== null ? cat.id : String(cat)}>
-                <span className="text-white">{typeof cat === 'object' && cat !== null ? cat.title : String(cat)}</span>
-                {i < topics.length - 1 && <span className="mx-1 text-white/60">,</span>}
-              </React.Fragment>
-            ))}
-          </div>
+          <Breadcrumbs
+            parents={[{ label: 'Home', href: '/' }, { label: 'Knowledge Hub', href: '/knowledge-hub' }]}
+            current={post.title}
+            className="text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-white/80 mb-2"
+          />
           
           <Typography variant="h1" className="text-white m-0 max-w-[900px]">
             {post.title}
           </Typography>
           
-          <div className="flex gap-4 items-center text-white/80 text-sm mt-4">
+          <div className="flex flex-wrap gap-4 items-center text-white/80 text-sm mt-4">
             <span>
-              {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+              {/* UTC, like the Knowledge Hub cards, so every visitor sees the same calendar day. */}
+              {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' })}
+              {post.dateVerified === false && ' (date unverified)'}
             </span>
+            {post.author && (
+              <>
+                <span className="text-white/40">|</span>
+                <span>By {post.author}</span>
+              </>
+            )}
+            {post.language && (
+              <>
+                <span className="text-white/40">|</span>
+                <span>{post.language === 'ar' ? 'Arabic' : 'English'}</span>
+              </>
+            )}
             {post.type && (
               <Badge variant="outline" className="text-white border-white/30 uppercase text-[10px] tracking-wider">
                 {post.type}
@@ -209,15 +275,81 @@ export default async function PublicationSinglePage({ params }: Props) {
             <Typography variant="h3" className="mb-6">{post.heading}</Typography>
           )}
           
+          {/* Keep topic metadata without repeating the Executive Summary. */}
+            {topics.length > 0 && (
+              <div className="mb-8 flex gap-2 flex-wrap" aria-label="Article topics">
+                {topics.map((t: any) => (
+                  <span key={typeof t === 'object' ? t.id : String(t)} className="bg-white border border-gray-200 px-3 py-1 rounded-full text-xs font-bold text-gray-600">
+                    {typeof t === 'object' ? t.title : String(t)}
+                  </span>
+                ))}
+              </div>
+            )}
           <div className="prose prose-lg prose-ink max-w-none">
             {post.content ? (
-              <RichText data={post.content} converters={jsxConverters} />
-            ) : (
-              <p>{post.excerpt}</p>
-            )}
+              <PublicationBody slug={post.slug} data={post.content} converters={jsxConverters} />
+            ) : null}
           </div>
+
+          {/* PUBL04 References and Downloads. Only real actions render (p. 225:
+              no placeholder buttons) - a Cite action needs a citation field first. */}
+          {((post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url)) || post.originalUrl || post.citation) && (
+            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center justify-center gap-6">
+              <div className="flex flex-wrap gap-4 items-center justify-center">
+                {post.file && typeof post.file !== 'string' && resolveMediaUrl(post.file.url) && (
+                  <Button href={resolveMediaUrl(post.file.url)} variant="secondary" className="gap-2">
+                    Download Report
+                  </Button>
+                )}
+                {post.originalUrl && (
+                  <Button href={post.originalUrl} variant="secondary" className="gap-2" target="_blank">
+                    Read Original Publication
+                  </Button>
+                )}
+              </div>
+              
+              {post.citation && (
+                <div className="w-full max-w-2xl bg-gray-50 border border-gray-200 p-6 rounded-xl">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Cite This Publication</h3>
+                  <p className="text-gray-800 text-sm m-0 select-all">{post.citation}</p>
+                </div>
+              )}
+            </div>
+          )}
         </Container>
       </Section>
+
+      {/* PUBL05 Related Content */}
+      {related.docs.length > 0 && (
+        <section className="py-20 bg-[var(--color-paper-alt)] border-t border-gray-200">
+          <Container>
+             <h2 className="text-3xl font-bold text-center mb-10 text-[var(--color-dark)]">Related Content</h2>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {related.docs.map((item: any) => (
+                 <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                   <h3 className="text-xl font-bold text-[var(--color-dark)] mb-3">{item.title}</h3>
+                   <p className="text-gray-600 line-clamp-3 mb-4">{item.excerpt}</p>
+                   <Link href={`/knowledge-hub/${item.slug}`} className="text-[var(--color-primary)] font-bold hover:underline text-sm">
+                     Read Article →
+                   </Link>
+                 </div>
+               ))}
+             </div>
+          </Container>
+        </section>
+      )}
+
+      {/* PUBL06 Continue Exploring */}
+      <section className="py-16 bg-white border-t border-gray-200 text-center">
+        <Container className="flex flex-col items-center gap-6">
+           <h2 className="text-2xl font-bold text-[var(--color-dark)] m-0">Continue Exploring</h2>
+           <div className="flex flex-wrap gap-4 justify-center">
+             {/* Navy text and border keep this button visible on the white section. */}
+             <Button href="/knowledge-hub" variant="secondary">Explore the Knowledge Hub</Button>
+             <Button href="/contact?intent=project" variant="primary">Discuss Your Project</Button>
+           </div>
+        </Container>
+      </section>
     </>
   );
 }

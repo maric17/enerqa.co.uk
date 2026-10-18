@@ -1,142 +1,88 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { Mail, MapPin, Phone, ArrowRight } from 'lucide-react';
+import type { Metadata } from 'next';
+import { ArrowRight } from 'lucide-react';
+import { getPayload } from 'payload';
+import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';
+import { getPrivacyHref } from '@/lib/policies';
+import { PageHero } from '@/components/ui/PageHero';
+import { prefillFromSearchParams, type ContactChoices } from '@/lib/forms/contact';
+import { loadContactChoices } from '@/lib/forms/contactChoices';
+import { ContactForm } from './ContactForm';
+import { COMPANY } from '@/lib/content/company';
 
-export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+// p. 227: unique title and description. Moved here from the deleted
+// pass-through contact/layout.tsx. The description is F01's own copy (p. 198).
+// `absolute`: the title already names Enerqa, so the layout's " | Enerqa"
+// suffix would double it. The canonical drops ?intent=/?tool= variants.
+export const metadata: Metadata = {
+  title: { absolute: 'Contact Enerqa' },
+  description:
+    'Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.',
+  alternates: { canonical: '/contact' },
+};
+
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function ContactPage({ searchParams }: Props) {
+  const params = await searchParams;
+
+  // The optional selects come from the CMS. If it cannot be reached the form
+  // still renders (Name, Email, Enquiry Type and Message need no CMS data);
+  // submitting then shows the F04 error, which names info@ as the fallback.
+  let choices: ContactChoices = { domains: [], industries: [], tools: [] };
+  try {
+    const { domains, industries, tools } = await loadContactChoices(await getPayload({ config: configPromise }));
+    choices = { domains, industries, tools };
+  } catch (error) {
+    console.error('Contact form choices unavailable:', error);
+  }
+
+  // p. 198 F02: `?intent=`, `?tool=`, `?domain=` and `?industry=` preselect
+  // the matching fields, which stay editable.
+  const prefill = prefillFromSearchParams(params, choices);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)] pt-[70px]">
-      
-      <section className="py-20 bg-[var(--color-dark)] text-white border-b border-gray-800">
+    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
+      {/* F01 Contact Enerqa (p. 198) */}
+      <PageHero
+        title="Contact Enerqa"
+        imageUrl="/images/contact_banner_people.jpg"
+        breadcrumbs={
+          <>
+            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Contact</span>
+          </>
+        }
+      >
+        <p className="m-0 text-white/90">
+          Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.
+        </p>
+        <p className="mt-4 text-white/90">
+          Email:{' '}
+          <a href="mailto:info@enerqa.co.uk" className="text-white font-semibold hover:text-[var(--color-primary)] transition-colors underline underline-offset-4 decoration-white/30">
+            info@enerqa.co.uk
+          </a>
+        </p>
+        {/* Q11 approves cities, without phone numbers or an invented Doha address. */}
+        <p className="mt-4 text-white/90">Offices: {COMPANY.offices.join(' and ')}.</p>
+        <p className="mt-2 text-sm text-white/90">Registered office: {COMPANY.address}.</p>
+        <Link href="/project-development" className="mt-6 text-[var(--color-primary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
+          Learn about our approach <ArrowRight className="w-4 h-4" aria-hidden="true" />
+        </Link>
+      </PageHero>
+
+      {/* F02 Tell Us About Your Enquiry, F03 Send Your Enquiry, F04 states (p. 198) */}
+      <section className="pt-20 pb-20 md:pb-32">
         <Container>
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">Contact Enerqa</h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Whether you are discussing a new project, exploring our digital tools or seeking technical advice, we welcome the opportunity to connect.
-            </p>
+          <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm mb-20">
+            <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Tell Us About Your Enquiry</h2>
+            <ContactForm key={JSON.stringify(prefill)} choices={choices} prefill={prefill} privacyHref={await getPrivacyHref()} />
           </div>
         </Container>
       </section>
-
-      <section className="py-20">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            {/* Contact Info */}
-            <div className="lg:col-span-4 space-y-10">
-              <div>
-                <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-6">Get in Touch</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <Mail className="w-6 h-6 text-[var(--color-primary)] mt-1" />
-                    <div>
-                      <div className="font-bold text-[var(--color-dark)] mb-1">Email</div>
-                      <a href="mailto:info@enerqa.co.uk" className="text-gray-600 hover:text-[var(--color-secondary)] transition-colors">info@enerqa.co.uk</a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <MapPin className="w-6 h-6 text-[var(--color-primary)] mt-1" />
-                    <div>
-                      <div className="font-bold text-[var(--color-dark)] mb-1">Office</div>
-                      <p className="text-gray-600 leading-relaxed">
-                        London, United Kingdom<br />
-                        (Full address provided upon engagement)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[var(--color-paper-alt)] p-8 rounded-xl border border-gray-200">
-                <h3 className="text-xl font-bold text-[var(--color-dark)] mb-4">Project Development</h3>
-                <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-                  To help us direct your enquiry to the right team, please provide a brief overview of the project's sector, location and current stage of development.
-                </p>
-                <Link href="/project-development" className="text-[var(--color-secondary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
-                  Learn about our approach <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="lg:col-span-8">
-              <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm">
-                <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Send an Enquiry</h2>
-                
-                {submitted ? (
-                  <div className="bg-green-50 text-green-800 p-8 rounded-xl border border-green-200 text-center">
-                    <h3 className="text-2xl font-bold mb-4">Thank You</h3>
-                    <p className="mb-6">Your message has been successfully sent. A member of the Enerqa team will be in touch shortly.</p>
-                    <button onClick={() => setSubmitted(false)} className="text-green-800 font-bold hover:underline">Send another message</button>
-                  </div>
-                ) : (
-                  <form 
-                    className="space-y-6"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setSubmitted(true);
-                    }}
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">First Name *</label>
-                        <input type="text" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Last Name *</label>
-                        <input type="text" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Email Address *</label>
-                        <input type="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Organisation / Company</label>
-                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">Nature of Enquiry *</label>
-                      <select required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none bg-white">
-                        <option value="">Please select...</option>
-                        <option value="project">Project Development Support</option>
-                        <option value="tools">Digital Tools (ESG Readiness, easySOLAR, etc.)</option>
-                        <option value="data">Data Portal &amp; Knowledge Hub</option>
-                        <option value="media">Media or Research Enquiry</option>
-                        <option value="general">General Enquiry</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">Message *</label>
-                      <textarea required rows={6} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-primary)] outline-none resize-none"></textarea>
-                    </div>
-
-                    <div className="pt-4">
-                      <button type="submit" className="bg-[var(--color-secondary)] text-white font-bold py-4 px-10 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors inline-flex items-center gap-2">
-                        Submit Enquiry <ArrowRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <p className="text-xs text-gray-500 mt-4">
-                      By submitting this form, you agree to our <Link href="/privacy" className="underline hover:text-[var(--color-dark)]">Privacy Policy</Link>.
-                    </p>
-                  </form>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </Container>
-      </section>
-
     </div>
   );
 }

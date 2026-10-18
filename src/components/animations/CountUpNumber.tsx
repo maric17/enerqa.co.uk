@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useInView, animate } from 'framer-motion'
+import { useInView, animate, useReducedMotion } from 'framer-motion'
 
 interface CountUpNumberProps {
   value: number
@@ -22,8 +22,14 @@ export function CountUpNumber({
 }: CountUpNumberProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.5 })
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
+    if (shouldReduceMotion && ref.current) {
+      ref.current.textContent = `${prefix}${value}${suffix}`
+      return
+    }
+
     if (isInView && ref.current) {
       const node = ref.current
       
@@ -38,11 +44,11 @@ export function CountUpNumber({
 
       return () => controls.stop()
     }
-  }, [isInView, value, duration, delay, prefix, suffix])
+  }, [isInView, value, duration, delay, prefix, suffix, shouldReduceMotion])
 
   return (
     <span ref={ref} className={className}>
-      {prefix}0{suffix}
+      {shouldReduceMotion ? `${prefix}${value}${suffix}` : `${prefix}0${suffix}`}
     </span>
   )
 }

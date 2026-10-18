@@ -1,0 +1,43 @@
+<h2>First-Fold Hero Composition Options</h2>
+<p class="subtitle">How should we layout the search, news, and markets so they are visible on a laptop without scrolling?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Stacked Horizontal Bands</h3>
+      <p>A compact hero containing the title and search bar spanning the full width, followed by a separate light background band below it containing Global News and Major Markets side-by-side.</p>
+      
+      <div class="mockup" style="margin-top: 1rem;">
+        <div style="background: #0f172a; color: white; padding: 2rem; text-align: center; border-radius: 4px;">
+          <h4 style="margin:0 0 1rem 0;">Project Development for a Sustainable Future</h4>
+          <input class="mock-input" placeholder="Ask a question or explore a topic" style="max-width: 400px; margin: 0 auto; display: block;">
+        </div>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+          <div style="flex: 1; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">Global News Area</div>
+          <div style="flex: 1; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">Major Markets Area</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Split Screen (Side-by-Side)</h3>
+      <p>The left side of the screen focuses on the hero messaging and search, while the right side displays the Global News and Major Markets in a clean, vertical card layout.</p>
+      
+      <div class="mockup" style="margin-top: 1rem; display: flex; gap: 1rem; background: #0f172a; padding: 1.5rem; border-radius: 4px;">
+        <div style="flex: 1; color: white;">
+          <h4 style="margin:0 0 1rem 0;">Project Development...</h4>
+          <p style="font-size: 0.9em; opacity: 0.8;">Explore Enerqa's capabilities.</p>
+          <input class="mock-input" placeholder="Ask a question..." style="width: 100%;">
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+          <div style="background: white; padding: 0.75rem; border-radius: 4px; color: #333; font-size: 0.9em;">Global News</div>
+          <div style="background: white; padding: 0.75rem; border-radius: 4px; color: #333; font-size: 0.9em;">Major Markets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -109,14 +109,14 @@ export default function CarbonCalculator() {
             <Typography variant="eyebrow" className="text-ink-muted">
               <span className="en">Estimated Carbon Footprint</span>
             </Typography>
-            <div className="text-6xl font-bold text-[#A8192E] tracking-tight">
+            <div className="text-6xl font-bold text-[#0972b8] tracking-tight">
               {result.toLocaleString(undefined, { maximumFractionDigits: 1 })}
             </div>
             <Typography variant="body" className="text-ink font-medium uppercase tracking-widest text-sm mt-2">
               kg CO₂e
             </Typography>
             
-            <div className="mt-6 p-4 bg-white rounded-lg border border-[#A8192E]/20 text-[14px] text-ink-soft max-w-xs">
+            <div className="mt-6 p-4 bg-white rounded-lg border border-[#0972b8]/20 text-[14px] text-ink-soft max-w-xs">
               <span className="en">
                 {result < 500 
                   ? "Great job! Your footprint is well below the global monthly average." 

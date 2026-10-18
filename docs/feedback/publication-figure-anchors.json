@@ -1,0 +1,570 @@
+[
+  {
+    "slug": "the-evolution-of-climate-change-understanding-and-response",
+    "page": 9,
+    "image": "page-009-01.webp",
+    "anchorIndex": 10,
+    "confidence": 0.699
+  },
+  {
+    "slug": "climate-forcers-the-hidden-drivers-of-global-warming",
+    "page": 10,
+    "image": "page-010-01.webp",
+    "anchorIndex": 0,
+    "confidence": 0.973
+  },
+  {
+    "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+    "page": 12,
+    "image": "page-012-01.webp",
+    "anchorIndex": 3,
+    "confidence": 1.0
+  },
+  {
+    "slug": "weathering-the-storm-climate-resilience-in-supply-chains",
+    "page": 13,
+    "image": "page-013-01.webp",
+    "anchorIndex": 3,
+    "confidence": 1.0
+  },
+  {
+    "slug": "climate-change-and-war-a-complex-interplay",
+    "page": 15,
+    "image": "page-015-01.webp",
+    "anchorIndex": 6,
+    "confidence": 1.0
+  },
+  {
+    "slug": "climate-change-and-war-a-complex-interplay",
+    "page": 15,
+    "image": "page-015-02.webp",
+    "anchorIndex": 6,
+    "confidence": 1.0
+  },
+  {
+    "slug": "climate-change-and-war-a-complex-interplay",
+    "page": 16,
+    "image": "page-016-01.webp",
+    "anchorIndex": 9,
+    "confidence": 0.671
+  },
+  {
+    "slug": "climate-change-and-war-a-complex-interplay",
+    "page": 17,
+    "image": "page-017-01.webp",
+    "anchorIndex": 12,
+    "confidence": 0.651
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 18,
+    "image": "page-018-01.webp",
+    "anchorIndex": 1,
+    "confidence": 1.0
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 19,
+    "image": "page-019-01.webp",
+    "anchorIndex": 3,
+    "confidence": 0.964
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 19,
+    "image": "page-019-02.webp",
+    "anchorIndex": 3,
+    "confidence": 0.964
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 19,
+    "image": "page-019-03.webp",
+    "anchorIndex": 5,
+    "confidence": 0.902
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 20,
+    "image": "page-020-01.webp",
+    "anchorIndex": 5,
+    "confidence": 0.902
+  },
+  {
+    "slug": "greenhouse-gases-and-climate-change-an-overview",
+    "page": 20,
+    "image": "page-020-02.webp",
+    "anchorIndex": 7,
+    "confidence": 0.962
+  },
+  {
+    "slug": "breathing-vs-burning-the-carbon-footprint-contrast",
+    "page": 23,
+    "image": "page-023-01.webp",
+    "anchorIndex": 3,
+    "confidence": 0.641
+  },
+  {
+    "slug": "ghg-emissions-the-burden-on-our-planet",
+    "page": 24,
+    "image": "page-024-01.webp",
+    "anchorIndex": 0,
+    "confidence": 1.0
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "page": 28,
+    "image": "page-028-01.webp",
+    "anchorIndex": 55,
+    "confidence": 0.493
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "page": 31,
+    "image": "page-031-01.webp",
+    "anchorIndex": 55,
+    "confidence": 1.0
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 40,
+    "image": "page-040-01.webp",
+    "anchorIndex": 26,
+    "confidence": 0.727
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 42,
+    "image": "page-042-01.webp",
+    "anchorIndex": 35,
+    "confidence": 0.871
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 45,
+    "image": "page-045-01.webp",
+    "anchorIndex": 112,
+    "confidence": 0.558
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 48,
+    "image": "page-048-01.webp",
+    "anchorIndex": 112,
+    "confidence": 0.497
+  },
+  {
+    "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+    "page": 56,
+    "image": "page-056-01.webp",
+    "anchorIndex": 1,
+    "confidence": 0.787
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 60,
+    "image": "page-060-01.webp",
+    "anchorIndex": 11,
+    "confidence": 0.508
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 60,
+    "image": "page-060-02.webp",
+    "anchorIndex": 11,
+    "confidence": 0.508
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 61,
+    "image": "page-061-01.webp",
+    "anchorIndex": 11,
+    "confidence": 1.0
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 61,
+    "image": "page-061-02.webp",
+    "anchorIndex": 11,
+    "confidence": 1.0
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 62,
+    "image": "page-062-01.webp",
+    "anchorIndex": 11,
+    "confidence": 1.0
+  },
+  {
+    "slug": "driving-climate-action-through-renewable-energy-finance-insights-from-an-expert",
+    "page": 62,
+    "image": "page-062-02.webp",
+    "anchorIndex": 11,
+    "confidence": 1.0
+  },
+  {
+    "slug": "i-recs-a-catalyst-for-renewable-energy-investment-in-qatar",
+    "page": 64,
+    "image": "page-064-01.webp",
+    "anchorIndex": 0,
+    "confidence": 0.983
+  },
+  {
+    "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+    "page": 67,
+    "image": "page-067-01.webp",
+    "anchorIndex": 9,
+    "confidence": 0.837
+  },
+  {
+    "slug": "the-role-of-artificial-intelligence-in-environmental-sustainability",
+    "page": 68,
+    "image": "page-068-01.webp",
+    "anchorIndex": 20,
+    "confidence": 0.726
+  },
+  {
+    "slug": "the-hidden-costs-of-your-burger-and-pizza-whats-really-at-stake",
+    "page": 72,
+    "image": "page-072-01.webp",
+    "anchorIndex": 3,
+    "confidence": 0.519
+  },
+  {
+    "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+    "page": 74,
+    "image": "page-074-01.webp",
+    "anchorIndex": 0,
+    "confidence": 1.0
+  },
+  {
+    "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+    "page": 75,
+    "image": "page-075-01.webp",
+    "anchorIndex": 3,
+    "confidence": 0.69
+  },
+  {
+    "slug": "practical-tips-for-reducing-food-waste-at-home-a-step-towards-sustainability",
+    "page": 75,
+    "image": "page-075-02.webp",
+    "anchorIndex": 5,
+    "confidence": 0.78
+  },
+  {
+    "slug": "sustainable-tourism",
+    "page": 77,
+    "image": "page-077-01.webp",
+    "anchorIndex": 1,
+    "confidence": 1.0
+  },
+  {
+    "slug": "sustainable-tourism",
+    "page": 78,
+    "image": "page-078-01.webp",
+    "anchorIndex": 6,
+    "confidence": 0.992
+  },
+  {
+    "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+    "page": 80,
+    "image": "page-080-01.webp",
+    "anchorIndex": 2,
+    "confidence": 0.716
+  },
+  {
+    "slug": "the-hidden-link-between-cigarette-smoking-and-climate-change",
+    "page": 81,
+    "image": "page-081-01.webp",
+    "anchorIndex": 7,
+    "confidence": 0.73
+  },
+  {
+    "slug": "empowering-communities-through-social-sustainability-a-call-to-action",
+    "page": 82,
+    "image": "page-082-01.webp",
+    "anchorIndex": 23,
+    "confidence": 0.549
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 86,
+    "image": "page-086-01.webp",
+    "anchorIndex": 3,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 86,
+    "image": "page-086-02.webp",
+    "anchorIndex": 4,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 87,
+    "image": "page-087-01.webp",
+    "anchorIndex": 5,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 87,
+    "image": "page-087-02.webp",
+    "anchorIndex": 8,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 88,
+    "image": "page-088-01.webp",
+    "anchorIndex": 9,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-origins-of-urban-greening",
+    "page": 88,
+    "image": "page-088-02.webp",
+    "anchorIndex": 10,
+    "confidence": 1.0
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 91,
+    "image": "page-091-01.webp",
+    "anchorIndex": 1,
+    "confidence": 0.54
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 91,
+    "image": "page-091-02.webp",
+    "anchorIndex": 1,
+    "confidence": 0.54
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 92,
+    "image": "page-092-01.webp",
+    "anchorIndex": 1,
+    "confidence": 0.66
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 92,
+    "image": "page-092-02.webp",
+    "anchorIndex": 1,
+    "confidence": 0.66
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 93,
+    "image": "page-093-01.webp",
+    "anchorIndex": 9,
+    "confidence": 0.458
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 93,
+    "image": "page-093-02.webp",
+    "anchorIndex": 9,
+    "confidence": 0.758
+  },
+  {
+    "slug": "environmental-impacts-of-mercury-use-in-artisanal-gold-mining-in-africa-sudan-case-the-amplifying-effect-of-torrential-rains-and-floods",
+    "page": 94,
+    "image": "page-094-01.webp",
+    "anchorIndex": 9,
+    "confidence": 0.758
+  },
+  {
+    "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+    "page": 97,
+    "image": "page-097-01.webp",
+    "anchorIndex": 0,
+    "confidence": 0.972
+  },
+  {
+    "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+    "page": 98,
+    "image": "page-098-01.webp",
+    "anchorIndex": 12,
+    "confidence": 0.58
+  },
+  {
+    "slug": "understanding-the-dpsir-dpcer-dpswr-and-dpser-frameworks-in-analyzing-the-interactions-between-human-activities-and-the-environment",
+    "page": 99,
+    "image": "page-099-01.webp",
+    "anchorIndex": 16,
+    "confidence": 1.0
+  },
+  {
+    "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+    "page": 105,
+    "image": "page-105-01.webp",
+    "anchorIndex": 22,
+    "confidence": 0.491
+  },
+  {
+    "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+    "page": 108,
+    "image": "page-108-01.webp",
+    "anchorIndex": 22,
+    "confidence": 0.969
+  },
+  {
+    "slug": "the-imperative-for-esg-readiness-tools-unlocking-benefits-for-companies-institutions-and-society",
+    "page": 108,
+    "image": "page-108-02.webp",
+    "anchorIndex": 22,
+    "confidence": 0.969
+  },
+  {
+    "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+    "page": 109,
+    "image": "page-109-01.webp",
+    "anchorIndex": 6,
+    "confidence": 0.494
+  },
+  {
+    "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+    "page": 110,
+    "image": "page-110-01.webp",
+    "anchorIndex": 6,
+    "confidence": 1.0
+  },
+  {
+    "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+    "page": 111,
+    "image": "page-111-01.webp",
+    "anchorIndex": 8,
+    "confidence": 0.991
+  },
+  {
+    "slug": "scope-4-emissions-the-concept-of-avoided-emissions",
+    "page": 111,
+    "image": "page-111-02.webp",
+    "anchorIndex": 11,
+    "confidence": 0.706
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "page": 29,
+    "image": "page-029-table.webp",
+    "anchorIndex": 32,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "page": 32,
+    "image": "page-032-table.webp",
+    "anchorIndex": 54,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "exploring-the-rainbow-of-hydrogen-technology-a-path-to-sustainable-energy-and-climate-resilience",
+    "page": 33,
+    "image": "page-033-table.webp",
+    "anchorIndex": 63,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 36,
+    "image": "page-036-table.webp",
+    "anchorIndex": 7,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 44,
+    "image": "page-044-table.webp",
+    "anchorIndex": 43,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 46,
+    "image": "page-046-table.webp",
+    "anchorIndex": 43,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 47,
+    "image": "page-047-table.webp",
+    "anchorIndex": 43,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 48,
+    "image": "page-048-table.webp",
+    "anchorIndex": 51,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 49,
+    "image": "page-049-table.webp",
+    "anchorIndex": 51,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 51,
+    "image": "page-051-table.webp",
+    "anchorIndex": 54,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 52,
+    "image": "page-052-table.webp",
+    "anchorIndex": 54,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "green-credit-lines-in-the-gulf-cooperation-council-evaluating-opportunities-overcoming-challenges-and-assessing-the-impact-on-energy-transition-in",
+    "page": 53,
+    "image": "page-053-table.webp",
+    "anchorIndex": 59,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "supercritical-water-technology-scwt-a-sustainable-solution-for-waste-management-in-qatar",
+    "page": 57,
+    "image": "page-057-table.webp",
+    "anchorIndex": 11,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+    "page": 100,
+    "image": "page-100-table.webp",
+    "anchorIndex": 6,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  },
+  {
+    "slug": "dpsir-framework-for-sustainable-aquaculture-in-the-red-sea-region-ksa-a-climate-adaptation-and-mitigation-perspective",
+    "page": 102,
+    "image": "page-102-table.webp",
+    "anchorIndex": 25,
+    "confidence": 1.0,
+    "kind": "table-or-vector"
+  }
+]

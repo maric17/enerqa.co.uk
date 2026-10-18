@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, Variants } from 'framer-motion'
+import { motion, useInView, Variants, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
 interface FadeInProps {
@@ -25,6 +25,7 @@ export function FadeIn({
   const ref = useRef<HTMLDivElement>(null)
   // Trigger animation when the element comes into view. 'once: true' ensures it only happens once.
   const isInView = useInView(ref, { once: true, amount: viewAmount })
+  const shouldReduceMotion = useReducedMotion()
 
   const variants: Variants = {
     hidden: {
@@ -48,8 +49,8 @@ export function FadeIn({
     <motion.div
       ref={ref}
       variants={variants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={shouldReduceMotion ? 'visible' : 'hidden'}
+      animate={isInView || shouldReduceMotion ? 'visible' : 'hidden'}
       className={`${fullWidth ? 'w-full' : ''} ${className}`}
     >
       {children}

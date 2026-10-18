@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1580" viewBox="0 0 1500 1580" role="img" aria-labelledby="title description">
+<title id="title">Enerqa editable sitemap</title>
+<desc id="description">Six navigation sections, four domains, thirteen industries and the lifecycle page. Recreated from handoff pages 3 to 6, without suggested URLs. Careers and dashboards remain conditional.</desc>
+<rect width="1500" height="1580" fill="#f6f8fa"/>
+<text x="30" y="42" font-family="Arial,sans-serif" font-size="26" font-weight="bold" fill="#082c45">Enerqa website sitemap</text>
+<text x="30" y="72" font-family="Arial,sans-serif" font-size="15" fill="#465362">Editable recreation from the approved handoff — 3 October 2026</text>
+<g id="section-1">
+<rect x="30" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="44" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">Homepage</text>
+<rect x="30" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Initial view</text>
+<rect x="30" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Search</text>
+<rect x="30" y="286" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Latest news</text>
+<rect x="30" y="334" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="358" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Major Markets commentary</text>
+<rect x="30" y="382" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="406" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Domains</text>
+<rect x="30" y="430" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="454" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Project development</text>
+<rect x="30" y="478" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="502" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Publications</text>
+<rect x="30" y="526" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="550" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Data</text>
+<rect x="30" y="574" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="598" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Tools</text>
+<rect x="30" y="622" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="646" font-family="Arial,sans-serif" font-size="14" fill="#082c45">About</text>
+<rect x="30" y="670" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="42" y="694" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Stay informed</text>
+</g>
+<g id="section-2">
+<rect x="275" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="289" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">Domains and Industries</text>
+<rect x="275" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Overview</text>
+<rect x="275" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Domains</text>
+<rect x="275" y="286" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Climate Action &amp; Carbon</text>
+<text x="287" y="329" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Management</text>
+<rect x="275" y="353" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="377" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Energy Systems &amp; Transition</text>
+<rect x="275" y="401" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="425" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Environment, Nature &amp;</text>
+<text x="287" y="444" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Circularity</text>
+<rect x="275" y="468" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="492" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Sustainable Business, ESG &amp;</text>
+<text x="287" y="511" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Finance</text>
+<rect x="275" y="535" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="559" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Industries</text>
+<rect x="275" y="583" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="607" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Government, Regulators &amp;</text>
+<text x="287" y="626" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Public Institutions</text>
+<rect x="275" y="650" width="230" height="77" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="674" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Financial Institutions,</text>
+<text x="287" y="693" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Investors &amp; Development</text>
+<text x="287" y="712" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Finance</text>
+<rect x="275" y="736" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="760" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Energy &amp; Utilities</text>
+<rect x="275" y="784" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="808" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Oil, Gas &amp; Petrochemicals</text>
+<rect x="275" y="832" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="856" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Industry, Manufacturing &amp;</text>
+<text x="287" y="875" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Materials</text>
+<rect x="275" y="899" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="923" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Infrastructure, Real Estate</text>
+<text x="287" y="942" font-family="Arial,sans-serif" font-size="14" fill="#082c45">&amp; Industrial Zones</text>
+<rect x="275" y="966" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="990" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Transport, Logistics &amp;</text>
+<text x="287" y="1009" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Mobility</text>
+<rect x="275" y="1033" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1057" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Water, Waste &amp; Circular</text>
+<text x="287" y="1076" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Economy</text>
+<rect x="275" y="1100" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1124" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Agriculture, Food &amp;</text>
+<text x="287" y="1143" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Aquaculture</text>
+<rect x="275" y="1167" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1191" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Mining &amp; Natural Resources</text>
+<rect x="275" y="1215" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1239" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Tourism, Hospitality &amp;</text>
+<text x="287" y="1258" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Destinations</text>
+<rect x="275" y="1282" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1306" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Technology, Telecoms &amp; Data</text>
+<text x="287" y="1325" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Infrastructure</text>
+<rect x="275" y="1349" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1373" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Healthcare, Education &amp;</text>
+<text x="287" y="1392" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Institutional Estates</text>
+<rect x="275" y="1416" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="287" y="1440" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Project Development and</text>
+<text x="287" y="1459" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Lifecycle Support</text>
+</g>
+<g id="section-3">
+<rect x="520" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="534" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">Knowledge Hub</text>
+<rect x="520" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="532" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Enerqa Publication</text>
+<rect x="520" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="532" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Publication detail</text>
+<rect x="520" y="286" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="532" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Global Intelligence</text>
+<rect x="520" y="334" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="532" y="358" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Shared search and filters</text>
+</g>
+<g id="section-4">
+<rect x="765" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="779" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">Data Portal</text>
+<rect x="765" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="777" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Dataset catalogue</text>
+<rect x="765" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="777" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Dataset detail</text>
+<rect x="765" y="286" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="777" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Dashboards (when built)</text>
+<rect x="765" y="334" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="777" y="358" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Sources and Methodology</text>
+<rect x="765" y="382" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="777" y="406" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Explore, download and cite</text>
+</g>
+<g id="section-5">
+<rect x="1010" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="1024" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">Tools</text>
+<rect x="1010" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Tool catalogue</text>
+<rect x="1010" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">ESG Readiness Tool</text>
+<rect x="1010" y="286" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">easySOLAR</text>
+<rect x="1010" y="334" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="358" font-family="Arial,sans-serif" font-size="14" fill="#082c45">GreenScale Pro</text>
+<rect x="1010" y="382" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="406" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Tool detail</text>
+<rect x="1010" y="430" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1022" y="454" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Additional tools (validated</text>
+<text x="1022" y="473" font-family="Arial,sans-serif" font-size="14" fill="#082c45">releases only)</text>
+</g>
+<g id="section-6">
+<rect x="1255" y="100" width="230" height="75" rx="10" fill="#082c45"/>
+<text x="1269" y="128" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="white">About</text>
+<rect x="1255" y="190" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="214" font-family="Arial,sans-serif" font-size="14" fill="#082c45">About Enerqa</text>
+<rect x="1255" y="238" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="262" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Our Approach</text>
+<rect x="1255" y="286" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="310" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Our Domains</text>
+<rect x="1255" y="334" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="358" font-family="Arial,sans-serif" font-size="14" fill="#082c45">People and Organisation</text>
+<rect x="1255" y="382" width="230" height="39" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="406" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Connect with Enerqa</text>
+<rect x="1255" y="430" width="230" height="58" rx="6" fill="white" stroke="#b3c5c7"/>
+<text x="1267" y="454" font-family="Arial,sans-serif" font-size="14" fill="#082c45">Careers (approved</text>
+<text x="1267" y="473" font-family="Arial,sans-serif" font-size="14" fill="#082c45">recruitment content only)</text>
+</g>
+<text x="30" y="1512" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#082c45">Utility destinations</text>
+<text x="30" y="1540" font-family="Arial,sans-serif" font-size="15" fill="#465362">Contact · Search · Privacy Notice · Terms of Use · Cookie Choices · Accessibility Statement · Newsletter states</text>
+</svg>
