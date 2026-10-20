@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchNews, PAGE_NEWS_PROVIDERS, type NewsItem, type NewsResult } from '@/lib/api/news';
 import { FeedsBody, FeedsFallback } from './FirstFoldFeeds';
-import { HERO_CATEGORIES, selectHeroStories } from './firstFoldNews';
+import { HERO_CATEGORIES, selectHeroStories, selectHeroStoryGroups } from './firstFoldNews';
 
 // Provider calls are stubbed so these checks exercise selection without spending credits.
 vi.mock('@/lib/api/news', async importOriginal => ({ ...await importOriginal<typeof import('@/lib/api/news')>(), fetchNews: vi.fn() }));
@@ -26,6 +26,13 @@ beforeEach(() => {
 });
 
 describe('hero saved-feed integration', () => {
+  it('keeps up to three distinct stories per domain without padding missing coverage', () => {
+    const pool = [1, 2, 3, 4].map(index => item(`climate-${index}`, `Climate adaptation agreement ${index}`));
+    const groups = selectHeroStoryGroups([...pool, pool[0]]);
+    expect(groups[0]).toHaveLength(3);
+    expect(new Set(groups[0].map(article => article.url)).size).toBe(3);
+    expect(groups[1]).toEqual([]);
+  });
   it('selects one relevant story per domain without adding Markets to the hero', async () => {
     const stories = [item('c', 'Climate adaptation plan agreed'), item('e', 'Solar energy output record'),
       item('n', 'Forest biodiversity loss slows'), item('b', 'Green bond investment grows'), item('m', 'Energy prices climb')];

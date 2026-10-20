@@ -6,7 +6,8 @@ import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
 
 /**
- * CN/EN/NN/BN "Latest News" and I{nn}N "Industry News".
+ * CN/EN/NN/BN "Latest News" and Knowledge Hub news previews.
+ * Industry pages use IndustryHero with the same saved-feed filtering.
  *
  * Reads the shared saved news pool and keeps items matching the page's phrases.
  * Only the scheduled news job contacts providers. Placement (p. 37): three

@@ -1,17 +1,29 @@
 # TheNewsAPI client trial
 
-Verified locally on 19 October 2026, Asia/Manila. No production deployment or subscription purchase was performed.
+Verified locally on 20 October 2026, Asia/Manila. No production deployment or subscription purchase was performed.
 
 ## Current behavior
 
-- Domain pages show one news card each for this preview.
+- Domain pages show up to three verified news cards each. The homepage has up to three articles per domain with equal line segments showing the active article.
 - General news uses TheNewsAPI alone: homepage, market commentary, domain and industry news, saved searches and live Global Intelligence news searches.
 - Legacy NewsData/GDELT connectors and saved records remain available in code/storage, but do not supply fallback news during this trial.
 - Dedicated official-update and research modules retain their existing sources. They are separate content types, not news fallback.
 - The homepage opens the first domain with a real article. Empty domains remain selectable and report their empty state.
 - Cards distinguish the original publisher from the aggregator with “Via TheNewsAPI”. An EIA article retrieved by TheNewsAPI is not an EIA RSS fallback.
 
-## Latest four-domain preview
+## Three-article domain update — 20 October 2026
+
+The homepage supports up to three stories for each of its four domain tabs. Line segments select an article within a domain, and the previous/next controls and automatic rotation traverse the domain's stories before moving to the next domain. Manual selection pauses rotation; reduced-motion preferences and keyboard navigation remain supported. Each segment has an accessible article label and a visible selected state.
+
+Domain pages' Latest News sections now show up to three cards rather than one. No duplicated cards or placeholder stories are added when a feed is short. All news still comes from TheNewsAPI.
+
+A new four-topic refresh received 12 article entries and saved/rechecked 17 distinct eligible records, including previous records. Each topic request remained within the Free account's three-article response maximum.
+
+Climate, Energy and Environment discovery retain the seven-day window. Business uses the existing publication gate's 60-day window because sustainable-finance coverage is less frequent. Its current three articles are dated 13 October, 1 October and 6 September 2026; those dates remain visible. The Business page also recognises the provider's hyphenated "climate-finance" description.
+
+Automated checks: 28 affected test files / 262 tests passed, plus TypeScript and ESLint. Carousel checks cover article selection, changing links and freshness metadata, next/previous domain transitions, keyboard focus and automatic rotation. Browser checks verified three distinct links per domain, three cards on all four domain pages, progress-line placement and no page overflow at 390×844, 1024×614 and 1440×1000.
+
+## Earlier one-article domain preview
 
 The follow-up Free-plan test succeeded for all four Enerqa domains. Four focused topic requests returned ten article entries; the refresh retained eight verified articles, including previously saved records. There was no legacy-provider fallback and no subscription purchase.
 
@@ -60,16 +72,16 @@ The initial approved-publisher filter substantially narrowed coverage; the follo
 - Server credential: `THE_NEWS_API_TOKEN`, already present in local `.env`. Never prefix it with `NEXT_PUBLIC_`.
 - Provider selection: `src/lib/api/news/policy.ts`.
 - Connector: `src/lib/api/news/thenewsapi.ts`.
-- [Documented endpoint](https://www.thenewsapi.com/documentation): `/v1/news/all`. Queries translate internal `OR`/`AND` to `|`/`+` and search titles/descriptions using the reviewed publisher list, English and a seven-day discovery window.
+- [Documented endpoint](https://www.thenewsapi.com/documentation): `/v1/news/all`. Queries translate internal `OR`/`AND` to `|`/`+` and search titles/descriptions using the reviewed publisher list, English and a seven-day discovery window (60 days for the less frequent Business topic).
 - The API chooses the account's maximum response size because requests omit `limit`.
 - [Published plans](https://www.thenewsapi.com/pricing): Free has 100 requests/day and three articles/request; Basic has 2,500 requests/day and 25 articles/request, at USD 19/month with monthly billing or USD 16/month with annual billing.
-- Internal trial limit: 80 requests/day shared across server instances. The existing three daily jobs make about 61 topic/domain/rotating-industry requests per day; live searches/manual pulls use the remaining allowance.
+- Internal trial limit: 80 requests/day shared across server instances. The existing three daily jobs make about 70 topic/domain/rotating-industry/stock-market requests per day; live searches/manual pulls use the remaining allowance.
 - Public page visits read saved articles; they do not spend provider requests. Live searches remain bounded by the shared request budget.
 - Existing publisher approval, relevance, timestamps and anonymous-access checks remain in place. No full article body is requested or published.
 
 ## Verification
 
-Follow-up four-domain preview: 29 affected test files / 258 tests passed, along with TypeScript and ESLint. A real browser verified all four homepage tabs and all four domain pages; every Latest News section contained exactly one card attributed to TheNewsAPI.
+Earlier one-article preview: 29 affected test files / 258 tests passed, along with TypeScript and ESLint. A real browser verified all four homepage tabs and all four domain pages; every Latest News section contained exactly one card attributed to TheNewsAPI.
 
 - `npm run db:check`: authenticated read-only database query and existing connector tables passed.
 - 31 affected test files / 276 tests passed, including trial isolation, legacy saved-record exclusion, provider failure, connector mapping, token redaction, live-search filtering and homepage behavior.
@@ -81,6 +93,7 @@ Follow-up four-domain preview: 29 affected test files / 258 tests passed, along 
 - [x] Authenticate the existing token and perform a real provider-only refresh.
 - [x] Verify saved news and rendered articles use TheNewsAPI alone.
 - [x] Populate one suitable article for each of the four Enerqa domains using the Free account.
+- [x] Extend the preview to three articles per domain with navigation dots and three-card domain-page feeds.
 - [ ] Review article suitability and coverage with the client before subscribing.
   - Review the four-domain preview above against the initial limited-coverage test. Review any additional publishers individually before changing the approved list.
 - [ ] Confirm the client's chosen plan and publisher/image reuse requirements before production launch.
@@ -95,3 +108,20 @@ To repeat a manual refresh, use the existing operator script sparingly; each run
 # Run four topic requests for the domain preview while respecting the shared job lease.
 npx tsx scripts/pull-news.ts --manual --topics
 ```
+
+## Major Markets stock-only commentary — 20 October 2026
+
+The existing chart/commentary layout is retained. Commentary now requires stock-specific headline evidence, rather than the sustainable-finance basket. Climate funding, general energy prices and green-bond stories no longer fill this panel. CNBC article destinations were checked anonymously before adding its domain to the approved publishers; every displayed destination still needs `verified_open`.
+
+Three dedicated TheNewsAPI searches cover US exchanges/indices, London/FTSE, and regional equities (Europe, Asia and Gulf markets). Normal scheduled ingestion includes these searches. A focused operator refresh is `npx tsx scripts/pull-news.ts --manual --markets`; it uses the existing shared lease, request accounting, saved storage and access checks. Page visits read saved records without new provider requests. The preview uses the same seven-day publication window as other frequent-news searches.
+
+Live validation: the latest focused pull received three US-search results, of which one passed the strict stock-headline test and was saved after its access check. London and regional searches returned zero results within the current publisher/date constraints. Previously saved domain news was retained, but cannot fill the stock-only panel. This is a coverage limitation, not an error caused by the three-article response cap. A Basic subscription increases capacity; it does not guarantee eligible stories for every exchange.
+
+“View more” opens TradingView's global stock-news listing. The homepage commentary itself remains exclusively TheNewsAPI. This change has not been deployed.
+
+Validation: 29 test files / 276 tests passed, TypeScript and targeted ESLint passed, and the rendered stock article was verified at 1440px and 390px without horizontal overflow. Screenshots: `/tmp/enerqa-stock-markets-1440.png` and `/tmp/enerqa-stock-markets-390.png`.
+
+
+### Follow-up: second stock article — 20 October 2026
+
+Stock queries now use `search_fields=title`, so incidental stock references in descriptions cannot consume the Free plan's three result slots. Other domain searches retain `title,description`. A focused refresh returned three stock candidates, all relevant and verified open, allowing the existing two-story commentary panel to fill without relaxing its filter or adding fallback providers. London and regional searches still returned no results. The four affected test suites passed (34 tests), along with TypeScript and targeted ESLint.

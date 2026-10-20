@@ -21,29 +21,29 @@ beforeEach(() => vi.clearAllMocks());
 
 describe('separate Major Markets commentary', () => {
   it('shows TheNewsAPI market commentary when the wider news pool is empty', async () => {
-    vi.mocked(fetchNews).mockResolvedValueOnce(result([], true)).mockResolvedValueOnce(result([item('prices', 'Natural gas prices fall')], false));
+    vi.mocked(fetchNews).mockResolvedValueOnce(result([], true)).mockResolvedValueOnce(result([item('prices', 'FTSE shares fall')], false));
     render(await MarketsCommentary());
-    expect(screen.getByRole('link', { name: /Natural gas prices fall/ })).toHaveAttribute('href', 'https://www.theguardian.com/prices');
-    expect(fetchNews).toHaveBeenLastCalledWith('business', 2, { providers: ['thenewsapi'], maxPerPublisher: 10 });
+    expect(screen.getByRole('link', { name: /FTSE shares fall/ })).toHaveAttribute('href', 'https://www.theguardian.com/prices');
+    expect(fetchNews).toHaveBeenLastCalledWith('all', 40, { providers: ['thenewsapi'], maxPerPublisher: 10, stockMarkets: true });
     expect(screen.queryByText('This source is temporarily unavailable.')).not.toBeInTheDocument();
   });
 
   it('prefers the newest available market reporting, with honest timestamps', async () => {
     vi.mocked(fetchNews).mockResolvedValueOnce(result([])).mockResolvedValueOnce(result([
-      { ...item('old', 'Natural gas prices fall'), publishedAt: new Date(Date.now() - 86400000).toISOString() },
-      item('new', 'Diesel prices rise'),
+      { ...item('old', 'FTSE shares fall'), publishedAt: new Date(Date.now() - 86400000).toISOString() },
+      item('new', 'Nasdaq stocks rise'),
     ], false));
     render(await MarketsCommentary());
     expect(screen.getAllByRole('heading', { level: 4 }).map(heading => heading.textContent)).toEqual([
-      expect.stringContaining('Diesel prices rise'), expect.stringContaining('Natural gas prices fall'),
+      expect.stringContaining('Nasdaq stocks rise'), expect.stringContaining('FTSE shares fall'),
     ]);
     expect(screen.getAllByText(/Updated/)).toHaveLength(2);
   });
 
   it('keeps the commentary when it also happens to be the only finance-domain story', async () => {
-    vi.mocked(fetchNews).mockResolvedValueOnce(result([item('bond', 'Green bond investment grows')])).mockResolvedValueOnce(result([], false));
+    vi.mocked(fetchNews).mockResolvedValueOnce(result([item('bond', 'London stocks rally')])).mockResolvedValueOnce(result([], false));
     render(await MarketsCommentary());
-    expect(screen.getByRole('link', { name: /Green bond investment grows/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /London stocks rally/ })).toBeInTheDocument();
     expect(screen.queryByText(/NewsData delayed/)).not.toBeInTheDocument();
   });
 

@@ -2,6 +2,7 @@ import { fetchFromProvider, providerKey, type BodyRejection } from '../core/fetc
 import { fail, ok, type ConnectorResult } from '../core/types';
 import { extractRegions } from './geography';
 import { NEWS_REFRESH_SECONDS } from './schedule';
+import { STOCK_MARKET_QUERIES } from './markets';
 import { hostnameOf, newsImageUrl, normaliseUrl, SOURCE_ALLOWLIST, THE_NEWS_API_TOPIC_QUERIES, type NewsBasketKey, type NewsItem } from './types';
 
 type NewsPage = { data?: unknown; error?: { code?: unknown } };
@@ -47,16 +48,16 @@ export function mapTheNewsApiResults(results: unknown[], retrievedAt: string): N
 
 /** Omit limit so the same request uses the account maximum: Free 3, Basic 25. */
 export async function fetchTheNewsApiQuery(query: string, revalidate = NEWS_REFRESH_SECONDS,
-  fresh = false, languages: string[] = ['en']): Promise<ConnectorResult<NewsItem[]>> {
+  fresh = false, languages: string[] = ['en'], options: { days?: number } = {}): Promise<ConnectorResult<NewsItem[]>> {
   const token = providerKey('thenewsapi');
   if (!token) return fail('thenewsapi', 'not_configured', 'THE_NEWS_API_TOKEN is not set.');
   const params = new URLSearchParams({
     api_token: token, search: theNewsApiQuery(query), language: languages.join(','),
-    // Search the metadata we can evaluate instead of incidental body mentions.
-    search_fields: 'title,description',
+    // Stock slots require matching headlines; domain feeds also search descriptions.
+    search_fields: STOCK_MARKET_QUERIES.includes(query) ? 'title' : 'title,description',
     domains: SOURCE_ALLOWLIST.join(','), sort: 'published_at',
     // Exclude old indexed stories before they consume the small free-plan response.
-    published_after: new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10),
+    published_after: new Date(Date.now() - (options.days ?? 7) * 86400000).toISOString().slice(0, 10),
   });
   const result = await fetchFromProvider<NewsPage>('thenewsapi', `${ENDPOINT}?${params}`, {
     revalidate, fresh, tags: ['news'], timeoutMs: 25000, rejectBody: rejectTheNewsApiBody,
@@ -73,5 +74,8 @@ export async function fetchTheNewsApiQuery(query: string, revalidate = NEWS_REFR
 
 export async function fetchTheNewsApiBasket(key: NewsBasketKey, fresh = false): Promise<ConnectorResult<NewsItem[]>> {
   const query = key === 'all' ? null : THE_NEWS_API_TOPIC_QUERIES[key];
-  return query ? fetchTheNewsApiQuery(query, NEWS_REFRESH_SECONDS, fresh) : ok('thenewsapi', []);
+  // Sustainable-finance coverage is less frequent. Keep its latest available
+  // dated articles inside the existing 60-day publication gate.
+  return query ? fetchTheNewsApiQuery(query, NEWS_REFRESH_SECONDS, fresh, ['en'], { days: key === 'business' ? 60 : 7 })
+    : ok('thenewsapi', []);
 }

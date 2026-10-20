@@ -117,6 +117,7 @@ describe('database-backed news reads', () => {
     ['energy-utilities', 'Solar traffic controller wins design award'],
     ['oil-gas-petrochemicals', 'UK diesel supplies face disruption'],
     ['industry-manufacturing-materials', 'Steel factories cut carbon emissions'],
+    ['industry-manufacturing-materials', 'Electricity costs put UK steelmakers in worst position in three years against EU rivals'],
     ['infrastructure-real-estate-industrial-zones', 'Apartments share rooftop solar power'],
     ['transport-logistics-mobility', 'UK motorists can now see live fuel prices'],
     ['water-waste-circular-economy', 'Water pollution threatens river wildlife'],
@@ -136,6 +137,14 @@ describe('database-backed news reads', () => {
     for (const call of [fetchNewsdataBasket, fetchNewsdataQuery, fetchGdeltNews, fetchEiaNews, fetchEeaNews, storeRecords]) {
       expect(call).not.toHaveBeenCalled();
     }
+  });
+
+  it('does not mistake the name Steele for steel manufacturing', async () => {
+    const saved = { ...article('politics'), title: 'Climate policy divides political parties',
+      summary: 'Senator Jordan Steele-Johns discussed the policy.' };
+    vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [saved] });
+    const feed = INDUSTRY_FEEDS['industry-manufacturing-materials'];
+    expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toHaveLength(0);
   });
 
   it.each([
@@ -217,7 +226,7 @@ describe('scheduled news refresh', () => {
     expect(result.skipped).toBe(false);
     expect(claimNewsRefresh).toHaveBeenCalledWith({ manual: true });
     expect(fetchNewsdataBasket).toHaveBeenCalledTimes(4);
-    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(12 + industryDiscoveryQueries().length);
+    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(3 + 12 + industryDiscoveryQueries().length);
     expect(fetchNewsdataBasket).toHaveBeenCalledWith('climate', true);
     vi.mocked(fetchNewsdataBasket).mockClear();
     vi.mocked(fetchNewsdataQuery).mockClear();
@@ -250,7 +259,7 @@ describe('scheduled news refresh', () => {
     expect(saved.map(i => i.id)).toContain(latest.id);
     expect(fetchNewsdataBasket).toHaveBeenCalledTimes(4);
     expect(fetchNewsdataBasket).toHaveBeenCalledWith('climate', true);
-    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(12 + industryDiscoveryQueries().length);
+    expect(fetchNewsdataQuery).toHaveBeenCalledTimes(3 + 12 + industryDiscoveryQueries().length);
     for (const feed of Object.values(DOMAIN_FEEDS)) {
       for (const phrases of feed.newsBaskets) {
         expect(fetchNewsdataQuery).toHaveBeenCalledWith(basketQuery(phrases), 43200, true);

@@ -143,8 +143,8 @@ describe('withoutShown', () => {
 
 describe('buildMarketView', () => {
   it('ranks merged news and official commentary by publication, not retrieval or provider order', () => {
-    const old = item('old', 'Energy prices climb', { publishedAt: hoursAgo(72), retrievedAt: hoursAgo(0) });
-    const fresh = item('fresh', 'Natural gas prices fall', {
+    const old = item('old', 'FTSE stocks climb', { publishedAt: hoursAgo(72), retrievedAt: hoursAgo(0) });
+    const fresh = item('fresh', 'Nasdaq stocks fall', {
       publishedAt: hoursAgo(2), retrievedAt: hoursAgo(12), provider: 'eia_rss',
       url: 'https://www.eia.gov/todayinenergy/detail.php?id=1', domain: 'eia.gov',
     });
@@ -153,15 +153,15 @@ describe('buildMarketView', () => {
 
   it('finds market stories in the shared pool without repeating Global News', () => {
     const lead = item('lead', 'Climate adaptation plan agreed');
-    const prices = item('prices', 'Energy prices climb');
-    const bonds = item('bonds', 'Green bond investment grows');
+    const prices = item('prices', 'FTSE stocks climb');
+    const bonds = item('bonds', 'London stocks rally');
     const nature = item('nature', 'Forest biodiversity loss slows');
     expect(buildMarketView([lead, prices, bonds, nature], [lead])).toEqual([prices, bonds]);
   });
 
   it('removes shown articles before applying the publisher cap', () => {
     const shown = [item('a', 'Energy investment rises'), item('b', 'Carbon markets expand')];
-    const remaining = [item('c', 'Green bond investment grows'), item('d', 'Solar energy prices fall')];
+    const remaining = [item('c', 'London stocks rally'), item('d', 'Nikkei stocks fall')];
     expect(buildMarketView([...shown, ...remaining], shown)).toEqual(remaining);
   });
 

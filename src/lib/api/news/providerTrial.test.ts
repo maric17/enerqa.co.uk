@@ -1,7 +1,9 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 import { fail, ok } from '../core/types';
+import { STOCK_MARKET_QUERIES } from './markets';
 import { THE_NEWS_API_TOPIC_QUERIES, type NewsItem } from './types';
 import { selectHeroStories } from '../../../components/home/firstFoldNews';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '../../feeds/contextual';
 
 vi.mock('./thenewsapi', () => ({ fetchTheNewsApiBasket: vi.fn(), fetchTheNewsApiQuery: vi.fn() }));
 vi.mock('./newsdata', () => ({ NEWSDATA_DELAY_HOURS: 12, PAGE_BASKET_SECONDS: 43200,
@@ -47,6 +49,44 @@ it('shows only TheNewsAPI on homepage, domain/industry and saved-search reads de
   for (const call of [...legacyCalls, fetchTheNewsApiBasket, fetchTheNewsApiQuery]) expect(call).not.toHaveBeenCalled();
 });
 
+it('keeps sustainable-finance stories whose provider description hyphenates climate-finance', async () => {
+  const saved = { ...article('thenewsapi'), title: 'Pacific leaders call for action ahead of the global climate summit',
+    summary: 'Leaders are seeking support for regional climate-finance options.' };
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [saved] });
+  const feed = DOMAIN_FEEDS['sustainable-business-esg-finance'];
+  const result = await fetchNewsForKeywords(newsPhrases(feed), 3, { basket: feed.newsBasket, baskets: feed.newsBaskets });
+  expect(result.items.map(item => item.title)).toEqual([saved.title]);
+});
+
+it('retains relevant food-system stories from discovery through storage and the agriculture hero read', async () => {
+  const food = { ...article('thenewsapi'), id: 'food', title: 'Africa must own the future of food',
+    summary: 'Transforming food systems demands environmental resilience and animal welfare.',
+    url: 'https://mg.co.za/thought-leader/food', domain: 'mg.co.za' };
+  const farming = { ...article('thenewsapi'), id: 'farming', title: 'Is this the end for small-scale pig farming?',
+    summary: 'Small-scale pig farming is not sustainable after piglets sold for £2.',
+    url: 'https://www.bbc.co.uk/news/farming', domain: 'bbc.co.uk' };
+  const unrelated = { ...article('thenewsapi'), id: 'processed', title: 'The science and politics behind the panic over ultraprocessed foods',
+    summary: 'The modern food environment needs to be healthier.' };
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [] });
+  vi.mocked(fetchTheNewsApiQuery).mockResolvedValue(ok('thenewsapi', [food, farming, unrelated]));
+  const check = vi.fn(async (url: string) => ({ status: 'verified_open' as const,
+    checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+  const result = await refreshScheduledNews(check, {
+    manual: true, industriesOnly: true, industrySlugs: ['agriculture-food-aquaculture'],
+  });
+  expect(result.storedItems).toBe(2);
+  expect(check).toHaveBeenCalledTimes(2);
+  expect(check).toHaveBeenCalledWith(food.url);
+  expect(check).toHaveBeenCalledWith(farming.url);
+  const saved = vi.mocked(storeRecords).mock.calls[0][0].map(row => row.record as NewsItem);
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: saved });
+  const feed = INDUSTRY_FEEDS['agriculture-food-aquaculture'];
+  expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items)
+    .toEqual(expect.arrayContaining([food, farming].map(item => expect.objectContaining({
+      title: item.title, accessStatus: 'verified_open',
+    }))));
+});
+
 it('prefers a direct energy discovery to a newer fuel-pollution story without losing either article', async () => {
   const solar = { ...article('thenewsapi'), matchedQueries: [THE_NEWS_API_TOPIC_QUERIES.energy],
     publishedAt: new Date(Date.now() - 86400000).toISOString() };
@@ -57,6 +97,26 @@ it('prefers a direct energy discovery to a newer fuel-pollution story without lo
   const domain = await fetchNewsForKeywords(['solar', 'fuel'], 1, { basket: 'energy' });
   expect(domain.items[0].title).toBe(solar.title);
   expect((await fetchNews()).items).toHaveLength(2);
+});
+
+it('retains an industrial contamination story from provider discovery through the manufacturing hero read', async () => {
+  const factory = { ...article('thenewsapi'), title: 'Residents want more tests over Thornton-Cleveleys toxic chemical fears',
+    summary: 'Blood tests found high levels of a cancer-causing chemical near a former factory.',
+    url: 'https://www.bbc.co.uk/news/articles/crn4ewww9ypgo', domain: 'bbc.co.uk' };
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [] });
+  vi.mocked(fetchTheNewsApiQuery).mockResolvedValue(ok('thenewsapi', [factory]));
+  const check = vi.fn(async (url: string) => ({ status: 'verified_open' as const,
+    checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+  const refreshed = await refreshScheduledNews(check, {
+    manual: true, industriesOnly: true, industrySlugs: ['industry-manufacturing-materials'],
+  });
+  expect(refreshed.storedItems).toBe(1);
+  expect(check).toHaveBeenCalledExactlyOnceWith(factory.url);
+  const saved = vi.mocked(storeRecords).mock.calls[0][0].map(row => row.record as NewsItem);
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: saved });
+  const feed = INDUSTRY_FEEDS['industry-manufacturing-materials'];
+  expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items)
+    .toEqual([expect.objectContaining({ title: factory.title, accessStatus: 'verified_open' })]);
 });
 
 it('keeps the trial empty when only legacy articles exist, without activating fallback', async () => {
@@ -95,4 +155,22 @@ it.each([{ topicsOnly: true }, { manual: true, topicsOnly: true, industriesOnly:
 ('rejects an ambiguous or non-manual topic preview before claiming a lease: %j', async options => {
   await expect(refreshScheduledNews(undefined, options)).rejects.toThrow('manual pull without industry');
   expect(claimNewsRefresh).not.toHaveBeenCalled();
+});
+
+// Stock stories use a dedicated relevance rule without changing the domain baskets.
+it('saves regional stock discoveries and reads them independently of climate finance', async () => {
+  const stocks = { ...article('thenewsapi'), title: 'FTSE stocks climb as London trading opens',
+    matchedQueries: [STOCK_MARKET_QUERIES[1]] };
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [] });
+  vi.mocked(fetchTheNewsApiQuery).mockResolvedValue(ok('thenewsapi', [stocks]));
+  const check = vi.fn(async (url: string) => ({ status: 'verified_open' as const,
+    checkedAt: new Date().toISOString(), evidence: 'Opened', finalUrl: url }));
+  const refreshed = await refreshScheduledNews(check, { manual: true, marketsOnly: true });
+  expect(refreshed.storedItems).toBe(1);
+  expect(fetchTheNewsApiQuery).toHaveBeenCalledTimes(3);
+  expect(fetchTheNewsApiBasket).not.toHaveBeenCalled();
+  expect(check).toHaveBeenCalledWith(stocks.url);
+  vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [stocks,
+    { ...article('thenewsapi'), id: 'climate', title: 'Climate finance falls short', url: 'https://www.eia.gov/climate' }] });
+  expect((await fetchNews('all', 40, { stockMarkets: true })).items.map(item => item.title)).toEqual([stocks.title]);
 });

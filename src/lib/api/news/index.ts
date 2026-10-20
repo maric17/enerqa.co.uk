@@ -29,6 +29,7 @@ import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from '../../feeds/contextual';
 import { industryDiscoveryQueries } from './discovery';
+import { isStockMarketNews, STOCK_MARKET_QUERIES } from './markets';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
@@ -250,7 +251,8 @@ async function collect(
     const provider = result.providerId as NewsProvider;
     note(status, provider, result);
     noteNewsProvider(diagnostics, provider, result);
-    if (result.ok) relevant.push(...result.data.filter(isOnSiteTopic));
+    if (result.ok) relevant.push(...result.data.filter(item =>
+      item.matchedQueries?.some(query => STOCK_MARKET_QUERIES.includes(query)) ? isStockMarketNews(item) : isOnSiteTopic(item)));
   }
 
   diagnostics.counts.relevant = relevant.length;
@@ -300,6 +302,8 @@ function buildResult(items: NewsItem[], status: Collected['status']): NewsResult
 }
 
 export type NewsOptions = {
+  /** Dedicated stocks panel, independent of sustainability topic matching. */
+  stockMarkets?: boolean;
   maxPerPublisher?: number;
   /**
    * Only read these providers, and judge `sourcesFailed` on them alone. A panel
@@ -376,7 +380,7 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
         : latest.at(-1)?.outcome ?? 'unavailable';
   }
   // Page matching may reuse legacy page-basket records; the homepage keeps its stricter topic gate.
-  const relevant = eligible.filter(item => opts.pageBaskets && basketKey === 'all'
+  const relevant = eligible.filter(item => opts.stockMarkets ? isStockMarketNews(item) : opts.pageBaskets && basketKey === 'all'
     ? isOnSiteTopic(item) : matchesBasket(item, getBasket(basketKey))).map(item => ({
     ...normalise(item), refreshSeconds: NEWS_REFRESH_SECONDS,
     feedRefreshedAt: saved.state.lastSuccessAt?.[item.provider],
@@ -470,6 +474,9 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
 
 /** Three daily pulls of one shared pool, with independent provider storage. */
 export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
+  if (options.marketsOnly && (!options.manual || options.topicsOnly || options.industriesOnly || options.industrySlugs)) {
+    throw new Error('Market preview requires a manual pull without other scope options.');
+  }
   if (options.topicsOnly && (!options.manual || options.industriesOnly || options.industrySlugs)) {
     throw new Error('Topic preview requires a manual pull without industry options.');
   }
@@ -482,7 +489,7 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
   diagnostics.mode = 'refresh';
-  diagnostics.scope = options.topicsOnly ? 'topics' : options.industriesOnly ? 'industries' : 'all';
+  diagnostics.scope = options.marketsOnly ? 'markets' : options.topicsOnly ? 'topics' : options.industriesOnly ? 'industries' : 'all';
   const providers = options.industriesOnly
     ? REFRESH_NEWS_PROVIDERS.filter(provider => provider === 'thenewsapi' || provider === 'newsdata')
     : REFRESH_NEWS_PROVIDERS;
@@ -491,9 +498,9 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     // Keep the twelve domain queries and rotate up to five sector queries per slot.
     // Industry maintenance can target one sector without repeating the full job.
     const domainQueries = options.industriesOnly ? [] : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
-    const queries = options.topicsOnly ? []
-      : [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
-    const collected = await collect('all', providers, queries, true, !options.industriesOnly);
+    const queries = options.marketsOnly ? STOCK_MARKET_QUERIES : options.topicsOnly ? []
+      : [...new Set([...(options.industriesOnly ? [] : STOCK_MARKET_QUERIES), ...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
+    const collected = await collect('all', providers, queries, true, !options.industriesOnly && !options.marketsOnly);
     // Maintenance preserves the last outcomes of providers it did not contact.
     diagnostics.providers = [
       ...(options.industriesOnly ? claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? [] : []),

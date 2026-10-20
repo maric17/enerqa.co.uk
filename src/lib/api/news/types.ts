@@ -156,6 +156,7 @@ const TOPIC_BASKETS: NewsBasket[] = [
       'environment*', 'biodiversity', 'nature', 'ecosystem', 'pollution', 'pollutant',
       'circular', 'waste', 'water', 'forest', 'species', 'recycling',
       'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
+      'toxic chemical', 'chemical contamination',
     ],
   },
   {
@@ -226,6 +227,8 @@ export const SOURCE_ALLOWLIST = [
   'theconversation.com',
   'mg.co.za',
   'bbc.co.uk',
+  // Stock-reporting destinations reviewed 20 Oct 2026; each URL still needs verified_open.
+  'cnbc.com',
 ];
 
 /** Hostname of a URL, lower-cased and without "www.". Empty string if unparseable. */
@@ -318,8 +321,21 @@ const CORE_TOPIC_TERMS = [
   'deforestation', 'wildlife', 'conservation', 'mining', 'pfas', 'air quality',
   // Ecological impacts can be explicit without the headline saying "environment".
   'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
+  // Industrial contamination is environmental news without saying "pollution".
+  'toxic chemical', 'chemical contamination',
   // ESG and sustainable finance
   'esg', 'green bond', 'climate finance', 'sustainable finance', 'green energy',
+];
+
+// Agriculture headlines often name food or farming and explain sustainability
+// in the publisher's description. Require both, rather than accepting all food news.
+const AGRICULTURE_HEADLINE_TERMS = [
+  'agricultur*', 'farming', 'farmer', 'food', 'aquacultur*', 'fisheries', 'livestock',
+  'crop', 'irrigation',
+];
+const AGRICULTURE_SUSTAINABILITY_TERMS = [
+  'climate', 'emission', 'greenhouse', 'sustainab*', 'biodiversity', 'deforestation',
+  'soil carbon', 'food security', 'food systems', 'environmental resilience', 'environmental impact',
 ];
 
 const termCache = new Map<string, RegExp>();
@@ -350,17 +366,21 @@ export function containsAny(haystack: string, terms: string[]): boolean {
   return terms.some((term) => termMatcher(term).test(haystack));
 }
 
-/** Test 1 below on its own: the HEADLINE is about the site's subject matter. */
-export function isOnSiteTopic(item: Pick<NewsItem, 'title'>): boolean {
-  return containsAny(item.title, CORE_TOPIC_TERMS);
+/** Anchor on the headline; agriculture may supply its sustainability context in the description. */
+export function isOnSiteTopic(item: Pick<NewsItem, 'title'> & Partial<Pick<NewsItem, 'summary'>>): boolean {
+  return containsAny(item.title, CORE_TOPIC_TERMS) || (
+    containsAny(item.title, AGRICULTURE_HEADLINE_TERMS) &&
+    containsAny(item.summary ?? '', AGRICULTURE_SUSTAINABILITY_TERMS)
+  );
 }
 
 /**
  * Relevance filtering (p. 226). Two tests, both of which must pass:
- *   1. the HEADLINE is about our subject matter, and
+ *   1. the headline is about our subject matter (or names agriculture/food with
+ *      explicit sustainability context in the publisher's description), and
  *   2. the headline or summary fits the basket the reader asked for.
  *
- * Test 1 deliberately ignores the summary. Checking both let through "17 cats
+ * Outside that agriculture case, test 1 ignores the summary. Checking both let through "17 cats
  * found dead in extreme heat" - an animal-cruelty story whose description
  * happened to mention water. A passing mention inside a description is not
  * what an article is about; a headline usually is.

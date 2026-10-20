@@ -6,6 +6,7 @@ import {
   normaliseUrl,
   isPlausibleDate,
   applyGate,
+  isOnSiteTopic,
   type NewsItem,
 } from './types';
 
@@ -36,6 +37,21 @@ const stub = (title: string, summary = '', over: Partial<NewsItem> = {}): NewsIt
 describe('relevance filtering', () => {
   const all = getBasket('all');
 
+  it.each([
+    ['Africa must own the future of food', 'Transforming food systems demands animal welfare and environmental resilience.'],
+    ['Is this the end for small-scale pig farming?', 'Small-scale pig farming is not sustainable after piglets sold for £2.'],
+  ])('recognizes agriculture headlines whose sustainability context is in the supplied description: %s', (title, summary) => {
+    expect(isOnSiteTopic(stub(title, summary))).toBe(true);
+  });
+
+  it.each([
+    ['The science and politics behind the panic over ultraprocessed foods', 'The modern food environment needs to be healthier.'],
+    ['Farmers celebrate a football win', 'The team won a local tournament.'],
+    ['Local restaurant reopens after refurbishment', 'The kitchen now recycles its water.'],
+  ])('keeps general food and farming stories outside the sustainability feed: %s', (title, summary) => {
+    expect(isOnSiteTopic(stub(title, summary))).toBe(false);
+  });
+
   const REJECTED: [string, string][] = [
     ["Oracle's $18 billion data center debt under pressure, FT reports", 'loans quoted by syndicate banks including Santander and Jefferies'],
     ['Louisiana woman faces charges after 17 cats found dead in extreme-heat', 'cats found dead amid dangerously hot conditions with no water'],
@@ -52,6 +68,7 @@ describe('relevance filtering', () => {
   });
 
   const ACCEPTED: [string, string][] = [
+    ['Residents want more tests over Thornton-Cleveleys toxic chemical fears', 'A cancer-causing chemical was found near a former factory.'],
     ["Australia's renewables transition is well under way", 'a goal of 82% renewable energy and planned solar and wind projects'],
     ["Australia's big polluters rely on carbon offsets for climate credibility", 'Credits are treated as a swap for emissions'],
     ['What goes into diesel prices?', 'The price of distillate fuel oil, driven by crude oil and retail margins'],
@@ -65,6 +82,11 @@ describe('relevance filtering', () => {
 
   it.each(ACCEPTED)('accepts on-topic story: %s', (title, summary) => {
     expect(matchesBasket(stub(title, summary), all)).toBe(true);
+  });
+
+  it('classifies industrial chemical contamination without accepting generic toxic-language headlines', () => {
+    expect(matchesBasket(stub('Residents raise toxic chemical fears near a factory'), getBasket('environment'))).toBe(true);
+    expect(isOnSiteTopic(stub('Actor describes a toxic workplace', 'A passing reference to the environment.'))).toBe(false);
   });
 
   it('does not treat a word as a match inside a longer word', () => {

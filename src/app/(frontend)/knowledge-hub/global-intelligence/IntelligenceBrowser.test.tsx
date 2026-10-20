@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { IntelligenceBrowser } from './IntelligenceBrowser';
 import { tagIntelligence } from '@/lib/feeds/intelligence';
@@ -12,13 +12,19 @@ const saved = tagIntelligence({
 const fresh = { ...saved, id: 'fresh', title: 'Fresh climate policy in Germany', url: 'https://example.org/fresh' };
 function mount() {
   render(<IntelligenceBrowser initialItems={[saved]} initialFilters={{}} initialPage={1} initialSourcesFailed={false}
-    domains={[]} industries={[]} sources={[{ value: 'newsdata', label: 'NewsData.io' }]} languages={[{ value: 'en', label: 'EN' }]} labels={{}} />);
+    domains={[]} industries={[]} languages={[{ value: 'en', label: 'EN' }]} labels={{}} />);
 }
 function choose(label: string, values: string[]) {
-  const select = screen.getByRole('listbox', { name: label }) as HTMLSelectElement;
-  for (const option of select.options) option.selected = values.includes(option.value);
-  fireEvent.change(select);
+  if (['Content Type', 'Language', 'Date Range'].includes(label)) {
+    const summary = screen.getByText(/Additional filters/);
+    if (!summary.closest('details')?.open) fireEvent.click(summary);
+  }
+  const group = screen.getByRole('group', { name: `${label} options` });
+  for (const checkbox of within(group).getAllByRole('checkbox') as HTMLInputElement[]) {
+    if (checkbox.checked !== values.includes(checkbox.value)) fireEvent.click(checkbox);
+  }
 }
+
 function reply(items = [fresh], sourcesFailed = false) {
   return { ok: true, json: async () => ({ items, sourcesFailed, partialFailure: sourcesFailed, unavailableSources: [], searchedAt: '2026-10-11' }) };
 }
@@ -35,7 +41,7 @@ it('renders saved records first without requesting any API on mount', async () =
 
 it('keeps selections pending until Apply filters submits one request with linked geography', async () => {
   request.mockResolvedValue(reply()); mount();
-  choose('Content Type', ['news']); choose('Source', ['newsdata']); choose('Country', ['DEU']);
+  choose('Content Type', ['news']); choose('Language', ['en']); choose('Country', ['DEU']);
   await act(() => vi.advanceTimersByTimeAsync(1000));
   expect(request).not.toHaveBeenCalled();
   expect(screen.queryByText('Updating results…')).not.toBeInTheDocument();
@@ -49,7 +55,8 @@ it('keeps selections pending until Apply filters submits one request with linked
   expect(url.searchParams.get('country')).toBe('DEU');
   expect(url.searchParams.get('region')).toBe('Western Europe');
   expect(url.searchParams.get('type')).toBe('news');
-  expect(url.searchParams.get('source')).toBe('newsdata');
+  expect(url.searchParams.has('source')).toBe(false);
+  expect(url.searchParams.get('language')).toBe('en');
   expect(screen.getByRole('heading', { name: fresh.title })).toBeInTheDocument();
   expect(window.location.search).toContain('country=DEU');
   expect(screen.queryByText('Filters changed. Click Apply filters to update results.')).not.toBeInTheDocument();
@@ -72,7 +79,7 @@ it('cancels and ignores an older response only after a later submission', async 
   request.mockImplementationOnce(() => new Promise(resolve => { resolveOld = resolve; })).mockResolvedValueOnce(reply());
   mount(); choose('Content Type', ['news']);
   fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
-  choose('Source', ['newsdata']);
+  choose('Language', ['en']);
   await act(() => vi.advanceTimersByTimeAsync(1000));
   expect(request.mock.calls[0][1].signal.aborted).toBe(false);
   expect(request).toHaveBeenCalledTimes(1);
@@ -127,8 +134,8 @@ it('stages chip removal without discarding other unsubmitted edits', async () =>
   fireEvent.click(screen.getByRole('link', { name: 'Remove type: news' }));
   await act(() => vi.advanceTimersByTimeAsync(1000));
   expect(request).toHaveBeenCalledTimes(1);
-  expect(screen.getByRole('listbox', { name: 'Content Type' })).toHaveValue([]);
-  expect(screen.getByRole('listbox', { name: 'Country' })).toHaveValue(['DEU']);
+  expect(screen.getByRole('checkbox', { name: 'News' })).not.toBeChecked();
+  expect(screen.getByRole('checkbox', { name: 'Germany' })).toBeChecked();
   expect(window.location.search).toBe('?type=news');
   fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
   await act(() => vi.advanceTimersByTimeAsync(0));
@@ -149,4 +156,11 @@ it('retains unsubmitted edits when a submitted search finishes', async () => {
   expect(screen.getByText('Filters changed. Click Apply filters to update results.')).toBeInTheDocument();
   expect(window.location.search).toBe('?type=news');
   expect(request).toHaveBeenCalledTimes(1);
+});
+
+it('ignores old source selections instead of keeping an invisible restriction', () => {
+  render(<IntelligenceBrowser initialItems={[saved]} initialFilters={{ source: ['thenewsapi'] }} initialPage={1} initialSourcesFailed={false}
+    domains={[]} industries={[]} languages={[]} labels={{}} />);
+  expect(screen.getByRole('heading', { name: saved.title })).toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: /Remove source/ })).not.toBeInTheDocument();
 });

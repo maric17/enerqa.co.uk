@@ -138,7 +138,7 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
     ],
     relatedNewsTerms: ['sustainability', 'green bond', 'responsible investment', 'climate disclosure', 'sustainable investment',
       // Adaptation funding is sustainable finance even without the exact phrase "sustainable finance".
-      'climate finance', 'adaptation finance'],
+      'climate finance', 'adaptation finance', 'climate-finance'],
     researchThemes: [
       'ESG materiality sustainability reporting climate risk',
       'sustainable finance green credit taxonomy project screening',
@@ -223,7 +223,8 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'industry-manufacturing-materials': {
-    newsDiscoveryQuery: '(manufacturing OR cement OR steel) AND (energy OR emissions OR environment)',
+    // Cover manufacturing word forms, electricity costs and industrial contamination.
+    newsDiscoveryQuery: '(manufactur* OR cement OR steel* OR factory) AND (ener* OR electric* OR emiss* OR toxic OR enviro*)',
     pdfPage: 90,
     // p. 90: "Specialist feeds for I05R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],
@@ -232,7 +233,8 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
       ['circular manufacturing', 'cement emissions', 'cleaner production'],
     ],
     relatedNewsTerms: [
-      'manufacturing', 'cement', 'steel', 'factory', 'factories', 'industrial emissions',
+      'manufactur*', 'cement', 'steel', 'steelmaker*', 'steelmaking', 'steelworks', 'steelworker*',
+      'factory', 'factories', 'industrial emissions',
       'industrial energy', 'recycled materials', 'material recycling', 'alternative leather',
     ],
     researchThemes: [
@@ -292,7 +294,8 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'agriculture-food-aquaculture': {
-    newsDiscoveryQuery: '(agriculture OR food OR aquaculture) AND (climate OR environment OR sustainability)',
+    // Include farmers/farming and word stems used in real sector headlines.
+    newsDiscoveryQuery: '(agri* OR farming OR farmer* OR food OR aquacultur*) AND (climate OR environment* OR sustainab*)',
     pdfPage: 114,
     // p. 114: "Specialist feeds for I09R: reliefweb, gbif_literature."
     specialistFeeds: ['reliefweb', 'gbif_literature'],

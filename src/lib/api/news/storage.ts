@@ -90,6 +90,8 @@ export type NewsRefreshOptions = {
   manual?: boolean;
   /** Manual four-domain preview; avoids spending credits on sector discovery. */
   topicsOnly?: boolean;
+  /** Manual stock-market preview using only the three regional searches. */
+  marketsOnly?: boolean;
   /** Trusted operator maintenance; the HTTP route never enables this option. */
   industriesOnly?: boolean;
   /** Restrict a manual industry repair to these known sectors instead of all thirteen. */

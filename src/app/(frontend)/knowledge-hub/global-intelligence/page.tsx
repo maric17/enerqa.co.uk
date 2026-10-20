@@ -10,7 +10,6 @@ import { IntelligenceBrowser } from './IntelligenceBrowser';
 import { getIntelligenceIndex } from '@/lib/feeds/intelligenceIndex';
 import { CONTENT_TYPES } from '@/lib/feeds/intelligence';
 import { parseIntelligenceFilters } from '@/lib/feeds/intelligenceQueries';
-import { intelligenceSourceChoices } from '@/lib/feeds/liveIntelligence';
 import { COUNTRIES } from '@/lib/feeds/coverage';
 import { getSearchIndex } from '../../search/loadIndex';
 import { runSearch } from '../../search/searchIndex';
@@ -29,6 +28,8 @@ export default async function GlobalIntelligencePage({ searchParams }: {
   for (const [key, value] of Object.entries(params)) {
     for (const v of Array.isArray(value) ? value : value ? [value] : []) queryParams.append(key, v);
   }
+  // Removed source controls must not remain as invisible restrictions in old links.
+  queryParams.delete('source');
   const filters = parseIntelligenceFilters(queryParams);
   const payload = await getPayload({ config: configPromise });
   const [index, domains, industries] = await Promise.all([
@@ -36,12 +37,11 @@ export default async function GlobalIntelligencePage({ searchParams }: {
     payload.find({ collection: 'domains', limit: 100, depth: 0, select: { title: true, slug: true } }),
     payload.find({ collection: 'industries', limit: 100, depth: 0, select: { title: true, slug: true } }),
   ]);
-  const sources = intelligenceSourceChoices();
   const languages = [...new Set(['en', 'fr', 'es', 'de', 'ar', 'zh', 'unspecified', ...index.items.map(i => i.language ?? 'unspecified')])].map(value => ({ value, label: value === 'unspecified' ? 'Not specified' : value.toUpperCase() }));
   const contextQuery = filters.q?.[0] || [...filters.domain, ...filters.industry, ...filters.theme].map(slug => [...domains.docs, ...industries.docs].find(d => d.slug === slug)?.title ?? '').join(' ');
   const related = contextQuery ? await runSearch(contextQuery, getSearchIndex) : null;
   const labels: Record<string, string> = Object.fromEntries([
-    ...sources.map(s => [s.value, s.label]), ...COUNTRIES.map(c => [c.code, c.name]),
+    ...COUNTRIES.map(c => [c.code, c.name]),
     ...domains.docs.map(d => [d.slug, d.title]), ...industries.docs.map(d => [d.slug, d.title]), ...Object.entries(CONTENT_TYPES),
   ]);
   return <div className="min-h-screen bg-[var(--color-paper)]">
@@ -55,7 +55,7 @@ export default async function GlobalIntelligencePage({ searchParams }: {
         initialPage={Math.max(1, Number.parseInt(String(params.page ?? '1'), 10) || 1)} initialSourcesFailed={index.sourcesFailed}
         domains={domains.docs.map(d => ({ value: d.slug, label: d.title }))}
         industries={industries.docs.map(d => ({ value: d.slug, label: d.title }))}
-        sources={sources} languages={languages} labels={labels} />
+        languages={languages} labels={labels} />
       <section aria-labelledby="source-context" className="border-t border-gray-200 pt-5 text-xs leading-relaxed text-gray-600 space-y-2">
         <h2 id="source-context" className="text-sm font-semibold text-[var(--color-dark)]">Sources</h2>
         <p>Content belongs to its original publishers. Free reading does not grant republication rights for articles or images. NewsData.io's free feed is delayed by at least 12 hours.</p>

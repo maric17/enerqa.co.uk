@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchFromProvider, providerKey, redactUrl } from '../core/fetch';
 import { ok } from '../core/types';
+import { STOCK_MARKET_QUERIES } from './markets';
 import { SOURCE_ALLOWLIST } from './types';
-import { fetchTheNewsApiQuery, mapTheNewsApiResults, rejectTheNewsApiBody, theNewsApiQuery } from './thenewsapi';
+import { fetchTheNewsApiBasket, fetchTheNewsApiQuery, mapTheNewsApiResults, rejectTheNewsApiBody, theNewsApiQuery } from './thenewsapi';
 
 // Mock transport only so request construction and article mapping run for real.
 vi.mock('../core/fetch', async original => ({
@@ -14,6 +15,26 @@ beforeEach(() => {
 });
 
 describe('TheNewsAPI connector', () => {
+  it('reserves stock-search results for matching headlines rather than incidental descriptions', async () => {
+    // The three-result allowance should contain candidates the stock panel can use.
+    await fetchTheNewsApiQuery(STOCK_MARKET_QUERIES[0], 28800, true);
+    const url = new URL(vi.mocked(fetchFromProvider).mock.calls[0][1]);
+    expect(url.searchParams.get('search_fields')).toBe('title');
+  });
+  it('uses a wider dated window only for the less frequent business topic', async () => {
+    await fetchTheNewsApiBasket('business', true);
+    let url = new URL(vi.mocked(fetchFromProvider).mock.calls.at(-1)![1]);
+    expect(url.searchParams.get('published_after')).toBe(new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10));
+    await fetchTheNewsApiBasket('energy', true);
+    url = new URL(vi.mocked(fetchFromProvider).mock.calls.at(-1)![1]);
+    expect(url.searchParams.get('published_after')).toBe(new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10));
+  });
+  it('can search an explicitly wider dated window without increasing the plan limit', async () => {
+    await fetchTheNewsApiQuery('"climate finance"', 28800, true, ['en'], { days: 30 });
+    const url = new URL(vi.mocked(fetchFromProvider).mock.calls[0][1]);
+    expect(url.searchParams.get('published_after')).toBe(new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10));
+    expect(url.searchParams.has('limit')).toBe(false);
+  });
   it('uses the existing server token, approved publishers and plan maximum without requesting paid features', async () => {
     await fetchTheNewsApiQuery('climate OR "carbon market"', 28800, true);
     const [provider, request, options] = vi.mocked(fetchFromProvider).mock.calls[0];

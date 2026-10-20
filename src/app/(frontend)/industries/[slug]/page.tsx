@@ -3,13 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { Typography } from '@/components/ui/Typography';
-import { PageHero } from '@/components/ui/PageHero';
+import { IndustryHero } from '@/components/feeds/IndustryHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
-import { INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
-import { NewsFeed } from '@/components/feeds/NewsFeed';
+import { INDUSTRY_FEEDS } from '@/lib/feeds/contextual';
 import { ResearchFeed } from '@/components/feeds/ResearchFeed';
 import { RelatedPublications } from '@/components/feeds/RelatedPublications';
 import { RelatedDataset } from '@/components/feeds/RelatedDataset';
@@ -64,11 +62,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  const { title, heroNarrative, ctaText, lifecycleNarrative, relatedCapabilities, heroImage, relevantTools, dataSources } = industry;
+  const { title, heroNarrative, ctaText, lifecycleNarrative, relatedCapabilities, dataSources } = industry;
 
-  const tools = Array.isArray(relevantTools) ? relevantTools : [];
   const sources = Array.isArray(dataSources) ? dataSources : [];
-  const heroImageUrl = heroImage && typeof heroImage === 'object' && 'url' in heroImage ? heroImage.url : null;
 
   // I{nn}02 links. Each capability is a real record with a parent domain, so
   // the anchor always exists. A capability without a populated domain is
@@ -84,16 +80,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--paper)]">
-      {/* INITIAL VIEW (Top viewport fold y 0 to y 768) */}
-      <PageHero
-        title={title}
-        imageUrl={heroImageUrl}
-        breadcrumbs={
-          <>
-            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <Link href="/domains-and-industries#industries" className="text-white/80 hover:text-white transition-colors no-underline">Industries</Link> / <span className="en text-white" aria-current="page">{title}</span>
-          </>
-        }
-      />
+      <IndustryHero title={title} slug={slug} />
 
       {/* Narrative, CTA & Capability Links Section */}
       <section className="bg-[var(--paper)] pt-12 pb-8 border-b border-[var(--line)] shadow-sm">
@@ -165,35 +152,10 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         </Container>
       </section>
 
-      {/* I{nn}N - INDUSTRY NEWS. Reads the shared cached pool, filtered by this
-          industry's own handoff baskets - no provider call of its own (p. 226).
-          Text only: feed access does not clear image rights (pp. 210, 214, 216). */}
-      <section className="py-20 bg-[var(--paper)] border-t border-[var(--line)]">
-        <Container>
-          <div className="flex justify-between items-end gap-6 mb-4">
-            <h2 className="text-3xl font-bold text-[var(--ink)]">Industry News</h2>
-            <Link href={`/knowledge-hub/global-intelligence?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
-              View All Industry News
-            </Link>
-          </div>
-          <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
-            Follow relevant developments in {String(title).toLowerCase()}, including the climate, energy, environmental and investment issues affecting the sector.
-          </p>
-          {feed ? (
-            // L516: on one column, reserve one card (the empty state's height).
-            <Suspense fallback={<FeedSkeleton cards={3} mobileCards={1} />}>
-              <NewsFeed phrases={newsPhrases(feed)} baskets={feed.newsBaskets} limit={3} nearest={nearest} />
-            </Suspense>
-          ) : (
-            <SourceUnavailable className="min-h-[220px]" />
-          )}
-        </Container>
-      </section>
-
       {/* I{nn}R - RESEARCH AND OFFICIAL UPDATES */}
       <section className="py-20 bg-[var(--paper)] border-b border-[var(--line)]">
         <Container>
-          <div className="flex justify-between items-end gap-6 mb-4">
+          <div className="flex flex-wrap justify-between items-end gap-6 mb-4">
             <h2 className="text-3xl font-bold text-[var(--ink)]">Research and Official Updates</h2>
             <Link href={`/knowledge-hub/global-intelligence?industry=${slug}&type=research`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
               Explore Related Research
@@ -214,7 +176,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         </Container>
       </section>
 
-      {/* DATA, TOOLS & PUBLICATIONS */}
+      {/* DATA & PUBLICATIONS */}
       <section className="py-20 bg-[var(--paper)]">
         <Container>
           <div className="flex flex-col gap-20">
@@ -222,7 +184,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
                 at most. p. 66: with no geographically relevant licensed dataset,
                 show the canonical catalogue link - NOT a sample statistic. */}
             <div>
-              <div className="flex justify-between items-end gap-6 mb-8 max-w-4xl">
+              <div className="flex flex-wrap justify-between items-end gap-6 mb-8 max-w-4xl">
                 <h2 className="text-3xl font-bold text-[var(--ink)]">Related Data</h2>
                 <Link href={`/data-portal?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
                   Explore Related Data
@@ -241,51 +203,18 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
               />
             </div>
 
-            {/* Tools & Publications - Side by side */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-              {/* I{nn}T - Relevant Tools */}
-              <div>
-                <div className="flex justify-between items-end gap-6 mb-4">
-                  <h2 className="text-3xl font-bold text-[var(--ink)]">Relevant Enerqa Tools</h2>
-                  <Link href={`/tools?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
-                    Explore All Tools
-                  </Link>
-                </div>
-                <p className="text-lg text-[var(--ink-soft)] leading-relaxed mb-8">
-                  Explore assessment and modelling tools relevant to this industry.
-                </p>
-                {tools.length > 0 ? (
-                  <ul className="flex flex-col gap-4 list-none p-0 m-0">
-                    {tools.map((tool: any, idx: number) => (
-                      <li key={tool.id || `${tool.href}-${idx}`}>
-                        <Link
-                          href={tool.href}
-                          className="flex items-center justify-between gap-4 bg-[var(--paper-alt)] p-6 rounded-[var(--r-md)] border border-[var(--line)] hover:border-[var(--green)] transition-colors"
-                        >
-                          <span className="text-base font-bold text-[var(--ink)]">{tool.label}</span>
-                          <ArrowRight className="w-5 h-5 text-[var(--color-secondary)] shrink-0" />
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <SourceUnavailable className="min-h-[200px]" />
-                )}
+            {/* I{nn}K - Enerqa Publication (first-party CMS only) */}
+            <div>
+              <div className="flex flex-wrap justify-between items-end gap-6 mb-4">
+                <h2 className="text-3xl font-bold text-[var(--ink)]">Enerqa Publication</h2>
+                <Link href={`/knowledge-hub?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+                  Explore Related Publications
+                </Link>
               </div>
-
-              {/* I{nn}K - Enerqa Publication (first-party CMS only) */}
-              <div>
-                <div className="flex justify-between items-end gap-6 mb-4">
-                  <h2 className="text-3xl font-bold text-[var(--ink)]">Enerqa Publication</h2>
-                  <Link href={`/knowledge-hub?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
-                    Explore Related Publications
-                  </Link>
-                </div>
-                <p className="text-lg text-[var(--ink-soft)] leading-relaxed mb-8">
-                  Read Enerqa&rsquo;s perspectives on the sustainability and project-development questions relevant to this industry.
-                </p>
-                <RelatedPublications field="industries" id={industry.id} limit={3} />
-              </div>
+              <p className="text-lg text-[var(--ink-soft)] leading-relaxed mb-8">
+                Read Enerqa&rsquo;s perspectives on the sustainability and project-development questions relevant to this industry.
+              </p>
+              <RelatedPublications field="industries" id={industry.id} limit={3} />
             </div>
           </div>
         </Container>

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import catalogue from '@/lib/data-portal/gapminder-catalogue.json';
+import { gapminderDataAttribution, GAPMINDER_LICENCE_URL } from '@/lib/data-portal/attribution';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -18,7 +19,11 @@ export async function GET(request: Request) {
     topic: record.topic,
     source: record.source,
     licence: record.licence,
-    attribution: record.attribution,
+    // Preserve the indicator's own terms separately from Gapminder's citation.
+    licence_url: record.attribution.match(/Licence\/terms: (https?:\/\/\S+)/)?.[1].replace(/\.$/, '') ?? null,
+    attribution: gapminderDataAttribution(record.source),
+    gapminder_licence_url: GAPMINDER_LICENCE_URL,
+    version: record.commit,
     data_urls: record.data_urls,
   });
 }

@@ -5,10 +5,10 @@ async function main() {
   // Require an explicit operator choice because this writes to the shared news store.
   const args = process.argv.slice(2);
   const singleIndustry = args.length === 3 && args[0] === '--manual' && args[1] === '--industry' && !args[2].startsWith('--');
-  const normalPull = args.includes('--manual') && new Set(args).size === args.length && args.every(arg => ['--manual', '--industries', '--topics'].includes(arg))
-    && !(args.includes('--industries') && args.includes('--topics'));
+  const normalPull = args.includes('--manual') && new Set(args).size === args.length && args.every(arg => ['--manual', '--industries', '--topics', '--markets'].includes(arg))
+    && args.filter(arg => ['--industries', '--topics', '--markets'].includes(arg)).length <= 1;
   if (!normalPull && !singleIndustry) {
-    console.error('Usage: npx tsx scripts/pull-news.ts --manual [--topics | --industries | --industry <slug>]');
+    console.error('Usage: npx tsx scripts/pull-news.ts --manual [--topics | --markets | --industries | --industry <slug>]');
     process.exitCode = 1;
     return;
   }
@@ -21,6 +21,7 @@ async function main() {
     console.log(`Starting one manual ${industriesOnly ? 'industry' : 'news'} pull with the shared lease and provider budgets.`);
     const result = await refreshScheduledNews(undefined, {
       manual: true,
+      ...(args.includes('--markets') ? { marketsOnly: true } : {}),
       ...(args.includes('--topics') ? { topicsOnly: true } : {}),
       ...(industriesOnly ? { industriesOnly: true } : {}),
       ...(singleIndustry ? { industrySlugs: [args[2]] } : {}),

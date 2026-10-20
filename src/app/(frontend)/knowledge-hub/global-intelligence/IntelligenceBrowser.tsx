@@ -8,13 +8,14 @@ import type { LiveIntelligenceResult } from '@/lib/feeds/liveIntelligence';
 
 type Choice = { value: string; label: string };
 const PATH = '/knowledge-hub/global-intelligence';
-export function IntelligenceBrowser({ initialItems, initialFilters, initialPage, initialSourcesFailed, domains, industries, sources, languages, labels }: {
+export function IntelligenceBrowser({ initialItems, initialFilters, initialPage, initialSourcesFailed, domains, industries, languages, labels }: {
   initialItems: IntelligenceItem[]; initialFilters: Filters; initialPage: number; initialSourcesFailed: boolean;
-  domains: Choice[]; industries: Choice[]; sources: Choice[]; languages: Choice[]; labels: Record<string, string>;
+  domains: Choice[]; industries: Choice[]; languages: Choice[]; labels: Record<string, string>;
 }) {
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState<Filters>(() => ({ ...initialFilters, source: [] }));
   // Controls can change without affecting the applied results or spending a request.
-  const [draftFilters, setDraftFilters] = useState(initialFilters);
+  const [draftFilters, setDraftFilters] = useState<Filters>(() => ({ ...initialFilters, source: [] }));
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [items, setItems] = useState(initialItems);
   const [currentPage, setPage] = useState(initialPage);
   const [sourcesFailed, setSourcesFailed] = useState(initialSourcesFailed);
@@ -71,12 +72,16 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
       if (id === sequence.current) setLoading(false);
     }
   }
-  return <>
-      <section aria-labelledby="intelligence-search" className="rounded-2xl border border-gray-200 bg-white p-5 md:p-8"><h2 id="intelligence-search" className="mb-6 text-2xl font-bold">Search Global Intelligence</h2>
-        <IntelligenceFilters filters={draftFilters} domains={domains} industries={industries} sources={sources} languages={availableLanguages} onFiltersChange={setDraftFilters} onSearch={() => { void applyFilters(draftFilters); }} onClear={() => setDraftFilters({})} />
+  return <div className="grid items-start gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="min-w-0">
+        <button type="button" aria-expanded={mobileFiltersOpen} aria-controls="intelligence-filter-panel" onClick={() => setMobileFiltersOpen(open => !open)}
+          className="mb-4 w-full rounded-lg border border-gray-300 bg-white p-3 text-left font-semibold lg:hidden">{mobileFiltersOpen ? 'Hide filters' : 'Show filters'}</button>
+      <aside id="intelligence-filter-panel" aria-labelledby="intelligence-search" className={`${mobileFiltersOpen ? 'block' : 'hidden'} min-w-0 rounded-2xl border border-gray-200 bg-white p-5 lg:block`}><h2 id="intelligence-search" className="mb-5 text-xl font-bold">Filter results</h2>
+        <IntelligenceFilters filters={draftFilters} domains={domains} industries={industries} languages={availableLanguages} onFiltersChange={setDraftFilters} onSearch={() => { void applyFilters(draftFilters); }} onClear={() => setDraftFilters({})} />
         {filtersChanged && <p role="status" className="mt-4 text-sm text-gray-600">Filters changed. Click Apply filters to update results.</p>}
-      </section>
-      <section aria-labelledby="external-cards" className="space-y-6" aria-busy={loading}>
+      </aside>
+      </div>
+      <section aria-labelledby="external-cards" className="min-w-0 space-y-6" aria-busy={loading}>
         <h2 id="external-cards" className="text-2xl font-bold">Results</h2>
         <p role="status" className="border-b border-gray-200 pb-4 text-sm text-gray-600">{loading ? 'Updating results…' : `${matching.length} open-access results${refreshed ? ' · Updated from sources' : ' · Saved collection'}`}</p>
         {notice && <p role="status" className="text-sm text-gray-600">{notice}</p>}
@@ -109,5 +114,5 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
           <span>Page {page} of {pages}</span>{page < pages && <Link href={filterUrl(filters, page + 1)} onClick={e => { e.preventDefault(); changePage(page + 1); }} className="underline">Next page</Link>}
         </nav>}
       </section>
-  </>;
+  </div>;
 }
