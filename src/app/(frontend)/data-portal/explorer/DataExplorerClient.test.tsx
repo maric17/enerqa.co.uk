@@ -38,6 +38,11 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllGlobals());
 
+// Choose a visible suggestion; the chart updates without a separate apply action.
+function chooseIndicator(axis: 'X' | 'Y', name: string) {
+  fireEvent.change(screen.getByRole('combobox', { name: `${axis}-axis indicator` }), { target: { value: name } });
+  fireEvent.click(within(screen.getByRole('listbox', { name: `${axis}-axis indicator suggestions` })).getByRole('option', { name: new RegExp(`^${name}(?:$| )`) }));
+}
 const chart = () => JSON.parse(screen.getByTestId('chart').textContent!);
 const ready = async () => { render(<DataExplorerClient />); await screen.findByTestId('chart'); };
 
@@ -57,7 +62,7 @@ describe('Explorer selections and data', () => {
 
   it('updates period averages, axis ranges, tables and comparison tooltips', async () => {
     await ready();
-    fireEvent.change(screen.getByRole('combobox', { name: 'Y-axis indicator' }), { target: { value: 'daily' } });
+    chooseIndicator('Y', 'Daily measurements');
     await waitFor(() => expect(chart().yAxis.name).toBe('Daily measurements'));
     const selector = screen.getByRole('combobox', { name: 'Time period' });
     const cases = [
@@ -83,7 +88,7 @@ describe('Explorer selections and data', () => {
     expect(screen.getByRole('columnheader', { name: 'Month' })).toBeInTheDocument();
     expect(within(screen.getByRole('table')).getAllByRole('row')).toHaveLength(4);
     expect(within(screen.getByRole('table')).getByText('40')).toBeInTheDocument();
-    fireEvent.change(screen.getByRole('combobox', { name: 'X-axis indicator' }), { target: { value: 'daily' } });
+    chooseIndicator('X', 'Daily measurements');
     fireEvent.click(screen.getByRole('button', { name: 'Bubble Chart' }));
     expect(chart().series[0].data).toEqual([[40, 40, '2024-01'], [80, 80, '2024-02'], [-20, -20, '2025-01']]);
     expect(chart().series[0].dimensions[2].displayName).toBe('Month');
@@ -100,17 +105,46 @@ describe('Explorer selections and data', () => {
     expect(within(screen.getByRole('table')).getByText('0')).toBeInTheDocument();
   });
 
-  it('searches dataset topics while preserving the current selection', async () => {
+  it('shows suggestions as typing replaces the current label and applies a choice immediately', async () => {
     await ready();
-    fireEvent.change(screen.getByRole('searchbox', { name: 'Search datasets' }), { target: { value: 'economy' } });
     const selector = screen.getByRole('combobox', { name: 'Y-axis indicator' });
-    expect(selector).toHaveValue('life');
-    expect(within(selector).getAllByRole('option').map(o => o.textContent)).toEqual(['Income per person']);
-    fireEvent.change(selector, { target: { value: 'income' } });
+    expect(selector).toHaveValue('Life expectancy');
+    fireEvent.change(selector, { target: { value: 'economy' } });
+    expect(selector).toHaveAttribute('aria-expanded', 'true');
+    expect(selector).toHaveValue('economy');
+    expect(screen.getByRole('option', { name: /^Income per person/ })).toBeInTheDocument();
+    // Searching alone keeps the current chart stable until a suggestion is chosen.
+    expect(chart().yAxis.name).toBe('Life expectancy');
+    fireEvent.click(screen.getByRole('option', { name: /^Income per person/ }));
     await waitFor(() => expect(chart().yAxis.name).toBe('Income per person'));
-    fireEvent.change(screen.getByRole('searchbox', { name: 'Search datasets' }), { target: { value: 'unmatched phrase' } });
+    expect(selector).toHaveValue('Income per person');
+    expect(selector).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.change(selector, { target: { value: 'unmatched phrase' } });
     expect(screen.getByText('No indicators match your search.')).toBeInTheDocument();
-    expect(selector).toHaveValue('income');
+    fireEvent.keyDown(selector, { key: 'Escape' });
+    expect(selector).toHaveValue('Income per person');
+  });
+
+  it('supports typo-tolerant suggestions and Enter selection on both axes', async () => {
+    await ready();
+    const selector = screen.getByRole('combobox', { name: 'X-axis indicator' });
+    fireEvent.change(selector, { target: { value: 'expectncy' } });
+    expect(screen.getByRole('option', { name: /^Life expectancy/ })).toBeInTheDocument();
+    fireEvent.keyDown(selector, { key: 'Enter' });
+    expect(selector).toHaveValue('Life expectancy');
+    expect(chart().xAxis.type).toBe('value');
+  });
+
+  it('shows exact linked Gapminder attribution, original provider credit and the comparison chart', async () => {
+    await ready();
+    expect(screen.getByText('Data sources and attribution')).toBeInTheDocument();
+    expect(screen.getByText('Test provider')).toBeInTheDocument();
+    expect(screen.getByText(/Based on free material from/)).toHaveTextContent('Based on free material from GAPMINDER.ORG, CC-BY LICENSE');
+    expect(screen.getByRole('link', { name: 'CC-BY LICENSE' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by/4.0/');
+    expect(screen.queryByText(/source-grade MRV/)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Original Gapminder Chart' }));
+    expect(screen.getByText(/Comparison view/)).toBeInTheDocument();
+    expect(screen.getByText(/FREE TO USE!/)).toHaveTextContent('FREE TO USE! CC-BY GAPMINDER.ORG');
   });
 
   it('searches countries by name or code without clearing hidden selections', async () => {
@@ -127,8 +161,7 @@ describe('Explorer selections and data', () => {
 
   it('compares only matching country/year pairs and returns to Year', async () => {
     await ready();
-    const selector = screen.getByRole('combobox', { name: 'X-axis indicator' });
-    fireEvent.change(selector, { target: { value: 'income' } });
+    chooseIndicator('X', 'Income per person');
     await waitFor(() => expect(chart().series.find((s: any) => s.name === 'Afghanistan').data).toEqual([[100, 0, 2000]]));
     expect(chart().xAxis.type).toBe('value');
     expect(chart().series[0].type).toBe('scatter');
@@ -136,14 +169,14 @@ describe('Explorer selections and data', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Data Table' }));
     expect(within(screen.getByRole('table')).getByRole('columnheader', { name: 'Income per person (X)' })).toBeInTheDocument();
     expect(within(screen.getByRole('table')).getAllByRole('row')).toHaveLength(3);
-    fireEvent.change(selector, { target: { value: 'year' } });
+    chooseIndicator('X', 'Year');
     expect(within(screen.getByRole('table')).getAllByRole('row')).toHaveLength(4);
     expect(screen.queryByText('X-axis source: Income per person')).toBeNull();
   });
 
   it('explains datasets with no overlapping years and prevents empty downloads', async () => {
     await ready();
-    fireEvent.change(screen.getByRole('combobox', { name: 'X-axis indicator' }), { target: { value: 'empty' } });
+    chooseIndicator('X', 'Historical population');
     await screen.findByText(/No matching country and observation date pairs/);
     expect(screen.queryByTestId('chart')).toBeNull();
     expect(screen.getByRole('button', { name: 'Filtered CSV' })).toBeDisabled();
@@ -152,7 +185,7 @@ describe('Explorer selections and data', () => {
   it('can use the same indicator on both axes without fetching it again', async () => {
     await ready();
     const calls = vi.mocked(fetch).mock.calls.length;
-    fireEvent.change(screen.getByRole('combobox', { name: 'X-axis indicator' }), { target: { value: 'life' } });
+    chooseIndicator('X', 'Life expectancy');
     expect(chart().series.find((s: any) => s.name === 'Afghanistan').data).toEqual([[0, 0, 2000], [60, 60, 2001]]);
     expect(new Set(chart().series[0].dimensions.map((d: any) => d.name)).size).toBe(3);
     expect(vi.mocked(fetch).mock.calls).toHaveLength(calls);
@@ -161,9 +194,9 @@ describe('Explorer selections and data', () => {
   it('shows an upstream error and recovers when the x-axis changes back to Year', async () => {
     await ready();
     vi.mocked(fetch).mockImplementation(async () => ({ ok: false, json: async () => ({ error: 'Upstream unavailable' }) }) as Response);
-    fireEvent.change(screen.getByRole('combobox', { name: 'X-axis indicator' }), { target: { value: 'income' } });
+    chooseIndicator('X', 'Income per person');
     expect(await screen.findByRole('alert')).toHaveTextContent('Upstream unavailable');
-    fireEvent.change(screen.getByRole('combobox', { name: 'X-axis indicator' }), { target: { value: 'year' } });
+    chooseIndicator('X', 'Year');
     expect(screen.getByTestId('chart')).toBeInTheDocument();
   });
 });

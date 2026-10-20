@@ -4,9 +4,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import ReactECharts from 'echarts-for-react';
 import { Container } from '@/components/ui/Container';
-import { Loader2, AlertCircle, Table as TableIcon, Download, BarChart2, Activity, ShieldAlert } from 'lucide-react';
+import { Loader2, AlertCircle, Table as TableIcon, Download, BarChart2, Activity } from 'lucide-react';
 import { ExternalEmbed } from '@/components/ExternalEmbed';
 import { IndicatorSelector } from '@/components/data/IndicatorSelector';
+import { GapminderAttribution } from '@/components/data/GapminderAttribution';
 import { countryName, matchIndicators, type Observation } from '@/lib/data-portal/explorer';
 import { TIME_PERIODS, aggregateTimePeriods, availableTimePeriod, effectiveTimePeriod, valueAxisBounds, type TimePeriod } from '@/lib/data-portal/timePeriods';
 
@@ -21,6 +22,7 @@ type Dataset = {
 type Metadata = Dataset & {
   attribution: string;
   concept: string;
+  licence_url?: string | null;
 };
 
 export default function DataExplorerClient() {
@@ -193,6 +195,7 @@ export default function DataExplorerClient() {
       time_period: timePeriod,
       effective_time_period: effectivePeriod,
       aggregation: 'mean',
+      enerqa_changes: 'Country and date selection, exact country/date pairing for comparisons, and arithmetic means for the selected time period. No interpolation or zero filling.',
       week_starts_on: 'Monday',
       time_zone: 'UTC',
       observation_count: filteredObservations.length,
@@ -447,28 +450,24 @@ export default function DataExplorerClient() {
             {/* Step 10: Visible provenance, limitations, provider credits, dataset versions */}
             {metadata && (
               <div className="min-w-0 [overflow-wrap:anywhere] bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col gap-4 text-sm text-gray-800 shadow-sm mt-4">
-                <h3 className="font-bold text-blue-900 flex items-center gap-2 border-b border-blue-200 pb-3 text-lg">
-                  <ShieldAlert className="w-6 h-6" /> Data Source & Limitations
+                <h3 className="font-bold text-blue-900 border-b border-blue-200 pb-3 text-lg">
+                  Data sources and attribution
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2 md:col-span-1 border-b md:border-b-0 md:border-r border-blue-200 pb-4 md:pb-0 md:pr-4">
                     <p><strong>Original Provider:</strong> <br/>{metadata.source} <em>via Gapminder</em></p>
-                    <p><strong>Licence:</strong> <br/>{metadata.licence}</p>
-                    <p><strong>Version / Concept:</strong> <br/>{metadata.concept}</p>
+                    <p><strong>Licence:</strong> <br/>{metadata.licence_url ? <a href={metadata.licence_url} className="underline">{metadata.licence}</a> : metadata.licence}</p>
+                    <p><strong>Indicator:</strong> <br/>{metadata.concept}</p>
                   </div>
 
                   <div className="md:col-span-2 space-y-4">
                     <div className="bg-white p-4 rounded-lg border border-blue-100 text-xs text-gray-600 font-mono">
-                      <strong className="text-gray-800 text-sm font-sans mb-1 block">Mandatory Attribution:</strong>
-                      {metadata.attribution}
+                      <strong className="text-gray-800 text-sm font-sans mb-1 block">Attribution:</strong>
+                      <GapminderAttribution />
                     </div>
 
-                    <div className="text-sm text-gray-700 space-y-2 leading-relaxed bg-blue-100/50 p-4 rounded-lg">
-                      <p><strong>Limitations:</strong> Values are fetched directly from verified upstream sources without zero-coercion or gap interpolation.</p>
-                      <p><strong>Cautions:</strong> Gapminder states that many of its gap-filled series are intended to illustrate broad trends, not detailed numerical analysis. Historical country series also use present-day geographic boundaries.</p>
-                      <p className="font-bold text-gray-900 mt-2">Do not present this explorer as a substitute for source-grade MRV, feasibility, or investment evidence.</p>
-                    </div>
+                    <p className="text-sm text-gray-700"><strong>Enerqa changes:</strong> Country and date selection; {periodOption.label.toLowerCase()} averages. Comparisons use matching countries and observation dates. Missing values are excluded.</p>
                   </div>
                 </div>
               </div>
@@ -480,15 +479,16 @@ export default function DataExplorerClient() {
           <div className="min-w-0 [overflow-wrap:anywhere] bg-blue-50 p-6 rounded-xl border border-blue-200 text-sm text-gray-800 space-y-2 mt-4">
             <h3 className="font-bold text-blue-900">X-axis source: {xMetadata.name}</h3>
             <p><strong>Original Provider:</strong> {xMetadata.source} <em>via Gapminder</em></p>
-            <p><strong>Licence:</strong> {xMetadata.licence}</p>
-            <p><strong>Version / Concept:</strong> {xMetadata.concept}</p>
-            <p><strong>Attribution:</strong> {xMetadata.attribution}</p>
+            <p><strong>Licence:</strong> {xMetadata.licence_url ? <a href={xMetadata.licence_url} className="underline">{xMetadata.licence}</a> : xMetadata.licence}</p>
+            <p><strong>Indicator:</strong> {xMetadata.concept}</p>
+            <GapminderAttribution />
             <p>Only exact country and observation date matches are included in period averages. Missing values are excluded.</p>
           </div>
         )}
 
         {activeTab === 'gapminder' && (
           <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm min-h-[600px] flex flex-col">
+            <p className="mb-3 text-sm text-gray-600">Comparison view — retained while the Enerqa explorer is reviewed.</p>
             <div className="mb-4 flex justify-between items-center">
               <h2 className="font-bold text-xl text-gray-900">Original Gapminder Visualization</h2>
               <a href="https://www.gapminder.org/tools" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] text-sm font-bold hover:underline">
@@ -505,8 +505,7 @@ export default function DataExplorerClient() {
               className="w-full flex-1 border-0 rounded-lg min-h-[600px]"
             />
             <div className="mt-4 text-xs text-gray-500 bg-gray-50 p-4 rounded-lg border border-gray-100">
-              Data and visualization provided by <a href="https://www.gapminder.org" className="underline font-bold">Gapminder</a>.
-              The Gapminder Tools are embedded here for convenience. Use the "Open in new tab" link above if the iframe is restricted by your browser.
+              <GapminderAttribution original />
             </div>
           </div>
         )}

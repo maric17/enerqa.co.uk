@@ -9,7 +9,7 @@ import type { AccessStatus } from '../core/types';
  * item itself.
  */
 
-export type NewsProvider = 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
+export type NewsProvider = 'thenewsapi' | 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
 
 export type NewsItem = {
   /** Normalised URL - the deduplication key required by p. 226. */
@@ -70,6 +70,23 @@ export type NewsItem = {
 };
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
+
+// Focused queries are shared with selection so a domain prefers the stories
+// found for it over incidental matches (for example, "fuel" in a pollution story).
+export const THE_NEWS_API_TOPIC_QUERIES: Record<Exclude<NewsBasketKey, 'all'>, string> = {
+  climate: 'climate OR emissions OR "greenhouse gases" OR "net zero"',
+  energy: '"renewable energy" OR solar OR electricity OR "energy storage" OR hydrogen',
+  environment: 'biodiversity OR pollution OR "circular economy" OR deforestation',
+  business: '"sustainable finance" OR "climate finance" OR "green bond" OR ESG',
+};
+
+/** Preserve date order within direct domain matches and the remaining matches. */
+export function prioritiseTopicMatches(items: NewsItem[], basket: NewsBasketKey): NewsItem[] {
+  if (basket === 'all') return items;
+  const query = THE_NEWS_API_TOPIC_QUERIES[basket];
+  const direct = (item: NewsItem) => item.provider === 'thenewsapi' && item.matchedQueries?.includes(query);
+  return [...items.filter(direct), ...items.filter(item => !direct(item))];
+}
 
 /** Only secure public image URLs are suitable for a browser backdrop. */
 export function newsImageUrl(value: unknown): string | null {
@@ -139,6 +156,7 @@ const TOPIC_BASKETS: NewsBasket[] = [
       'environment*', 'biodiversity', 'nature', 'ecosystem', 'pollution', 'pollutant',
       'circular', 'waste', 'water', 'forest', 'species', 'recycling',
       'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
+      'toxic chemical', 'chemical contamination',
     ],
   },
   {
@@ -204,6 +222,13 @@ export const SOURCE_ALLOWLIST = [
   'oecd.org',
   'nasa.gov',
   'noaa.gov',
+  // Reviewed 19 Oct 2026 for the provider-only domain trial; destinations still
+  // require an anonymous verified-open check before any article is displayed.
+  'theconversation.com',
+  'mg.co.za',
+  'bbc.co.uk',
+  // Stock-reporting destinations reviewed 20 Oct 2026; each URL still needs verified_open.
+  'cnbc.com',
 ];
 
 /** Hostname of a URL, lower-cased and without "www.". Empty string if unparseable. */
@@ -296,8 +321,21 @@ const CORE_TOPIC_TERMS = [
   'deforestation', 'wildlife', 'conservation', 'mining', 'pfas', 'air quality',
   // Ecological impacts can be explicit without the headline saying "environment".
   'habitat loss', 'habitat destruction', 'coral reef', 'turtle nest',
+  // Industrial contamination is environmental news without saying "pollution".
+  'toxic chemical', 'chemical contamination',
   // ESG and sustainable finance
   'esg', 'green bond', 'climate finance', 'sustainable finance', 'green energy',
+];
+
+// Agriculture headlines often name food or farming and explain sustainability
+// in the publisher's description. Require both, rather than accepting all food news.
+const AGRICULTURE_HEADLINE_TERMS = [
+  'agricultur*', 'farming', 'farmer', 'food', 'aquacultur*', 'fisheries', 'livestock',
+  'crop', 'irrigation',
+];
+const AGRICULTURE_SUSTAINABILITY_TERMS = [
+  'climate', 'emission', 'greenhouse', 'sustainab*', 'biodiversity', 'deforestation',
+  'soil carbon', 'food security', 'food systems', 'environmental resilience', 'environmental impact',
 ];
 
 const termCache = new Map<string, RegExp>();
@@ -328,17 +366,21 @@ export function containsAny(haystack: string, terms: string[]): boolean {
   return terms.some((term) => termMatcher(term).test(haystack));
 }
 
-/** Test 1 below on its own: the HEADLINE is about the site's subject matter. */
-export function isOnSiteTopic(item: Pick<NewsItem, 'title'>): boolean {
-  return containsAny(item.title, CORE_TOPIC_TERMS);
+/** Anchor on the headline; agriculture may supply its sustainability context in the description. */
+export function isOnSiteTopic(item: Pick<NewsItem, 'title'> & Partial<Pick<NewsItem, 'summary'>>): boolean {
+  return containsAny(item.title, CORE_TOPIC_TERMS) || (
+    containsAny(item.title, AGRICULTURE_HEADLINE_TERMS) &&
+    containsAny(item.summary ?? '', AGRICULTURE_SUSTAINABILITY_TERMS)
+  );
 }
 
 /**
  * Relevance filtering (p. 226). Two tests, both of which must pass:
- *   1. the HEADLINE is about our subject matter, and
+ *   1. the headline is about our subject matter (or names agriculture/food with
+ *      explicit sustainability context in the publisher's description), and
  *   2. the headline or summary fits the basket the reader asked for.
  *
- * Test 1 deliberately ignores the summary. Checking both let through "17 cats
+ * Outside that agriculture case, test 1 ignores the summary. Checking both let through "17 cats
  * found dead in extreme heat" - an animal-cruelty story whose description
  * happened to mention water. A passing mention inside a description is not
  * what an article is about; a headline usually is.
@@ -394,6 +436,7 @@ export function applyGate(items: NewsItem[], opts: { maxPerPublisher?: number } 
 
 /** Attribution shown under a feed. p. 229 keeps source labels legible. */
 export const PROVIDER_META: Record<NewsProvider, { label: string; href: string }> = {
+  thenewsapi: { label: 'TheNewsAPI', href: 'https://www.thenewsapi.com/' },
   newsdata: { label: 'NewsData.io', href: 'https://newsdata.io/' },
   eia_rss: { label: 'U.S. EIA', href: 'https://www.eia.gov/todayinenergy/' },
   eea_rss: { label: 'European Environment Agency', href: 'https://www.eea.europa.eu/' },

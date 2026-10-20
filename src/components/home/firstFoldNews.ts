@@ -1,5 +1,6 @@
+import { isStockMarketNews } from '@/lib/api/news/markets';
 import type { NewsBasketKey, NewsItem } from '@/lib/api/news/types';
-import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
+import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl, prioritiseTopicMatches } from '@/lib/api/news/types';
 
 /**
  * Pure helpers behind H03 Global News and H04 Major Markets (p. 13).
@@ -21,6 +22,8 @@ export type NewsCardData = {
   url: string;
   /** p. 13: the card names the publisher, not its web address. */
   publisher: string;
+  /** Aggregator attribution, separate from the publisher of the article. */
+  providerLabel?: string;
   publishedAt: string | null;
   /** p. 13 asks for publication date AND time; the year is included too. */
   dateLabel: string | null;
@@ -83,6 +86,7 @@ export function toCard(item: NewsItem): NewsCardData {
     teaser: shortTeaser(item.summary),
     url: item.url,
     publisher: item.publisher || item.domain,
+    providerLabel: item.providerLabel,
     publishedAt: item.publishedAt,
     dateLabel: formatDateTimeUtc(item.publishedAt),
   };
@@ -135,7 +139,7 @@ export function withoutShown(items: NewsItem[], shown: NewsItem[], limit: number
 
 /** Market stories can arrive in any topic feed; select them from the shared pool. */
 export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2): NewsItem[] {
-  const matching = pool.filter((item) => matchesBasket(item, getBasket('business')));
+  const matching = pool.filter(isStockMarketNews);
   // Remove shown stories before the publisher cap so they do not use up its slots.
   // News and official commentary can be merged in either order; publication
   // date decides which stories get the publisher slots and the visible cards.
@@ -143,14 +147,23 @@ export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2):
 }
 
 export type HeroCategoryKey = Exclude<NewsBasketKey, 'all'>;
+export type HeroStory = {
+  item: NewsCardData;
+  retrievedAt: string | null;
+  delayed: boolean;
+  stale: boolean;
+};
 export type HeroSlide = {
-  key: HeroCategoryKey;
+  /** Domain keys on the homepage, or an industry slug for a sector hero. */
+  key: string;
   label: string;
   item: NewsCardData | null;
   sourcesFailed: boolean;
   retrievedAt: string | null;
   delayed: boolean;
   stale: boolean;
+  /** Extra stories use the same verified saved pool as the lead story. */
+  stories?: HeroStory[];
 };
 
 /** The hero contains only the four domains; markets has its own section. */
@@ -166,10 +179,21 @@ export function selectHeroStories(pool: NewsItem[]): (NewsItem | null)[] {
   const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
   const selected: NewsItem[] = [];
   return HERO_CATEGORIES.map(category => {
-    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
+    const matches = prioritiseTopicMatches(eligible.filter(item => matchesBasket(item, getBasket(category.key))), category.key);
     // Prefer a different headline for each domain when the feed has enough stories.
     const story = matches.find(item => !selected.some(previous => previous.id === item.id)) ?? matches[0] ?? null;
     if (story) selected.push(story);
     return story;
+  });
+}
+
+/** Keep each domain's lead, then add up to two distinct relevant articles. */
+export function selectHeroStoryGroups(pool: NewsItem[], limit = 3): NewsItem[][] {
+  const leads = selectHeroStories(pool);
+  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
+  return HERO_CATEGORIES.map((category, index) => {
+    const matches = prioritiseTopicMatches(eligible.filter(item => matchesBasket(item, getBasket(category.key))), category.key);
+    const lead = leads[index];
+    return (lead ? [lead, ...matches.filter(item => item.id !== lead.id)] : matches).slice(0, limit);
   });
 }

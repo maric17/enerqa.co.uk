@@ -71,9 +71,11 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
 
 ## H05 — Explore Our Domains
 
-- [x] **WF-12 — Remove domain-panel background images.**
-  - **Source:** H05, “Remove the background images.”
-  - **Done when:** Explore Our Domains uses an image-free treatment consistent with the website, with readable titles and no empty image placeholders.
+- [x] **WF-12 — Add dedicated, commercially usable images to domain cards.**
+  - **Updated direction — 20 October 2026:** The user clarified that the image-free layout was reviewed, then the discussion moved toward adding images. Amr requested suitable free commercial-use images, excluding publication-article images. This supersedes the earlier “Remove the background images” request.
+  - **Implementation:** Restored the earlier shared-background design from commit `530691e` at the user's request on 20 October. Hovering or focusing a transparent domain column selects its dedicated local Unsplash photo as the section background. A dark overlay protects text readability. Automatic rotation remains removed. See [photo selections, sources and licence record](feedback/DOMAIN-CARD-IMAGES-2026-10-20.md).
+  - **Done when:** Each card has a suitable image with documented commercial-use permission; no publication images are reused. Preserve all domain destinations and hover/focus/touch access. Local implementation does not establish Amr's image acceptance or production deployment.
+  - **To do:** Amr to review the four proposed photos in the local preview; deploy the selected set and verify the public homepage.
 
 - [x] **WF-13 — Make domain panels static with interaction-based reveals.**
   - **Source:** Remove rotation and “pause rotation”; reveal Discover and the text snippet on hover.
@@ -124,6 +126,19 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Done when:** Inventory every domain and industry related-data section, prepare a proposed mapping of relevant datasets/feeds, identify gaps and review it with the client. Implement the agreed mapping with accurate sources, update expectations and unavailable-data behavior, then verify all affected pages.
   - **Dependency:** WF-07/WF-08 recommendations and the selected provider scope. Client input is needed for the joint content review.
 
+## Individual industry pages — 20 October update
+
+- [x] **WF-31 — Move industry news into the hero.**
+  - **Source:** Show recent, relevant industry news above the fold, like the homepage, while keeping the industry title visible.
+  - **Implementation:** The shared industry template now opens with a fixed industry title and the homepage news carousel. It rotates through up to three saved, sector-filtered headlines with corresponding images, line segments, previous/next and pause controls. Source, date, refresh and cache notices remain visible. Keyboard interaction pauses rotation; reduced-motion preferences disable automatic rotation. The lower Industry News section is removed.
+  - **Evidence:** [Implementation and verification](feedback/INDUSTRY-HERO-2026-10-20.md).
+  - **To do:** Review the local preview and deploy the approved changes; this checkbox records local implementation. Saved-feed coverage needs follow-up: after the [agriculture repair](feedback/AGRICULTURE-NEWS-2026-10-20.md) and [manufacturing repair](feedback/MANUFACTURING-NEWS-2026-10-20.md), five industries still have no matching story and five have one. Check the next scheduled ingestion and sector provider results; see the linked reports for the affected industries. Rotation requires at least two relevant stories.
+
+- [x] **WF-32 — Remove Relevant Enerqa Tools from industry pages.**
+  - **Source:** Remove the Relevant Enerqa Tools section on individual industry pages.
+  - **Implementation:** Removed the section from the shared industry template. Enerqa Publication now uses the available content width. Existing CMS tool records are preserved.
+  - **To do:** Include this removal in the same preview review and deployment as WF-31.
+
 ## Knowledge Hub and article pages
 
 - [ ] **WF-22 — Audit and restore incomplete article content.**
@@ -170,6 +185,21 @@ These comments update the affected requirements in [HANDOFF-TASKS.md](HANDOFF-TA
   - **Source:** “This page needs a lot of work.”
   - **Done when:** Audit the page's hierarchy, density, result presentation, filtering, source placement and mobile usability. Produce a concrete list of improvements and a design preview for client review, then implement the agreed scope and verify it. WF-27–WF-29 cover the explicit text/source changes; this task captures the broader request without inventing unspecified requirements.
   - **Dependency:** Align the preview with WF-27–WF-29 and any applicable provider decisions. Client feedback is needed to settle the broader redesign scope.
+
+## Global Intelligence and Data Explorer — 20 October update
+
+- [x] **WF-33 — Replace Global Intelligence dropdown filters with a left checkbox panel.**
+  - **Implementation:** Scrollable checkbox groups, results on the right, additional filters closed by default, Source removed and ignored in old page URLs. Mobile users can show/hide the filter panel. Existing Apply/Search and geography behavior retained.
+  - **Evidence:** [UX implementation and verification](feedback/INTELLIGENCE-EXPLORER-UX-2026-10-20.md).
+  - **To do:** Review the local desktop/mobile preview and deploy the approved changes.
+
+- [x] **WF-34 — Surface Data Explorer axis suggestions while typing.**
+  - **Implementation:** One searchable control per axis opens matching suggestions automatically. Typing replaces the current label; a click or Enter applies a choice immediately. Keyboard navigation, typo tolerance and touch selection verified. The original Gapminder chart remains for comparison.
+  - **To do:** Review the two axis controls; remove the original chart only once the custom explorer is finalized.
+
+- [x] **WF-35 — Replace generated Gapminder disclaimer with exact attribution.**
+  - **Implementation:** Uses Gapminder's exact adapted/unchanged-material citations with linked CC BY 4.0. Original provider credits and indicator terms retained. Metadata downloads include the published credit, version and actual transformations.
+  - **To do:** Include the attribution and metadata changes in deployment verification.
 
 ## Suggested order
 

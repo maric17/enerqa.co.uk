@@ -13,6 +13,13 @@ import * as storage from '../core/storage';
 const results: Record<string, ConnectorResult<NewsItem[]>> = {};
 const savedItems: NewsItem[] = [];
 
+// Keep the legacy connector contract covered independently of the client trial.
+vi.mock('./policy', () => ({
+  PAGE_NEWS_PROVIDERS: ['newsdata', 'gdelt'],
+  DEFAULT_NEWS_PROVIDERS: ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'],
+  REFRESH_NEWS_PROVIDERS: ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'],
+}));
+
 vi.mock('./storage', () => ({
   readNewsStore: vi.fn(async () => ({ items: savedItems, state: {}, available: true })),
   claimNewsRefresh: vi.fn(), finishNewsRefresh: vi.fn(),

@@ -26,9 +26,9 @@ export const AboutEnerqa = () => {
           </div>
         </div>
 
-        {/* Use the supplied brand asset while a standalone symbol is located. */}
+        {/* Reuse the original vector planet so it stays sharp at the larger size. */}
         <div className="flex min-h-[160px] items-center justify-center border-t border-white/15 pt-10 md:min-h-[260px] md:border-l md:border-t-0 md:pl-10 md:pt-0">
-          <Image src="/images/logo-white.svg" alt="Enerqa" width={300} height={120} className="h-auto w-full max-w-[300px]" />
+          <Image src="/images/enerqa-planet-symbol.svg" alt="Enerqa planet symbol" width={280} height={280} className="h-auto w-[220px] max-w-full md:w-[280px]" />
         </div>
       </Container>
     </section>

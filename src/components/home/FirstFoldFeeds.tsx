@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { isNewsItemStale } from '@/lib/api/news';
 import { getHomeNews } from './homeNews';
 import { GlobalNewsPanel } from './GlobalNewsPanel';
-import { HERO_CATEGORIES, formatDateTimeUtc, selectHeroStories, toCard } from './firstFoldNews';
+import { HERO_CATEGORIES, formatDateTimeUtc, selectHeroStoryGroups, toCard } from './firstFoldNews';
 
 /** Keep the full-height frame and search stable while saved headlines load. */
 export function FeedsFallback() {
@@ -15,16 +15,20 @@ export function FeedsFallback() {
 export async function FeedsBody() {
   // These are saved database reads. Browsing categories never calls a news provider.
   const pool = await getHomeNews();
-  const stories = selectHeroStories(pool.items);
+  const groups = selectHeroStoryGroups(pool.items);
   const slides = HERO_CATEGORIES.map((category, index) => {
-    const item = stories[index];
+    const stories = groups[index].map(item => ({
+      item: toCard(item), retrievedAt: formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt),
+      delayed: item.provider === 'newsdata', stale: isNewsItemStale(item),
+    }));
+    const lead = stories[0];
     return {
-      ...category,
-      item: item ? toCard(item) : null,
+      ...category, stories,
+      item: lead?.item ?? null,
       sourcesFailed: pool.sourcesFailed,
-      retrievedAt: item ? formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt) : null,
-      delayed: item?.provider === 'newsdata',
-      stale: item ? isNewsItemStale(item) : false,
+      retrievedAt: lead?.retrievedAt ?? null,
+      delayed: lead?.delayed ?? false,
+      stale: lead?.stale ?? false,
     };
   });
   return <GlobalNewsPanel slides={slides} diagnostics={pool.diagnostics} />;

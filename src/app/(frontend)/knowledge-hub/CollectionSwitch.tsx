@@ -32,13 +32,13 @@ export function CollectionSwitch({ active }: { active: (typeof COLLECTIONS)[numb
               {COLLECTIONS.map((c) => {
                 const isActive = c.key === active;
                 return (
-                  <li key={c.key} className="flex-1 md:flex-none">
+                  <li key={c.key} className="min-w-0 flex-1 md:flex-none">
                     <Link
                       href={c.href}
                       // Tells screen readers which collection is showing (the
                       // old tabs only signalled it with colour).
                       aria-current={isActive ? 'page' : undefined}
-                      className={`flex min-h-[48px] items-center justify-center whitespace-nowrap rounded-lg px-3 text-sm font-bold md:px-5 no-underline transition-colors md:text-base ${
+                      className={`flex min-h-[48px] items-center justify-center rounded-lg px-3 text-center text-sm font-bold md:whitespace-nowrap md:px-5 no-underline transition-colors md:text-base ${
                         isActive
                           ? 'bg-[var(--color-dark)] text-white'
                           : 'text-[var(--color-dark)] hover:bg-white'

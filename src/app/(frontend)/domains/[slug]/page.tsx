@@ -264,7 +264,7 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
             // L516: on one column, reserve one card - the empty state is the
             // same height - rather than three stacked cards that rarely all arrive.
             <Suspense fallback={<FeedSkeleton cards={3} mobileCards={1} />}>
-              <NewsFeed phrases={newsPhrases(feed)} baskets={feed.newsBaskets} limit={3} nearest={nearest} />
+              <NewsFeed phrases={newsPhrases(feed)} baskets={feed.newsBaskets} basket={feed.newsBasket} limit={3} nearest={nearest} />
             </Suspense>
           ) : (
             <SourceUnavailable className="min-h-[220px]" />
