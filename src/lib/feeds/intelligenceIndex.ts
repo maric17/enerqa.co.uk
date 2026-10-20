@@ -43,7 +43,7 @@ export async function buildIntelligenceIndex() {
 
 // Changes in sector vocabulary also invalidate saved-result tags across deployments.
 const contextKey = JSON.stringify([DOMAIN_FEEDS, INDUSTRY_FEEDS]);
-const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-saved-v2', contextKey], { revalidate: 60, tags: ['global-intelligence', 'saved-news'] });
+const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-saved-thenewsapi-v3', contextKey], { revalidate: 60, tags: ['global-intelligence', 'saved-news'] });
 let inFlight: ReturnType<typeof cachedIntelligenceIndex> | undefined;
 export function getIntelligenceIndex() {
   if (!inFlight) inFlight = cachedIntelligenceIndex().finally(() => { inFlight = undefined; });

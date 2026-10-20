@@ -312,6 +312,7 @@ describe('credentials stay out of cache keys and logs', () => {
   it('removes api keys from the URL', () => {
     expect(redactUrl('https://newsdata.io/api/1/latest?apikey=SECRET&q=a')).toBe('https://newsdata.io/api/1/latest?q=a');
     expect(redactUrl('https://api.openalex.org/works?search=a&api_key=K')).toBe('https://api.openalex.org/works?search=a');
+    expect(redactUrl('https://api.thenewsapi.com/v1/news/all?api_token=SECRET&search=solar')).toBe('https://api.thenewsapi.com/v1/news/all?search=solar');
   });
 });
 

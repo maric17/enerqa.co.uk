@@ -9,7 +9,7 @@ import type { AccessStatus } from '../core/types';
  * item itself.
  */
 
-export type NewsProvider = 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
+export type NewsProvider = 'thenewsapi' | 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
 
 export type NewsItem = {
   /** Normalised URL - the deduplication key required by p. 226. */
@@ -70,6 +70,23 @@ export type NewsItem = {
 };
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
+
+// Focused queries are shared with selection so a domain prefers the stories
+// found for it over incidental matches (for example, "fuel" in a pollution story).
+export const THE_NEWS_API_TOPIC_QUERIES: Record<Exclude<NewsBasketKey, 'all'>, string> = {
+  climate: 'climate OR emissions OR "greenhouse gases" OR "net zero"',
+  energy: '"renewable energy" OR solar OR electricity OR "energy storage" OR hydrogen',
+  environment: 'biodiversity OR pollution OR "circular economy" OR deforestation',
+  business: '"sustainable finance" OR "climate finance" OR "green bond" OR ESG',
+};
+
+/** Preserve date order within direct domain matches and the remaining matches. */
+export function prioritiseTopicMatches(items: NewsItem[], basket: NewsBasketKey): NewsItem[] {
+  if (basket === 'all') return items;
+  const query = THE_NEWS_API_TOPIC_QUERIES[basket];
+  const direct = (item: NewsItem) => item.provider === 'thenewsapi' && item.matchedQueries?.includes(query);
+  return [...items.filter(direct), ...items.filter(item => !direct(item))];
+}
 
 /** Only secure public image URLs are suitable for a browser backdrop. */
 export function newsImageUrl(value: unknown): string | null {
@@ -204,6 +221,11 @@ export const SOURCE_ALLOWLIST = [
   'oecd.org',
   'nasa.gov',
   'noaa.gov',
+  // Reviewed 19 Oct 2026 for the provider-only domain trial; destinations still
+  // require an anonymous verified-open check before any article is displayed.
+  'theconversation.com',
+  'mg.co.za',
+  'bbc.co.uk',
 ];
 
 /** Hostname of a URL, lower-cased and without "www.". Empty string if unparseable. */
@@ -394,6 +416,7 @@ export function applyGate(items: NewsItem[], opts: { maxPerPublisher?: number } 
 
 /** Attribution shown under a feed. p. 229 keeps source labels legible. */
 export const PROVIDER_META: Record<NewsProvider, { label: string; href: string }> = {
+  thenewsapi: { label: 'TheNewsAPI', href: 'https://www.thenewsapi.com/' },
   newsdata: { label: 'NewsData.io', href: 'https://newsdata.io/' },
   eia_rss: { label: 'U.S. EIA', href: 'https://www.eia.gov/todayinenergy/' },
   eea_rss: { label: 'European Environment Agency', href: 'https://www.eea.europa.eu/' },

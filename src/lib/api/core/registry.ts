@@ -269,6 +269,22 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   // News (pp. 210-216). The connectors live in src/lib/api/news and check
   // `enabled` through `providerEnabled()` below, so these switch off the same
   // way as the rows above (L1023).
+  thenewsapi: {
+    id: 'thenewsapi',
+    name: 'TheNewsAPI',
+    purpose: 'Primary global news provider during the client evaluation; no news fallback.',
+    homepage: 'https://www.thenewsapi.com/',
+    docsUrl: 'https://www.thenewsapi.com/documentation',
+    licence: 'API metadata access; publisher article and image rights remain separate',
+    licenceUrl: 'https://www.thenewsapi.com/tos',
+    attribution: 'TheNewsAPI and the original publisher',
+    keyEnvVar: 'THE_NEWS_API_TOKEN',
+    revalidate: 8 * HOUR,
+    publishedLimits: 'Free: 100 requests/day, 3 articles/request. Basic: 2,500 requests/day, 25 articles/request. Internal trial cap: 80 requests/day.',
+    enabled: true,
+    accessReviewedOn: '2026-10-19',
+    note: 'Client-authorized evaluation. Uses supplied descriptions and links, existing publisher allowlist and verified-open checks. No subscription purchase or full-text reuse. General news uses this connector alone; legacy connectors are retained for later fallback review.',
+  },
   newsdata: {
     id: 'newsdata',
     name: 'NewsData.io',

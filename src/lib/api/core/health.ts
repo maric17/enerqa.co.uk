@@ -36,6 +36,8 @@ const DEFAULT_LIMITS: Limits = { daily: 500, maxConcurrent: 4 };
  * so a retry or a second server instance still fits underneath it.
  */
 export const LIMITS: Partial<Record<ProviderId, Limits>> = {
+  // The trial stays below Free's 100/day, including the three scheduled pulls.
+  thenewsapi: { daily: 80, maxConcurrent: 2 },
   // p. 210: 200 credits/day and 30 credits per 15 minutes. Four topic and
   // twelve domain groups run on three daily news jobs (48 baseline calls/day).
   // This upper limit remains shared across all servers, below the allowance.

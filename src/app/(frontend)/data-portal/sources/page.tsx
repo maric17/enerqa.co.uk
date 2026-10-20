@@ -53,7 +53,7 @@ export default async function DataPortalSourcesPage() {
     console.warn('[data-portal/sources] Content service unavailable; displaying default source information.');
   }
 
-  const newsProviderIds = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'openalex', 'doaj', 'reliefweb', 'osti', 'gbif-literature', 'sec-edgar'];
+  const newsProviderIds = ['thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss', 'openalex', 'doaj', 'reliefweb', 'osti', 'gbif-literature', 'sec-edgar'];
   
   const providers = enabledProviders();
   const views: Record<string, { href: string; label: string }> = {

@@ -9,7 +9,7 @@ import { newsScheduleSlot } from './schedule';
 // A control record in the existing private table avoids a live schema migration.
 const JOB_PROVIDER = 'enerqa-news-sync';
 const JOB_ID = 'scheduled-news-v1';
-export const NEWS_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
+export const NEWS_PROVIDERS: NewsProvider[] = ['thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
 
 export type NewsRefreshState = {
   trigger?: 'scheduled' | 'manual';
@@ -73,7 +73,7 @@ const cachedNewsStore = unstable_cache(async () => {
   // A failed read must not replace the last good cache entry with an empty result.
   if (!saved.available) throw new Error('Saved news storage is unavailable.');
   return saved;
-}, ['saved-news-v1'], { revalidate: 60, tags: ['saved-news'] });
+}, ['saved-news-thenewsapi-v2'], { revalidate: 60, tags: ['saved-news'] });
 
 export async function readNewsStore(includeExpiredAccess = false) {
   if (includeExpiredAccess) return readNewsStoreUncached(true);
@@ -88,6 +88,8 @@ export async function readNewsStore(includeExpiredAccess = false) {
 export type NewsRefreshClaim = { token: string; state: NewsRefreshState };
 export type NewsRefreshOptions = {
   manual?: boolean;
+  /** Manual four-domain preview; avoids spending credits on sector discovery. */
+  topicsOnly?: boolean;
   /** Trusted operator maintenance; the HTTP route never enables this option. */
   industriesOnly?: boolean;
   /** Restrict a manual industry repair to these known sectors instead of all thirteen. */

@@ -14,38 +14,45 @@ import { liveProviders, searchLiveIntelligence } from './liveIntelligence';
 
 const saved = tagIntelligence({
   id: 'saved', title: 'Renewable energy in Germany', summary: null, url: 'https://example.org/saved', type: 'news',
-  publisher: 'Publisher', source: 'NewsData.io', sourceId: 'newsdata', publishedAt: '2026-10-10', retrievedAt: '2026-10-11',
+  publisher: 'Publisher', source: 'TheNewsAPI', sourceId: 'thenewsapi', publishedAt: '2026-10-10', retrievedAt: '2026-10-11',
   language: 'en', authors: [], doi: null, documentType: null, verifiedOpen: true, stale: false,
 });
 beforeEach(() => {
   vi.clearAllMocks(); mocks.cache.clear();
   mocks.saved.mockResolvedValue({ items: [saved], sourcesFailed: false });
-  mocks.news.mockResolvedValue({ items: [], providerStatus: { newsdata: 'ok', gdelt: 'ok' } });
+  mocks.news.mockResolvedValue({ items: [], providerStatus: { thenewsapi: 'ok' } });
 });
 it('requests only providers for selected content types and sources, respecting disabled sources', () => {
-  expect(liveProviders({ type: ['news'], source: ['newsdata', 'openalex'] })).toEqual(['newsdata']);
+  expect(liveProviders({ type: ['news'], source: ['thenewsapi', 'openalex'] })).toEqual(['thenewsapi']);
   // DOAJ and ReliefWeb remain paused in the reviewed source registry.
   expect(liveProviders({ type: ['research'] })).toEqual(['openalex']);
   expect(liveProviders({ type: ['official'], source: ['reliefweb'] })).toEqual([]);
 });
 it('calls live discovery and applies every facet to saved and returned records', async () => {
-  const result = await searchLiveIntelligence({ type: ['news'], source: ['newsdata'], country: ['DEU'], domain: ['energy-systems-transition'] });
-  expect(mocks.news).toHaveBeenCalledWith(expect.objectContaining({ providers: ['newsdata'], query: expect.stringContaining('Germany') }));
+  const result = await searchLiveIntelligence({ type: ['news'], source: ['thenewsapi'], country: ['DEU'], domain: ['energy-systems-transition'] });
+  expect(mocks.news).toHaveBeenCalledWith(expect.objectContaining({ providers: ['thenewsapi'], query: expect.stringContaining('Germany') }));
   expect(result.items.map(i => i.id)).toEqual(['saved']);
   expect(result.sourcesFailed).toBe(false); expect(mocks.research).not.toHaveBeenCalled();
 });
 it('coalesces simultaneous identical searches and reuses the short shared result', async () => {
-  const filters = { type: ['news'], source: ['newsdata'] };
+  const filters = { type: ['news'], source: ['thenewsapi'] };
   await Promise.all([searchLiveIntelligence(filters), searchLiveIntelligence(filters)]);
   await searchLiveIntelligence(filters);
   expect(mocks.news).toHaveBeenCalledTimes(1);
 });
 it('retains saved cards and reports all-source failures honestly', async () => {
   mocks.news.mockRejectedValue(new Error('private provider details'));
-  const result = await searchLiveIntelligence({ type: ['news'], source: ['newsdata'] });
+  const result = await searchLiveIntelligence({ type: ['news'], source: ['thenewsapi'] });
   expect(result.items).toEqual([saved]); expect(result.sourcesFailed).toBe(true);
-  expect(result.unavailableSources).toEqual(['newsdata']);
+  expect(result.unavailableSources).toEqual(['thenewsapi']);
   expect(JSON.stringify(result)).not.toContain('private provider details');
+});
+it('excludes cached legacy news even when live discovery fails', async () => {
+  mocks.saved.mockResolvedValue({ items: [saved, { ...saved, id: 'legacy', url: 'https://example.org/legacy', sourceId: 'newsdata' }], sourcesFailed: false });
+  mocks.news.mockRejectedValue(new Error('Provider unavailable'));
+  const result = await searchLiveIntelligence({ type: ['news'] });
+  expect(result.items.map(item => item.id)).toEqual(['saved']);
+  expect(liveProviders({ type: ['news'], source: ['newsdata', 'gdelt'] })).toEqual([]);
 });
 it('requests a fresh keyword search from the selected scholarly API', async () => {
   mocks.research.mockResolvedValue({ items: [], skipped: [] });
