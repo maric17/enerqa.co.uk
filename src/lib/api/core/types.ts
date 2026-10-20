@@ -25,6 +25,7 @@ export type ProviderId =
   | 'gbif-literature'
   | 'sec-edgar'
   // News (pp. 210-216). Same ids as `NewsProvider` in news/types.ts.
+  | 'thenewsapi'
   | 'newsdata'
   | 'gdelt'
   | 'eia_rss'

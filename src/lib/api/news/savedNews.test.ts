@@ -3,6 +3,13 @@ import { readFileSync } from 'node:fs';
 import { fail, ok } from '../core/types';
 import type { NewsItem } from './types';
 
+// Keep the legacy connector contract covered independently of the client trial.
+vi.mock('./policy', () => ({
+  PAGE_NEWS_PROVIDERS: ['newsdata', 'gdelt'],
+  DEFAULT_NEWS_PROVIDERS: ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'],
+  REFRESH_NEWS_PROVIDERS: ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'],
+}));
+
 vi.mock('./newsdata', () => ({
   NEWSDATA_DELAY_HOURS: 12, PAGE_BASKET_SECONDS: 43200,
   basketQuery: (phrases: string[]) => phrases.join(' OR '),
@@ -82,6 +89,7 @@ describe('database-backed news reads', () => {
     ['environment-nature-circularity', 'Air pollution falls as waste recycling improves'],
     ['environment-nature-circularity', 'Tourism project threatens turtle nesting sites'],
     ['sustainable-business-esg-finance', 'Company wins sustainability award'],
+    ['sustainable-business-esg-finance', 'Africa faces failed adaptation as climate finance falls billions short'],
     ['climate-action-carbon-management', 'Emissions rules challenged in court'],
   ])('selects relevant saved vocabulary on %s without a new provider request', async (slug, title) => {
     const saved = { ...article('related'), title, matchedQueries: [] };

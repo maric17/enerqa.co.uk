@@ -3,6 +3,7 @@ import { unstable_cache } from 'next/cache';
 import { providerEnabled } from '@/lib/api/core/registry';
 import type { ProviderId } from '@/lib/api/core/types';
 import { fetchLiveNews, type NewsProvider } from '@/lib/api/news';
+import { PAGE_NEWS_PROVIDERS } from '@/lib/api/news/policy';
 import { fetchResearch, fetchIssuerFilings, verifyForDisplay, isFutureDate, type ResearchProvider } from '@/lib/api/research';
 import { getIntelligenceIndex, newsIntelligence, uniqueIntelligence } from './intelligenceIndex';
 import { researchIntelligence } from './savedIntelligence';
@@ -19,7 +20,7 @@ export function liveProviders(filters: IntelligenceFilters): ProviderId[] {
   const types = filters.type ?? [];
   const wants = (type: string) => !types.length || types.includes(type);
   const allowed: ProviderId[] = [
-    ...(wants('news') ? ['newsdata', 'gdelt'] as ProviderId[] : []),
+    ...(wants('news') ? PAGE_NEWS_PROVIDERS : []),
     ...(wants('research') ? ['openalex', 'doaj'] as ProviderId[] : []),
     ...(wants('official') ? ['eia_rss', 'eea_rss', 'osti', 'gbif-literature', 'reliefweb'] as ProviderId[] : []),
     ...(wants('disclosure') ? ['sec-edgar'] as ProviderId[] : []),
@@ -34,7 +35,7 @@ async function searchProviders(filters: IntelligenceFilters) {
   const fromDate = days ? new Date(Date.now() - days * 86400000).toISOString().slice(0, 10) : undefined;
   const researchLanguages = filters.language?.includes('unspecified') ? undefined : filters.language;
   const providers = liveProviders(filters);
-  const news = providers.filter(id => ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'].includes(id)) as NewsProvider[];
+  const news = providers.filter(id => ['thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'].includes(id)) as NewsProvider[];
   const research = providers.filter(id => ['openalex', 'doaj', 'osti', 'gbif-literature', 'reliefweb'].includes(id)) as ResearchProvider[];
   const tasks: { ids: string[]; run: () => Promise<{ items: IntelligenceItem[]; failed: string[] }> }[] = [];
   if (news.length) tasks.push({ ids: news, run: async () => {
@@ -70,7 +71,7 @@ async function searchProviders(filters: IntelligenceFilters) {
 
 // Identical searches share a short cache across visitors to save API credits.
 // Different selections search providers with the existing shared quota guards.
-const cachedSearch = unstable_cache(searchProviders, ['intelligence-live-v1'], { revalidate: 60, tags: ['intelligence-live'] });
+const cachedSearch = unstable_cache(searchProviders, ['intelligence-live-thenewsapi-v2'], { revalidate: 60, tags: ['intelligence-live'] });
 const pending = new Map<string, Promise<Awaited<ReturnType<typeof cachedSearch>>>>();
 
 export async function searchLiveIntelligence(filters: IntelligenceFilters): Promise<LiveIntelligenceResult> {
@@ -84,9 +85,9 @@ export async function searchLiveIntelligence(filters: IntelligenceFilters): Prom
   const [live, saved] = await Promise.all([request, getIntelligenceIndex()]);
   // Add fresh discoveries without discarding saved, verified reading when a
   // provider fails or its latest endpoint no longer includes an older article.
-  return { ...live, items: filterIntelligence(uniqueIntelligence([...live.items, ...saved.items]), filters) };
+  return { ...live, items: filterIntelligence(uniqueIntelligence([...live.items, ...saved.items]).filter(item => item.type !== 'news' || PAGE_NEWS_PROVIDERS.includes(item.sourceId as NewsProvider)), filters) };
 }
 
 export function intelligenceSourceChoices() {
-  return Object.entries(INTELLIGENCE_SOURCES).filter(([id]) => providerEnabled(id as ProviderId)).map(([value, label]) => ({ value, label }));
+  return Object.entries(INTELLIGENCE_SOURCES).filter(([id]) => !['newsdata', 'gdelt'].includes(id) && providerEnabled(id as ProviderId)).map(([value, label]) => ({ value, label }));
 }

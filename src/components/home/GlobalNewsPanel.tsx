@@ -34,7 +34,8 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics }: {
   loading?: boolean;
   diagnostics?: NewsDiagnostics;
 }) {
-  const [active, setActive] = useState(0);
+  // Sparse feeds should open on a real story; empty domains remain selectable.
+  const [active, setActive] = useState(() => Math.max(0, slides.findIndex(slide => slide.item)));
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [announcement, setAnnouncement] = useState('');
@@ -96,6 +97,7 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics }: {
           </a>
           <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
           <p className="home-hero-attribution" data-feed-attribution>
+            {item.providerLabel && `Via ${item.providerLabel}. `}
             {slide.delayed && 'NewsData free feed delayed 12h+. '}
             {slide.retrievedAt && `Updated ${slide.retrievedAt}. `}
             {slide.stale && 'Cached headline; refresh unavailable. '}

@@ -15,7 +15,7 @@ export async function MarketsCommentary() {
   // Prefer commentary that is different from the hero, without forcing an empty column.
   const unique = buildMarketView(candidates, heroStories, 2);
   const items = unique.length ? unique : buildMarketView(candidates, [], 2);
-  const failed = sourcesFailedFor({ providerStatus: { ...pool.providerStatus, ...commentary.providerStatus } }, [...PAGE_NEWS_PROVIDERS, 'eia_rss']);
+  const failed = sourcesFailedFor({ providerStatus: { ...pool.providerStatus, ...commentary.providerStatus } }, PAGE_NEWS_PROVIDERS);
   if (!items.length) return <SourceUnavailable variant={failed ? 'unavailable' : 'empty'}
     nearest={{ href: '/knowledge-hub/global-intelligence?theme=business', label: 'browse market reporting' }} className="market-commentary-empty" />;
   return <div className="market-commentary-stories">
@@ -26,6 +26,7 @@ export async function MarketsCommentary() {
         <h4><a href={card.url} target="_blank" rel="noopener noreferrer" data-market-card>{card.title}<ArrowUpRight aria-hidden="true" /><span className="sr-only"> (opens the original article in a new tab)</span></a></h4>
         {card.teaser && <p className="market-commentary-teaser">{card.teaser}</p>}
         <p className="market-commentary-retrieved">
+          Via {item.providerLabel}.{' '}
           {item.provider === 'newsdata' && `NewsData delayed ${NEWS_DELAY_HOURS}h+. `}
           Updated {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
           {isNewsItemStale(item) && ' Cached commentary; refresh unavailable.'}

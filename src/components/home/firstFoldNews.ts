@@ -1,5 +1,5 @@
 import type { NewsBasketKey, NewsItem } from '@/lib/api/news/types';
-import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
+import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl, prioritiseTopicMatches } from '@/lib/api/news/types';
 
 /**
  * Pure helpers behind H03 Global News and H04 Major Markets (p. 13).
@@ -21,6 +21,8 @@ export type NewsCardData = {
   url: string;
   /** p. 13: the card names the publisher, not its web address. */
   publisher: string;
+  /** Aggregator attribution, separate from the publisher of the article. */
+  providerLabel?: string;
   publishedAt: string | null;
   /** p. 13 asks for publication date AND time; the year is included too. */
   dateLabel: string | null;
@@ -83,6 +85,7 @@ export function toCard(item: NewsItem): NewsCardData {
     teaser: shortTeaser(item.summary),
     url: item.url,
     publisher: item.publisher || item.domain,
+    providerLabel: item.providerLabel,
     publishedAt: item.publishedAt,
     dateLabel: formatDateTimeUtc(item.publishedAt),
   };
@@ -166,7 +169,7 @@ export function selectHeroStories(pool: NewsItem[]): (NewsItem | null)[] {
   const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
   const selected: NewsItem[] = [];
   return HERO_CATEGORIES.map(category => {
-    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
+    const matches = prioritiseTopicMatches(eligible.filter(item => matchesBasket(item, getBasket(category.key))), category.key);
     // Prefer a different headline for each domain when the feed has enough stories.
     const story = matches.find(item => !selected.some(previous => previous.id === item.id)) ?? matches[0] ?? null;
     if (story) selected.push(story);

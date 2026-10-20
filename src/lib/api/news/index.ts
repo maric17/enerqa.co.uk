@@ -14,14 +14,17 @@ import {
   normaliseUrl,
   NEWS_BASKETS,
   PROVIDER_META,
+  prioritiseTopicMatches,
 } from './types';
 import { basketQuery, fetchNewsdataBasket, fetchNewsdataQuery, NEWSDATA_DELAY_HOURS, PAGE_BASKET_SECONDS } from './newsdata';
 import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
+import { fetchTheNewsApiBasket, fetchTheNewsApiQuery } from './thenewsapi';
+import { PAGE_NEWS_PROVIDERS, DEFAULT_NEWS_PROVIDERS, REFRESH_NEWS_PROVIDERS } from './policy';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews, fetchGdeltQuery } from './gdelt';
 import { REGION_ORDER } from './geography';
 import { providerEnabled } from '../core/registry';
-import { claimNewsRefresh, finishNewsRefresh, readNewsStore, NEWS_PROVIDERS, type NewsRefreshOptions } from './storage';
+import { claimNewsRefresh, finishNewsRefresh, readNewsStore, type NewsRefreshOptions } from './storage';
 import { NEWS_REFRESH_SECONDS } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from '../../feeds/contextual';
@@ -31,22 +34,8 @@ export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
 export { NEWSDATA_DELAY_HOURS } from './newsdata';
 
-/**
- * The one entry point the rest of the site uses for external news.
- *
- * Four approved providers feed it (handoff pp. 210-216). None of them is
- * sufficient alone:
- *
- *   NewsData.io  primary global coverage, and the only general source that
- *                licenses a short description. Needs a key; free plan is
- *                delayed 12 hours and capped at 200 credits/day.
- *   EIA RSS      keyless, public domain, has summaries, but U.S. energy only.
- *   EEA RSS      keyless, CC-BY, has summaries, but Europe and environment only.
- *   GDELT        keyless and very broad, but headline-only, no summary.
- *
- * Combining them means a single provider being rate-limited, re-priced or
- * simply quiet does not empty the panel - which is what p. 227 requires when
- * it says a provider going chargeable must disable that connector alone.
+/** Shared saved-news pipeline. The client trial uses TheNewsAPI alone.
+ * Legacy connectors are kept for explicit maintenance and a later fallback rollout.
  */
 
 export type ProviderOutcome = 'ok' | ConnectorFailure['reason'];
@@ -75,9 +64,9 @@ export type NewsResult = {
    */
   sourcesFailed: boolean;
   /**
-   * The same judgement made on PAGE_NEWS_PROVIDERS alone (NewsData and GDELT).
+   * The same judgement made on PAGE_NEWS_PROVIDERS alone (TheNewsAPI during the trial).
    * A panel that shows only those two - the homepage H03/H04, CN/EN/NN/BN,
-   * I{nn}N - must say "unavailable" when both failed, even if the EIA and EEA
+   * I{nn}N - must say "unavailable" when its news provider failed, even if the EIA and EEA
    * feeds in the same pool answered.
    */
   newsSourcesFailed: boolean;
@@ -96,14 +85,7 @@ export type NewsResult = {
   hasNextPage?: boolean;
 };
 
-/**
- * The news-page providers. pp. 28, 37, 48, 58 and every industry page (e.g.
- * p. 64) name the same two for CN/EN/NN/BN and I{nn}N: "NewsData.io is
- * primary; legacy GDELT supplies additional geographic coverage". The EIA and
- * EEA feeds are official analysis and belong in the official-updates modules
- * (pp. 37, 48 and the industry specialist feeds), not in "news".
- */
-export const PAGE_NEWS_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt'];
+export { PAGE_NEWS_PROVIDERS } from './policy';
 
 /**
  * Ranking used only while deduplicating. If the same article arrives from two
@@ -114,6 +96,7 @@ export const PAGE_NEWS_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt'];
  * shown or in what order. Display order is strictly newest first.
  */
 const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
+  thenewsapi: -1,
   newsdata: 0,
   eea_rss: 1,
   eia_rss: 2,
@@ -125,6 +108,7 @@ const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
  * Last successful poll time is separate from each article's retrieval time.
  */
 const REFRESH_SECONDS: Record<NewsProvider, number> = {
+  thenewsapi: NEWS_REFRESH_SECONDS,
   newsdata: NEWS_REFRESH_SECONDS,
   gdelt: NEWS_REFRESH_SECONDS,
   eia_rss: NEWS_REFRESH_SECONDS,
@@ -196,6 +180,13 @@ async function collect(
   // NewsData charges a credit per query, so "All" reuses the four cached topic
   // baskets instead of paying for a fifth (p. 210). Context discovery belongs
   // to ingestion; an industry-only maintenance pull skips the topic calls.
+  const theNewsApiCalls = !wants('thenewsapi') || !includeTopics ? []
+    : basketKey === 'all'
+      ? NEWS_BASKETS.filter(b => b.newsdataQuery).map(b => safeNewsCall('thenewsapi', fetchTheNewsApiBasket(b.key, fresh)))
+      : [safeNewsCall('thenewsapi', fetchTheNewsApiBasket(basketKey, fresh))];
+  const theNewsApiPageCalls = wants('thenewsapi')
+    ? pageQueries.map(query => safeNewsCall('thenewsapi', fetchTheNewsApiQuery(query, PAGE_BASKET_SECONDS, fresh))) : [];
+
   const newsdataCalls = !wants('newsdata') || !includeTopics
     ? []
     : basketKey === 'all'
@@ -210,7 +201,9 @@ async function collect(
 
   // Every connector returns a typed result rather than throwing, so one source
   // being down cannot reject the whole batch.
-  const [newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
+  const [theNewsApiResults, theNewsApiPageResults, newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
+    Promise.all(theNewsApiCalls),
+    Promise.all(theNewsApiPageCalls),
     Promise.all(newsdataCalls),
     Promise.all(pageCalls),
     wantsEia ? safeNewsCall('eia_rss', fetchEiaNews(fresh)) : null,
@@ -222,6 +215,7 @@ async function collect(
   const diagnostics = createNewsDiagnostics(basketKey);
   const raw: NewsItem[] = [];
   for (const [provider, result] of [
+    ...theNewsApiResults.map(r => ['thenewsapi', r] as const),
     ...newsdataResults.map((r) => ['newsdata', r] as const),
     ['gdelt', gdelt] as const,
     ['eia_rss', eia] as const,
@@ -252,9 +246,10 @@ async function collect(
   // page matches them again before showing any); they only need the site-wide
   // test that the headline is about our subject (p. 64: "the industry and
   // related sustainability themes together").
-  for (const result of pageResults) {
-    note(status, 'newsdata', result);
-    noteNewsProvider(diagnostics, 'newsdata', result);
+  for (const result of [...theNewsApiPageResults, ...pageResults]) {
+    const provider = result.providerId as NewsProvider;
+    note(status, provider, result);
+    noteNewsProvider(diagnostics, provider, result);
     if (result.ok) relevant.push(...result.data.filter(isOnSiteTopic));
   }
 
@@ -318,7 +313,7 @@ export type NewsOptions = {
   pageBaskets?: string[][];
 };
 
-const ALL_PROVIDERS: NewsProvider[] = ['newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
+const ALL_PROVIDERS = DEFAULT_NEWS_PROVIDERS;
 
 /**
  * The shared pool for a basket, gated (allowlist, dates, URL dedupe,
@@ -442,6 +437,7 @@ export async function fetchLiveNews(options: {
   check?: NewsOptions['check'];
 }): Promise<NewsResult> {
   const results = await Promise.all(options.providers.map(provider => safeNewsCall(provider,
+    provider === 'thenewsapi' ? fetchTheNewsApiQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
     provider === 'newsdata' ? fetchNewsdataQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
     provider === 'gdelt' ? fetchGdeltQuery(options.gdeltQuery, true) :
     provider === 'eia_rss' ? fetchEiaNews(true) : fetchEeaNews(true),
@@ -474,6 +470,9 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
 
 /** Three daily pulls of one shared pool, with independent provider storage. */
 export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
+  if (options.topicsOnly && (!options.manual || options.industriesOnly || options.industrySlugs)) {
+    throw new Error('Topic preview requires a manual pull without industry options.');
+  }
   if (options.industriesOnly && !options.manual) throw new Error('Industry maintenance requires an explicit manual pull.');
   if (options.industrySlugs && (!options.industriesOnly || options.industrySlugs.length === 0 ||
     options.industrySlugs.some(slug => !Object.hasOwn(INDUSTRY_FEEDS, slug)))) {
@@ -483,18 +482,21 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
   diagnostics.mode = 'refresh';
-  diagnostics.scope = options.industriesOnly ? 'industries' : 'all';
-  const providers: NewsProvider[] = options.industriesOnly ? ['newsdata'] : NEWS_PROVIDERS;
+  diagnostics.scope = options.topicsOnly ? 'topics' : options.industriesOnly ? 'industries' : 'all';
+  const providers = options.industriesOnly
+    ? REFRESH_NEWS_PROVIDERS.filter(provider => provider === 'thenewsapi' || provider === 'newsdata')
+    : REFRESH_NEWS_PROVIDERS;
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
     // Keep the twelve domain queries and rotate up to five sector queries per slot.
     // Industry maintenance can target one sector without repeating the full job.
     const domainQueries = options.industriesOnly ? [] : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
-    const queries = [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
+    const queries = options.topicsOnly ? []
+      : [...new Set([...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
     const collected = await collect('all', providers, queries, true, !options.industriesOnly);
     // Maintenance preserves the last outcomes of providers it did not contact.
     diagnostics.providers = [
-      ...(claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? []),
+      ...(options.industriesOnly ? claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? [] : []),
       ...collected.diagnostics.providers,
     ];
     diagnostics.counts.received = collected.diagnostics.counts.received;
@@ -638,7 +640,7 @@ export async function searchNews(
 export async function fetchNewsForKeywords(
   keywords: string[],
   limit = 4,
-  opts: { providers?: NewsProvider[]; maxPerPublisher?: number; check?: NewsOptions['check']; baskets?: string[][] } = {},
+  opts: { providers?: NewsProvider[]; maxPerPublisher?: number; check?: NewsOptions['check']; baskets?: string[][]; basket?: NewsBasketKey } = {},
 ): Promise<NewsResult> {
   const { providers = PAGE_NEWS_PROVIDERS, maxPerPublisher = 10, baskets = [] } = opts;
   // Only the page's own providers are asked. A high cap for the pool: the real
@@ -661,7 +663,7 @@ export async function fetchNewsForKeywords(
 
   const perPublisher = new Map<string, number>();
   const capped: NewsItem[] = [];
-  for (const item of matched) {
+  for (const item of prioritiseTopicMatches(matched, opts.basket ?? 'all')) {
     const used = perPublisher.get(item.domain) ?? 0;
     if (used >= maxPerPublisher) continue;
     perPublisher.set(item.domain, used + 1);

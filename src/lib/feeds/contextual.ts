@@ -136,7 +136,9 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
       ['sustainable finance', 'green credit', 'green taxonomy'],
       ['climate risk', 'responsible supply chains', 'impact investing'],
     ],
-    relatedNewsTerms: ['sustainability', 'green bond', 'responsible investment', 'climate disclosure', 'sustainable investment'],
+    relatedNewsTerms: ['sustainability', 'green bond', 'responsible investment', 'climate disclosure', 'sustainable investment',
+      // Adaptation funding is sustainable finance even without the exact phrase "sustainable finance".
+      'climate finance', 'adaptation finance'],
     researchThemes: [
       'ESG materiality sustainability reporting climate risk',
       'sustainable finance green credit taxonomy project screening',

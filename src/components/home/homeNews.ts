@@ -7,5 +7,5 @@ export const getHomeNews = cache(() => fetchNews('all', 80, {
   maxPerPublisher: 10, providers: PAGE_NEWS_PROVIDERS,
 }));
 export const getMarketCommentary = cache(() => fetchNews('business', 2, {
-  providers: ['eia_rss'], maxPerPublisher: 10,
+  providers: PAGE_NEWS_PROVIDERS, maxPerPublisher: 10,
 }));

@@ -98,7 +98,7 @@ function notRequested(providerId: ProviderId, name: string, why: string): Upstre
 }
 
 /** Query parameters that carry a credential. Kept out of cache keys and logs. */
-const SECRET_PARAMS = new Set(['apikey', 'api_key', 'key', 'token', 'access_token']);
+const SECRET_PARAMS = new Set(['apikey', 'api_key', 'api_token', 'key', 'token', 'access_token']);
 
 /** The URL with any credential removed, for cache keys and log lines. */
 export function redactUrl(url: string): string {

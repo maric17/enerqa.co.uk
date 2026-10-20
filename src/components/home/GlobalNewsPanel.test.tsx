@@ -80,6 +80,9 @@ describe('full-screen domain news carousel', () => {
   it('distinguishes unavailable and empty domains without disabling navigation', () => {
     const mixed = slides.map((slide, index) => index === 3 ? slide : { ...slide, item: null, sourcesFailed: index === 0 });
     render(<GlobalNewsPanel slides={mixed} />);
+    // The initial view shows available reporting rather than an empty first domain.
+    expect(screen.getByRole('heading', { name: 'Story for business' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: HERO_CATEGORIES[0].label }));
     expect(screen.getByRole('heading', { name: 'This source is temporarily unavailable.' })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: HERO_CATEGORIES[1].label }));
     expect(screen.getByRole('heading', { name: 'No relevant updates are available.' })).toBeInTheDocument();

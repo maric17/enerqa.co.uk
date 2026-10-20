@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { fetchNews, fetchNewsForKeywords, NEWS_DELAY_HOURS, PAGE_NEWS_PROVIDERS } from '@/lib/api/news';
+import type { NewsBasketKey } from '@/lib/api/news';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
 
@@ -10,8 +11,7 @@ import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
  * Reads the shared saved news pool and keeps items matching the page's phrases.
  * Only the scheduled news job contacts providers. Placement (p. 37): three
  * cards with headline, source,
- * publication time and short permitted description. Only the two news
- * providers the page spec names (NewsData, GDELT) are used - EIA and EEA items
+ * publication time and short permitted description. The client trial uses TheNewsAPI alone. EIA and EEA RSS items
  * are official analysis and appear in the official-updates modules instead.
  *
  * Without `phrases` it previews the whole Global Intelligence news pool (the
@@ -20,6 +20,7 @@ import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
 export async function NewsFeed({
   phrases,
   baskets,
+  basket,
   limit = 3,
   nearest,
 }: {
@@ -27,11 +28,13 @@ export async function NewsFeed({
   phrases?: string[];
   /** The page's phrases, used only to select from the saved shared news pool. */
   baskets?: string[][];
+  /** Prefer stories discovered for this domain when the feed shows one article. */
+  basket?: NewsBasketKey;
   limit?: number;
   nearest: { href: string; label: string };
 }) {
   const result = phrases
-    ? await fetchNewsForKeywords(phrases, limit, { baskets })
+    ? await fetchNewsForKeywords(phrases, limit, { baskets, basket })
     : await fetchNews('all', limit, { providers: PAGE_NEWS_PROVIDERS });
 
   if (result.items.length === 0) {
@@ -40,7 +43,8 @@ export async function NewsFeed({
 
   return (
     <div>
-      <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 list-none p-0 m-0">
+      {/* A single preview article uses the full feed width instead of an empty three-column row. */}
+      <ul className={`grid grid-cols-1 ${limit > 1 ? 'md:grid-cols-3' : ''} gap-6 list-none p-0 m-0`}>
         {result.items.map((item) => (
           <li key={item.id}>
             <a
