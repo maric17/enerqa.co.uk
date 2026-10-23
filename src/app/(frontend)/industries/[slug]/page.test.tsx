@@ -25,7 +25,7 @@ describe('industry page sections', () => {
     expect(screen.queryByRole('heading', { name: 'Industry News' })).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Relevant Enerqa Tools' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Previous tool' })).not.toBeInTheDocument();
-    for (const name of ['Research and Official Updates', 'Related Data', 'Enerqa Publication']) {
+    for (const name of ['Research and Official Updates', 'Related Data', 'Publications']) {
       expect(screen.getByRole('heading', { name })).toBeInTheDocument();
     }
   });

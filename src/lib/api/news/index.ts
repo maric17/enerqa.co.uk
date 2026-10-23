@@ -9,6 +9,8 @@ import {
   byNewest,
   containsAny,
   getBasket,
+  hasEditorialApproval,
+  isNewsCandidate,
   isOnSiteTopic,
   matchesBasket,
   normaliseUrl,
@@ -30,6 +32,7 @@ import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsD
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from '../../feeds/contextual';
 import { industryDiscoveryQueries } from './discovery';
 import { isStockMarketNews, STOCK_MARKET_QUERIES } from './markets';
+import { reviewNewsItems, type EditorialStats } from './editorial';
 
 export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
@@ -228,31 +231,19 @@ async function collect(
     if (result.ok) raw.push(...result.data);
   }
 
-  /**
-   * Relevance filtering (p. 226), applied to every provider.
-   *
-   * It is not optional. A live NewsData query for "biodiversity OR circular
-   * economy OR pollution OR water" came back with a data-centre debt story, a
-   * rapper's mural and a cat-cruelty case - all of which the provider
-   * considered a match.
-   *
-   * The official feeds go through the same check, because a feed is curated
-   * for its own subject, not for whichever basket we are borrowing it for:
-   * EIA's energy-market analysis belongs in Business and Finance only when the
-   * individual article is actually about markets or prices.
-   */
-  const relevant = raw.filter((item) => matchesBasket(item, basket));
+  // Every provider supplies candidates, not publication decisions. The later
+  // editorial review assesses meaning and assigns the actual display categories.
+  // Gather broadly from descriptions too; the editorial model decides the actual subject.
+  const relevant = raw.filter(item => isNewsCandidate(item) && (basket.key === 'all'
+    || containsAny(`${item.title} ${item.summary ?? ''}`, basket.keywords)));
 
-  // A page basket's results are already about the page's own phrases (the
-  // page matches them again before showing any); they only need the site-wide
-  // test that the headline is about our subject (p. 64: "the industry and
-  // related sustainability themes together").
+  // Query provenance helps discovery but never substitutes for editorial approval.
   for (const result of [...theNewsApiPageResults, ...pageResults]) {
     const provider = result.providerId as NewsProvider;
     note(status, provider, result);
     noteNewsProvider(diagnostics, provider, result);
     if (result.ok) relevant.push(...result.data.filter(item =>
-      item.matchedQueries?.some(query => STOCK_MARKET_QUERIES.includes(query)) ? isStockMarketNews(item) : isOnSiteTopic(item)));
+      item.matchedQueries?.some(query => STOCK_MARKET_QUERIES.includes(query)) ? isStockMarketNews(item) : isNewsCandidate(item)));
   }
 
   diagnostics.counts.relevant = relevant.length;
@@ -368,6 +359,7 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
     lastSuccessAt: saved.state.lastSuccessAt ?? {},
   };
   diagnostics.storage = saved.available ? 'ok' : 'failed';
+  diagnostics.editorial = saved.state.diagnostics?.editorial;
   const status: Collected['status'] = {};
   const eligible = saved.items.filter(item => item.accessStatus === 'verified_open' &&
     Boolean(item.accessCheckedAt && Date.now() - Date.parse(item.accessCheckedAt) <= RECHECK_SECONDS * 1000) &&
@@ -376,6 +368,7 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
     const latest = diagnostics.providers.filter(p => p.provider === provider);
     // Saved articles keep a failed provider usable; fresh empty replies remain healthy empty.
     status[provider] = !providerEnabled(provider) ? 'disabled' : !saved.available ? 'unavailable'
+      : !eligible.some(item => item.provider === provider) && diagnostics.editorial?.pending && diagnostics.editorial.issue ? 'unavailable'
       : eligible.some(item => item.provider === provider) || latest.some(p => p.outcome === 'ok') ? 'ok'
         : latest.at(-1)?.outcome ?? 'unavailable';
   }
@@ -403,6 +396,10 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
  * could not be shown is checked.
  */
 async function verified(items: NewsItem[], limit: number, check?: NewsOptions['check'], diagnostics?: NewsDiagnostics): Promise<NewsItem[]> {
+  const editorial: EditorialStats = { approved: 0, rejected: 0, pending: 0, issue: null };
+  const reviewed = await reviewNewsItems(items, editorial);
+  if (diagnostics) diagnostics.editorial = editorial;
+  const approved = reviewed.filter(hasEditorialApproval);
   // Count the existing checks without making extra requests or loosening access rules.
   const countedCheck = diagnostics ? async (url: string) => {
     const verdict = await (check ?? checkAccess)(url);
@@ -410,13 +407,20 @@ async function verified(items: NewsItem[], limit: number, check?: NewsOptions['c
     diagnostics.access[verdict.status] = (diagnostics.access[verdict.status] ?? 0) + 1;
     return verdict;
   } : check;
-  const passed = await firstVerified(items, { url: (i) => i.url, limit, maxChecks: limit + 6, check: countedCheck });
+  const passed = await firstVerified(approved, { url: (i) => i.url, limit, maxChecks: limit + 6, check: countedCheck });
   const records = passed.map(({ item, verdict }) => ({ ...item, imageUrl: verdict.imageUrl ?? item.imageUrl,
     accessStatus: verdict.status, accessCheckedAt: verdict.checkedAt, accessEvidence: verdict.evidence, finalUrl: verdict.finalUrl }));
-  const stored = await storeRecords(records.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url, accessStatus: item.accessStatus, accessCheckedAt: item.accessCheckedAt, retrievedAt: item.retrievedAt, record: item })));
+  // Save withheld decisions privately too, so older versions cannot remain published.
+  const withheld = reviewed.filter(item => !hasEditorialApproval(item));
+  const stored = await storeRecords([
+    ...records.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url, accessStatus: item.accessStatus, accessCheckedAt: item.accessCheckedAt, retrievedAt: item.retrievedAt, record: item })),
+    ...withheld.map(item => ({ provider: item.provider, sourceId: item.sourceId ?? item.id, destination: item.url,
+      accessStatus: 'unknown', accessCheckedAt: null, retrievedAt: item.retrievedAt,
+      record: { ...item, accessStatus: 'unknown', accessCheckedAt: null } })),
+  ]);
   if (diagnostics) {
     diagnostics.counts.verifiedOpen = records.length;
-    diagnostics.storage = records.length ? (stored ? 'ok' : 'failed') : 'not_attempted';
+    diagnostics.storage = records.length + withheld.length ? (stored ? 'ok' : 'failed') : 'not_attempted';
     diagnostics.counts.returned = stored ? records.length : 0;
   }
   return stored ? records : [];
@@ -450,14 +454,18 @@ export async function fetchLiveNews(options: {
   const candidates: NewsItem[] = [];
   for (const result of results) {
     note(status, result.providerId as NewsProvider, result);
-    if (result.ok) candidates.push(...result.data.filter(isOnSiteTopic).map(normalise));
+    if (result.ok) candidates.push(...result.data.filter(isNewsCandidate).map(normalise));
   }
   const saved = await readNewsStore();
-  const previousQueries = new Map(saved.items.map(item => [normaliseUrl(item.url), item.matchedQueries ?? []]));
-  const discovered = candidates.map(item => ({ ...item,
-    // Interactive discovery must not erase the query evidence used by domain/industry pages.
-    matchedQueries: [...new Set([...(previousQueries.get(normaliseUrl(item.url)) ?? []), ...(item.matchedQueries ?? [])])],
-  }));
+  const previousItems = new Map(saved.items.map(item => [normaliseUrl(item.url), item]));
+  const discovered = candidates.map(item => {
+    const previous = previousItems.get(normaliseUrl(item.url));
+    return { ...item,
+      // Interactive discovery preserves query evidence and unchanged editorial decisions.
+      matchedQueries: [...new Set([...(previous?.matchedQueries ?? []), ...(item.matchedQueries ?? [])])],
+      editorialReview: previous?.title === item.title && previous.summary === item.summary ? previous.editorialReview : item.editorialReview,
+    };
+  });
   // Reuse publisher, date, rights and anonymous-access gates before saving originals.
   const items = await verified(dedupeNews(discovered, 30), 30, options.check);
   return buildResult(items, status);
@@ -467,7 +475,9 @@ export async function fetchLiveNews(options: {
 export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opts: NewsOptions = {}): Promise<NewsResult> {
   const { items, status, diagnostics } = await providerPool(basketKey, opts);
   diagnostics.mode = 'refresh';
-  const shown = await verified(items, limit, opts.check, diagnostics);
+  const approved = await verified(items, limit, opts.check, diagnostics);
+  const shown = approved.filter(item => matchesBasket(item, getBasket(basketKey)));
+  diagnostics.counts.returned = shown.length;
   logNewsDiagnostics(diagnostics);
   return { ...buildResult(shown, status), diagnostics };
 }
@@ -514,7 +524,13 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
       if (!providerEnabled(provider)) continue;
       const fresh = collected.items.filter(i => i.provider === provider);
       const previous = saved.items.filter(i => i.provider === provider);
-      const candidates = dedupeNews([...fresh, ...previous].map(i => ({ ...i, refreshSeconds: NEWS_REFRESH_SECONDS })), 500);
+      const previousByUrl = new Map(previous.map(item => [normaliseUrl(item.url), item]));
+      const candidates = dedupeNews([...fresh, ...previous].map(item => {
+        const old = previousByUrl.get(normaliseUrl(item.url));
+        // Reuse a review only for the exact same licensed text, not merely the URL.
+        return { ...item, refreshSeconds: NEWS_REFRESH_SECONDS,
+          editorialReview: old && old.title === item.title && old.summary === item.summary ? old.editorialReview : item.editorialReview };
+      }), 500);
       const counts = createNewsDiagnostics('all');
       try {
         await verified(candidates, 80, check, counts);
@@ -523,6 +539,11 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
       }
       diagnostics.counts.afterGate += candidates.length;
       for (const key of ['accessChecked', 'verifiedOpen', 'returned'] as const) diagnostics.counts[key] += counts.counts[key];
+      if (counts.editorial) {
+        diagnostics.editorial ??= { approved: 0, rejected: 0, pending: 0, issue: null };
+        for (const key of ['approved', 'rejected', 'pending'] as const) diagnostics.editorial[key] += counts.editorial[key];
+        diagnostics.editorial.issue = counts.editorial.issue ?? diagnostics.editorial.issue;
+      }
       for (const [key, value] of Object.entries(counts.access)) {
         const status = key as keyof NewsDiagnostics['access'];
         diagnostics.access[status] = (diagnostics.access[status] ?? 0) + value!;
@@ -539,7 +560,8 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
     logNewsDiagnostics(diagnostics);
     return { skipped: false as const, storedItems: diagnostics.counts.returned,
-      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, providers) || diagnostics.storage === 'failed', diagnostics };
+      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, providers) || diagnostics.storage === 'failed'
+        || Boolean(diagnostics.editorial?.pending && diagnostics.editorial.issue), diagnostics };
   } catch {
     diagnostics.storage = 'failed';
     await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });

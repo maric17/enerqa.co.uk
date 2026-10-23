@@ -21,7 +21,7 @@ import { ARCHIVE_LABELS, lexicalText, searchWords, sortByDate, type PublicationC
 export const metadata: Metadata = {
   title: 'Knowledge Hub',
   description:
-    'Original Enerqa analysis alongside open-access news, research and official updates. Two collections: Enerqa Publication and Global Intelligence.',
+    'Original Enerqa analysis alongside open-access news, research and official updates. Two collections: Publications and Global Intelligence.',
   alternates: { canonical: '/knowledge-hub' },
 };
 
@@ -111,7 +111,7 @@ export default async function KnowledgeHubPage() {
         <Container>
           <div className="max-w-4xl mb-8">
             <p className="text-[18px] md:text-[22px] leading-[1.6] text-[var(--ink-soft)] font-light m-0 whitespace-pre-line">
-              Explore original Enerqa analysis alongside open-access news, research and official updates from around the world. Choose Enerqa Publication for our own work, or Global Intelligence for external evidence relevant to climate, energy, environment, nature, circularity, ESG and finance.
+              Explore original Enerqa analysis alongside open-access news, research and official updates from around the world. Choose Publications for our own work, or Global Intelligence for external evidence relevant to climate, energy, environment, nature, circularity, ESG and finance.
             </p>
           </div>
         </Container>
@@ -120,7 +120,7 @@ export default async function KnowledgeHubPage() {
       {/* K02 Choose a Collection */}
       <CollectionSwitch active="publications" />
 
-      {/* K03 Find a Publication + K04 Enerqa Publication */}
+      {/* K03 Find a Publication + K04 Publications */}
       <KnowledgeHubClient publications={cards} />
 
       {/* K05 Global Intelligence (p. 156): "Verified open-access external items +

@@ -53,6 +53,7 @@ describe('relevance filtering', () => {
   });
 
   const REJECTED: [string, string][] = [
+    ["Newspaper headlines: 'Burnham faces climate revolt' and 'Harry wants to fix feud'", 'Several papers lead on remarks from the Duke of Sussex about reconciling with his family.'],
     ["Oracle's $18 billion data center debt under pressure, FT reports", 'loans quoted by syndicate banks including Santander and Jefferies'],
     ['Louisiana woman faces charges after 17 cats found dead in extreme-heat', 'cats found dead amid dangerously hot conditions with no water'],
     ['Mural of rapper Macklemore painted in Gaza after Sheeran tour furore', 'Artists in Gaza have painted a mural on a slab of concrete'],

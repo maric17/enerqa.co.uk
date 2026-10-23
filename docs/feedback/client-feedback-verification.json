@@ -1,0 +1,370 @@
+{
+  "origin": "http://localhost:3010",
+  "checkedAt": "2026-10-23T08:39:23.439Z",
+  "home": [
+    {
+      "width": 1366,
+      "height": 900,
+      "status": 200,
+      "overflow": false,
+      "titleGap": 48,
+      "searchBottom": 374.9375,
+      "storyTop": 601.703125,
+      "footerBottom": 876,
+      "heroBottom": 900
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "titleGap": 48,
+      "searchBottom": 354.46875,
+      "storyTop": 478.15625,
+      "footerBottom": 744,
+      "heroBottom": 768
+    },
+    {
+      "width": 1024,
+      "height": 614,
+      "status": 200,
+      "overflow": false,
+      "titleGap": 48,
+      "searchBottom": 354.46875,
+      "storyTop": 444.625,
+      "footerBottom": 710.46875,
+      "heroBottom": 734.46875
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "titleGap": 28,
+      "searchBottom": 362.0625,
+      "storyTop": 473.203125,
+      "footerBottom": 824,
+      "heroBottom": 844
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "status": 200,
+      "overflow": false,
+      "titleGap": 28,
+      "searchBottom": 416.09375,
+      "storyTop": 440.09375,
+      "footerBottom": 756.203125,
+      "heroBottom": 776.203125
+    }
+  ],
+  "pages": [
+    {
+      "route": "/domains/climate-action-carbon-management",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/energy-systems-transition",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/environment-nature-circularity",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/sustainable-business-esg-finance",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "width": 1366,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "width": 1366,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "width": 1366,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "width": 1366,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "width": 1366,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "width": 1366,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "width": 1366,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "width": 1366,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    },
+    {
+      "route": "/domains/climate-action-carbon-management",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/energy-systems-transition",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/environment-nature-circularity",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/domains/sustainable-business-esg-finance",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "width": 390,
+      "status": 200,
+      "cards": 5,
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "width": 390,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "width": 390,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "width": 390,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "width": 390,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "width": 390,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "width": 390,
+      "status": 200,
+      "cards": 2,
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "width": 390,
+      "status": 200,
+      "cards": 3,
+      "overflow": false
+    }
+  ],
+  "explorer": {
+    "linkedUrl": "http://localhost:3010/data-portal/explorer?indicator=wdi%3Aeg_elc_rnew_zs",
+    "indicator": "Renewable electricity output (% of total electricity output)",
+    "dataRows": 110,
+    "overflow": false
+  },
+  "errors": [],
+  "news": {
+    "checkedAt": "2026-10-23T08:49:03.192Z",
+    "headlines": [
+      {
+        "domain": 0,
+        "article": 0,
+        "title": "Jackdaw decision could haunt the UK at future climate summits"
+      },
+      {
+        "domain": 0,
+        "article": 1,
+        "title": "When climate data is transformed into visuals some people and places get overlooked"
+      },
+      {
+        "domain": 0,
+        "article": 2,
+        "title": "Climate emergency declaration scrapped by Kirklees Council"
+      },
+      {
+        "domain": 1,
+        "article": 0,
+        "title": "Solar panels plan for thousands of council homes in Sheffield"
+      },
+      {
+        "domain": 1,
+        "article": 1,
+        "title": "Where does all the hardware go? The hidden environmental footprint of AI data centres"
+      },
+      {
+        "domain": 1,
+        "article": 2,
+        "title": "U.S. small-scale solar generation has quadrupled in the last decade"
+      },
+      {
+        "domain": 2,
+        "article": 0,
+        "title": "Africans reuse, repair, recycle and resell waste: what’s needed to build on the circular economy basics"
+      },
+      {
+        "domain": 2,
+        "article": 1,
+        "title": "Les pays africains pourraient économiser des milliards en réduisant la pollution et les émissions de gaz à effet de serre"
+      },
+      {
+        "domain": 2,
+        "article": 2,
+        "title": "Who should have a say in which species are saved? The California condor offers lessons for a global biodiversity treaty"
+      },
+      {
+        "domain": 3,
+        "article": 0,
+        "title": "Africa faces ‘failed adaptation’ as climate finance falls billions short"
+      },
+      {
+        "domain": 3,
+        "article": 1,
+        "title": "Africans reuse, repair, recycle and resell waste: what’s needed to build on the circular economy basics"
+      }
+    ],
+    "rejectedDigestsAbsent": true,
+    "errors": []
+  }
+}

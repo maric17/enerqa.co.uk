@@ -38,7 +38,7 @@ const FOOTER_GROUPS: { title: string; links: { label: string; href: string }[] }
   {
     title: 'Knowledge Hub',
     links: [
-      { label: 'Enerqa Publication', href: '/knowledge-hub' },
+      { label: 'Publications', href: '/knowledge-hub' },
       { label: 'Global Intelligence', href: '/knowledge-hub/global-intelligence' },
     ],
   },

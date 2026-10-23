@@ -67,7 +67,45 @@ export type NewsItem = {
   regions: string[];
   /** An official feed's own label for the item ("Press release", "Publication"). */
   docType?: string;
+  /** Editorial approval applies to this exact headline and publisher description. */
+  editorialReview?: EditorialReview;
 };
+
+export const EDITORIAL_REVIEW_VERSION = '2026-10-23-v1';
+export const EDITORIAL_TOPICS = ['climate', 'energy', 'environment', 'business', 'markets'] as const;
+export type EditorialTopic = typeof EDITORIAL_TOPICS[number];
+export type EditorialReview = {
+  version: string;
+  decision: 'approved' | 'rejected' | 'pending';
+  topics: EditorialTopic[];
+  title: string;
+  summary: string | null;
+  reason: string;
+  reviewedAt: string | null;
+};
+
+/** Content changes invalidate an earlier decision; missing reviews never count as approval. */
+export function hasEditorialApproval(item: Pick<NewsItem, 'title' | 'summary' | 'editorialReview'>): boolean {
+  const review = item.editorialReview;
+  return Boolean(!isNewsRoundup(item.title) && review && review.version === EDITORIAL_REVIEW_VERSION && review.decision === 'approved'
+    && review.title === item.title && review.summary === item.summary && typeof review.reason === 'string' && review.reason.trim()
+    && typeof review.reviewedAt === 'string' && Number.isFinite(Date.parse(review.reviewedAt))
+    && Array.isArray(review.topics) && review.topics.length > 0
+    && review.topics.every(topic => EDITORIAL_TOPICS.includes(topic)));
+}
+
+/** Keep a negative decision too, so an unchanged rejected story is not reviewed on every pull. */
+export function hasEditorialRejection(item: Pick<NewsItem, 'title' | 'summary' | 'editorialReview'>): boolean {
+  const review = item.editorialReview;
+  return Boolean(review && review.version === EDITORIAL_REVIEW_VERSION && review.decision === 'rejected'
+    && review.title === item.title && review.summary === item.summary && typeof review.reason === 'string' && review.reason.trim()
+    && typeof review.reviewedAt === 'string' && Number.isFinite(Date.parse(review.reviewedAt)));
+}
+
+/** Newspaper digests mix subjects and must not be promoted as individual topic stories. */
+export function isNewsRoundup(title: string): boolean {
+  return /^(?:(?:Scotland|Wales|England|Northern Ireland)['’]s papers|newspaper headlines?|the papers|paper review|press review|front pages?|news (?:roundup|round-up|digest))\b/i.test(title.trim());
+}
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
 
@@ -295,8 +333,8 @@ export function isPlausibleDate(iso: string | null): boolean {
 }
 
 /**
- * The site's subject matter. An item must mention at least one of these to be
- * shown anywhere, whatever basket it arrived in.
+ * Discovery vocabulary for a broad shortlist, not permission to publish.
+ * Saved editorial decisions determine the actual subject and display category.
  *
  * This exists because a basket keyword alone is not enough. "Oracle's $18
  * billion data center debt" contains "banks", so it passes the Business and
@@ -326,6 +364,11 @@ const CORE_TOPIC_TERMS = [
   // ESG and sustainable finance
   'esg', 'green bond', 'climate finance', 'sustainable finance', 'green energy',
 ];
+
+/** Broad discovery is only a shortlist; it never grants permission to publish. */
+export function isNewsCandidate(item: Pick<NewsItem, 'title' | 'summary'>): boolean {
+  return !isNewsRoundup(item.title) && containsAny(`${item.title} ${item.summary ?? ''}`, CORE_TOPIC_TERMS);
+}
 
 // Agriculture headlines often name food or farming and explain sustainability
 // in the publisher's description. Require both, rather than accepting all food news.
@@ -366,35 +409,22 @@ export function containsAny(haystack: string, terms: string[]): boolean {
   return terms.some((term) => termMatcher(term).test(haystack));
 }
 
-/** Anchor on the headline; agriculture may supply its sustainability context in the description. */
-export function isOnSiteTopic(item: Pick<NewsItem, 'title'> & Partial<Pick<NewsItem, 'summary'>>): boolean {
+/** Prefer the reviewed subject; unreviewed inputs retain the legacy candidate matcher. */
+export function isOnSiteTopic(item: Pick<NewsItem, 'title'> & Partial<Pick<NewsItem, 'summary' | 'editorialReview'>>): boolean {
+  if (isNewsRoundup(item.title)) return false;
+  if (item.editorialReview) return hasEditorialApproval({ ...item, summary: item.summary ?? null })
+    && item.editorialReview.topics.some(topic => topic !== 'markets');
+  // This inexpensive check gathers candidates only. Public storage requires semantic approval.
   return containsAny(item.title, CORE_TOPIC_TERMS) || (
     containsAny(item.title, AGRICULTURE_HEADLINE_TERMS) &&
     containsAny(item.summary ?? '', AGRICULTURE_SUSTAINABILITY_TERMS)
   );
 }
 
-/**
- * Relevance filtering (p. 226). Two tests, both of which must pass:
- *   1. the headline is about our subject matter (or names agriculture/food with
- *      explicit sustainability context in the publisher's description), and
- *   2. the headline or summary fits the basket the reader asked for.
- *
- * Outside that agriculture case, test 1 ignores the summary. Checking both let through "17 cats
- * found dead in extreme heat" - an animal-cruelty story whose description
- * happened to mention water. A passing mention inside a description is not
- * what an article is about; a headline usually is.
- *
- * The trade-off is accepted knowingly: this errs towards showing too little
- * rather than too much, because a corporate sustainability site can survive a
- * thin news panel far better than an obviously irrelevant headline. Four
- * providers feed the pool, so there is usually something else to show.
- *
- * Every provider goes through this, official feeds included - a feed is
- * curated for its own subject, not for whichever basket we borrow it for.
- */
+/** Approved items use their reviewed topics; unreviewed input is only a candidate. */
 export function matchesBasket(item: NewsItem, basket: NewsBasket): boolean {
   if (!isOnSiteTopic(item)) return false;
+  if (hasEditorialApproval(item)) return basket.key === 'all' || item.editorialReview!.topics.includes(basket.key);
   if (basket.keywords.length === 0) return true;
   return containsAny(`${item.title} ${item.summary ?? ''}`, basket.keywords);
 }

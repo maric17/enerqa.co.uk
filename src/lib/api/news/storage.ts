@@ -2,9 +2,10 @@ import { randomUUID } from 'node:crypto';
 import { unstable_cache } from 'next/cache';
 import { providerDatabase } from '../core/storage';
 import { RECHECK_SECONDS } from '../core/accessCheck';
-import { hostnameOf, normaliseUrl, newsImageUrl, type NewsItem, type NewsProvider } from './types';
+import { hasEditorialApproval, hasEditorialRejection, hostnameOf, normaliseUrl, newsImageUrl, type NewsItem, type NewsProvider } from './types';
 import type { NewsDiagnostics } from './diagnostics';
 import { newsScheduleSlot } from './schedule';
+import { createNewsDiagnostics } from './diagnostics';
 
 // A control record in the existing private table avoids a live schema migration.
 const JOB_PROVIDER = 'enerqa-news-sync';
@@ -38,8 +39,10 @@ async function readNewsStoreUncached(includeExpiredAccess = false): Promise<{ it
         AND (r.provider = $2 OR r.retrieved_at > clock_timestamp() - interval '60 days')
       ORDER BY r.retrieved_at DESC LIMIT 5000`, [[...NEWS_PROVIDERS, JOB_PROVIDER], JOB_PROVIDER]);
     const state = rows.find(r => r.provider === JOB_PROVIDER && r.source_id === JOB_ID)?.record as NewsRefreshState | undefined;
+    let pendingEditorialReviews = 0;
+    let rejectedEditorialReviews = 0;
     const items = rows.flatMap(row => {
-      if (!NEWS_PROVIDERS.includes(row.provider as NewsProvider) || row.access_status !== 'verified_open') return [];
+      if (!NEWS_PROVIDERS.includes(row.provider as NewsProvider) || (!includeExpiredAccess && row.access_status !== 'verified_open')) return [];
       const item = row.record as NewsItem | null;
       // Other modules share this table; accept only complete news-shaped records.
       if (!item || typeof item.id !== 'string' || typeof item.title !== 'string' || !item.title ||
@@ -49,18 +52,31 @@ async function readNewsStoreUncached(includeExpiredAccess = false): Promise<{ it
         (item.summary !== null && typeof item.summary !== 'string') ||
         (item.language !== null && typeof item.language !== 'string') ||
         !Array.isArray(item.regions) || !item.regions.every(r => typeof r === 'string')) return [];
+      // Old keyword-only records and pending reviews cannot bypass editorial screening.
+      if (!includeExpiredAccess && !hasEditorialApproval(item)) {
+        if (hasEditorialRejection(item)) rejectedEditorialReviews++;
+        else pendingEditorialReviews++;
+        return [];
+      }
       const checkTime = row.access_checked_at ? new Date(row.access_checked_at).getTime() : NaN;
       const retrievalTime = new Date(row.retrieved_at).getTime();
-      if (!Number.isFinite(checkTime) || !Number.isFinite(retrievalTime)) return [];
-      const checkedAt = new Date(checkTime).toISOString();
+      if ((!includeExpiredAccess && !Number.isFinite(checkTime)) || !Number.isFinite(retrievalTime)) return [];
+      const checkedAt = Number.isFinite(checkTime) ? new Date(checkTime).toISOString() : null;
       // A newer refusal invalidates the old open record immediately, even before expiry.
-      if (row.verdict?.checkedAt && Date.parse(row.verdict.checkedAt) >= Date.parse(checkedAt) && row.verdict.status !== 'verified_open') return [];
-      if (!includeExpiredAccess && Date.now() - Date.parse(checkedAt) > RECHECK_SECONDS * 1000) return [];
+      if (row.verdict?.checkedAt && checkedAt && Date.parse(row.verdict.checkedAt) >= Date.parse(checkedAt) && row.verdict.status !== 'verified_open') return [];
+      if (!includeExpiredAccess && checkedAt && Date.now() - Date.parse(checkedAt) > RECHECK_SECONDS * 1000) return [];
       return [{ ...item, id: normaliseUrl(item.url), domain: hostnameOf(item.url),
         imageUrl: newsImageUrl(row.verdict?.imageUrl) ?? item.imageUrl,
-        retrievedAt: new Date(retrievalTime).toISOString(), accessStatus: 'verified_open' as const, accessCheckedAt: checkedAt }];
+        retrievedAt: new Date(retrievalTime).toISOString(), accessStatus: row.access_status === 'verified_open' ? 'verified_open' as const : 'unknown' as const, accessCheckedAt: checkedAt }];
     });
-    return { items, state: state ?? {}, available: true };
+    const readState = { ...state };
+    if (pendingEditorialReviews || rejectedEditorialReviews) {
+      // A provider's successful HTTP reply does not mean its old stories passed editorial review.
+      readState.diagnostics = { ...createNewsDiagnostics('all'), ...readState.diagnostics,
+        editorial: { approved: items.length, pending: pendingEditorialReviews, rejected: rejectedEditorialReviews,
+          issue: pendingEditorialReviews ? readState.diagnostics?.editorial?.issue ?? 'editorial_review_required' : null } };
+    }
+    return { items, state: readState, available: true };
   } catch {
     console.warn('[enerqa:news] Saved news could not be read.');
     return { items: [], state: {}, available: false };
@@ -73,7 +89,7 @@ const cachedNewsStore = unstable_cache(async () => {
   // A failed read must not replace the last good cache entry with an empty result.
   if (!saved.available) throw new Error('Saved news storage is unavailable.');
   return saved;
-}, ['saved-news-thenewsapi-v2'], { revalidate: 60, tags: ['saved-news'] });
+}, ['saved-news-editorial-2026-10-23-v3'], { revalidate: 60, tags: ['saved-news'] });
 
 export async function readNewsStore(includeExpiredAccess = false) {
   if (includeExpiredAccess) return readNewsStoreUncached(true);

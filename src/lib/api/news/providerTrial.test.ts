@@ -1,3 +1,9 @@
+// Exercise connector/access behavior independently of the semantic-review service.
+vi.mock('./editorial', async () => {
+  const { reviewNewsFixture } = await import('../../../../test/newsEditorialFixture');
+  return { reviewNewsItems: async (items: NewsItem[]) => items.map(reviewNewsFixture) };
+});
+
 import { beforeEach, expect, it, vi } from 'vitest';
 import { fail, ok } from '../core/types';
 import { STOCK_MARKET_QUERIES } from './markets';

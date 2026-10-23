@@ -7,7 +7,7 @@ import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { formatDate } from './feedParts';
 
 /**
- * CK/EK/NK/BK and the industry "Enerqa Publication" module.
+ * CK/EK/NK/BK and the industry "Publications" module.
  *
  * p. 29: "First-party CMS, not external API content. Use approved real
  * publications with original metadata." Publications appear here only when an
@@ -53,7 +53,7 @@ export async function RelatedPublications({
           >
             {/* p. 229: owned publications and external items must not be confused. */}
             <span className="text-xs font-bold uppercase tracking-wider text-[var(--green-deep)]">
-              Enerqa Publication{pub.type ? ` · ${pub.type}` : ''}
+              Publications{pub.type ? ` · ${pub.type}` : ''}
             </span>
             <h3 className="mt-2 mb-2 text-lg font-bold leading-snug text-[var(--ink)] group-hover:text-[var(--color-secondary)] transition-colors">
               {pub.title}

@@ -1,5 +1,7 @@
 # Related data — joint review matrix
 
+**23 October update:** the client replaced the one-preview presentation below with up to five relevant indicators opening the Data Explorer. See [the implemented changes and remaining review items](CLIENT-FEEDBACK-2026-10-23.md). The source and geography matrix below remains a reference for future coverage improvements.
+
 Prepared 15 October 2026 for WF-21. This inventories the four domain mappings in `src/lib/feeds/contextual.ts` and the thirteen industry mappings in `scripts/seed-industries.ts`. Industry seed mappings must be compared with the saved CMS settings during the joint review; they are not represented as a fresh database audit.
 
 News discovery, market quotes and numerical sustainability datasets are separate inputs. Selecting Exa or another news service does not replace the numerical providers below. Keep working catalogue links and existing verified datasets until an agreed replacement has suitable coverage and rights.
