@@ -1,3 +1,4 @@
+import { approveNewsFixture } from '../../../../test/newsEditorialFixture';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { NewsItem } from './types';
 
@@ -11,7 +12,7 @@ function row(over: Record<string, unknown> = {}) {
   const record: NewsItem = { id: url, url, title: 'Climate finance agreement', summary: null,
     domain: 'theguardian.com', provider: 'newsdata', publisher: 'The Guardian', providerLabel: 'NewsData.io',
     publishedAt: new Date().toISOString(), retrievedAt: new Date().toISOString(), language: 'en', regions: [], rights: 'Metadata' };
-  return { provider: 'newsdata', source_id: 'source-id', destination: url, record,
+  return { provider: 'newsdata', source_id: 'source-id', destination: url, record: approveNewsFixture(record),
     access_status: 'verified_open', access_checked_at: new Date(), retrieved_at: new Date(), verdict: null, ...over };
 }
 
@@ -19,6 +20,21 @@ beforeEach(() => { mocks.query.mockReset(); mocks.available = true; });
 afterEach(() => vi.restoreAllMocks());
 
 describe('saved news evidence', () => {
+  it('withholds old keyword-only and changed-content records while retaining them for background review', async () => {
+    const legacy = row(); delete legacy.record.editorialReview;
+    const changed = row(); changed.record.title = 'The headline was changed after review';
+    mocks.query.mockResolvedValue({ rows: [legacy, changed] });
+    expect((await readNewsStore()).items).toHaveLength(0);
+    expect((await readNewsStore(true)).items).toHaveLength(2);
+  });
+
+  it('keeps pending metadata available for background review without implying verified article access', async () => {
+    const pending = row({ access_status: 'unknown', access_checked_at: null });
+    pending.record.editorialReview!.decision = 'pending';
+    mocks.query.mockResolvedValue({ rows: [pending] });
+    expect((await readNewsStore()).items).toEqual([]);
+    expect((await readNewsStore(true)).items[0].accessStatus).toBe('unknown');
+  });
   it('accepts recent verified news and excludes other stored record shapes and refused evidence', async () => {
     const saved = row();
     mocks.query.mockResolvedValue({ rows: [saved, row({ record: { doi: '10.1/test' } }), row({ access_status: 'gated' })] });

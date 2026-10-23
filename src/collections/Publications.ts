@@ -184,7 +184,7 @@ export const Publications: CollectionConfig = {
       ],
       admin: {
         position: 'sidebar',
-        description: 'Only Article records appear in the public Enerqa Publication collection.',
+        description: 'Only Article records appear in the public Publications collection.',
       },
     },
     // p. 225: "recover true dates". The 2024 import gave every record the same
@@ -208,7 +208,7 @@ export const Publications: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     // Taxonomy (p. 226). These drive three things at once: the Domain and
-    // Industry filters in K03 (p. 155), and the "Enerqa Publication" module on
+    // Industry filters in K03 (p. 155), and the "Publications" module on
     // each domain page (CK/EK/NK/BK) and industry page. Tagging is an editorial
     // decision, so nothing is inferred - an untagged publication simply does not
     // appear in those modules.

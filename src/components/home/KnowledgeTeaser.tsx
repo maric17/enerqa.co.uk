@@ -7,7 +7,7 @@ import { usableExcerpt } from './publicationExcerpt'
 import { Container } from '../ui/Container'
 
 /**
- * H08 Enerqa Publication (handoff p. 14).
+ * H08 Publications (handoff p. 14).
  *
  * "First-party CMS content, not a news API. Show real publication type,
  * author, title and actual publication date. Do not import archive headings or

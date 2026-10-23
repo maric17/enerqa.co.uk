@@ -8,7 +8,7 @@ describe('publication cover', () => {
     const { container } = render(<PublicationCover image={null} />);
     expect(container.querySelector('[data-publication-cover]')).toHaveAttribute('aria-hidden', 'true');
     expect(screen.queryByRole('img')).toBeNull();
-    expect(screen.getByText('Enerqa Publication')).toBeInTheDocument();
+    expect(screen.getByText('Publications')).toBeInTheDocument();
   });
 
   it('falls back after an image failure and can display a different article image', () => {

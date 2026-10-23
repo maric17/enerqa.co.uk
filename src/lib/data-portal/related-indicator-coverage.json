@@ -1,0 +1,182 @@
+{
+  "fasttrack:terr_emissions": {
+    "from": 1850,
+    "to": 2021,
+    "commit": "85af9e1b82e5f5de64b2ad52c5fe2bd1c47b074b"
+  },
+  "wdi:eg_elc_accs_ur_zs": {
+    "from": 1990,
+    "to": 2023,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_elc_coal_zs": {
+    "from": 1990,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_elc_fosl_zs": {
+    "from": 1990,
+    "to": 2023,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_elc_ngas_zs": {
+    "from": 1990,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_elc_petr_zs": {
+    "from": 1990,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_elc_rnew_zs": {
+    "from": 1990,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_fec_rnew_zs": {
+    "from": 1990,
+    "to": 2022,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_use_comm_gd_pp_kd": {
+    "from": 1990,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:eg_use_pcap_kg_oe": {
+    "from": 1990,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_ag_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_bu_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_fe_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_ic_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_tr_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_ch4_wa_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_co2_lu_df_mt_ce_ar5": {
+    "from": 1990,
+    "to": 2023,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_co2_lu_fl_mt_ce_ar5": {
+    "from": 1990,
+    "to": 2023,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_fgas_ip_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_ag_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_bu_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_ic_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_tr_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_ghg_n2o_wa_mt_ce_ar5": {
+    "from": 1970,
+    "to": 2024,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_pop_el5m_ur_zs": {
+    "from": 1990,
+    "to": 2015,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:en_pop_el5m_zs": {
+    "from": 1990,
+    "to": 2015,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ic_frm_co2_zs": {
+    "from": 2021,
+    "to": 2025,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ie_ppi_watr_cd": {
+    "from": 1987,
+    "to": 2023,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_dco2_gn_zs": {
+    "from": 1970,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_dfor_gn_zs": {
+    "from": 1970,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_dmin_gn_zs": {
+    "from": 1970,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_dngy_gn_zs": {
+    "from": 1970,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_dres_gn_zs": {
+    "from": 1970,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  },
+  "wdi:ny_adj_svng_gn_zs": {
+    "from": 1990,
+    "to": 2021,
+    "commit": "e7a04a08504ca6715e7d2f262ff2ce0295915be9"
+  }
+}

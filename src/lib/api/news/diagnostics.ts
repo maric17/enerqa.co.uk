@@ -19,6 +19,7 @@ export type NewsDiagnostics = {
   counts: { received: number; relevant: number; afterGate: number; accessChecked: number; verifiedOpen: number; returned: number };
   access: Partial<Record<AccessStatus, number>>;
   storage: 'not_attempted' | 'ok' | 'failed';
+  editorial?: { approved: number; rejected: number; pending: number; issue: string | null };
 };
 
 export function createNewsDiagnostics(basket: NewsBasketKey): NewsDiagnostics {

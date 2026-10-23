@@ -44,14 +44,14 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '24px' }}>
         <div style={{ maxWidth: '640px', textAlign: 'left' }}>
           <Typography variant="h2" id="h08-enerqa-publication" className="home-h2 mb-3 text-white">
-            Enerqa Publication
+            Publications
           </Typography>
           {/* p. 14 H08 narrative, verbatim */}
           <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: '0 0 20px', fontWeight: 300 }}>
             Research, analysis and practical perspectives on the systems, decisions and projects shaping a more sustainable future.
           </p>
           <Link href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #00cfc8', color: '#00cfc8', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
-            Explore Enerqa Publication
+            Explore Publications
           </Link>
         </div>
 
@@ -88,7 +88,7 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'left', paddingTop: '6px' }}>
               {/* p. 229: owned publications must not be confused with external items. */}
               <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', fontWeight: 600, margin: '0 0 8px' }}>
-                Enerqa Publication · {pub.type}
+                Publications · {pub.type}
               </p>
               <h3 style={{ fontSize: '21px', fontWeight: 700, lineHeight: 1.3, margin: '0 0 12px', letterSpacing: '-0.02em' }}>
                 <Link href={`/knowledge-hub/${pub.slug}`} className="publication-title-link" style={{ color: '#ffffff', textDecoration: 'none' }}>

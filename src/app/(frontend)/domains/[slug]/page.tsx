@@ -15,6 +15,7 @@ import { ResearchFeed } from '@/components/feeds/ResearchFeed';
 import { OfficialFeed } from '@/components/feeds/OfficialFeed';
 import { RelatedPublications } from '@/components/feeds/RelatedPublications';
 import { RelatedDataset } from '@/components/feeds/RelatedDataset';
+import { relatedDataHref } from '@/lib/data-portal/relatedIndicators';
 import { CuratedSources } from '@/components/feeds/CuratedSources';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
@@ -80,7 +81,6 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
     heroImage,
     relevantIndustries,
     policyUpdates,
-    relevantTools,
     lifecycleNarrative,
     topicPhrase,
   } = domain;
@@ -103,7 +103,6 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
     ? relevantIndustries.filter((i: unknown) => i && typeof i === 'object')
     : [];
 
-  const tools = Array.isArray(relevantTools) ? relevantTools : [];
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--paper)]">
@@ -352,57 +351,25 @@ export default async function DomainPage({ params }: { params: Promise<{ slug: s
         <Container>
           <div className="flex justify-between items-end mb-8 max-w-4xl">
             <h2 className="text-3xl font-bold text-[var(--ink)]">Related Data</h2>
-            <Link href={`/data-portal?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
+            <Link href={relatedDataHref('domains', slug)} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
               Explore Related Data
             </Link>
           </div>
           <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
             Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.
           </p>
-          {/* p. 29: one dataset card, or the canonical catalogue links of the
-              domain's recommended numerical sources (pp. 29, 38, 49, 59). */}
-          <RelatedDataset field="domains" id={domain.id} sources={feed?.dataSources ?? []} />
+          {/* Client feedback: rank up to five available Explorer indicators. */}
+          <RelatedDataset field="domains" slug={slug} />
         </Container>
       </section>
-
-      {/* CT / ET / NT / BT - RELEVANT ENERQA TOOLS (handoff pp. 29, 38, 49, 59).
-          Hidden entirely when no tools are listed: handoff p. 29 forbids labelling
-          a tool public or online before its name, endpoint and access are tested. */}
-      {tools.length > 0 && (
-        <section className="py-20 bg-[var(--paper-alt)] border-y border-[var(--line)]">
-          <Container>
-            <div className="max-w-4xl mb-8">
-              <h2 className="text-3xl font-bold text-[var(--ink)] mb-4">Relevant Enerqa Tools</h2>
-              <p className="text-lg text-[var(--ink-soft)] leading-relaxed">
-                Explore tools that help structure assessment and project decisions in this domain.
-              </p>
-            </div>
-            {/* Handoff p. 8: tool cards lead with the purpose and put the access
-                action at the bottom left. */}
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl list-none p-0 m-0">
-              {tools.map((tool: any, idx: number) => (
-                <li key={tool.id || `${tool.href}-${idx}`}>
-                  <Link
-                    href={tool.href}
-                    className="flex h-full items-center justify-between gap-4 bg-[var(--paper)] p-6 rounded-[var(--r-md)] border border-[var(--line)] hover:border-[var(--green)] transition-colors"
-                  >
-                    <span className="text-lg font-bold text-[var(--ink)]">{tool.label}</span>
-                    <ArrowRight className="w-5 h-5 text-[var(--color-secondary)] shrink-0" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Container>
-        </section>
-      )}
 
       {/* CK - ENERQA PUBLICATION */}
       <section className="py-20 bg-[var(--paper)]">
         <Container>
           <div className="flex justify-between items-end mb-8 max-w-4xl">
-            <h2 className="text-3xl font-bold text-[var(--ink)]">Enerqa Publication</h2>
+            <h2 className="text-3xl font-bold text-[var(--ink)]">Publications</h2>
             <Link href={`/knowledge-hub?domain=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline">
-              Explore Enerqa Publication
+              Explore Publications
             </Link>
           </div>
           {topicPhrase && (

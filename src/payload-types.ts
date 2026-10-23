@@ -279,7 +279,7 @@ export interface Publication {
       )
     | null;
   /**
-   * Only Article records appear in the public Enerqa Publication collection.
+   * Only Article records appear in the public Publications collection.
    */
   recordKind: 'article' | 'category-heading' | 'biography';
   /**

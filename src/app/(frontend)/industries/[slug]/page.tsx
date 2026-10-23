@@ -11,6 +11,7 @@ import { INDUSTRY_FEEDS } from '@/lib/feeds/contextual';
 import { ResearchFeed } from '@/components/feeds/ResearchFeed';
 import { RelatedPublications } from '@/components/feeds/RelatedPublications';
 import { RelatedDataset } from '@/components/feeds/RelatedDataset';
+import { relatedDataHref } from '@/lib/data-portal/relatedIndicators';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 
@@ -62,9 +63,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  const { title, heroNarrative, ctaText, lifecycleNarrative, relatedCapabilities, dataSources } = industry;
-
-  const sources = Array.isArray(dataSources) ? dataSources : [];
+  const { title, heroNarrative, ctaText, lifecycleNarrative, relatedCapabilities } = industry;
 
   // I{nn}02 links. Each capability is a real record with a parent domain, so
   // the anchor always exists. A capability without a populated domain is
@@ -180,33 +179,24 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
       <section className="py-20 bg-[var(--paper)]">
         <Container>
           <div className="flex flex-col gap-20">
-            {/* I{nn}D - RELATED DATA (handoff p. 65). One compact dataset card
-                at most. p. 66: with no geographically relevant licensed dataset,
-                show the canonical catalogue link - NOT a sample statistic. */}
+            {/* Client feedback: show only relevant, available Explorer indicators. */}
             <div>
               <div className="flex flex-wrap justify-between items-end gap-6 mb-8 max-w-4xl">
                 <h2 className="text-3xl font-bold text-[var(--ink)]">Related Data</h2>
-                <Link href={`/data-portal?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
+                <Link href={relatedDataHref('industries', slug)} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
                   Explore Related Data
                 </Link>
               </div>
               <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
                 Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.
               </p>
-              {/* The CMS "Recommended numerical sources" (pp. 65-137) become the
-                  providers' own catalogue links when no dataset card is linked.
-                  They used to be printed as internal provider ids (L526). */}
-              <RelatedDataset
-                field="industries"
-                id={industry.id}
-                sources={sources.map((src: { provider?: string }) => src.provider).filter(Boolean) as string[]}
-              />
+              <RelatedDataset field="industries" slug={slug} />
             </div>
 
-            {/* I{nn}K - Enerqa Publication (first-party CMS only) */}
+            {/* I{nn}K - Publications (first-party CMS only) */}
             <div>
               <div className="flex flex-wrap justify-between items-end gap-6 mb-4">
-                <h2 className="text-3xl font-bold text-[var(--ink)]">Enerqa Publication</h2>
+                <h2 className="text-3xl font-bold text-[var(--ink)]">Publications</h2>
                 <Link href={`/knowledge-hub?industry=${slug}`} className="text-sm font-semibold text-[var(--color-secondary)] hover:underline shrink-0">
                   Explore Related Publications
                 </Link>

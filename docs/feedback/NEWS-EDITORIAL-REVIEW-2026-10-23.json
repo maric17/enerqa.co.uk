@@ -1,0 +1,582 @@
+{
+  "reviewVersion": "2026-10-23-v1",
+  "reviewedOn": "2026-10-23",
+  "basis": "Codex editorial assessment of the original provider headline and licensed description; no generated article summaries.",
+  "items": [
+    {
+      "provider": "thenewsapi",
+      "sourceId": "121b324f-f015-4768-812c-6cfd47f66ad0",
+      "url": "https://www.bbc.co.uk/news/articles/cqze4y38zk6lo?at_medium=RSS&at_campaign=rss",
+      "title": "Is this the end for small-scale pig farming?",
+      "summary": "Dan Bolton says small-scale pig farming is not sustainable after his saddleback piglets sold for £2.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "Farm profitability alone does not establish a sustainability connection; the word sustainable describes financial viability."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "603dea40-68e4-49ed-93ff-e29c0b3fb424",
+      "url": "https://mg.co.za/thought-leader/2026-10-19-africa-must-own-the-future-of-food/",
+      "title": "Africa must own the future of food",
+      "summary": "Producing more food at any cost cannot sustain Africa. Transforming food systems demands a shift toward animal welfare, environmental resilience, and…",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "The description explicitly concerns food-system transformation, animal welfare and environmental resilience."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "47f82119-636f-4f79-a864-04b641c0264b",
+      "url": "https://theconversation.com/nzs-climate-in-uncharted-territory-with-more-extreme-weather-events-ahead-294037",
+      "title": "NZ’s climate in ‘uncharted territory’, with more extreme weather events ahead",
+      "summary": "A new report shows New Zealand faces a future of more frequent extreme droughts, heatwaves, floods and fires, with inevitable losses of infrastructure and prope...",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "Climate projections and extreme-weather risks are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "e106b520-79f3-43a7-8511-e9b903294976",
+      "url": "https://theconversation.com/why-and-how-us-and-canadian-energy-markets-are-so-deeply-intertwined-292090",
+      "title": "Why and how US and Canadian energy markets are so deeply intertwined",
+      "summary": "The two countries’ energy systems and markets are so intertwined that tariffs on electricity, oil and gas would devastate both economies.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "Cross-border electricity, oil and gas systems and trade are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "7360f07b-d939-4847-a7a1-4c8fe1165bb1",
+      "url": "https://www.bbc.co.uk/news/articles/cm8xzrlveknqo?at_medium=RSS&at_campaign=rss",
+      "title": "Ofgem funds power grid upgrade between Bramford and Twinstead",
+      "summary": "Overhead lines and underground cables will be installed between south Suffolk and north Essex.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "A regulated electricity grid infrastructure upgrade is the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "989c767a-73dd-4735-b533-52f5e7971634",
+      "url": "https://theconversation.com/adaptation-policies-must-be-built-around-the-local-communities-facing-climate-change-293065",
+      "title": "Adaptation policies must be built around the local communities facing climate change",
+      "summary": "Adapting to a changing climate will require greater co-operation and co-ordination across various orders of government.",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "Local participation in climate adaptation policy is the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "00304488-4be7-462f-a9c9-c5dde8ff8975",
+      "url": "https://www.bbc.co.uk/news/videos/c6n9r7gvngx8o?at_medium=RSS&at_campaign=rss",
+      "title": "How Jackdaw gas field ignites row over climate change and costs",
+      "summary": "How Jackdaw ignites arguments over climate and costs",
+      "decision": "approved",
+      "topics": [
+        "climate",
+        "energy"
+      ],
+      "reason": "The gas field is discussed through its climate effects and energy economics."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "89828e7d-119a-4c3b-b856-93b04bd52c74",
+      "url": "https://theconversation.com/africas-bats-could-survive-climate-change-if-they-can-find-somewhere-to-live-293184",
+      "title": "Africa’s bats could survive climate change – if they can find somewhere to live",
+      "summary": "As the climate changes, bats will need both suitable foraging landscapes and caves for roosting.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "climate"
+      ],
+      "reason": "Climate-driven habitat and roosting constraints on bats are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "44eb4422-afdd-4a03-bc75-4f745a472efc",
+      "url": "https://www.cnbc.com/2026/10/20/santoli-key-sp-500-level-to-watch.html",
+      "title": "Investors look to earnings to reset the bull market. The key level to watch on the S&P 500",
+      "summary": "The key level traders are watching on the S&P 500 that could mean an even bigger decline is ahead.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "This is dedicated stock-market and S&P 500 analysis, not sustainability news."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "20fe7519-b624-4744-ab06-498ec45d149c",
+      "url": "https://www.cnbc.com/2026/10/20/ai-rally-fades-elice-ipo-dives.html",
+      "title": "AI rally fades away from Wall Street as a tiny IPO makes big waves",
+      "summary": "Here are the key things investors need to know to start the trading day.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "The headline and description concern stock trading and an IPO; restrict it to Major Markets."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "c1953b4e-7e80-4f73-8836-0246ca095b3b",
+      "url": "https://mg.co.za/the-green-guardian/2026-10-13-africa-faces-failed-adaptation-as-climate-finance-falls-billions-short/",
+      "title": "Africa faces ‘failed adaptation’ as climate finance falls billions short",
+      "summary": "A landmark report by Power Shift Africa warns that Africa faces 'failed adaptation' as the continent receives only $14bn of the nearly $70bn required annually?...",
+      "decision": "approved",
+      "topics": [
+        "business",
+        "climate"
+      ],
+      "reason": "The primary subject is an adaptation-finance funding gap."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "b006029b-e6c7-495b-a4ed-75514c602df0",
+      "url": "https://theconversation.com/ahead-of-the-global-climate-summit-pacific-leaders-call-on-nations-to-keep-1-5-c-within-reach-292766",
+      "title": "Ahead of the global climate summit, Pacific leaders call on nations to keep 1.5°C within reach",
+      "summary": "Pacific leaders are seeking support for regional climate-finance options that give communities better access and stronger input into global decision making.",
+      "decision": "approved",
+      "topics": [
+        "climate",
+        "business"
+      ],
+      "reason": "Climate negotiations and community access to climate finance are explicit substantive subjects."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "725f15a4-1854-40f5-91ec-f94720ced7d1",
+      "url": "https://theconversation.com/les-pays-africains-pourraient-economiser-des-milliards-en-reduisant-la-pollution-et-les-emissions-de-gaz-a-effet-de-serre-294702",
+      "title": "Les pays africains pourraient économiser des milliards en réduisant la pollution et les émissions de gaz à effet de serre",
+      "summary": "Les pays africains pourraient économiser des milliards, éviter des décès et ralentir le changement climatique en réduisant la pollution atmosphérique.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "climate"
+      ],
+      "reason": "The French headline and description explicitly concern reducing air pollution and greenhouse gases."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "cef46ff0-ed01-44f6-bccd-fcac0bac4a1c",
+      "url": "https://theconversation.com/who-should-have-a-say-in-which-species-are-saved-the-california-condor-offers-lessons-for-a-global-biodiversity-treaty-294659",
+      "title": "Who should have a say in which species are saved? The California condor offers lessons for a global biodiversity treaty",
+      "summary": "When conservation affects local people, the question of who pays and who has a voice in decisions can make or break species recovery.",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Biodiversity conservation governance and species recovery are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "475a1dd4-7b19-4c8b-9169-daa0720dcce4",
+      "url": "https://theconversation.com/africans-reuse-repair-recycle-and-resell-waste-whats-needed-to-build-on-the-circular-economy-basics-291851",
+      "title": "Africans reuse, repair, recycle and resell waste: what’s needed to build on the circular economy basics",
+      "summary": "Africa’s circular economy is already at work in repair shops and scrap yards. Backing the people who keep goods in use could cut waste and create better jobs.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "business"
+      ],
+      "reason": "Repair, reuse, recycling and support for circular-economy enterprises are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "0a3c30da-8ee6-423d-a9cb-24d968c8c6b7",
+      "url": "https://theconversation.com/jackdaw-decision-could-haunt-the-uk-at-future-climate-summits-294981",
+      "title": "Jackdaw decision could haunt the UK at future climate summits",
+      "summary": "The UK can’t champion a fossil fuel phase-out while approving new gas fields.",
+      "decision": "approved",
+      "topics": [
+        "climate",
+        "energy"
+      ],
+      "reason": "The article addresses consistency between gas-field approvals and climate commitments."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "789557fc-ebd2-440c-be60-15ddcb061412",
+      "url": "https://www.bbc.co.uk/news/articles/cwd094x57p32o?at_medium=RSS&at_campaign=rss",
+      "title": "Streeting: Prepare for supply chain disruption from cyber or climate emergencies",
+      "summary": "The defence secretary warned the public and businesses needed to think about how they would cope with natural disasters and cyber attacks.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "A mixed cyber-security and emergency-preparedness item; the supplied description does not establish substantive climate coverage."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "2c676163-4815-47f4-bd90-01de2a0fd560",
+      "url": "https://www.bbc.co.uk/news/articles/crn4ewww9ypgo?at_medium=RSS&at_campaign=rss",
+      "title": "Residents want more tests over Thornton-Cleveleys toxic chemical fears",
+      "summary": "Blood tests have found \"really high levels\" of a cancer-causing chemical near a former factory.",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Industrial chemical contamination and possible public-health effects near a factory are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "8ee7aab0-4bee-4df7-9f5d-4dd2f162ea00",
+      "url": "https://www.bbc.co.uk/news/videos/c6wy4pdqx0w5o?at_medium=RSS&at_campaign=rss",
+      "title": "What difference will the Jackdaw gas field make?",
+      "summary": "Business editor Simon Jack explains how the project will work, and the impact it could have on energy supply and security.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "Gas-field production, energy supply and energy security are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "13d3b297-3cb8-4a06-96c5-164d8549e619",
+      "url": "https://www.cnbc.com/2026/10/22/under-the-radar-stocks-to-play-the-next-leg-of-the-energy-trade-with-oil-prices-jumping-again.html",
+      "title": "Under-the-radar stocks to play the next leg of the energy trade with oil prices jumping again",
+      "summary": "Iran is going to grow more desperate as oil money dries up, which makes the country even more dangerous.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "Energy-sector stock positioning is the primary subject; it belongs only in Major Markets."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "c6af98f7-3628-47f9-9a85-9c53acb389e2",
+      "url": "https://www.bbc.co.uk/news/articles/cw146g4kd6x3o?at_medium=RSS&at_campaign=rss",
+      "title": "Warning over energy theft as Birmingham tops national list",
+      "summary": "People tampering with electricity and gas meters are \"putting lives at risk\", Crimestoppers says.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "This is a local meter-tampering crime and safety warning, without substantive energy systems or sustainability analysis."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "31329b34-f27f-41a9-aec2-51557881c52c",
+      "url": "https://www.bbc.co.uk/news/articles/c83vq3q2xxgwo?at_medium=RSS&at_campaign=rss",
+      "title": "Solar panels plan for thousands of council homes in Sheffield",
+      "summary": "The proposals could save tenants £250 a year in energy bills, according to Sheffield City Council.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "Residential solar deployment and resulting energy-bill savings are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "81db9547-d274-4a36-9438-c6b619c3422f",
+      "url": "https://www.bbc.co.uk/news/videos/c65ynpx07djvo?at_medium=RSS&at_campaign=rss",
+      "title": "How Jackdaw ignites row over climate and costs",
+      "summary": "The UK government approves production from Jackdaw amid intense debate about the project's environmental and economic impact.",
+      "decision": "approved",
+      "topics": [
+        "climate",
+        "energy"
+      ],
+      "reason": "The gas-field approval is explicitly examined for its environmental and economic effects."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "02bd3e1a-09c3-4084-9744-874ec6e53b09",
+      "url": "https://theconversation.com/when-climate-data-is-transformed-into-visuals-some-people-and-places-get-overlooked-293489",
+      "title": "When climate data is transformed into visuals some people and places get overlooked",
+      "summary": "Data visualisation can change how people see, feel and relate to climate disasters.",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "The primary subject is how climate-disaster data visualisation represents affected communities."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "e0299496-8b82-4986-9e7f-9810c5a6dd16",
+      "url": "https://theconversation.com/where-does-all-the-hardware-go-the-hidden-environmental-footprint-of-ai-data-centres-292732",
+      "title": "Where does all the hardware go? The hidden environmental footprint of AI data centres",
+      "summary": "Canada’s new Responsible Data Centre Development Principles fail to address computer hardware alongside water and electricity usage.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "energy"
+      ],
+      "reason": "Data-centre hardware, water and electricity footprints are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "b34edd55-3dd8-4d53-ba27-e0bf7965f33f",
+      "url": "https://www.bbc.co.uk/news/articles/cqe9ldykpr1do?at_medium=RSS&at_campaign=rss",
+      "title": "Climate emergency declaration scrapped by Kirklees Council",
+      "summary": "Reform-led Kirklees Council votes to \"undeclare\" its 2019 commitment to net zero emissions by 2038.",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "A council reversal of a net-zero and climate-emergency policy is the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "007a39cb-517e-4f7d-ae81-99d8a8f09ca0",
+      "url": "https://www.bbc.co.uk/news/articles/cwjdm0zg987xo?at_medium=RSS&at_campaign=rss",
+      "title": "Scotland's papers: Jackdaw approved despite 'climate vandalism' claim",
+      "summary": "A review of the front page stories from the daily newspapers in Scotland.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "The publisher describes this as a review of newspaper front pages, rather than an individual climate story."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "afac30e8-c4e4-455c-af3d-4225391f277c",
+      "url": "https://theconversation.com/africa-gets-only-23-of-the-climate-finance-it-needs-and-pays-too-much-for-it-291103",
+      "title": "Africa gets only 23% of the climate finance it needs – and pays too much for it",
+      "summary": "Climate finance should not be separated from development funding.",
+      "decision": "approved",
+      "topics": [
+        "business",
+        "climate"
+      ],
+      "reason": "The primary subject is climate-finance access, adequacy and financing costs."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "21efb50c-c999-4602-a7d7-a423a02ef185",
+      "url": "https://www.bbc.co.uk/news/articles/cq4g13pplyzzo?at_medium=RSS&at_campaign=rss",
+      "title": "Jackdaw: Will it cut energy bills and how much gas will it provide?",
+      "summary": "BBC Verify looks at what the Jackdaw decision means for bills, energy security and the environment.",
+      "decision": "approved",
+      "topics": [
+        "energy",
+        "climate"
+      ],
+      "reason": "The description explicitly covers energy bills, energy security and environmental effects of the gas-field decision."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "2af92b3b-5339-4147-8732-53367b85ddf4",
+      "url": "https://theconversation.com/how-39-young-people-experience-climate-education-in-a-rapidly-changing-world-291086",
+      "title": "How 39 young people experience climate education in a rapidly changing world",
+      "summary": "Youth described wanting a politicized form of climate education rooted in emotion and relationality. They also want conversations in their immediate communities...",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "The primary subject is climate education and community understanding of climate change."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "587d914d-edac-4132-a400-007abb8a26dc",
+      "url": "https://theconversation.com/federal-spending-on-climate-change-before-2024-election-boosted-incumbents-of-both-parties-293791",
+      "title": "Federal spending on climate change before 2024 election boosted incumbents of both parties",
+      "summary": "Incumbents can still reap electoral rewards when federal money reaches their districts, even if they opposed the bill that provided it.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "The supplied description concerns electoral rewards for incumbents; it does not substantiate climate-policy or project outcomes."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "a186ddba-2458-4c58-9345-fa43005b4296",
+      "url": "https://mg.co.za/the-green-guardian/2026-10-20-aerial-survey-exposes-pollution-choking-rivers-feeding-hartbeespoort-dam/",
+      "title": "Aerial survey exposes pollution choking rivers feeding Hartbeespoort Dam",
+      "summary": "An aerial survey by Deputy Water and Sanitation Minister Jack Bloom has laid bare the extensive sewage spills, illegal dumping, and infrastructure failures…",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Sewage spills, illegal dumping and failures affecting river water quality are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "602938ca-c853-4851-a215-21fa549305c5",
+      "url": "https://www.bbc.co.uk/news/articles/cxzd6j5q0g7eo?at_medium=RSS&at_campaign=rss",
+      "title": "Climate Change Committee chair on Northern Ireland fact-finding mission",
+      "summary": "The new chair of the Climate Change Committee is spending two days in Northern Ireland on a fact-finding mission.",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "This is a concrete climate-policy committee fact-finding visit, rather than generic political power reporting."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "cf0c94ef-68e0-4c8c-983c-66822feeffc4",
+      "url": "https://www.bbc.co.uk/news/articles/c84g1qyvvkgvo?at_medium=RSS&at_campaign=rss",
+      "title": "Newspaper headlines: 'Burnham faces climate revolt' and 'Harry wants to fix feud'",
+      "summary": "Several papers lead on remarks from the Duke of Sussex yesterday, where he said he hoped to reconcile with his family.",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "Mixed newspaper digest combining a climate phrase with royal-family reconciliation; the description is primarily royal gossip."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "f3c851d4-8ed9-4ab9-beb0-b573fd1f02f3",
+      "url": "https://www.bbc.co.uk/news/articles/c6d93j1d22d3o?at_medium=RSS&at_campaign=rss",
+      "title": "Drinks giant Diageo apologises after Moray burn pollution",
+      "summary": "Diageo says it is in ongoing talks on a long-term plan to support regeneration and restoration.",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Pollution of a watercourse and the polluter's restoration response are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "be9df8fa-a8a0-4cd4-a784-7a1284028ed6",
+      "url": "https://www.cnbc.com/2026/10/18/oil-price-today-ukraine-russia-iran-strait-hormuz.html",
+      "title": "Brent crude hovers near $109 a barrel as Ukraine resumes energy strikes, tankers attacked in Middle East",
+      "summary": "Fires broke out at an oil terminal and depot in St. Petersburg after Ukraine launched a massive wave of drone strikes on Sunday.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "Crude oil prices and disruption to energy supply infrastructure are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "b5dbed9d-8ed2-49b1-bfc3-3bfe3f91720c",
+      "url": "https://www.cnbc.com/2026/10/14/trumps-diesel-dilemma-by-the-numbers.html",
+      "title": "Trump's diesel dilemma — by the numbers",
+      "summary": "Conflicts in Ukraine and Iran have created major ripple effects across global energy markets causing major price swings.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "Diesel and global energy-market price disruption are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "b61583d5-e217-4697-b1e9-4212dc82e3bc",
+      "url": "https://www.cnbc.com/2026/10/20/general-motors-gm-earnings-q3-2026.html",
+      "title": "General Motors is set to report earnings before the bell. Here's what Wall Street expects",
+      "summary": "GM's 2025 third-quarter results included $48.59 billion in revenue, net income attributable to stockholders of $1.3 billion and adjusted EPS of $2.80.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "A listed company's earnings report and market expectations belong only in Major Markets."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "77c37214-f8c1-46cc-8644-6a130ca5254c",
+      "url": "https://theconversation.com/ai-reveals-how-a-warming-climate-will-intensify-nzs-most-extreme-downpours-294147",
+      "title": "AI reveals how a warming climate will intensify NZ’s most extreme downpours",
+      "summary": "By running hundreds of climate simulations much faster than conventional models, AI can deliver better regional projections of what communities need to prepare ...",
+      "decision": "approved",
+      "topics": [
+        "climate"
+      ],
+      "reason": "The primary subject is climate modelling of future extreme rainfall and regional adaptation needs."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "1922651b-dd2b-4f16-a69b-920e4b7c2202",
+      "url": "https://www.cnbc.com/2026/10/19/nyse-extends-options-trading-hours.html",
+      "title": "NYSE becomes latest exchange to extend options hours as appetite for around-the-clock trading grows",
+      "summary": "The New York Stock Exchange becomes second major exchange to announce extended-hours options trading for heavily traded ETFs and single stocks, following CBOE.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "Stock-exchange trading hours and options-market infrastructure are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "f5ff51c5-198b-43ea-94d1-e999dc31fb08",
+      "url": "https://www.cnbc.com/2026/10/18/top-analysts-are-bullish-on-the-growth-potential-of-these-3-stocks.html",
+      "title": "Top Wall Street analysts are bullish on the growth potential of these 3 stocks",
+      "summary": "Amid fear of rate hikes and oil prices, investors can look past volatility and track Street analysts' stock picks with strong long-term growth potential.",
+      "decision": "approved",
+      "topics": [
+        "markets"
+      ],
+      "reason": "This is stock-market analyst reporting, not substantive sustainability coverage."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "6450661f-ccf1-4ed2-85e0-25d650c6533b",
+      "url": "https://theconversation.com/african-countries-could-save-billions-by-cutting-air-pollution-and-greenhouse-gases-at-the-same-time-291944",
+      "title": "African countries could save billions by cutting air pollution and greenhouse gases at the same time",
+      "summary": "African countries could save billions, prevent deaths and slow climate change by cutting air pollution.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "climate"
+      ],
+      "reason": "The article explicitly concerns joint air-pollution and greenhouse-gas mitigation."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "6225c157-4188-4df7-81d1-32441e171dbd",
+      "url": "https://www.bbc.co.uk/news/articles/c8vgxnp5w6vzo?at_medium=RSS&at_campaign=rss",
+      "title": "River Taff fuel pollution spreads 2.5 miles from Taffs Well",
+      "summary": "Public Health Wales advise people living nearby to shut their doors and windows due to the smell.",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Fuel contamination of a river is an environmental pollution story, not energy-market coverage."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "25a2a81b-08de-4aed-a516-eb3b8b4c378c",
+      "url": "https://www.bbc.co.uk/news/articles/ckx2dgl087lzo?at_medium=RSS&at_campaign=rss",
+      "title": "Corby metal pollution may harm people, says Earthwatch Europe",
+      "summary": "However, the Environment Agency says it has not found evidence that could cause significant harm.",
+      "decision": "approved",
+      "topics": [
+        "environment"
+      ],
+      "reason": "Potential human exposure to metal pollution is the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "fb120e26-f50c-4a0b-adc4-696ac50332c1",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=68324",
+      "title": "U.S. small-scale solar generation has quadrupled in the last decade",
+      "summary": null,
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "The headline directly identifies measured growth in solar electricity generation."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "626dbb53-5593-40df-b5d5-896b0376ad99",
+      "url": "https://www.bbc.co.uk/news/articles/c8qln0ydgpr3o?at_medium=RSS&at_campaign=rss",
+      "title": "Changes made to plans for solar farm near Selby after opposition",
+      "summary": "The proposed scheme, near Selby, is facing a number of objections from residents and councillors.",
+      "decision": "approved",
+      "topics": [
+        "energy"
+      ],
+      "reason": "A specific solar-farm development and its planning changes are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "049dea3a-da3d-47ce-b667-ac910fc146b8",
+      "url": "https://www.bbc.co.uk/news/articles/cqe8rzg6zl00o?at_medium=RSS&at_campaign=rss",
+      "title": "Brazil sees record fall in Amazon deforestation as key election looms",
+      "summary": "The Amazon rainforest is a crucial buffer against climate change - but deforestation had expanded under former president Jair Bolsonaro.",
+      "decision": "approved",
+      "topics": [
+        "environment",
+        "climate"
+      ],
+      "reason": "Amazon deforestation trends and their climate implications are the primary subject."
+    },
+    {
+      "provider": "thenewsapi",
+      "sourceId": "33395040-cf27-4284-b4a3-eddd99917713",
+      "url": "https://www.nasa.gov/missions/station/iss-research/power-up-roll-out-solar-arrays-boost-space-station-power-supply/",
+      "title": "Power Up: Roll Out Solar Arrays Boost Space Station Power Supply",
+      "summary": "From the International Space Station’s unique position 250 miles above Earth, the Sun is a vital source of energy. Solar power supports the station’s life",
+      "decision": "rejected",
+      "topics": [],
+      "reason": "The supplied description concerns space-station operations; a solar-power mention alone does not establish relevance to Enerqa's project domains."
+    }
+  ]
+}

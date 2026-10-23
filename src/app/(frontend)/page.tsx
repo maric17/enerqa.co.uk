@@ -31,7 +31,7 @@ export const metadata: Metadata = {
  * H05 Explore Our Domains                           -> TransitionPriorities
  * H06 Project Development and Lifecycle Support     -> LifecycleAndIndustries
  * H07 Industries We Work In                         -> LifecycleAndIndustries
- * H08 Enerqa Publication                            -> KnowledgeTeaser
+ * H08 Publications                            -> KnowledgeTeaser
  * H09 Explore the Data Portal                       -> DataPortalTeaser
  * H10 Enerqa Tools                                  -> Tools
  * H11 About Enerqa                                  -> AboutEnerqa

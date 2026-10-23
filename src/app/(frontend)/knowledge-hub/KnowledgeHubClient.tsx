@@ -22,7 +22,7 @@ import {
 } from './publicationFinder';
 
 /**
- * K03 "Find a Publication" and K04 "Enerqa Publication" (p. 155) - the only
+ * K03 "Find a Publication" and K04 "Publications" (p. 155) - the only
  * part of /knowledge-hub that runs in the browser.
  */
 
@@ -236,14 +236,14 @@ export default function KnowledgeHubClient({ publications }: { publications: Pub
           </div>
 
           <div className="lg:col-span-3">
-            {/* K04 Enerqa Publication, copy p. 155 verbatim */}
+            {/* K04 uses the client's requested plural collection label. */}
             <h2
               id="k04-heading"
               ref={resultsHeading}
               tabIndex={-1}
               className="m-0 scroll-mt-24 text-3xl font-bold text-[var(--color-dark)] outline-none"
             >
-              Enerqa Publication
+              Publications
             </h2>
             <p className="m-0 mt-3 max-w-3xl text-lg text-gray-600">
               Read original analysis and practical insights produced by Enerqa. Search by topic or keyword to find publications with clearly identified authors, publication dates and free reading or download formats.
@@ -387,7 +387,7 @@ function PublicationCardView({ pub, tagTitle, featured = false }: {
           <p className="m-0 mb-3 text-xs font-bold uppercase tracking-wider text-[var(--color-primary-deep)]">Latest publication</p>
         )}
         <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wider">
-          <span className="text-[var(--color-secondary)]">Enerqa Publication · {pub.type || 'Publication'}</span>
+          <span className="text-[var(--color-secondary)]">Publications · {pub.type || 'Publication'}</span>
           <span className="text-gray-500" aria-hidden="true">|</span>
           <span className="text-gray-600">{LANGUAGE_LABELS[pub.language ?? 'en'] ?? 'English'}</span>
           <span className="text-gray-500" aria-hidden="true">|</span>

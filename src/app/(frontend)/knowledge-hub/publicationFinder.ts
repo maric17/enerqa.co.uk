@@ -1,6 +1,6 @@
 /**
  * K03 "Find a Publication" (p. 155): search, ordering and pagination for the
- * Enerqa Publication collection.
+ * Publications collection.
  *
  * Pure functions, so the behaviour is testable without a database or a
  * browser. Word handling is shared with the site search (/search), so

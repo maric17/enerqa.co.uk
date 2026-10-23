@@ -27,7 +27,7 @@ export const GROUP_ORDER: SearchGroup[] = ['domains', 'publications', 'data', 't
 
 export const GROUP_HEADINGS: Record<SearchGroup, string> = {
   domains: 'Domains and Work Areas',
-  publications: 'Enerqa Publication',
+  publications: 'Publications',
   data: 'Data',
   tools: 'Tools',
 };

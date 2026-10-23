@@ -2918,13 +2918,14 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   min-height: 620px;
   height: 100vh;
   height: 100svh;
-  padding-top: calc(var(--header-offset) + 36px);
+  /* Separate the title from the fixed header without moving the header itself. */
+  padding-top: calc(var(--header-offset) + 60px);
   overflow: hidden;
   background: #061c2b;
   color: #fff;
   --focus-color: #48e0c0;
 }
-.home-hero-search-layer { position: relative; z-index: 2; pointer-events: none; }
+.home-hero-search-layer { position: relative; z-index: 2; flex-shrink: 0; pointer-events: none; }
 /* Give the title room for one desktop line; keep the search field narrower. */
 .home-hero-search { width: 100%; margin-inline: auto; text-align: center; pointer-events: auto; }
 .home-hero-search h1 {
@@ -3103,7 +3104,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   .home-hero-view-all { flex-basis: 100%; margin-bottom: 4px; }
 }
 @media (max-width: 767px) {
-  .home-hero { padding-top: calc(var(--header-offset) + 24px); min-height: 700px; }
+  /* Let wrapped text extend the hero on narrow phones instead of overlapping news. */
+  .home-hero { padding-top: calc(var(--header-offset) + 40px); height: auto; min-height: max(700px, 100svh); }
+  .home-hero-feed { flex: 1 0 auto; min-height: 340px; }
   .home-hero-search h1 { margin-bottom: 12px; font-size: 28px; }
   .home-hero-search form { padding-left: 12px; gap: 8px; }
   .home-hero-search form > svg { display: none; }

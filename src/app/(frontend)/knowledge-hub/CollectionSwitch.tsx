@@ -9,7 +9,7 @@ import { Container } from '@/components/ui/Container';
  * component, so the two can't drift apart.
  */
 const COLLECTIONS = [
-  { key: 'publications', label: 'Enerqa Publication', href: '/knowledge-hub' },
+  { key: 'publications', label: 'Publications', href: '/knowledge-hub' },
   { key: 'global-intelligence', label: 'Global Intelligence', href: '/knowledge-hub/global-intelligence' },
 ] as const;
 
@@ -23,7 +23,7 @@ export function CollectionSwitch({ active }: { active: (typeof COLLECTIONS)[numb
               Choose a Collection
             </h2>
             <p className="m-0 mt-2 text-gray-600">
-              Knowledge Hub contains two collections: Enerqa Publication and Global Intelligence. Each has its own
+              Knowledge Hub contains two collections: Publications and Global Intelligence. Each has its own
               searchable results and filters.
             </p>
           </div>

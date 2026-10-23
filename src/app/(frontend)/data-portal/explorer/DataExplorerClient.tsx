@@ -25,7 +25,10 @@ type Metadata = Dataset & {
   licence_url?: string | null;
 };
 
-export default function DataExplorerClient() {
+export default function DataExplorerClient({ initialIndicatorId = '', initialCountry = '' }: {
+  initialIndicatorId?: string;
+  initialCountry?: string;
+}) {
   const [catalogue, setCatalogue] = useState<Dataset[]>([]);
   const [selectedDatasetId, setSelectedDatasetId] = useState<string>('');
   const [xIndicatorId, setXIndicatorId] = useState('year');
@@ -63,15 +66,18 @@ export default function DataExplorerClient() {
       .then(data => {
         if (data.results) {
           setCatalogue(data.results);
-          if (data.results.length > 0) {
-            setSelectedDatasetId(data.results[0].id);
+          if (initialIndicatorId && !data.results.some((entry: Dataset) => entry.id === initialIndicatorId)) {
+            // A broken recommendation must not silently show an unrelated chart.
+            setError('The requested indicator is unavailable. Choose an indicator to continue.');
+          } else if (data.results.length > 0) {
+            setSelectedDatasetId(initialIndicatorId || data.results[0].id);
           }
         }
       })
       .catch(err => { if (!controller.signal.aborted) setError(err.message); })
       .finally(() => { if (!controller.signal.aborted) setCatalogueLoading(false); });
     return () => controller.abort();
-  }, []);
+  }, [initialIndicatorId]);
 
   useEffect(() => {
     if (!selectedDatasetId) return;
@@ -95,6 +101,10 @@ export default function DataExplorerClient() {
 
       setMetadata(metaData);
       setObservations(obsData.observations || []);
+      if (initialCountry && selectedDatasetId === initialIndicatorId) {
+        // Preserve a requested geography even when empty, rather than substituting another country.
+        setGeoFilter([initialCountry]);
+      }
     })
     .catch(err => {
       if (active) setError(err.message);
@@ -104,7 +114,7 @@ export default function DataExplorerClient() {
     });
 
     return () => { active = false; controller.abort(); };
-  }, [selectedDatasetId]);
+  }, [selectedDatasetId, initialIndicatorId, initialCountry]);
 
   useEffect(() => {
     if (xIndicatorId === 'year' || xIndicatorId === selectedDatasetId) return;

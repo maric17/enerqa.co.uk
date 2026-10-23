@@ -182,7 +182,7 @@ describe('grouping (AI03, p. 202)', () => {
   it('uses the spec groups in the spec order, whatever the ranking', () => {
     const ranked = searchIndex(INDEX, 'solar investment emissions carbon tool readiness');
     const reversed = [...ranked].reverse();
-    expect(groupHits(reversed).map((g) => g.heading)).toEqual(['Domains and Work Areas', 'Enerqa Publication', 'Data', 'Tools']);
+    expect(groupHits(reversed).map((g) => g.heading)).toEqual(['Domains and Work Areas', 'Publications', 'Data', 'Tools']);
   });
 
   it('links publication hits to the article, not the Knowledge Hub landing page', () => {

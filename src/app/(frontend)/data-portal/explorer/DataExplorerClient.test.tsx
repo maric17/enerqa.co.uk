@@ -47,6 +47,23 @@ const chart = () => JSON.parse(screen.getByTestId('chart').textContent!);
 const ready = async () => { render(<DataExplorerClient />); await screen.findByTestId('chart'); };
 
 describe('Explorer selections and data', () => {
+  it('opens a linked indicator and geography without fetching the default unrelated series', async () => {
+    render(<DataExplorerClient initialIndicatorId="income" initialCountry="alb" />);
+    await screen.findByTestId('chart');
+    expect(screen.getByRole('combobox', { name: 'Y-axis indicator' })).toHaveValue('Income per person');
+    expect(chart().legend.data).toEqual(['Albania']);
+    expect(screen.getByRole('checkbox', { name: 'Albania' })).toBeChecked();
+    expect(vi.mocked(fetch).mock.calls.some(([url]) => String(url).includes('id=life'))).toBe(false);
+  });
+
+  it('explains an invalid link instead of displaying a different indicator', async () => {
+    render(<DataExplorerClient initialIndicatorId="missing" />);
+    await screen.findByText('The requested indicator is unavailable. Choose an indicator to continue.');
+    expect(screen.queryByTestId('chart')).not.toBeInTheDocument();
+    chooseIndicator('Y', 'Income per person');
+    await screen.findByTestId('chart');
+    expect(chart().yAxis.name).toBe('Income per person');
+  });
   it('offers every period and explains when yearly data cannot supply finer views', async () => {
     await ready();
     const selector = screen.getByRole('combobox', { name: 'Time period' });

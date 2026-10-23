@@ -24,7 +24,7 @@ export function PublicationCover({ image, thumbnail = false, featured = false }:
           {[160, 230, 300, 370].map((radius) => <circle key={radius} cx="400" cy="400" r={radius} stroke="currentColor" />)}
           <path d="M0 400h800M400 0v800M117 117l566 566M117 683l566-566" stroke="currentColor" />
         </svg>
-        <span className={`absolute border-t border-white/30 pt-3 font-bold uppercase tracking-[0.2em] text-white/60 ${thumbnail ? 'right-4 top-4 text-[9px]' : 'right-6 top-28 text-[10px] md:right-12'}`}>Enerqa Publication</span>
+        <span className={`absolute border-t border-white/30 pt-3 font-bold uppercase tracking-[0.2em] text-white/60 ${thumbnail ? 'right-4 top-4 text-[9px]' : 'right-6 top-28 text-[10px] md:right-12'}`}>Publications</span>
       </div>
       {image && image.src !== failedSrc && (
         <Image
