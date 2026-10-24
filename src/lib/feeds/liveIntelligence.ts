@@ -35,7 +35,7 @@ async function searchProviders(filters: IntelligenceFilters) {
   const fromDate = days ? new Date(Date.now() - days * 86400000).toISOString().slice(0, 10) : undefined;
   const researchLanguages = filters.language?.includes('unspecified') ? undefined : filters.language;
   const providers = liveProviders(filters);
-  const news = providers.filter(id => ['thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'].includes(id)) as NewsProvider[];
+  const news = providers.filter(id => ['apitube', 'thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'].includes(id)) as NewsProvider[];
   const research = providers.filter(id => ['openalex', 'doaj', 'osti', 'gbif-literature', 'reliefweb'].includes(id)) as ResearchProvider[];
   const tasks: { ids: string[]; run: () => Promise<{ items: IntelligenceItem[]; failed: string[] }> }[] = [];
   if (news.length) tasks.push({ ids: news, run: async () => {
@@ -71,7 +71,7 @@ async function searchProviders(filters: IntelligenceFilters) {
 
 // Identical searches share a short cache across visitors to save API credits.
 // Different selections search providers with the existing shared quota guards.
-const cachedSearch = unstable_cache(searchProviders, ['intelligence-live-thenewsapi-v2'], { revalidate: 60, tags: ['intelligence-live'] });
+const cachedSearch = unstable_cache(searchProviders, ['intelligence-live-apitube-v1'], { revalidate: 60, tags: ['intelligence-live'] });
 const pending = new Map<string, Promise<Awaited<ReturnType<typeof cachedSearch>>>>();
 
 export async function searchLiveIntelligence(filters: IntelligenceFilters): Promise<LiveIntelligenceResult> {
@@ -89,5 +89,7 @@ export async function searchLiveIntelligence(filters: IntelligenceFilters): Prom
 }
 
 export function intelligenceSourceChoices() {
-  return Object.entries(INTELLIGENCE_SOURCES).filter(([id]) => !['newsdata', 'gdelt'].includes(id) && providerEnabled(id as ProviderId)).map(([value, label]) => ({ value, label }));
+  return Object.entries(INTELLIGENCE_SOURCES).filter(([id]) =>
+    (!['apitube', 'thenewsapi', 'newsdata', 'gdelt'].includes(id) || PAGE_NEWS_PROVIDERS.includes(id as NewsProvider))
+    && providerEnabled(id as ProviderId)).map(([value, label]) => ({ value, label }));
 }

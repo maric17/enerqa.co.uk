@@ -21,6 +21,8 @@ import {
 import { basketQuery, fetchNewsdataBasket, fetchNewsdataQuery, NEWSDATA_DELAY_HOURS, PAGE_BASKET_SECONDS } from './newsdata';
 import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
 import { fetchTheNewsApiBasket, fetchTheNewsApiQuery } from './thenewsapi';
+import { fetchApiTubeBasket, fetchApiTubeQuery } from './apitube';
+import { apiTubeTopics } from './apitubeScreening';
 import { PAGE_NEWS_PROVIDERS, DEFAULT_NEWS_PROVIDERS, REFRESH_NEWS_PROVIDERS } from './policy';
 import { fetchEeaNews, EEA_BASKETS } from './eeaRss';
 import { fetchGdeltNews, fetchGdeltQuery } from './gdelt';
@@ -38,7 +40,7 @@ export type { NewsItem, NewsBasketKey, NewsProvider } from './types';
 export { NEWS_BASKETS, PROVIDER_META } from './types';
 export { NEWSDATA_DELAY_HOURS } from './newsdata';
 
-/** Shared saved-news pipeline. The client trial uses TheNewsAPI alone.
+/** Shared saved-news pipeline. This evaluation branch uses APITube alone.
  * Legacy connectors are kept for explicit maintenance and a later fallback rollout.
  */
 
@@ -68,7 +70,7 @@ export type NewsResult = {
    */
   sourcesFailed: boolean;
   /**
-   * The same judgement made on PAGE_NEWS_PROVIDERS alone (TheNewsAPI during the trial).
+   * The same judgement made on PAGE_NEWS_PROVIDERS alone (APITube during this trial).
    * A panel that shows only those two - the homepage H03/H04, CN/EN/NN/BN,
    * I{nn}N - must say "unavailable" when its news provider failed, even if the EIA and EEA
    * feeds in the same pool answered.
@@ -76,7 +78,7 @@ export type NewsResult = {
   newsSourcesFailed: boolean;
   /** How each provider asked for this result answered: "ok" or its failure reason. */
   providerStatus: Partial<Record<NewsProvider, ProviderOutcome>>;
-  /** True when a displayed item came from the delayed NewsData free plan. */
+  /** True when a displayed item came from a delayed free news plan. */
   hasDelayedSource: boolean;
   /**
    * True when a displayed item is older than its provider's refresh interval,
@@ -100,6 +102,7 @@ export { PAGE_NEWS_PROVIDERS } from './policy';
  * shown or in what order. Display order is strictly newest first.
  */
 const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
+  apitube: -2,
   thenewsapi: -1,
   newsdata: 0,
   eea_rss: 1,
@@ -112,6 +115,7 @@ const DEDUPE_PRIORITY: Record<NewsProvider, number> = {
  * Last successful poll time is separate from each article's retrieval time.
  */
 const REFRESH_SECONDS: Record<NewsProvider, number> = {
+  apitube: NEWS_REFRESH_SECONDS,
   thenewsapi: NEWS_REFRESH_SECONDS,
   newsdata: NEWS_REFRESH_SECONDS,
   gdelt: NEWS_REFRESH_SECONDS,
@@ -180,6 +184,11 @@ async function collect(
 ): Promise<Collected> {
   const basket = getBasket(basketKey);
   const wants = (p: NewsProvider) => providers.includes(p);
+  const apiTubeCalls = !wants('apitube') || !includeTopics ? [] : basketKey === 'all'
+    ? NEWS_BASKETS.filter(b => b.newsdataQuery).map(b => safeNewsCall('apitube', fetchApiTubeBasket(b.key, fresh)))
+    : [safeNewsCall('apitube', fetchApiTubeBasket(basketKey, fresh))];
+  const apiTubePageCalls = wants('apitube')
+    ? pageQueries.map(query => safeNewsCall('apitube', fetchApiTubeQuery(query, PAGE_BASKET_SECONDS, fresh, ['en'], { days: 31 }))) : [];
 
   // NewsData charges a credit per query, so "All" reuses the four cached topic
   // baskets instead of paying for a fifth (p. 210). Context discovery belongs
@@ -205,7 +214,9 @@ async function collect(
 
   // Every connector returns a typed result rather than throwing, so one source
   // being down cannot reject the whole batch.
-  const [theNewsApiResults, theNewsApiPageResults, newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
+  const [apiTubeResults, apiTubePageResults, theNewsApiResults, theNewsApiPageResults, newsdataResults, pageResults, eia, eea, gdelt] = await Promise.all([
+    Promise.all(apiTubeCalls),
+    Promise.all(apiTubePageCalls),
     Promise.all(theNewsApiCalls),
     Promise.all(theNewsApiPageCalls),
     Promise.all(newsdataCalls),
@@ -219,6 +230,7 @@ async function collect(
   const diagnostics = createNewsDiagnostics(basketKey);
   const raw: NewsItem[] = [];
   for (const [provider, result] of [
+    ...apiTubeResults.map(r => ['apitube', r] as const),
     ...theNewsApiResults.map(r => ['thenewsapi', r] as const),
     ...newsdataResults.map((r) => ['newsdata', r] as const),
     ['gdelt', gdelt] as const,
@@ -231,18 +243,17 @@ async function collect(
     if (result.ok) raw.push(...result.data);
   }
 
-  // Every provider supplies candidates, not publication decisions. The later
-  // editorial review assesses meaning and assigns the actual display categories.
-  // Gather broadly from descriptions too; the editorial model decides the actual subject.
-  const relevant = raw.filter(item => isNewsCandidate(item) && (basket.key === 'all'
+  // Categories plus context screen APITube; the earlier connectors retain their
+  // separate review policy. Discovery itself never grants permission to publish.
+  const relevant = raw.filter(item => (item.provider === 'apitube' ? apiTubeTopics(item).length > 0 : isNewsCandidate(item)) && (basket.key === 'all'
     || containsAny(`${item.title} ${item.summary ?? ''}`, basket.keywords)));
 
   // Query provenance helps discovery but never substitutes for editorial approval.
-  for (const result of [...theNewsApiPageResults, ...pageResults]) {
+  for (const result of [...apiTubePageResults, ...theNewsApiPageResults, ...pageResults]) {
     const provider = result.providerId as NewsProvider;
     note(status, provider, result);
     noteNewsProvider(diagnostics, provider, result);
-    if (result.ok) relevant.push(...result.data.filter(item =>
+    if (result.ok) relevant.push(...result.data.filter(item => item.provider === 'apitube' ? apiTubeTopics(item).length > 0 :
       item.matchedQueries?.some(query => STOCK_MARKET_QUERIES.includes(query)) ? isStockMarketNews(item) : isNewsCandidate(item)));
   }
 
@@ -287,7 +298,7 @@ function buildResult(items: NewsItem[], status: Collected['status']): NewsResult
     sourcesFailed: sourcesFailedFor({ providerStatus: status }, all),
     newsSourcesFailed: sourcesFailedFor({ providerStatus: status }, PAGE_NEWS_PROVIDERS),
     providerStatus: status,
-    hasDelayedSource: items.some((i) => i.provider === 'newsdata'),
+    hasDelayedSource: items.some((i) => i.provider === 'newsdata' || i.provider === 'apitube'),
     stale: items.some((i) => isNewsItemStale(i)),
   };
 }
@@ -445,6 +456,7 @@ export async function fetchLiveNews(options: {
   check?: NewsOptions['check'];
 }): Promise<NewsResult> {
   const results = await Promise.all(options.providers.map(provider => safeNewsCall(provider,
+    provider === 'apitube' ? fetchApiTubeQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
     provider === 'thenewsapi' ? fetchTheNewsApiQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
     provider === 'newsdata' ? fetchNewsdataQuery(options.query, NEWS_REFRESH_SECONDS, true, options.languages) :
     provider === 'gdelt' ? fetchGdeltQuery(options.gdeltQuery, true) :
@@ -454,7 +466,7 @@ export async function fetchLiveNews(options: {
   const candidates: NewsItem[] = [];
   for (const result of results) {
     note(status, result.providerId as NewsProvider, result);
-    if (result.ok) candidates.push(...result.data.filter(isNewsCandidate).map(normalise));
+    if (result.ok) candidates.push(...result.data.filter(item => item.provider === 'apitube' ? apiTubeTopics(item).length > 0 : isNewsCandidate(item)).map(normalise));
   }
   const saved = await readNewsStore();
   const previousItems = new Map(saved.items.map(item => [normaliseUrl(item.url), item]));
@@ -501,13 +513,15 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
   diagnostics.mode = 'refresh';
   diagnostics.scope = options.marketsOnly ? 'markets' : options.topicsOnly ? 'topics' : options.industriesOnly ? 'industries' : 'all';
   const providers = options.industriesOnly
-    ? REFRESH_NEWS_PROVIDERS.filter(provider => provider === 'thenewsapi' || provider === 'newsdata')
+    ? REFRESH_NEWS_PROVIDERS.filter(provider => ['apitube', 'thenewsapi', 'newsdata'].includes(provider))
     : REFRESH_NEWS_PROVIDERS;
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
-    // Keep the twelve domain queries and rotate up to five sector queries per slot.
-    // Industry maintenance can target one sector without repeating the full job.
-    const domainQueries = options.industriesOnly ? [] : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
+    // APITube's four category requests cover the domains. Repeating twelve legacy
+    // phrase searches wasted credits and exceeded the route's five-minute runtime.
+    // Rotate up to five sectors per slot; manual maintenance can cover all thirteen.
+    const domainQueries = options.industriesOnly || providers.includes('apitube') ? []
+      : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
     const queries = options.marketsOnly ? STOCK_MARKET_QUERIES : options.topicsOnly ? []
       : [...new Set([...(options.industriesOnly ? [] : STOCK_MARKET_QUERIES), ...domainQueries, ...industryDiscoveryQueries(Date.now(), options.industriesOnly, options.industrySlugs)])];
     const collected = await collect('all', providers, queries, true, !options.industriesOnly && !options.marketsOnly);
@@ -685,6 +699,8 @@ export async function fetchNewsForKeywords(
   const ownQueries = new Set(baskets.map(basketQuery));
   const matched = pooled.filter(
     (item) =>
+      // A reviewed domain assignment can cover wording omitted from its search phrases.
+      opts.basket && hasEditorialApproval(item) ? opts.basket === 'all' || item.editorialReview!.topics.includes(opts.basket) :
       terms.length === 0 ||
       containsAny(`${item.title} ${item.summary ?? ''}`, terms) ||
       (item.matchedQueries ?? []).some((q) => ownQueries.has(q)),

@@ -48,3 +48,16 @@ it('refreshes cached industry tags when sector terms change, without retaining t
   const after = await (await import('./intelligenceIndex')).getIntelligenceIndex();
   expect(after.items[0].industries).toContain('agriculture-food-aquaculture');
 });
+
+it('retains saved APITube domain classifications in View All News without requiring the ESG acronym', async () => {
+  const { newsIntelligence } = await import('./intelligenceIndex');
+  const { screenApiTubeItem } = await import('../api/news/apitubeScreening');
+  const item = screenApiTubeItem({ id: 'corporate', title: 'Corporate lobbyists seek to dilute deforestation law',
+    summary: 'Companies challenge environmental obligations.', url: 'https://www.theguardian.com/corporate', domain: 'theguardian.com',
+    provider: 'apitube', providerLabel: 'APITube', publisher: 'The Guardian', rights: 'Metadata',
+    publishedAt: new Date().toISOString(), retrievedAt: new Date().toISOString(), language: 'en', regions: [], accessStatus: 'verified_open',
+    providerCategories: [{ id: 'medtop:06000000', name: 'environment', score: 1 }] });
+  expect(newsIntelligence(item).domains).toContain('sustainable-business-esg-finance');
+  expect(newsIntelligence(item).topics).toContain('business');
+  expect(newsIntelligence(item).sourceId).toBe('apitube');
+});

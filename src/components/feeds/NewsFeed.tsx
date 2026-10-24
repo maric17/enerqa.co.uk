@@ -12,7 +12,7 @@ import { FeedMeta, formatDate, formatRetrieved } from './feedParts';
  * Reads the shared saved news pool and keeps items matching the page's phrases.
  * Only the scheduled news job contacts providers. Placement (p. 37): three
  * cards with headline, source,
- * publication time and short permitted description. The client trial uses TheNewsAPI alone. EIA and EEA RSS items
+ * publication time and short permitted description. This trial uses APITube alone. EIA and EEA RSS items
  * are official analysis and appear in the official-updates modules instead.
  *
  * Without `phrases` it previews the whole Global Intelligence news pool (the
@@ -84,7 +84,7 @@ export async function NewsFeed({
         // p. 37: "Show source delays rather than calling the free feed live."
         extra={[
           result.refreshedAt ? `Feed last refreshed ${formatRetrieved(result.refreshedAt)}.` : '',
-          result.hasDelayedSource ? `NewsData.io free-plan items are delayed by up to ${NEWS_DELAY_HOURS} hours.` : '',
+          result.hasDelayedSource ? `Free-plan news items are delayed by at least ${NEWS_DELAY_HOURS} hours.` : '',
         ].filter(Boolean).join(' ') || undefined}
       />
     </div>

@@ -58,7 +58,7 @@ export default async function GlobalIntelligencePage({ searchParams }: {
         languages={languages} labels={labels} />
       <section aria-labelledby="source-context" className="border-t border-gray-200 pt-5 text-xs leading-relaxed text-gray-600 space-y-2">
         <h2 id="source-context" className="text-sm font-semibold text-[var(--color-dark)]">Sources</h2>
-        <p>Content belongs to its original publishers. Free reading does not grant republication rights for articles or images. NewsData.io's free feed is delayed by at least 12 hours.</p>
+        <p>Content belongs to its original publishers. Free reading does not grant republication rights for articles or images. APITube's evaluation feed is delayed by at least 12 hours.</p>
         <Link href="/data-portal/sources" className="underline">Sources, attribution and methodology</Link>
       </section>
       {related?.status === 'ok' && related.hits.length > 0 && <nav aria-label="Related Enerqa content" className="flex flex-wrap gap-4 text-sm">{related.groups.flatMap(group => group.hits.slice(0, 2)).map(hit => <Link key={hit.url} href={hit.url} className="underline">{hit.category}: {hit.title}</Link>)}</nav>}

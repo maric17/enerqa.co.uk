@@ -11,6 +11,9 @@ import { THE_NEWS_API_TOPIC_QUERIES, type NewsItem } from './types';
 import { selectHeroStories } from '../../../components/home/firstFoldNews';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '../../feeds/contextual';
 
+// Retain coverage of the previous trial independently of the active branch policy.
+vi.mock('./policy', () => ({ PAGE_NEWS_PROVIDERS: ['thenewsapi'], DEFAULT_NEWS_PROVIDERS: ['thenewsapi'], REFRESH_NEWS_PROVIDERS: ['thenewsapi'] }));
+
 vi.mock('./thenewsapi', () => ({ fetchTheNewsApiBasket: vi.fn(), fetchTheNewsApiQuery: vi.fn() }));
 vi.mock('./newsdata', () => ({ NEWSDATA_DELAY_HOURS: 12, PAGE_BASKET_SECONDS: 43200,
   basketQuery: (phrases: string[]) => phrases.join(' OR '), fetchNewsdataBasket: vi.fn(), fetchNewsdataQuery: vi.fn() }));

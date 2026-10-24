@@ -4,6 +4,7 @@ import { COUNTRIES, CONTINENTS, REGIONS, SCOPES, changeGeography } from './cover
 import { NEWS_BASKETS } from '@/lib/api/news/types';
 
 export const INTELLIGENCE_SOURCES = {
+  apitube: 'APITube',
   thenewsapi: 'TheNewsAPI', newsdata: 'NewsData.io', gdelt: 'GDELT', eia_rss: 'U.S. EIA Today in Energy',
   eea_rss: 'European Environment Agency', openalex: 'OpenAlex', doaj: 'DOAJ',
   osti: 'DOE OSTI.GOV', 'gbif-literature': 'GBIF literature', reliefweb: 'ReliefWeb', 'sec-edgar': 'SEC EDGAR',

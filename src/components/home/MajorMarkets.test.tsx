@@ -5,7 +5,7 @@ import { MarketsCommentary } from './MajorMarkets';
 
 // Keep tests on the saved-feed selection path; no live upstream requests.
 vi.mock('@/lib/api/news', async original => ({ ...await original<typeof import('@/lib/api/news')>(), fetchNews: vi.fn() }));
-const item = (id: string, title: string, provider: 'thenewsapi' | 'eia_rss' = 'thenewsapi'): NewsItem => ({
+const item = (id: string, title: string, provider: 'apitube' | 'eia_rss' = 'apitube'): NewsItem => ({
   id, title, summary: 'A short licensed market report.', url: `https://${provider === 'eia_rss' ? 'www.eia.gov' : 'www.theguardian.com'}/${id}`,
   domain: provider === 'eia_rss' ? 'eia.gov' : 'theguardian.com', publisher: provider === 'eia_rss' ? 'U.S. EIA' : 'The Guardian',
   provider, providerLabel: provider, publishedAt: new Date(Date.now() - 3600000).toISOString(), retrievedAt: new Date().toISOString(),
@@ -14,17 +14,17 @@ const item = (id: string, title: string, provider: 'thenewsapi' | 'eia_rss' = 't
 const result = (items: NewsItem[], failed = false): NewsResult => ({
   items, sources: [], availableRegions: [], availableLanguages: [], retrievedAt: new Date().toISOString(),
   unavailable: !items.length, sourcesFailed: failed, newsSourcesFailed: failed,
-  providerStatus: { thenewsapi: failed ? 'unavailable' : 'ok' },
+  providerStatus: { apitube: failed ? 'unavailable' : 'ok' },
   hasDelayedSource: false, stale: false,
 });
 beforeEach(() => vi.clearAllMocks());
 
 describe('separate Major Markets commentary', () => {
-  it('shows TheNewsAPI market commentary when the wider news pool is empty', async () => {
+  it('shows APITube market commentary when the wider news pool is empty', async () => {
     vi.mocked(fetchNews).mockResolvedValueOnce(result([], true)).mockResolvedValueOnce(result([item('prices', 'FTSE shares fall')], false));
     render(await MarketsCommentary());
     expect(screen.getByRole('link', { name: /FTSE shares fall/ })).toHaveAttribute('href', 'https://www.theguardian.com/prices');
-    expect(fetchNews).toHaveBeenLastCalledWith('all', 40, { providers: ['thenewsapi'], maxPerPublisher: 10, stockMarkets: true });
+    expect(fetchNews).toHaveBeenLastCalledWith('all', 40, { providers: ['apitube'], maxPerPublisher: 10, stockMarkets: true });
     expect(screen.queryByText('This source is temporarily unavailable.')).not.toBeInTheDocument();
   });
 

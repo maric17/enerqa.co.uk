@@ -6,11 +6,14 @@ import { hasEditorialApproval, hasEditorialRejection, hostnameOf, normaliseUrl, 
 import type { NewsDiagnostics } from './diagnostics';
 import { newsScheduleSlot } from './schedule';
 import { createNewsDiagnostics } from './diagnostics';
+import { PAGE_NEWS_PROVIDERS } from './policy';
+import { hasApiTubeApproval } from './apitubeScreening';
 
 // A control record in the existing private table avoids a live schema migration.
 const JOB_PROVIDER = 'enerqa-news-sync';
-const JOB_ID = 'scheduled-news-v1';
-export const NEWS_PROVIDERS: NewsProvider[] = ['thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
+// The branch has its own refresh state and lease in the shared database.
+const JOB_ID = PAGE_NEWS_PROVIDERS.includes('apitube') ? 'scheduled-news-apitube-v1' : 'scheduled-news-v1';
+export const NEWS_PROVIDERS: NewsProvider[] = ['apitube', 'thenewsapi', 'newsdata', 'gdelt', 'eia_rss', 'eea_rss'];
 
 export type NewsRefreshState = {
   trigger?: 'scheduled' | 'manual';
@@ -53,9 +56,12 @@ async function readNewsStoreUncached(includeExpiredAccess = false): Promise<{ it
         (item.language !== null && typeof item.language !== 'string') ||
         !Array.isArray(item.regions) || !item.regions.every(r => typeof r === 'string')) return [];
       // Old keyword-only records and pending reviews cannot bypass editorial screening.
-      if (!includeExpiredAccess && !hasEditorialApproval(item)) {
-        if (hasEditorialRejection(item)) rejectedEditorialReviews++;
-        else pendingEditorialReviews++;
+      if (!includeExpiredAccess && !(item.provider === 'apitube' ? hasApiTubeApproval(item) : hasEditorialApproval(item))) {
+        // Inactive providers must not make the isolated trial look unavailable.
+        if (PAGE_NEWS_PROVIDERS.includes(item.provider)) {
+          if (hasEditorialRejection(item)) rejectedEditorialReviews++;
+          else pendingEditorialReviews++;
+        }
         return [];
       }
       const checkTime = row.access_checked_at ? new Date(row.access_checked_at).getTime() : NaN;
@@ -89,7 +95,7 @@ const cachedNewsStore = unstable_cache(async () => {
   // A failed read must not replace the last good cache entry with an empty result.
   if (!saved.available) throw new Error('Saved news storage is unavailable.');
   return saved;
-}, ['saved-news-editorial-2026-10-23-v3'], { revalidate: 60, tags: ['saved-news'] });
+}, ['saved-news-apitube-2026-10-24-v2'], { revalidate: 60, tags: ['saved-news'] });
 
 export async function readNewsStore(includeExpiredAccess = false) {
   if (includeExpiredAccess) return readNewsStoreUncached(true);

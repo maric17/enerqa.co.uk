@@ -1,0 +1,334 @@
+{
+  "checkedAt": "2026-10-24T00:37:30.800Z",
+  "branch": "trial/apitube-news-2026-10-24",
+  "providers": [
+    "apitube"
+  ],
+  "savedPageReadsMadeNoApiCalls": true,
+  "legacyRecordsUnchanged": true,
+  "stored": [
+    {
+      "access_status": "verified_open",
+      "method": "apitube-categories-and-rules-v1",
+      "count": 11
+    },
+    {
+      "access_status": "unknown",
+      "method": "apitube-categories-and-rules-v1",
+      "count": 1
+    }
+  ],
+  "requests": [
+    {
+      "provider": "apitube",
+      "requests": 52
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "home": {
+    "count": 10,
+    "articles": [
+      {
+        "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "World must cut emissions by 18% in four years ‘to find our way back’, UN says",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/21/world-cut-emissions-un-climate-crisis",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "Melting Ron DeSantis statue unveiled to call out his inaction on climate crisis",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/us-news/2026/oct/19/melting-ron-desantis-statue-climate-crisis",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+        "topics": [
+          "environment"
+        ]
+      },
+      {
+        "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+        "topics": [
+          "energy"
+        ]
+      },
+      {
+        "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+        "topics": [
+          "environment",
+          "business"
+        ]
+      },
+      {
+        "title": "How the quirky puffin became a symbol of the climate crisis – and hope",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/17/how-puffin-symbol-climate-crisis-hope",
+        "topics": [
+          "climate"
+        ]
+      }
+    ]
+  },
+  "markets": {
+    "count": 0,
+    "articles": []
+  },
+  "search": {
+    "count": 10
+  },
+  "placements": [
+    {
+      "type": "domain",
+      "slug": "climate-action-carbon-management",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "energy-systems-transition",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "environment-nature-circularity",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "sustainable-business-esg-finance",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "government-regulators-public-institutions",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "financial-institutions-investors-development-finance",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "energy-utilities",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "oil-gas-petrochemicals",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "industry-manufacturing-materials",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "transport-logistics-mobility",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "water-waste-circular-economy",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "agriculture-food-aquaculture",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "mining-natural-resources",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "tourism-hospitality-destinations",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "technology-telecoms-data-infrastructure",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "type": "industry",
+      "slug": "healthcare-education-institutional-estates",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    }
+  ]
+}

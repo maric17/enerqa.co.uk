@@ -19,7 +19,7 @@ export async function FeedsBody() {
   const slides = HERO_CATEGORIES.map((category, index) => {
     const stories = groups[index].map(item => ({
       item: toCard(item), retrievedAt: formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt),
-      delayed: item.provider === 'newsdata', stale: isNewsItemStale(item),
+      delayed: ['apitube', 'newsdata'].includes(item.provider), stale: isNewsItemStale(item),
     }));
     const lead = stories[0];
     return {

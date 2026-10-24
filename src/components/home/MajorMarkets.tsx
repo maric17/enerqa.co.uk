@@ -27,7 +27,7 @@ export async function MarketsCommentary() {
         {card.teaser && <p className="market-commentary-teaser">{card.teaser}</p>}
         <p className="market-commentary-retrieved">
           Via {item.providerLabel}.{' '}
-          {item.provider === 'newsdata' && `NewsData delayed ${NEWS_DELAY_HOURS}h+. `}
+          {['apitube', 'newsdata'].includes(item.provider) && `${item.providerLabel} delayed ${NEWS_DELAY_HOURS}h+. `}
           Updated {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
           {isNewsItemStale(item) && ' Cached commentary; refresh unavailable.'}
           {item.provider === 'eia_rss' && ' U.S. energy-market commentary.'}

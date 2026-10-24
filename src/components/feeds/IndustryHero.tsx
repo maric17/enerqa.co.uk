@@ -22,7 +22,7 @@ export async function IndustryHeadlines({ industry }: { industry: Industry }) {
   const stories = result.items.map(item => ({
     item: toCard(item),
     retrievedAt: formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt),
-    delayed: item.provider === 'newsdata',
+    delayed: ['apitube', 'newsdata'].includes(item.provider),
     stale: isNewsItemStale(item),
   }));
   const slide: HeroSlide = { ...emptySlide(industry), stories,

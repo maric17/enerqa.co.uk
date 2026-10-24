@@ -6,6 +6,7 @@ const mocks = vi.hoisted(() => ({ query: vi.fn(), available: true }));
 vi.mock('../core/storage', () => ({ providerDatabase: () => mocks.available ? { query: mocks.query } : null }));
 vi.mock('../core/accessCheck', () => ({ RECHECK_SECONDS: 7 * 86400 }));
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
+import { screenApiTubeItem } from './apitubeScreening';
 
 function row(over: Record<string, unknown> = {}) {
   const url = 'https://www.theguardian.com/article';
@@ -20,6 +21,17 @@ beforeEach(() => { mocks.query.mockReset(); mocks.available = true; });
 afterEach(() => vi.restoreAllMocks());
 
 describe('saved news evidence', () => {
+  it('requires saved APITube category evidence and a matching provider-rules decision', async () => {
+    const saved = row();
+    saved.provider = 'apitube';
+    saved.record = screenApiTubeItem({ ...saved.record, provider: 'apitube',
+      providerCategories: [{ id: 'medtop:06000000', name: 'environment', score: 1 }] });
+    mocks.query.mockResolvedValue({ rows: [saved] });
+    expect((await readNewsStore()).items).toHaveLength(1);
+    saved.record.providerCategories = [];
+    expect((await readNewsStore()).items).toEqual([]);
+    expect((await readNewsStore(true)).items).toHaveLength(1);
+  });
   it('withholds old keyword-only and changed-content records while retaining them for background review', async () => {
     const legacy = row(); delete legacy.record.editorialReview;
     const changed = row(); changed.record.title = 'The headline was changed after review';
@@ -82,6 +94,8 @@ describe('shared scheduled-job guard', () => {
     expect(claim?.state.lastSuccessAt?.newsdata).toBe('2026-10-02T22:00:00Z');
     expect(mocks.query).toHaveBeenCalledOnce();
     const [sql, parameters] = mocks.query.mock.calls[0];
+    // The trial cannot claim or overwrite the production news job's control row.
+    expect(parameters[1]).toBe('scheduled-news-apitube-v1');
     expect(sql).toContain('ON CONFLICT');
     expect(sql).toContain("previous.record->>'slot' IS DISTINCT FROM EXCLUDED.record->>'slot'");
     expect(sql).toContain("< (EXCLUDED.record->>'slot')::timestamptz");
