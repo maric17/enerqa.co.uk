@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-10-24T08:11:19.093Z",
+  "route": "/industries/tourism-hospitality-destinations",
+  "beforeCount": 0,
+  "results": [
+    {
+      "width": 1366,
+      "status": 200,
+      "stories": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:09 UTC. Sources and rights"
+        }
+      ],
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "destinationStatus": 200,
+      "newsOnlyCards": [
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "stories": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:09 UTC. Sources and rights"
+        }
+      ],
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "destinationStatus": 200,
+      "newsOnlyCards": [
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "noNewsApiOrAiCalls": true,
+  "newsRecordsUnchanged": true,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 127
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 127
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ]
+}

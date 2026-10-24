@@ -3,7 +3,8 @@ import { fail, ok, type ConnectorResult } from '../core/types';
 import { extractRegions } from './geography';
 import { STOCK_MARKET_QUERIES } from './markets';
 import { NEWS_REFRESH_SECONDS } from './schedule';
-import { hostnameOf, newsImageUrl, normaliseUrl, THE_NEWS_API_TOPIC_QUERIES, type NewsBasketKey, type NewsItem } from './types';
+import { INDUSTRY_FEEDS } from '../../feeds/contextual';
+import { hostnameOf, isAllowedDomain, newsImageUrl, normaliseUrl, THE_NEWS_API_TOPIC_QUERIES, type NewsBasketKey, type NewsItem } from './types';
 
 type ApiTubePage = { status?: unknown; results?: unknown; errors?: { code?: unknown }[] };
 const ENDPOINT = 'https://api.apitube.io/v1/news/everything';
@@ -65,8 +66,12 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
   if (!key) return fail('apitube', 'not_configured', 'API_TUBE_API_KEY is not set.');
   const categories = options.basket ? API_TUBE_CATEGORIES[options.basket]
     : STOCK_MARKET_QUERIES.includes(query) ? ['medtop:04000000'] : ['medtop:06000000', 'medtop:04000000', 'medtop:08000000'];
+  const sources = Object.values(INDUSTRY_FEEDS).find(feed => feed.newsDiscoveryQuery === query)?.newsSources ?? API_TUBE_SOURCES;
+  if (!sources.length || sources.length > 3 || !sources.every(isAllowedDomain)) {
+    return fail('apitube', 'unavailable', 'The sector publisher group needs review.');
+  }
   const end = new Date();
-  const params = new URLSearchParams({ query: apiTubeQuery(query), 'category.id': categories.join(','), 'source.domain': API_TUBE_SOURCES.join(','),
+  const params = new URLSearchParams({ query: apiTubeQuery(query), 'category.id': categories.join(','), 'source.domain': sources.join(','),
     'language.code': languages.slice(0, 3).join(','), per_page: '10', 'sort.by': 'published_at', 'sort.order': 'desc',
     // Boolean title search has a 31-day maximum, even on paid plans.
     // Pin both ends: waiting for a rate-limit slot must not widen a 31-day query.

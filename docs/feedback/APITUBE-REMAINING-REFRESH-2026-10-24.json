@@ -1,0 +1,96 @@
+{
+  "checkedAt": "2026-10-24T08:29:34.564Z",
+  "result": {
+    "skipped": false,
+    "storedItems": 29,
+    "sourcesFailed": false,
+    "diagnostics": {
+      "basket": "all",
+      "providers": [
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 8,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:26:52.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 1,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:27:08.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 10,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:27:24.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 3,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:27:39.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 2,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:27:55.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 1,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:28:10.000Z",
+          "issue": null,
+          "httpStatus": null
+        },
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 1,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:28:27.000Z",
+          "issue": null,
+          "httpStatus": null
+        }
+      ],
+      "counts": {
+        "received": 26,
+        "relevant": 15,
+        "afterGate": 30,
+        "accessChecked": 29,
+        "verifiedOpen": 29,
+        "returned": 29
+      },
+      "access": {
+        "verified_open": 29
+      },
+      "storage": "ok",
+      "mode": "refresh",
+      "scope": "industries",
+      "editorial": {
+        "approved": 29,
+        "rejected": 1,
+        "pending": 0,
+        "issue": null
+      }
+    }
+  }
+}

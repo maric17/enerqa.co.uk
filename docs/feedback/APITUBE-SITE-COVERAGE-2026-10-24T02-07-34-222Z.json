@@ -1,0 +1,572 @@
+{
+  "checkedAt": "2026-10-24T02:07:41.852Z",
+  "diagnosticOnly": true,
+  "manualRequested": true,
+  "status": "blocked_by_daily_budget",
+  "completed": false,
+  "selectedRequests": 20,
+  "dailyRemainingBefore": 1,
+  "sourceDomains": [
+    "theguardian.com",
+    "bbc.co.uk",
+    "reuters.com"
+  ],
+  "articlesPerRequest": 10,
+  "pagination": "First page only; not an exhaustive archive search.",
+  "fullSitePlan": [
+    {
+      "id": "domain:climate",
+      "kind": "domain",
+      "slug": "climate-action-carbon-management",
+      "basket": "climate",
+      "query": "climate OR emissions OR \"greenhouse gases\" OR \"net zero\"",
+      "days": 7,
+      "categories": [
+        "medtop:20000418",
+        "medtop:20000419"
+      ],
+      "sentQuery": "climate OR emissions OR \"greenhouse gases\" OR \"net zero\""
+    },
+    {
+      "id": "domain:energy",
+      "kind": "domain",
+      "slug": "energy-systems-transition",
+      "basket": "energy",
+      "query": "\"renewable energy\" OR solar OR electricity OR \"energy storage\" OR hydrogen",
+      "days": 7,
+      "categories": [
+        "medtop:20000257",
+        "medtop:20000431",
+        "medtop:20000260"
+      ],
+      "sentQuery": "\"renewable energy\" OR solar OR electricity OR \"energy storage\" OR hydrogen"
+    },
+    {
+      "id": "domain:environment",
+      "kind": "domain",
+      "slug": "environment-nature-circularity",
+      "basket": "environment",
+      "query": "biodiversity OR pollution OR \"circular economy\" OR deforestation",
+      "days": 7,
+      "categories": [
+        "medtop:06000000",
+        "medtop:20000420",
+        "medtop:20000424"
+      ],
+      "sentQuery": "biodiversity OR pollution OR \"circular economy\" OR deforestation"
+    },
+    {
+      "id": "domain:business",
+      "kind": "domain",
+      "slug": "sustainable-business-esg-finance",
+      "basket": "business",
+      "query": "\"sustainable finance\" OR \"climate finance\" OR \"green bond\" OR ESG",
+      "days": 31,
+      "categories": [
+        "medtop:20001374",
+        "medtop:04000000"
+      ],
+      "sentQuery": "\"sustainable finance\" OR \"climate finance\" OR \"green bond\" OR ESG"
+    },
+    {
+      "id": "market:us-global",
+      "kind": "market",
+      "slug": "us-global",
+      "query": "stocks OR equities OR \"share prices\" OR \"Wall Street\" OR \"S&P 500\" OR Nasdaq OR \"Dow Jones\" OR NYSE",
+      "days": 31,
+      "categories": [
+        "medtop:04000000"
+      ],
+      "sentQuery": "stocks OR equities OR \"share prices\" OR \"Wall Street\" OR \"S&P 500\" OR Nasdaq OR \"Dow Jones\" OR NYSE"
+    },
+    {
+      "id": "market:london",
+      "kind": "market",
+      "slug": "london",
+      "query": "FTSE OR \"London Stock Exchange\" OR \"London stocks\" OR \"London shares\"",
+      "days": 31,
+      "categories": [
+        "medtop:04000000"
+      ],
+      "sentQuery": "FTSE OR \"London Stock Exchange\" OR \"London stocks\" OR \"London shares\""
+    },
+    {
+      "id": "market:regional",
+      "kind": "market",
+      "slug": "regional",
+      "query": "\"Asian stocks\" OR \"Asian shares\" OR \"European stocks\" OR \"European shares\" OR Nikkei OR \"Hang Seng\" OR Sensex OR \"Gulf stocks\" OR Tadawul OR \"JSE shares\"",
+      "days": 31,
+      "categories": [
+        "medtop:04000000"
+      ],
+      "sentQuery": "\"Asian stocks\" OR \"Asian shares\" OR \"European stocks\" OR \"European shares\" OR Nikkei OR \"Hang Seng\" OR Sensex OR \"Gulf stocks\" OR Tadawul OR \"JSE shares\""
+    },
+    {
+      "id": "industry:government-regulators-public-institutions",
+      "kind": "industry",
+      "slug": "government-regulators-public-institutions",
+      "query": "(government OR regulation) AND (climate OR energy OR emissions)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(government OR regulation) AND (climate OR energy OR emissions)"
+    },
+    {
+      "id": "industry:financial-institutions-investors-development-finance",
+      "kind": "industry",
+      "slug": "financial-institutions-investors-development-finance",
+      "query": "(bank OR investor OR finance) AND (climate OR energy OR ESG)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(bank OR investor OR finance) AND (climate OR energy OR ESG)"
+    },
+    {
+      "id": "industry:energy-utilities",
+      "kind": "industry",
+      "slug": "energy-utilities",
+      "query": "(utilities OR electricity OR solar) AND (energy OR climate OR emissions)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(utilities OR electricity OR solar) AND (energy OR climate OR emissions)"
+    },
+    {
+      "id": "industry:oil-gas-petrochemicals",
+      "kind": "industry",
+      "slug": "oil-gas-petrochemicals",
+      "query": "(oil OR gas OR petrochemical) AND (energy OR climate OR emissions)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(oil OR gas OR petrochemical) AND (energy OR climate OR emissions)"
+    },
+    {
+      "id": "industry:industry-manufacturing-materials",
+      "kind": "industry",
+      "slug": "industry-manufacturing-materials",
+      "query": "(manufactur* OR cement OR steel* OR factory) AND (ener* OR electric* OR emiss* OR toxic OR enviro*)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(title.pattern:\"manufactur\" OR cement OR title.pattern:\"steel\" OR factory) AND (title.pattern:\"ener\" OR title.pattern:\"electric\" OR title.pattern:\"emiss\" OR toxic OR title.pattern:\"enviro\")"
+    },
+    {
+      "id": "industry:infrastructure-real-estate-industrial-zones",
+      "kind": "industry",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "query": "(building OR infrastructure) AND (energy OR climate OR emissions)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(building OR infrastructure) AND (energy OR climate OR emissions)"
+    },
+    {
+      "id": "industry:transport-logistics-mobility",
+      "kind": "industry",
+      "slug": "transport-logistics-mobility",
+      "query": "(transport OR shipping OR aviation) AND (energy OR emissions OR climate)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(transport OR shipping OR aviation) AND (energy OR emissions OR climate)"
+    },
+    {
+      "id": "industry:water-waste-circular-economy",
+      "kind": "industry",
+      "slug": "water-waste-circular-economy",
+      "query": "(water OR waste OR recycling) AND (climate OR environment OR circular)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(water OR waste OR recycling) AND (climate OR environment OR circular)"
+    },
+    {
+      "id": "industry:agriculture-food-aquaculture",
+      "kind": "industry",
+      "slug": "agriculture-food-aquaculture",
+      "query": "(agri* OR farming OR farmer* OR food OR aquacultur*) AND (climate OR environment* OR sustainab*)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(title.pattern:\"agri\" OR farming OR title.pattern:\"farmer\" OR food OR title.pattern:\"aquacultur\") AND (climate OR title.pattern:\"environment\" OR title.pattern:\"sustainab\")"
+    },
+    {
+      "id": "industry:mining-natural-resources",
+      "kind": "industry",
+      "slug": "mining-natural-resources",
+      "query": "(mining OR minerals) AND (climate OR energy OR environment)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(mining OR minerals) AND (climate OR energy OR environment)"
+    },
+    {
+      "id": "industry:tourism-hospitality-destinations",
+      "kind": "industry",
+      "slug": "tourism-hospitality-destinations",
+      "query": "(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment)"
+    },
+    {
+      "id": "industry:technology-telecoms-data-infrastructure",
+      "kind": "industry",
+      "slug": "technology-telecoms-data-infrastructure",
+      "query": "(\"data centre\" OR datacenter OR telecom) AND (energy OR water OR emissions)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(\"data centre\" OR datacenter OR telecom) AND (energy OR water OR emissions)"
+    },
+    {
+      "id": "industry:healthcare-education-institutional-estates",
+      "kind": "industry",
+      "slug": "healthcare-education-institutional-estates",
+      "query": "(hospital OR campus OR healthcare OR university) AND (climate OR energy OR environment)",
+      "days": 31,
+      "categories": [
+        "medtop:06000000",
+        "medtop:04000000",
+        "medtop:08000000"
+      ],
+      "sentQuery": "(hospital OR campus OR healthcare OR university) AND (climate OR energy OR environment)"
+    }
+  ],
+  "savedFeeds": [
+    {
+      "id": "home",
+      "count": 10,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+          "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west"
+        },
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+        },
+        {
+          "title": "World must cut emissions by 18% in four years ‘to find our way back’, UN says",
+          "url": "https://www.theguardian.com/environment/2026/oct/21/world-cut-emissions-un-climate-crisis"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        },
+        {
+          "title": "Melting Ron DeSantis statue unveiled to call out his inaction on climate crisis",
+          "url": "https://www.theguardian.com/us-news/2026/oct/19/melting-ron-desantis-statue-climate-crisis"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "id": "markets:combined",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live",
+          "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news"
+        },
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’",
+          "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt"
+        }
+      ]
+    },
+    {
+      "id": "domain:climate",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+          "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+        }
+      ]
+    },
+    {
+      "id": "domain:energy",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        }
+      ]
+    },
+    {
+      "id": "domain:environment",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "id": "domain:business",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "id": "industry:government-regulators-public-institutions",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "id": "industry:financial-institutions-investors-development-finance",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:energy-utilities",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "id": "industry:oil-gas-petrochemicals",
+      "count": 2,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ]
+    },
+    {
+      "id": "industry:industry-manufacturing-materials",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "id": "industry:infrastructure-real-estate-industrial-zones",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:transport-logistics-mobility",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:water-waste-circular-economy",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "id": "industry:agriculture-food-aquaculture",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:mining-natural-resources",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:tourism-hospitality-destinations",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:technology-telecoms-data-infrastructure",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    },
+    {
+      "id": "industry:healthcare-education-institutional-estates",
+      "count": 0,
+      "sourcesFailed": false,
+      "articles": []
+    }
+  ],
+  "results": [],
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "today": 79,
+      "total": 79
+    },
+    {
+      "provider": "gdelt",
+      "today": 0,
+      "total": 90
+    },
+    {
+      "provider": "newsdata",
+      "today": 0,
+      "total": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "today": 0,
+      "total": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "today": 79,
+      "total": 79
+    },
+    {
+      "provider": "gdelt",
+      "today": 0,
+      "total": 90
+    },
+    {
+      "provider": "newsdata",
+      "today": 0,
+      "total": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "today": 0,
+      "total": 311
+    }
+  ],
+  "recordsUnchanged": true,
+  "relevanceNote": "Rule matches are diagnostic evidence. Sector relevance needs review; returned candidates are never published by this script."
+}

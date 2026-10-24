@@ -1,5 +1,6 @@
 import type { NewsBasketKey } from '@/lib/api/news';
 import type { ProviderId } from '@/lib/api/core/types';
+import { containsAny } from '@/lib/api/news/types';
 
 /**
  * "Contextual API and link configuration" for every domain and industry page.
@@ -36,6 +37,10 @@ export type ContextualFeed = {
   newsBaskets: string[][];
   /** Reviewed sector vocabulary for saved headlines that omit the query's exact phrase. */
   relatedNewsTerms?: string[];
+  /** Require a subject in the headline and supporting institutional/policy context. */
+  newsContextRules?: NewsContextRule[];
+  /** A primary sector subject and concrete context are both needed for these news feeds. */
+  newsSectorRules?: NewsSectorRule[];
   researchThemes: string[];
   /**
    * I{nn}R (p. 65): "OpenAlex/DOAJ shared scholarly sources plus the
@@ -43,6 +48,38 @@ export type ContextualFeed = {
    */
   specialistFeeds?: SpecialistFeed[];
 };
+
+export type NewsContextRule = {
+  headlineSubjects: string[];
+  institutions: string[];
+  policyActions: string[];
+};
+
+export type NewsSectorRule = { subjects: string[]; contexts: string[]; exclude?: string[] };
+export const NEWS_INDUSTRY_VERSION = '2026-10-24-context-v1';
+
+/** Publisher suffixes such as "| Energy Mining News" are not a story's main subject. */
+export function matchesNewsSector(item: { title: string; summary: string | null }, rules?: NewsSectorRule[]): boolean {
+  if (!rules?.length) return true;
+  const headline = item.title.split(/\s+(?:\||–|-)\s+/)[0];
+  const text = `${headline} ${item.summary ?? ''}`;
+  return rules.some(rule => containsAny(headline, rule.subjects) && containsAny(text, rule.contexts)
+    && !containsAny(headline, rule.exclude ?? []));
+}
+
+/** The saved approval and the news index use the same sector rules as the page hero. */
+export function newsIndustries(item: { title: string; summary: string | null }, feeds = INDUSTRY_FEEDS): string[] {
+  const text = `${item.title} ${item.summary ?? ''}`;
+  return Object.entries(feeds).filter(([, feed]) => matchesNewsSector(item, feed.newsSectorRules)
+    && (containsAny(text, newsPhrases(feed)) || matchesNewsContext(item, feed.newsContextRules))).map(([slug]) => slug);
+}
+
+/** Paired context expands exact phrases without treating every government mention as news. */
+export function matchesNewsContext(item: { title: string; summary: string | null }, rules: NewsContextRule[] = []): boolean {
+  const text = `${item.title} ${item.summary ?? ''}`;
+  return rules.some(rule => containsAny(item.title, rule.headlineSubjects)
+    && containsAny(text, rule.institutions) && containsAny(text, rule.policyActions));
+}
 
 export type DomainFeed = ContextualFeed & {
   /**
@@ -150,6 +187,8 @@ export const DOMAIN_FEEDS: Record<string, DomainFeed> = {
 export type IndustryFeed = ContextualFeed & {
   /** Scheduled discovery requires both the sector and a sustainability topic. */
   newsDiscoveryQuery: string;
+  /** Reviewed publisher group; APITube accepts at most three source domains per request. */
+  newsSources?: string[];
 };
 
 export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
@@ -158,6 +197,11 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     newsDiscoveryQuery: '(government OR regulation) AND (climate OR energy OR emissions)',
     // p. 66: "Specialist feeds for I01R: reliefweb."
     specialistFeeds: ['reliefweb'],
+    newsContextRules: [{
+      headlineSubjects: ['net zero', 'net-zero', 'climate target', 'emissions target', 'deforestation', 'air pollution'],
+      institutions: ['government', 'parliament', 'minister', 'regulator', 'EU', 'United Nations', 'UN'],
+      policyActions: ['target', 'legislation', 'law', 'regulation', 'inquiry', 'approv*'],
+    }],
     newsBaskets: [
       ['climate policy', 'national climate plan', 'NDC'],
       ['public investment', 'environmental regulation', 'energy policy'],
@@ -173,6 +217,10 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
   },
   'financial-institutions-investors-development-finance': {
     newsDiscoveryQuery: '(bank OR investor OR finance) AND (climate OR energy OR ESG)',
+    newsSources: ['myjoyonline.com', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['bank', 'CBG', 'investor', 'finance', 'bond', 'financial', 'investment'],
+      contexts: ['climate finance', 'green bond', 'sustainable finance', 'adaptation finance', 'green investment',
+        'climate investment', 'transition finance', 'green credit', 'nature-based solutions', 'sustainable investment', 'ESG risk'] }],
     pdfPage: 72,
     // p. 72: "Specialist feeds for I02R: sec_edgar."
     specialistFeeds: ['sec_edgar'],
@@ -243,7 +291,11 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'infrastructure-real-estate-industrial-zones': {
-    newsDiscoveryQuery: '(building OR infrastructure) AND (energy OR climate OR emissions)',
+    newsDiscoveryQuery: '(building OR infrastructure OR concrete) AND (energy OR climate OR emissions OR carbon)',
+    newsSources: ['betakit.com', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['building', 'infrastructure', 'concrete', 'construction', 'retrofit', 'heat pump', 'housing', 'homes', 'district heating'],
+      contexts: ['energy efficiency', 'retrofit', 'emission', 'carbon', 'recycl*', 'climate resilience', 'heat pump', 'district heating'],
+      exclude: ['AI factory', 'film review', 'novel'] }],
     pdfPage: 96,
     // p. 96: "Specialist feeds for I06R: eea_rss, osti."
     specialistFeeds: ['eea_rss', 'osti'],
@@ -254,6 +306,7 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     relatedNewsTerms: [
       'rooftop solar', 'apartments', 'building emissions', 'building retrofit', 'heat pump',
       'district heating', 'energy infrastructure', 'grid upgrade', 'gas ban', 'new homes',
+      'low-carbon concrete', 'low carbon concrete', 'embodied carbon', 'circular construction',
     ],
     researchThemes: [
       'green buildings infrastructure sustainability resilience lifecycle emissions',
@@ -261,7 +314,10 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'transport-logistics-mobility': {
-    newsDiscoveryQuery: '(transport OR shipping OR aviation) AND (energy OR emissions OR climate)',
+    newsDiscoveryQuery: '(transport OR vehicle OR shipping OR aviation) AND (energy OR emissions OR electric)',
+    newsSources: ['transportandenergy.com', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['transport', 'vehicle', 'car', 'shipping', 'aviation', 'airline', 'fleet', 'mobility', 'bus', 'rail', 'ferry', 'TfL'],
+      contexts: ['zero-emission', 'zero emission', 'electric vehicle', 'electric car', 'carbon', 'emission', 'shipping fuel', 'aviation fuel', 'clean transport', 'hydrogen'] }],
     pdfPage: 102,
     // p. 102: "Specialist feeds for I07R: eia_rss, osti."
     specialistFeeds: ['eia_rss', 'osti'],
@@ -272,6 +328,7 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     relatedNewsTerms: [
       'fuel prices', 'diesel prices', 'petrol prices', 'motorist*', 'electric car',
       'electric vehicle', 'clean car', 'vehicle emissions', 'shipping fuel', 'aviation emissions',
+      'zero-emission', 'zero emission', 'fleet electrification',
     ],
     researchThemes: [
       'transport emissions activity data MRV low carbon mobility',
@@ -296,6 +353,11 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
   'agriculture-food-aquaculture': {
     // Include farmers/farming and word stems used in real sector headlines.
     newsDiscoveryQuery: '(agri* OR farming OR farmer* OR food OR aquacultur*) AND (climate OR environment* OR sustainab*)',
+    newsSources: ['agronigeria.ng', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['agricultur*', 'farming', 'farmer', 'food', 'aquacultur*', 'crop', 'fishery', 'fisheries', 'irrigation', 'soil'],
+      contexts: ['climate finance', 'agricultural adaptation', 'climate-smart', 'climate-resilient', 'soil', 'food systems',
+        'food production', 'biodiversity', 'irrigation', 'sustainable farming', 'food waste', 'sustainable crop', 'local food'],
+      exclude: ['alumni', 'applications open', 'food delivery', 'film review'] }],
     pdfPage: 114,
     // p. 114: "Specialist feeds for I09R: reliefweb, gbif_literature."
     specialistFeeds: ['reliefweb', 'gbif_literature'],
@@ -314,7 +376,10 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'mining-natural-resources': {
-    newsDiscoveryQuery: '(mining OR minerals) AND (climate OR energy OR environment)',
+    newsDiscoveryQuery: '(mining OR minerals) AND (climate OR energy OR environment OR water OR deforestation)',
+    newsSources: ['news.mongabay.com', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['mining', 'mine', 'minerals', 'mineral extraction', 'rare earth', 'copper', 'coal mine'],
+      contexts: ['environment*', 'biodiversity', 'water', 'deforest*', 'pollut*', 'rehabilitation', 'emission', 'carbon', 'energy transition', 'energy security', 'sustainability'] }],
     pdfPage: 120,
     // p. 120: "Specialist feeds for I10R: gbif_literature, eea_rss."
     specialistFeeds: ['gbif_literature', 'eea_rss'],
@@ -329,7 +394,7 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'tourism-hospitality-destinations': {
-    newsDiscoveryQuery: '(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment)',
+    newsDiscoveryQuery: '(tourism OR hotel OR hospitality) AND (climate OR energy OR sustainability OR environment OR turtle)',
     pdfPage: 126,
     // p. 126: "Specialist feeds for I11R: eea_rss, gbif_literature."
     specialistFeeds: ['eea_rss', 'gbif_literature'],
@@ -344,7 +409,10 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
     ],
   },
   'technology-telecoms-data-infrastructure': {
-    newsDiscoveryQuery: '("data centre" OR datacenter OR telecom) AND (energy OR water OR emissions)',
+    newsDiscoveryQuery: '("data centre" OR datacenter OR telecom) AND (energy OR water OR emissions OR carbon)',
+    newsSources: ['betakit.com', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['data centre', 'data center', 'datacenter', 'telecom*', 'digital infrastructure', 'AI infrastructure'],
+      contexts: ['energy', 'water', 'emission', 'carbon', 'power', 'cooling', 'renewab*', 'environment*'] }],
     pdfPage: 132,
     // p. 132: "Specialist feeds for I12R: osti, eia_rss, sec_edgar."
     specialistFeeds: ['osti', 'eia_rss', 'sec_edgar'],
@@ -363,6 +431,11 @@ export const INDUSTRY_FEEDS: Record<string, IndustryFeed> = {
   },
   'healthcare-education-institutional-estates': {
     newsDiscoveryQuery: '(hospital OR campus OR healthcare OR university) AND (climate OR energy OR environment)',
+    newsSources: ['logisticsnews.ph', 'theguardian.com', 'bbc.co.uk'],
+    newsSectorRules: [{ subjects: ['hospital', 'campus', 'university', 'universities', 'school', 'college', 'healthcare', 'medical center', 'medical centre'],
+      contexts: ['renewable energy', 'solar power', 'solar energy', 'energy efficiency', 'power purchase', 'power supply',
+        'decarbon*', 'wastewater treatment', 'water reuse', 'building retrofit', 'heat pump', 'net zero campus'],
+      exclude: ['research', 'study', 'professor', 'appointment', 'lecture', 'curriculum', 'master’s', 'AI campus', 'essay'] }],
     pdfPage: 138,
     // p. 138: "Specialist feeds for I13R: osti, eea_rss."
     specialistFeeds: ['osti', 'eea_rss'],

@@ -8,7 +8,7 @@ nextEnv.loadEnvConfig(path.resolve(import.meta.dirname, '..'), true, { info() {}
 async function main() {
   const { providerDatabase } = await import('../src/lib/api/core/storage');
   const { fetchNews, fetchNewsForKeywords, searchNews, PAGE_NEWS_PROVIDERS } = await import('../src/lib/api/news');
-  const { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } = await import('../src/lib/feeds/contextual');
+  const { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsIndustries, newsPhrases } = await import('../src/lib/feeds/contextual');
   const { hasApiTubeApproval } = await import('../src/lib/api/news/apitubeScreening');
   const db = providerDatabase();
   if (!db || PAGE_NEWS_PROVIDERS.join(',') !== 'apitube') throw new Error('APITube trial configuration is required.');
@@ -18,14 +18,20 @@ async function main() {
     const home = await fetchNews('all', 80, { maxPerPublisher: 10 });
     const markets = await fetchNews('all', 40, { stockMarkets: true, maxPerPublisher: 10 });
     const search = await searchNews('', 'all', {}, 100);
+    const inventory = await fetchNews('all', 1000, { maxPerPublisher: 500 });
     const placements: { type: 'domain' | 'industry'; slug: string; count: number; sourcesFailed: boolean;
-      articles: { title: string; provider: string; url: string }[] }[] = [];
+      articles: { title: string; provider: string; url: string }[];
+      allArticles?: { title: string; provider: string; url: string }[] }[] = [];
     for (const [type, feeds] of [['domain', DOMAIN_FEEDS], ['industry', INDUSTRY_FEEDS]] as const) {
       for (const [slug, feed] of Object.entries(feeds)) {
         const result = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets,
+          contextRules: feed.newsContextRules,
+          sectorRules: feed.newsSectorRules,
           ...('newsBasket' in feed ? { basket: feed.newsBasket } : {}) });
         placements.push({ type, slug, count: result.items.length, sourcesFailed: result.sourcesFailed,
-          articles: result.items.map(item => ({ title: item.title, provider: item.provider, url: item.url })) });
+          articles: result.items.map(item => ({ title: item.title, provider: item.provider, url: item.url })),
+          ...(type === 'industry' ? { allArticles: inventory.items.filter(item => newsIndustries(item).includes(slug))
+            .map(item => ({ title: item.title, provider: item.provider, url: item.url })) } : {}) });
         if (result.items.some(item => item.provider !== 'apitube' || item.accessStatus !== 'verified_open' || !hasApiTubeApproval(item))) {
           throw new Error('A page exposed news outside the verified APITube trial.');
         }

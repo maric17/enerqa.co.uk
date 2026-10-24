@@ -1,0 +1,1614 @@
+{
+  "checkedAt": "2026-10-24T01:06:18.120Z",
+  "origin": "http://localhost:3000",
+  "results": [
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "slug": "government-regulators-public-institutions",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Government, Regulators & Public Institutions",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Financial Institutions, Investors & Development Finance",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "slug": "energy-utilities",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Energy & Utilities",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=energy-utilities",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "slug": "oil-gas-petrochemicals",
+      "width": 1366,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "teaser": "The latest shudder for stocks in the AIindustry pulled markets lower worldwide on Thursday, while oil prices hit their highest levels since May on worries about thewar with Iran…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T21:50:13.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "teaser": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Oil, Gas & Petrochemicals",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals",
+      "image": "https://i.guim.co.uk/img/media/9e77a4ead0dd662eb649b44a2b029545f70ae2d1/408_0_4078_3263/master/4078.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=eef05a29afa3a8a23a2b5d40b2a20bde",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "slug": "industry-manufacturing-materials",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Industry, Manufacturing & Materials",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "slug": "transport-logistics-mobility",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Transport, Logistics & Mobility",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "slug": "water-waste-circular-economy",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "teaser": "Would you mind fixing the NHS? And while you’re at it, could you please build an anti-missile system in your garden? Then regulate the banks, replace the water mains, tax the very…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-08T05:00:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Water, Waste & Circular Economy",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy",
+      "image": "https://i.guim.co.uk/img/media/f81aa9599e1a7dbe69197a55798777243d5d0a8c/0_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctb3BpbmlvbnMucG5n&enable=upscale&s=30edcdbf26b126e8bb25d29a2a1022cc",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "slug": "agriculture-food-aquaculture",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Agriculture, Food & Aquaculture",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "slug": "mining-natural-resources",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Mining & Natural Resources",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=mining-natural-resources",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "slug": "tourism-hospitality-destinations",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Tourism, Hospitality & Destinations",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "slug": "healthcare-education-institutional-estates",
+      "width": 1366,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Healthcare, Education & Institutional Estates",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "slug": "government-regulators-public-institutions",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Government, Regulators & Public Institutions",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Financial Institutions, Investors & Development Finance",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "slug": "energy-utilities",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Energy & Utilities",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=energy-utilities",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "slug": "oil-gas-petrochemicals",
+      "width": 390,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "teaser": "The latest shudder for stocks in the AIindustry pulled markets lower worldwide on Thursday, while oil prices hit their highest levels since May on worries about thewar with Iran…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T21:50:13.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "teaser": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Oil, Gas & Petrochemicals",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals",
+      "image": "https://i.guim.co.uk/img/media/9e77a4ead0dd662eb649b44a2b029545f70ae2d1/408_0_4078_3263/master/4078.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=eef05a29afa3a8a23a2b5d40b2a20bde",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "slug": "industry-manufacturing-materials",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Industry, Manufacturing & Materials",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "slug": "transport-logistics-mobility",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Transport, Logistics & Mobility",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "slug": "water-waste-circular-economy",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "teaser": "Would you mind fixing the NHS? And while you’re at it, could you please build an anti-missile system in your garden? Then regulate the banks, replace the water mains, tax the very…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-08T05:00:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "title": "Water, Waste & Circular Economy",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy",
+      "image": "https://i.guim.co.uk/img/media/f81aa9599e1a7dbe69197a55798777243d5d0a8c/0_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctb3BpbmlvbnMucG5n&enable=upscale&s=30edcdbf26b126e8bb25d29a2a1022cc",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "slug": "agriculture-food-aquaculture",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Agriculture, Food & Aquaculture",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "slug": "mining-natural-resources",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Mining & Natural Resources",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=mining-natural-resources",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "slug": "tourism-hospitality-destinations",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Tourism, Hospitality & Destinations",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "slug": "healthcare-education-institutional-estates",
+      "width": 390,
+      "status": 200,
+      "count": 0,
+      "expectedSavedCount": 0,
+      "stories": [],
+      "title": "Healthcare, Education & Institutional Estates",
+      "emptyMessage": "No relevant updates are available.",
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "0 / 0",
+      "pageHeadings": [
+        "No relevant updates are available.",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    }
+  ],
+  "destinations": [
+    {
+      "slug": "government-regulators-public-institutions",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions",
+      "newsOnlyFilter": false,
+      "statusText": "6 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Assessing Subnational Climate Policy Alignment in Nigeria: Evidence from Jigawa State and a Comparative Analysis with Katsina State",
+          "url": "https://fjs.fudutsinma.edu.ng/index.php/fjs/article/download/5805/3953"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Global Carbon Budget 2025",
+          "url": "https://www.osti.gov/servlets/purl/3376144"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Barriers to Low-Carbon Transition: An Empirical Assessment of GHG Emissions and Mitigation Readiness in the Matsapha Industrial Area, Eswatini",
+          "url": "https://www.sciepublish.com/index/article/view_full_text/id/969"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Public investment efficiency and its impact on sustainable economic development",
+          "url": "https://nordascend.com/index.php/ejedp/article/download/7/7"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Institutional framework for public investment in Ukraine",
+          "url": "http://ird.gov.ua/sep/sep20252(170)/sep20252(170)_029_IvashkoOA.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Innovative Data Integration Method for Enhancing GHG Inventory Reporting Accuracy and Reliability",
+          "url": "https://www.multiperspectivesjournal.com/uploads/archives/20260119101033_GMP-2024-1-007.1.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "financial-institutions-investors-development-finance",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance",
+      "newsOnlyFilter": false,
+      "statusText": "10 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "From pipeline to policy: designing India's Article 6 approval framework for climate finance and domestic decarbonisation",
+          "url": "https://researchonline.lse.ac.uk/id/eprint/141188/1/Indias-Article-6-framework-and-climate-finance.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "ASSESSING ESG MATERIALITY THROUGH SUSTAINABILITY REPORT AND STAKEHOLDERS’ PERCEPTIONS",
+          "url": "https://akurasi.unram.ac.id/index.php/akurasi/article/download/907/187"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Green finance for sustainable development: analyzing the effects of green credit on high-polluting firms’ environmental performance",
+          "url": "https://www.nature.com/articles/s41599-025-05218-8.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Interpreting colour symbolism in finance- Insights of financial expert",
+          "url": "https://jcolore.gruppodelcolore.it/ojs/index.php/CCSJ/article/download/393/305"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Climate Finance and Sustainable Development in the Gambia: Financing Instruments, Institutional Capacity and Policy Pathways",
+          "url": "https://academia.edu.pk/index.php/Journals/article/download/2495/3498"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "THE IMPLICATIONS OF SUSTAINABILITY & CLIMATE-RELATED REPORTING, ESG RISK, AND GREEN ACCOUNTING IN ACHIEVING SUSTAINABLE GROWTH",
+          "url": "https://akurasi.unram.ac.id/index.php/akurasi/article/download/559/122"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Climate Finance and Green Investments",
+          "url": "https://aemps.ewapub.com/article/view/18349.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "ESG Risk and Firm Value: The Role of Materiality in Sustainability Reporting",
+          "url": "https://www.qip-journal.eu/index.php/QIP/article/download/2019/1411"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Sustainable Finance: Assessing Environmental, Social, and Governance (ESG) Factors in Investment Decisions",
+          "url": "https://www.internationaljournalssrg.org/IJEMS/2024/Volume11-Issue6/IJEMS-V11I6P102.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "The Impact of ESG Regulations and Taxonomy on the Credit Process in Commercial Banks",
+          "url": "http://dspace.uni.lodz.pl:8080/xmlui/bitstream/11089/53286/1/87-108_Kosztowniak.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "energy-utilities",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=energy-utilities",
+      "newsOnlyFilter": false,
+      "statusText": "36 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Modeling electricity price formation during Poland’s energy transition using market data and sentiment analysis",
+          "url": "https://www.frontiersin.org/journals/energy-research/articles/10.3389/fenrg.2026.1780848/pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Developing Environmental Sustainability Frameworks for Managing Energy, Water, and Emissions Impacts of Expanding Data Centres",
+          "url": "https://doi.org/10.55248/gengpi.07.1026.3133"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Comparative techno-economic and environmental analysis of using nuclear energy and fossil energy with carbon sequestration in U.S. Gulf Coast petroleum refineries",
+          "url": "https://www.osti.gov/servlets/purl/3377059"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Assessing Subnational Climate Policy Alignment in Nigeria: Evidence from Jigawa State and a Comparative Analysis with Katsina State",
+          "url": "https://fjs.fudutsinma.edu.ng/index.php/fjs/article/download/5805/3953"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Seawater Electrolysis Enables Multipathway Climate Change Mitigation through Atmospheric Carbon Dioxide Removal, Renewable Hydrogen Production, and Cement and Concrete Decarbonization",
+          "url": "https://www.osti.gov/servlets/purl/17067940"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Geospatial Assessment of Particle-Based Electrical Thermal Energy Storage (ETES) for United States Grid and Data-Center Applications",
+          "url": "https://www.osti.gov/servlets/purl/3818601"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Modeling the potential impact of storage on the US power sector in a multisector dynamic context",
+          "url": "https://www.osti.gov/servlets/purl/3607611"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Green Era Anaerobic Digester",
+          "url": "https://www.osti.gov/servlets/purl/3584691"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Advanced-Research-on-Integrated-Energy-Systems-Based Analysis to Support Resilient System Upgrades: Energy to Communities Energyshed In-Depth Partnership with Molokai, Hawaii",
+          "url": "https://www.osti.gov/servlets/purl/3577313"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Optimal Pathways from Alternative Carbon Feedstocks to Organic Commodity Chemicals",
+          "url": "https://www.osti.gov/servlets/purl/3484937"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Tokamak Energy’s pre-concept design for a fusion power plant: an overview of ST-E1",
+          "url": "https://www.osti.gov/servlets/purl/3378206"
+        }
+      ]
+    },
+    {
+      "slug": "oil-gas-petrochemicals",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals",
+      "newsOnlyFilter": false,
+      "statusText": "28 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "SimH2: an integrated techno-economic modeling framework for hydrogen pipeline infrastructure and network optimization",
+          "url": "https://www.osti.gov/servlets/purl/3377279"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Modeling electricity price formation during Poland’s energy transition using market data and sentiment analysis",
+          "url": "https://www.frontiersin.org/journals/energy-research/articles/10.3389/fenrg.2026.1780848/pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Comparative techno-economic and environmental analysis of using nuclear energy and fossil energy with carbon sequestration in U.S. Gulf Coast petroleum refineries",
+          "url": "https://www.osti.gov/servlets/purl/3377059"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "From pipeline to policy: designing India's Article 6 approval framework for climate finance and domestic decarbonisation",
+          "url": "https://researchonline.lse.ac.uk/id/eprint/141188/1/Indias-Article-6-framework-and-climate-finance.pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Seawater Electrolysis Enables Multipathway Climate Change Mitigation through Atmospheric Carbon Dioxide Removal, Renewable Hydrogen Production, and Cement and Concrete Decarbonization",
+          "url": "https://www.osti.gov/servlets/purl/17067940"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Geospatial Assessment of Particle-Based Electrical Thermal Energy Storage (ETES) for United States Grid and Data-Center Applications",
+          "url": "https://www.osti.gov/servlets/purl/3818601"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Green Era Anaerobic Digester",
+          "url": "https://www.osti.gov/servlets/purl/3584691"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Analysis of synergies in converting underground storage sites: Natural gas to hydrogen with co-located CO2 storage",
+          "url": "https://www.osti.gov/servlets/purl/3422253"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Hydrogen applications in airport operations: a review using the Port Authority of New York and New Jersey as an illustrative airport system",
+          "url": "https://www.osti.gov/servlets/purl/3376226"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "An Overview of Potential Future Aviation Energy Carriers",
+          "url": "https://www.osti.gov/servlets/purl/3363590"
+        }
+      ]
+    },
+    {
+      "slug": "industry-manufacturing-materials",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials",
+      "newsOnlyFilter": false,
+      "statusText": "12 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Seawater Electrolysis Enables Multipathway Climate Change Mitigation through Atmospheric Carbon Dioxide Removal, Renewable Hydrogen Production, and Cement and Concrete Decarbonization",
+          "url": "https://www.osti.gov/servlets/purl/17067940"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Geopolitical and Climate-Risk-Aware Supply Chains using Graph Analytics, Digital Twins and Scenario Intelligence",
+          "url": "https://content.jdmagicbox.com/quickquotes/images_main/-5es6drftugihgg-atth-gx2cz1oi.pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Optimal Pathways from Alternative Carbon Feedstocks to Organic Commodity Chemicals",
+          "url": "https://www.osti.gov/servlets/purl/3484937"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Global Carbon Budget 2025",
+          "url": "https://www.osti.gov/servlets/purl/3376144"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Industrial energy efficiency and decarbonisation via electrification and hydrogen",
+          "url": "https://pure-oai.bham.ac.uk/ws/files/299326798/BolsonN2026Industrial.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Barriers to Low-Carbon Transition: An Empirical Assessment of GHG Emissions and Mitigation Readiness in the Matsapha Industrial Area, Eswatini",
+          "url": "https://www.sciepublish.com/index/article/view_full_text/id/969"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "The impact of green supply chain management in the circular economy context on firm performance of FDI electronics enterprises in Dong Nai province",
+          "url": "https://tapchitckt.hvtc.edu.vn/DesktopModules/SubPortal/TapChiNCTCKT/Service/TraVeFilePDF.aspx?ID=1997"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Determining the carbon footprint of Australia’s electricity, gas, water and waste services sector",
+          "url": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-583545"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "DOE provides targeted technical assistance for manufacturers pursuing energy and resource efficiency",
+          "url": "https://www.osti.gov/servlets/purl/3017886"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Energy, material, and resource efficiency for industrial decarbonization: A systematic review of sociotechnical systems, technological innovations, and policy options",
+          "url": "https://pure.au.dk/ws/files/444746906/Energy_material_and_resource_efficiency_for_industrial_decarbonization_Accepted_Manuscript_2024.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Potentials of a friction-induced recycling process to improve resource and energy efficiency in manufacturing technology",
+          "url": "https://link.springer.com/content/pdf/10.1007/s12289-023-01785-w.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones",
+      "newsOnlyFilter": false,
+      "statusText": "7 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Market Analysis of Technology Development Trends for Building Envelope Retrofits",
+          "url": "https://www.osti.gov/servlets/purl/3818600"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Advanced-Research-on-Integrated-Energy-Systems-Based Analysis to Support Resilient System Upgrades: Energy to Communities Energyshed In-Depth Partnership with Molokai, Hawaii",
+          "url": "https://www.osti.gov/servlets/purl/3577313"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Exploring Energy Use Intensity Correlations in England’s NHS Acute Hospitals: Structural and Decarbonization Patterns (2018–2025)",
+          "url": "https://eprints.gla.ac.uk/386100/1/386100.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Sustainable Infrastructure Systems For Green Buildings: Lifecycle Optimization And Performance Modeling Using Machine Learning",
+          "url": "https://www.svedbergopen.com/index.php/ijaiml/article/download/707/547"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Environmental risk assessment for sustainable industrial urban development: The case of northern industrial zone of Pavlodar, Kazakhstan",
+          "url": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0320835&type=printable"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Paths Forward: Approaches to Achieve Plug and Process Load Efficiency and Control in Commercial Buildings: Preprint",
+          "url": "https://www.osti.gov/servlets/purl/2433911"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Effects of industrial symbiosis on energy efficiency in organized industrial zones",
+          "url": "https://polen.itu.edu.tr/bitstreams/8664a517-9ad3-465a-8150-5b5fe64f5e04/download"
+        }
+      ]
+    },
+    {
+      "slug": "transport-logistics-mobility",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility",
+      "newsOnlyFilter": false,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Prospects for Gasoline and Petrochemical Production in the Context of the Energy Transition",
+          "url": "https://www.icck.org/filebob/uploads/storage/JCERF_UZLwNVn6Dbzran8XB.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "A Paradigm Shift towards Environmental Responsibility in Sustainable Green Tourism and Hospitality",
+          "url": "https://doi.org/10.5281/zenodo.11180908"
+        }
+      ]
+    },
+    {
+      "slug": "water-waste-circular-economy",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy",
+      "newsOnlyFilter": false,
+      "statusText": "40 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Developing Environmental Sustainability Frameworks for Managing Energy, Water, and Emissions Impacts of Expanding Data Centres",
+          "url": "https://doi.org/10.55248/gengpi.07.1026.3133"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Seawater Electrolysis Enables Multipathway Climate Change Mitigation through Atmospheric Carbon Dioxide Removal, Renewable Hydrogen Production, and Cement and Concrete Decarbonization",
+          "url": "https://www.osti.gov/servlets/purl/17067940"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Geospatial Assessment of Particle-Based Electrical Thermal Energy Storage (ETES) for United States Grid and Data-Center Applications",
+          "url": "https://www.osti.gov/servlets/purl/3818601"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "BEYOND CLIMATE AWARENESS: UNDERSTANDING THE ROLE OF ARTIFICIAL INTELLIGENCE IN ENHANCING ADAPTIVE CAPACITY AND RESILIENCE IN CLIMATE-SMART AGRICULTURE AND AQUACULTURE",
+          "url": "https://doi.org/10.5281/zenodo.22141508"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Institutional Capacity of Public Authorities as a Factor of Sustainable Development",
+          "url": "https://innovation.cc/wp-content/uploads/2026_32_2_03_institutional_capacity_of_public_authorities.pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Techno-economic analysis of recycling strategies for catalyst and acid during catalytic graphitization",
+          "url": "https://www.osti.gov/servlets/purl/3422022"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Optimal Pathways from Alternative Carbon Feedstocks to Organic Commodity Chemicals",
+          "url": "https://www.osti.gov/servlets/purl/3484937"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Exploring Energy Use Intensity Correlations in England’s NHS Acute Hospitals: Structural and Decarbonization Patterns (2018–2025)",
+          "url": "https://eprints.gla.ac.uk/386100/1/386100.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Developing a subsector-specific ESG materiality framework with standards alignment: Evidence from India’s natural gas sector",
+          "url": "https://api-journal.accscience.com/uploads/file/20260413/8260e50719e4f68b4cdac317105813ca.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "CIRCULAR ECONOMY APPROACHES FOR INTEGRATED WASTEWATER TREATMENT, WATER REUSE, AND RESOURCE RECOVERY IN PAKISTAN",
+          "url": "https://doi.org/10.5281/zenodo.21064065"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Reviews and syntheses: Carbon vs. cation based MRV of Enhanced Rock Weathering and the issue of soil organic carbon",
+          "url": "https://bg.copernicus.org/articles/23/53/2026/bg-23-53-2026.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "agriculture-food-aquaculture",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture",
+      "newsOnlyFilter": false,
+      "statusText": "18 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Assessing Subnational Climate Policy Alignment in Nigeria: Evidence from Jigawa State and a Comparative Analysis with Katsina State",
+          "url": "https://fjs.fudutsinma.edu.ng/index.php/fjs/article/download/5805/3953"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Green Era Anaerobic Digester",
+          "url": "https://www.osti.gov/servlets/purl/3584691"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Geopolitical and Climate-Risk-Aware Supply Chains using Graph Analytics, Digital Twins and Scenario Intelligence",
+          "url": "https://content.jdmagicbox.com/quickquotes/images_main/-5es6drftugihgg-atth-gx2cz1oi.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "BEYOND CLIMATE AWARENESS: UNDERSTANDING THE ROLE OF ARTIFICIAL INTELLIGENCE IN ENHANCING ADAPTIVE CAPACITY AND RESILIENCE IN CLIMATE-SMART AGRICULTURE AND AQUACULTURE",
+          "url": "https://doi.org/10.5281/zenodo.22141508"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "AI-Enabled AgriTech and FoodTech Systems for Climate-Resilient Agriculture and Sustainable Supply Chains",
+          "url": "https://www.nationaleducationservices.org/file-download/1697955/Download%20Full-Text%20Research%20Book%20PDF%20Pp%201-104JB3.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Reviews and syntheses: Carbon vs. cation based MRV of Enhanced Rock Weathering and the issue of soil organic carbon",
+          "url": "https://bg.copernicus.org/articles/23/53/2026/bg-23-53-2026.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "BioCycle-DB: Data-Tier Enforcement of Spatio-Temporal Logistics and Compliance Auditing in Poultry Waste Recovery",
+          "url": "https://rsisinternational.org/journals/ijriss/uploads/vol10-iss7-pg16729-16751-202608_pdf.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Role of Azolla in sustainable agriculture and climate resilience: a comprehensive review",
+          "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1661720/pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Life Cycle Assessment and Carbon Footprint Optimisation of Agrivoltaic Systems Combining Bifacial Solar Panels with Drip-Irrigated Vegetable Production in Semi-Arid Mediterranean Climates",
+          "url": "https://journal.bauderpress.org.tr/index.php/asnj/article/download/85/20"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Design and evaluation of a solar powered smart irrigation system for sustainable urban agriculture",
+          "url": "https://www.nature.com/articles/s41598-025-94251-3.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Prospects of scientific monitoring ,verification and reporting to support national and subnational GHG inventories",
+          "url": "https://doi.org/10.5194/egusphere-egu25-14671"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Resource recovery from livestock waste: cases and business models from the Global South",
+          "url": "https://cgspace.cgiar.org/bitstreams/13a7107b-6aa7-4ff5-a066-9a72c7f06ef9/download"
+        }
+      ]
+    },
+    {
+      "slug": "mining-natural-resources",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=mining-natural-resources",
+      "newsOnlyFilter": false,
+      "statusText": "6 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "GAS MONETISATION FROM FLARE REDUCTION ACROSS 79 OIL BLOCKS IN NIGERIA: ECONOMIC INSIGHTS FROM ALTERNATIVE PATHWAYS",
+          "url": "https://doi.org/10.56726/irjmets82221"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "The Impact of ESG Regulations and Taxonomy on the Credit Process in Commercial Banks",
+          "url": "http://dspace.uni.lodz.pl:8080/xmlui/bitstream/11089/53286/1/87-108_Kosztowniak.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Heavy Metal Pollution of Water Sources \"Šićki Brod\" and \"Studenac\" Due to the Exploitation of Coal",
+          "url": "https://www.sarjournal.com/content/71/SARJournalMarch2024_12_18.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Towards the assessment of residual biodiversity impacts to support mining rehabilitation and offsets decision-making",
+          "url": "https://papers.acg.uwa.edu.au/d/2315_078_Maree/078_Maree.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Environmental Impact of Mining Activities: A Review of Management Strategies and Rehabilitation Techniques",
+          "url": "https://www.allmultidisciplinaryjournal.com/uploads/archives/20250630124038_MGE-2025-3-376.1.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Water and energy integration towards post-mine transition",
+          "url": "https://papers.acg.uwa.edu.au/d/2315_005_Clerc/005_Clerc.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "tourism-hospitality-destinations",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations",
+      "newsOnlyFilter": false,
+      "statusText": "5 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "CLIMATE CHANGE AND SUSTAINABLE DEVELOPMENT OF TOURIST DESTINATIONS: CHALLENGES, ADAPTATION STRATEGIES AND FUTURE PERSPECTIVES",
+          "url": "https://science-technology.uz/index.php/journal/article/download/733/690"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Community Resilience as a Cornerstone of Climate Adaptation in Small Island Tourism Destinations: An Integrated Conceptual Perspective",
+          "url": "https://rsisinternational.org/journals/ijriss/uploads/vol10-iss7-pg7849-7863-202608_pdf.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "A Paradigm Shift towards Environmental Responsibility in Sustainable Green Tourism and Hospitality",
+          "url": "https://doi.org/10.5281/zenodo.11180908"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Analysis of Economic and Environmental Benefits of Green Business Practices in the Hospitality and Tourism Sector",
+          "url": "https://ejournal.agungmediapublisher.com/index.php/iijb/article/download/7/3"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "CLIMATE RESILIENCE IN TOURISM: A SYNTHESIS OF GLOBAL STRATEGIES AND IMPLICATIONS FOR U.S. DESTINATIONS",
+          "url": "https://doi.org/10.26480/efcc.02.2023.128.137"
+        }
+      ]
+    },
+    {
+      "slug": "technology-telecoms-data-infrastructure",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure",
+      "newsOnlyFilter": false,
+      "statusText": "8 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Developing Environmental Sustainability Frameworks for Managing Energy, Water, and Emissions Impacts of Expanding Data Centres",
+          "url": "https://doi.org/10.55248/gengpi.07.1026.3133"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Geospatial Assessment of Particle-Based Electrical Thermal Energy Storage (ETES) for United States Grid and Data-Center Applications",
+          "url": "https://www.osti.gov/servlets/purl/3818601"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Unlocking Synergistic Benefits of Colocation of Data Centers at Airports",
+          "url": "https://www.osti.gov/servlets/purl/3816546"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Modeling the potential impact of storage on the US power sector in a multisector dynamic context",
+          "url": "https://www.osti.gov/servlets/purl/3607611"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Geopolitical and Climate-Risk-Aware Supply Chains using Graph Analytics, Digital Twins and Scenario Intelligence",
+          "url": "https://content.jdmagicbox.com/quickquotes/images_main/-5es6drftugihgg-atth-gx2cz1oi.pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Revolutionizing thermal Management in Next-Generation AI data centers: Challenges and breakthrough innovations",
+          "url": "https://www.osti.gov/servlets/purl/3740788"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Risks to the DOW Mission From Global Advanced Energy Adoption",
+          "url": "https://www.osti.gov/servlets/purl/3023194"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Pakistan’s Path to Sustainable Finance: Green Taxonomy and Carbon Market Readiness",
+          "url": "https://researchpublication.icmainternational.com/Pdf_Files/publication_20260126122713.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "healthcare-education-institutional-estates",
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates",
+      "newsOnlyFilter": false,
+      "statusText": "7 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Green Era Anaerobic Digester",
+          "url": "https://www.osti.gov/servlets/purl/3584691"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "ESG in Healthcare: Recommendations for the Public Sector",
+          "url": "https://journals.umcs.pl/h/article/download/20137/13680"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Exploring Energy Use Intensity Correlations in England’s NHS Acute Hospitals: Structural and Decarbonization Patterns (2018–2025)",
+          "url": "https://eprints.gla.ac.uk/386100/1/386100.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Exploring the environmental awareness: Knowledge, attitudes, and behaviors in Indonesia's academic community",
+          "url": "http://repository.usd.ac.id/53760/1/12643_JPBI_Aquan%2Bdkk_Maret2025.pdf"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Prospects of scientific monitoring ,verification and reporting to support national and subnational GHG inventories",
+          "url": "https://doi.org/10.5194/egusphere-egu25-14671"
+        },
+        {
+          "type": "Research and Articles · Open access",
+          "title": "Potentials of a friction-induced recycling process to improve resource and energy efficiency in manufacturing technology",
+          "url": "https://link.springer.com/content/pdf/10.1007/s12289-023-01785-w.pdf"
+        },
+        {
+          "type": "Policy and Official Updates · Open access",
+          "title": "Southwest Regional Partnership on Carbon Sequestration",
+          "url": "https://www.osti.gov/servlets/purl/898963"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "browserLiveSearchRequests": 0,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 61
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 61
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "noNewsApiCalls": true,
+  "complete": true
+}

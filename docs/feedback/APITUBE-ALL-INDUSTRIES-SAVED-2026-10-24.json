@@ -1,0 +1,743 @@
+{
+  "checkedAt": "2026-10-24T08:31:21.610Z",
+  "branch": "trial/apitube-news-2026-10-24",
+  "providers": [
+    "apitube"
+  ],
+  "savedPageReadsMadeNoApiCalls": true,
+  "legacyRecordsUnchanged": false,
+  "stored": [
+    {
+      "access_status": "verified_open",
+      "method": "apitube-categories-and-rules-v1",
+      "count": 29
+    },
+    {
+      "access_status": "unknown",
+      "method": "apitube-categories-and-rules-v1",
+      "count": 1
+    }
+  ],
+  "requests": [
+    {
+      "provider": "apitube",
+      "requests": 134
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "home": {
+    "count": 24,
+    "articles": [
+      {
+        "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+        "provider": "apitube",
+        "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+        "topics": [
+          "environment"
+        ]
+      },
+      {
+        "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+        "provider": "apitube",
+        "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+        "topics": [
+          "climate",
+          "environment"
+        ]
+      },
+      {
+        "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+        "topics": [
+          "energy",
+          "markets"
+        ]
+      },
+      {
+        "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+        "provider": "apitube",
+        "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+        "provider": "apitube",
+        "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Pampanga hospital signs renewable energy deal with First Gen",
+        "provider": "apitube",
+        "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+        "topics": [
+          "energy"
+        ]
+      },
+      {
+        "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "World must cut emissions by 18% in four years ‘to find our way back’, UN says",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/21/world-cut-emissions-un-climate-crisis",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+        "topics": [
+          "climate",
+          "energy"
+        ]
+      },
+      {
+        "title": "Melting Ron DeSantis statue unveiled to call out his inaction on climate crisis",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/us-news/2026/oct/19/melting-ron-desantis-statue-climate-crisis",
+        "topics": [
+          "climate"
+        ]
+      },
+      {
+        "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+        "topics": [
+          "environment"
+        ]
+      },
+      {
+        "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+        "topics": [
+          "energy"
+        ]
+      },
+      {
+        "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+        "topics": [
+          "environment",
+          "business"
+        ]
+      },
+      {
+        "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+        "provider": "apitube",
+        "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/",
+        "topics": [
+          "climate",
+          "environment"
+        ]
+      },
+      {
+        "title": "Almost half of drivers plan to buy an electrified vehicle - Transport + Energy",
+        "provider": "apitube",
+        "url": "https://transportandenergy.com/2026/10/15/almost-half-of-drivers-plan-to-buy-an-electrified-vehicle/",
+        "topics": [
+          "business"
+        ]
+      },
+      {
+        "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "‎Ghana seeks climate finance access for debt-restructuring countries",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/ghana-seeks-climate-finance-access-for-debt-restructuring-countries/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "FAO calls for stronger REDD+ systems to unlock climate finance",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/fao-calls-for-stronger-redd-systems-to-unlock-climate-finance/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "Climate finance must come as grants, not loans – Mahama",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/climate-finance-must-come-as-grants-not-loans-mahama/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "Mahama demands climate finance as he recounts Ghana's deadly June floods",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/mahama-demands-climate-finance-as-he-recounts-ghanas-deadly-june-floods/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      },
+      {
+        "title": "Climate finance bureaucracy hurting vulnerable countries – Sierra Leone Minority Leader",
+        "provider": "apitube",
+        "url": "https://www.myjoyonline.com/climate-finance-bureaucracy-hurting-vulnerable-countries-sierra-leone-minority-leader/",
+        "topics": [
+          "climate",
+          "business"
+        ]
+      }
+    ]
+  },
+  "markets": {
+    "count": 3,
+    "articles": [
+      {
+        "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news"
+      },
+      {
+        "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+      },
+      {
+        "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt"
+      }
+    ]
+  },
+  "search": {
+    "count": 24
+  },
+  "placements": [
+    {
+      "type": "domain",
+      "slug": "climate-action-carbon-management",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "The US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s left",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "energy-systems-transition",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        },
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "environment-nature-circularity",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        },
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        }
+      ]
+    },
+    {
+      "type": "domain",
+      "slug": "sustainable-business-esg-finance",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/"
+        },
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "provider": "apitube",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "government-regulators-public-institutions",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "financial-institutions-investors-development-finance",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/"
+        },
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "provider": "apitube",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        },
+        {
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/"
+        },
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "provider": "apitube",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        },
+        {
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/"
+        },
+        {
+          "title": "‎Ghana seeks climate finance access for debt-restructuring countries",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/ghana-seeks-climate-finance-access-for-debt-restructuring-countries/"
+        },
+        {
+          "title": "FAO calls for stronger REDD+ systems to unlock climate finance",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/fao-calls-for-stronger-redd-systems-to-unlock-climate-finance/"
+        },
+        {
+          "title": "Climate finance must come as grants, not loans – Mahama",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/climate-finance-must-come-as-grants-not-loans-mahama/"
+        },
+        {
+          "title": "Mahama demands climate finance as he recounts Ghana's deadly June floods",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/mahama-demands-climate-finance-as-he-recounts-ghanas-deadly-june-floods/"
+        },
+        {
+          "title": "Climate finance bureaucracy hurting vulnerable countries – Sierra Leone Minority Leader",
+          "provider": "apitube",
+          "url": "https://www.myjoyonline.com/climate-finance-bureaucracy-hurting-vulnerable-countries-sierra-leone-minority-leader/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "energy-utilities",
+      "count": 2,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "provider": "apitube",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        },
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "provider": "apitube",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        },
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "oil-gas-petrochemicals",
+      "count": 2,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "industry-manufacturing-materials",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "provider": "apitube",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "provider": "apitube",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "transport-logistics-mobility",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "provider": "apitube",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "provider": "apitube",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "water-waste-circular-economy",
+      "count": 3,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "agriculture-food-aquaculture",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "provider": "apitube",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "provider": "apitube",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "mining-natural-resources",
+      "count": 2,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "provider": "apitube",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "tourism-hospitality-destinations",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "technology-telecoms-data-infrastructure",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "provider": "apitube",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "provider": "apitube",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "type": "industry",
+      "slug": "healthcare-education-institutional-estates",
+      "count": 1,
+      "sourcesFailed": false,
+      "articles": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "provider": "apitube",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        }
+      ],
+      "allArticles": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "provider": "apitube",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        }
+      ]
+    }
+  ]
+}

@@ -111,7 +111,7 @@ describe('shared scheduled-job guard', () => {
     const [sql, parameters] = mocks.query.mock.calls[0];
     // The manual exception is inside the slot condition; the lease applies to both modes.
     expect(sql).toContain('WHERE ($4::boolean OR (');
-    expect(sql).toContain("::timestamptz))\n        AND COALESCE((previous.record->>'leaseUntil')");
+    expect(sql).toContain("\n        AND COALESCE((previous.record->>'leaseUntil')");
     expect(parameters[3]).toBe(true);
     expect(JSON.parse(parameters[2]).trigger).toBe('manual');
     mocks.query.mockResolvedValue({ rows: [] });
@@ -121,6 +121,41 @@ describe('shared scheduled-job guard', () => {
   it('returns no claim when the database rejects a duplicate slot', async () => {
     mocks.query.mockResolvedValue({ rows: [] });
     expect(await claimNewsRefresh()).toBeNull();
+  });
+
+  it('uses distinct APITube control records for stocks, general news and each industry batch', async () => {
+    mocks.query.mockResolvedValue({ rows: [{ record: {} }] });
+    for (const job of ['general', 'stocks', 'industries-1', 'industries-2', 'industries-3'] as const) {
+      const claim = await claimNewsRefresh({ job });
+      expect(claim?.job).toBe(job);
+      const [sql, params] = mocks.query.mock.calls.at(-1)!;
+      expect(params[1]).toBe(`scheduled-news-apitube-v1/${job}`);
+      expect(params[4]).toBe(true);
+      // A failed unit gets one bounded retry; a successful unit remains skipped.
+      expect(sql).toContain("previous.record->>'status' IS DISTINCT FROM 'succeeded'");
+      expect(sql).toContain("COALESCE((previous.record->>'attempts')::int, 0) < 2");
+      expect(sql).toContain("previous.record->>'retryAfter'");
+    }
+  });
+
+  it('finishes only the selected stock lease and delays retry eligibility after a failure', async () => {
+    mocks.query.mockResolvedValue({ rowCount: 1 });
+    const before = Date.now();
+    await finishNewsRefresh({ token: 'stock-lease', job: 'stocks', state: {} }, { status: 'failed' });
+    const [, params] = mocks.query.mock.calls[0];
+    expect(params[1]).toBe('scheduled-news-apitube-v1/stocks');
+    expect(params[3]).toBe('stock-lease');
+    expect(Date.parse(JSON.parse(params[2]).retryAfter)).toBeGreaterThanOrEqual(before + 60_000);
+  });
+
+  it('reads independent job health without allowing stock health to overwrite general news', async () => {
+    const control = (job: string, status: string) => ({ provider: 'enerqa-news-sync',
+      source_id: `scheduled-news-apitube-v1/${job}`, record: { status, diagnostics: { job } } });
+    mocks.query.mockResolvedValue({ rows: [control('general', 'succeeded'), control('stocks', 'failed')] });
+    const saved = await readNewsStore();
+    expect(saved.state.status).toBe('succeeded');
+    expect(saved.state.jobs?.stocks?.status).toBe('failed');
+    expect(saved.state.jobs?.general?.status).toBe('succeeded');
   });
 
   it('only finishes the current lease and retains the claim token outside public diagnostics', async () => {

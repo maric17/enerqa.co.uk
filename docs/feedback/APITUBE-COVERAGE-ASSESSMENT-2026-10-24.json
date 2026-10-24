@@ -1,0 +1,565 @@
+{
+  "checkedAt": "2026-10-24T07:53:03.624Z",
+  "scope": "APITube fetching assessment only; no publication or cron change.",
+  "inputs": {
+    "baseline": "APITUBE-SITE-COVERAGE-2026-10-24T07-37-03-556Z.json",
+    "widerSources": "APITUBE-SITE-COVERAGE-2026-10-24T07-42-33-793Z.json",
+    "targeted": "APITUBE-TARGETED-COVERAGE-2026-10-24T07-47-58-195Z.json"
+  },
+  "upstreamRequests": 46,
+  "baselineReturned": 18,
+  "widerReturned": 200,
+  "widerDistinctUrls": 189,
+  "widerPublishers": 144,
+  "targetedReturned": 52,
+  "allWiderCandidatesOutsideCurrentPublisherAllowlist": true,
+  "recordsUnchanged": true,
+  "reviewMethod": "Assistant assessment of returned titles and licensed teasers, with selected original articles inspected. No external AI API called. No candidate is approved for publication by this assessment.",
+  "rows": [
+    {
+      "id": "domain:climate",
+      "baselineReturned": 7,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Why Community-Led Climate Action Is Essential to Building Climate Resilience — The Ankole Times",
+        "url": "https://www.ankoletimes.co.ug/op-ed/guest-column/why-community-led-climate-action-is-essential-to-building-climate-resilience/",
+        "publisher": "ankoletimes.co.ug",
+        "publishedAt": "2026-10-23T19:07:17.000Z",
+        "discoveredFor": "domain:climate",
+        "currentTopics": [
+          "climate",
+          "environment",
+          "business"
+        ]
+      },
+      "reason": "Climate resilience, restoration and smallholder finance; commentary needs a label.",
+      "publicationApproved": false
+    },
+    {
+      "id": "domain:energy",
+      "baselineReturned": 1,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Google Signs Deal to Build 1GW Virtual Power Plant Aggregating Energy from Homes, Businesses",
+        "url": "https://www.esgtoday.com/google-signs-deal-to-build-1gw-virtual-power-plant-aggregating-energy-from-homes-businesses/",
+        "publisher": "esgtoday.com",
+        "publishedAt": "2026-10-23T08:45:27.000Z",
+        "discoveredFor": "industry:infrastructure-real-estate-industrial-zones",
+        "currentTopics": []
+      },
+      "reason": "Direct grid and distributed-energy project; current screening misses the virtual-power-plant wording.",
+      "publicationApproved": false
+    },
+    {
+      "id": "domain:environment",
+      "baselineReturned": 2,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+        "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+        "publisher": "news.mongabay.com",
+        "publishedAt": "2026-10-23T18:15:44.000Z",
+        "discoveredFor": "domain:environment",
+        "currentTopics": [
+          "environment"
+        ]
+      },
+      "reason": "Direct environmental impacts of extraction and land use.",
+      "publicationApproved": false
+    },
+    {
+      "id": "domain:business",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "LRQA Acquires Supply Chain Monitoring and Responsible Sourcing Platform Omega Compliance - ESG Today",
+        "url": "https://www.esgtoday.com/lrqa-acquires-supply-chain-monitoring-and-responsible-sourcing-platform-omega-compliance/",
+        "publisher": "esgtoday.com",
+        "publishedAt": "2026-10-23T10:22:07.000Z",
+        "discoveredFor": "domain:business",
+        "currentTopics": [
+          "business"
+        ]
+      },
+      "reason": "Responsible sourcing and supply-chain transparency.",
+      "publicationApproved": false
+    },
+    {
+      "id": "market:us-global",
+      "baselineReturned": 4,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Nasdaq Drops 2.6 Percent as AI Infrastructure Costs Hit Tech Stocks",
+        "url": "https://time.news/nasdaq-drops-2-6-percent-as-ai-infrastructure-costs-hit-tech-stocks/",
+        "publisher": "time.news",
+        "publishedAt": "2026-10-23T19:28:00.000Z",
+        "discoveredFor": "market:us-global",
+        "currentTopics": [
+          "energy",
+          "markets"
+        ]
+      },
+      "reason": "Direct US/global market movement; publisher needs review.",
+      "publicationApproved": false
+    },
+    {
+      "id": "market:london",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "FTSE 100 slips as oil price hits five-month high",
+        "url": "https://www.independent.co.uk/news/business/nasdaq-financial-times-trump-kering-nasdaq-composite-b3072412.html",
+        "publisher": "independent.co.uk",
+        "publishedAt": "2026-10-23T16:31:41.000Z",
+        "discoveredFor": "market:london",
+        "currentTopics": [
+          "energy"
+        ]
+      },
+      "reason": "Direct FTSE market report; current stock-movement vocabulary omits slips.",
+      "publicationApproved": false
+    },
+    {
+      "id": "market:regional",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "European stocks post weekly losses. French yields climb. Brent above $117/crude above $103",
+        "url": "https://investinglive.com/stocks/european-stocks-post-weekly-losses-french-yields-climb-brent-above-117-crude-above-103/",
+        "publisher": "investinglive.com",
+        "publishedAt": "2026-10-23T16:15:50.000Z",
+        "discoveredFor": "market:regional",
+        "currentTopics": [
+          "markets"
+        ]
+      },
+      "reason": "European market movement; this and India examples do not establish Gulf/Africa/East Asia coverage.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:government-regulators-public-institutions",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "EU Lawmakers Push to Delay Methane Emissions Rules by 3 Years - ESG Today",
+        "url": "https://www.esgtoday.com/eu-lawmakers-push-to-delay-methane-emissions-rules-by-3-years/",
+        "publisher": "esgtoday.com",
+        "publishedAt": "2026-10-23T09:33:34.000Z",
+        "discoveredFor": "domain:business",
+        "currentTopics": [
+          "energy",
+          "business"
+        ]
+      },
+      "reason": "Environmental legislation and energy-import rules; found by the domain query.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:financial-institutions-investors-development-finance",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+        "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+        "publisher": "myjoyonline.com",
+        "publishedAt": "2026-10-23T16:11:06.000Z",
+        "discoveredFor": "industry:financial-institutions-investors-development-finance",
+        "currentTopics": [
+          "climate",
+          "business"
+        ]
+      },
+      "reason": "Bank financing for nature-based solutions; original page inspected.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:energy-utilities",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Arevon Energy signs 20-year REC contracts with three Illinois utilities for 200 MW Panther solar project in Perry County",
+        "url": "https://energiesmedia.com/arevon-energy-panther-solar-illinois/",
+        "publisher": "energiesmedia.com",
+        "publishedAt": "2026-10-23T17:15:29.000Z",
+        "discoveredFor": "industry:energy-utilities",
+        "currentTopics": [
+          "energy"
+        ]
+      },
+      "reason": "Utility renewable-energy-credit contracts tied to a solar project.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:oil-gas-petrochemicals",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Jackdaw gas field approval will strengthen UK energy security, Burnham says",
+        "url": "https://nation.cymru/news/jackdaw-gas-field-approval-will-strengthen-uk-energy-security-burnham-says/",
+        "publisher": "nation.cymru",
+        "publishedAt": "2026-10-23T15:45:09.000Z",
+        "discoveredFor": "industry:oil-gas-petrochemicals",
+        "currentTopics": [
+          "energy"
+        ]
+      },
+      "reason": "Direct gasfield approval and energy-security reporting.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:industry-manufacturing-materials",
+      "baselineReturned": 1,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Peak Energy Raises $108 Million to Expand Sodium-Ion Battery Manufacturing",
+        "url": "https://www.mercomindia.com/peak-energy-raises-108-million-to-expand-sodium-ion-battery-manufacturing",
+        "publisher": "mercomindia.com",
+        "publishedAt": "2026-10-23T09:02:08.000Z",
+        "discoveredFor": "industry:industry-manufacturing-materials",
+        "currentTopics": [
+          "energy"
+        ]
+      },
+      "reason": "Capital for battery-manufacturing expansion; syndicated copies need grouping.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:infrastructure-real-estate-industrial-zones",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+        "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+        "publisher": "betakit.com",
+        "publishedAt": "2026-10-23T10:00:00.000Z",
+        "discoveredFor": "industry:technology-telecoms-data-infrastructure",
+        "currentTopics": [
+          "climate",
+          "environment"
+        ]
+      },
+      "reason": "Building materials and embodied emissions; found by the technology query.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:transport-logistics-mobility",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+        "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/",
+        "publisher": "transportandenergy.com",
+        "publishedAt": "2026-10-22T10:08:10.000Z",
+        "discoveredFor": "industry:transport-logistics-mobility",
+        "currentTopics": []
+      },
+      "reason": "Direct vehicle-emissions policy; current topic rules and page phrase selection both miss it.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:water-waste-circular-economy",
+      "baselineReturned": 2,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Subiaco Wastewater Upgrade Supports Perth Development",
+        "url": "https://www.worldconstructiontoday.com/news/subiaco-wastewater-upgrade-advances-infrastructure-capacity-for-perth-development/",
+        "publisher": "worldconstructiontoday.com",
+        "publishedAt": "2026-10-23T13:14:45.000Z",
+        "discoveredFor": "targeted:water-waste:structured",
+        "currentTopics": []
+      },
+      "reason": "Specific wastewater-facility investment; found by the tighter structured query.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:agriculture-food-aquaculture",
+      "baselineReturned": 1,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+        "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+        "publisher": "agronigeria.ng",
+        "publishedAt": "2026-10-22T16:52:10.000Z",
+        "discoveredFor": "industry:agriculture-food-aquaculture",
+        "currentTopics": [
+          "climate",
+          "business"
+        ]
+      },
+      "reason": "Agricultural adaptation investment and smallholder climate finance.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:mining-natural-resources",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+        "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+        "publisher": "news.mongabay.com",
+        "publishedAt": "2026-10-23T18:15:44.000Z",
+        "discoveredFor": "domain:environment",
+        "currentTopics": [
+          "environment"
+        ]
+      },
+      "reason": "Direct mining effects on river resources; found by the environment query.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:tourism-hospitality-destinations",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Energy Ministry unveils green hospitality plan as Equity Bank backs financing solutions",
+        "url": "https://entebbenews.net/energy-ministry-unveils-green-hospitality-plan-as-equity-bank-backs-financing-solutions/",
+        "publisher": "entebbenews.net",
+        "publishedAt": "2026-10-21T10:12:13.000Z",
+        "discoveredFor": "industry:tourism-hospitality-destinations",
+        "currentTopics": [
+          "business"
+        ]
+      },
+      "reason": "Hotel clean-energy investment and financing; original reporting inspected.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:technology-telecoms-data-infrastructure",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+        "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+        "publisher": "betakit.com",
+        "publishedAt": "2026-10-23T10:00:00.000Z",
+        "discoveredFor": "industry:technology-telecoms-data-infrastructure",
+        "currentTopics": [
+          "climate",
+          "environment"
+        ]
+      },
+      "reason": "Direct datacenter construction and emissions; original reporting inspected.",
+      "publicationApproved": false
+    },
+    {
+      "id": "industry:healthcare-education-institutional-estates",
+      "baselineReturned": 0,
+      "widerReturned": 10,
+      "assessment": "promising_candidate_coverage_not_publication_approval",
+      "example": {
+        "title": "Pampanga hospital signs renewable energy deal with First Gen",
+        "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+        "publisher": "logisticsnews.ph",
+        "publishedAt": "2026-10-22T07:24:36.000Z",
+        "discoveredFor": "industry:healthcare-education-institutional-estates",
+        "currentTopics": [
+          "energy"
+        ]
+      },
+      "reason": "Hospital power procurement, not a university research/appointment mention; original page inspected.",
+      "publicationApproved": false
+    }
+  ],
+  "negativeExamples": [
+    {
+      "title": "SIS Consultants is Hiring Two ESG and CSR Experts in Rabat, Morocco",
+      "url": "https://lemaroc360.com/sis-consultants-is-hiring-two-esg-and-csr-experts-in-rabat-morocco",
+      "discoveredFor": "domain:business",
+      "currentTopics": [
+        "business"
+      ],
+      "reason": "Recruitment advert, not a sustainable-business news lead."
+    },
+    {
+      "title": "Circle Internet Group (NYSE: CRCL) Vs. Strategy (NASDAQ: MSTR): Two Very Different Bets On Crypto's Next Surge",
+      "url": "https://www.foreignpolicyjournal.com/2026/10/23/circle-internet-group-nyse-crcl-vs-strategy-nasdaq-mstr-two-very-different-bets-on-cryptos-next-surge/",
+      "discoveredFor": "market:us-global",
+      "currentTopics": [
+        "markets"
+      ],
+      "reason": "Stock/crypto comparison, not a report of current market movement; current rules falsely mark markets."
+    },
+    {
+      "title": "North Wales climate risk assessment highlights action already underway and the need to build resilience further - Wrexham Council News",
+      "url": "https://news.wrexham.gov.uk/north-wales-climate-risk-assessment-highlights-action-already-underway-and-the-need-to-build-resilience-further/",
+      "discoveredFor": "industry:infrastructure-real-estate-industrial-zones",
+      "currentTopics": [
+        "climate"
+      ],
+      "reason": "Provider finance tags do not establish financial-industry focus."
+    },
+    {
+      "title": "SEE power prices retreat as solar rebounds, but eastern markets remain tight | Serbia SEE Energy Mining News",
+      "url": "https://serbia-energy.eu/see-power-prices-retreat-as-solar-rebounds-but-eastern-markets-remain-tight/",
+      "discoveredFor": "industry:energy-utilities",
+      "currentTopics": [
+        "energy"
+      ],
+      "reason": "Mining occurs in publisher branding, not the main story subject."
+    },
+    {
+      "title": "NTT DATA Opens AI Factory Munich Where Clients Can Validate their AI in a Live Environment - insurance-canada.ca",
+      "url": "https://insurance-canada.ca/2026/10/23/ntt-data-opens-ai-factory-munich/",
+      "discoveredFor": "industry:industry-manufacturing-materials",
+      "currentTopics": [],
+      "reason": "AI factory is not evidence of physical manufacturing or environmental performance."
+    },
+    {
+      "title": "Central University Hosts European Delegation Over Proposed Waste Management Master’s Programme",
+      "url": "https://sierraloaded.sl/news/central-university-eu-delegation-waste/",
+      "discoveredFor": "targeted:health-education-estates:structured",
+      "currentTopics": [],
+      "reason": "A degree-programme discussion is not institutional-estate operations."
+    },
+    {
+      "title": "Odisha to include solid waste management in school curriculum",
+      "url": "https://www.orissapost.com/odisha-to-include-solid-waste-management-in-school-curriculum/",
+      "discoveredFor": "targeted:health-education-estates:query",
+      "currentTopics": [
+        "environment"
+      ],
+      "reason": "A curriculum change does not establish waste management of school estates."
+    },
+    {
+      "title": "SoleCrypt Plans 40MW Solar-Powered AI Campus in Bizerte, Tunisia",
+      "url": "https://iafrica.com/solecrypt-plans-40mw-solar-powered-ai-campus-in-bizerte-tunisia/",
+      "discoveredFor": "targeted:health-education-estates:query",
+      "currentTopics": [],
+      "reason": "An AI campus is not a university or healthcare estate."
+    },
+    {
+      "title": "Waste Management Q3 2026 Earnings Preview — October 28, Street Expects $2.18 EPS - Alphastreet",
+      "url": "https://news.alphastreet.com/waste-management-q3-2026-earnings-preview-october-28-street-expects-2-18-eps/",
+      "discoveredFor": "targeted:water-waste:query",
+      "currentTopics": [
+        "environment"
+      ],
+      "reason": "The company name triggers environmental approval; an earnings preview is not itself environmental performance news."
+    }
+  ],
+  "structuredComparison": [
+    {
+      "sector": "finance",
+      "industryIds": null,
+      "received": 10
+    },
+    {
+      "sector": "finance",
+      "industryIds": [
+        "399",
+        "423",
+        "440"
+      ],
+      "received": 10
+    },
+    {
+      "sector": "water-waste",
+      "industryIds": null,
+      "received": 10
+    },
+    {
+      "sector": "water-waste",
+      "industryIds": [
+        "398",
+        "397",
+        "395"
+      ],
+      "received": 10
+    },
+    {
+      "sector": "health-education-estates",
+      "industryIds": null,
+      "received": 10
+    },
+    {
+      "sector": "health-education-estates",
+      "industryIds": [
+        "549",
+        "556",
+        "322"
+      ],
+      "received": 2
+    }
+  ],
+  "structuredCaveats": [
+    "Finance tags still include a council climate-risk report.",
+    "Strict health/education industry tags remove the Wake Forest renewable procurement story; its returned tags contain Fuel and Natural resources.",
+    "The two strict healthcare/education results do not establish estate operations.",
+    "The current water three-ID mapping omits Waste Management ID 374, which is present on useful recycling stories."
+  ],
+  "savedIndustryCoverage": {
+    "populated": 5,
+    "total": 13,
+    "changedByThisAudit": false
+  },
+  "apiRequestCounts": {
+    "before": [
+      {
+        "provider": "apitube",
+        "today": 79,
+        "total": 79
+      },
+      {
+        "provider": "gdelt",
+        "today": 0,
+        "total": 90
+      },
+      {
+        "provider": "newsdata",
+        "today": 0,
+        "total": 903
+      },
+      {
+        "provider": "thenewsapi",
+        "today": 24,
+        "total": 335
+      }
+    ],
+    "after": [
+      {
+        "provider": "apitube",
+        "today": 125,
+        "total": 125
+      },
+      {
+        "provider": "gdelt",
+        "today": 0,
+        "total": 90
+      },
+      {
+        "provider": "newsdata",
+        "today": 0,
+        "total": 903
+      },
+      {
+        "provider": "thenewsapi",
+        "today": 24,
+        "total": 335
+      }
+    ]
+  },
+  "approximateAuditDurationSeconds": {
+    "baseline": 305,
+    "widerSources": 307
+  },
+  "durationNote": "Approximate CLI durations from report creation and final file-write time; not a benchmark of production ingestion. These audits omit publisher access checks and news storage."
+}

@@ -40,7 +40,7 @@ it('keeps the scheduled guard even if the request asks for a manual pull', async
   await GET(new Request('https://example.org/api/ingest/news?manual=true', {
     headers: { authorization: 'Bearer fixture-secret' },
   }));
-  expect(refreshScheduledNews).toHaveBeenCalledWith();
+  expect(refreshScheduledNews).toHaveBeenCalledWith(undefined, { job: 'general' });
 });
 
 it('reports failed storage or providers without exposing native errors', async () => {

@@ -1,5 +1,6 @@
 import { containsAny, EDITORIAL_REVIEW_VERSION, hasEditorialApproval, isNewsRoundup, type EditorialTopic, type NewsItem } from './types';
 import { isStockMarketNews } from './markets';
+import { NEWS_INDUSTRY_VERSION, newsIndustries } from '../../feeds/contextual';
 
 const ANCHORS: Record<Exclude<EditorialTopic, 'markets'>, string[]> = {
   climate: ['climate change', 'climate crisis', 'climate policy', 'climate action', 'climate summit', 'climate campaign*',
@@ -8,7 +9,9 @@ const ANCHORS: Record<Exclude<EditorialTopic, 'markets'>, string[]> = {
     'oil prices', 'oil market', 'oil and gas', 'power grid', 'energy transition', 'energy security', 'energy efficiency',
     'batteries', 'battery', 'fossil fuel', 'coal', 'geothermal', 'hydropower', 'gasfield'],
   environment: ['biodiversity', 'pollut*', 'conservation', 'deforest*', 'circular economy', 'recycl*', 'waste', 'wildlife',
-    'ecosystem', 'endangered', 'habitat', 'toxic chemical', 'chemical contamination', 'environmental', 'food systems'],
+    'ecosystem', 'endangered', 'habitat', 'toxic chemical', 'chemical contamination', 'environmental', 'food systems',
+    // Coastal development impacts can be explicit without the word "environment" in the teaser.
+    'turtle nest', 'coral reef'],
   business: ['sustainable finance', 'climate finance', 'green bond', 'ESG', 'sustainable business', 'sustainability reporting',
     'carbon credit', 'green investment', 'green finance', 'adaptation finance', 'sustainable investment', 'corporate sustainability'],
 };
@@ -27,6 +30,10 @@ export function apiTubeTopics(item: NewsItem): EditorialTopic[] {
   const topics: EditorialTopic[] = [];
   if (environment && containsAny(text, ANCHORS.climate)) topics.push('climate');
   if (energy && containsAny(text, ANCHORS.energy)) topics.push('energy');
+  // Vehicle policy can be classified as transport/business while its emissions context is explicit.
+  if (!topics.includes('climate') && /transport|vehicle|mobility/.test(names)
+    && containsAny(text, ['zero-emission', 'zero emission', 'electric vehicle', 'fleet electrification'])
+    && containsAny(text, ['emission', 'carbon', 'air quality'])) topics.push('climate');
   if (environment && containsAny(text, ANCHORS.environment)) topics.push('environment');
   if ((finance || environment) && containsAny(text, ANCHORS.business)) topics.push('business');
   // Corporate environmental obligations are ESG coverage even without the literal acronym.
@@ -44,6 +51,7 @@ export function apiTubeTopics(item: NewsItem): EditorialTopic[] {
 export function screenApiTubeItem(item: NewsItem): NewsItem {
   const topics = apiTubeTopics(item);
   return { ...item, editorialReview: { version: EDITORIAL_REVIEW_VERSION, method: 'apitube-categories-and-rules-v1',
+    industries: newsIndustries(item), industryVersion: NEWS_INDUSTRY_VERSION,
     decision: topics.length ? 'approved' : 'rejected', topics, title: item.title, summary: item.summary,
     reason: topics.length ? 'APITube article categories and contextual topic rules agree.' : 'Missing category evidence, unrelated context, or a mixed newspaper/weather digest.',
     reviewedAt: new Date().toISOString() } };
@@ -52,7 +60,12 @@ export function screenApiTubeItem(item: NewsItem): NewsItem {
 /** Revalidate saved classification evidence too, so stale or changed metadata cannot bypass screening. */
 export function hasApiTubeApproval(item: NewsItem): boolean {
   const topics = apiTubeTopics(item);
+  const industries = newsIndustries(item);
+  const reviewedIndustries = item.editorialReview?.industries;
   return hasEditorialApproval(item) && item.editorialReview?.method === 'apitube-categories-and-rules-v1'
+    && (reviewedIndustries === undefined || (item.editorialReview.industryVersion === NEWS_INDUSTRY_VERSION
+      && Array.isArray(reviewedIndustries) && reviewedIndustries.length === industries.length
+      && industries.every(slug => reviewedIndustries.includes(slug))))
     && topics.length > 0 && topics.length === item.editorialReview.topics.length
     && topics.every(topic => item.editorialReview!.topics.includes(topic));
 }

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchNewsForKeywords, type NewsResult } from '@/lib/api/news';
 import { INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
+import { industryRefreshJob } from '@/lib/api/news/discovery';
 import { IndustryHeadlines } from './IndustryHero';
 
 // Keep sector selection tests independent of database availability and provider credits.
@@ -20,9 +21,12 @@ describe('industry hero saved-news integration', () => {
     render(await IndustryHeadlines({ industry: { title: slug, slug } }));
     expect(fetchNewsForKeywords).toHaveBeenCalledExactlyOnceWith(newsPhrases(INDUSTRY_FEEDS[slug]), 3, {
       baskets: INDUSTRY_FEEDS[slug].newsBaskets,
+      contextRules: INDUSTRY_FEEDS[slug].newsContextRules,
+      sectorRules: INDUSTRY_FEEDS[slug].newsSectorRules,
+      refreshJob: industryRefreshJob(slug),
     });
     expect(screen.getByRole('heading', { name: 'No relevant updates are available.' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /View All Industry News/ })).toHaveAttribute('href', `/knowledge-hub/global-intelligence?industry=${slug}`);
+    expect(screen.getByRole('link', { name: /View All Industry News/ })).toHaveAttribute('href', `/knowledge-hub/global-intelligence?industry=${slug}&type=news`);
   });
 
   it('shows an outage honestly instead of inserting unrelated stories', async () => {

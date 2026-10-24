@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-24",
+  "branch": "trial/apitube-news-2026-10-24",
+  "tests": 748,
+  "testFiles": 92,
+  "typescript": "passed",
+  "targetedEslint": "passed",
+  "realDatabaseGuards": "passed with temporary rows rolled back",
+  "liveProviderRefreshes": 0,
+  "deployment": "not performed",
+  "localCronSecretConfigured": false,
+  "remaining": [
+    "Set deployment CRON_SECRET",
+    "Verify a real five-job cycle with available budget",
+    "Review and deploy before relying on production cron"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "checkedAt": "2026-10-24T00:54:46.604Z",
+  "branch": "trial/apitube-news-2026-10-24",
+  "base": "http://localhost:3000",
+  "beforeRepairMarketCount": 0,
+  "savedMarketStories": [
+    {
+      "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news",
+      "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live",
+      "published_at": "2026-10-23T08:11:02.000Z"
+    },
+    {
+      "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+      "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+      "published_at": "2026-10-22T21:50:13.000Z"
+    },
+    {
+      "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt",
+      "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’",
+      "published_at": "2026-10-13T08:01:11.000Z"
+    }
+  ],
+  "savedMarketCount": 3,
+  "noNewsApiCalls": true,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 61
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 61
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "width": 1366,
+      "status": 200,
+      "cards": [
+        {
+          "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live (opens the original article in a new tab)",
+          "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news",
+          "attribution": "Via APITube. APITube delayed 12h+. Updated 24 Oct 2026, 00:51 UTC."
+        },
+        {
+          "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’ (opens the original article in a new tab)",
+          "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt",
+          "attribution": "Via APITube. APITube delayed 12h+. Updated 24 Oct 2026, 00:51 UTC."
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "cards": [
+        {
+          "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live (opens the original article in a new tab)",
+          "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news",
+          "attribution": "Via APITube. APITube delayed 12h+. Updated 24 Oct 2026, 00:51 UTC."
+        },
+        {
+          "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’ (opens the original article in a new tab)",
+          "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt",
+          "attribution": "Via APITube. APITube delayed 12h+. Updated 24 Oct 2026, 00:51 UTC."
+        }
+      ],
+      "overflow": false
+    }
+  ]
+}

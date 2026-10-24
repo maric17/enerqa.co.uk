@@ -29,10 +29,10 @@ import { fetchGdeltNews, fetchGdeltQuery } from './gdelt';
 import { REGION_ORDER } from './geography';
 import { providerEnabled } from '../core/registry';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore, type NewsRefreshOptions } from './storage';
-import { NEWS_REFRESH_SECONDS } from './schedule';
+import { NEWS_REFRESH_SECONDS, isNewsRefreshJob, type NewsRefreshJob } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
-import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from '../../feeds/contextual';
-import { industryDiscoveryQueries } from './discovery';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, matchesNewsContext, matchesNewsSector, newsIndustries, type NewsContextRule, type NewsSectorRule } from '../../feeds/contextual';
+import { industryDiscoveryQueries, industryRefreshSlugs } from './discovery';
 import { isStockMarketNews, STOCK_MARKET_QUERIES } from './markets';
 import { reviewNewsItems, type EditorialStats } from './editorial';
 
@@ -251,9 +251,15 @@ async function collect(
   // Query provenance helps discovery but never substitutes for editorial approval.
   for (const result of [...apiTubePageResults, ...theNewsApiPageResults, ...pageResults]) {
     const provider = result.providerId as NewsProvider;
+    const query = pageQueries[apiTubePageResults.indexOf(result)];
+    const sector = provider === 'apitube' ? Object.values(INDUSTRY_FEEDS)
+      .find(feed => feed.newsDiscoveryQuery === query) : undefined;
     note(status, provider, result);
     noteNewsProvider(diagnostics, provider, result);
-    if (result.ok) relevant.push(...result.data.filter(item => item.provider === 'apitube' ? apiTubeTopics(item).length > 0 :
+    // Sector evidence must survive the licensed teaser limit used by saved records and cards.
+    if (result.ok) relevant.push(...result.data.map(item => item.provider === 'apitube' ? normalise(item) : item).filter(item => item.provider === 'apitube'
+      ? apiTubeTopics(item).length > 0 && matchesNewsSector(item, sector?.newsSectorRules)
+        && (!STOCK_MARKET_QUERIES.includes(query) || apiTubeTopics(item).includes('markets')) :
       item.matchedQueries?.some(query => STOCK_MARKET_QUERIES.includes(query)) ? isStockMarketNews(item) : isNewsCandidate(item)));
   }
 
@@ -306,6 +312,8 @@ function buildResult(items: NewsItem[], status: Collected['status']): NewsResult
 export type NewsOptions = {
   /** Dedicated stocks panel, independent of sustainability topic matching. */
   stockMarkets?: boolean;
+  /** Use the matching job's health; a stock outage must not mark other feeds refreshed. */
+  refreshJob?: NewsRefreshJob;
   maxPerPublisher?: number;
   /**
    * Only read these providers, and judge `sourcesFailed` on them alone. A panel
@@ -360,17 +368,20 @@ function dedupeNews(collected: NewsItem[], maxPerPublisher?: number): NewsItem[]
 /** Public pages read approved saved records, including after a failed refresh. */
 async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collected> {
   const saved = await readNewsStore();
+  const job = opts.refreshJob ?? (opts.stockMarkets ? 'stocks' : 'general');
+  const state = saved.state.jobs?.[job] ?? saved.state;
   const providers = opts.providers ?? ALL_PROVIDERS;
   const diagnostics = createNewsDiagnostics(basketKey);
   diagnostics.mode = 'database';
-  diagnostics.providers = (saved.state.diagnostics?.providers ?? []).filter(p => providers.includes(p.provider));
+  diagnostics.job = job;
+  diagnostics.providers = (state.diagnostics?.providers ?? []).filter(p => providers.includes(p.provider));
   diagnostics.refresh = {
-    lastAttemptAt: saved.state.lastAttemptAt ?? null,
-    lastCompletedAt: saved.state.lastCompletedAt ?? null,
-    lastSuccessAt: saved.state.lastSuccessAt ?? {},
+    lastAttemptAt: state.lastAttemptAt ?? null,
+    lastCompletedAt: state.lastCompletedAt ?? null,
+    lastSuccessAt: state.lastSuccessAt ?? {},
   };
   diagnostics.storage = saved.available ? 'ok' : 'failed';
-  diagnostics.editorial = saved.state.diagnostics?.editorial;
+  diagnostics.editorial = state.diagnostics?.editorial;
   const status: Collected['status'] = {};
   const eligible = saved.items.filter(item => item.accessStatus === 'verified_open' &&
     Boolean(item.accessCheckedAt && Date.now() - Date.parse(item.accessCheckedAt) <= RECHECK_SECONDS * 1000) &&
@@ -387,9 +398,10 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
   const relevant = eligible.filter(item => opts.stockMarkets ? isStockMarketNews(item) : opts.pageBaskets && basketKey === 'all'
     ? isOnSiteTopic(item) : matchesBasket(item, getBasket(basketKey))).map(item => ({
     ...normalise(item), refreshSeconds: NEWS_REFRESH_SECONDS,
-    feedRefreshedAt: saved.state.lastSuccessAt?.[item.provider],
+    feedRefreshedAt: state.lastSuccessAt?.[item.provider],
     refreshFailed: diagnostics.providers.some(p => p.provider === item.provider && (p.outcome !== 'ok' || p.stale)) ||
-      Boolean(saved.state.lastSuccessAt?.[item.provider] && Date.now() - Date.parse(saved.state.lastSuccessAt[item.provider]!) > 2 * NEWS_REFRESH_SECONDS * 1000),
+      Boolean(state.status === 'failed') ||
+      Boolean(state.lastSuccessAt?.[item.provider] && Date.now() - Date.parse(state.lastSuccessAt[item.provider]!) > 2 * NEWS_REFRESH_SECONDS * 1000),
   }));
   diagnostics.counts.received = eligible.length;
   diagnostics.counts.relevant = relevant.length;
@@ -494,15 +506,23 @@ export async function pullNews(basketKey: NewsBasketKey = 'all', limit = 80, opt
   return { ...buildResult(shown, status), diagnostics };
 }
 
-/** Three daily pulls of one shared pool, with independent provider storage. */
+/** Independent scheduled units share screening and storage, never completion guards. */
 export async function refreshScheduledNews(check?: NewsOptions['check'], options: NewsRefreshOptions = {}) {
-  if (options.marketsOnly && (!options.manual || options.topicsOnly || options.industriesOnly || options.industrySlugs)) {
+  if (options.job) {
+    if (!isNewsRefreshJob(options.job) || options.topicsOnly || options.marketsOnly || options.industriesOnly || options.industrySlugs) {
+      throw new Error('Select one fixed news job without manual scope options.');
+    }
+    const batch = options.job.startsWith('industries-') ? Number(options.job.slice(-1)) as 1 | 2 | 3 : undefined;
+    options = { ...options, ...(batch ? { industriesOnly: true, industrySlugs: industryRefreshSlugs(batch) }
+      : options.job === 'stocks' ? { marketsOnly: true } : { topicsOnly: true }) };
+  }
+  if (options.marketsOnly && ((!options.manual && !options.job) || options.topicsOnly || options.industriesOnly || options.industrySlugs)) {
     throw new Error('Market preview requires a manual pull without other scope options.');
   }
-  if (options.topicsOnly && (!options.manual || options.industriesOnly || options.industrySlugs)) {
+  if (options.topicsOnly && ((!options.manual && !options.job) || options.industriesOnly || options.industrySlugs)) {
     throw new Error('Topic preview requires a manual pull without industry options.');
   }
-  if (options.industriesOnly && !options.manual) throw new Error('Industry maintenance requires an explicit manual pull.');
+  if (options.industriesOnly && !options.manual && !options.job) throw new Error('Industry maintenance requires an explicit manual pull.');
   if (options.industrySlugs && (!options.industriesOnly || options.industrySlugs.length === 0 ||
     options.industrySlugs.some(slug => !Object.hasOwn(INDUSTRY_FEEDS, slug)))) {
     throw new Error('Select known industries for a manual industry pull.');
@@ -511,15 +531,17 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
   if (!claim) return { skipped: true as const, storedItems: 0, sourcesFailed: false };
   const diagnostics = createNewsDiagnostics('all');
   diagnostics.mode = 'refresh';
+  diagnostics.job = options.job;
   diagnostics.scope = options.marketsOnly ? 'markets' : options.topicsOnly ? 'topics' : options.industriesOnly ? 'industries' : 'all';
-  const providers = options.industriesOnly
+  const providers = options.industriesOnly || options.marketsOnly
     ? REFRESH_NEWS_PROVIDERS.filter(provider => ['apitube', 'thenewsapi', 'newsdata'].includes(provider))
     : REFRESH_NEWS_PROVIDERS;
   const lastSuccessAt = { ...claim.state.lastSuccessAt };
   try {
     // APITube's four category requests cover the domains. Repeating twelve legacy
     // phrase searches wasted credits and exceeded the route's five-minute runtime.
-    // Rotate up to five sectors per slot; manual maintenance can cover all thirteen.
+    // Fixed scheduled industry jobs each cover one batch every cycle. Older manual
+    // maintenance retains its explicit scope without changing the scheduled units.
     const domainQueries = options.industriesOnly || providers.includes('apitube') ? []
       : Object.values(DOMAIN_FEEDS).flatMap(feed => feed.newsBaskets.map(basketQuery));
     const queries = options.marketsOnly ? STOCK_MARKET_QUERIES : options.topicsOnly ? []
@@ -527,7 +549,7 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     const collected = await collect('all', providers, queries, true, !options.industriesOnly && !options.marketsOnly);
     // Maintenance preserves the last outcomes of providers it did not contact.
     diagnostics.providers = [
-      ...(options.industriesOnly ? claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? [] : []),
+      ...(options.industriesOnly && !options.job ? claim.state.diagnostics?.providers.filter(p => !providers.includes(p.provider)) ?? [] : []),
       ...collected.diagnostics.providers,
     ];
     diagnostics.counts.received = collected.diagnostics.counts.received;
@@ -537,7 +559,9 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     for (const provider of providers) {
       if (!providerEnabled(provider)) continue;
       const fresh = collected.items.filter(i => i.provider === provider);
-      const previous = saved.items.filter(i => i.provider === provider);
+      const previous = saved.items.filter(i => i.provider === provider && (!options.job || (
+        options.marketsOnly ? isStockMarketNews(i) : options.industriesOnly
+          ? newsIndustries(i).some(slug => options.industrySlugs!.includes(slug)) : !isStockMarketNews(i))));
       const previousByUrl = new Map(previous.map(item => [normaliseUrl(item.url), item]));
       const candidates = dedupeNews([...fresh, ...previous].map(item => {
         const old = previousByUrl.get(normaliseUrl(item.url));
@@ -569,16 +593,21 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
       }
       else if (diagnostics.storage !== 'failed' && counts.storage === 'ok') diagnostics.storage = 'ok';
       const replies = diagnostics.providers.filter(p => p.provider === provider);
-      if (replies.some(p => p.outcome === 'ok' && !p.stale) && counts.storage !== 'failed') lastSuccessAt[provider] = new Date().toISOString();
+      if (replies.length && replies.every(p => p.outcome === 'ok' && !p.stale) && counts.storage !== 'failed'
+        && !counts.editorial?.pending) lastSuccessAt[provider] = new Date().toISOString();
     }
-    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
+    // Any missing query makes a split job incomplete, even if its other requests succeeded.
+    const sourcesFailed = sourcesFailedFor({ providerStatus: collected.status }, providers) || diagnostics.storage === 'failed'
+      || Boolean(diagnostics.editorial?.pending && diagnostics.editorial.issue)
+      || Boolean(options.job && collected.diagnostics.providers.some(p => p.outcome !== 'ok' || p.stale));
+    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics,
+      status: sourcesFailed ? 'failed' : 'succeeded' });
     logNewsDiagnostics(diagnostics);
     return { skipped: false as const, storedItems: diagnostics.counts.returned,
-      sourcesFailed: sourcesFailedFor({ providerStatus: collected.status }, providers) || diagnostics.storage === 'failed'
-        || Boolean(diagnostics.editorial?.pending && diagnostics.editorial.issue), diagnostics };
+      sourcesFailed, diagnostics };
   } catch {
     diagnostics.storage = 'failed';
-    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics });
+    await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics, status: 'failed' });
     throw new Error('Scheduled news refresh failed; previously saved articles are retained.');
   }
 }
@@ -683,12 +712,12 @@ export async function searchNews(
 export async function fetchNewsForKeywords(
   keywords: string[],
   limit = 4,
-  opts: { providers?: NewsProvider[]; maxPerPublisher?: number; check?: NewsOptions['check']; baskets?: string[][]; basket?: NewsBasketKey } = {},
+  opts: { providers?: NewsProvider[]; maxPerPublisher?: number; check?: NewsOptions['check']; baskets?: string[][]; basket?: NewsBasketKey; contextRules?: NewsContextRule[]; sectorRules?: NewsSectorRule[]; refreshJob?: NewsRefreshJob } = {},
 ): Promise<NewsResult> {
   const { providers = PAGE_NEWS_PROVIDERS, maxPerPublisher = 10, baskets = [] } = opts;
   // Only the page's own providers are asked. A high cap for the pool: the real
   // cap is applied after matching, below.
-  const { items: pooled, status, diagnostics } = await pool('all', { maxPerPublisher: 500, providers, pageBaskets: baskets });
+  const { items: pooled, status, diagnostics } = await pool('all', { maxPerPublisher: 500, providers, pageBaskets: baskets, refreshJob: opts.refreshJob });
   const terms = keywords.map((k) => k.trim()).filter(Boolean);
 
   // Word-boundary matching, the same as the basket filter uses, so an industry
@@ -698,12 +727,13 @@ export async function fetchNewsForKeywords(
   // its headline has already passed the site-topic test in collect().
   const ownQueries = new Set(baskets.map(basketQuery));
   const matched = pooled.filter(
-    (item) =>
+    (item) => matchesNewsSector(item, opts.sectorRules) && (
       // A reviewed domain assignment can cover wording omitted from its search phrases.
       opts.basket && hasEditorialApproval(item) ? opts.basket === 'all' || item.editorialReview!.topics.includes(opts.basket) :
       terms.length === 0 ||
       containsAny(`${item.title} ${item.summary ?? ''}`, terms) ||
-      (item.matchedQueries ?? []).some((q) => ownQueries.has(q)),
+      matchesNewsContext(item, opts.contextRules) ||
+      (item.matchedQueries ?? []).some((q) => ownQueries.has(q))),
   );
 
   const perPublisher = new Map<string, number>();

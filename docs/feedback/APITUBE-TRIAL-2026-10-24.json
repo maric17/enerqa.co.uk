@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-24T00:37:30.800Z",
+  "checkedAt": "2026-10-24T00:52:05.407Z",
   "branch": "trial/apitube-news-2026-10-24",
   "providers": [
     "apitube"
@@ -10,7 +10,7 @@
     {
       "access_status": "verified_open",
       "method": "apitube-categories-and-rules-v1",
-      "count": 11
+      "count": 14
     },
     {
       "access_status": "unknown",
@@ -21,7 +21,7 @@
   "requests": [
     {
       "provider": "apitube",
-      "requests": 52
+      "requests": 61
     },
     {
       "provider": "gdelt",
@@ -45,6 +45,15 @@
         "url": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
         "topics": [
           "climate"
+        ]
+      },
+      {
+        "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+        "topics": [
+          "energy",
+          "markets"
         ]
       },
       {
@@ -114,20 +123,28 @@
           "environment",
           "business"
         ]
-      },
-      {
-        "title": "How the quirky puffin became a symbol of the climate crisis – and hope",
-        "provider": "apitube",
-        "url": "https://www.theguardian.com/environment/2026/oct/17/how-puffin-symbol-climate-crisis-hope",
-        "topics": [
-          "climate"
-        ]
       }
     ]
   },
   "markets": {
-    "count": 0,
-    "articles": []
+    "count": 3,
+    "articles": [
+      {
+        "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news"
+      },
+      {
+        "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+      },
+      {
+        "title": "Chip stocks slide after Broadcom boss likens AI investing to ‘casino’",
+        "provider": "apitube",
+        "url": "https://www.theguardian.com/business/2026/oct/13/chip-stocks-broadcom-ai-samsung-shares-cxmt"
+      }
+    ]
   },
   "search": {
     "count": 10
@@ -168,14 +185,14 @@
           "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
         },
         {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
           "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
           "provider": "apitube",
           "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
-        },
-        {
-          "title": "Burnham approves Jackdaw – and Labour’s unity on climate action is imperilled with the stroke of a pen | Zoe Williams",
-          "provider": "apitube",
-          "url": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
         }
       ]
     },
@@ -245,9 +262,14 @@
     {
       "type": "industry",
       "slug": "oil-gas-petrochemicals",
-      "count": 1,
+      "count": 2,
       "sourcesFailed": false,
       "articles": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "provider": "apitube",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
         {
           "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
           "provider": "apitube",

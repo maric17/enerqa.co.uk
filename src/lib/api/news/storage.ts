@@ -4,7 +4,7 @@ import { providerDatabase } from '../core/storage';
 import { RECHECK_SECONDS } from '../core/accessCheck';
 import { hasEditorialApproval, hasEditorialRejection, hostnameOf, normaliseUrl, newsImageUrl, type NewsItem, type NewsProvider } from './types';
 import type { NewsDiagnostics } from './diagnostics';
-import { newsScheduleSlot } from './schedule';
+import { NEWS_REFRESH_JOBS, newsScheduleSlot, type NewsRefreshJob } from './schedule';
 import { createNewsDiagnostics } from './diagnostics';
 import { PAGE_NEWS_PROVIDERS } from './policy';
 import { hasApiTubeApproval } from './apitubeScreening';
@@ -21,7 +21,15 @@ export type NewsRefreshState = {
   lastCompletedAt?: string;
   lastSuccessAt?: Partial<Record<NewsProvider, string>>;
   diagnostics?: NewsDiagnostics;
+  status?: 'running' | 'succeeded' | 'failed';
+  attempts?: number;
+  retryAfter?: string | null;
+  jobs?: Partial<Record<NewsRefreshJob, Omit<NewsRefreshState, 'jobs'>>>;
 };
+
+function jobSourceId(job?: NewsRefreshJob): string {
+  return job ? `${JOB_ID}/${job}` : JOB_ID;
+}
 
 type StoredNewsRow = {
   provider: string; source_id: string; destination: string; record: unknown;
@@ -41,7 +49,14 @@ async function readNewsStoreUncached(includeExpiredAccess = false): Promise<{ it
       WHERE r.provider = ANY($1::text[])
         AND (r.provider = $2 OR r.retrieved_at > clock_timestamp() - interval '60 days')
       ORDER BY r.retrieved_at DESC LIMIT 5000`, [[...NEWS_PROVIDERS, JOB_PROVIDER], JOB_PROVIDER]);
-    const state = rows.find(r => r.provider === JOB_PROVIDER && r.source_id === JOB_ID)?.record as NewsRefreshState | undefined;
+    const legacyState = rows.find(r => r.provider === JOB_PROVIDER && r.source_id === JOB_ID)?.record as NewsRefreshState | undefined;
+    const jobs: NewsRefreshState['jobs'] = {};
+    for (const job of NEWS_REFRESH_JOBS) {
+      const row = rows.find(r => r.provider === JOB_PROVIDER && r.source_id === jobSourceId(job));
+      if (row) jobs[job] = row.record as NewsRefreshState;
+    }
+    // General news is the default; stock and industry readers select their own job below.
+    const state = { ...(jobs.general ?? legacyState), jobs };
     let pendingEditorialReviews = 0;
     let rejectedEditorialReviews = 0;
     const items = rows.flatMap(row => {
@@ -95,7 +110,7 @@ const cachedNewsStore = unstable_cache(async () => {
   // A failed read must not replace the last good cache entry with an empty result.
   if (!saved.available) throw new Error('Saved news storage is unavailable.');
   return saved;
-}, ['saved-news-apitube-2026-10-24-v2'], { revalidate: 60, tags: ['saved-news'] });
+}, ['saved-news-apitube-2026-10-24-jobs-v3'], { revalidate: 60, tags: ['saved-news'] });
 
 export async function readNewsStore(includeExpiredAccess = false) {
   if (includeExpiredAccess) return readNewsStoreUncached(true);
@@ -107,9 +122,11 @@ export async function readNewsStore(includeExpiredAccess = false) {
   }
 }
 
-export type NewsRefreshClaim = { token: string; state: NewsRefreshState };
+export type NewsRefreshClaim = { token: string; state: NewsRefreshState; job?: NewsRefreshJob };
 export type NewsRefreshOptions = {
   manual?: boolean;
+  /** A fixed scheduled unit; never combined with the older manual scope flags. */
+  job?: NewsRefreshJob;
   /** Manual four-domain preview; avoids spending credits on sector discovery. */
   topicsOnly?: boolean;
   /** Manual stock-market preview using only the three regional searches. */
@@ -120,26 +137,34 @@ export type NewsRefreshOptions = {
   industrySlugs?: string[];
 };
 
-/** Manual operator pulls can reuse a slot; every pull still needs the shared lease. */
+/** Job-specific leases prevent duplicates without blocking unrelated news work. */
 export async function claimNewsRefresh(options: NewsRefreshOptions = {}): Promise<NewsRefreshClaim | null> {
   const db = providerDatabase();
   if (!db) throw new Error('Scheduled news storage is not configured.');
   const now = Date.now();
   const token = randomUUID();
   const record = { slot: newsScheduleSlot(now), token, trigger: options.manual ? 'manual' : 'scheduled',
+    status: 'running', attempts: 1, retryAfter: null,
     lastAttemptAt: new Date(now).toISOString(), leaseUntil: new Date(now + 10 * 60_000).toISOString() };
   const { rows } = await db.query<{ record: NewsRefreshState }>(`
     INSERT INTO enerqa_connectors.external_records AS previous
       (provider, source_id, destination, access_status, retrieved_at, record)
     VALUES ($1, $2, 'https://enerqa.co.uk', 'unknown', clock_timestamp(), $3::jsonb)
     ON CONFLICT (provider, source_id) DO UPDATE
-      SET record = previous.record || EXCLUDED.record, retrieved_at = clock_timestamp()
+      SET record = previous.record || EXCLUDED.record || jsonb_build_object('attempts',
+        CASE WHEN previous.record->>'slot' = EXCLUDED.record->>'slot'
+          THEN COALESCE((previous.record->>'attempts')::int, 0) + 1 ELSE 1 END),
+        retrieved_at = clock_timestamp()
       WHERE ($4::boolean OR (
         previous.record->>'slot' IS DISTINCT FROM EXCLUDED.record->>'slot'
-        AND COALESCE((previous.record->>'slot')::timestamptz, '-infinity'::timestamptz) < (EXCLUDED.record->>'slot')::timestamptz))
+        AND COALESCE((previous.record->>'slot')::timestamptz, '-infinity'::timestamptz) < (EXCLUDED.record->>'slot')::timestamptz)
+        OR ($5::boolean AND previous.record->>'slot' = EXCLUDED.record->>'slot'
+          AND previous.record->>'status' IS DISTINCT FROM 'succeeded'
+          AND COALESCE((previous.record->>'attempts')::int, 0) < 2
+          AND COALESCE((previous.record->>'retryAfter')::timestamptz, '-infinity'::timestamptz) < clock_timestamp()))
         AND COALESCE((previous.record->>'leaseUntil')::timestamptz, '-infinity'::timestamptz) < clock_timestamp()
-    RETURNING record`, [JOB_PROVIDER, JOB_ID, JSON.stringify(record), options.manual === true]);
-  return rows.length ? { token, state: rows[0].record } : null;
+    RETURNING record`, [JOB_PROVIDER, jobSourceId(options.job), JSON.stringify(record), options.manual === true, Boolean(options.job)]);
+  return rows.length ? { token, state: rows[0].record, ...(options.job ? { job: options.job } : {}) } : null;
 }
 
 /** Release the lease and retain the latest safe outcomes, including failed pulls. */
@@ -149,6 +174,7 @@ export async function finishNewsRefresh(claim: NewsRefreshClaim, state: NewsRefr
   const result = await db.query(`UPDATE enerqa_connectors.external_records
     SET record = record || $3::jsonb, retrieved_at = clock_timestamp()
     WHERE provider = $1 AND source_id = $2 AND record->>'token' = $4`,
-  [JOB_PROVIDER, JOB_ID, JSON.stringify({ ...state, leaseUntil: null }), claim.token]);
+  [JOB_PROVIDER, jobSourceId(claim.job), JSON.stringify({ ...state, leaseUntil: null,
+    retryAfter: state.status === 'failed' ? new Date(Date.now() + 60_000).toISOString() : null }), claim.token]);
   if (result.rowCount !== 1) throw new Error('Scheduled news lease is no longer owned.');
 }

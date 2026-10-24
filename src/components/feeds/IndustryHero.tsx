@@ -5,6 +5,7 @@ import { GlobalNewsPanel } from '@/components/home/GlobalNewsPanel';
 import { formatDateTimeUtc, toCard, type HeroSlide } from '@/components/home/firstFoldNews';
 import { fetchNewsForKeywords, isNewsItemStale } from '@/lib/api/news';
 import { INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
+import { industryRefreshJob } from '@/lib/api/news/discovery';
 
 type Industry = { title: string; slug: string };
 
@@ -18,7 +19,9 @@ export async function IndustryHeadlines({ industry }: { industry: Industry }) {
   const feed = INDUSTRY_FEEDS[industry.slug];
   if (!feed) return <GlobalNewsPanel industry={industry} slides={[emptySlide(industry)]} />;
 
-  const result = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets });
+  const result = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets,
+    contextRules: feed.newsContextRules, sectorRules: feed.newsSectorRules,
+    refreshJob: industryRefreshJob(industry.slug) });
   const stories = result.items.map(item => ({
     item: toCard(item),
     retrievedAt: formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt),

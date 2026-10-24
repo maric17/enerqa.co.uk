@@ -77,6 +77,9 @@ export const EDITORIAL_REVIEW_VERSION = '2026-10-23-v1';
 export const EDITORIAL_TOPICS = ['climate', 'energy', 'environment', 'business', 'markets'] as const;
 export type EditorialTopic = typeof EDITORIAL_TOPICS[number];
 export type EditorialReview = {
+  /** Sector assignments apply to the same exact title/teaser as the topic approval. */
+  industries?: string[];
+  industryVersion?: string;
   /** Distinguish provider classification and local rules from a human or model review. */
   method?: 'apitube-categories-and-rules-v1';
   version: string;
@@ -271,6 +274,14 @@ export const SOURCE_ALLOWLIST = [
   'bbc.co.uk',
   // Stock-reporting destinations reviewed 20 Oct 2026; each URL still needs verified_open.
   'cnbc.com',
+  // Reviewed in private browser contexts on 24 Oct 2026 for APITube sector coverage.
+  // Each individual destination still needs the normal anonymous access check.
+  'myjoyonline.com',
+  'betakit.com',
+  'transportandenergy.com',
+  'agronigeria.ng',
+  'news.mongabay.com',
+  'logisticsnews.ph',
 ];
 
 /** Hostname of a URL, lower-cased and without "www.". Empty string if unparseable. */

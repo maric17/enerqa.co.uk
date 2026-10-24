@@ -1,0 +1,1762 @@
+{
+  "checkedAt": "2026-10-24T08:34:53.328Z",
+  "origin": "http://localhost:3000",
+  "results": [
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "slug": "government-regulators-public-institutions",
+      "width": 1366,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "teaser": "Andy Burnham has said he will not “abandon the responsibility” of fighting the climate crisis after the government approved the Jackdaw gasfield, saying he would not approve any…",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T17:22:52.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "teaser": "The government must hold an inquiry into the unequal impacts of air pollution, 150 scientists, MPs and activists have urged. Research by the Institute for Fiscal Studies shows…",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-19T05:00:20.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "teaser": "US corporate lobbyists launched a two-year “blitz” to postpone and weaken the world’s most progressive legislation to protect forests, according to a new investigation by the…",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-17T11:00:31.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Government, Regulators & Public Institutions",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "image": "https://i.guim.co.uk/img/media/d1fb804495654a9522a6382c4d02fa964c5d9ded/406_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=269e850894d33cdc9dbf852f72e4b3f6",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 1366,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "teaser": "Consolidated Bank Ghana (CBG) has identified limited access to finance, grants and donor support as major barriers to scaling up nature-based solutions in Ghana and across Africa…",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+          "publisher": "myjoyonline.com",
+          "publishedAt": "2026-10-23T16:11:06.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "teaser": "As part of efforts to improve access to climate finance for small scale farmers, Nigeria is developing a framework to guide investments in agricultural adaptation, strengthen…",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+          "publisher": "agronigeria.ng",
+          "publishedAt": "2026-10-22T16:52:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "teaser": "Chair of the African Group of Negotiators on Climate Change (AGN), Nana Dr. Antwi-Boasiako Amoah, has called on the international community to honor existing climate agreements…",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/",
+          "publisher": "myjoyonline.com",
+          "publishedAt": "2026-10-14T15:43:34.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Financial Institutions, Investors & Development Finance",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance&type=news",
+      "image": "https://www.myjoyonline.com/wp-content/uploads/2026/10/WhatsApp-Image-2026-10-23-at-15.13.43-1-1080x630.jpeg",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "slug": "energy-utilities",
+      "width": 1366,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "teaser": "Mother Teresa of Calcutta Medical Center becomes first Pampanga hospital to adopt renewable energy through the government’s Retail Aggregation Program Power supply sourced from…",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+          "publisher": "logisticsnews.ph",
+          "publishedAt": "2026-10-22T07:24:36.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Energy & Utilities",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=energy-utilities&type=news",
+      "image": "https://logisticsnews.ph/wp-content/uploads/2026/10/FGEN-photo-scaled.jpg",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Pampanga hospital signs renewable energy deal with First Gen",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "slug": "oil-gas-petrochemicals",
+      "width": 1366,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "teaser": "The latest shudder for stocks in the AIindustry pulled markets lower worldwide on Thursday, while oil prices hit their highest levels since May on worries about thewar with Iran…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T21:50:13.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "teaser": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Oil, Gas & Petrochemicals",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals&type=news",
+      "image": "https://i.guim.co.uk/img/media/9e77a4ead0dd662eb649b44a2b029545f70ae2d1/408_0_4078_3263/master/4078.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=eef05a29afa3a8a23a2b5d40b2a20bde",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "slug": "industry-manufacturing-materials",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Industry, Manufacturing & Materials",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials&type=news",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "teaser": "Cleantech advocates say that greening the data-centre boom needs to start with construction. Concerns about the environmental impact of data centres have been popping across…",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+          "publisher": "betakit.com",
+          "publishedAt": "2026-10-23T10:00:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones&type=news",
+      "image": "https://cdn.betakit.com/wp-content/uploads/2026/10/acton-crawford-A4xwAcZOAyo-unsplash-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Low-carbon concrete could lower emissions before data centres even go online |",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "slug": "transport-logistics-mobility",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "teaser": "Transport for London (TfL) has launched a consultation on plans to accelerate the transition to zero-emission private hire vehicles (PHVs) to improve air quality and reduce carbon…",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/",
+          "publisher": "transportandenergy.com",
+          "publishedAt": "2026-10-22T10:08:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Transport, Logistics & Mobility",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility&type=news",
+      "image": "https://transportandenergy.com/wp-content/uploads/2026/10/TfL-Image-Private-Hire-Vehicle-charging.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "slug": "water-waste-circular-economy",
+      "width": 1366,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "teaser": "An investigation analyzed 722 micro watersheds that feed the Beni River in Bolivia, the Caquetá River in Colombia, the Madre de Dios River in Peru, and the Caroní River in…",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-23T18:15:44.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "teaser": "Worst-case climate change modeling shows that rising temperatures and changing weather patterns could heighten mining contamination risks for marine environments, with some…",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-16T09:45:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "teaser": "Would you mind fixing the NHS? And while you’re at it, could you please build an anti-missile system in your garden? Then regulate the banks, replace the water mains, tax the very…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-08T05:00:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Water, Waste & Circular Economy",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy&type=news",
+      "image": "https://imgs.mongabay.com/wp-content/uploads/sites/20/2026/10/23193910/Arazaire_community_bisected_by_Inambari_River_Vico_Mendez.jpg",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "Amazon communities lose water as mining and deforestation reshape rivers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "slug": "agriculture-food-aquaculture",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "teaser": "As part of efforts to improve access to climate finance for small scale farmers, Nigeria is developing a framework to guide investments in agricultural adaptation, strengthen…",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+          "publisher": "agronigeria.ng",
+          "publishedAt": "2026-10-22T16:52:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Agriculture, Food & Aquaculture",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture&type=news",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "slug": "mining-natural-resources",
+      "width": 1366,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "teaser": "An investigation analyzed 722 micro watersheds that feed the Beni River in Bolivia, the Caquetá River in Colombia, the Madre de Dios River in Peru, and the Caroní River in…",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-23T18:15:44.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "teaser": "Worst-case climate change modeling shows that rising temperatures and changing weather patterns could heighten mining contamination risks for marine environments, with some…",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-16T09:45:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Mining & Natural Resources",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=mining-natural-resources&type=news",
+      "image": "https://imgs.mongabay.com/wp-content/uploads/sites/20/2026/10/23193910/Arazaire_community_bisected_by_Inambari_River_Vico_Mendez.jpg",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Amazon communities lose water as mining and deforestation reshape rivers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "slug": "tourism-hospitality-destinations",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "teaser": "Visitors to Rocky Point in south-westTobagoare drawn to its sandy beach, fringed by coral reefs and dark rock formations and carpeted with the fruit-bearing trees found on…",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-10T11:00:56.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Tourism, Hospitality & Destinations",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "image": "https://i.guim.co.uk/img/media/16fd58ddaec2e0b396d0683dd4cc19ffe721b923/596_0_3360_2689/master/3360.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=2c29ec77509df51f92337d8bd78ebea2",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "teaser": "Cleantech advocates say that greening the data-centre boom needs to start with construction. Concerns about the environmental impact of data centres have been popping across…",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+          "publisher": "betakit.com",
+          "publishedAt": "2026-10-23T10:00:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure&type=news",
+      "image": "https://cdn.betakit.com/wp-content/uploads/2026/10/acton-crawford-A4xwAcZOAyo-unsplash-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Low-carbon concrete could lower emissions before data centres even go online |",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "slug": "healthcare-education-institutional-estates",
+      "width": 1366,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "teaser": "Mother Teresa of Calcutta Medical Center becomes first Pampanga hospital to adopt renewable energy through the government’s Retail Aggregation Program Power supply sourced from…",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+          "publisher": "logisticsnews.ph",
+          "publishedAt": "2026-10-22T07:24:36.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Healthcare, Education & Institutional Estates",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates&type=news",
+      "image": "https://logisticsnews.ph/wp-content/uploads/2026/10/FGEN-photo-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Pampanga hospital signs renewable energy deal with First Gen",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "slug": "government-regulators-public-institutions",
+      "width": 390,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "teaser": "Andy Burnham has said he will not “abandon the responsibility” of fighting the climate crisis after the government approved the Jackdaw gasfield, saying he would not approve any…",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T17:22:52.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "teaser": "The government must hold an inquiry into the unequal impacts of air pollution, 150 scientists, MPs and activists have urged. Research by the Institute for Fiscal Studies shows…",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-19T05:00:20.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "teaser": "US corporate lobbyists launched a two-year “blitz” to postpone and weaken the world’s most progressive legislation to protect forests, according to a new investigation by the…",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-17T11:00:31.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Government, Regulators & Public Institutions",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "image": "https://i.guim.co.uk/img/media/d1fb804495654a9522a6382c4d02fa964c5d9ded/406_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=269e850894d33cdc9dbf852f72e4b3f6",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 390,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "teaser": "Consolidated Bank Ghana (CBG) has identified limited access to finance, grants and donor support as major barriers to scaling up nature-based solutions in Ghana and across Africa…",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+          "publisher": "myjoyonline.com",
+          "publishedAt": "2026-10-23T16:11:06.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "teaser": "As part of efforts to improve access to climate finance for small scale farmers, Nigeria is developing a framework to guide investments in agricultural adaptation, strengthen…",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+          "publisher": "agronigeria.ng",
+          "publishedAt": "2026-10-22T16:52:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "teaser": "Chair of the African Group of Negotiators on Climate Change (AGN), Nana Dr. Antwi-Boasiako Amoah, has called on the international community to honor existing climate agreements…",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/",
+          "publisher": "myjoyonline.com",
+          "publishedAt": "2026-10-14T15:43:34.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Financial Institutions, Investors & Development Finance",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance&type=news",
+      "image": "https://www.myjoyonline.com/wp-content/uploads/2026/10/WhatsApp-Image-2026-10-23-at-15.13.43-1-1080x630.jpeg",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "slug": "energy-utilities",
+      "width": 390,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "teaser": "Mother Teresa of Calcutta Medical Center becomes first Pampanga hospital to adopt renewable energy through the government’s Retail Aggregation Program Power supply sourced from…",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+          "publisher": "logisticsnews.ph",
+          "publishedAt": "2026-10-22T07:24:36.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Energy & Utilities",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=energy-utilities&type=news",
+      "image": "https://logisticsnews.ph/wp-content/uploads/2026/10/FGEN-photo-scaled.jpg",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Pampanga hospital signs renewable energy deal with First Gen",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "slug": "oil-gas-petrochemicals",
+      "width": 390,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "teaser": "The latest shudder for stocks in the AIindustry pulled markets lower worldwide on Thursday, while oil prices hit their highest levels since May on worries about thewar with Iran…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T21:50:13.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "teaser": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Oil, Gas & Petrochemicals",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals&type=news",
+      "image": "https://i.guim.co.uk/img/media/9e77a4ead0dd662eb649b44a2b029545f70ae2d1/408_0_4078_3263/master/4078.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=eef05a29afa3a8a23a2b5d40b2a20bde",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "slug": "industry-manufacturing-materials",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "teaser": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Industry, Manufacturing & Materials",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials&type=news",
+      "image": "https://i.guim.co.uk/img/media/3e1770f8e84434c47a2dd4a86c78a42c8dac2876/1167_387_3487_2789/master/3487.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=3fc558f2df60c12d3814947b2c74c30c",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "teaser": "Cleantech advocates say that greening the data-centre boom needs to start with construction. Concerns about the environmental impact of data centres have been popping across…",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+          "publisher": "betakit.com",
+          "publishedAt": "2026-10-23T10:00:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones&type=news",
+      "image": "https://cdn.betakit.com/wp-content/uploads/2026/10/acton-crawford-A4xwAcZOAyo-unsplash-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Low-carbon concrete could lower emissions before data centres even go online |",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "slug": "transport-logistics-mobility",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "teaser": "Transport for London (TfL) has launched a consultation on plans to accelerate the transition to zero-emission private hire vehicles (PHVs) to improve air quality and reduce carbon…",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/",
+          "publisher": "transportandenergy.com",
+          "publishedAt": "2026-10-22T10:08:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Transport, Logistics & Mobility",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility&type=news",
+      "image": "https://transportandenergy.com/wp-content/uploads/2026/10/TfL-Image-Private-Hire-Vehicle-charging.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "slug": "water-waste-circular-economy",
+      "width": 390,
+      "status": 200,
+      "count": 3,
+      "expectedSavedCount": 3,
+      "stories": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "teaser": "An investigation analyzed 722 micro watersheds that feed the Beni River in Bolivia, the Caquetá River in Colombia, the Madre de Dios River in Peru, and the Caroní River in…",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-23T18:15:44.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "teaser": "Worst-case climate change modeling shows that rising temperatures and changing weather patterns could heighten mining contamination risks for marine environments, with some…",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-16T09:45:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "teaser": "Would you mind fixing the NHS? And while you’re at it, could you please build an anti-missile system in your garden? Then regulate the banks, replace the water mains, tax the very…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-08T05:00:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Water, Waste & Circular Economy",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy&type=news",
+      "image": "https://imgs.mongabay.com/wp-content/uploads/sites/20/2026/10/23193910/Arazaire_community_bisected_by_Inambari_River_Vico_Mendez.jpg",
+      "totalLabel": "1 / 3",
+      "pageHeadings": [
+        "Amazon communities lose water as mining and deforestation reshape rivers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "slug": "agriculture-food-aquaculture",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "teaser": "As part of efforts to improve access to climate finance for small scale farmers, Nigeria is developing a framework to guide investments in agricultural adaptation, strengthen…",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/",
+          "publisher": "agronigeria.ng",
+          "publishedAt": "2026-10-22T16:52:10.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Agriculture, Food & Aquaculture",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture&type=news",
+      "image": "http://localhost:3000/_next/image?url=%2Fimages%2Fbanners%2Fnews-thumbnail-fallback.webp&w=3840&q=75",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "slug": "mining-natural-resources",
+      "width": 390,
+      "status": 200,
+      "count": 2,
+      "expectedSavedCount": 2,
+      "stories": [
+        {
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "teaser": "An investigation analyzed 722 micro watersheds that feed the Beni River in Bolivia, the Caquetá River in Colombia, the Madre de Dios River in Peru, and the Caroní River in…",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-23T18:15:44.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        },
+        {
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "teaser": "Worst-case climate change modeling shows that rising temperatures and changing weather patterns could heighten mining contamination risks for marine environments, with some…",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/",
+          "publisher": "news.mongabay.com",
+          "publishedAt": "2026-10-16T09:45:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Mining & Natural Resources",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=mining-natural-resources&type=news",
+      "image": "https://imgs.mongabay.com/wp-content/uploads/sites/20/2026/10/23193910/Arazaire_community_bisected_by_Inambari_River_Vico_Mendez.jpg",
+      "totalLabel": "1 / 2",
+      "pageHeadings": [
+        "Amazon communities lose water as mining and deforestation reshape rivers",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "slug": "tourism-hospitality-destinations",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "teaser": "Visitors to Rocky Point in south-westTobagoare drawn to its sandy beach, fringed by coral reefs and dark rock formations and carpeted with the fruit-bearing trees found on…",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-10T11:00:56.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Tourism, Hospitality & Destinations",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "image": "https://i.guim.co.uk/img/media/16fd58ddaec2e0b396d0683dd4cc19ffe721b923/596_0_3360_2689/master/3360.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=2c29ec77509df51f92337d8bd78ebea2",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "teaser": "Cleantech advocates say that greening the data-centre boom needs to start with construction. Concerns about the environmental impact of data centres have been popping across…",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/",
+          "publisher": "betakit.com",
+          "publishedAt": "2026-10-23T10:00:00.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure&type=news",
+      "image": "https://cdn.betakit.com/wp-content/uploads/2026/10/acton-crawford-A4xwAcZOAyo-unsplash-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Low-carbon concrete could lower emissions before data centres even go online |",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "slug": "healthcare-education-institutional-estates",
+      "width": 390,
+      "status": 200,
+      "count": 1,
+      "expectedSavedCount": 1,
+      "stories": [
+        {
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "teaser": "Mother Teresa of Calcutta Medical Center becomes first Pampanga hospital to adopt renewable energy through the government’s Retail Aggregation Program Power supply sourced from…",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/",
+          "publisher": "logisticsnews.ph",
+          "publishedAt": "2026-10-22T07:24:36.000Z",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 08:28 UTC. Sources and rights"
+        }
+      ],
+      "title": "Healthcare, Education & Institutional Estates",
+      "emptyMessage": null,
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates&type=news",
+      "image": "https://logisticsnews.ph/wp-content/uploads/2026/10/FGEN-photo-scaled.jpg",
+      "totalLabel": "1 / 1",
+      "pageHeadings": [
+        "Pampanga hospital signs renewable energy deal with First Gen",
+        "Relevant Domains and Work Areas",
+        "Project Development and Lifecycle Support",
+        "Research and Official Updates",
+        "Related Data",
+        "Publications",
+        "Discuss Your Project",
+        "Stay Informed",
+        "HomepageHomepage",
+        "Domains and IndustriesDomains and Industries",
+        "Knowledge HubKnowledge Hub",
+        "Data PortalData Portal",
+        "ToolsTools",
+        "AboutAbout"
+      ],
+      "overflow": false
+    }
+  ],
+  "destinations": [
+    {
+      "slug": "government-regulators-public-institutions",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "3 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "type": "News · Open access",
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "8 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "‎Ghana seeks climate finance access for debt-restructuring countries",
+          "url": "https://www.myjoyonline.com/ghana-seeks-climate-finance-access-for-debt-restructuring-countries/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "FAO calls for stronger REDD+ systems to unlock climate finance",
+          "url": "https://www.myjoyonline.com/fao-calls-for-stronger-redd-systems-to-unlock-climate-finance/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate finance must come as grants, not loans – Mahama",
+          "url": "https://www.myjoyonline.com/climate-finance-must-come-as-grants-not-loans-mahama/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Mahama demands climate finance as he recounts Ghana's deadly June floods",
+          "url": "https://www.myjoyonline.com/mahama-demands-climate-finance-as-he-recounts-ghanas-deadly-june-floods/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate finance bureaucracy hurting vulnerable countries – Sierra Leone Minority Leader",
+          "url": "https://www.myjoyonline.com/climate-finance-bureaucracy-hurting-vulnerable-countries-sierra-leone-minority-leader/"
+        }
+      ]
+    },
+    {
+      "slug": "energy-utilities",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=energy-utilities&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "slug": "oil-gas-petrochemicals",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ]
+    },
+    {
+      "slug": "industry-manufacturing-materials",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "slug": "transport-logistics-mobility",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/"
+        }
+      ]
+    },
+    {
+      "slug": "water-waste-circular-economy",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "3 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "slug": "agriculture-food-aquaculture",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        }
+      ]
+    },
+    {
+      "slug": "mining-natural-resources",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=mining-natural-resources&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        }
+      ]
+    },
+    {
+      "slug": "tourism-hospitality-destinations",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ]
+    },
+    {
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "slug": "healthcare-education-institutional-estates",
+      "width": 1366,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        }
+      ]
+    },
+    {
+      "slug": "government-regulators-public-institutions",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "3 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "type": "News · Open access",
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ]
+    },
+    {
+      "slug": "financial-institutions-investors-development-finance",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=financial-institutions-investors-development-finance&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "8 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "African group demands action on climate finance and adaptation ahead of COP 31",
+          "url": "https://www.myjoyonline.com/african-group-demands-action-on-climate-finance-and-adaptation-ahead-of-cop-31/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "‎Ghana seeks climate finance access for debt-restructuring countries",
+          "url": "https://www.myjoyonline.com/ghana-seeks-climate-finance-access-for-debt-restructuring-countries/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "FAO calls for stronger REDD+ systems to unlock climate finance",
+          "url": "https://www.myjoyonline.com/fao-calls-for-stronger-redd-systems-to-unlock-climate-finance/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate finance must come as grants, not loans – Mahama",
+          "url": "https://www.myjoyonline.com/climate-finance-must-come-as-grants-not-loans-mahama/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Mahama demands climate finance as he recounts Ghana's deadly June floods",
+          "url": "https://www.myjoyonline.com/mahama-demands-climate-finance-as-he-recounts-ghanas-deadly-june-floods/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate finance bureaucracy hurting vulnerable countries – Sierra Leone Minority Leader",
+          "url": "https://www.myjoyonline.com/climate-finance-bureaucracy-hurting-vulnerable-countries-sierra-leone-minority-leader/"
+        }
+      ]
+    },
+    {
+      "slug": "energy-utilities",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=energy-utilities&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "slug": "oil-gas-petrochemicals",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=oil-gas-petrochemicals&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners"
+        }
+      ]
+    },
+    {
+      "slug": "industry-manufacturing-materials",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=industry-manufacturing-materials&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals"
+        }
+      ]
+    },
+    {
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=infrastructure-real-estate-industrial-zones&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "slug": "transport-logistics-mobility",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=transport-logistics-mobility&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "TfL launches consultation on zero-emission private hire vehicles - Transport + Energy",
+          "url": "https://transportandenergy.com/2026/10/22/tfl-launches-consultation-on-zero-emission-private-hire-vehicles/"
+        }
+      ]
+    },
+    {
+      "slug": "water-waste-circular-economy",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=water-waste-circular-economy&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "3 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe"
+        }
+      ]
+    },
+    {
+      "slug": "agriculture-food-aquaculture",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=agriculture-food-aquaculture&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Nigeria Develops Framework to Improve Access to Climate Finance for Small Scale Farmers",
+          "url": "https://agronigeria.ng/nigeria-develops-framework-to-improve-access-to-climate-finance-for-small-scale-farmers/"
+        }
+      ]
+    },
+    {
+      "slug": "mining-natural-resources",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=mining-natural-resources&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "2 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Amazon communities lose water as mining and deforestation reshape rivers",
+          "url": "https://news.mongabay.com/2026/10/amazon-communities-lose-water-as-mining-and-deforestation-reshape-rivers/"
+        },
+        {
+          "type": "News · Open access",
+          "title": "Climate change could send more toxic mining waste into coastal waters, study warns",
+          "url": "https://news.mongabay.com/2026/10/climate-change-could-send-more-toxic-mining-waste-into-coastal-waters-study-warns/"
+        }
+      ]
+    },
+    {
+      "slug": "tourism-hospitality-destinations",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=tourism-hospitality-destinations&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort"
+        }
+      ]
+    },
+    {
+      "slug": "technology-telecoms-data-infrastructure",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=technology-telecoms-data-infrastructure&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Low-carbon concrete could lower emissions before data centres even go online |",
+          "url": "https://betakit.com/low-carbon-concrete-could-lower-emissions-before-data-centres-even-go-online/"
+        }
+      ]
+    },
+    {
+      "slug": "healthcare-education-institutional-estates",
+      "width": 390,
+      "status": 200,
+      "href": "/knowledge-hub/global-intelligence?industry=healthcare-education-institutional-estates&type=news",
+      "newsOnlyFilter": true,
+      "statusText": "1 open-access results · Saved collection",
+      "cards": [
+        {
+          "type": "News · Open access",
+          "title": "Pampanga hospital signs renewable energy deal with First Gen",
+          "url": "https://logisticsnews.ph/2026/10/22/mtcmc-first-gen-renewable-energy-rap-pampanga/"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "browserLiveSearchRequests": 0,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 134
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 134
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "noNewsApiCalls": true,
+  "complete": true
+}

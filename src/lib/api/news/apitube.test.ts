@@ -3,6 +3,7 @@ import { fetchFromProvider, providerKey } from '../core/fetch';
 import { ok } from '../core/types';
 import { apiTubeQuery, fetchApiTubeBasket, fetchApiTubeQuery, mapApiTubeResults, rejectApiTubeBody } from './apitube';
 import { hasApiTubeApproval, screenApiTubeItem } from './apitubeScreening';
+import { INDUSTRY_FEEDS } from '../../feeds/contextual';
 
 vi.mock('../core/fetch', () => ({ fetchFromProvider: vi.fn(), providerKey: vi.fn() }));
 const raw = (over = {}) => ({ id: 123, title: 'Solar power replaces coal generation', description: 'Renewable electricity expands.',
@@ -32,6 +33,27 @@ it('keeps the key in a header and respects APITube source, language, category an
   expect(Date.now() - Date.parse(params.get('published_at.start')!)).toBeLessThan(31 * 86400000 + 1000);
   expect(Date.parse(params.get('published_at.end')!) - Date.parse(params.get('published_at.start')!)).toBe(31 * 86400000);
   expect(params.get('fl')).not.toMatch(/body|summary/);
+});
+
+it.each(Object.entries(INDUSTRY_FEEDS).filter(([, feed]) => feed.newsSources))('uses the reviewed publisher group for %s', async (_slug, feed) => {
+  await fetchApiTubeQuery(feed.newsDiscoveryQuery, 3600, true);
+  const params = new URL(vi.mocked(fetchFromProvider).mock.calls[0][1]).searchParams;
+  expect(params.get('source.domain')?.split(',')).toEqual(feed.newsSources);
+  expect(feed.newsSources!.length).toBeLessThanOrEqual(3);
+});
+
+it('records exact sector assignments and rejects altered assignment evidence', () => {
+  const [item] = mapApiTubeResults([raw({ title: 'Hospital signs renewable energy supply deal', description: 'Renewable electricity supplies the medical center.' })], new Date().toISOString());
+  const saved = screenApiTubeItem(item);
+  expect(saved.editorialReview?.industries).toContain('healthcare-education-institutional-estates');
+  expect(hasApiTubeApproval(saved)).toBe(true);
+  expect(hasApiTubeApproval({ ...saved, editorialReview: { ...saved.editorialReview!, industries: ['unrelated'] } })).toBe(false);
+});
+
+it('accepts explicit vehicle emissions policy with transport category evidence', () => {
+  const [item] = mapApiTubeResults([raw({ title: 'TfL consults on zero-emission private hire vehicles', description: 'The transition improves air quality and cuts carbon emissions.',
+    categories: [{ id: 'medtop:20000337', name: 'transport' }] })], new Date().toISOString());
+  expect(screenApiTubeItem(item).editorialReview?.topics).toEqual(['climate']);
 });
 
 it('maps numeric article IDs and canonical category links without copying article bodies', () => {
@@ -68,6 +90,19 @@ it('recognizes corporate deforestation obligations as ESG coverage without relyi
   expect(screenApiTubeItem(item).editorialReview?.topics).toEqual(['environment', 'business']);
 });
 
+it('recognizes coastal biodiversity impacts with category evidence, without admitting unrelated hotel coverage', () => {
+  const [coastal, hotel] = mapApiTubeResults([
+    raw({ title: 'Tourism development threatens turtle nests', description: 'The resort expansion affects nearby coral reefs.',
+      categories: [{ id: 'medtop:06000000', name: 'environment' }] }),
+    raw({ title: 'Museums license their brands to hotel suites', description: 'The licensing agreement raises revenue.',
+      categories: [{ id: 'medtop:04000000', name: 'economy, business and finance' }] }),
+  ], new Date().toISOString());
+  // A sector word alone never grants publication; ecological context also needs provider evidence.
+  expect(screenApiTubeItem(coastal).editorialReview?.topics).toEqual(['environment']);
+  expect(screenApiTubeItem({ ...coastal, providerCategories: [] }).editorialReview?.decision).toBe('rejected');
+  expect(screenApiTubeItem(hotel).editorialReview?.decision).toBe('rejected');
+});
+
 it('does not mistake a Wall Street accountability story for stock-market reporting', () => {
   const categories = [{ id: 'medtop:04000000', name: 'economy, business and finance' }];
   const [legal, market] = mapApiTubeResults([
@@ -76,6 +111,17 @@ it('does not mistake a Wall Street accountability story for stock-market reporti
   ], new Date().toISOString());
   expect(screenApiTubeItem(legal).editorialReview?.decision).toBe('rejected');
   expect(screenApiTubeItem(market).editorialReview?.topics).toEqual(['markets']);
+});
+
+it.each([
+  'Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump',
+  'Chip stocks slide after Broadcom boss likens AI investing to a casino',
+])('approves exchange-free stock reporting with finance category evidence: %s', title => {
+  // These live-provider headline shapes must pass without weakening the scandal rejection.
+  const [item] = mapApiTubeResults([raw({ title, description: 'Investors react to a fall in technology share prices.',
+    categories: [{ id: 'medtop:04000000', name: 'economy, business and finance' }] })], new Date().toISOString());
+  expect(screenApiTubeItem(item).editorialReview?.topics).toContain('markets');
+  expect(screenApiTubeItem({ ...item, providerCategories: [] }).editorialReview?.decision).toBe('rejected');
 });
 
 it('handles missing credentials, malformed replies and exhausted quotas without exposing provider messages', async () => {

@@ -64,7 +64,7 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
   const canRotate = slides.reduce((total, entry) => total + storyCount(entry), 0) > 1;
   const playing = !paused && !reducedMotion && !loading && canRotate;
   const newsHref = industry
-    ? `/knowledge-hub/global-intelligence?industry=${industry.slug}`
+    ? `/knowledge-hub/global-intelligence?industry=${industry.slug}&type=news`
     : '/knowledge-hub/global-intelligence';
 
   useEffect(() => {
