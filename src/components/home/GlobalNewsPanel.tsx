@@ -64,7 +64,7 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
   const canRotate = slides.reduce((total, entry) => total + storyCount(entry), 0) > 1;
   const playing = !paused && !reducedMotion && !loading && canRotate;
   const newsHref = industry
-    ? `/knowledge-hub/global-intelligence?industry=${industry.slug}`
+    ? `/knowledge-hub/global-intelligence?industry=${industry.slug}&type=news`
     : '/knowledge-hub/global-intelligence';
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
           <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
           <p className="home-hero-attribution" data-feed-attribution>
             {item.providerLabel && `Via ${item.providerLabel}. `}
-            {story.delayed && 'NewsData free feed delayed 12h+. '}
+            {story.delayed && 'Free feed delayed 12h+. '}
             {story.retrievedAt && `Updated ${story.retrievedAt}. `}
             {story.stale && 'Cached headline; refresh unavailable. '}
             <Link href="/data-portal/sources">Sources and rights</Link>

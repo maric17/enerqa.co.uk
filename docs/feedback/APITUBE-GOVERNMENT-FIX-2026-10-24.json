@@ -1,0 +1,122 @@
+{
+  "checkedAt": "2026-10-24T01:34:31.655Z",
+  "route": "/industries/government-regulators-public-institutions",
+  "beforeCount": 0,
+  "results": [
+    {
+      "width": 1366,
+      "status": 200,
+      "stories": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "destinationStatus": 200,
+      "newsOnlyCards": [
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "stories": [
+        {
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "Burnham urged to launch inquiry into unequal health impacts of air pollution",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        },
+        {
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:51 UTC. Sources and rights"
+        }
+      ],
+      "viewAllHref": "/knowledge-hub/global-intelligence?industry=government-regulators-public-institutions&type=news",
+      "destinationStatus": 200,
+      "newsOnlyCards": [
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval"
+        },
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution"
+        },
+        {
+          "type": "News · Open access",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation"
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "noNewsApiOrAiCalls": true,
+  "newsRecordsUnchanged": true,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 79
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 79
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ]
+}

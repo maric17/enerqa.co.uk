@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-24T08:32:07.029Z",
+  "legacyRecordsUnchangedDuringRepair": true,
+  "otherProviderUsageUnchanged": true,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 127
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 134
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 335
+    }
+  ],
+  "assignments": [
+    {
+      "access_status": "unknown",
+      "count": 1,
+      "assigned_with_version": 1
+    },
+    {
+      "access_status": "verified_open",
+      "count": 29,
+      "assigned_with_version": 29
+    }
+  ]
+}

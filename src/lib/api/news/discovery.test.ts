@@ -3,10 +3,23 @@ import { INDUSTRY_FEEDS, DOMAIN_FEEDS } from '../../feeds/contextual';
 import { LIMITS } from '../core/health';
 import { NEWS_BASKETS } from './types';
 import { basketQuery } from './newsdata';
-import { industryDiscoveryQueries } from './discovery';
+import { industryDiscoveryQueries, industryRefreshJob, industryRefreshSlugs } from './discovery';
 
 describe('industry discovery coverage and provider budgets', () => {
   const slots = ['2026-10-11T06:00:00+08:00', '2026-10-11T14:00:00+08:00', '2026-10-11T22:00:00+08:00'];
+
+  it('covers all thirteen industries once in every cycle with stable 5/5/3 jobs', () => {
+    const batches = ([1, 2, 3] as const).map(industryRefreshSlugs);
+    expect(batches.map(batch => batch.length)).toEqual([5, 5, 3]);
+    expect(batches.flat()).toEqual(Object.keys(INDUSTRY_FEEDS));
+    for (const batch of [1, 2, 3] as const) {
+      for (const slug of batches[batch - 1]) expect(industryRefreshJob(slug)).toBe(`industries-${batch}`);
+    }
+    expect(industryRefreshJob('unknown')).toBeUndefined();
+    // Four topic calls, three stock calls and thirteen industry calls per cycle.
+    expect((4 + 3 + batches.flat().length) * 3).toBe(60);
+    expect(60).toBeLessThan(LIMITS.apitube!.daily);
+  });
 
   it('searches every sector exactly once per scheduled day within the existing limits', () => {
     const topics = NEWS_BASKETS.filter(basket => basket.newsdataQuery).length;

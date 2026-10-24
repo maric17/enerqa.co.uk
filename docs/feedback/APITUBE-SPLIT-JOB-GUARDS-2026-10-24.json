@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-24T08:56:46.844Z",
+  "passed": true,
+  "checks": [
+    "All five APITube units claim independently in the same cycle.",
+    "Concurrent scheduled and manual stock attempts respect the active lease.",
+    "A failed stock job waits for the retry backoff.",
+    "Only failed stocks can take their second attempt without rerunning other units.",
+    "A stale lease cannot finish the current stock attempt.",
+    "Scheduled attempts are capped at two per job per cycle.",
+    "Successful general and industry jobs remain skipped during a stock failure.",
+    "A new cycle resets the attempt count; a successful stock retry becomes idempotent."
+  ],
+  "temporaryRecordsRolledBack": true,
+  "providerRequests": 0,
+  "sharedNewsWrites": 0
+}

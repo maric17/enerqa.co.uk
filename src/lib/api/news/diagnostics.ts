@@ -1,10 +1,12 @@
 import type { AccessStatus, ConnectorFailure, ConnectorResult } from '../core/types';
 import type { NewsBasketKey, NewsItem, NewsProvider } from './types';
+import type { NewsRefreshJob } from './schedule';
 
 /** Public-safe counters only: never include URLs, keys, bodies or raw errors. */
 export type NewsDiagnostics = {
   mode?: 'database' | 'refresh';
   scope?: 'all' | 'industries' | 'topics' | 'markets';
+  job?: NewsRefreshJob;
   refresh?: { lastAttemptAt: string | null; lastCompletedAt: string | null; lastSuccessAt: Partial<Record<NewsProvider, string>> };
   basket: NewsBasketKey;
   providers: {

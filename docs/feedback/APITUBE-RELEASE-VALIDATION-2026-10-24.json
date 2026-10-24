@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-24T09:17:43.511444+00:00",
+  "branch": "trial/apitube-news-2026-10-24",
+  "tests": {
+    "passed": 751,
+    "files": 92
+  },
+  "typescript": "passed",
+  "eslint": {
+    "status": "passed",
+    "changedCodeFiles": 51
+  },
+  "productionBuild": {
+    "status": "passed",
+    "bundler": "webpack",
+    "isolatedTemporaryCopy": true,
+    "schemaPush": false,
+    "compiledWithWarnings": true
+  },
+  "diffCheck": "passed",
+  "credentialsScan": {
+    "checkedFiles": 143,
+    "localSecretValuesChecked": 10,
+    "matches": 0
+  },
+  "newsJobSpacingHours": 1,
+  "cyclesPerDay": 3,
+  "plannedSearchRequestsPerDay": 60,
+  "newsProviderRequestsForReleaseValidation": 0,
+  "liveProductionCronVerified": false,
+  "nextActions": [
+    "Confirm API_TUBE_API_KEY and CRON_SECRET in Vercel Production",
+    "Check production deployment and all five scheduled job outcomes"
+  ]
+}

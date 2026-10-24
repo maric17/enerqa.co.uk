@@ -269,10 +269,26 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
   // News (pp. 210-216). The connectors live in src/lib/api/news and check
   // `enabled` through `providerEnabled()` below, so these switch off the same
   // way as the rows above (L1023).
+  apitube: {
+    id: 'apitube',
+    name: 'APITube',
+    purpose: 'Sole news provider on the isolated APITube evaluation branch.',
+    homepage: 'https://apitube.io/',
+    docsUrl: 'https://docs.apitube.io/platform/news-api/everything',
+    licence: 'Evaluation metadata; publishers retain article and image rights',
+    licenceUrl: 'https://apitube.io/terms/terms-of-service',
+    attribution: 'APITube and the original publisher',
+    keyEnvVar: 'API_TUBE_API_KEY',
+    revalidate: 8 * HOUR,
+    publishedLimits: 'Free: 100 requests/day, 10/minute, 10 articles/request, 12-hour delay. Internal cap: 80/day and 8/minute.',
+    enabled: true,
+    accessReviewedOn: '2026-10-24',
+    note: 'User-authorized local evaluation. Category evidence plus contextual rules, publisher allowlist and anonymous access checks precede database-backed display. No news fallback, full-text reuse, subscription purchase or production activation.',
+  },
   thenewsapi: {
     id: 'thenewsapi',
     name: 'TheNewsAPI',
-    purpose: 'Primary global news provider during the client evaluation; no news fallback.',
+    purpose: 'Previous news trial connector, retained for maintenance outside the APITube evaluation.',
     homepage: 'https://www.thenewsapi.com/',
     docsUrl: 'https://www.thenewsapi.com/documentation',
     licence: 'API metadata access; publisher article and image rights remain separate',
@@ -283,7 +299,7 @@ export const PROVIDERS: Record<ProviderId, ProviderRecord> = {
     publishedLimits: 'Free: 100 requests/day, 3 articles/request. Basic: 2,500 requests/day, 25 articles/request. Internal trial cap: 80 requests/day.',
     enabled: true,
     accessReviewedOn: '2026-10-19',
-    note: 'Client-authorized evaluation. Uses supplied descriptions and links, existing publisher allowlist and verified-open checks. No subscription purchase or full-text reuse. General news uses this connector alone; legacy connectors are retained for later fallback review.',
+    note: 'Previous client-authorized evaluation. Uses supplied descriptions and links, existing publisher allowlist and verified-open checks. Excluded from the active APITube trial policy; not a fallback.',
   },
   newsdata: {
     id: 'newsdata',

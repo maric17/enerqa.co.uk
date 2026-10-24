@@ -9,7 +9,7 @@ import type { AccessStatus } from '../core/types';
  * item itself.
  */
 
-export type NewsProvider = 'thenewsapi' | 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
+export type NewsProvider = 'apitube' | 'thenewsapi' | 'newsdata' | 'eia_rss' | 'eea_rss' | 'gdelt';
 
 export type NewsItem = {
   /** Normalised URL - the deduplication key required by p. 226. */
@@ -69,12 +69,19 @@ export type NewsItem = {
   docType?: string;
   /** Editorial approval applies to this exact headline and publisher description. */
   editorialReview?: EditorialReview;
+  /** Original article classifications; scores are provider weights, not probabilities. */
+  providerCategories?: { id: string; name: string; score: number | null }[];
 };
 
 export const EDITORIAL_REVIEW_VERSION = '2026-10-23-v1';
 export const EDITORIAL_TOPICS = ['climate', 'energy', 'environment', 'business', 'markets'] as const;
 export type EditorialTopic = typeof EDITORIAL_TOPICS[number];
 export type EditorialReview = {
+  /** Sector assignments apply to the same exact title/teaser as the topic approval. */
+  industries?: string[];
+  industryVersion?: string;
+  /** Distinguish provider classification and local rules from a human or model review. */
+  method?: 'apitube-categories-and-rules-v1';
   version: string;
   decision: 'approved' | 'rejected' | 'pending';
   topics: EditorialTopic[];
@@ -122,7 +129,7 @@ export const THE_NEWS_API_TOPIC_QUERIES: Record<Exclude<NewsBasketKey, 'all'>, s
 export function prioritiseTopicMatches(items: NewsItem[], basket: NewsBasketKey): NewsItem[] {
   if (basket === 'all') return items;
   const query = THE_NEWS_API_TOPIC_QUERIES[basket];
-  const direct = (item: NewsItem) => item.provider === 'thenewsapi' && item.matchedQueries?.includes(query);
+  const direct = (item: NewsItem) => ['apitube', 'thenewsapi'].includes(item.provider) && item.matchedQueries?.includes(query);
   return [...items.filter(direct), ...items.filter(item => !direct(item))];
 }
 
@@ -267,6 +274,14 @@ export const SOURCE_ALLOWLIST = [
   'bbc.co.uk',
   // Stock-reporting destinations reviewed 20 Oct 2026; each URL still needs verified_open.
   'cnbc.com',
+  // Reviewed in private browser contexts on 24 Oct 2026 for APITube sector coverage.
+  // Each individual destination still needs the normal anonymous access check.
+  'myjoyonline.com',
+  'betakit.com',
+  'transportandenergy.com',
+  'agronigeria.ng',
+  'news.mongabay.com',
+  'logisticsnews.ph',
 ];
 
 /** Hostname of a URL, lower-cased and without "www.". Empty string if unparseable. */
@@ -466,6 +481,7 @@ export function applyGate(items: NewsItem[], opts: { maxPerPublisher?: number } 
 
 /** Attribution shown under a feed. p. 229 keeps source labels legible. */
 export const PROVIDER_META: Record<NewsProvider, { label: string; href: string }> = {
+  apitube: { label: 'APITube', href: 'https://apitube.io/' },
   thenewsapi: { label: 'TheNewsAPI', href: 'https://www.thenewsapi.com/' },
   newsdata: { label: 'NewsData.io', href: 'https://newsdata.io/' },
   eia_rss: { label: 'U.S. EIA', href: 'https://www.eia.gov/todayinenergy/' },

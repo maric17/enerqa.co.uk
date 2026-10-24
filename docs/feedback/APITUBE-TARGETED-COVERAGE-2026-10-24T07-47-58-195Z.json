@@ -1,0 +1,3077 @@
+{
+  "checkedAt": "2026-10-24T07:48:00.329Z",
+  "diagnosticOnly": true,
+  "completed": true,
+  "sourceDomains": null,
+  "categoryFilter": null,
+  "perPage": 10,
+  "dateWindowDays": 31,
+  "account": {
+    "plan": "free",
+    "points": 73
+  },
+  "defaultDailyLimit": 80,
+  "auditProcessDailyLimit": 125,
+  "results": [
+    {
+      "sector": "finance",
+      "query": "\"climate finance\" OR \"green bond\" OR \"sustainable finance\" OR \"transition finance\" OR \"climate risk\"",
+      "industryFilter": null,
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "summary": "Consolidated Bank Ghana (CBG) has identified limited access to finance, grants and donor support as major barriers to scaling up nature-based solutions in Ghana and across Africa. The bank’s Head of…",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+          "publisher": "myjoyonline.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:11:06.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.65
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 1.44
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "443",
+              "name": "Development banks revitalizing communities"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "CFA Pakistan and Bank Alfalah Collaborate to Support Climate Finance in Pakistan",
+          "summary": "CFA Pakistan is collaborating with Bank Alfalah Limited to strengthen engagement between the CFA community and Pakistan’s banking sector while identifying climate finance opportunities for businesses…",
+          "url": "https://pakbanker.com/cfa-pakistan-and-bank-alfalah-collaborate-to-support-climate-finance-in-pakistan/",
+          "publisher": "pakbanker.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:56:54.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.99
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.6
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "UNDP urges Nigeria to link NDC 3.0 to climate finance, jobs, energy access - EnviroNews - latest environment news, climate change, renewable energy",
+          "summary": "The United Nations Development Programme (UNDP) has urged the Nigerian government to translate its third Nationally Determined Contribution (NDC 3.0) into practical development programmes that…",
+          "url": "https://www.environewsnigeria.com/undp-urges-nigeria-to-link-ndc-3-0-to-climate-finance-jobs-energy-access/",
+          "publisher": "environewsnigeria.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:50:38.000Z",
+          "topics": [
+            "climate",
+            "energy",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.67
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.62
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.1
+            },
+            {
+              "id": "medtop:20000210",
+              "name": "agriculture",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.42
+            }
+          ],
+          "industries": [
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "336",
+              "name": "Natural resources"
+            },
+            {
+              "id": "344",
+              "name": "Oil Gas Products"
+            },
+            {
+              "id": "346",
+              "name": "Raw Petroleum"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Aurangzeb, NDMA leadership discuss climate risk strategies",
+          "summary": "ISLAMABAD, Oct 23 (DNA):Federal Minister for Finance and Revenue, Senator Muhammad Aurangzeb, here on Friday held a meeting with Lieutenant General Inam Haider Malik, outgoing Chairman of the…",
+          "url": "https://islamabadpost.com.pk/aurangzeb-ndma-leadership-discuss-climate-risk-strategies/",
+          "publisher": "islamabadpost.com.pk",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:31:17.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.88
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20000613",
+              "name": "minister or secretary (government)",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000730",
+              "name": "meteorology",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000717",
+              "name": "natural science",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.29
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "442",
+              "name": "Government banks issuing currency. Administering monetary policy. Holding bank reserves. Engaging in open market transactions. Banking"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "North Wales climate risk assessment highlights action already underway and the need to build resilience further - Wrexham Council News",
+          "summary": "Joint statement from North Wales Public Services Boards (PSBs), local authorities and regional partners A new assessment of climate change risks across North Wales highlights both the scale of the...",
+          "url": "https://news.wrexham.gov.uk/north-wales-climate-risk-assessment-highlights-action-already-underway-and-the-need-to-build-resilience-further/",
+          "publisher": "news.wrexham.gov.uk",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:04:24.000Z",
+          "topics": [
+            "climate"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.59
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.57
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "919",
+              "name": "Service"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "‘Not A Nickel Or Dime’: Goyal Hits Out At EU, Developed Nations Over Climate Finance Pledge",
+          "summary": "Show Quick Read Key points generated by AI, verified by newsroom India balances development needs with ambitious clean energy efforts. Union Commerce and Industry Minister Piyush Goyal has...",
+          "url": "https://news.abplive.com/news/piyush-goyal-slams-eu-developed-nations-over-climate-finance-pledge-not-a-nickel-or-dime-100billion-1872817",
+          "publisher": "news.abplive.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T09:21:29.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.27
+            }
+          ],
+          "industries": [
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Goyal Criticises Developed Nations on Climate Finance",
+          "summary": "Union Minister of Commerce and Industry Piyush Goyal has expressed strong criticism of developed nations regarding their failure to fulfil climate finance commitments to developing countries…",
+          "url": "https://thecsrjournal.in/piyush-goyal-criticises-developed-nations-over-climate-finance-commitments",
+          "publisher": "thecsrjournal.in",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T07:33:30.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.43
+            }
+          ],
+          "industries": [
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Resus Energy secures green bond listing on Luxembourg Stock Exchange",
+          "summary": "Resus Energy, a renewable energy company, has achieved a significant milestone by listing its green bond on the Luxembourg Stock Exchange (LuxSE). This development underscores Luxembourg’s growing…",
+          "url": "https://news.tringlobe.com/resus-energy-secures-green-bond-listing-on-luxembourg-stock-exchange/",
+          "publisher": "news.tringlobe.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T05:05:14.000Z",
+          "topics": [
+            "energy",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.92
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.54
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 1.06
+            },
+            {
+              "id": "medtop:20000292",
+              "name": "stock broking",
+              "score": 0.41
+            }
+          ],
+          "industries": [
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "336",
+              "name": "Natural resources"
+            },
+            {
+              "id": "341",
+              "name": "Energy"
+            },
+            {
+              "id": "338",
+              "name": "Oil Gas Production Operations"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "UAE Launches Health Plan to Address Climate Risks Through 2031",
+          "summary": "Health / Nature Add as a preferred source on Google The 2026–2031 plan names six health priorities and calls for early warnings, disease surveillance and more resilient medical supply chains. Updated…",
+          "url": "https://econotimes.com/UAE-Launches-Health-Plan-to-Address-Climate-Risks-Through-2031-1760943",
+          "publisher": "econotimes.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T04:57:46.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:07000000",
+              "name": "health",
+              "score": 2.57
+            },
+            {
+              "id": "medtop:20000446",
+              "name": "disease and condition",
+              "score": 0.4
+            }
+          ],
+          "industries": [
+            {
+              "id": "535",
+              "name": "Medical services"
+            },
+            {
+              "id": "666",
+              "name": "Insurance"
+            },
+            {
+              "id": "556",
+              "name": "Healthcare"
+            },
+            {
+              "id": "676",
+              "name": "Property Casualty Insurance"
+            },
+            {
+              "id": "689",
+              "name": "Animal Medical Coverage in Pet Insurance"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Piyush Goyal Slams West Over Climate Finance Pledge",
+          "summary": "Union Commerce and Industry Minister Piyush Goyal has criticised developed countries and the European Union for allegedly failing to fulfil their financial commitments to developing nations under...",
+          "url": "https://thenews21.com/piyush-goyal-west-climate-finance-pledge/",
+          "publisher": "thenews21.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T04:45:00.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 2.07
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.07
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.76
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    },
+    {
+      "sector": "finance",
+      "query": "\"climate finance\" OR \"green bond\" OR \"sustainable finance\" OR \"transition finance\" OR \"climate risk\"",
+      "industryFilter": [
+        "399",
+        "423",
+        "440"
+      ],
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "CBG calls for increased climate finance to scale nature-based solutions in Ghana",
+          "summary": "Consolidated Bank Ghana (CBG) has identified limited access to finance, grants and donor support as major barriers to scaling up nature-based solutions in Ghana and across Africa. The bank’s Head of…",
+          "url": "https://www.myjoyonline.com/cbg-calls-for-increased-climate-finance-to-scale-nature-based-solutions-in-ghana/",
+          "publisher": "myjoyonline.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:11:06.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.65
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 1.44
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "443",
+              "name": "Development banks revitalizing communities"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "CFA Pakistan and Bank Alfalah Collaborate to Support Climate Finance in Pakistan",
+          "summary": "CFA Pakistan is collaborating with Bank Alfalah Limited to strengthen engagement between the CFA community and Pakistan’s banking sector while identifying climate finance opportunities for businesses…",
+          "url": "https://pakbanker.com/cfa-pakistan-and-bank-alfalah-collaborate-to-support-climate-finance-in-pakistan/",
+          "publisher": "pakbanker.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:56:54.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.99
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.6
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "UNDP urges Nigeria to link NDC 3.0 to climate finance, jobs, energy access - EnviroNews - latest environment news, climate change, renewable energy",
+          "summary": "The United Nations Development Programme (UNDP) has urged the Nigerian government to translate its third Nationally Determined Contribution (NDC 3.0) into practical development programmes that…",
+          "url": "https://www.environewsnigeria.com/undp-urges-nigeria-to-link-ndc-3-0-to-climate-finance-jobs-energy-access/",
+          "publisher": "environewsnigeria.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:50:38.000Z",
+          "topics": [
+            "climate",
+            "energy",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.67
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.62
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.1
+            },
+            {
+              "id": "medtop:20000210",
+              "name": "agriculture",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.42
+            }
+          ],
+          "industries": [
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "336",
+              "name": "Natural resources"
+            },
+            {
+              "id": "344",
+              "name": "Oil Gas Products"
+            },
+            {
+              "id": "346",
+              "name": "Raw Petroleum"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Aurangzeb, NDMA leadership discuss climate risk strategies",
+          "summary": "ISLAMABAD, Oct 23 (DNA):Federal Minister for Finance and Revenue, Senator Muhammad Aurangzeb, here on Friday held a meeting with Lieutenant General Inam Haider Malik, outgoing Chairman of the…",
+          "url": "https://islamabadpost.com.pk/aurangzeb-ndma-leadership-discuss-climate-risk-strategies/",
+          "publisher": "islamabadpost.com.pk",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:31:17.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.88
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20000613",
+              "name": "minister or secretary (government)",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000730",
+              "name": "meteorology",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000717",
+              "name": "natural science",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.29
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "442",
+              "name": "Government banks issuing currency. Administering monetary policy. Holding bank reserves. Engaging in open market transactions. Banking"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "North Wales climate risk assessment highlights action already underway and the need to build resilience further - Wrexham Council News",
+          "summary": "Joint statement from North Wales Public Services Boards (PSBs), local authorities and regional partners A new assessment of climate change risks across North Wales highlights both the scale of the...",
+          "url": "https://news.wrexham.gov.uk/north-wales-climate-risk-assessment-highlights-action-already-underway-and-the-need-to-build-resilience-further/",
+          "publisher": "news.wrexham.gov.uk",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:04:24.000Z",
+          "topics": [
+            "climate"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.59
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.57
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "919",
+              "name": "Service"
+            },
+            {
+              "id": "439",
+              "name": "Loan Profiting"
+            },
+            {
+              "id": "440",
+              "name": "Financial Institutions and"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "‘Not A Nickel Or Dime’: Goyal Hits Out At EU, Developed Nations Over Climate Finance Pledge",
+          "summary": "Show Quick Read Key points generated by AI, verified by newsroom India balances development needs with ambitious clean energy efforts. Union Commerce and Industry Minister Piyush Goyal has...",
+          "url": "https://news.abplive.com/news/piyush-goyal-slams-eu-developed-nations-over-climate-finance-pledge-not-a-nickel-or-dime-100billion-1872817",
+          "publisher": "news.abplive.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T09:21:29.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.27
+            }
+          ],
+          "industries": [
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Goyal Criticises Developed Nations on Climate Finance",
+          "summary": "Union Minister of Commerce and Industry Piyush Goyal has expressed strong criticism of developed nations regarding their failure to fulfil climate finance commitments to developing countries…",
+          "url": "https://thecsrjournal.in/piyush-goyal-criticises-developed-nations-over-climate-finance-commitments",
+          "publisher": "thecsrjournal.in",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T07:33:30.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.43
+            }
+          ],
+          "industries": [
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Resus Energy secures green bond listing on Luxembourg Stock Exchange",
+          "summary": "Resus Energy, a renewable energy company, has achieved a significant milestone by listing its green bond on the Luxembourg Stock Exchange (LuxSE). This development underscores Luxembourg’s growing…",
+          "url": "https://news.tringlobe.com/resus-energy-secures-green-bond-listing-on-luxembourg-stock-exchange/",
+          "publisher": "news.tringlobe.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T05:05:14.000Z",
+          "topics": [
+            "energy",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.92
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.54
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 1.06
+            },
+            {
+              "id": "medtop:20000292",
+              "name": "stock broking",
+              "score": 0.41
+            }
+          ],
+          "industries": [
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "336",
+              "name": "Natural resources"
+            },
+            {
+              "id": "341",
+              "name": "Energy"
+            },
+            {
+              "id": "338",
+              "name": "Oil Gas Production Operations"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Piyush Goyal Slams West Over Climate Finance Pledge",
+          "summary": "Union Commerce and Industry Minister Piyush Goyal has criticised developed countries and the European Union for allegedly failing to fulfil their financial commitments to developing nations under...",
+          "url": "https://thenews21.com/piyush-goyal-west-climate-finance-pledge/",
+          "publisher": "thenews21.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T04:45:00.000Z",
+          "topics": [
+            "climate",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 2.07
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.07
+            },
+            {
+              "id": "medtop:20000419",
+              "name": "global warming",
+              "score": 0.76
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "431",
+              "name": "Financial Intermediary Services"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            },
+            {
+              "id": "773",
+              "name": "Nonferrous Metals"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "The EU Sustainable Finance Trilemma",
+          "summary": "The European Union’s Omnibus I Directive is the first stage of the European Commission’s sustainable finance simplification agenda. In a forthcoming article, I argue that it reveals a structural…",
+          "url": "https://clsbluesky.law.columbia.edu/2026/10/23/the-eu-sustainable-finance-trilemma/",
+          "publisher": "clsbluesky.law.columbia.edu",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T04:05:42.000Z",
+          "topics": [
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.33
+            },
+            {
+              "id": "medtop:09000000",
+              "name": "labour",
+              "score": 0.9
+            },
+            {
+              "id": "medtop:20000170",
+              "name": "business information",
+              "score": 0.74
+            },
+            {
+              "id": "medtop:20000280",
+              "name": "financial advisory service",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.59
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "438",
+              "name": "New Business Investment"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    },
+    {
+      "sector": "water-waste",
+      "query": "\"water management\" OR \"water supply\" OR wastewater OR sewage OR recycling OR \"circular economy\" OR \"waste management\" OR desalination OR \"water treatment\"",
+      "industryFilter": null,
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "Foundation opens 23rd recycling hub in Lagos",
+          "summary": "Sahara Group Foundation has inaugurated its 23rd Sahara Go Recycling Hub at Sam Ethnan Air Force Base in Ikeja, Lagos, as part of efforts to promote sustainable waste management and create…",
+          "url": "https://punchng.com/foundation-opens-23rd-recycling-hub-in-lagos/",
+          "publisher": "punchng.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T19:09:13.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.99
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.96
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.78
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.57
+            },
+            {
+              "id": "medtop:20001374",
+              "name": "sustainability",
+              "score": 0.53
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 0.29
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.29
+            },
+            {
+              "id": "medtop:20001264",
+              "name": "infrastructure policy",
+              "score": 0.25
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "89",
+              "name": "Fiber Crops"
+            },
+            {
+              "id": "87",
+              "name": "Non Edible Crops"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Aged Microplastics Speed Drug Breakdown in Wastewater Treatment",
+          "summary": "A research team found that aged polyamide microplastics accelerated the breakdown of the pharmaceutical carbamazepine in three ultraviolet-based wastewater treatments. Compared with treatments…",
+          "url": "https://www.newswise.com/articles/aged-microplastics-speed-drug-breakdown-in-wastewater-treatment/?sc=rsla",
+          "publisher": "newswise.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T19:06:16.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 1.11
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.11
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.01
+            },
+            {
+              "id": "medtop:20000717",
+              "name": "natural science",
+              "score": 0.71
+            },
+            {
+              "id": "medtop:20000725",
+              "name": "chemistry",
+              "score": 0.51
+            }
+          ],
+          "industries": [
+            {
+              "id": "162",
+              "name": "Chemical Products"
+            },
+            {
+              "id": "186",
+              "name": "Specialty chemicals"
+            },
+            {
+              "id": "175",
+              "name": "Carbon-containing chemicals vs. Carbon-free chemicals"
+            },
+            {
+              "id": "177",
+              "name": "Carbon compounds in"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Makhanda heads to the polls with water, sewage and audits unresolved. Here’s what residents can do first – Grocott's Mail",
+          "summary": "By Asemahle Vumsindo The posters are up, the candidates are out, and the promises are coming: water that runs, sewage that stops, a municipality that works. Residents have heard much of it before…",
+          "url": "https://grocotts.ru.ac.za/2026/10/23/makhanda-heads-to-the-polls-with-water-sewage-and-audits-unresolved-heres-what-residents-can-do-first/",
+          "publisher": "grocotts.ru.ac.za",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T19:00:46.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.76
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "398",
+              "name": "Water"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Victor City Council seeks public input on wastewater agreement with Driggs",
+          "summary": "VICTOR, Idaho — The City of Victor is asking residents to weigh in as it negotiates a new long-term wastewater agreement with neighboring town Driggs. The city launched a short online poll, which…",
+          "url": "https://buckrail.com/victor-city-council-seeks-public-input-on-wastewater-agreement-with-driggs/",
+          "publisher": "buckrail.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T19:00:00.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000618",
+              "name": "regional authority",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.33
+            }
+          ],
+          "industries": [
+            {
+              "id": "919",
+              "name": "Service"
+            },
+            {
+              "id": "1038",
+              "name": "City Development"
+            },
+            {
+              "id": "1030",
+              "name": "Business Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "IMPLEMENTATION OF SOLID WASTE MANAGEMENT RULES 'REVIEW MEETING' HELD - News for Positivity! | Latest English And Konkani News | Live News Goa TV | Goa's First & Only Positive News Channel",
+          "summary": "IMPLEMENTATION OF SOLID WASTE MANAGEMENT RULES 'REVIEW MEETING' HELD - News for Positivity! | Latest English And Konkani News | Live News Goa TV | Goa's First & Only Positive News Channel",
+          "url": "https://livenewsgoa.com/implementation-of-solid-waste-management-rules-review-meeting-held/",
+          "publisher": "livenewsgoa.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T17:54:58.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 1.08
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.08
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.08
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.08
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "How Professional Engineering Helps Food Processing Plants Manage Expensive Wastewater Requirements",
+          "summary": "A food processing plant can run smoothly on the production floor while an expensive problem develops beneath it. Every batch of ingredients, equipment washdown, and cleaning cycle sends water…",
+          "url": "https://parkmagazineny.com/how-professional-engineering-helps-food-processing-plants-manage-expensive-wastewater-requirements/",
+          "publisher": "parkmagazineny.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T17:53:44.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.75
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.52
+            },
+            {
+              "id": "medtop:20000210",
+              "name": "agriculture",
+              "score": 0.52
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "698",
+              "name": "Manufacturing"
+            },
+            {
+              "id": "731",
+              "name": "Control Equipment for Industrial Processes"
+            },
+            {
+              "id": "379",
+              "name": "Oil water separators important for waste management and environmental remediation"
+            },
+            {
+              "id": "375",
+              "name": "Eco-friendly Management Equipment for Waste"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Ford Targets Zero Waste to Landfill by 2028 With Innovative Recycling and Reuse Strategies",
+          "summary": "In an October 21, 2026, From the Road post, Ford senior environmental engineer Dan Esch said the company aims to achieve zero waste to landfill from manufacturing across its global operations…",
+          "url": "https://wrif.com/2026/10/23/ford-targets-zero-waste-to-landfill-by-2028-with-innovative-recycling-and-reuse-strategies/",
+          "publisher": "wrif.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:57:59.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20001374",
+              "name": "sustainability",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.8
+            }
+          ],
+          "industries": [
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "698",
+              "name": "Manufacturing"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Waste Management Q3 2026 Earnings Preview — October 28, Street Expects $2.18 EPS - Alphastreet",
+          "summary": "AlphaStreet Newsdesk powered by AlphaStreet Intelligence WM| EPS Est $2.18(24 analysts)|Rev Est$6.81B|Reports2026-10-28 Midday Wall Street’s Expectations. Waste Management, Inc. (NYSE: WM) will…",
+          "url": "https://news.alphastreet.com/waste-management-q3-2026-earnings-preview-october-28-street-expects-2-18-eps/",
+          "publisher": "news.alphastreet.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:56:38.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:20000170",
+              "name": "business information",
+              "score": 0.85
+            },
+            {
+              "id": "medtop:20000178",
+              "name": "corporate earnings",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20001365",
+              "name": "business reporting and performance",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.48
+            }
+          ],
+          "industries": [
+            {
+              "id": "399",
+              "name": "Finance"
+            },
+            {
+              "id": "792",
+              "name": "Building material made from raw materials and water.Used in construction"
+            },
+            {
+              "id": "790",
+              "name": "Mineral"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "423",
+              "name": "Investment and Brokerage Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Tech Industry Pressures Agricultural Water Supply",
+          "summary": "The agricultural sector in Mexico’s Bajío region is facing growing competition from the technology and data center industries over access to reliable water supplies. The region is already showing…",
+          "url": "https://mexico-now.com/tech-industry-pressures-agricultural-water-supply/",
+          "publisher": "mexico-now.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:47:14.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.56
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.56
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:20000210",
+              "name": "agriculture",
+              "score": 0.63
+            }
+          ],
+          "industries": [
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "72",
+              "name": "Water Distribution"
+            },
+            {
+              "id": "67",
+              "name": "Agricultural Services"
+            },
+            {
+              "id": "55",
+              "name": "Farming and fishing"
+            },
+            {
+              "id": "87",
+              "name": "Non Edible Crops"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Officials review site identification for Rs 4,800 crore Minjur desalination plant",
+          "summary": "The preliminary work to identify a site follows Chief Minister C Joseph Vijay's announcement in the Assembly on September 2 that a new desalination plant would be established at Minjur.",
+          "url": "https://www.dtnext.in/news/tamilnadu/officials-review-site-identification-for-rs-4800-crore-minjur-desalination-plant",
+          "publisher": "dtnext.in",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:43:18.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.93
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.93
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "394",
+              "name": "Oil Extraction"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    },
+    {
+      "sector": "water-waste",
+      "query": "\"water management\" OR \"water supply\" OR wastewater OR sewage OR recycling OR \"circular economy\" OR \"waste management\" OR desalination OR \"water treatment\"",
+      "industryFilter": [
+        "398",
+        "397",
+        "395"
+      ],
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "Makhanda heads to the polls with water, sewage and audits unresolved. Here’s what residents can do first – Grocott's Mail",
+          "summary": "By Asemahle Vumsindo The posters are up, the candidates are out, and the promises are coming: water that runs, sewage that stops, a municipality that works. Residents have heard much of it before…",
+          "url": "https://grocotts.ru.ac.za/2026/10/23/makhanda-heads-to-the-polls-with-water-sewage-and-audits-unresolved-heres-what-residents-can-do-first/",
+          "publisher": "grocotts.ru.ac.za",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T19:00:46.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.3
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.76
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "398",
+              "name": "Water"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Ford Targets Zero Waste to Landfill by 2028 With Innovative Recycling and Reuse Strategies",
+          "summary": "In an October 21, 2026, From the Road post, Ford senior environmental engineer Dan Esch said the company aims to achieve zero waste to landfill from manufacturing across its global operations…",
+          "url": "https://wrif.com/2026/10/23/ford-targets-zero-waste-to-landfill-by-2028-with-innovative-recycling-and-reuse-strategies/",
+          "publisher": "wrif.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:57:59.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20001374",
+              "name": "sustainability",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.8
+            }
+          ],
+          "industries": [
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "698",
+              "name": "Manufacturing"
+            },
+            {
+              "id": "771",
+              "name": "Metals in"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Tech Industry Pressures Agricultural Water Supply",
+          "summary": "The agricultural sector in Mexico’s Bajío region is facing growing competition from the technology and data center industries over access to reliable water supplies. The region is already showing…",
+          "url": "https://mexico-now.com/tech-industry-pressures-agricultural-water-supply/",
+          "publisher": "mexico-now.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T16:47:14.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.56
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.56
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:20000210",
+              "name": "agriculture",
+              "score": 0.63
+            }
+          ],
+          "industries": [
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "72",
+              "name": "Water Distribution"
+            },
+            {
+              "id": "67",
+              "name": "Agricultural Services"
+            },
+            {
+              "id": "55",
+              "name": "Farming and fishing"
+            },
+            {
+              "id": "87",
+              "name": "Non Edible Crops"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Italian nursery reduces algae with water treatment technology",
+          "summary": "Eurovivai Srl Società Agricola, a professional horticultural nursery in Italy, grows and produces plants and trees. Reliable water quality is important for both cultivation and daily operations. To…",
+          "url": "https://www.floraldaily.com/article/9885566/italian-nursery-reduces-algae-with-water-treatment-technology/",
+          "publisher": "floraldaily.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T14:10:15.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.13
+            }
+          ],
+          "industries": [
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "What growers need to know about water management in Europe",
+          "summary": "Water is one of the most important resources in horticulture. It not only supports crop growth but also plays a crucial role in the efficiency, sustainability, and continuity of a business. At the…",
+          "url": "https://www.mmjdaily.com/article/9885876/what-growers-need-to-know-about-water-management-in-europe/",
+          "publisher": "mmjdaily.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:28:31.000Z",
+          "topics": [
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.79
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 1.29
+            },
+            {
+              "id": "medtop:20000270",
+              "name": "water supply",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.15
+            }
+          ],
+          "industries": [
+            {
+              "id": "55",
+              "name": "Farming and fishing"
+            },
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "72",
+              "name": "Water Distribution"
+            },
+            {
+              "id": "67",
+              "name": "Agricultural Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "What growers need to know about water management in Europe",
+          "summary": "Water is one of the most important resources in horticulture. It not only supports crop growth but also plays a crucial role in the efficiency, sustainability, and continuity of a business. At the…",
+          "url": "https://www.hortidaily.com/article/9885876/what-growers-need-to-know-about-water-management-in-europe/",
+          "publisher": "hortidaily.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:26:09.000Z",
+          "topics": [
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.79
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 1.29
+            },
+            {
+              "id": "medtop:20000270",
+              "name": "water supply",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.15
+            }
+          ],
+          "industries": [
+            {
+              "id": "55",
+              "name": "Farming and fishing"
+            },
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "72",
+              "name": "Water Distribution"
+            },
+            {
+              "id": "67",
+              "name": "Agricultural Services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Subiaco Wastewater Upgrade Supports Perth Development",
+          "summary": "The Western Australian government has committed an initial AU$105 million to upgrade the Subiaco Water Resource Recovery Facility in Shenton Park, Perth, advancing engineering and design work on...",
+          "url": "https://www.worldconstructiontoday.com/news/subiaco-wastewater-upgrade-advances-infrastructure-capacity-for-perth-development/",
+          "publisher": "worldconstructiontoday.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:14:45.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.97
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20000235",
+              "name": "construction and property",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000270",
+              "name": "water supply",
+              "score": 0.33
+            }
+          ],
+          "industries": [
+            {
+              "id": "202",
+              "name": "Property"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "1250",
+              "name": "Public Utilities"
+            },
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "216",
+              "name": "Real Estate and Construction"
+            },
+            {
+              "id": "226",
+              "name": "Property Development"
+            },
+            {
+              "id": "218",
+              "name": "Civil Structural Engineering"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Wales blocks water company from passing £280,000 sewage fix bill to customers",
+          "summary": "Photo Credit: iStock A Welsh water utility has been ordered to fund £280,000 (~$375,081 USD) worth of sewage-related fixes after regulators found \"unacceptable\" failures that led to excessive spills…",
+          "url": "https://www.thecooldown.com/green-business/hafren-dyfrdwy-sewage-fixes-wales-utility/",
+          "publisher": "thecooldown.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T12:36:00.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.13
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.02
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.02
+            }
+          ],
+          "industries": [
+            {
+              "id": "398",
+              "name": "Water"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Mobile Battery Processing Takes Recycling Onsite For UK Recyclers",
+          "summary": "BCA Industries has developed a mobile lithium-ion battery recycling system that processes end-of-life batteries onsite, reducing transport risks, handling costs and liability. Using a two-trailer…",
+          "url": "https://autorecyclingworld.com/mobile-battery-processing-takes-recycling-onsite-for-uk-recyclers/",
+          "publisher": "autorecyclingworld.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T12:26:17.000Z",
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.67
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.27
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.56
+            }
+          ],
+          "industries": [
+            {
+              "id": "698",
+              "name": "Manufacturing"
+            },
+            {
+              "id": "162",
+              "name": "Chemical Products"
+            },
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "739",
+              "name": "Manufacturing Supplies for"
+            },
+            {
+              "id": "186",
+              "name": "Specialty chemicals"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            },
+            {
+              "id": "189",
+              "name": "Gas ammonia used"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "CELAB Europe makes label waste recycling solutions easier to find",
+          "summary": "Packaging SolutionsCELAB Europe, the European association dedicated to advancing the circular economy for self-adhesive labels, has relaunched its website, featuring an enhanced platform that helps…",
+          "url": "https://www.earthisland.co.uk/single-post/celab-europe-makes-label-waste-recycling-solutions-easier-to-find",
+          "publisher": "earthisland.co.uk",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T12:08:43.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.93
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.93
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.48
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    },
+    {
+      "sector": "health-education-estates",
+      "query": "(hospital OR campus OR university OR school) AND (\"net zero\" OR solar OR decarbonization OR decarbonisation OR \"energy efficiency\" OR \"water efficiency\" OR \"waste management\")",
+      "industryFilter": null,
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "SoleCrypt Plans 40MW Solar-Powered AI Campus in Bizerte, Tunisia",
+          "summary": "London-based SoleCrypt has announced plans for a 40MW AI campus in Bizerte, Tunisia, powered by solar energy and targeting operations in 2028. The company unveiled the SoleCrypt AI Campus at NVIDIA…",
+          "url": "https://iafrica.com/solecrypt-plans-40mw-solar-powered-ai-campus-in-bizerte-tunisia/",
+          "publisher": "iafrica.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T15:03:20.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.29
+            },
+            {
+              "id": "medtop:20001264",
+              "name": "infrastructure policy",
+              "score": 0.18
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.18
+            }
+          ],
+          "industries": [
+            {
+              "id": "1252",
+              "name": "Traditional Power Generation"
+            },
+            {
+              "id": "1251",
+              "name": "Power Generation"
+            },
+            {
+              "id": "1250",
+              "name": "Public Utilities"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Solar energy center begins operations with support from Wake Forest University | Wake Forest News",
+          "summary": "Wake Forest University and eight other colleges and universities in North Carolina and Pennsylvania have collaborated to bring a western Kentucky solar energy center online. A subsidiary of NextEra…",
+          "url": "https://news.wfu.edu/2026/10/23/solar-energy-center-begins-operations-with-support-from-wake-forest-university/",
+          "publisher": "news.wfu.edu",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T13:16:46.000Z",
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.37
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.09
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.18
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.9
+            }
+          ],
+          "industries": [
+            {
+              "id": "326",
+              "name": "Fuel"
+            },
+            {
+              "id": "336",
+              "name": "Natural resources"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Chinese Academy Of Sciences Team Hits 18.8% Efficiency On Large-area Solar Cells",
+          "summary": "Researchers at the Ningbo Institute of Materials Technology and Engineering (NIMTE) of the Chinese Academy of Sciences ( CAS ) report achieving 18.8% power conversion efficiency on large-area (15.6…",
+          "url": "https://quantumzeitgeist.com/chinese-sciences-academy-18-8-percent/",
+          "publisher": "quantumzeitgeist.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T10:06:56.000Z",
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.34
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.34
+            },
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:20000756",
+              "name": "technology and engineering",
+              "score": 0.91
+            },
+            {
+              "id": "medtop:20001209",
+              "name": "solar power",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:20000257",
+              "name": "renewable energy",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.79
+            }
+          ],
+          "industries": [
+            {
+              "id": "902",
+              "name": "Specialized Semiconductor Devices for"
+            },
+            {
+              "id": "894",
+              "name": "Chips for electronics"
+            },
+            {
+              "id": "893",
+              "name": "Electronic components"
+            },
+            {
+              "id": "909",
+              "name": "Photovoltaic Cells"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Foundation Plans Solar Power, Digital Facilities For OAU Postgraduate College",
+          "summary": "The Tunji Olowolafe Foundation has pledged to provide solar power, virtual learning facilities and digital infrastructure for the Postgraduate College of Obafemi Awolowo University (OAU), Ile-Ife…",
+          "url": "http://cedmagazineng.com/2026/10/23/foundation-plans-solar-power-digital-facilities-for-oau-postgraduate-college/",
+          "publisher": "cedmagazineng.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T09:46:45.000Z",
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 1.03
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.78
+            },
+            {
+              "id": "medtop:20000735",
+              "name": "scientific research",
+              "score": 0.71
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.68
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20000257",
+              "name": "renewable energy",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.48
+            }
+          ],
+          "industries": [
+            {
+              "id": "909",
+              "name": "Photovoltaic Cells"
+            },
+            {
+              "id": "902",
+              "name": "Specialized Semiconductor Devices for"
+            },
+            {
+              "id": "894",
+              "name": "Chips for electronics"
+            },
+            {
+              "id": "893",
+              "name": "Electronic components"
+            },
+            {
+              "id": "919",
+              "name": "Service"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Odisha to include solid waste management in school curriculum",
+          "summary": "Bhubaneswar: Chief Secretary Anu Garg directed the concerned departments and district administrations to strengthen solid waste management (SWM) through scientific processing, strict enforcement of…",
+          "url": "https://www.orissapost.com/odisha-to-include-solid-waste-management-in-school-curriculum/",
+          "publisher": "orissapost.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T03:59:42.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.84
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.65
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:05000000",
+              "name": "education",
+              "score": 1.29
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 1.28
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            },
+            {
+              "id": "392",
+              "name": "Waste disposal"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "USC unveils solar-powered mosquito tech at national health convention | Catholic Educational Institution in Cebu City, PH",
+          "summary": "Dr. Frances Edillo, head of the University of San Carlos (USC) Mosquito Research Laboratory (MRL), delivered a plenary talk highlighting breakthrough ecological solutions during the 73rd Anniversary…",
+          "url": "https://usc.edu.ph/usc-unveils-solar-powered-mosquito-tech-at-national-health-convention",
+          "publisher": "usc.edu.ph",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-23T01:42:43.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:07000000",
+              "name": "health",
+              "score": 1.37
+            }
+          ],
+          "industries": [
+            {
+              "id": "535",
+              "name": "Medical services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Olowolafe Pledges Solar Power, Digital Facilities for OAU Postgraduate College",
+          "summary": "Olowolafe Pledges Solar Power, Digital Facilities for OAU Postgraduate College Dr. Tunji Olowolafe, Founder of the Tunji Olowolafe Foundation, has pledged to provide solar power, virtual learning…",
+          "url": "https://prnigeria.com/2026/10/22/olowolafe-solar-power-oau/",
+          "publisher": "prnigeria.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-22T13:36:38.000Z",
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 0.91
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.81
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.71
+            },
+            {
+              "id": "medtop:20000735",
+              "name": "scientific research",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:05000000",
+              "name": "education",
+              "score": 0.53
+            },
+            {
+              "id": "medtop:20000257",
+              "name": "renewable energy",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.49
+            }
+          ],
+          "industries": [
+            {
+              "id": "909",
+              "name": "Photovoltaic Cells"
+            },
+            {
+              "id": "902",
+              "name": "Specialized Semiconductor Devices for"
+            },
+            {
+              "id": "894",
+              "name": "Chips for electronics"
+            },
+            {
+              "id": "893",
+              "name": "Electronic components"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Nagaland University holds lecture on sustainable solid waste management",
+          "summary": "Lumami, October 22 (MExN): The Committee for Mission LiFE of Nagaland University organised a lecture on solid waste management at the Conference Hall of the Department of Environmental Science (EVS)…",
+          "url": "https://morungexpress.com/nagaland-university-holds-lecture-on-sustainable-solid-waste-management",
+          "publisher": "morungexpress.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-22T13:26:04.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 3.08
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.6
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.99
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 1.82
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Fujitsu, Nagoya University, JAMSTEC and NICT Develop Technology to Automatically Optimize Parameters for Solar Energetic Particle Simulations",
+          "summary": "Fujitsu Limited (Fujitsu), Nagoya University, Tokai National Higher Education and Research System (Nagoya University), the Japan Agency for Marine-Earth Science and Technology (JAMSTEC), and the…",
+          "url": "https://www.azosensors.com/news.aspx?newsID=16987",
+          "publisher": "azosensors.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-22T06:18:00.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:13000000",
+              "name": "science and technology",
+              "score": 2.52
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.45
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.23
+            },
+            {
+              "id": "medtop:20000717",
+              "name": "natural science",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20000731",
+              "name": "physics",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000732",
+              "name": "electromagnetism",
+              "score": 0.66
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000228",
+              "name": "satellite technology",
+              "score": 0.47
+            },
+            {
+              "id": "medtop:20000225",
+              "name": "computing and information technology",
+              "score": 0.47
+            }
+          ],
+          "industries": [
+            {
+              "id": "45",
+              "name": "Air and Space Imaging"
+            },
+            {
+              "id": "1219",
+              "name": "Travel"
+            },
+            {
+              "id": "1086",
+              "name": "Tech"
+            },
+            {
+              "id": "1",
+              "name": "Aero Defense"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Nagaland University lecture highlights sustainable solid waste management",
+          "summary": "Nagaland University’s Committee for Mission LiFE organised a lecture on Solid Waste Management in hybrid mode at Lumami on October 21, highlighting the importance of waste segregation, recycling…",
+          "url": "https://nagalandtribune.in/nagaland-university-lecture-highlights-sustainable-solid-waste-management/",
+          "publisher": "nagalandtribune.in",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-21T13:58:40.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 3.12
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.77
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 2.03
+            },
+            {
+              "id": "medtop:20000269",
+              "name": "waste management",
+              "score": 1.86
+            }
+          ],
+          "industries": [
+            {
+              "id": "374",
+              "name": "Waste Management"
+            },
+            {
+              "id": "388",
+              "name": "Waste handling"
+            },
+            {
+              "id": "395",
+              "name": "Materials Recycling"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    },
+    {
+      "sector": "health-education-estates",
+      "query": "(hospital OR campus OR university OR school) AND (\"net zero\" OR solar OR decarbonization OR decarbonisation OR \"energy efficiency\" OR \"water efficiency\" OR \"waste management\")",
+      "industryFilter": [
+        "549",
+        "556",
+        "322"
+      ],
+      "ok": true,
+      "received": 2,
+      "articles": [
+        {
+          "title": "Transforming Waste Management in Jalgav: Inside the New TB Hospital Transfer Center",
+          "summary": "Explore how Jalgav's new waste transfer center, inspected by Municipal Commissioner Aditya Jivne, is set to revolutionize garbage management at TB Hospital and beyond. Discover insights into the…",
+          "url": "https://www.esakal.com/uttar-maharashtra/nashik/jalgav-waste-transfer-center",
+          "publisher": "esakal.com",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-10-19T16:14:10.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000462",
+              "name": "hospital",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000461",
+              "name": "health facility",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:07000000",
+              "name": "health",
+              "score": 0.6
+            }
+          ],
+          "industries": [
+            {
+              "id": "564",
+              "name": "Medical transport"
+            },
+            {
+              "id": "556",
+              "name": "Healthcare"
+            },
+            {
+              "id": "535",
+              "name": "Medical services"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        },
+        {
+          "title": "Central University Hosts European Delegation Over Proposed Waste Management Master’s Programme",
+          "summary": "Central University has hosted a delegation of European university representatives in a strategic engagement aimed at advancing collaboration on a proposed Master’s programme in Waste Management and…",
+          "url": "https://sierraloaded.sl/news/central-university-eu-delegation-waste/",
+          "publisher": "sierraloaded.sl",
+          "currentlyAllowedPublisher": false,
+          "publishedAt": "2026-09-30T22:06:16.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:05000000",
+              "name": "education",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.88
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.7
+            },
+            {
+              "id": "medtop:20000412",
+              "name": "curriculum",
+              "score": 0.57
+            },
+            {
+              "id": "medtop:20001264",
+              "name": "infrastructure policy",
+              "score": 0.47
+            }
+          ],
+          "industries": [
+            {
+              "id": "307",
+              "name": "Education"
+            },
+            {
+              "id": "790",
+              "name": "Mineral"
+            },
+            {
+              "id": "766",
+              "name": "Materials extraction"
+            },
+            {
+              "id": "792",
+              "name": "Building material made from raw materials and water.Used in construction"
+            },
+            {
+              "id": "322",
+              "name": "Advanced Learning"
+            }
+          ],
+          "sectorReview": "pending",
+          "accessCheck": "not_run"
+        }
+      ]
+    }
+  ],
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "today": 119,
+      "total": 119
+    },
+    {
+      "provider": "gdelt",
+      "today": 0,
+      "total": 90
+    },
+    {
+      "provider": "newsdata",
+      "today": 0,
+      "total": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "today": 24,
+      "total": 335
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "today": 125,
+      "total": 125
+    },
+    {
+      "provider": "gdelt",
+      "today": 0,
+      "total": 90
+    },
+    {
+      "provider": "newsdata",
+      "today": 0,
+      "total": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "today": 24,
+      "total": 335
+    }
+  ],
+  "recordsUnchanged": true,
+  "elapsedSeconds": 55.4
+}

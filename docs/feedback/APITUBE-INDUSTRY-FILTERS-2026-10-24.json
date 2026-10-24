@@ -1,0 +1,944 @@
+{
+  "checkedAt": "2026-10-24T01:11:25.894Z",
+  "diagnosticOnly": true,
+  "dailyBefore": 74,
+  "dateWindowDays": 31,
+  "results": [
+    {
+      "label": "finance-industries",
+      "industries": "399,423,440",
+      "query": "climate OR sustainab* OR ESG OR \"green bond\" OR \"energy transition\"",
+      "sources": "theguardian.com,bbc.co.uk,reuters.com",
+      "ok": true,
+      "received": 1,
+      "articles": [
+        {
+          "title": "‘We want action’: Fijian climate activist sends message ahead of UN talks in Pacific",
+          "summary": "From her wooden veranda in Fiji’s remote Yasawa islands, climate activist Lavenia Naivalu remembers when the reefs were once so healthy, her grandfather would walk to the shoreline and return with…",
+          "url": "https://www.theguardian.com/world/2026/oct/03/we-want-action-fijian-climate-activist-sends-message-ahead-of-un-talks-in-pacific",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-02T23:30:43.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.73
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 1.68
+            },
+            {
+              "id": "medtop:20000788",
+              "name": "mankind",
+              "score": 1.48
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.19
+            }
+          ]
+        }
+      ],
+      "returnedIndustryEvidence": [
+        [
+          {
+            "id": "399",
+            "name": "Finance"
+          },
+          {
+            "id": "55",
+            "name": "Farming and fishing"
+          }
+        ]
+      ]
+    },
+    {
+      "label": "health-education-industries",
+      "industries": "549,556,322",
+      "query": "climate OR energy OR water OR emissions OR sustainab* OR \"heat pump\" OR \"net zero\"",
+      "sources": "theguardian.com,bbc.co.uk,reuters.com",
+      "ok": true,
+      "received": 0,
+      "articles": [],
+      "returnedIndustryEvidence": []
+    },
+    {
+      "label": "water-industries",
+      "industries": "398,397,395",
+      "query": "",
+      "sources": "theguardian.com,bbc.co.uk,reuters.com",
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "Every Briton should stockpile water and food supplies, government advises",
+          "summary": "Every Briton is being urged to stock up to nine litres of bottled water and three days’ worth of food in new government guidance designed to ensure that households can survive a weather, cyber or…",
+          "url": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T18:10:11.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.8
+            }
+          ]
+        },
+        {
+          "title": "Almost every shallow-water coral reef on the planet faces ecosystem collapse by 2075, UN advisors say",
+          "summary": "Almost every shallow-water coral reef on the planet, including Australia’s Great Barrier Reef , faces a high risk of ecosystem collapse before 2075 because of global heating, according to an…",
+          "url": "https://www.theguardian.com/australia-news/2026/oct/22/shallow-water-coral-reef-ecosystem-collapse-by-2075-un-advisors-say",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-22T12:00:45.000Z",
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.04
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.08
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 1.06
+            }
+          ]
+        },
+        {
+          "title": "Troubled waters: life during wartime for Iranians on the strait of Hormuz",
+          "summary": "Capt Farouq turns the wheel as he watches the ferry terminal of Bandar Abbas grow smaller, its bright lights flickering in the distance. In front of him, the navigation radar beeps periodically, its…",
+          "url": "https://www.theguardian.com/artanddesign/2026/oct/21/strait-of-hormuz-life-amid-wartime-iran",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-21T05:00:02.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.5
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.16
+            },
+            {
+              "id": "medtop:20000538",
+              "name": "leisure",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:10000000",
+              "name": "lifestyle and leisure",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.94
+            }
+          ]
+        },
+        {
+          "title": "Firefighters voice growing concerns over water supplies to tackle UK wildfires",
+          "summary": "Concerns have been raised about how drought affects the UK’s ability to cope with wildfires after MPs were told firefighters struggled for water supplies during this year’s record summer. The…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/21/firefighters-growing-concerns-water-supplies-tackle-wildfires",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-21T04:00:05.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 2.73
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 2.47
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.09
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20001202",
+              "name": "wildfire",
+              "score": 1.59
+            },
+            {
+              "id": "medtop:20000150",
+              "name": "fire",
+              "score": 1.59
+            },
+            {
+              "id": "medtop:20000152",
+              "name": "drought",
+              "score": 0.89
+            },
+            {
+              "id": "medtop:20000151",
+              "name": "natural disaster",
+              "score": 0.89
+            }
+          ]
+        },
+        {
+          "title": "Great white shark leaps from water and photobombs California beachgoers",
+          "summary": "A great white shark put on a spectacular display for California beachgoers over the weekend, leaping from the water off Marina state beach and photobombing visitors. Videos circulating online show a…",
+          "url": "https://www.theguardian.com/us-news/2026/oct/20/great-white-shark-photobomb-california",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T16:45:59.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.08
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.54
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.36
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 0.9
+            }
+          ]
+        },
+        {
+          "title": "‘For Panama, it is life or death’: how drought is choking the canal that feeds a nation",
+          "summary": "The cattle should be ambling, grazing contentedly, through Robert Delgado’s fields. Instead, the animals slump in the shade, tongues lolling, in futile attempts to avoid the blistering heat. Soon it…",
+          "url": "https://www.theguardian.com/global-development/2026/oct/20/panama-canal-environment-water-drought-el-nino-farming",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T10:00:32.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 4.58
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.16
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 4
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.97
+            },
+            {
+              "id": "medtop:20001174",
+              "name": "regional development policy",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001292",
+              "name": "economic development incentive",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000345",
+              "name": "economic policy",
+              "score": 2
+            }
+          ]
+        },
+        {
+          "title": "Fleeing the frontline: Yemeni families cross Red Sea to Djibouti as Houthi conflict rages",
+          "summary": "Abubaker Saeed was fishing in the Red Sea off Yemen’s coast last month when he noticed explosions in the distance. His mind turned immediately to his wife and two children, and he raced back to his…",
+          "url": "https://www.theguardian.com/world/2026/oct/20/families-cross-red-sea-to-djibouti-houthi-conflict-yemen",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-20T10:00:32.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 2.41
+            },
+            {
+              "id": "medtop:20000788",
+              "name": "mankind",
+              "score": 0.92
+            },
+            {
+              "id": "medtop:20000780",
+              "name": "family",
+              "score": 0.67
+            }
+          ]
+        },
+        {
+          "title": "Can countries deliver on a deal to save the world’s plants and animals?",
+          "summary": "Passersby could smell the dead fish before they saw them. In August, more than 3,000 pike, roach, carp and rudd were found lifeless along the River Wensum in Norwich. Some gasped for air in their…",
+          "url": "https://www.theguardian.com/environment/2026/oct/19/can-countries-deliver-on-a-deal-to-save-the-worlds-plants-and-animals",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-19T10:16:09.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 8.63
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 2.5
+            },
+            {
+              "id": "medtop:20000500",
+              "name": "animal",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000442",
+              "name": "ecosystem",
+              "score": 0.72
+            }
+          ]
+        },
+        {
+          "title": "Florida fisher dragged into water and killed by 12ft alligator",
+          "summary": "A man fishing at a pond in Florida was killed on Friday by an alligator that was almost 12ft long in a rare kind of animal attack, according to authorities and media reports. Steve Hamilton, 71, was…",
+          "url": "https://www.theguardian.com/us-news/2026/oct/17/alligator-attack-florida-fisher-killed",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-17T15:23:32.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.02
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.24
+            }
+          ]
+        },
+        {
+          "title": "Stinky business: south London bike shop hit by ‘unbearable’ stench from Thames Water sewer",
+          "summary": "The leafy southLondonneighbourhood of Herne Hill is a haven for cyclists who can often be seen lapping the local parks and refuelling at the many cafes that line the suburban streets. But there is…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/17/south-london-bike-shop-stench-thames-water-sewer-herne-hill",
+          "publisher": "theguardian.com",
+          "publishedAt": "2026-10-17T09:00:26.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.98
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.26
+            }
+          ]
+        }
+      ],
+      "returnedIndustryEvidence": [
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          },
+          {
+            "id": "515",
+            "name": "Safety Services"
+          },
+          {
+            "id": "513",
+            "name": "Government Services"
+          },
+          {
+            "id": "512",
+            "name": "Gov & Nonprofits"
+          },
+          {
+            "id": "517",
+            "name": "Fire Department"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "55",
+            "name": "Farming and fishing"
+          },
+          {
+            "id": "74",
+            "name": "Livestock production"
+          },
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          },
+          {
+            "id": "512",
+            "name": "Gov & Nonprofits"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          },
+          {
+            "id": "526",
+            "name": "Environment Conservation Wildlife"
+          },
+          {
+            "id": "519",
+            "name": "Advocacy organizations"
+          },
+          {
+            "id": "512",
+            "name": "Gov & Nonprofits"
+          },
+          {
+            "id": "131",
+            "name": "Zoological Gardens and Botanical"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ],
+        [
+          {
+            "id": "398",
+            "name": "Water"
+          },
+          {
+            "id": "374",
+            "name": "Waste Management"
+          }
+        ]
+      ]
+    },
+    {
+      "label": "bbc-source-availability",
+      "industries": "",
+      "query": "",
+      "sources": "bbc.co.uk",
+      "ok": true,
+      "received": 10,
+      "articles": [
+        {
+          "title": "Cost of independent football regulator double initial estimate",
+          "summary": "The annual cost to English clubs of the Independent Football Regulator (IFR) has risen to £20.3m, around double the amount initially estimated. The watchdog has proposed a levy to fund operating…",
+          "url": "https://www.bbc.co.uk/sport/football/articles/c6lylk1zyqd7o?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T12:19:33.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:15000000",
+              "name": "sport",
+              "score": 9.61
+            },
+            {
+              "id": "medtop:20000822",
+              "name": "competition discipline",
+              "score": 5.61
+            },
+            {
+              "id": "medtop:20001065",
+              "name": "football",
+              "score": 5.25
+            }
+          ]
+        },
+        {
+          "title": "Manchester United: Antonio Conte dismisses 'unfounded' speculation",
+          "summary": "Antonio Conte has said he is not in \"advanced negotiations\" with any club in response to reports he has held talks with Manchester United. Italian newspaper La Repubblica, external claimed on…",
+          "url": "https://www.bbc.co.uk/sport/football/articles/cmvg6j8jezn7o?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T12:15:53.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:15000000",
+              "name": "sport",
+              "score": 8.73
+            },
+            {
+              "id": "medtop:20001065",
+              "name": "football",
+              "score": 4.26
+            },
+            {
+              "id": "medtop:20000822",
+              "name": "competition discipline",
+              "score": 4.26
+            }
+          ]
+        },
+        {
+          "title": "Andy Burnham defends Gogglebox appearance after Badenoch criticism",
+          "summary": "Prime Minister Andy Burnham has defended his decision to appear on a celebrity episode of Channel 4 hit show Gogglebox after opposition leader Kemi Badenoch said she was \"amazed\" he had time to do…",
+          "url": "https://www.bbc.co.uk/news/articles/cm4g140585ngo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T12:01:46.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000613",
+              "name": "minister or secretary (government)",
+              "score": 0.3
+            }
+          ]
+        },
+        {
+          "title": "'It's been relentless' say IT workers on frontline of PHP cyber security scramble",
+          "summary": "Microsoft boss Satya Nadella says he has not seen anything like the PHP emergency \"in a long, long time\". Referencing the ongoing global efforts to fix the critical cyber-security flaw in millions…",
+          "url": "https://www.bbc.co.uk/news/articles/cxnv025d8qpmo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T12:00:25.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000086",
+              "name": "cyber crime",
+              "score": 0.55
+            },
+            {
+              "id": "medtop:20000082",
+              "name": "crime",
+              "score": 0.55
+            },
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 0.55
+            },
+            {
+              "id": "medtop:20000627",
+              "name": "data protection policy",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.54
+            }
+          ]
+        },
+        {
+          "title": "Burnham suggests stocking up on tinned food and bottled water",
+          "summary": "The prime minister has advised people to stock up on tinned food and bottled water in order to be prepared for emergencies. With storms battering the UK, and in the wake of online disruption caused…",
+          "url": "https://www.bbc.co.uk/news/articles/ckr5yz2pqqppo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T11:43:45.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.25
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.25
+            },
+            {
+              "id": "medtop:20000613",
+              "name": "minister or secretary (government)",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000614",
+              "name": "national government",
+              "score": 0.22
+            }
+          ]
+        },
+        {
+          "title": "Newcastle United: What is going on at 'chaotic' Magpies?",
+          "summary": "Perhaps it was meant to lift spirits after Newcastle's underwhelming start to the season. On Tuesday, the Magpies reminded their 2.8 million followers on X that it was 30 years to the day that Kevin…",
+          "url": "https://www.bbc.co.uk/sport/football/articles/c60qkpe0e54qo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T06:37:20.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:15000000",
+              "name": "sport",
+              "score": 9.05
+            },
+            {
+              "id": "medtop:20000822",
+              "name": "competition discipline",
+              "score": 4.71
+            },
+            {
+              "id": "medtop:20001065",
+              "name": "football",
+              "score": 4.53
+            }
+          ]
+        },
+        {
+          "title": "Flat-track bullies Celtic continue descent into European irrelevance",
+          "summary": "Even at their best in recent decades, Celtic have struggled awfully to win European games on the road. Right now, that looks way beyond them. Winning at home is too much for them these days, too. So…",
+          "url": "https://www.bbc.co.uk/sport/football/articles/crp3gde84j4zo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T06:26:23.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:15000000",
+              "name": "sport",
+              "score": 8.56
+            },
+            {
+              "id": "medtop:20000822",
+              "name": "competition discipline",
+              "score": 4.56
+            },
+            {
+              "id": "medtop:20001065",
+              "name": "football",
+              "score": 4.31
+            }
+          ]
+        },
+        {
+          "title": "UK weather: Amber warning in place as Storm Austen hits parts of UK",
+          "summary": "An amber weather warning has come into force in parts of the UK as Storm Austen brings a swathe of powerful winds and heavy rain on Friday. South West England is forecast to be worst hit by the storm…",
+          "url": "https://www.bbc.co.uk/weather/articles/cq8ezy256e42o?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-23T00:08:43.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:17000000",
+              "name": "weather",
+              "score": 5.02
+            },
+            {
+              "id": "medtop:20001128",
+              "name": "weather forecast",
+              "score": 0.19
+            }
+          ]
+        },
+        {
+          "title": "Tiger Shroff: Attack on Indian actor brings Bollywood's gangster past back into focus",
+          "summary": "On Sunday evening, Bollywood actor Tiger Shroff went to play football in Juhu, a leafy, affluent Mumbai neighbourhood where film stars live, fans congregate and celebrity sightings are a part of…",
+          "url": "https://www.bbc.co.uk/news/articles/c6vgjk1lp7njo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-22T23:55:39.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 2.2
+            },
+            {
+              "id": "medtop:20000082",
+              "name": "crime",
+              "score": 0.87
+            },
+            {
+              "id": "medtop:20000133",
+              "name": "police",
+              "score": 0.81
+            },
+            {
+              "id": "medtop:20000129",
+              "name": "law enforcement",
+              "score": 0.81
+            },
+            {
+              "id": "medtop:20000101",
+              "name": "organised crime",
+              "score": 0.52
+            }
+          ]
+        },
+        {
+          "title": "O'Neill bemoans marginal moments but are Celtic just not good enough?",
+          "summary": "Centre-back Liam Scales had by far the most touches of any Celtic player with 121, well ahead of left-back Kieran Tierney (79) and goalkeeper Sam Johnstone (69). Goalscorer Baur admitted they did not…",
+          "url": "https://www.bbc.co.uk/sport/football/articles/cqx287ekvvvpo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "publishedAt": "2026-10-22T22:52:52.000Z",
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:15000000",
+              "name": "sport",
+              "score": 8.17
+            },
+            {
+              "id": "medtop:20001065",
+              "name": "football",
+              "score": 4.17
+            },
+            {
+              "id": "medtop:20000822",
+              "name": "competition discipline",
+              "score": 4.17
+            }
+          ]
+        }
+      ],
+      "returnedIndustryEvidence": [
+        [],
+        [],
+        [],
+        [
+          {
+            "id": "1086",
+            "name": "Tech"
+          },
+          {
+            "id": "1163",
+            "name": "Computer Systems in"
+          }
+        ],
+        [
+          {
+            "id": "466",
+            "name": "Drinks"
+          },
+          {
+            "id": "465",
+            "name": "Food and Beverage"
+          },
+          {
+            "id": "472",
+            "name": "Nonalcoholic Beverage"
+          }
+        ],
+        [
+          {
+            "id": "1052",
+            "name": "Sports"
+          },
+          {
+            "id": "1063",
+            "name": "Live Sports"
+          },
+          {
+            "id": "1068",
+            "name": "Paid Athlete"
+          },
+          {
+            "id": "1065",
+            "name": "Global Sports"
+          },
+          {
+            "id": "1066",
+            "name": "World Cup"
+          }
+        ],
+        [
+          {
+            "id": "1052",
+            "name": "Sports"
+          }
+        ],
+        [],
+        [
+          {
+            "id": "621",
+            "name": "Information media"
+          },
+          {
+            "id": "632",
+            "name": "Film"
+          }
+        ],
+        []
+      ]
+    },
+    {
+      "label": "reuters-source-availability",
+      "industries": "",
+      "query": "",
+      "sources": "reuters.com",
+      "ok": true,
+      "received": 0,
+      "articles": [],
+      "returnedIndustryEvidence": []
+    }
+  ],
+  "dailyAfter": 79,
+  "recordsUnchanged": true
+}

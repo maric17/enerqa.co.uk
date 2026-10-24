@@ -1,0 +1,3798 @@
+{
+  "checkedAt": "2026-10-24T01:09:59.871Z",
+  "completed": true,
+  "diagnosticOnly": true,
+  "sourceDomains": [
+    "theguardian.com",
+    "bbc.co.uk",
+    "reuters.com"
+  ],
+  "dateWindowDays": 31,
+  "articlesPerRequest": 10,
+  "elapsedSeconds": 194.6,
+  "results": [
+    {
+      "slug": "government-regulators-public-institutions",
+      "title": "Government, Regulators & Public Institutions",
+      "query": "(government OR minister OR policy OR regulation OR \"net zero\" OR \"climate target\" OR \"emissions target\" OR \"deforestation law\")",
+      "ok": true,
+      "received": 5,
+      "topical": 2,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "title": "Every Briton should stockpile water and food supplies, government advises",
+          "summary": "Every Briton is being urged to stock up to nine litres of bottled water and three days’ worth of food in new government guidance designed to ensure that households can survive a weather, cyber or…",
+          "url": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T18:10:11.000Z",
+          "ageDays": 1.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.8
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "summary": "Andy Burnham has said he will not “abandon the responsibility” of fighting the climate crisis after the government approved the Jackdaw gasfield, saying he would not approve any new North Sea…",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T17:22:52.000Z",
+          "ageDays": 1.3,
+          "topics": [
+            "climate",
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 5.03
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.61
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "title": "US corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report finds",
+          "summary": "US corporate lobbyists launched a two-year “blitz” to postpone and weaken the world’s most progressive legislation to protect forests, according to a new investigation by the environmental watchdog…",
+          "url": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-17T11:00:31.000Z",
+          "ageDays": 6.6,
+          "topics": [
+            "environment",
+            "business"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 5.39
+            },
+            {
+              "id": "medtop:20000432",
+              "name": "land resources",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.79
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/technology/2026/oct/02/openai-disclose-another-hack-on-government-department-in-australia",
+          "title": "OpenAI disclose another hack on government department in Australia",
+          "summary": "Artificial intelligence company OpenAI has disclosed another unauthorised hack on a government department in Australia. In June, an OpenAI agent hacked into a New South Wales state government…",
+          "url": "https://www.theguardian.com/technology/2026/oct/02/openai-disclose-another-hack-on-government-department-in-australia",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-02T10:00:05.000Z",
+          "ageDays": 21.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.81
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.29
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.02
+            },
+            {
+              "id": "medtop:20000614",
+              "name": "national government",
+              "score": 0.67
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/business/live/2026/sep/23/oil-prices-fall-us-iran-talks-stock-markets-saudi-pipeline-latest-news-updates",
+          "title": "UK economic outlook brighter as new government measures will boost growth, says OECD – business live",
+          "summary": "Oil prices fall for a sixth day in their longest losing streak in over a year, as Saudi Arabia reportedly restarts its east-west pipeline and amid hopes for progress in US-Iran talks",
+          "url": "https://www.theguardian.com/business/live/2026/sep/23/oil-prices-fall-us-iran-talks-stock-markets-saudi-pipeline-latest-news-updates",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-23T09:59:27.000Z",
+          "ageDays": 30.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 7.72
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 4.48
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 2.75
+            },
+            {
+              "id": "medtop:20000370",
+              "name": "inflation",
+              "score": 1.16
+            },
+            {
+              "id": "medtop:20000383",
+              "name": "recession",
+              "score": 0.66
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        }
+      ]
+    },
+    {
+      "slug": "financial-institutions-investors-development-finance",
+      "title": "Financial Institutions, Investors & Development Finance",
+      "query": "(bank* OR investor* OR \"climate finance\" OR \"green bond\" OR \"sustainable finance\" OR \"development finance\")",
+      "ok": true,
+      "received": 10,
+      "topical": 0,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/21/energy-secretary-leaning-towards-rejecting-rosebank-oilfield",
+          "title": "Energy secretary leaning towards rejecting Rosebank oilfield",
+          "summary": "Miatta Fahnbulleh is leaning towards rejecting the giant Rosebank oilfield, the Guardian understands, in what would be a blow for the North Sea energy industry and a major victory for climate…",
+          "url": "https://www.theguardian.com/environment/2026/oct/21/energy-secretary-leaning-towards-rejecting-rosebank-oilfield",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T12:31:05.000Z",
+          "ageDays": 2.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.84
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.21
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/19/france-hit-by-debt-sell-off-as-protests-unnerve-investors",
+          "title": "France hit by debt sell-off as protests unnerve investors",
+          "summary": "France has been hit by a fresh wave of selling in its bond and stock markets afterviolent protestsover the weekend left public buildings burned, hundreds of shops looted and thousands of arrests…",
+          "url": "https://www.theguardian.com/world/2026/oct/19/france-hit-by-debt-sell-off-as-protests-unnerve-investors",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-19T07:32:59.000Z",
+          "ageDays": 4.7,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.07
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.85
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.65
+            },
+            {
+              "id": "medtop:20000129",
+              "name": "law enforcement",
+              "score": 0.62
+            },
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 0.62
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.52
+            },
+            {
+              "id": "medtop:20000371",
+              "name": "interest rates",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000379",
+              "name": "monetary policy",
+              "score": 0.33
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/technology/2026/oct/18/world-bank-artificial-intelligence-developing-economies",
+          "title": "World Bank says ‘small AI’ could transform developing countries",
+          "summary": "The World Bank is urging developing countries to kickstart the creation of “small AI” models, which can run on a mobile phone with low connectivity, to reap the full benefits of artificial…",
+          "url": "https://www.theguardian.com/technology/2026/oct/18/world-bank-artificial-intelligence-developing-economies",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T10:00:56.000Z",
+          "ageDays": 5.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.43
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.21
+            },
+            {
+              "id": "medtop:20000644",
+              "name": "international organisation",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000638",
+              "name": "international relations",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.58
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.52
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/17/bank-of-england-governor-andrew-bailey-walks-out-imf-summit-protest-russia",
+          "title": "Bank of England governor walks out of IMF summit in protest against Russia",
+          "summary": "The Bank of England governor, Andrew Bailey, has taken part in a walkout of finance leaders who left an International Monetary Fund meeting in protest against Russian involvement. Bailey joined…",
+          "url": "https://www.theguardian.com/business/2026/oct/17/bank-of-england-governor-andrew-bailey-walks-out-imf-summit-protest-russia",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-17T12:15:37.000Z",
+          "ageDays": 6.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 0.58
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.45
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.22
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/commentisfree/2026/oct/16/the-guardian-view-on-the-banks-too-big-to-fail-cannot-mean-too-big-to-tax",
+          "title": "The Guardian view on the banks: too big to fail cannot mean too big to tax | Editorial",
+          "summary": "John Healey is planning to tax British banks, the Guardianrevealed, in the forthcoming budget. It’sabout timefor the chancellor to act. Banks have been raking it in. The campaign groupPositive…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/16/the-guardian-view-on-the-banks-too-big-to-fail-cannot-mean-too-big-to-tax",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-16T16:52:37.000Z",
+          "ageDays": 7.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.57
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.36
+            },
+            {
+              "id": "medtop:20000379",
+              "name": "monetary policy",
+              "score": 0.98
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/c32l4k2xdvrzo?at_medium=RSS&at_campaign=rss",
+          "title": "Banks say Healey is planning Budget tax raid on their profits",
+          "summary": "Senior banking executives have told the BBC they expect the sector to be \"on the menu\" when the chancellor announces his Budget in two weeks' time. John Healey has described the banks as part of \"the…",
+          "url": "https://www.bbc.co.uk/news/articles/c32l4k2xdvrzo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-10-15T17:14:36.000Z",
+          "ageDays": 8.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.71
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.81
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/uk-news/2026/oct/15/john-healey-raise-taxes-banks-budget",
+          "title": "John Healey poised to raise taxes on banks in budget",
+          "summary": "John Healey is poised to tax Britain’s banks in his 28 October budget to help offset the damage inflicted on the public finances by war in the Middle East, the Guardian understands. The chancellor is…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/15/john-healey-raise-taxes-banks-budget",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-15T16:17:05.000Z",
+          "ageDays": 8.4,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.11
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.99
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.16
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.09
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 0.63
+            },
+            {
+              "id": "medtop:20000371",
+              "name": "interest rates",
+              "score": 0.46
+            },
+            {
+              "id": "medtop:20000379",
+              "name": "monetary policy",
+              "score": 0.46
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/13/volunteers-flushed-plastic-wet-wipes-river-thames",
+          "title": "‘It’s not glamorous’: the volunteers counting flushed wet wipes on the banks of the Thames",
+          "summary": "On a pale-blue Sunday morning on the foreshore of the River Thames, 40 people are searching for what others have tried to lose. Dotted across a 250-metre stretch under Hammersmith Bridge, they are…",
+          "url": "https://www.theguardian.com/environment/2026/oct/13/volunteers-flushed-plastic-wet-wipes-river-thames",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-13T10:00:05.000Z",
+          "ageDays": 10.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 5.22
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.76
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/08/uk-banknotes-new-design-barn-owl-bumblebee-puffin-hedgehog",
+          "title": "Next UK banknotes to feature barn owls, bumblebees, puffins and hedgehogs",
+          "summary": "Bees, barn owls, puffins and hedgehogs have been picked to feature on the next generation of banknotes, the Bank of England has announced. The quartet of creatures were selected after a large-scale…",
+          "url": "https://www.theguardian.com/business/2026/oct/08/uk-banknotes-new-design-barn-owl-bumblebee-puffin-hedgehog",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-08T04:00:11.000Z",
+          "ageDays": 15.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 0.98
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/cm4g175e8163o?at_medium=RSS&at_campaign=rss",
+          "title": "Ex-bankers jailed for rigging rates have convictions quashed",
+          "summary": "Five former Barclays traders sentenced in one of the biggest scandals of the financial crisis have had their convictions overturned following a long-running legal battle. Jay Merchant, Jonathan…",
+          "url": "https://www.bbc.co.uk/news/articles/cm4g175e8163o?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-10-07T11:46:05.000Z",
+          "ageDays": 16.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.05
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.05
+            },
+            {
+              "id": "medtop:20000371",
+              "name": "interest rates",
+              "score": 0.61
+            },
+            {
+              "id": "medtop:20000379",
+              "name": "monetary policy",
+              "score": 0.61
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 0.43
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        }
+      ]
+    },
+    {
+      "slug": "energy-utilities",
+      "title": "Energy & Utilities",
+      "query": "(electric* OR solar OR \"wind power\" OR \"wind farm\" OR utilities OR \"power grid\" OR \"battery storage\")",
+      "ok": true,
+      "received": 10,
+      "topical": 3,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "summary": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by the British industry…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "ageDays": 5.1,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.78
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.67
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.07
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": [
+            "electricity",
+            "gas prices",
+            "gas price"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/12/eu-deal-china-limit-imports-hybrid-electric-vehicles",
+          "title": "EU deal with China limits imports of hybrid electric vehicles",
+          "summary": "The EU is to limit the number of hybrid electrical vehicles imported from China to 350,000 cars a year, the European Commission has confirmed. Imports have been soaring in the last two years with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/12/eu-deal-china-limit-imports-hybrid-electric-vehicles",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-12T10:10:13.000Z",
+          "ageDays": 11.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/07/eu-negotiators-head-to-china-hoping-to-curb-cheap-imports-of-hybrid-electric-cars",
+          "title": "EU negotiators head to China hoping to curb cheap imports of hybrid electric cars",
+          "summary": "EU trade negotiators are heading to China for two days of crunch talks aimed at sealing a breakthrough deal tackling Beijing’s record £1bn-a-day trade surplus by curbing its exports of cheap hybrid…",
+          "url": "https://www.theguardian.com/business/2026/oct/07/eu-negotiators-head-to-china-hoping-to-curb-cheap-imports-of-hybrid-electric-cars",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-07T04:00:34.000Z",
+          "ageDays": 16.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.68
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.36
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.31
+            },
+            {
+              "id": "medtop:20000373",
+              "name": "international trade",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20000374",
+              "name": "trade agreements",
+              "score": 0.56
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/c3y0zx822wlzo?at_medium=RSS&at_campaign=rss",
+          "title": "Why electric cars might be making some passengers feel sick",
+          "summary": "EV drivers love their cars, but some passengers feel sick - this could be why Image source,Getty Images/Halfpoint Images ByGrace Dean Lola Baird has just asked her boyfriend to pull over. . . .",
+          "url": "https://www.bbc.co.uk/news/articles/c3y0zx822wlzo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-10-03T02:36:19.000Z",
+          "ageDays": 20.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.89
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.7
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.7
+            },
+            {
+              "id": "medtop:20000268",
+              "name": "petrol",
+              "score": 0.47
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/01/ukraine-war-briefing-russia-pounds-power-grid-with-seven-killed-in-biggest-energy-attack-in-months",
+          "title": "Ukraine war briefing: Russia pounds power grid with seven killed in biggest energy attack in months",
+          "summary": "Russia has unleashed a widely anticipated air campaign against Ukraine’s energy grid, hitting power facilities and infrastructure ⁠around Kyiv and other regions in the ⁠heaviest combined attack on…",
+          "url": "https://www.theguardian.com/world/2026/oct/01/ukraine-war-briefing-russia-pounds-power-grid-with-seven-killed-in-biggest-energy-attack-in-months",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-01T01:26:03.000Z",
+          "ageDays": 23,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 1.34
+            },
+            {
+              "id": "medtop:20000056",
+              "name": "armed conflict",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20000062",
+              "name": "war",
+              "score": 1.02
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.76
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "power grid"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/sep/30/australia-electric-cars-vehichles-ev-sales-double",
+          "title": "An EV sold every 100 seconds: Australian demand for electric cars more than doubles",
+          "summary": "Australians are buying electric vehicles at record levels, with sales more than doubling year on year and occurring at a rate equivalent to one EV sold every 100 seconds. A record 157,957 EV sales…",
+          "url": "https://www.theguardian.com/environment/2026/sep/30/australia-electric-cars-vehichles-ev-sales-double",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-30T02:02:20.000Z",
+          "ageDays": 24,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/cqn4k9nypxjro?at_medium=RSS&at_campaign=rss",
+          "title": "Andy Burnham to unveil public body to invest in electricity grid",
+          "summary": "Andy Burnham is expected to announce a new government body to invest in Britain's electricity grid in his first party conference speech as Labour leader on Tuesday. The prime minister will tell…",
+          "url": "https://www.bbc.co.uk/news/articles/cqn4k9nypxjro?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-09-28T23:35:53.000Z",
+          "ageDays": 25.1,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.41
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.18
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:09000000",
+              "name": "labour",
+              "score": 0.89
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.63
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.58
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electricity"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/sep/28/heat-pump-sales-soar-across-europe-after-ciuntries-cut-electricity-taxes-data-shows",
+          "title": "Heat pump sales soar across Europe after states cut electricity taxes, data shows",
+          "summary": "Sales of residential heat pumps jumped across Europe in the first six months of the year as the Iran war sent oil and gas prices rocketing and some countries lowered electricity taxes. Homeowners…",
+          "url": "https://www.theguardian.com/environment/2026/sep/28/heat-pump-sales-soar-across-europe-after-ciuntries-cut-electricity-taxes-data-shows",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-28T13:53:52.000Z",
+          "ageDays": 25.5,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 4.72
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 4.72
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.35
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 2.6
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.9
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 1.59
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electricity",
+            "gas prices",
+            "gas price"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/commentisfree/ng-interactive/2026/sep/25/andy-burnham-utilities-public-ownership-nationalisation-thames-water",
+          "title": "Andy Burnham talks about ‘public control’ of the utilities but it’s a minefield. We can lead him through it | Will Hutton and Andy Haldane",
+          "summary": "Nationalisation is not the ultimate answer for companies like Thames Water – but they could be run for the public benefit, say journalist and economist Will Hutton and former chief economist of the…",
+          "url": "https://www.theguardian.com/commentisfree/ng-interactive/2026/sep/25/andy-burnham-utilities-public-ownership-nationalisation-thames-water",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-25T05:00:41.000Z",
+          "ageDays": 28.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 3.65
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.49
+            },
+            {
+              "id": "medtop:20000345",
+              "name": "economic policy",
+              "score": 2.23
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 2.23
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.81
+            },
+            {
+              "id": "medtop:20000623",
+              "name": "nationalisation",
+              "score": 1.75
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.49
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.42
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "utilities"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/sep/23/bentley-launches-first-fully-electric-car-fake-engine-sounds",
+          "title": "Bentley launches first fully electric car – with fake engine sounds to replace classic growl",
+          "summary": "Bentley is launching its first fully electric car – complete with a drum soundtrack to replace the growl of a combustion engine – as part of a £350m investment in its UK business. The vehicle, an SUV…",
+          "url": "https://www.theguardian.com/business/2026/sep/23/bentley-launches-first-fully-electric-car-fake-engine-sounds",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-23T18:15:55.000Z",
+          "ageDays": 30.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.9
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.48
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        }
+      ]
+    },
+    {
+      "slug": "oil-gas-petrochemicals",
+      "title": "Oil, Gas & Petrochemicals",
+      "query": "(oil OR gas OR gasfield OR methane OR LNG OR refinery OR petrochemical*)",
+      "ok": true,
+      "received": 10,
+      "topical": 8,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news",
+          "title": "Oil hits five-month high as global stocks wobble on AI fears; retail sales in Great Britain fall as shoppers cut back - business live",
+          "summary": "Currency traders watch monitors near a screen showing the Korea Composite Stock Price Index (KOSPI) at the foreign exchange dealing room of the Hana Bank headquarters in Seoul, South Korea, Friday…",
+          "url": "https://www.theguardian.com/business/live/2026/oct/23/global-stocks-fall-ai-fears-grow-british-retail-sales-fall-business-live-latest-news",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-23T08:11:02.000Z",
+          "ageDays": 0.7,
+          "topics": [
+            "markets"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 6.96
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 4.16
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 1.82
+            },
+            {
+              "id": "medtop:20000370",
+              "name": "inflation",
+              "score": 0.54
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": [
+            "oil"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "title": "Sharp drops for AI stocks overwhelm markets worldwide as oil prices jump",
+          "summary": "The latest shudder for stocks in the AIindustry pulled markets lower worldwide on Thursday, while oil prices hit their highest levels since May on worries about thewar with Iran . The S&P 500 fell…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/stock-markets-drop-ai-oil",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T21:50:13.000Z",
+          "ageDays": 1.1,
+          "topics": [
+            "energy",
+            "markets"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.74
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 0.35
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.34
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.34
+            },
+            {
+              "id": "medtop:20000287",
+              "name": "personal finance and investment",
+              "score": 0.26
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 0.26
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": [
+            "oil"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "title": "Andy Burnham vows UK will hit net zero target despite Jackdaw gasfield approval",
+          "summary": "Andy Burnham has said he will not “abandon the responsibility” of fighting the climate crisis after the government approved the Jackdaw gasfield, saying he would not approve any new North Sea…",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/andy-burnham-vows-uk-will-hit-net-zero-targets-despite-jackdaw-gasfield-approval",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T17:22:52.000Z",
+          "ageDays": 1.3,
+          "topics": [
+            "climate",
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 5.03
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.61
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/commentisfree/2026/oct/22/net-zero-transition-britain-jackdaw-gasfield-jobs-energy-security-labour",
+          "title": "We will make the net-zero transition work for Britain – approving the Jackdaw gasfield is part of the plan | Andy Burnham",
+          "summary": "Protecting jobs and strengthening energy security in the short term does not mean wavering on Labour’s deep commitment to a cleaner, greener future, says UK prime minister Andy Burnham",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/22/net-zero-transition-britain-jackdaw-gasfield-jobs-energy-security-labour",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T17:00:45.000Z",
+          "ageDays": 1.3,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.63
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.06
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.82
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 1.63
+            },
+            {
+              "id": "medtop:20000263",
+              "name": "natural gas",
+              "score": 0.46
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/22/deepwater-horizon-oil-spill-gulf-marine-life",
+          "title": "Marine life in Gulf of Mexico has still not fully recovered from 2010 BP oil spill",
+          "summary": "Marine life in the Gulf of Mexico plummeted by about 60% after BP’s2010 Deepwater Horizon oil spilland has still not fully recovered, according to a newstudy. The April 2010explosion of an offshore...",
+          "url": "https://www.theguardian.com/environment/2026/oct/22/deepwater-horizon-oil-spill-gulf-marine-life",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T12:00:44.000Z",
+          "ageDays": 1.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 6.58
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.49
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.39
+            },
+            {
+              "id": "medtop:20000438",
+              "name": "oceans",
+              "score": 0.83
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "oil"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/22/oil-prices-jump-five-month-high-threats-supply",
+          "title": "Oil prices jump to five-month high as attacks threaten global supply",
+          "summary": "Oil prices jumped to a five-month high on Thursday after attacks in Saudi Arabia and hits to tankers in the strait of Hormuz threatened further disruptions to the world’s crude supply. Brent crude…",
+          "url": "https://www.theguardian.com/business/2026/oct/22/oil-prices-jump-five-month-high-threats-supply",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T11:28:11.000Z",
+          "ageDays": 1.6,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.25
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.48
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "oil"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/politics/live/2026/oct/21/jackdaw-gasfield-labour-andy-burnham-zack-polanski-uk-politics-latest-news",
+          "title": "Burnham and Badenoch clash over Jackdaw gasfield and inflation – UK politics live",
+          "summary": "From 1h ago Burnham says government considering removing standing charges from gas bills Kemi Badenoch thanks Burnham for finally backing Jackdaw. The Tories approved it in 2022, she says. And…",
+          "url": "https://www.theguardian.com/politics/live/2026/oct/21/jackdaw-gasfield-labour-andy-burnham-zack-polanski-uk-politics-latest-news",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T12:01:57.000Z",
+          "ageDays": 2.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.83
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.62
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.46
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:20000370",
+              "name": "inflation",
+              "score": 1.12
+            },
+            {
+              "id": "medtop:20000346",
+              "name": "economic trends and indicators",
+              "score": 1.12
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/uk-news/2026/oct/21/aberdeen-workers-relief-jackdaw-gasfield-approval",
+          "title": "‘Jackdaw means we pay our mortgages’: relief in Aberdeen over gasfield approval",
+          "summary": "As recently as 2012, Aberdeenboasted the highest concentrationof millionaires in the UK. An ATMreportedlyhad the highest withdrawal rate in Europe in the 90s, as oil and gas wealth flowed through the…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/21/aberdeen-workers-relief-jackdaw-gasfield-approval",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T10:19:18.000Z",
+          "ageDays": 2.6,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 3.13
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.05
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.92
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 1.8
+            },
+            {
+              "id": "medtop:20000263",
+              "name": "natural gas",
+              "score": 0.35
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "oil"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/21/jackdaw-gasfield-in-north-sea-approved",
+          "title": "UK approves Jackdaw gasfield in North Sea",
+          "summary": "The UK government has approved the controversial Jackdaw gasfield in the North Sea, a widely expected move that will nonetheless dismay environmental campaigners and a number of Labour MPs. While…",
+          "url": "https://www.theguardian.com/environment/2026/oct/21/jackdaw-gasfield-in-north-sea-approved",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T06:15:06.000Z",
+          "ageDays": 2.8,
+          "topics": [
+            "energy",
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.22
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "summary": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with climate campaigners and…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "ageDays": 3.3,
+          "topics": [
+            "climate",
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.9
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.44
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": [
+            "fuel"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "industry-manufacturing-materials",
+      "title": "Industry, Manufacturing & Materials",
+      "query": "(manufactur* OR steel* OR cement OR factory OR factories OR \"industrial emissions\")",
+      "ok": true,
+      "received": 2,
+      "topical": 1,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "title": "Electricity costs put UK steelmakers in worst position in three years against EU rivals",
+          "summary": "British steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by the British industry…",
+          "url": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "ageDays": 5.1,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.78
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.67
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.07
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": [
+            "steelmaker*"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/07/trump-steel-plant-iowa-skepticism",
+          "title": "Skepticism mires Trump’s Iowa steel plant project: ‘Promises are not the same as jobs’",
+          "summary": "Donald Trump has long sought to portray himself as a man of steel, from the White HousephotoshoppingTrump to look like Superman, to enacting tariffs on steel and approving the sale of US Steel to…",
+          "url": "https://www.theguardian.com/business/2026/oct/07/trump-steel-plant-iowa-skepticism",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-07T10:00:40.000Z",
+          "ageDays": 16.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 2.18
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.94
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.21
+            },
+            {
+              "id": "medtop:20000373",
+              "name": "international trade",
+              "score": 0.69
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.69
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "steel"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "infrastructure-real-estate-industrial-zones",
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "query": "(building* OR infrastructure OR retrofit* OR \"heat pump\" OR \"green buildings\" OR \"industrial zones\")",
+      "ok": true,
+      "received": 8,
+      "topical": 2,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/artanddesign/2026/oct/20/ghent-design-museum-co2-absorbing-recycling",
+          "title": "The CO2-absorbing building made of old sinks, windscreens and toilets: Ghent’s £17m design museum is a green marvel",
+          "summary": "Inspired by a gothic cathedral partly built using human bones, this gleaming monument to recycling boasts 62,000 bricks derived from construction waste – each made by the public during a two-day…",
+          "url": "https://www.theguardian.com/artanddesign/2026/oct/20/ghent-design-museum-co2-absorbing-recycling",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T07:00:19.000Z",
+          "ageDays": 3.8,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.71
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.69
+            },
+            {
+              "id": "medtop:20000043",
+              "name": "library and museum",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000038",
+              "name": "culture",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.44
+            },
+            {
+              "id": "medtop:20000654",
+              "name": "democracy",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20000653",
+              "name": "political system",
+              "score": 0.33
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/18/killed-injured-russia-ukraine-strikes-power-infrastructure",
+          "title": "Two killed and at least 17 injured as Russia and Ukraine trade blows on power infrastructure",
+          "summary": "Two people have been killed and at least 17 injured as Russia and Ukraine continue to trade strikes on each other’s power infrastructure, after the breakdown of Donald Trump’s short-lived and…",
+          "url": "https://www.theguardian.com/world/2026/oct/18/killed-injured-russia-ukraine-strikes-power-infrastructure",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T14:31:30.000Z",
+          "ageDays": 5.4,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.86
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.66
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.54
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/18/heat-pumps-insulation-warm-homes-plan-beat-new-oilfields-cutting-uk-cost-of-living-study",
+          "title": "Heat pumps and insulation would cut UK living costs more than new oilfields, study suggests",
+          "summary": "Insulating Britain’s homes and investing in heat pumps would do more to cut the cost of living, create jobs and boost the UK’s economy than drilling for new oil, research suggests. The government’s…",
+          "url": "https://www.theguardian.com/environment/2026/oct/18/heat-pumps-insulation-warm-homes-plan-beat-new-oilfields-cutting-uk-cost-of-living-study",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T06:00:52.000Z",
+          "ageDays": 5.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.47
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.56
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.97
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.97
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.91
+            },
+            {
+              "id": "medtop:20001291",
+              "name": "heating and cooling",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:20000263",
+              "name": "natural gas",
+              "score": 0.25
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "heat pump"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/artanddesign/2026/oct/15/council-housing-miracle-lion-green-road-croydon-riba-stirling-prize-best-new-building",
+          "title": "They asked for 80 homes – she gave them 157! Council-housing miracle named Britain’s best new building",
+          "summary": "If Andy Burnham is looking for inspiration for his great “council housebuilding comeback”, he would do well to visit Croydon. There, nestled into a steeply sloping site, sheltered by a canopy of…",
+          "url": "https://www.theguardian.com/artanddesign/2026/oct/15/council-housing-miracle-lion-green-road-croydon-riba-stirling-prize-best-new-building",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-15T20:30:40.000Z",
+          "ageDays": 8.2,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.45
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 0.45
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 0.41
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.38
+            },
+            {
+              "id": "medtop:09000000",
+              "name": "labour",
+              "score": 0.32
+            },
+            {
+              "id": "medtop:20000031",
+              "name": "visual arts",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 0.31
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 0.25
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/12/ministers-plan-slash-heat-pump-subsidies-fund-defence-spending",
+          "title": "Ministers preparing to slash heat pump subsidies to fund defence spending",
+          "summary": "Ministers are preparing to slash the amount of money available to subsidise heat pumps as they look for ways to fund higher defence spending, sources have told the Guardian. Miatta Fahnbulleh, the…",
+          "url": "https://www.theguardian.com/environment/2026/oct/12/ministers-plan-slash-heat-pump-subsidies-fund-defence-spending",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-12T05:00:47.000Z",
+          "ageDays": 11.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.22
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "heat pump"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/10/tornado-hit-marsala-sicily-injuries-damage",
+          "title": "Dozens injured and buildings damaged as tornadoes hit Sicily",
+          "summary": "Two tornadoes have struck the coastal town of Marsala in western Sicily, injuring dozens of people, damaging buildings including a school, and overturning cars. A series of videos began to circulate…",
+          "url": "https://www.theguardian.com/world/2026/oct/10/tornado-hit-marsala-sicily-injuries-damage",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-10T11:00:31.000Z",
+          "ageDays": 13.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 0.75
+            },
+            {
+              "id": "medtop:20000157",
+              "name": "meteorological disaster",
+              "score": 0.57
+            },
+            {
+              "id": "medtop:20000151",
+              "name": "natural disaster",
+              "score": 0.57
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 0.57
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.43
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/artanddesign/2026/oct/02/starchitects-go-home-albania-building-boom-edi-rama",
+          "title": "‘Starchitects go home’: what’s the truth behind Albania’s astonishing building boom?",
+          "summary": "Sixty top architecture firms from around the world have mooted 500 eye-catching projects across Albania, sparking fury and protests. Now they’re being celebrated in an 800-page tome that some are…",
+          "url": "https://www.theguardian.com/artanddesign/2026/oct/02/starchitects-go-home-albania-building-boom-edi-rama",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-02T10:15:08.000Z",
+          "ageDays": 21.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 1.86
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.31
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 1.14
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 1.04
+            },
+            {
+              "id": "medtop:20000031",
+              "name": "visual arts",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:20000121",
+              "name": "law",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:20000082",
+              "name": "crime",
+              "score": 0.66
+            },
+            {
+              "id": "medtop:20000032",
+              "name": "architecture",
+              "score": 0.64
+            },
+            {
+              "id": "medtop:20000093",
+              "name": "corruption",
+              "score": 0.46
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/sep/28/heat-pump-sales-soar-across-europe-after-ciuntries-cut-electricity-taxes-data-shows",
+          "title": "Heat pump sales soar across Europe after states cut electricity taxes, data shows",
+          "summary": "Sales of residential heat pumps jumped across Europe in the first six months of the year as the Iran war sent oil and gas prices rocketing and some countries lowered electricity taxes. Homeowners…",
+          "url": "https://www.theguardian.com/environment/2026/sep/28/heat-pump-sales-soar-across-europe-after-ciuntries-cut-electricity-taxes-data-shows",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-28T13:53:52.000Z",
+          "ageDays": 25.5,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 4.72
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 4.72
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.35
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 2.6
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 1.9
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 1.59
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "heat pump"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "transport-logistics-mobility",
+      "title": "Transport, Logistics & Mobility",
+      "query": "(transport* OR shipping OR aviation OR \"electric car\" OR \"electric cars\" OR \"electric vehicle\" OR \"electric vehicles\" OR \"vehicle emissions\")",
+      "ok": true,
+      "received": 7,
+      "topical": 0,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/politics/2026/oct/19/andy-burnham-launches-campaign-against-headphone-dodgers-on-public-transport",
+          "title": "Andy Burnham launches campaign against ‘headphone dodgers’ on public transport",
+          "summary": "Andy Burnham has announced a crackdown on “headphone dodgers” who play loud music on public transport, as he extends his promise to give voters “breathing space” in the confines of a train carriage…",
+          "url": "https://www.theguardian.com/politics/2026/oct/19/andy-burnham-launches-campaign-against-headphone-dodgers-on-public-transport",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-18T23:01:12.000Z",
+          "ageDays": 5.1,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 1.07
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 1.07
+            },
+            {
+              "id": "medtop:09000000",
+              "name": "labour",
+              "score": 0.66
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20001362",
+              "name": "public transport",
+              "score": 0.4
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/12/eu-deal-china-limit-imports-hybrid-electric-vehicles",
+          "title": "EU deal with China limits imports of hybrid electric vehicles",
+          "summary": "The EU is to limit the number of hybrid electrical vehicles imported from China to 350,000 cars a year, the European Commission has confirmed. Imports have been soaring in the last two years with…",
+          "url": "https://www.theguardian.com/environment/2026/oct/12/eu-deal-china-limit-imports-hybrid-electric-vehicles",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-12T10:10:13.000Z",
+          "ageDays": 11.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electric vehicle"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/07/eu-negotiators-head-to-china-hoping-to-curb-cheap-imports-of-hybrid-electric-cars",
+          "title": "EU negotiators head to China hoping to curb cheap imports of hybrid electric cars",
+          "summary": "EU trade negotiators are heading to China for two days of crunch talks aimed at sealing a breakthrough deal tackling Beijing’s record £1bn-a-day trade surplus by curbing its exports of cheap hybrid…",
+          "url": "https://www.theguardian.com/business/2026/oct/07/eu-negotiators-head-to-china-hoping-to-curb-cheap-imports-of-hybrid-electric-cars",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-07T04:00:34.000Z",
+          "ageDays": 16.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.68
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.36
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 1.31
+            },
+            {
+              "id": "medtop:20000373",
+              "name": "international trade",
+              "score": 1.15
+            },
+            {
+              "id": "medtop:20000374",
+              "name": "trade agreements",
+              "score": 0.56
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electric car"
+          ]
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/c3y0zx822wlzo?at_medium=RSS&at_campaign=rss",
+          "title": "Why electric cars might be making some passengers feel sick",
+          "summary": "EV drivers love their cars, but some passengers feel sick - this could be why Image source,Getty Images/Halfpoint Images ByGrace Dean Lola Baird has just asked her boyfriend to pull over. . . .",
+          "url": "https://www.bbc.co.uk/news/articles/c3y0zx822wlzo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-10-03T02:36:19.000Z",
+          "ageDays": 20.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.69
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.89
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.7
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.7
+            },
+            {
+              "id": "medtop:20000268",
+              "name": "petrol",
+              "score": 0.47
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electric car"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/02/aviation-security-flydubai-flight-israel",
+          "title": "Aviation security back in spotlight after nightmare on flydubai flight to Israel",
+          "summary": "At around 9. 30 on Wednesday morning local time, Tali Manes was taking her six-year-old daughter Nina to the toilet on the regular flydubai flight from Dubai to Tel Aviv when she heard a series of…",
+          "url": "https://www.theguardian.com/world/2026/oct/02/aviation-security-flydubai-flight-israel",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-02T15:40:05.000Z",
+          "ageDays": 21.4,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.14
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.14
+            },
+            {
+              "id": "medtop:20000338",
+              "name": "air transport",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 0.74
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 0.66
+            },
+            {
+              "id": "medtop:20000598",
+              "name": "national security",
+              "score": 0.52
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/sep/30/australia-electric-cars-vehichles-ev-sales-double",
+          "title": "An EV sold every 100 seconds: Australian demand for electric cars more than doubles",
+          "summary": "Australians are buying electric vehicles at record levels, with sales more than doubling year on year and occurring at a rate equivalent to one EV sold every 100 seconds. A record 157,957 EV sales…",
+          "url": "https://www.theguardian.com/environment/2026/sep/30/australia-electric-cars-vehichles-ev-sales-double",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-30T02:02:20.000Z",
+          "ageDays": 24,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electric car",
+            "electric vehicle"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/sep/23/bentley-launches-first-fully-electric-car-fake-engine-sounds",
+          "title": "Bentley launches first fully electric car – with fake engine sounds to replace classic growl",
+          "summary": "Bentley is launching its first fully electric car – complete with a drum soundtrack to replace the growl of a combustion engine – as part of a £350m investment in its UK business. The vehicle, an SUV…",
+          "url": "https://www.theguardian.com/business/2026/sep/23/bentley-launches-first-fully-electric-car-fake-engine-sounds",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-23T18:15:55.000Z",
+          "ageDays": 30.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.9
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.48
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "electric car"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "water-waste-circular-economy",
+      "title": "Water, Waste & Circular Economy",
+      "query": "(water OR sewage OR wastewater OR waste OR recycl* OR \"circular economy\" OR \"plastic pollution\")",
+      "ok": true,
+      "received": 10,
+      "topical": 3,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "title": "Every Briton should stockpile water and food supplies, government advises",
+          "summary": "Every Briton is being urged to stock up to nine litres of bottled water and three days’ worth of food in new government guidance designed to ensure that households can survive a weather, cyber or…",
+          "url": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T18:10:11.000Z",
+          "ageDays": 1.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.8
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "water"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/us-news/2026/oct/22/trump-atlantic-ocean-rename-google",
+          "title": "Trump says he asked Google CEO to rename Atlantic Ocean on Maps",
+          "summary": "Donald Trump said Google rejected his request to rename the Atlantic Ocean after himself or America. Speaking at a rally in South Carolina on Wednesday, the president said he had called Google’s CEO…",
+          "url": "https://www.theguardian.com/us-news/2026/oct/22/trump-atlantic-ocean-rename-google",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T17:27:05.000Z",
+          "ageDays": 1.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20001280",
+              "name": "hurricane",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000157",
+              "name": "meteorological disaster",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000151",
+              "name": "natural disaster",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 0.76
+            },
+            {
+              "id": "medtop:20000438",
+              "name": "oceans",
+              "score": 0.75
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.75
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.75
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.75
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/australia-news/2026/oct/22/shallow-water-coral-reef-ecosystem-collapse-by-2075-un-advisors-say",
+          "title": "Almost every shallow-water coral reef on the planet faces ecosystem collapse by 2075, UN advisors say",
+          "summary": "Almost every shallow-water coral reef on the planet, including Australia’s Great Barrier Reef , faces a high risk of ecosystem collapse before 2075 because of global heating, according to an…",
+          "url": "https://www.theguardian.com/australia-news/2026/oct/22/shallow-water-coral-reef-ecosystem-collapse-by-2075-un-advisors-say",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T12:00:45.000Z",
+          "ageDays": 1.5,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.04
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.28
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 1.08
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 1.06
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "water"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/22/bukangi-shark-returns-to-south-korea-canal-busan",
+          "title": "Bukang-i is back: famous shark returns to canal in South Korea hours after being coaxed out to sea",
+          "summary": "A shark that became a viral sensation after getting stuck in a South Korean canal for a month has returned just hours after being coaxed out to sea. Nicknamed Bukang-i by fans, the 3.5-metre-long…",
+          "url": "https://www.theguardian.com/world/2026/oct/22/bukangi-shark-returns-to-south-korea-canal-busan",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T03:12:54.000Z",
+          "ageDays": 1.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.84
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/21/jackdaw-gasfield-in-north-sea-approved",
+          "title": "UK approves Jackdaw gasfield in North Sea",
+          "summary": "The UK government has approved the controversial Jackdaw gasfield in the North Sea, a widely expected move that will nonetheless dismay environmental campaigners and a number of Labour MPs. While…",
+          "url": "https://www.theguardian.com/environment/2026/oct/21/jackdaw-gasfield-in-north-sea-approved",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T06:15:06.000Z",
+          "ageDays": 2.8,
+          "topics": [
+            "energy",
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.22
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/uk-news/2026/oct/21/firefighters-growing-concerns-water-supplies-tackle-wildfires",
+          "title": "Firefighters voice growing concerns over water supplies to tackle UK wildfires",
+          "summary": "Concerns have been raised about how drought affects the UK’s ability to cope with wildfires after MPs were told firefighters struggled for water supplies during this year’s record summer. The…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/21/firefighters-growing-concerns-water-supplies-tackle-wildfires",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-21T04:00:05.000Z",
+          "ageDays": 2.9,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 2.73
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 2.47
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 2.09
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:20001202",
+              "name": "wildfire",
+              "score": 1.59
+            },
+            {
+              "id": "medtop:20000150",
+              "name": "fire",
+              "score": 1.59
+            },
+            {
+              "id": "medtop:20000152",
+              "name": "drought",
+              "score": 0.89
+            },
+            {
+              "id": "medtop:20000151",
+              "name": "natural disaster",
+              "score": 0.89
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "water",
+            "water supplies"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "title": "Jackdaw North Sea gasfield to get go-ahead in blow to climate campaigners",
+          "summary": "The Jackdaw gasfield will be given the go-ahead on Wednesday, signalling Andy Burnham’s commitment to the North Sea fossil fuel industry and threatening to trigger a row with climate campaigners and…",
+          "url": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T18:24:46.000Z",
+          "ageDays": 3.3,
+          "topics": [
+            "climate",
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.9
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.44
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/20/nato-black-sea-deployment-escalating-russian-attacks-ships",
+          "title": "Nato increases Black Sea deployment amid escalating deadly Russian attacks",
+          "summary": "Nato is deploying additional military assets to the Black Sea amid the recent deadly escalation of Russian attacks on merchant shipping, as five more vessels were attacked on Tuesday. Russia’s…",
+          "url": "https://www.theguardian.com/world/2026/oct/20/nato-black-sea-deployment-escalating-russian-attacks-ships",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T17:43:40.000Z",
+          "ageDays": 3.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.85
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.16
+            },
+            {
+              "id": "medtop:20000337",
+              "name": "transport",
+              "score": 0.56
+            },
+            {
+              "id": "medtop:20000343",
+              "name": "waterway and maritime transport",
+              "score": 0.42
+            },
+            {
+              "id": "medtop:20000279",
+              "name": "insurance",
+              "score": 0.33
+            },
+            {
+              "id": "medtop:20001370",
+              "name": "financial service",
+              "score": 0.33
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/us-news/2026/oct/20/great-white-shark-photobomb-california",
+          "title": "Great white shark leaps from water and photobombs California beachgoers",
+          "summary": "A great white shark put on a spectacular display for California beachgoers over the weekend, leaping from the water off Marina state beach and photobombing visitors. Videos circulating online show a…",
+          "url": "https://www.theguardian.com/us-news/2026/oct/20/great-white-shark-photobomb-california",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T16:45:59.000Z",
+          "ageDays": 3.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.08
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 1.54
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 1.36
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 0.9
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "water"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/film/2026/oct/20/judi-dench-cats-film-was-a-waste-of-goodwill-and-talent",
+          "title": "‘Oh God, I can’t bear it’: Judi Dench says Cats film was ‘a waste of goodwill and talent’",
+          "summary": "Dame Judi Dench has long made her feelings clear about Cats, the doomed 2019 adaptation of the Andrew Lloyd Webber musical. In an interview the year after release, she said she had so far declined to…",
+          "url": "https://www.theguardian.com/film/2026/oct/20/judi-dench-cats-film-was-a-waste-of-goodwill-and-talent",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-20T11:28:47.000Z",
+          "ageDays": 3.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 3.25
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 3.25
+            },
+            {
+              "id": "medtop:20000307",
+              "name": "film industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000304",
+              "name": "media and entertainment industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000006",
+              "name": "film festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001181",
+              "name": "festival",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        }
+      ]
+    },
+    {
+      "slug": "agriculture-food-aquaculture",
+      "title": "Agriculture, Food & Aquaculture",
+      "query": "(agricultur* OR farming OR farmer* OR food OR aquacultur* OR fisheries OR irrigation)",
+      "ok": true,
+      "received": 10,
+      "topical": 4,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "title": "Every Briton should stockpile water and food supplies, government advises",
+          "summary": "Every Briton is being urged to stock up to nine litres of bottled water and three days’ worth of food in new government guidance designed to ensure that households can survive a weather, cyber or…",
+          "url": "https://www.theguardian.com/politics/2026/oct/22/britain-prepare-infrastructure-attacks-hostile-states-wes-streeting",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T18:10:11.000Z",
+          "ageDays": 1.3,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.47
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.98
+            },
+            {
+              "id": "medtop:16000000",
+              "name": "conflict, war and peace",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.8
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/world/2026/oct/19/cuts-world-food-programme-end-support-palestinians-gaza",
+          "title": "Cuts force World Food Programme to end support for half a million Palestinians in Gaza",
+          "summary": "This winter is likely to deepen hunger for Palestinians in Gaza, after sweeping aid cuts forced the UN’s World Food Programme (WFP) to end support for more than half a million people each month, the…",
+          "url": "https://www.theguardian.com/world/2026/oct/19/cuts-world-food-programme-end-support-palestinians-gaza",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-19T09:54:33.000Z",
+          "ageDays": 4.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.63
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.97
+            },
+            {
+              "id": "medtop:20000372",
+              "name": "international economic institution",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.66
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/artanddesign/2026/oct/19/burrolandia-a-donkey-obsession-mexico",
+          "title": "‘When they listen to this song, they know food is coming’: Burrolandia, a donkey obsession",
+          "summary": "Twenty years ago, Germán Flores decided to start preserving the Mexican donkey, an endangered species with about 300,000 remaining in the whole country. Flores was inspired to take care of donkeys…",
+          "url": "https://www.theguardian.com/artanddesign/2026/oct/19/burrolandia-a-donkey-obsession-mexico",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-19T06:00:21.000Z",
+          "ageDays": 4.8,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.85
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 0.75
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 0.59
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 0.59
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/cm79plrvpl4vo?at_medium=RSS&at_campaign=rss",
+          "title": "World Food Programme forced to cut aid to Gaza due to funding shortages",
+          "summary": "Image caption, Dalal al-Dahdouh said the WFP food handouts her family received were insufficient even before the cuts ByYolande Knell Middle East correspondent Reporting fromJerusalem One of the...",
+          "url": "https://www.bbc.co.uk/news/articles/cm79plrvpl4vo?at_medium=RSS&at_campaign=rss",
+          "publisher": "bbc.co.uk",
+          "provider": "apitube",
+          "publishedAt": "2026-10-19T06:00:18.000Z",
+          "ageDays": 4.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.22
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 1.17
+            },
+            {
+              "id": "medtop:20000372",
+              "name": "international economic institution",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.77
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 0.72
+            },
+            {
+              "id": "medtop:20000788",
+              "name": "mankind",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.45
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/food/2026/oct/15/food-delivery-apps-cost-economy",
+          "title": "Gen Z wrestle with shame from ordering delivery food: ‘This economy is not for the weak’",
+          "summary": "When it comes to food, Caroline Bauldree does not like to “deprive” herself of anything. She does not like to cook either, so that means a lot of food deliveries. “If I want sushi, I’m getting…",
+          "url": "https://www.theguardian.com/food/2026/oct/15/food-delivery-apps-cost-economy",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-15T11:00:10.000Z",
+          "ageDays": 8.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.23
+            },
+            {
+              "id": "medtop:10000000",
+              "name": "lifestyle and leisure",
+              "score": 0.9
+            },
+            {
+              "id": "medtop:20000344",
+              "name": "economy",
+              "score": 0.9
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/global-development/2026/oct/14/farming-insects-food-fodder-fertiliser-uganda",
+          "title": "From black soldier flies to mealworms: farming insects for food, fodder and fertiliser in Uganda",
+          "summary": "Afew minutes’ walk from his home in the Kyaka II refugee settlement, Kanane Bikanyale feeds black soldier fly larvae to chickens in a coop above a fishpond. The larvae disappear in a scrum of…",
+          "url": "https://www.theguardian.com/global-development/2026/oct/14/farming-insects-food-fodder-fertiliser-uganda",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-14T10:00:01.000Z",
+          "ageDays": 9.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 4.28
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 4.11
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.21
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.95
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 2.65
+            },
+            {
+              "id": "medtop:20000345",
+              "name": "economic policy",
+              "score": 2.11
+            },
+            {
+              "id": "medtop:20001174",
+              "name": "regional development policy",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001292",
+              "name": "economic development incentive",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "farming"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/uk-news/2026/oct/11/farmers-uk-food-security-producers-supply-chains",
+          "title": "‘Some aren’t going to make it’: how pressure on farmers threatens UK food security",
+          "summary": "“There are so many decent, capable, productive, efficient arable farmers out there, asking how they are supposed to finance the crop they are meant to be putting in the ground,” Jamie Burrows says…",
+          "url": "https://www.theguardian.com/uk-news/2026/oct/11/farmers-uk-food-security-producers-supply-chains",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-11T11:00:24.000Z",
+          "ageDays": 12.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.11
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.73
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.73
+            },
+            {
+              "id": "medtop:20000614",
+              "name": "national government",
+              "score": 0.18
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "farmer",
+            "food security"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "title": "Stockpile food – and wash your hands: is that really how to prepare for environmental catastrophe? | George Monbiot",
+          "summary": "Would you mind fixing the NHS? And while you’re at it, could you please build an anti-missile system in your garden? Then regulate the banks, replace the water mains, tax the very rich and use the…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-08T05:00:10.000Z",
+          "ageDays": 15.8,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 1.52
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.52
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 1.12
+            },
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 1.12
+            },
+            {
+              "id": "medtop:20000151",
+              "name": "natural disaster",
+              "score": 1
+            },
+            {
+              "id": "medtop:20000437",
+              "name": "water",
+              "score": 0.84
+            },
+            {
+              "id": "medtop:20000430",
+              "name": "natural resources",
+              "score": 0.84
+            }
+          ],
+          "alreadySaved": true,
+          "currentPlacementMatches": []
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/08/world-must-change-food-avoid-biodiversity-collapse-wwf",
+          "title": "World must change way it produces food to avoid biodiversity collapse, says WWF",
+          "summary": "Conservation comebacks for wild tigers, tuna and green sea turtles prove that global nature loss can be reversed, scientists have said. But a report warns food production must be the next “positive…",
+          "url": "https://www.theguardian.com/environment/2026/oct/08/world-must-change-food-avoid-biodiversity-collapse-wwf",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-07T23:01:03.000Z",
+          "ageDays": 16.1,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 7.5
+            },
+            {
+              "id": "medtop:20000441",
+              "name": "nature",
+              "score": 1.57
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "food production"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/commentisfree/2026/oct/06/meals-wasted-uk-food-businesses-government",
+          "title": "The UK has a food waste problem and a food poverty problem – and we have a plan to fix them both | Charlotte Hill",
+          "summary": "A billion meals a year are wasted in this country. We need food businesses and government to make redistribution the default route, says Charlotte Hill, chief executive of the food redistribution…",
+          "url": "https://www.theguardian.com/commentisfree/2026/oct/06/meals-wasted-uk-food-businesses-government",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-06T07:00:06.000Z",
+          "ageDays": 17.8,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.79
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 0.71
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.69
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.69
+            },
+            {
+              "id": "medtop:20000148",
+              "name": "disaster",
+              "score": 0.55
+            },
+            {
+              "id": "medtop:03000000",
+              "name": "disaster, accident and emergency incident",
+              "score": 0.55
+            },
+            {
+              "id": "medtop:20000558",
+              "name": "restaurant",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:20000553",
+              "name": "leisure venue",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:20000538",
+              "name": "leisure",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:10000000",
+              "name": "lifestyle and leisure",
+              "score": 0.51
+            },
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:20000428",
+              "name": "waste materials",
+              "score": 0.49
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": []
+        }
+      ]
+    },
+    {
+      "slug": "mining-natural-resources",
+      "title": "Mining & Natural Resources",
+      "query": "(mining OR minerals OR \"rare earth\" OR \"coal mine\" OR \"copper mine\" OR \"mine rehabilitation\")",
+      "ok": true,
+      "received": 1,
+      "topical": 0,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/science/2026/sep/23/how-opencast-mining-risks-reawakening-dormant-geological-faults",
+          "title": "How opencast mining risks reawakening dormant geological faults",
+          "summary": "The impact of opencast mining goes far beyond the edge of the pit. Studies of anopencast coalmine in western Germanyshow that opencast mining triggered extensive subsidence in the surrounding area…",
+          "url": "https://www.theguardian.com/science/2026/sep/23/how-opencast-mining-risks-reawakening-dormant-geological-faults",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-23T05:00:15.000Z",
+          "ageDays": 30.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 0.9
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 0.8
+            },
+            {
+              "id": "medtop:20000316",
+              "name": "metal and mineral mining and refining",
+              "score": 0.46
+            },
+            {
+              "id": "medtop:20000228",
+              "name": "satellite technology",
+              "score": 0.34
+            },
+            {
+              "id": "medtop:20000225",
+              "name": "computing and information technology",
+              "score": 0.34
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "mining"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tourism-hospitality-destinations",
+      "title": "Tourism, Hospitality & Destinations",
+      "query": "(tourism OR tourist* OR hotel* OR hospitality OR \"sustainable travel\" OR ecotourism)",
+      "ok": true,
+      "received": 2,
+      "topical": 0,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "title": "Tourism expansion v turtle nests: the dispute dividing communities in one Tobago resort",
+          "summary": "Visitors to Rocky Point in south-westTobagoare drawn to its sandy beach, fringed by coral reefs and dark rock formations and carpeted with the fruit-bearing trees found on Caribbean coastlines…",
+          "url": "https://www.theguardian.com/global-development/2026/oct/10/tourism-expansion-v-turtle-nests-the-dispute-dividing-communities-in-one-tobago-resort",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-10T11:00:56.000Z",
+          "ageDays": 13.6,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 4.74
+            },
+            {
+              "id": "medtop:20000621",
+              "name": "government policy",
+              "score": 4.45
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.91
+            },
+            {
+              "id": "medtop:20001174",
+              "name": "regional development policy",
+              "score": 2.2
+            },
+            {
+              "id": "medtop:20001292",
+              "name": "economic development incentive",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000345",
+              "name": "economic policy",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "tourism"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/business/2026/oct/05/hotel-suites-virtual-reality-museums-licensing-deals-costs-rise",
+          "title": "From hotel suites to virtual reality, museums turn to licensing deals as costs rise",
+          "summary": "They are often free to visit but museums are bolstering their finances by putting their stamp on everything from upmarket hotel suites to trendy jumpsuits and virtual reality experiences. Forget…",
+          "url": "https://www.theguardian.com/business/2026/oct/05/hotel-suites-virtual-reality-museums-licensing-deals-costs-rise",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-05T05:00:48.000Z",
+          "ageDays": 18.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.43
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.26
+            },
+            {
+              "id": "medtop:10000000",
+              "name": "lifestyle and leisure",
+              "score": 0.88
+            },
+            {
+              "id": "medtop:20000252",
+              "name": "retail",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20001289",
+              "name": "sales channel",
+              "score": 0.49
+            },
+            {
+              "id": "medtop:20000243",
+              "name": "consumer goods",
+              "score": 0.36
+            },
+            {
+              "id": "medtop:20001296",
+              "name": "shopping mall",
+              "score": 0.29
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "hotel"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "technology-telecoms-data-infrastructure",
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "query": "(\"data centre\" OR \"data centres\" OR \"data center\" OR \"data centers\" OR datacenter* OR telecom* OR \"digital infrastructure\")",
+      "ok": true,
+      "received": 2,
+      "topical": 1,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/us-news/ng-interactive/2026/oct/17/california-datacenter-imperial",
+          "title": "Inside the long, bitter fight over one man’s quest to build the biggest AI datacenter in California",
+          "summary": "Sebastian Rucci zoomed in on a map in late 2024, looking closely at a large block of brown earth. The barren plot sandwiched between sprawling alfalfa fields and sleepy desert suburbs was exactly…",
+          "url": "https://www.theguardian.com/us-news/ng-interactive/2026/oct/17/california-datacenter-imperial",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-17T13:00:31.000Z",
+          "ageDays": 6.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 1.87
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 1.61
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 1.24
+            },
+            {
+              "id": "medtop:14000000",
+              "name": "society",
+              "score": 1.13
+            },
+            {
+              "id": "medtop:20000260",
+              "name": "electricity",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:20001244",
+              "name": "utilities",
+              "score": 0.5
+            },
+            {
+              "id": "medtop:20000263",
+              "name": "natural gas",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 0.48
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 0.48
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "datacenter"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/environment/2026/oct/01/us-datacenter-new-jersey-pollution",
+          "title": "US datacenter discharged large amounts of pollution for almost a year with no permits",
+          "summary": "DataOne, the Microsoft-linked New Jersey datacenter recently hit with a$1m finefor running unpermitted generators, emitted large amounts of health-harming air pollution for nearly a year before…",
+          "url": "https://www.theguardian.com/environment/2026/oct/01/us-datacenter-new-jersey-pollution",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-01T12:00:51.000Z",
+          "ageDays": 22.5,
+          "topics": [
+            "environment"
+          ],
+          "categories": [
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 4.31
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "datacenter"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "healthcare-education-institutional-estates",
+      "title": "Healthcare, Education & Institutional Estates",
+      "query": "(hospital* OR campus OR healthcare OR \"health care\" OR universit* OR school* OR college*)",
+      "ok": true,
+      "received": 6,
+      "topical": 2,
+      "candidates": [
+        {
+          "id": "https://www.theguardian.com/books/2026/oct/22/black-bag-by-luke-kennard-audiobook-review-brilliant-booker-shortlisted-campus-comedy",
+          "title": "Black Bag by Luke Kennard audiobook review – brilliant Booker-shortlisted campus comedy",
+          "summary": "The unnamed narrator of Luke Kennard’s novel is an out-of-work actor living in London. His last job was three months ago, he is behind with his rent and has “measured out my life in coffees I…",
+          "url": "https://www.theguardian.com/books/2026/oct/22/black-bag-by-luke-kennard-audiobook-review-brilliant-booker-shortlisted-campus-comedy",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-22T14:00:33.000Z",
+          "ageDays": 1.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000306",
+              "name": "books and publishing",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000304",
+              "name": "media and entertainment industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "campus"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/film/2026/oct/12/deadline-review-shocking-threat-sends-tremors-through-authoritarian-school",
+          "title": "Deadline review – shocking threat sends tremors through authoritarian school",
+          "summary": "Filmed in Taiwan and set entirely inside a prestigious high school, Kiwi Chow’s gripping drama frames educational systems not merely as a preparation for the real world but as a microcosm of society…",
+          "url": "https://www.theguardian.com/film/2026/oct/12/deadline-review-shocking-threat-sends-tremors-through-authoritarian-school",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-12T06:00:48.000Z",
+          "ageDays": 11.8,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000307",
+              "name": "film industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000304",
+              "name": "media and entertainment industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000006",
+              "name": "film festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001181",
+              "name": "festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 2
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 2
+            },
+            {
+              "id": "medtop:05000000",
+              "name": "education",
+              "score": 1.68
+            },
+            {
+              "id": "medtop:20000400",
+              "name": "school",
+              "score": 1.16
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "school"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/film/2026/oct/10/ray-gunn-review-brad-birds-animated-film-noir-sci-fi-caper-is-an-old-school-family-classic",
+          "title": "Ray Gunn review – Brad Bird’s animated film-noir sci-fi caper is an old-school family classic",
+          "summary": "Brad Bird, the Spielberg of animation, applies his masterly authorial touch to a terrific family film that retrieves the genre from the doldrums of dull, AI-formulaic stories and visuals. This…",
+          "url": "https://www.theguardian.com/film/2026/oct/10/ray-gunn-review-brad-birds-animated-film-noir-sci-fi-caper-is-an-old-school-family-classic",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-10T13:45:58.000Z",
+          "ageDays": 13.5,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 3.3
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 3.01
+            },
+            {
+              "id": "medtop:20000307",
+              "name": "film industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000304",
+              "name": "media and entertainment industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000006",
+              "name": "film festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001181",
+              "name": "festival",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "school"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/film/2026/oct/06/the-craft-review-30th-anniversary",
+          "title": "The Craft review – cult high-school horror a reminder of the fearless 90s",
+          "summary": "The chrysalis of 80s and 90s high-school comedy finally gave us a veritable butterfly of fear in this cult girl-power classic from 1996, co-written and directed by Andrew Fleming, now rereleased for…",
+          "url": "https://www.theguardian.com/film/2026/oct/06/the-craft-review-30th-anniversary",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-10-06T08:00:06.000Z",
+          "ageDays": 17.7,
+          "topics": [],
+          "categories": [
+            {
+              "id": "medtop:20000307",
+              "name": "film industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000304",
+              "name": "media and entertainment industry",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000006",
+              "name": "film festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20001181",
+              "name": "festival",
+              "score": 2
+            },
+            {
+              "id": "medtop:20000002",
+              "name": "arts and entertainment",
+              "score": 2
+            },
+            {
+              "id": "medtop:01000000",
+              "name": "arts, culture, entertainment and media",
+              "score": 2
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "school"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/us-news/2026/sep/28/fossil-fuel-industry-climate-research-universities-study",
+          "title": "Decades of fossil fuel influence paved way for Trump’s assault on university research, study says",
+          "summary": "Recent attacks on US universities by the Trump administration have built on decades of efforts by libertarian donor networks, fossil fuel companies and conservative thinktanks to reshape university…",
+          "url": "https://www.theguardian.com/us-news/2026/sep/28/fossil-fuel-industry-climate-research-universities-study",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-28T12:00:33.000Z",
+          "ageDays": 25.5,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:11000000",
+              "name": "politics and government",
+              "score": 1.41
+            },
+            {
+              "id": "medtop:02000000",
+              "name": "crime, law and justice",
+              "score": 1.2
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 0.83
+            },
+            {
+              "id": "medtop:20000593",
+              "name": "government",
+              "score": 0.78
+            },
+            {
+              "id": "medtop:20000084",
+              "name": "assault",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000082",
+              "name": "crime",
+              "score": 0.6
+            },
+            {
+              "id": "medtop:20000418",
+              "name": "climate change",
+              "score": 0.54
+            },
+            {
+              "id": "medtop:20000581",
+              "name": "campaign finance",
+              "score": 0.52
+            },
+            {
+              "id": "medtop:20000574",
+              "name": "election",
+              "score": 0.52
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "university",
+            "universities"
+          ]
+        },
+        {
+          "id": "https://www.theguardian.com/education/2026/sep/24/indian-oil-gas-heir-professor-sustainability-newcastle-university-anant-ambani",
+          "title": "Indian oil and gas heir made professor of sustainability at Newcastle University",
+          "summary": "Newcastle University is facing a backlash from conservationists over the appointment of the heir to an Indian oil and gas fortune who runs a controversial mega-zoo as a professor of sustainability…",
+          "url": "https://www.theguardian.com/education/2026/sep/24/indian-oil-gas-heir-professor-sustainability-newcastle-university-anant-ambani",
+          "publisher": "theguardian.com",
+          "provider": "apitube",
+          "publishedAt": "2026-09-24T10:26:44.000Z",
+          "ageDays": 29.6,
+          "topics": [
+            "energy"
+          ],
+          "categories": [
+            {
+              "id": "medtop:05000000",
+              "name": "education",
+              "score": 4.1
+            },
+            {
+              "id": "medtop:06000000",
+              "name": "environment",
+              "score": 3.88
+            },
+            {
+              "id": "medtop:20001243",
+              "name": "oil and gas",
+              "score": 2.28
+            },
+            {
+              "id": "medtop:20000256",
+              "name": "energy and resource",
+              "score": 2.28
+            },
+            {
+              "id": "medtop:20000209",
+              "name": "products and services",
+              "score": 2.28
+            },
+            {
+              "id": "medtop:04000000",
+              "name": "economy, business and finance",
+              "score": 2.28
+            },
+            {
+              "id": "medtop:20001374",
+              "name": "sustainability",
+              "score": 1.29
+            },
+            {
+              "id": "medtop:20000263",
+              "name": "natural gas",
+              "score": 0.19
+            }
+          ],
+          "alreadySaved": false,
+          "currentPlacementMatches": [
+            "university"
+          ]
+        }
+      ]
+    }
+  ],
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 61
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 74
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "recordsUnchanged": true
+}

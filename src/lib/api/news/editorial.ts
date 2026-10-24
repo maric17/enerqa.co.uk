@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { screenApiTubeItem } from './apitubeScreening';
 import { providerEnabled } from '../core/registry';
 import { reserveRequest } from '../core/storage';
 import { AI_SEARCH_CONFIG } from '../ai-search/config';
@@ -49,7 +50,7 @@ export function parseEditorialVerdicts(raw: string, count: number): Verdict[] {
 
 /** Review at collection time only. Disabled services and ambiguous results remain unpublished. */
 export async function reviewNewsItems(items: NewsItem[], stats: EditorialStats): Promise<NewsItem[]> {
-  const reviewed = items.slice(0, MAX_ARTICLES).map(item => isNewsRoundup(item.title)
+  const reviewed = items.slice(0, MAX_ARTICLES).map(item => item.provider === 'apitube' ? screenApiTubeItem(item) : isNewsRoundup(item.title)
     ? review(item, 'rejected', 'Mixed newspaper digest rather than an individual topic story.')
     : hasEditorialApproval(item) || hasEditorialRejection(item) ? item : review(item, 'pending', 'Editorial review is required.'));
   const pending = reviewed.map((item, index) => ({ item, index })).filter(({ item }) => item.editorialReview?.decision === 'pending');

@@ -1,0 +1,636 @@
+{
+  "checkedAt": "2026-10-24T00:39:46.398Z",
+  "base": "http://localhost:3024",
+  "noNewsApiCalls": true,
+  "requestsBefore": [
+    {
+      "provider": "apitube",
+      "requests": 52
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "requestsAfter": [
+    {
+      "provider": "apitube",
+      "requests": 52
+    },
+    {
+      "provider": "gdelt",
+      "requests": 90
+    },
+    {
+      "provider": "newsdata",
+      "requests": 903
+    },
+    {
+      "provider": "thenewsapi",
+      "requests": 311
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "route": "/",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
+      "title": "Project Development for a Sustainable Future",
+      "badDigest": false,
+      "keyExposed": false,
+      "heroCategories": [
+        {
+          "label": "Climate Action & Carbon Management",
+          "href": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights",
+          "text": "Global NewsThe US west has lost nearly 300 glaciers since the 1960s. Climate crisis is drastically shrinking what’s leftAcross the US west, rising temperatures are causing glaciers to retreat to the point of vanishing. About 300 glaciers have disappeared since the 1960s, with almost all of the rest… (opens the original article in a new tab)theguardian.com23 Oct 2026, 12:00 UTCVia APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+        },
+        {
+          "label": "Energy Systems & Transition",
+          "href": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights",
+          "text": "Global NewsElectricity costs put UK steelmakers in worst position in three years against EU rivalsBritish steelmakers have been pushed further behind European rivals on electricity costs after the US-Israeli war on Iran caused a surge in global gas prices. The premium paid by… (opens the original article in a new tab)theguardian.com18 Oct 2026, 23:01 UTCVia APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+        },
+        {
+          "label": "Environment, Nature & Circularity",
+          "href": "https://www.theguardian.com/environment/2026/oct/19/andy-burnham-government-inquiry-unequal-health-impacts-air-pollution",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights",
+          "text": "Global NewsBurnham urged to launch inquiry into unequal health impacts of air pollutionThe government must hold an inquiry into the unequal impacts of air pollution, 150 scientists, MPs and activists have urged. Research by the Institute for Fiscal Studies shows… (opens the original article in a new tab)theguardian.com19 Oct 2026, 05:00 UTCVia APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+        },
+        {
+          "label": "Sustainable Business, ESG & Finance",
+          "href": "https://www.theguardian.com/environment/2026/oct/17/us-corporate-lobbyists-europe-deforestation",
+          "attribution": "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights",
+          "text": "Global NewsUS corporate lobbyists mounted ‘blitz’ to dilute landmark EU deforestation law, report findsUS corporate lobbyists launched a two-year “blitz” to postpone and weaken the world’s most progressive legislation to protect forests, according to a new investigation by the… (opens the original article in a new tab)theguardian.com17 Oct 2026, 11:00 UTCVia APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+        }
+      ]
+    },
+    {
+      "route": "/domains/climate-action-carbon-management",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Climate Action & Carbon Management",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/energy-systems-transition",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Energy Systems & Transition",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/environment-nature-circularity",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Environment, Nature & Circularity",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/sustainable-business-esg-finance",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Sustainable Business, ESG & Finance",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Government, Regulators & Public Institutions",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Financial Institutions, Investors & Development Finance",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+      "title": "Energy & Utilities",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+      "title": "Oil, Gas & Petrochemicals",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+      "title": "Industry, Manufacturing & Materials",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Transport, Logistics & Mobility",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+      "title": "Water, Waste & Circular Economy",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Agriculture, Food & Aquaculture",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Mining & Natural Resources",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Tourism, Hospitality & Destinations",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Healthcare, Education & Institutional Estates",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 2,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Knowledge Hub",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub/global-intelligence",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 20,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Global Intelligence",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub/global-intelligence?type=news&domain=sustainable-business-esg-finance",
+      "width": 1366,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 2,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Global Intelligence",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/environment/ng-interactive/2026/oct/23/glacier-loss-climate-crisis-west",
+      "title": "Project Development for a Sustainable Future",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/climate-action-carbon-management",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Climate Action & Carbon Management",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/energy-systems-transition",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Energy Systems & Transition",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/environment-nature-circularity",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 3,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Environment, Nature & Circularity",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/domains/sustainable-business-esg-finance",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Sustainable Business, ESG & Finance",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/government-regulators-public-institutions",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Government, Regulators & Public Institutions",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/financial-institutions-investors-development-finance",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Financial Institutions, Investors & Development Finance",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/energy-utilities",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+      "title": "Energy & Utilities",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/oil-gas-petrochemicals",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/environment/2026/oct/20/jackdaw-north-sea-gas-field-to-get-go-ahead-in-blow-to-climate-campaigners",
+      "title": "Oil, Gas & Petrochemicals",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/industry-manufacturing-materials",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/business/2026/oct/19/electricity-costs-uk-steelmakers-worst-position-three-years-eu-rivals",
+      "title": "Industry, Manufacturing & Materials",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/infrastructure-real-estate-industrial-zones",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Infrastructure, Real Estate & Industrial Zones",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/transport-logistics-mobility",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Transport, Logistics & Mobility",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/water-waste-circular-economy",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 1,
+      "legacyNewsLabels": false,
+      "attribution": [
+        "Via APITube. Free feed delayed 12h+. Updated 24 Oct 2026, 00:34 UTC. Sources and rights"
+      ],
+      "heroLink": "https://www.theguardian.com/commentisfree/2026/oct/08/stockpile-food-wash-hands-how-to-prepare-environmental-catastrophe",
+      "title": "Water, Waste & Circular Economy",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/agriculture-food-aquaculture",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Agriculture, Food & Aquaculture",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/mining-natural-resources",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Mining & Natural Resources",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/tourism-hospitality-destinations",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Tourism, Hospitality & Destinations",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/technology-telecoms-data-infrastructure",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Technology, Telecoms & Data Infrastructure",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/industries/healthcare-education-institutional-estates",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 0,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Healthcare, Education & Institutional Estates",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 2,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Knowledge Hub",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub/global-intelligence",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 20,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Global Intelligence",
+      "badDigest": false,
+      "keyExposed": false
+    },
+    {
+      "route": "/knowledge-hub/global-intelligence?type=news&domain=sustainable-business-esg-finance",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "renderedSavedNewsLinks": 2,
+      "legacyNewsLabels": false,
+      "attribution": [],
+      "heroLink": null,
+      "title": "Global Intelligence",
+      "badDigest": false,
+      "keyExposed": false
+    }
+  ]
+}

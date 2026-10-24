@@ -179,7 +179,7 @@ async function sendUpstream<T>(providerId: ProviderId, url: string, options: Fet
       // A 4xx is about this one request (a bad query, a missing record), not
       // the provider's health, so it does not trip the breaker.
       const code = options.errorCode ? options.errorCode(await res.json().catch(() => null)) : null;
-      const safeCode = code && /^[A-Za-z][A-Za-z_]{0,63}$/.test(code) ? ` (${code})` : '';
+      const safeCode = code && /^[A-Za-z][A-Za-z0-9_]{0,63}$/.test(code) ? ` (${code})` : '';
       throw new UpstreamError('unavailable', `${name} returned HTTP ${res.status}${safeCode} for ${redactUrl(url).split('?')[0]}`);
     }
 

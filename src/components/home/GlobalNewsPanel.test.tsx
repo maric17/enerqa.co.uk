@@ -32,7 +32,7 @@ describe('full-screen domain news carousel', () => {
     const sectorSlides = [{ ...threeStories()[1], key: industry.slug, label: industry.title }];
     render(<section><h1>{industry.title}</h1><GlobalNewsPanel industry={industry} slides={sectorSlides} /></section>);
     expect(screen.queryByRole('group', { name: 'Choose a domain' })).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /View All Industry News/ })).toHaveAttribute('href', '/knowledge-hub/global-intelligence?industry=energy-utilities');
+    expect(screen.getByRole('link', { name: /View All Industry News/ })).toHaveAttribute('href', '/knowledge-hub/global-intelligence?industry=energy-utilities&type=news');
     act(() => { vi.advanceTimersByTime(HERO_ROTATION_MS); });
     expect(screen.getByRole('heading', { level: 1, name: industry.title })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'energy article 2' })).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('full-screen domain news carousel', () => {
   it('keeps empty industry navigation scoped and disables controls without another story', () => {
     const industry = { title: 'Energy & Utilities', slug: 'energy-utilities' };
     render(<GlobalNewsPanel industry={industry} slides={[{ ...slides[0], item: null }]} />);
-    expect(screen.getByRole('link', { name: /Browse Global Intelligence/ })).toHaveAttribute('href', '/knowledge-hub/global-intelligence?industry=energy-utilities');
+    expect(screen.getByRole('link', { name: /Browse Global Intelligence/ })).toHaveAttribute('href', '/knowledge-hub/global-intelligence?industry=energy-utilities&type=news');
     expect(screen.getByRole('button', { name: 'Next headline' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeDisabled();
   });

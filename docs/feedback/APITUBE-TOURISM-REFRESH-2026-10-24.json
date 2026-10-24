@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-24T08:10:29.954Z",
+  "requests": 2,
+  "initialQueryRun": {
+    "skipped": false,
+    "storedItems": 15,
+    "sourcesFailed": false,
+    "diagnostics": {
+      "basket": "all",
+      "providers": [
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 1,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:07:16.000Z",
+          "issue": null,
+          "httpStatus": null
+        }
+      ],
+      "counts": {
+        "received": 1,
+        "relevant": 1,
+        "afterGate": 16,
+        "accessChecked": 15,
+        "verifiedOpen": 15,
+        "returned": 15
+      },
+      "access": {
+        "verified_open": 15
+      },
+      "storage": "ok",
+      "mode": "refresh",
+      "scope": "industries",
+      "editorial": {
+        "approved": 15,
+        "rejected": 1,
+        "pending": 0,
+        "issue": null
+      }
+    }
+  },
+  "finalQueryRun": {
+    "skipped": false,
+    "storedItems": 15,
+    "sourcesFailed": false,
+    "diagnostics": {
+      "basket": "all",
+      "providers": [
+        {
+          "provider": "apitube",
+          "outcome": "ok",
+          "items": 1,
+          "stale": false,
+          "retrievedAt": "2026-10-24T08:09:22.000Z",
+          "issue": null,
+          "httpStatus": null
+        }
+      ],
+      "counts": {
+        "received": 1,
+        "relevant": 1,
+        "afterGate": 16,
+        "accessChecked": 15,
+        "verifiedOpen": 15,
+        "returned": 15
+      },
+      "access": {
+        "verified_open": 15
+      },
+      "storage": "ok",
+      "mode": "refresh",
+      "scope": "industries",
+      "editorial": {
+        "approved": 15,
+        "rejected": 1,
+        "pending": 0,
+        "issue": null
+      }
+    }
+  }
+}

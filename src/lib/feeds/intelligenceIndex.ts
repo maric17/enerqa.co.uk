@@ -3,9 +3,10 @@ import { fetchNews, isNewsItemStale, type NewsItem } from '@/lib/api/news';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS } from './contextual';
 import { tagIntelligence, type IntelligenceItem } from './intelligence';
 import { readSavedResearch } from './savedIntelligence';
+import { hasEditorialApproval } from '@/lib/api/news/types';
 
 export function newsIntelligence(item: NewsItem): IntelligenceItem {
-  return tagIntelligence({
+  const tagged = tagIntelligence({
     id: item.id, title: item.title, summary: item.summary, url: item.url,
     type: ['eia_rss', 'eea_rss'].includes(item.provider) ? 'official' : 'news',
     publisher: item.publisher, source: item.providerLabel, sourceId: item.provider,
@@ -13,6 +14,11 @@ export function newsIntelligence(item: NewsItem): IntelligenceItem {
     authors: [], doi: null, documentType: item.docType ?? null,
     verifiedOpen: item.accessStatus === 'verified_open', stale: isNewsItemStale(item),
   });
+  if (!hasEditorialApproval(item)) return tagged;
+  // View All News must retain the domain assignments used by the page's saved feed.
+  const topics = item.editorialReview!.topics;
+  return { ...tagged, topics: topics.filter(topic => topic !== 'markets'),
+    domains: Object.entries(DOMAIN_FEEDS).filter(([, feed]) => topics.includes(feed.newsBasket)).map(([slug]) => slug) };
 }
 
 export function uniqueIntelligence(items: IntelligenceItem[]) {
@@ -43,7 +49,7 @@ export async function buildIntelligenceIndex() {
 
 // Changes in sector vocabulary also invalidate saved-result tags across deployments.
 const contextKey = JSON.stringify([DOMAIN_FEEDS, INDUSTRY_FEEDS]);
-const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-saved-thenewsapi-v3', contextKey], { revalidate: 60, tags: ['global-intelligence', 'saved-news'] });
+const cachedIntelligenceIndex = unstable_cache(buildIntelligenceIndex, ['global-intelligence-saved-apitube-v2', contextKey], { revalidate: 60, tags: ['global-intelligence', 'saved-news'] });
 let inFlight: ReturnType<typeof cachedIntelligenceIndex> | undefined;
 export function getIntelligenceIndex() {
   if (!inFlight) inFlight = cachedIntelligenceIndex().finally(() => { inFlight = undefined; });

@@ -1,5 +1,5 @@
 import { coverageFromText, type Coverage } from './coverage';
-import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from './contextual';
+import { DOMAIN_FEEDS, INDUSTRY_FEEDS, matchesNewsContext, newsIndustries, newsPhrases } from './contextual';
 import { containsAny, NEWS_BASKETS } from '@/lib/api/news/types';
 
 export const CONTENT_TYPES = { news: 'News', research: 'Research and Articles', official: 'Policy and Official Updates', disclosure: 'Corporate Disclosures' };
@@ -18,7 +18,8 @@ export function tagIntelligence(item: Omit<IntelligenceItem, 'coverage' | 'topic
   return { ...item, coverage: coverageFromText(item.title, item.summary),
     topics: NEWS_BASKETS.filter(b => b.key !== 'all' && containsAny(text, b.keywords)).map(b => b.key),
     domains: Object.entries(DOMAIN_FEEDS).filter(([, f]) => containsAny(text, newsPhrases(f))).map(([slug]) => slug),
-    industries: Object.entries(INDUSTRY_FEEDS).filter(([, f]) => containsAny(text, newsPhrases(f))).map(([slug]) => slug),
+    industries: item.type === 'news' ? newsIndustries(item, INDUSTRY_FEEDS) : Object.entries(INDUSTRY_FEEDS).filter(([, f]) => containsAny(text, newsPhrases(f))
+      || matchesNewsContext(item, f.newsContextRules)).map(([slug]) => slug),
   };
 }
 

@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-24T08:57:09.566Z",
+  "origin": "http://localhost:3000",
+  "passed": true,
+  "routes": [
+    {
+      "job": "general",
+      "route": "/api/ingest/news",
+      "status": 503,
+      "protected": true
+    },
+    {
+      "job": "stocks",
+      "route": "/api/ingest/news/stocks",
+      "status": 503,
+      "protected": true
+    },
+    {
+      "job": "industries-1",
+      "route": "/api/ingest/news/industries-1",
+      "status": 503,
+      "protected": true
+    },
+    {
+      "job": "industries-2",
+      "route": "/api/ingest/news/industries-2",
+      "status": 503,
+      "protected": true
+    },
+    {
+      "job": "industries-3",
+      "route": "/api/ingest/news/industries-3",
+      "status": 503,
+      "protected": true
+    }
+  ],
+  "authenticatedRefreshes": 0
+}

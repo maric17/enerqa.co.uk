@@ -1,8 +1,9 @@
 import { hasEditorialApproval, type NewsItem } from './types';
 
-// Separate searches reserve provider results for US, London and regional stocks.
+// Generic stock terms also find market reports that do not name an exchange.
+// Separate London and regional searches retain dedicated coverage attempts.
 export const STOCK_MARKET_QUERIES = [
-  '"Wall Street" OR "S&P 500" OR Nasdaq OR "Dow Jones" OR NYSE',
+  'stocks OR equities OR "share prices" OR "Wall Street" OR "S&P 500" OR Nasdaq OR "Dow Jones" OR NYSE',
   'FTSE OR "London Stock Exchange" OR "London stocks" OR "London shares"',
   '"Asian stocks" OR "Asian shares" OR "European stocks" OR "European shares" OR Nikkei OR "Hang Seng" OR Sensex OR "Gulf stocks" OR Tadawul OR "JSE shares"',
 ];
