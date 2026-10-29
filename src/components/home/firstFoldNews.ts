@@ -1,6 +1,6 @@
 import { isStockMarketNews } from '@/lib/api/news/markets';
 import type { NewsBasketKey, NewsItem } from '@/lib/api/news/types';
-import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl, prioritiseTopicMatches } from '@/lib/api/news/types';
+import { applyGate, byNewest, getBasket, matchesBasket, NEWS_BASKETS, newsImageUrl } from '@/lib/api/news/types';
 
 /**
  * Pure helpers behind H03 Global News and H04 Major Markets (p. 13).
@@ -25,6 +25,8 @@ export type NewsCardData = {
   /** Aggregator attribution, separate from the publisher of the article. */
   providerLabel?: string;
   publishedAt: string | null;
+  /** Article age stays separate from the last successful feed check. */
+  older?: boolean;
   /** p. 13 asks for publication date AND time; the year is included too. */
   dateLabel: string | null;
 };
@@ -88,6 +90,7 @@ export function toCard(item: NewsItem): NewsCardData {
     publisher: item.publisher || item.domain,
     providerLabel: item.providerLabel,
     publishedAt: item.publishedAt,
+    older: Boolean(item.publishedAt && Date.now() - Date.parse(item.publishedAt) > 48 * 3600_000),
     dateLabel: formatDateTimeUtc(item.publishedAt),
   };
 }
@@ -176,23 +179,21 @@ export const HERO_CATEGORIES: { key: HeroCategoryKey; label: string }[] = [
 
 /** Reuse the saved feed and its access gates; selecting slides costs no API calls. */
 export function selectHeroStories(pool: NewsItem[]): (NewsItem | null)[] {
-  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
-  const selected: NewsItem[] = [];
+  // A publisher's climate stories must not consume its energy or finance slots.
+  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: Infinity });
   return HERO_CATEGORIES.map(category => {
-    const matches = prioritiseTopicMatches(eligible.filter(item => matchesBasket(item, getBasket(category.key))), category.key);
-    // Prefer a different headline for each domain when the feed has enough stories.
-    const story = matches.find(item => !selected.some(previous => previous.id === item.id)) ?? matches[0] ?? null;
-    if (story) selected.push(story);
-    return story;
+    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
+    // A story may lead two relevant domains; freshness takes priority over variety.
+    return matches[0] ?? null;
   });
 }
 
 /** Keep each domain's lead, then add up to two distinct relevant articles. */
 export function selectHeroStoryGroups(pool: NewsItem[], limit = 3): NewsItem[][] {
   const leads = selectHeroStories(pool);
-  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: 10 });
+  const eligible = applyGate([...pool].sort(byNewest), { maxPerPublisher: Infinity });
   return HERO_CATEGORIES.map((category, index) => {
-    const matches = prioritiseTopicMatches(eligible.filter(item => matchesBasket(item, getBasket(category.key))), category.key);
+    const matches = eligible.filter(item => matchesBasket(item, getBasket(category.key)));
     const lead = leads[index];
     return (lead ? [lead, ...matches.filter(item => item.id !== lead.id)] : matches).slice(0, limit);
   });

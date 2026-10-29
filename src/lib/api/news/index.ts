@@ -16,7 +16,6 @@ import {
   normaliseUrl,
   NEWS_BASKETS,
   PROVIDER_META,
-  prioritiseTopicMatches,
 } from './types';
 import { basketQuery, fetchNewsdataBasket, fetchNewsdataQuery, NEWSDATA_DELAY_HOURS, PAGE_BASKET_SECONDS } from './newsdata';
 import { fetchEiaNews, EIA_BASKETS } from './eiaRss';
@@ -29,7 +28,7 @@ import { fetchGdeltNews, fetchGdeltQuery } from './gdelt';
 import { REGION_ORDER } from './geography';
 import { providerEnabled } from '../core/registry';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore, type NewsRefreshOptions } from './storage';
-import { NEWS_REFRESH_SECONDS, isNewsRefreshJob, type NewsRefreshJob } from './schedule';
+import { GENERAL_NEWS_REFRESH_SECONDS, NEWS_REFRESH_SECONDS, isNewsRefreshJob, type NewsRefreshJob } from './schedule';
 import { createNewsDiagnostics, logNewsDiagnostics, noteNewsProvider, type NewsDiagnostics } from './diagnostics';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS, matchesNewsContext, matchesNewsSector, newsIndustries, type NewsContextRule, type NewsSectorRule } from '../../feeds/contextual';
 import { industryDiscoveryQueries, industryRefreshSlugs } from './discovery';
@@ -370,6 +369,7 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
   const saved = await readNewsStore();
   const job = opts.refreshJob ?? (opts.stockMarkets ? 'stocks' : 'general');
   const state = saved.state.jobs?.[job] ?? saved.state;
+  const refreshSeconds = job === 'general' ? GENERAL_NEWS_REFRESH_SECONDS : NEWS_REFRESH_SECONDS;
   const providers = opts.providers ?? ALL_PROVIDERS;
   const diagnostics = createNewsDiagnostics(basketKey);
   diagnostics.mode = 'database';
@@ -397,11 +397,11 @@ async function pool(basketKey: NewsBasketKey, opts: NewsOptions): Promise<Collec
   // Page matching may reuse legacy page-basket records; the homepage keeps its stricter topic gate.
   const relevant = eligible.filter(item => opts.stockMarkets ? isStockMarketNews(item) : opts.pageBaskets && basketKey === 'all'
     ? isOnSiteTopic(item) : matchesBasket(item, getBasket(basketKey))).map(item => ({
-    ...normalise(item), refreshSeconds: NEWS_REFRESH_SECONDS,
+    ...normalise(item), refreshSeconds,
     feedRefreshedAt: state.lastSuccessAt?.[item.provider],
     refreshFailed: diagnostics.providers.some(p => p.provider === item.provider && (p.outcome !== 'ok' || p.stale)) ||
       Boolean(state.status === 'failed') ||
-      Boolean(state.lastSuccessAt?.[item.provider] && Date.now() - Date.parse(state.lastSuccessAt[item.provider]!) > 2 * NEWS_REFRESH_SECONDS * 1000),
+      Boolean(state.lastSuccessAt?.[item.provider] && Date.now() - Date.parse(state.lastSuccessAt[item.provider]!) > 2 * refreshSeconds * 1000),
   }));
   diagnostics.counts.received = eligible.length;
   diagnostics.counts.relevant = relevant.length;
@@ -738,7 +738,7 @@ export async function fetchNewsForKeywords(
 
   const perPublisher = new Map<string, number>();
   const capped: NewsItem[] = [];
-  for (const item of prioritiseTopicMatches(matched, opts.basket ?? 'all')) {
+  for (const item of [...matched].sort(byNewest)) {
     const used = perPublisher.get(item.domain) ?? 0;
     if (used >= maxPerPublisher) continue;
     perPublisher.set(item.domain, used + 1);

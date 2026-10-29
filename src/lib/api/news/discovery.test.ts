@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { INDUSTRY_FEEDS, DOMAIN_FEEDS } from '../../feeds/contextual';
 import { LIMITS } from '../core/health';
+import { GENERAL_NEWS_CRON_SCHEDULES } from './schedule';
 import { NEWS_BASKETS } from './types';
 import { basketQuery } from './newsdata';
 import { industryDiscoveryQueries, industryRefreshJob, industryRefreshSlugs } from './discovery';
@@ -17,8 +18,9 @@ describe('industry discovery coverage and provider budgets', () => {
     }
     expect(industryRefreshJob('unknown')).toBeUndefined();
     // Four topic calls, three stock calls and thirteen industry calls per cycle.
-    expect((4 + 3 + batches.flat().length) * 3).toBe(60);
-    expect(60).toBeLessThan(LIMITS.apitube!.daily);
+    const requests = 4 * GENERAL_NEWS_CRON_SCHEDULES.length + (3 + batches.flat().length) * 3;
+    expect(requests).toBe(72);
+    expect(requests).toBeLessThan(LIMITS.apitube!.daily);
   });
 
   it('searches every sector exactly once per scheduled day within the existing limits', () => {

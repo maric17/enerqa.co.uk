@@ -7,7 +7,7 @@ const ANCHORS: Record<Exclude<EditorialTopic, 'markets'>, string[]> = {
     'climate finance', 'climate adaptation', 'emission', 'carbon', 'greenhouse', 'net zero', 'net-zero', 'global warming', 'decarbon*'],
   energy: ['renewab*', 'solar', 'wind power', 'wind farm', 'electricity', 'energy storage', 'hydrogen', 'nuclear', 'natural gas',
     'oil prices', 'oil market', 'oil and gas', 'power grid', 'energy transition', 'energy security', 'energy efficiency',
-    'batteries', 'battery', 'fossil fuel', 'coal', 'geothermal', 'hydropower', 'gasfield'],
+    'batteries', 'battery', 'electric truck', 'electric bus', 'electric vehicle', 'charging station', 'fossil fuel', 'coal', 'geothermal', 'hydropower', 'gasfield'],
   environment: ['biodiversity', 'pollut*', 'conservation', 'deforest*', 'circular economy', 'recycl*', 'waste', 'wildlife',
     'ecosystem', 'endangered', 'habitat', 'toxic chemical', 'chemical contamination', 'environmental', 'food systems',
     // Coastal development impacts can be explicit without the word "environment" in the teaser.
@@ -24,7 +24,8 @@ export function apiTubeTopics(item: NewsItem): EditorialTopic[] {
   const names = categories.map(category => category.name).join(' ').toLowerCase();
   if (!categories.length) return [];
   const environment = categories.some(category => category.id === 'medtop:06000000') || /environment|conservation|climate|nature|pollution|sustainability|waste/.test(names);
-  const energy = environment || /energy|power|electricity|oil|gas|coal|fuel|utilities/.test(names);
+  // Transport categories can carry electricity, battery and fleet-transition reporting.
+  const energy = environment || /energy|power|electricity|oil|gas|coal|fuel|utilities|transport|vehicle|mobility/.test(names);
   const finance = /business|finance|financial|investment|stock|securities|sustainability/.test(names);
   const text = `${item.title} ${item.summary ?? ''}`;
   const topics: EditorialTopic[] = [];

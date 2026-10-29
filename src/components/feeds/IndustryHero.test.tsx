@@ -5,6 +5,8 @@ import { INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
 import { industryRefreshJob } from '@/lib/api/news/discovery';
 import { IndustryHeadlines } from './IndustryHero';
 
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
+
 // Keep sector selection tests independent of database availability and provider credits.
 vi.mock('@/lib/api/news', async importOriginal => ({
   ...await importOriginal<typeof import('@/lib/api/news')>(), fetchNewsForKeywords: vi.fn(),
@@ -46,7 +48,7 @@ describe('industry hero saved-news integration', () => {
     render(await IndustryHeadlines({ industry: { title: 'Energy & Utilities', slug: 'energy-utilities' } }));
     expect(screen.getByRole('link', { name: /Solar energy investment grows/ })).toHaveAttribute('href', 'https://www.theguardian.com/solar');
     expect(screen.getByText('The Guardian')).toBeInTheDocument();
-    expect(screen.getByText(/Via TheNewsAPI/)).toHaveTextContent('Updated 20 Oct 2026, 07:00 UTC.');
+    expect(screen.getByText(/Via TheNewsAPI/)).toHaveTextContent('Feed checked 20 Oct 2026, 07:00 UTC.');
     expect(screen.getByText(/Via TheNewsAPI/)).toHaveTextContent('Cached headline; refresh unavailable.');
   });
 });

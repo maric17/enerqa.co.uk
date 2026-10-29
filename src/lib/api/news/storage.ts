@@ -143,7 +143,7 @@ export async function claimNewsRefresh(options: NewsRefreshOptions = {}): Promis
   if (!db) throw new Error('Scheduled news storage is not configured.');
   const now = Date.now();
   const token = randomUUID();
-  const record = { slot: newsScheduleSlot(now), token, trigger: options.manual ? 'manual' : 'scheduled',
+  const record = { slot: newsScheduleSlot(now, options.job), token, trigger: options.manual ? 'manual' : 'scheduled',
     status: 'running', attempts: 1, retryAfter: null,
     lastAttemptAt: new Date(now).toISOString(), leaseUntil: new Date(now + 10 * 60_000).toISOString() };
   const { rows } = await db.query<{ record: NewsRefreshState }>(`

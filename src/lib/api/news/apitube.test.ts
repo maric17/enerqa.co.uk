@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { fetchFromProvider, providerKey } from '../core/fetch';
 import { ok } from '../core/types';
-import { apiTubeQuery, fetchApiTubeBasket, fetchApiTubeQuery, mapApiTubeResults, rejectApiTubeBody } from './apitube';
+import { API_TUBE_TOPIC_SOURCES, apiTubeQuery, fetchApiTubeBasket, fetchApiTubeQuery, mapApiTubeResults, rejectApiTubeBody } from './apitube';
 import { hasApiTubeApproval, screenApiTubeItem } from './apitubeScreening';
 import { INDUSTRY_FEEDS } from '../../feeds/contextual';
 
@@ -28,11 +28,22 @@ it('keeps the key in a header and respects APITube source, language, category an
   expect(params.get('query')).toBe('solar OR hydrogen');
   expect(params.get('source.domain')?.split(',')).toHaveLength(3);
   expect(params.get('language.code')).toBe('en,ar,fr');
-  expect(params.get('category.id')?.split(',').length).toBeLessThanOrEqual(3);
+  expect(params.get('category.id')).toBeNull();
+  expect(params.get('source.domain')?.split(',')).toEqual(API_TUBE_TOPIC_SOURCES.energy);
   expect(params.get('per_page')).toBe('10');
   expect(Date.now() - Date.parse(params.get('published_at.start')!)).toBeLessThan(31 * 86400000 + 1000);
   expect(Date.parse(params.get('published_at.end')!) - Date.parse(params.get('published_at.start')!)).toBe(31 * 86400000);
   expect(params.get('fl')).not.toMatch(/body|summary/);
+});
+
+it.each(['climate', 'energy', 'environment', 'business'] as const)('discovers recent %s stories without a redundant category restriction', async basket => {
+  await fetchApiTubeBasket(basket, true);
+  const params = new URL(vi.mocked(fetchFromProvider).mock.calls[0][1]).searchParams;
+  expect(params.has('category.id')).toBe(false);
+  expect(params.get('source.domain')?.split(',')).toEqual(API_TUBE_TOPIC_SOURCES[basket]);
+  expect(Date.parse(params.get('published_at.end')!) - Date.parse(params.get('published_at.start')!)).toBe(7 * 86400000);
+  expect(params.get('sort.by')).toBe('published_at');
+  expect(params.get('sort.order')).toBe('desc');
 });
 
 it.each(Object.entries(INDUSTRY_FEEDS).filter(([, feed]) => feed.newsSources))('uses the reviewed publisher group for %s', async (_slug, feed) => {
@@ -54,6 +65,17 @@ it('accepts explicit vehicle emissions policy with transport category evidence',
   const [item] = mapApiTubeResults([raw({ title: 'TfL consults on zero-emission private hire vehicles', description: 'The transition improves air quality and cuts carbon emissions.',
     categories: [{ id: 'medtop:20000337', name: 'transport' }] })], new Date().toISOString());
   expect(screenApiTubeItem(item).editorialReview?.topics).toEqual(['climate']);
+});
+
+it('accepts energy-transition reporting classified as transport while excluding gadget battery stories', () => {
+  const [truck, battery, watch] = mapApiTubeResults([
+    raw({ title: 'Electric truck transition held back by grid connections and prices', categories: [{ id: 'medtop:20000337', name: 'transport' }] }),
+    raw({ title: 'Battery health rules introduced as UK Government introduces Euro 7', categories: [{ id: 'medtop:20000337', name: 'transport' }] }),
+    raw({ title: 'Apple Watch review: longer battery life', description: 'A new consumer gadget.', categories: [{ id: 'medtop:08000000', name: 'science and technology' }] }),
+  ], new Date().toISOString());
+  expect(screenApiTubeItem(truck).editorialReview?.topics).toContain('energy');
+  expect(screenApiTubeItem(battery).editorialReview?.topics).toContain('energy');
+  expect(screenApiTubeItem(watch).editorialReview?.decision).toBe('rejected');
 });
 
 it('maps numeric article IDs and canonical category links without copying article bodies', () => {

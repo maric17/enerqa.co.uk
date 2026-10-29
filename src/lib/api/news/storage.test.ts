@@ -105,6 +105,15 @@ describe('shared scheduled-job guard', () => {
     expect(JSON.parse(parameters[2]).trigger).toBe('scheduled');
   });
 
+  it('claims new four-hour general slots while keeping stocks on eight-hour slots', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-10-29T02:20:00Z'));
+    mocks.query.mockResolvedValue({ rows: [{ record: {} }] });
+    await claimNewsRefresh({ job: 'general' });
+    expect(JSON.parse(mocks.query.mock.calls.at(-1)![1][2]).slot).toBe('2026-10-29T02:00:00.000Z');
+    await claimNewsRefresh({ job: 'stocks' });
+    expect(JSON.parse(mocks.query.mock.calls.at(-1)![1][2]).slot).toBe('2026-10-28T22:00:00.000Z');
+  });
+
   it('allows an explicit manual pull in a used slot while still requiring an expired lease', async () => {
     mocks.query.mockResolvedValue({ rows: [{ record: {} }] });
     expect(await claimNewsRefresh({ manual: true })).not.toBeNull();

@@ -4,6 +4,8 @@ import { fetchNews, PAGE_NEWS_PROVIDERS, type NewsItem, type NewsResult } from '
 import { FeedsBody, FeedsFallback } from './FirstFoldFeeds';
 import { HERO_CATEGORIES, selectHeroStories, selectHeroStoryGroups } from './firstFoldNews';
 
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
+
 // Provider calls are stubbed so these checks exercise selection without spending credits.
 vi.mock('@/lib/api/news', async importOriginal => ({ ...await importOriginal<typeof import('@/lib/api/news')>(), fetchNews: vi.fn() }));
 const item = (id: string, title: string): NewsItem => ({
@@ -26,6 +28,25 @@ beforeEach(() => {
 });
 
 describe('hero saved-feed integration', () => {
+  it('keeps each category available after many newer stories from the same publisher', () => {
+    const climate = Array.from({ length: 12 }, (_, index) => ({
+      ...item(`climate-${index}`, `Climate adaptation agreement ${index}`),
+      publishedAt: new Date(Date.now() - index * 60_000).toISOString(),
+    }));
+    const energy = { ...item('energy', 'Solar electricity investment grows'),
+      publishedAt: new Date(Date.now() - 2 * 3600_000).toISOString() };
+    expect(selectHeroStories([...climate, energy])[1]?.id).toBe(energy.id);
+    expect(selectHeroStoryGroups([...climate, energy])[1].map(story => story.id)).toEqual([energy.id]);
+  });
+
+  it('keeps the newest relevant story first even when it also leads another domain', () => {
+    const newest = { ...item('new', 'Climate emissions from solar electricity fall'), publishedAt: new Date().toISOString() };
+    const old = { ...item('old', 'Solar electricity expansion'), publishedAt: new Date(Date.now() - 5 * 86400000).toISOString() };
+    const leads = selectHeroStories([old, newest]);
+    expect(leads[0]?.id).toBe(newest.id);
+    expect(leads[1]?.id).toBe(newest.id);
+  });
+
   it('keeps up to three distinct stories per domain without padding missing coverage', () => {
     const pool = [1, 2, 3, 4].map(index => item(`climate-${index}`, `Climate adaptation agreement ${index}`));
     const groups = selectHeroStoryGroups([...pool, pool[0]]);
@@ -38,7 +59,7 @@ describe('hero saved-feed integration', () => {
       item('n', 'Forest biodiversity loss slows'), item('b', 'Green bond investment grows'), item('m', 'Energy prices climb')];
     vi.mocked(fetchNews).mockResolvedValueOnce(result(stories));
     render(await FeedsBody());
-    expect(fetchNews).toHaveBeenNthCalledWith(1, 'all', 80, { maxPerPublisher: 10, providers: PAGE_NEWS_PROVIDERS });
+    expect(fetchNews).toHaveBeenNthCalledWith(1, 'all', 500, { maxPerPublisher: 500, providers: PAGE_NEWS_PROVIDERS });
     for (let index = 0; index < HERO_CATEGORIES.length; index++) {
       fireEvent.click(screen.getByRole('button', { name: HERO_CATEGORIES[index].label }));
       expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(1);

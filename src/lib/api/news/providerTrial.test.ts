@@ -96,15 +96,15 @@ it('retains relevant food-system stories from discovery through storage and the 
     }))));
 });
 
-it('prefers a direct energy discovery to a newer fuel-pollution story without losing either article', async () => {
+it('shows newer relevant reporting before an older direct discovery without losing either article', async () => {
   const solar = { ...article('thenewsapi'), matchedQueries: [THE_NEWS_API_TOPIC_QUERIES.energy],
     publishedAt: new Date(Date.now() - 86400000).toISOString() };
   const pollution = { ...article('thenewsapi'), id: 'pollution', title: 'River fuel pollution spreads',
     url: 'https://www.bbc.co.uk/news/pollution', domain: 'bbc.co.uk', matchedQueries: [THE_NEWS_API_TOPIC_QUERIES.environment] };
   vi.mocked(readNewsStore).mockResolvedValue({ available: true, state: {}, items: [pollution, solar] });
-  expect(selectHeroStories([pollution, solar])[1]?.title).toBe(solar.title);
+  expect(selectHeroStories([pollution, solar])[1]?.title).toBe(pollution.title);
   const domain = await fetchNewsForKeywords(['solar', 'fuel'], 1, { basket: 'energy' });
-  expect(domain.items[0].title).toBe(solar.title);
+  expect(domain.items[0].title).toBe(pollution.title);
   expect((await fetchNews()).items).toHaveLength(2);
 });
 

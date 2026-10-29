@@ -17,8 +17,9 @@ export async function handleNewsCron(request: Request, job: string) {
     // Fixed paths choose the scope; query parameters cannot enable manual bypasses.
     const result = await refreshScheduledNews(undefined, { job });
     if (!result.skipped) {
-      revalidateTag('saved-news', 'max');
-      revalidateTag('global-intelligence', 'max');
+      // The next visitor should read the saved update immediately after ingestion.
+      revalidateTag('saved-news', { expire: 0 });
+      revalidateTag('global-intelligence', { expire: 0 });
     }
     return Response.json({ ...result, job }, {
       status: result.sourcesFailed ? 503 : 200, headers: { 'Cache-Control': 'no-store' },

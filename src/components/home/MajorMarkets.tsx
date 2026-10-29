@@ -28,7 +28,8 @@ export async function MarketsCommentary() {
         <p className="market-commentary-retrieved">
           Via {item.providerLabel}.{' '}
           {['apitube', 'newsdata'].includes(item.provider) && `${item.providerLabel} delayed ${NEWS_DELAY_HOURS}h+. `}
-          Updated {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
+          Feed checked {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
+          {card.older && ' Published more than 48 hours ago.'}
           {isNewsItemStale(item) && ' Cached commentary; refresh unavailable.'}
           {item.provider === 'eia_rss' && ' U.S. energy-market commentary.'}
         </p>

@@ -25,8 +25,8 @@ it('invalidates the saved-news search index after an authenticated refresh', asy
   expect(response.status).toBe(200);
   expect(response.headers.get('cache-control')).toBe('no-store');
   expect(await response.json()).toMatchObject({ storedItems: 3 });
-  expect(revalidateTag).toHaveBeenCalledWith('global-intelligence', 'max');
-  expect(revalidateTag).toHaveBeenCalledWith('saved-news', 'max');
+  expect(revalidateTag).toHaveBeenCalledWith('global-intelligence', { expire: 0 });
+  expect(revalidateTag).toHaveBeenCalledWith('saved-news', { expire: 0 });
 });
 
 it('treats a duplicate slot as a successful skip without refreshing caches', async () => {

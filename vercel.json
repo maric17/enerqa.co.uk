@@ -2,8 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     { "path": "/api/ingest/news", "schedule": "0 22 * * *" },
+    { "path": "/api/ingest/news", "schedule": "0 3 * * *" },
     { "path": "/api/ingest/news", "schedule": "0 6 * * *" },
+    { "path": "/api/ingest/news", "schedule": "0 11 * * *" },
     { "path": "/api/ingest/news", "schedule": "0 14 * * *" },
+    { "path": "/api/ingest/news", "schedule": "0 19 * * *" },
     { "path": "/api/ingest/news/stocks", "schedule": "0 23 * * *" },
     { "path": "/api/ingest/news/stocks", "schedule": "0 7 * * *" },
     { "path": "/api/ingest/news/stocks", "schedule": "0 15 * * *" },

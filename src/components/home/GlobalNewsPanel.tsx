@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import type { NewsDiagnostics } from '@/lib/api/news/diagnostics';
@@ -9,6 +10,7 @@ import { Container } from '../ui/Container';
 import type { HeroSlide, NewsCardData } from './firstFoldNews';
 
 export const HERO_ROTATION_MS = 5000;
+export const NEWS_PAGE_REFRESH_MS = 5 * 60_000;
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
 const subscribeMotion = (notify: () => void) => {
   const media = window.matchMedia(reducedMotionQuery);
@@ -47,6 +49,7 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
   /** A sector hero uses one story group and keeps navigation within that industry. */
   industry?: { title: string; slug: string };
 }) {
+  const router = useRouter();
   // Sparse feeds should open on a real story; empty domains remain selectable.
   const [position, setPosition] = useState<Position>(() => ({
     domain: Math.max(0, slides.findIndex(slide => slide.item)), article: 0,
@@ -66,6 +69,18 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
   const newsHref = industry
     ? `/knowledge-hub/global-intelligence?industry=${industry.slug}&type=news`
     : '/knowledge-hub/global-intelligence';
+
+  useEffect(() => {
+    if (loading) return;
+    // Read saved news again without spending provider credits or refreshing hidden tabs.
+    const refresh = () => { if (!document.hidden) router.refresh(); };
+    const timer = window.setInterval(refresh, NEWS_PAGE_REFRESH_MS);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [loading, router]);
 
   useEffect(() => {
     if (!playing || hovered) return;
@@ -125,7 +140,8 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
           <p className="home-hero-attribution" data-feed-attribution>
             {item.providerLabel && `Via ${item.providerLabel}. `}
             {story.delayed && 'Free feed delayed 12h+. '}
-            {story.retrievedAt && `Updated ${story.retrievedAt}. `}
+            {story.retrievedAt && `Feed checked ${story.retrievedAt}. `}
+            {item.older && 'Published more than 48 hours ago. '}
             {story.stale && 'Cached headline; refresh unavailable. '}
             <Link href="/data-portal/sources">Sources and rights</Link>
           </p>

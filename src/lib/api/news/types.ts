@@ -116,22 +116,13 @@ export function isNewsRoundup(title: string): boolean {
 
 export type NewsBasketKey = 'all' | 'climate' | 'energy' | 'environment' | 'business';
 
-// Focused queries are shared with selection so a domain prefers the stories
-// found for it over incidental matches (for example, "fuel" in a pollution story).
+// Focused queries used by the legacy connector; display order follows publication time.
 export const THE_NEWS_API_TOPIC_QUERIES: Record<Exclude<NewsBasketKey, 'all'>, string> = {
   climate: 'climate OR emissions OR "greenhouse gases" OR "net zero"',
   energy: '"renewable energy" OR solar OR electricity OR "energy storage" OR hydrogen',
   environment: 'biodiversity OR pollution OR "circular economy" OR deforestation',
   business: '"sustainable finance" OR "climate finance" OR "green bond" OR ESG',
 };
-
-/** Preserve date order within direct domain matches and the remaining matches. */
-export function prioritiseTopicMatches(items: NewsItem[], basket: NewsBasketKey): NewsItem[] {
-  if (basket === 'all') return items;
-  const query = THE_NEWS_API_TOPIC_QUERIES[basket];
-  const direct = (item: NewsItem) => ['apitube', 'thenewsapi'].includes(item.provider) && item.matchedQueries?.includes(query);
-  return [...items.filter(direct), ...items.filter(item => !direct(item))];
-}
 
 /** Only secure public image URLs are suitable for a browser backdrop. */
 export function newsImageUrl(value: unknown): string | null {

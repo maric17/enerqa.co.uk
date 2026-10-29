@@ -2,8 +2,11 @@ import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createNewsDiagnostics } from '@/lib/api/news/diagnostics';
-import { GlobalNewsPanel, HERO_ROTATION_MS } from './GlobalNewsPanel';
+import { GlobalNewsPanel, HERO_ROTATION_MS, NEWS_PAGE_REFRESH_MS } from './GlobalNewsPanel';
 import { HERO_CATEGORIES, type HeroSlide } from './firstFoldNews';
+
+const { refresh } = vi.hoisted(() => ({ refresh: vi.fn() }));
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh }) }));
 
 const slides: HeroSlide[] = HERO_CATEGORIES.map(category => ({
   ...category,
@@ -14,6 +17,7 @@ const slides: HeroSlide[] = HERO_CATEGORIES.map(category => ({
 }));
 
 beforeEach(() => {
+  refresh.mockClear();
   // Drive the real motion preference explicitly because jsdom has no media queries.
   vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
 });
@@ -25,6 +29,28 @@ describe('full-screen domain news carousel', () => {
       url: `https://www.theguardian.com/${slide.key}/${index + 1}` },
     retrievedAt: `Article ${index + 1} refresh`, delayed: false, stale: index === 2,
   })) }));
+
+  it('refreshes saved stories periodically and when a hidden page becomes visible', () => {
+    vi.useFakeTimers();
+    const { unmount } = render(<GlobalNewsPanel slides={slides} />);
+    act(() => { vi.advanceTimersByTime(NEWS_PAGE_REFRESH_MS); });
+    expect(refresh).toHaveBeenCalledTimes(1);
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    act(() => { vi.advanceTimersByTime(NEWS_PAGE_REFRESH_MS); });
+    expect(refresh).toHaveBeenCalledTimes(1);
+    Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+    fireEvent(document, new Event('visibilitychange'));
+    expect(refresh).toHaveBeenCalledTimes(2);
+    unmount();
+    act(() => { vi.advanceTimersByTime(NEWS_PAGE_REFRESH_MS); });
+    expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
+  it('separates publication age from the feed check time', () => {
+    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true } }]} />);
+    expect(screen.getByText(/Feed checked/)).toHaveTextContent('Published more than 48 hours ago.');
+    expect(screen.queryByText(/Updated/)).not.toBeInTheDocument();
+  });
 
   it('rotates a single industry group, keeps its title visible, and scopes all-news navigation', () => {
     vi.useFakeTimers();

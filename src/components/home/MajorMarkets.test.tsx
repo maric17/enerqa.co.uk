@@ -37,7 +37,7 @@ describe('separate Major Markets commentary', () => {
     expect(screen.getAllByRole('heading', { level: 4 }).map(heading => heading.textContent)).toEqual([
       expect.stringContaining('Nasdaq stocks rise'), expect.stringContaining('FTSE shares fall'),
     ]);
-    expect(screen.getAllByText(/Updated/)).toHaveLength(2);
+    expect(screen.getAllByText(/Feed checked/)).toHaveLength(2);
   });
 
   it('keeps the commentary when it also happens to be the only finance-domain story', async () => {

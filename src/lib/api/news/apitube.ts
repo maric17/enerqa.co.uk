@@ -2,9 +2,9 @@ import { fetchFromProvider, providerKey, type BodyRejection } from '../core/fetc
 import { fail, ok, type ConnectorResult } from '../core/types';
 import { extractRegions } from './geography';
 import { STOCK_MARKET_QUERIES } from './markets';
-import { NEWS_REFRESH_SECONDS } from './schedule';
+import { GENERAL_NEWS_REFRESH_SECONDS, NEWS_REFRESH_SECONDS } from './schedule';
 import { INDUSTRY_FEEDS } from '../../feeds/contextual';
-import { hostnameOf, isAllowedDomain, newsImageUrl, normaliseUrl, THE_NEWS_API_TOPIC_QUERIES, type NewsBasketKey, type NewsItem } from './types';
+import { hostnameOf, isAllowedDomain, newsImageUrl, normaliseUrl, type NewsBasketKey, type NewsItem } from './types';
 
 type ApiTubePage = { status?: unknown; results?: unknown; errors?: { code?: unknown }[] };
 const ENDPOINT = 'https://api.apitube.io/v1/news/everything';
@@ -16,6 +16,20 @@ export const API_TUBE_CATEGORIES = {
   environment: ['medtop:06000000', 'medtop:20000420', 'medtop:20000424'],
   business: ['medtop:20001374', 'medtop:04000000'],
 } satisfies Record<Exclude<NewsBasketKey, 'all'>, string[]>;
+
+// Use reviewed specialist publishers as well as general reporting within the three-source cap.
+export const API_TUBE_TOPIC_SOURCES = {
+  climate: ['theguardian.com', 'bbc.co.uk', 'theconversation.com'],
+  energy: ['theguardian.com', 'transportandenergy.com', 'iea.org'],
+  environment: ['theguardian.com', 'news.mongabay.com', 'unep.org'],
+  business: ['theguardian.com', 'bbc.co.uk', 'betakit.com'],
+} satisfies Record<Exclude<NewsBasketKey, 'all'>, string[]>;
+export const API_TUBE_TOPIC_QUERIES = {
+  climate: 'climate OR emissions OR "greenhouse gases" OR "net zero" OR carbon OR decarbonisation',
+  energy: 'solar OR electricity OR hydrogen OR renewable OR battery OR wind OR nuclear OR grid',
+  environment: 'biodiversity OR pollution OR deforestation OR conservation OR wildlife OR recycling OR "circular economy"',
+  business: '"sustainable finance" OR "climate finance" OR "green bond" OR ESG OR "carbon credit" OR "corporate sustainability"',
+} satisfies Record<Exclude<NewsBasketKey, 'all'>, string>;
 
 /** APITube rejects wildcards; its explicit title substring predicate supports our sector stems. */
 export function apiTubeQuery(query: string): string {
@@ -66,12 +80,13 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
   if (!key) return fail('apitube', 'not_configured', 'API_TUBE_API_KEY is not set.');
   const categories = options.basket ? API_TUBE_CATEGORIES[options.basket]
     : STOCK_MARKET_QUERIES.includes(query) ? ['medtop:04000000'] : ['medtop:06000000', 'medtop:04000000', 'medtop:08000000'];
-  const sources = Object.values(INDUSTRY_FEEDS).find(feed => feed.newsDiscoveryQuery === query)?.newsSources ?? API_TUBE_SOURCES;
+  const sources = options.basket ? API_TUBE_TOPIC_SOURCES[options.basket]
+    : Object.values(INDUSTRY_FEEDS).find(feed => feed.newsDiscoveryQuery === query)?.newsSources ?? API_TUBE_SOURCES;
   if (!sources.length || sources.length > 3 || !sources.every(isAllowedDomain)) {
     return fail('apitube', 'unavailable', 'The sector publisher group needs review.');
   }
   const end = new Date();
-  const params = new URLSearchParams({ query: apiTubeQuery(query), 'category.id': categories.join(','), 'source.domain': sources.join(','),
+  const params = new URLSearchParams({ query: apiTubeQuery(query), 'source.domain': sources.join(','),
     'language.code': languages.slice(0, 3).join(','), per_page: '10', 'sort.by': 'published_at', 'sort.order': 'desc',
     // Boolean title search has a 31-day maximum, even on paid plans.
     // Pin both ends: waiting for a rate-limit slot must not widen a 31-day query.
@@ -79,6 +94,9 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
     'published_at.end': end.toISOString(),
     fl: 'id,title,description,href,published_at,language,image,categories,source',
   });
+  // Search broadly by topic; returned category evidence is still required by screening.
+  // Combining both filters loses relevant stories assigned to a neighbouring category.
+  if (!options.basket) params.set('category.id', categories.join(','));
   const result = await fetchFromProvider<ApiTubePage>('apitube', `${ENDPOINT}?${params}`, {
     headers: { 'X-API-Key': key }, revalidate, fresh, tags: ['news'], timeoutMs: 30000,
     rejectBody: rejectApiTubeBody, errorCode: body => String((body as ApiTubePage | null)?.errors?.[0]?.code ?? ''),
@@ -89,6 +107,6 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
 }
 
 export async function fetchApiTubeBasket(key: NewsBasketKey, fresh = false): Promise<ConnectorResult<NewsItem[]>> {
-  return key === 'all' ? ok('apitube', []) : fetchApiTubeQuery(THE_NEWS_API_TOPIC_QUERIES[key], NEWS_REFRESH_SECONDS, fresh,
-    ['en'], { basket: key, days: key === 'business' ? 31 : 7 });
+  return key === 'all' ? ok('apitube', []) : fetchApiTubeQuery(API_TUBE_TOPIC_QUERIES[key], GENERAL_NEWS_REFRESH_SECONDS, fresh,
+    ['en'], { basket: key, days: 7 });
 }

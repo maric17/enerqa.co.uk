@@ -38,7 +38,7 @@ import { storeRecords } from '../core/storage';
 import { claimNewsRefresh, finishNewsRefresh, readNewsStore } from './storage';
 import { fetchLiveNews, fetchNews, fetchNewsForKeywords, fetchOfficialNews, PAGE_NEWS_PROVIDERS, refreshScheduledNews, searchNews } from './index';
 import { createNewsDiagnostics } from './diagnostics';
-import { NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
+import { GENERAL_NEWS_CRON_SCHEDULES, NEWS_CRON_SCHEDULES, NEWS_REFRESH_SECONDS, newsScheduleSlot } from './schedule';
 import { DOMAIN_FEEDS, INDUSTRY_FEEDS, newsPhrases } from '../../feeds/contextual';
 import { LIMITS } from '../core/health';
 import { basketQuery } from './newsdata';
@@ -432,5 +432,12 @@ it('maps the three Manila refresh times to distinct eight-hour UTC slots', () =>
   const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
   // Other maintenance jobs can coexist with the three news refresh slots.
   const newsJobs = config.crons.filter((job: { path: string }) => job.path === '/api/ingest/news');
-  expect(newsJobs.map((job: { schedule: string }) => job.schedule)).toEqual([...NEWS_CRON_SCHEDULES]);
+  expect(newsJobs.map((job: { schedule: string }) => job.schedule)).toEqual([...GENERAL_NEWS_CRON_SCHEDULES]);
+});
+
+it('allows general news to refresh every four hours without changing sector slots', () => {
+  const now = Date.parse('2026-10-29T02:20:00Z');
+  expect(newsScheduleSlot(now, 'general')).toBe('2026-10-29T02:00:00.000Z');
+  expect(newsScheduleSlot(now, 'stocks')).toBe('2026-10-28T22:00:00.000Z');
+  expect(newsScheduleSlot(now, 'industries-1')).toBe('2026-10-28T22:00:00.000Z');
 });
