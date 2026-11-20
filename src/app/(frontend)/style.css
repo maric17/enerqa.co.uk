@@ -3005,6 +3005,11 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   background: linear-gradient(180deg, rgb(2 15 24 / 92%) 0%, rgb(2 15 24 / 64%) 35%, rgb(2 15 24 / 35%) 48%, rgb(2 15 24 / 90%) 78%, #020d15 100%),
     linear-gradient(90deg, rgb(2 15 24 / 55%), transparent 85%);
 }
+.home-hero > .home-hero-feed > .home-hero-shade {
+  /* Darken the center of bright homepage photos while keeping the image visible. */
+  background: linear-gradient(180deg, rgb(2 15 24 / 95%) 0%, rgb(2 15 24 / 78%) 35%, rgb(2 15 24 / 63%) 48%, rgb(2 15 24 / 94%) 78%, #020d15 100%),
+    linear-gradient(90deg, rgb(2 15 24 / 55%), transparent 85%);
+}
 .home-hero-editorial { position: relative; z-index: 1; padding-top: 32px; padding-bottom: 24px; }
 .home-hero-story { max-width: 1080px; }
 .home-hero-eyebrow { margin: 0 0 14px; color: #48e0c0; font-size: 13px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }

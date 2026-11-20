@@ -46,9 +46,12 @@ describe('full-screen domain news carousel', () => {
     expect(refresh).toHaveBeenCalledTimes(2);
   });
 
-  it('separates publication age from the feed check time', () => {
-    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true } }]} />);
-    expect(screen.getByText(/Feed checked/)).toHaveTextContent('Published more than 48 hours ago.');
+  it('keeps the homepage credit and publication date without the detailed feed status', () => {
+    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true, providerLabel: 'APITube' }, delayed: true }]} />);
+    expect(screen.getByText(/Via APITube/)).toHaveTextContent('Feed delayed 12h+.');
+    expect(screen.getByRole('link', { name: 'Sources and rights' })).toHaveAttribute('href', '/data-portal/sources');
+    expect(screen.getByText('17 Oct 2026, 12:00 UTC')).toBeInTheDocument();
+    expect(screen.queryByText(/Feed checked|Published more than 48 hours ago/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Updated/)).not.toBeInTheDocument();
   });
 
@@ -85,7 +88,7 @@ describe('full-screen domain news carousel', () => {
     fireEvent.click(segment);
     expect(segment).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('link', { name: /climate article 3/ })).toHaveAttribute('href', 'https://www.theguardian.com/climate/3');
-    expect(screen.getByText(/Article 3 refresh/)).toHaveTextContent('Cached headline; refresh unavailable.');
+    expect(screen.getByText(/Cached headline; refresh unavailable/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeInTheDocument();
   });
 

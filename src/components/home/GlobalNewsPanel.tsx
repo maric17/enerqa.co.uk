@@ -139,9 +139,10 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
           <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
           <p className="home-hero-attribution" data-feed-attribution>
             {item.providerLabel && `Via ${item.providerLabel}. `}
-            {story.delayed && 'Free feed delayed 12h+. '}
-            {story.retrievedAt && `Feed checked ${story.retrievedAt}. `}
-            {item.older && 'Published more than 48 hours ago. '}
+            {/* The homepage already shows the publication date next to the publisher. */}
+            {story.delayed && (industry ? 'Free feed delayed 12h+. ' : 'Feed delayed 12h+. ')}
+            {industry && story.retrievedAt && `Feed checked ${story.retrievedAt}. `}
+            {industry && item.older && 'Published more than 48 hours ago. '}
             {story.stale && 'Cached headline; refresh unavailable. '}
             <Link href="/data-portal/sources">Sources and rights</Link>
           </p>
