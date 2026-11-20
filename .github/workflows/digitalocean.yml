@@ -1,0 +1,104 @@
+name: Test and deploy Enerqa
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # Pull requests do not block or replace a queued production deployment.
+  group: enerqa-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: '22.23.5'
+          cache: npm
+      - run: npm ci
+      - name: Check application lint
+        run: npx eslint 'src/{app,collections,components,lib}/**/*.{ts,tsx}' 'src/*.ts' next.config.ts
+      - run: npx tsc --noEmit
+      - run: npx vitest run
+      - run: python3 infra/digitalocean/test_receive_release.py
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: digitalocean-production
+      url: https://www.enerqa.co.uk
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: '22.23.5'
+          cache: npm
+      - run: npm ci
+      - name: Build using the restricted database tunnel
+        shell: bash
+        env:
+          BUILD_KEY: ${{ secrets.ENERQA_BUILD_KEY }}
+          BUILD_DB_PASSWORD: ${{ secrets.ENERQA_BUILD_DB_PASSWORD }}
+          PAYLOAD_SCHEMA_PUSH: 'false'
+          PAYLOAD_SECRET: 'temporary-build-only-secret-not-used-by-the-live-app'
+          MEDIA_STORAGE: local
+          MEDIA_STORAGE_DIR: /tmp/enerqa-build-media
+          NEXT_PUBLIC_MEDIA_STORAGE: local
+          NEXT_PUBLIC_BASE_URL: https://www.enerqa.co.uk
+          NEXT_BUILD_WORKERS: '1'
+        run: |
+          set -euo pipefail
+          test -n "$BUILD_KEY" && test -n "$BUILD_DB_PASSWORD"
+          mkdir -p "$MEDIA_STORAGE_DIR"
+          key="$RUNNER_TEMP/enerqa-build-key"
+          known="$RUNNER_TEMP/enerqa-known-hosts"
+          printf '%s\n' "$BUILD_KEY" > "$key"
+          chmod 600 "$key"
+          printf '%s\n' '165.22.22.253 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8Yg+wxWQfqsUfS9YxfEW7f4pGF5spACZun9AKezIs0' > "$known"
+          ssh -i "$key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$known" -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
+            -N -L 127.0.0.1:15432:127.0.0.1:5432 enerqa-build@165.22.22.253 &
+          tunnel=$!
+          trap 'kill "$tunnel" 2>/dev/null || true; rm -f "$key"' EXIT
+          for i in {1..20}; do
+            if (echo > /dev/tcp/127.0.0.1/15432) 2>/dev/null; then break; fi
+            kill -0 "$tunnel"
+            sleep 1
+          done
+          export DATABASE_URI="postgresql://enerqa_ci_build:${BUILD_DB_PASSWORD}@127.0.0.1:15432/enerqa_production"
+          npm run build -- --webpack
+      - name: Package and deploy the current main commit
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_KEY: ${{ secrets.ENERQA_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_KEY"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)" = "$GITHUB_SHA"
+          node -e 'require("fs").writeFileSync("release.json", JSON.stringify({commit:process.env.GITHUB_SHA}))'
+          tar -czf "$RUNNER_TEMP/enerqa-release.tar.gz" --exclude='./.git' --exclude='./.env*' \
+            --exclude='./.next/cache' --exclude='./node_modules/.cache' .
+          key="$RUNNER_TEMP/enerqa-deploy-key"
+          trap 'rm -f "$key"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          chmod 600 "$key"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)" = "$GITHUB_SHA"
+          ssh -i "$key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/enerqa-known-hosts" \
+            enerqa-deploy@165.22.22.253 < "$RUNNER_TEMP/enerqa-release.tar.gz"

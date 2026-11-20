@@ -94,6 +94,8 @@ const LIVE_CONTACT_MAP: Record<string, string> = {
 
 const nextConfig: NextConfig = {
   experimental: {
+    // Keep the optional staging build within the small Droplet's memory budget.
+    ...(process.env.NEXT_BUILD_WORKERS === '1' ? { cpus: 1 } : {}),
     // Serves app/global-not-found.tsx (site header, footer and search) for a
     // URL that matches no route. The app has two root layouts ((frontend) and
     // (payload)), so without this Next shows its bare default 404.

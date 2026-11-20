@@ -1,0 +1,8 @@
+[Unit]
+Description=Back up Enerqa database and uploaded media
+Requires=postgresql.service mnt-volume_fra1_1795093297184.mount
+After=postgresql.service mnt-volume_fra1_1795093297184.mount
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/enerqa-backup
