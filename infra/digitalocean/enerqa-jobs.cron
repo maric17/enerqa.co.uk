@@ -1,0 +1,20 @@
+# Install only after the existing production scheduler is disabled. Server time is UTC.
+0 22 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 3 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 6 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 11 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 14 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 19 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job general
+0 23 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job stocks
+0 7 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job stocks
+0 15 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job stocks
+0 0 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-1
+0 8 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-1
+0 16 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-1
+0 1 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-2
+0 9 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-2
+0 17 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-2
+0 2 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-3
+0 10 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-3
+0 18 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-3
+30 19 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job forms

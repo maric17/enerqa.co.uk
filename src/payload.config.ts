@@ -68,7 +68,7 @@ export default buildConfig({
   editor: standardEditor,
   plugins: [
     vercelBlobStorage({
-      enabled: true,
+      enabled: process.env.MEDIA_STORAGE !== 'local',
       collections: {
         media: true,
       },
