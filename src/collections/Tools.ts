@@ -1,5 +1,6 @@
 import type { CollectionConfig, Where } from 'payload'
 import { standardEditor } from '../editorConfig'
+import { toolLocaleFields } from '../lib/i18n/toolLocale'
 
 // pp. 3, 166: tool pages other than the three flagships publish "only after
 // validation". Every public query (catalogue, detail route, sitemap, search,
@@ -38,6 +39,7 @@ export const Tools: CollectionConfig = {
     {
       name: 'category',
       type: 'text',
+      ...toolLocaleFields,
       required: true,
     },
     {
@@ -53,11 +55,13 @@ export const Tools: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      ...toolLocaleFields,
       required: true,
     },
     {
       name: 'desc',
       type: 'textarea',
+      ...toolLocaleFields,
       required: true,
     },
     {
@@ -141,10 +145,10 @@ export const Tools: CollectionConfig = {
         { label: 'In Development', value: 'In Development' },
       ],
     },
-    { name: 'purpose', type: 'richText', editor: standardEditor },
-    { name: 'inputs', type: 'richText', editor: standardEditor },
-    { name: 'outputs', type: 'richText', editor: standardEditor },
-    { name: 'method', type: 'richText', editor: standardEditor },
+    { name: 'purpose', type: 'richText', editor: standardEditor, ...toolLocaleFields },
+    { name: 'inputs', type: 'richText', editor: standardEditor, ...toolLocaleFields },
+    { name: 'outputs', type: 'richText', editor: standardEditor, ...toolLocaleFields },
+    { name: 'method', type: 'richText', editor: standardEditor, ...toolLocaleFields },
     {
       // p. 165 (T01) promises each tool explains its assumptions; p. 191 (TD03)
       // puts default assumptions and limits under "Methodology and Limits".
@@ -152,10 +156,11 @@ export const Tools: CollectionConfig = {
       label: 'Assumptions and limits',
       type: 'richText',
       editor: standardEditor,
+      ...toolLocaleFields,
     },
-    { name: 'privacy', type: 'richText', editor: standardEditor },
-    { name: 'licence', type: 'text' },
-    { name: 'systemRequirements', type: 'richText', editor: standardEditor },
+    { name: 'privacy', type: 'richText', editor: standardEditor, ...toolLocaleFields },
+    { name: 'licence', type: 'text', ...toolLocaleFields },
+    { name: 'systemRequirements', type: 'richText', editor: standardEditor, ...toolLocaleFields },
     { name: 'userGuide', type: 'upload', relationTo: 'media' },
   ],
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useSiteLanguage } from './LanguageProvider';
+import { siteText } from '@/lib/i18n/site';
 import { saveConsent, useEmbedConsent, useAnalyticsConsent } from '@/lib/consent';
 
 /**
@@ -10,6 +12,8 @@ import { saveConsent, useEmbedConsent, useAnalyticsConsent } from '@/lib/consent
  * also checks consent before every send, including after withdrawal.
  */
 export function CookieChoicesControl() {
+  const language = useSiteLanguage();
+  const t = (text: string) => siteText(language, text);
   const embeds = useEmbedConsent();
   const analytics = useAnalyticsConsent();
   // Announced by screen readers after each save (role="status" below).
@@ -17,12 +21,12 @@ export function CookieChoicesControl() {
 
   return (
     <fieldset className="flex flex-col gap-6 m-0 p-6 md:p-8 rounded-2xl border border-gray-200 bg-white">
-      <legend className="px-2 text-lg font-bold text-[var(--color-dark)]">Your choices</legend>
+      <legend className="px-2 text-lg font-bold text-[var(--color-dark)]">{t("Your choices")}</legend>
 
       <div>
-        <p className="m-0 font-semibold text-[var(--color-dark)]">Essential storage (always on)</p>
+        <p className="m-0 font-semibold text-[var(--color-dark)]">{t("Essential storage (always on)")}</p>
         <p className="m-0 mt-1 text-gray-600">
-          Remembers these choices and your language setting, and keeps staff signed in to the content editor.
+          {t("Remembers these choices and your language setting, and keeps staff signed in to the content editor.")}
         </p>
       </div>
 
@@ -44,11 +48,10 @@ export function CookieChoicesControl() {
         />
         <div>
           <label htmlFor="consent-embeds" className="font-semibold text-[var(--color-dark)]">
-            Load embedded third-party content automatically
+            {t("Load embedded third-party content automatically")}
           </label>
           <p id="consent-embeds-help" className="m-0 mt-1 text-gray-600">
-            Some tools and data views are hosted by other sites, which may set their own cookies. When this is off, each
-            one waits until you choose to load it.
+            {t("Some tools and data views are hosted by other sites, which may set their own cookies. When this is off, each one waits until you choose to load it.")}
           </p>
         </div>
       </div>
@@ -59,14 +62,14 @@ export function CookieChoicesControl() {
           onChange={e => { saveConsent({ analytics: e.target.checked }); setStatus(e.target.checked ? 'Saved. Analytics is allowed when available.' : 'Saved. Analytics is off.'); }}
           aria-describedby="consent-analytics-help" className="mt-1 h-5 w-5 shrink-0 accent-[var(--color-primary-deep)]" />
         <div>
-          <label htmlFor="consent-analytics" className="font-semibold text-[var(--color-dark)]">Allow optional website analytics</label>
-          <p id="consent-analytics-help" className="m-0 mt-1 text-gray-600">When enabled, Enerqa’s self-hosted Umami measures page visits, dataset downloads and tool use. Form contents, email addresses and search prompts are excluded. You can switch this off here at any time.</p>
+          <label htmlFor="consent-analytics" className="font-semibold text-[var(--color-dark)]">{t("Allow optional website analytics")}</label>
+          <p id="consent-analytics-help" className="m-0 mt-1 text-gray-600">{t("When enabled, Enerqa’s self-hosted Umami measures page visits, dataset downloads and tool use. Form contents, email addresses and search prompts are excluded. You can switch this off here at any time.")}</p>
         </div>
       </div>
 
       {/* Present from the first render so the first announcement is not missed. */}
       <p role="status" className="m-0 text-sm font-medium text-[var(--color-dark)]">
-        {status}
+        {t(status)}
       </p>
     </fieldset>
   );

@@ -1,0 +1,50 @@
+import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { Container } from '@/components/ui/Container';
+import { Typography } from '@/components/ui/Typography';
+import { Section } from '@/components/ui/Section';
+import Link from '@/components/ui/SiteLink';
+import { Metadata } from 'next';
+
+// p. 4: a transactional state (reached after a successful signup), not a menu
+// page, so it is kept out of search results. The layout appends " | Enerqa".
+export const metadata: Metadata = {
+  title: 'Subscription Confirmed',
+  robots: { index: false, follow: false },
+};
+
+export function NewsletterConfirmContent({ language = 'en' }: { language?: SiteLanguage } = {}) {
+  const t = (key: string) => siteText(language, key);
+  return (
+    <div className="bg-white min-h-screen pt-[70px]">
+      <section className="bg-gray-50 border-b border-gray-200 py-20">
+        <Container>
+          <div className="max-w-3xl mx-auto text-center">
+            <Typography variant="h1" className="text-[var(--color-dark)] m-0">
+              {t("Subscription Confirmed")}
+            </Typography>
+            <p className="text-gray-500 mt-4">{t("Thank you for subscribing to the Enerqa newsletter.")}</p>
+          </div>
+        </Container>
+      </section>
+
+      <Section theme="light" className="py-20">
+        <Container>
+          <div className="max-w-3xl mx-auto prose prose-lg text-gray-700 text-center">
+            {/* p. 228: no delivery promise. The signup is saved for staff; no
+                newsletter is sent automatically (there is no email adapter). */}
+            <p className="text-sm mt-4 text-gray-500">
+              {t("Changed your mind? You can")}{" "}<Link href="/newsletter/unsubscribe" className="underline">{t("unsubscribe at any time")}</Link>.
+            </p>
+            <div className="mt-8">
+              {/* Dark teal keeps white button text readable at normal text sizes. */}
+              <Link href="/" className="inline-block px-6 py-3 bg-[var(--color-primary-deep)] text-white font-medium rounded hover:bg-[var(--color-dark)] transition-colors">
+                {t("Return to Homepage")}
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    </div>
+  );
+}

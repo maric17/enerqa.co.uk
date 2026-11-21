@@ -3,6 +3,8 @@
 import React from 'react';
 import Link from '@/components/ui/SiteLink';
 import { usePathname } from 'next/navigation';
+import { useSiteLanguage } from '@/components/LanguageProvider';
+import { siteText } from '@/lib/i18n/site';
 import { ArrowRight, Home, Search } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 
@@ -33,7 +35,10 @@ const secondaryButton = 'inline-flex justify-center items-center gap-2 bg-white 
 // A Client Component because the nearest section depends on the URL, and
 // not-found files receive no props (Next docs: use usePathname instead).
 export default function NotFound() {
-  const section = nearestSection(usePathname());
+  const language = useSiteLanguage();
+  const pathname = usePathname();
+  const section = nearestSection(pathname?.replace(/^\/ar(?=\/|$)/, "") ?? null);
+  const t = (key: string) => siteText(language, key);
 
   return (
     <div className="flex flex-col min-h-[80vh] bg-[var(--color-paper)] pt-[var(--header-offset)] justify-center items-center">
@@ -42,26 +47,26 @@ export default function NotFound() {
           {/* Scale the decorative number so it fits a phone at normal size and zoom. */}
           <div className="text-[clamp(6rem,30vw,12rem)] font-bold text-gray-100 leading-none select-none" aria-hidden="true">404</div>
           {/* p. 208 U01/U02: the title and the proposed message, verbatim. */}
-          <h1 className="text-4xl font-bold text-[var(--color-dark)] mb-6 -mt-12 relative z-10">Page Not Found</h1>
+          <h1 className="text-4xl font-bold text-[var(--color-dark)] mb-6 -mt-12 relative z-10">{t("Page Not Found")}</h1>
           <p className="text-xl text-gray-600 mb-10 leading-relaxed relative z-10">
-            We could not find this page. Search the site or explore one of the main sections.
+            {t("We could not find this page. Search the site or explore one of the main sections.")}
           </p>
 
           {/* p. 208 U03: the three 404 buttons, plus the section the URL was in. */}
           <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 relative z-10">
             {section && (
               <Link href={section.href} className={primaryButton}>
-                Go to {section.label} <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                {t("Go to")} {t(section.label)} <ArrowRight className="w-5 h-5 rtl:rotate-180" aria-hidden="true" />
               </Link>
             )}
             <Link href="/search" className={section ? secondaryButton : primaryButton}>
-              <Search className="w-5 h-5" aria-hidden="true" /> Search Enerqa
+              <Search className="w-5 h-5" aria-hidden="true" /> {t("Search Enerqa")}
             </Link>
             <Link href="/" className={secondaryButton}>
-              <Home className="w-5 h-5" aria-hidden="true" /> Go to Homepage
+              <Home className="w-5 h-5" aria-hidden="true" /> {t("Go to Homepage")}
             </Link>
             <Link href="/domains-and-industries" className={secondaryButton}>
-              Explore Domains and Industries <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              {t("Explore Domains and Industries")} <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </div>
         </div>

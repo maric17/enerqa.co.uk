@@ -1,9 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { SEARCH_COPY } from './searchIndex';
+import { useSiteLanguage } from '@/components/LanguageProvider';
+import { siteText } from '@/lib/i18n/site';
+import Link from '@/components/ui/SiteLink';
 import { searchResultSchema, type SearchResult } from '@/lib/api/ai-search/answer';
 
 export function AIResponse({ query }: { query: string }) {
+  const language = useSiteLanguage();
+  const t = (text: string) => siteText(language, text);
   const [result, setResult] = useState<SearchResult | null>(null);
   const [status, setStatus] = useState<'loading' | 'failed' | 'stopped' | 'done'>('loading');
   const [attempt, setAttempt] = useState(0);
@@ -26,12 +31,12 @@ export function AIResponse({ query }: { query: string }) {
     return () => { active = false; clearTimeout(timer); abort.abort(); };
   }, [query, attempt]);
   return <div className="rounded-xl border border-gray-200 bg-gray-50 p-6 space-y-4">
-    <p className="text-sm">AI answers can make mistakes. Check the linked sources. Please do not share confidential information.</p>
-    {status === 'loading' && <><p role="status">{SEARCH_COPY.loading}</p><button type="button" className="underline" onClick={() => { controller?.abort(); setStatus('stopped'); }}>Stop</button></>}
-    {status === 'failed' && <p role="status">{SEARCH_COPY.failure}</p>}
-    {status === 'stopped' && <p role="status">Search stopped.</p>}
-    {status === 'done' && result?.status === 'insufficient' && <p role="status">There is not enough verified open-access evidence to provide an answer. Try a more specific question.</p>}
-    {status === 'done' && result?.status === 'refused' && <p role="status">This request cannot be answered. Try a different question.</p>}
+    <p className="text-sm">{t("AI answers can make mistakes. Check the linked sources. Please do not share confidential information.")}</p>
+    {status === 'loading' && <><p role="status">{t(SEARCH_COPY.loading)}</p><button type="button" className="underline" onClick={() => { controller?.abort(); setStatus('stopped'); }}>{t("Stop")}</button></>}
+    {status === 'failed' && <p role="status">{t(SEARCH_COPY.failure)}</p>}
+    {status === 'stopped' && <p role="status">{t("Search stopped.")}</p>}
+    {status === 'done' && result?.status === 'insufficient' && <p role="status">{t("There is not enough verified open-access evidence to provide an answer. Try a more specific question.")}</p>}
+    {status === 'done' && result?.status === 'refused' && <p role="status">{t("This request cannot be answered. Try a different question.")}</p>}
     {result?.status === 'complete' && <>
       <p className="text-xs uppercase font-bold">Generated answer</p>
       {result.answer.map((block, index) => {
@@ -49,7 +54,7 @@ export function AIResponse({ query }: { query: string }) {
       <h3 className="font-bold">Sources</h3>
       <ul className="space-y-2">{result.sources.map(s => <li key={s.id} className="text-sm"><a href={s.url} className="underline">{s.title}</a> · {s.published_at ? `Published ${s.published_at}` : 'Publication date not supplied'} · Retrieved {s.retrieved_at}</li>)}</ul>
     </>}
-    {status !== 'loading' && <button type="button" className="underline" onClick={() => setAttempt(n => n + 1)}>Retry search</button>}
-    <p className="text-sm"><a href="/search" className="underline">Clear search</a> · <a href="/contact?intent=general" className="underline">Send search feedback</a></p>
+    {status !== 'loading' && <button type="button" className="underline" onClick={() => setAttempt(n => n + 1)}>{t("Retry search")}</button>}
+    <p className="text-sm"><Link href="/search" className="underline">{t("Clear search")}</Link> · <Link href="/contact?intent=general" className="underline">{t("Send search feedback")}</Link></p>
   </div>;
 }

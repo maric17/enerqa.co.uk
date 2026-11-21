@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useSiteLanguage } from '@/components/LanguageProvider';
+import { siteText } from '@/lib/i18n/site';
 
 type IndicatorOption = { id: string; name: string; topic?: string };
 const normalize = (text: string) => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
@@ -29,6 +31,8 @@ export function IndicatorSelector({ id, label, searchLabel, options, value, onCh
   onChange: (value: string) => void;
   loading?: boolean;
 }) {
+  const language = useSiteLanguage();
+  const t = (text: string) => siteText(language, text);
   const [query, setQuery] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -65,7 +69,7 @@ export function IndicatorSelector({ id, label, searchLabel, options, value, onCh
     <input ref={input} id={id} type="text" role="combobox" aria-autocomplete="list" aria-expanded={open}
       aria-controls={`${id}-options`} aria-describedby={`${id}-help`}
       aria-activedescendant={open && activeIndex >= 0 && visible[activeIndex] ? `${id}-option-${activeIndex}` : undefined}
-      autoComplete="off" placeholder={loading ? 'Loading catalogue…' : searchLabel} value={query ?? selected?.name ?? ''}
+      autoComplete="off" placeholder={loading ? t('Loading catalogue…') : t(searchLabel)} value={query ?? selected?.name ?? ''}
       disabled={loading || options.length === 0}
       className="w-full min-w-0 rounded-lg border border-gray-300 p-3 text-base md:text-sm focus:outline-2 focus:outline-[var(--color-primary)]"
       onFocus={event => { setOpen(true); event.currentTarget.select(); }} onClick={event => { setOpen(true); if (query === null) event.currentTarget.select(); }}
@@ -79,7 +83,7 @@ export function IndicatorSelector({ id, label, searchLabel, options, value, onCh
         }
         if (event.key === 'Enter' && open) { event.preventDefault(); if (visible[activeIndex]) choose(visible[activeIndex]); }
       }} />
-    {open && <ul ref={list} id={`${id}-options`} role="listbox" aria-label={`${label} suggestions`} data-lenis-prevent
+    {open && <ul ref={list} id={`${id}-options`} role="listbox" aria-label={language === 'ar' ? `اقتراحات ${label}` : `${label} suggestions`} data-lenis-prevent
       className="m-0 mt-2 max-h-56 list-none overflow-y-auto overscroll-contain rounded-lg border border-gray-300 bg-white p-1 shadow-sm">
       {visible.map((option, index) => <li key={option.id} role="presentation">
         <button id={`${id}-option-${index}`} type="button" role="option" aria-label={option.name} aria-describedby={option.topic ? `${id}-topic-${index}` : undefined} aria-selected={option.id === value} tabIndex={-1}
@@ -88,10 +92,12 @@ export function IndicatorSelector({ id, label, searchLabel, options, value, onCh
           {option.name}{option.topic && <span id={`${id}-topic-${index}`} className="mt-1 block text-xs text-gray-500">{option.topic}</span>}
         </button>
       </li>)}
-      {!matches.length && <li role="presentation" className="p-3 text-sm text-gray-600">Try another name, topic or indicator code.</li>}
+      {!matches.length && <li role="presentation" className="p-3 text-sm text-gray-600">{t("Try another name, topic or indicator code.")}</li>}
     </ul>}
     <p id={`${id}-help`} role="status" className="mt-2 text-xs text-gray-500">
-      {open ? (matches.length ? `${matches.length.toLocaleString()} indicators found${matches.length > visible.length ? '; refine your search to see more' : ''}. Use arrow keys and Enter to select.` : 'No indicators match your search.') : 'Type to search and choose an indicator.'}
+      {language === 'ar' && open && matches.length
+        ? `عدد المؤشرات المطابقة ${matches.length.toLocaleString('ar-QA')}. استخدم مفاتيح الأسهم وEnter للاختيار.`
+        : open ? (matches.length ? `${matches.length.toLocaleString()} indicators found${matches.length > visible.length ? '; refine your search to see more' : ''}. Use arrow keys and Enter to select.` : t('No indicators match your search.')) : t('Type to search and choose an indicator.')}
     </p>
   </div>;
 }

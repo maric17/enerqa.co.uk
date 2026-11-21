@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { domainLocaleFields as industryLocaleFields } from '../lib/i18n/domainLocalePreview'
 
 export const Industries: CollectionConfig = {
   slug: 'industries',
@@ -19,6 +20,7 @@ export const Industries: CollectionConfig = {
             {
               name: 'title',
               type: 'text',
+              ...industryLocaleFields,
               required: true,
             },
             {
@@ -38,11 +40,13 @@ export const Industries: CollectionConfig = {
             {
               name: 'heroNarrative',
               type: 'textarea',
+              ...industryLocaleFields,
               required: true,
             },
             {
               name: 'ctaText',
               type: 'text',
+              ...industryLocaleFields,
               admin: {
                 description: 'Text for the call to action button (e.g. Discuss Your Project)',
               }
@@ -50,6 +54,7 @@ export const Industries: CollectionConfig = {
             {
               name: 'lifecycleNarrative',
               type: 'textarea',
+              ...industryLocaleFields,
               admin: {
                 description: 'Short industry-specific lifecycle narrative (module I01L).',
               }
@@ -108,16 +113,19 @@ export const Industries: CollectionConfig = {
             {
               name: 'metaTitle',
               type: 'text',
+              ...industryLocaleFields,
               admin: { description: 'SEO Title' },
             },
             {
               name: 'metaDescription',
               type: 'textarea',
+              ...industryLocaleFields,
               admin: { description: 'SEO Description' },
             },
             {
               name: 'metaKeywords',
               type: 'text',
+              ...industryLocaleFields,
               admin: { description: 'SEO Keywords' },
             },
             {

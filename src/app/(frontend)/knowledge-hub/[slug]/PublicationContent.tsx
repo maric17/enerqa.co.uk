@@ -114,7 +114,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const findPublication = cache(async (slug: string, language: SiteLanguage) => {
+const findPublication = cache(async (slug: string) => {
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'publications',
@@ -124,16 +124,14 @@ export const findPublication = cache(async (slug: string, language: SiteLanguage
     where: {
       slug: { equals: slug },
       recordKind: { equals: 'article' },
-      // Arabic routes are reserved for published Arabic editions.
-      ...(language === 'ar' ? { language: { equals: 'ar' } } : {}),
     },
     limit: 1,
   });
   return docs[0];
 });
 
-export async function publicationMetadata({ params }: Props, language: SiteLanguage = 'en') {
-  const post = await findPublication((await params).slug, language);
+export async function publicationMetadata({ params }: Props) {
+  const post = await findPublication((await params).slug);
   if (!post) {
     return {};
   }
@@ -155,10 +153,11 @@ export async function publicationMetadata({ params }: Props, language: SiteLangu
 
 export async function PublicationContent({ params, language = 'en' }: Props & { language?: SiteLanguage }) {
   const t = (text: string) => siteText(language, text);
-  const post = await findPublication((await params).slug, language);
+  const post = await findPublication((await params).slug);
   if (!post) {
     return notFound();
   }
+  const originalLanguage = post.language === 'ar' ? 'ar' : 'en';
   const fileUrl = post.file && typeof post.file === 'object' ? resolveMediaUrl(post.file.url) : '';
 
   const topics = Array.isArray(post.topic) ? post.topic : [];
@@ -220,7 +219,7 @@ export async function PublicationContent({ params, language = 'en' }: Props & { 
           />
 
           <Typography variant="h1" className="text-white m-0 max-w-[900px]">
-            {post.title}
+            <bdi lang={originalLanguage}>{post.title}</bdi>
           </Typography>
 
           <div className="flex flex-wrap gap-4 items-center text-white/80 text-sm mt-4">
@@ -258,8 +257,11 @@ export async function PublicationContent({ params, language = 'en' }: Props & { 
 
       <Section theme="light">
         <Container className="max-w-[800px] mx-auto">
+          {language === 'ar' && originalLanguage === 'en' && (
+            <p className="mb-6 text-sm text-gray-600">محتوى هذا المنشور متاح باللغة الإنجليزية حاليًا.</p>
+          )}
           {post.heading && (
-            <Typography variant="h3" className="mb-6">{post.heading}</Typography>
+            <Typography variant="h3" className="mb-6"><bdi lang={originalLanguage}>{post.heading}</bdi></Typography>
           )}
 
           {/* Keep topic metadata without repeating the Executive Summary. */}
@@ -316,8 +318,8 @@ export async function PublicationContent({ params, language = 'en' }: Props & { 
                  <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
                    <h3 className="text-xl font-bold text-[var(--color-dark)] mb-3">{item.title}</h3>
                    <p className="text-gray-600 line-clamp-3 mb-4">{item.excerpt}</p>
-                   <Link href={`${language === 'ar' && item.language === 'ar' ? '/ar' : ''}/knowledge-hub/${item.slug}`} className="text-[var(--color-primary)] font-bold hover:underline text-sm">
-                     {t("Read Article")} →
+                   <Link href={`/knowledge-hub/${item.slug}`} className="text-[var(--color-primary)] font-bold hover:underline text-sm">
+                     {t("Read Article")} {language === 'ar' ? '←' : '→'}
                    </Link>
                  </div>
                ))}

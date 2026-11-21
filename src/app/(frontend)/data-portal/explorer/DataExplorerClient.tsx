@@ -1,5 +1,9 @@
 'use client';
 
+import copy from '@/lib/i18n/data-portal-copy.json';
+import { publicCopy } from '@/lib/i18n/publicCopy';
+import { useSiteLanguage } from '@/components/LanguageProvider';
+import { intelligenceCountry } from '@/lib/i18n/intelligence';
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from '@/components/ui/SiteLink';
 import ReactECharts from 'echarts-for-react';
@@ -32,6 +36,9 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
   initialIndicatorId?: string;
   initialCountry?: string;
 }) {
+  const language = useSiteLanguage();
+  const t = (text: string) => publicCopy(language, copy, text);
+  const geoName = (geo: string) => intelligenceCountry(language, geo.toUpperCase(), countryName(geo));
   const [catalogue, setCatalogue] = useState<Dataset[]>([]);
   const [selectedDatasetId, setSelectedDatasetId] = useState<string>('');
   const [xIndicatorId, setXIndicatorId] = useState('year');
@@ -156,7 +163,7 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
     return Array.from(geos).sort((a, b) => countryName(a).localeCompare(countryName(b)));
   }, [observations]);
 
-  const visibleGeos = allGeos.filter(geo => `${countryName(geo)} ${geo}`.toLowerCase().includes(countrySearch.trim().toLowerCase()));
+  const visibleGeos = allGeos.filter(geo => `${geoName(geo)} ${countryName(geo)} ${geo}`.toLowerCase().includes(countrySearch.trim().toLowerCase()));
   const xOptions = useMemo(() => [{ id: 'year', name: 'Year' }, ...catalogue], [catalogue]);
 
   const pairedObservations = useMemo(() => matchIndicators(observations, isComparison ? hasSeparateX ? xObservations : observations : null), [observations, xObservations, isComparison, hasSeparateX]);
@@ -243,14 +250,14 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
       const vals = Object.values(data);
       const avg = vals.reduce((a,b)=>a+b,0)/(vals.length||1);
       return {
-        name: countryName(geo),
+        name: geoName(geo),
         type: chartType === 'scatter' ? 'scatter' : chartType === 'bar' ? 'bar' : 'line',
         // Keep real zeroes and show the selected period in comparison tooltips.
         data: isComparison
           ? filteredObservations.filter(o => o.geo === geo).map(o => [o.x, o.value, effectivePeriod === 'yearly' ? Number(o.time) : o.time])
           : periods.map(period => data[period] ?? null),
         // Internal names stay unique even when both axes use the same dataset.
-        dimensions: isComparison ? [{ name: 'xValue', displayName: xName }, { name: 'yValue', displayName: metadata?.name || 'Value' }, { name: 'period', displayName: periodOption.axis, type: 'ordinal' }] : undefined,
+        dimensions: isComparison ? [{ name: 'xValue', displayName: xName }, { name: 'yValue', displayName: metadata?.name || t('Value') }, { name: 'period', displayName: periodOption.axis, type: 'ordinal' }] : undefined,
         encode: isComparison ? { x: 0, y: 1, tooltip: [0, 1, 2] } : undefined,
         symbolSize: chartType === 'scatter' ? (val: number | number[]) => Math.max(5, Math.min(30, Math.abs((Array.isArray(val) ? val[1] : val) / (avg || 1)) * 10)) : undefined,
       };
@@ -259,10 +266,10 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
     return {
       tooltip: { trigger: isComparison || chartType === 'scatter' ? 'item' : 'axis' },
       grid: { left: 65, right: 25, top: 65, bottom: 100, containLabel: true },
-      legend: { type: 'scroll', data: Array.from(geoMap.keys()).map(countryName), bottom: 0 },
+      legend: { type: 'scroll', data: Array.from(geoMap.keys()).map(geoName), bottom: 0 },
       xAxis: { type: isComparison ? 'value' : 'category', data: isComparison ? undefined : periods, name: xName, nameLocation: 'middle', nameGap: 40, nameTextStyle: { width: 260, overflow: 'truncate' } },
       // Recalculate from the displayed averages; bars keep a zero baseline.
-      yAxis: { type: 'value', scale: true, ...valueAxisBounds(filteredObservations, chartType === 'bar'), name: metadata?.name || 'Value', nameTextStyle: { width: 260, overflow: 'truncate' } },
+      yAxis: { type: 'value', scale: true, ...valueAxisBounds(filteredObservations, chartType === 'bar'), name: metadata?.name || t('Value'), nameTextStyle: { width: 260, overflow: 'truncate' } },
       series: series,
       animation: !reduceMotion,
       animationDuration: reduceMotion ? 0 : 1500,
@@ -275,13 +282,13 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
         <Container>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold mb-4">Enerqa Data Explorer</h1>
+              <h1 className="text-4xl font-bold mb-4">{t("Enerqa Data Explorer")}</h1>
               <p className="text-gray-300 text-lg max-w-2xl">
-                Visualize global trends and download open-source observations.
+                {t("Visualize global trends and download open-source observations.")}
               </p>
             </div>
             <Link href="/data-portal/sources" className="text-sm font-medium text-blue-300 hover:text-white underline flex items-center gap-1 shrink-0 pb-1">
-              Sources & Methodology
+              {t("Sources & Methodology")}
             </Link>
           </div>
         </Container>
@@ -294,13 +301,13 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
               className={`py-3 px-6 font-bold text-sm ${activeTab === 'explorer' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
               onClick={() => setActiveTab('explorer')}
             >
-              Data Explorer
+              {t("Data Explorer")}
             </button>
             <button
               className={`py-3 px-6 font-bold text-sm ${activeTab === 'gapminder' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
               onClick={() => setActiveTab('gapminder')}
             >
-              Original Gapminder Chart
+              {t("Original Gapminder Chart")}
             </button>
           </div>
         )}
@@ -309,28 +316,28 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 items-start gap-8">
             {/* Scroll the filters independently so their contents cannot stretch the chart. */}
-            <aside aria-label="Explorer filters" tabIndex={0} data-lenis-prevent className="lg:col-span-1 min-w-0 max-h-[420px] lg:max-h-[560px] overflow-y-auto overscroll-contain scroll-py-6 bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6 focus-visible:outline-2 focus-visible:outline-[var(--color-primary)]">
-              <IndicatorSelector id="y-axis-indicator" label="Y-axis indicator" searchLabel="Search datasets" options={catalogue} value={selectedDatasetId} onChange={setSelectedDatasetId} loading={catalogueLoading} />
-              <IndicatorSelector id="x-axis-indicator" label="X-axis indicator" searchLabel="Search X-axis indicators" options={xOptions} value={xIndicatorId} onChange={value => {
+            <aside aria-label={t("Explorer filters")} tabIndex={0} data-lenis-prevent className="lg:col-span-1 min-w-0 max-h-[420px] lg:max-h-[560px] overflow-y-auto overscroll-contain scroll-py-6 bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6 focus-visible:outline-2 focus-visible:outline-[var(--color-primary)]">
+              <IndicatorSelector id="y-axis-indicator" label={t("Y-axis indicator")} searchLabel="Search datasets" options={catalogue} value={selectedDatasetId} onChange={setSelectedDatasetId} loading={catalogueLoading} />
+              <IndicatorSelector id="x-axis-indicator" label={t("X-axis indicator")} searchLabel="Search X-axis indicators" options={xOptions} value={xIndicatorId} onChange={value => {
                 setXIndicatorId(value);
                 if (value !== 'year' && chartType !== 'table') setChartType('scatter');
               }} loading={catalogueLoading} />
-              <p className="text-xs text-gray-500">Use Year for trends over time, or compare two indicators using matching countries and observation dates.</p>
+              <p className="text-xs text-gray-500">{t("Use Year for trends over time, or compare two indicators using matching countries and observation dates.")}</p>
 
               <div>
-                <label htmlFor="time-period" className="block text-sm font-bold text-gray-700 mb-2">Time period</label>
+                <label htmlFor="time-period" className="block text-sm font-bold text-gray-700 mb-2">{t("Time period")}</label>
                 <select id="time-period" value={timePeriod} onChange={event => setTimePeriod(event.target.value as TimePeriod)} aria-describedby="time-period-help" className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-2 focus:outline-[var(--color-primary)]">
-                  {TIME_PERIODS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+                  {TIME_PERIODS.map(option => <option key={option.value} value={option.value}>{t(option.label)}</option>)}
                 </select>
-                <p id="time-period-help" className="text-xs text-gray-500 mt-2">Each period shows the average of available observations. Weeks start on Monday; dates use UTC.</p>
+                <p id="time-period-help" className="text-xs text-gray-500 mt-2">{t("Each period shows the average of available observations. Weeks start on Monday; dates use UTC.")}</p>
               </div>
 
               <div>
-                <label htmlFor="country-search" className="block text-sm font-bold text-gray-700 mb-2">Countries and regions</label>
-                <input id="country-search" type="search" aria-label="Search countries" aria-controls="country-options" placeholder="Search countries or codes" value={countrySearch} onChange={e => setCountrySearch(e.target.value)} className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-2 focus:outline-2 focus:outline-[var(--color-primary)]" />
-                <div id="country-options" role="group" aria-label="Countries and regions" className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-2 text-sm bg-gray-50" data-lenis-prevent>
-                  {allGeos.length === 0 ? <span className="text-gray-500 p-2">{loading || catalogueLoading ? 'Loading countries...' : 'No countries available.'}</span> : null}
-                  {allGeos.length > 0 && visibleGeos.length === 0 && <p role="status" className="text-gray-500 p-2">No countries match your search.</p>}
+                <label htmlFor="country-search" className="block text-sm font-bold text-gray-700 mb-2">{t("Countries and regions")}</label>
+                <input id="country-search" type="search" aria-label={t("Search countries")} aria-controls="country-options" placeholder={t("Search countries or codes")} value={countrySearch} onChange={e => setCountrySearch(e.target.value)} className="w-full border border-gray-300 rounded-lg p-3 text-sm mb-2 focus:outline-2 focus:outline-[var(--color-primary)]" />
+                <div id="country-options" role="group" aria-label={t("Countries and regions")} className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-2 text-sm bg-gray-50" data-lenis-prevent>
+                  {allGeos.length === 0 ? <span className="text-gray-500 p-2">{t(loading || catalogueLoading ? 'Loading countries...' : 'No countries available.')}</span> : null}
+                  {allGeos.length > 0 && visibleGeos.length === 0 && <p role="status" className="text-gray-500 p-2">{t("No countries match your search.")}</p>}
                   {visibleGeos.map(geo => (
                     <label key={geo} className="flex items-center gap-2 p-1 hover:bg-gray-100 cursor-pointer">
                       <input
@@ -340,31 +347,31 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
                           setGeoFilter(current => e.target.checked ? [...current, geo] : current.filter(g => g !== geo));
                         }}
                       />
-                      {countryName(geo)}
+                      {geoName(geo)}
                     </label>
                   ))}
                 </div>
                 {geoFilter.length > 0 && (
                   <button onClick={() => setGeoFilter([])} className="text-xs text-[var(--color-primary)] mt-2 hover:underline">
-                    Clear country filters (Default Top 5)
+                    {t("Clear country filters (Default Top 5)")}
                   </button>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Visualization Type</label>
+                <label className="block text-sm font-bold text-gray-700 mb-2">{t("Visualization Type")}</label>
                 <div className="flex flex-col gap-2">
                   <button onClick={() => setChartType('line')} className={`flex items-center gap-3 p-3 rounded-lg border ${chartType === 'line' ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
-                    <Activity className="w-5 h-5" /> Line Chart
+                    <Activity className="w-5 h-5" /> {t("Line Chart")}
                   </button>
                   <button onClick={() => setChartType('bar')} className={`flex items-center gap-3 p-3 rounded-lg border ${chartType === 'bar' ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
-                    <BarChart2 className="w-5 h-5" /> Bar Chart
+                    <BarChart2 className="w-5 h-5" /> {t("Bar Chart")}
                   </button>
                   <button onClick={() => setChartType('scatter')} className={`flex items-center gap-3 p-3 rounded-lg border ${chartType === 'scatter' ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
-                    <div className="w-5 h-5 rounded-full border-2 border-current" /> Bubble Chart
+                    <div className="w-5 h-5 rounded-full border-2 border-current" /> {t("Bubble Chart")}
                   </button>
                   <button onClick={() => setChartType('table')} className={`flex items-center gap-3 p-3 rounded-lg border ${chartType === 'table' ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
-                    <TableIcon className="w-5 h-5" /> Data Table
+                    <TableIcon className="w-5 h-5" /> {t("Data Table")}
                   </button>
                 </div>
               </div>
@@ -373,7 +380,7 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <label className="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-700">
                   <input type="checkbox" checked={reduceMotion} onChange={e => setReduceMotion(e.target.checked)} />
-                  Pause Animations (Reduce Motion)
+                  {t("Pause Animations (Reduce Motion)")}
                 </label>
               </div>
 
@@ -384,44 +391,44 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
                 <div className="flex flex-col xl:flex-row justify-between items-start gap-4 mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">{metadata?.name || 'Select a dataset'}</h2>
-                    {metadata && <p className="text-sm text-gray-500 mt-1">{isComparison && <span>{xName} (X) vs {metadata.name} (Y). </span>}Showing {filteredObservations.length.toLocaleString()} {periodOption.label.toLowerCase()} {isComparison ? 'matching' : 'filtered'} averages</p>}
+                    {metadata && <p className="text-sm text-gray-500 mt-1">{isComparison && <span>{xName} {t("(X) vs")} {metadata.name} (Y). </span>}{t("Showing")} {filteredObservations.length.toLocaleString()} {language === 'ar' ? t(periodOption.label) : periodOption.label.toLowerCase()} {t(isComparison ? 'matching' : 'filtered')} {t("averages")}</p>}
                   </div>
                   {metadata && (
                     <div className="flex flex-wrap gap-2">
                       <button onClick={handleFilteredDownload} disabled={chartLoading || !!chartError || filteredObservations.length === 0} className="flex items-center gap-2 text-sm font-bold text-[var(--color-primary)] bg-blue-50 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50">
-                        <Download className="w-4 h-4" /> Filtered CSV
+                        <Download className="w-4 h-4" /> {t("Filtered CSV")}
                       </button>
                       <button onClick={handleMetadataDownload} disabled={chartLoading || !!chartError} className="flex items-center gap-2 text-sm font-bold text-gray-600 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50">
-                        <Download className="w-4 h-4" /> JSON Meta
+                        <Download className="w-4 h-4" /> {t("JSON Meta")}
                       </button>
                       <a href={`/api/data-portal/observations?id=${encodeURIComponent(metadata.id)}&format=csv`} download className="flex items-center gap-2 text-sm font-bold text-gray-600 border border-gray-200 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
-                        {isComparison ? 'Full Y-axis CSV' : 'Full CSV'}
+                        {t(isComparison ? 'Full Y-axis CSV' : 'Full CSV')}
                       </a>
                     </div>
                   )}
                 </div>
 
                 {!chartLoading && !chartError && filteredObservations.length > 0 && effectivePeriod !== timePeriod && (
-                  <p role="status" className="text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">These observations are only available at {periodOption.label.toLowerCase()} resolution. The selected {timePeriod} view shows the available {periodOption.label.toLowerCase()} values; finer observations are unavailable.</p>
+                  <p role="status" className="text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">{t("These observations are only available at")} {language === 'ar' ? t(periodOption.label) : periodOption.label.toLowerCase()} {t("resolution. The selected")} {language === 'ar' ? t(TIME_PERIODS.find(option => option.value === timePeriod)?.label ?? timePeriod) : timePeriod} {t("view shows the available")} {language === 'ar' ? t(periodOption.label) : periodOption.label.toLowerCase()} {t("values; finer observations are unavailable.")}</p>
                 )}
 
                 <div className="flex-1 relative">
                   {chartLoading && (
                     <div className="absolute inset-0 z-10 bg-white/80 flex flex-col items-center justify-center">
                       <Loader2 className="w-10 h-10 animate-spin text-[var(--color-primary)] mb-4" />
-                      <p className="text-gray-500 font-medium">Fetching observations...</p>
+                      <p className="text-gray-500 font-medium">{t("Fetching observations...")}</p>
                     </div>
                   )}
 
                   {chartError && (
                     <div role="alert" className="absolute inset-0 z-10 flex flex-col items-center justify-center text-red-500">
                       <AlertCircle className="w-12 h-12 mb-4" />
-                      <p className="font-bold">{chartError}</p>
+                      <p className="font-bold">{t(chartError)}</p>
                     </div>
                   )}
 
                   {!chartLoading && !chartError && filteredObservations.length === 0 && (
-                    <p role="status" className="p-8 text-center text-gray-500">{isComparison ? 'No matching country and observation date pairs for these indicators. Choose another indicator or clear the country filters.' : 'No observations available. Choose another dataset or clear the country filters.'}</p>
+                    <p role="status" className="p-8 text-center text-gray-500">{t(isComparison ? 'No matching country and observation date pairs for these indicators. Choose another indicator or clear the country filters.' : 'No observations available. Choose another dataset or clear the country filters.')}</p>
                   )}
 
                   {!chartLoading && !chartError && filteredObservations.length > 0 && chartType !== 'table' && (
@@ -433,16 +440,16 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
                       <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 shadow-sm">
                           <tr>
-                            <th scope="col" className="px-6 py-3">Country / region</th>
+                            <th scope="col" className="px-6 py-3">{t("Country / region")}</th>
                             <th scope="col" className="px-6 py-3">{periodOption.axis}</th>
                             {isComparison && <th scope="col" className="px-6 py-3">{xName} (X)</th>}
-                            <th scope="col" className="px-6 py-3">{metadata?.name || 'Value'}{isComparison ? ' (Y)' : ''}</th>
+                            <th scope="col" className="px-6 py-3">{metadata?.name || t('Value')}{isComparison ? ' (Y)' : ''}</th>
                           </tr>
                         </thead>
                         <tbody>
                           {filteredObservations.slice(0, 1000).map((obs, idx) => (
                             <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                              <td className="px-6 py-3">{countryName(obs.geo)}</td>
+                              <td className="px-6 py-3">{geoName(obs.geo)}</td>
                               <td className="px-6 py-3">{obs.time}</td>
                               {isComparison && <td className="px-6 py-3">{obs.x.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
                               <td className="px-6 py-3">{obs.value.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
@@ -452,7 +459,7 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
                       </table>
                       {filteredObservations.length > 1000 && (
                         <div className="text-center p-4 text-xs text-gray-500 bg-gray-50">
-                          Showing first 1,000 rows. Download CSV to view all {filteredObservations.length.toLocaleString()} rows.
+                          {t("Showing first 1,000 rows. Download CSV to view all")} {filteredObservations.length.toLocaleString()} {t("rows.")}
                         </div>
                       )}
                     </div>
@@ -467,23 +474,23 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
             {metadata && (
               <div className="min-w-0 [overflow-wrap:anywhere] bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col gap-4 text-sm text-gray-800 shadow-sm mt-4">
                 <h3 className="font-bold text-blue-900 border-b border-blue-200 pb-3 text-lg">
-                  Data sources and attribution
+                  {t("Data sources and attribution")}
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2 md:col-span-1 border-b md:border-b-0 md:border-r border-blue-200 pb-4 md:pb-0 md:pr-4">
-                    <p><strong>Original Provider:</strong> <br/>{metadata.source} <em>via Gapminder</em></p>
-                    <p><strong>Licence:</strong> <br/>{metadata.licence_url ? <a href={metadata.licence_url} className="underline">{metadata.licence}</a> : metadata.licence}</p>
-                    <p><strong>Indicator:</strong> <br/>{metadata.concept}</p>
+                    <p><strong>{t("Original Provider:")}</strong> <br/>{metadata.source} <em>{t("via Gapminder")}</em></p>
+                    <p><strong>{t("Licence:")}</strong> <br/>{metadata.licence_url ? <a href={metadata.licence_url} className="underline">{metadata.licence}</a> : metadata.licence}</p>
+                    <p><strong>{t("Indicator:")}</strong> <br/>{metadata.concept}</p>
                   </div>
 
                   <div className="md:col-span-2 space-y-4">
                     <div className="bg-white p-4 rounded-lg border border-blue-100 text-xs text-gray-600 font-mono">
-                      <strong className="text-gray-800 text-sm font-sans mb-1 block">Attribution:</strong>
+                      <strong className="text-gray-800 text-sm font-sans mb-1 block">{t("Attribution:")}</strong>
                       <GapminderAttribution />
                     </div>
 
-                    <p className="text-sm text-gray-700"><strong>Enerqa changes:</strong> Country and date selection; {periodOption.label.toLowerCase()} averages. Comparisons use matching countries and observation dates. Missing values are excluded.</p>
+                    <p className="text-sm text-gray-700"><strong>{t("Enerqa changes:")}</strong> {t("Country and date selection;")} {language === 'ar' ? t(periodOption.label) : periodOption.label.toLowerCase()} {t("averages. Comparisons use matching countries and observation dates. Missing values are excluded.")}</p>
                   </div>
                 </div>
               </div>
@@ -493,22 +500,22 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
 
         {activeTab === 'explorer' && hasSeparateX && xMetadata && !chartLoading && !chartError && (
           <div className="min-w-0 [overflow-wrap:anywhere] bg-blue-50 p-6 rounded-xl border border-blue-200 text-sm text-gray-800 space-y-2 mt-4">
-            <h3 className="font-bold text-blue-900">X-axis source: {xMetadata.name}</h3>
-            <p><strong>Original Provider:</strong> {xMetadata.source} <em>via Gapminder</em></p>
-            <p><strong>Licence:</strong> {xMetadata.licence_url ? <a href={xMetadata.licence_url} className="underline">{xMetadata.licence}</a> : xMetadata.licence}</p>
-            <p><strong>Indicator:</strong> {xMetadata.concept}</p>
+            <h3 className="font-bold text-blue-900">{t("X-axis source:")} {xMetadata.name}</h3>
+            <p><strong>{t("Original Provider:")}</strong> {xMetadata.source} <em>{t("via Gapminder")}</em></p>
+            <p><strong>{t("Licence:")}</strong> {xMetadata.licence_url ? <a href={xMetadata.licence_url} className="underline">{xMetadata.licence}</a> : xMetadata.licence}</p>
+            <p><strong>{t("Indicator:")}</strong> {xMetadata.concept}</p>
             <GapminderAttribution />
-            <p>Only exact country and observation date matches are included in period averages. Missing values are excluded.</p>
+            <p>{t("Only exact country and observation date matches are included in period averages. Missing values are excluded.")}</p>
           </div>
         )}
 
         {activeTab === 'gapminder' && (
           <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm min-h-[600px] flex flex-col">
-            <p className="mb-3 text-sm text-gray-600">Comparison view — retained while the Enerqa explorer is reviewed.</p>
+            <p className="mb-3 text-sm text-gray-600">{t("Comparison view — retained while the Enerqa explorer is reviewed.")}</p>
             <div className="mb-4 flex justify-between items-center">
-              <h2 className="font-bold text-xl text-gray-900">Original Gapminder Visualization</h2>
+              <h2 className="font-bold text-xl text-gray-900">{t("Original Gapminder Visualization")}</h2>
               <a href="https://www.gapminder.org/tools" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] text-sm font-bold hover:underline">
-                Open in new tab <span aria-hidden="true">↗</span>
+                {t("Open in new tab")} <span aria-hidden="true">↗</span>
               </a>
             </div>
 
@@ -517,7 +524,7 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
                 /cookie-choices. */}
             <ExternalEmbed
               src="https://www.gapminder.org/tools/?embedded=true#$chart-type=bubbles"
-              title="Gapminder Tools"
+              title={t("Gapminder Tools")}
               className="w-full flex-1 border-0 rounded-lg min-h-[600px]"
             />
             <div className="mt-4 text-xs text-gray-500 bg-gray-50 p-4 rounded-lg border border-gray-100">
