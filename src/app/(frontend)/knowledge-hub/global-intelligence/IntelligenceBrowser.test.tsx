@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { IntelligenceBrowser } from './IntelligenceBrowser';
 import { tagIntelligence } from '@/lib/feeds/intelligence';
+import { LanguageProvider } from '@/components/LanguageProvider';
 
 const saved = tagIntelligence({
   id: 'saved', title: 'Saved climate policy in Germany', summary: null, url: 'https://example.org/saved',
@@ -37,6 +38,25 @@ it('renders saved records first without requesting any API on mount', async () =
   await act(() => vi.advanceTimersByTimeAsync(1000));
   expect(screen.getByRole('heading', { name: saved.title })).toBeInTheDocument();
   expect(request).not.toHaveBeenCalled();
+});
+
+it('localizes the controls while keeping the original source record and API filter values', async () => {
+  request.mockResolvedValue(reply());
+  render(<LanguageProvider language="ar"><IntelligenceBrowser initialItems={[saved]} initialFilters={{}} initialPage={1}
+    initialSourcesFailed={false} domains={[]} industries={[]} languages={[{ value: 'en', label: 'EN' }]} labels={{ DEU: 'Germany' }} /></LanguageProvider>);
+
+  expect(screen.getByRole('heading', { name: 'النتائج' })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: saved.title })).toHaveAttribute('lang', 'en');
+  expect(screen.getByRole('link', { name: 'اقرأ المقال كاملاً' })).toHaveAttribute('href', saved.url);
+  expect(screen.getByRole('checkbox', { name: 'قطر' })).toHaveAttribute('value', 'QAT');
+  fireEvent.click(screen.getByRole('checkbox', { name: 'ألمانيا' }));
+  fireEvent.click(screen.getByRole('button', { name: 'تطبيق عوامل التصفية' }));
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  const url = new URL(request.mock.calls[0][0], 'http://localhost');
+  expect(url.pathname).toBe('/api/intelligence/search');
+  expect(url.searchParams.get('country')).toBe('DEU');
+  expect(window.location.pathname).toBe('/ar/knowledge-hub/global-intelligence');
+  expect(screen.getByRole('link', { name: 'إزالة البلد: ألمانيا' })).toBeInTheDocument();
 });
 
 it('keeps selections pending until Apply filters submits one request with linked geography', async () => {
