@@ -1,4 +1,7 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { toolLocaleOptions } from '@/lib/i18n/toolLocale';
+import { publicCopy } from '@/lib/i18n/publicCopy';
+import toolCopy from '@/lib/i18n/tool-copy.json';
 import React from 'react'
 import Link from '@/components/ui/SiteLink'
 import Image from 'next/image'
@@ -50,12 +53,18 @@ export const Tools = async ({ language = 'en' }: { language?: SiteLanguage } = {
   const payload = await getPayload({ config: configPromise })
   const { docs } = await payload.find({
     collection: 'tools',
+    ...toolLocaleOptions(language),
     where: { and: [publishedToolsWhere, { slug: { in: FLAGSHIP_TOOLS.map((tool) => tool.slug) } }] },
     limit: FLAGSHIP_TOOLS.length,
     depth: 0,
   })
-  const validatedSlugs = new Set(docs.map((doc) => doc.slug))
-  const tools = FLAGSHIP_TOOLS.filter((tool) => validatedSlugs.has(tool.slug))
+  const validatedTools = new Map(docs.map((doc) => [doc.slug, doc]));
+  const tools = FLAGSHIP_TOOLS.filter((tool) => validatedTools.has(tool.slug)).map((tool) => ({
+    ...tool,
+    title: language === 'ar'
+      ? publicCopy(language, toolCopy, validatedTools.get(tool.slug)?.title ?? tool.title)
+      : tool.title,
+  }));
 
   return (
     <section className="bg-white py-[60px]" id="tools" aria-labelledby="h10-enerqa-tools">
@@ -63,7 +72,7 @@ export const Tools = async ({ language = 'en' }: { language?: SiteLanguage } = {
 
         <div className="max-w-[800px] mb-12 text-start">
           <Typography variant="h2" id="h10-enerqa-tools" className="home-h2 text-ink mb-4">
-            Enerqa Tools
+            {language === 'ar' ? 'أدوات إنيرقا' : 'Enerqa Tools'}
           </Typography>
           {/* p. 15 H10 narrative, verbatim */}
           <p className="text-[15.5px] text-ink-soft leading-[1.6] m-0 mb-6 font-light">

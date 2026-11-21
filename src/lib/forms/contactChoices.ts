@@ -1,5 +1,7 @@
 import type { Payload } from 'payload';
 import { publishedToolsWhere } from '@/collections/Tools';
+import { toolLocaleOptions } from '@/lib/i18n/toolLocale';
+import type { SiteLanguage } from '@/lib/i18n/site';
 import type { ContactChoices } from './contact';
 
 /**
@@ -10,12 +12,13 @@ import type { ContactChoices } from './contact';
  * Tools use the same publish gate as /tools: an unvalidated tool must not be
  * offered anywhere (pp. 3, 166).
  */
-export async function loadContactChoices(payload: Payload): Promise<ContactChoices & { ids: Record<string, number> }> {
+export async function loadContactChoices(payload: Payload, language: SiteLanguage = 'en'): Promise<ContactChoices & { ids: Record<string, number> }> {
   const [domains, industries, tools] = await Promise.all([
     payload.find({ collection: 'domains', limit: 100, depth: 0, sort: 'title', select: { slug: true, title: true } }),
     payload.find({ collection: 'industries', limit: 100, depth: 0, sort: 'title', select: { slug: true, title: true } }),
     payload.find({
       collection: 'tools',
+      ...toolLocaleOptions(language),
       where: publishedToolsWhere,
       limit: 100,
       depth: 0,

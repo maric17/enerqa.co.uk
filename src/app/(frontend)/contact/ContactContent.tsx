@@ -1,4 +1,6 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import toolCopy from '@/lib/i18n/tool-copy.json';
+import { publicCopy } from '@/lib/i18n/publicCopy';
 import React from 'react';
 import Link from '@/components/ui/SiteLink';
 import { ArrowRight } from 'lucide-react';
@@ -31,11 +33,11 @@ export async function ContactContent({ searchParams, language = 'en' }: Props & 
   // submitting then shows the F04 error, which names info@ as the fallback.
   let choices: ContactChoices = { domains: [], industries: [], tools: [] };
   try {
-    const { domains, industries, tools } = await loadContactChoices(await getPayload({ config: configPromise }));
+    const { domains, industries, tools } = await loadContactChoices(await getPayload({ config: configPromise }), language);
     choices = {
       domains: domains.map(choice => ({ ...choice, title: t(choice.title) })),
       industries: industries.map(choice => ({ ...choice, title: t(choice.title) })),
-      tools,
+      tools: tools.map(choice => ({ ...choice, title: publicCopy(language, toolCopy, choice.title) })),
     };
   } catch (error) {
     console.error('Contact form choices unavailable:', error);
