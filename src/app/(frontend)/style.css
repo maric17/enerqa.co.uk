@@ -2925,6 +2925,11 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
   color: #fff;
   --focus-color: #48e0c0;
 }
+.home-hero:not(.industry-hero) {
+  /* Fill one screen when content fits, and grow when text and controls need room. */
+  height: auto;
+  min-height: max(620px, 100svh);
+}
 .home-hero-search-layer { position: relative; z-index: 2; flex-shrink: 0; pointer-events: none; }
 /* Give the title room for one desktop line; keep the search field narrower. */
 .home-hero-search { width: 100%; margin-inline: auto; text-align: center; pointer-events: auto; }
@@ -2995,6 +3000,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .home-hero-suggestions button:hover { border-color: #48e0c0; color: #48e0c0; }
 .home-hero-feed { display: flex; flex: 1; flex-direction: column; justify-content: flex-end; min-height: 0; }
+.home-hero:not(.industry-hero) > .home-hero-feed { flex: 1 0 auto; }
 .home-hero-image { z-index: -2; object-fit: cover; }
 .home-hero-shade {
   position: absolute;
@@ -3007,8 +3013,8 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 }
 .home-hero > .home-hero-feed > .home-hero-shade {
   /* Darken the center of bright homepage photos while keeping the image visible. */
-  background: linear-gradient(180deg, rgb(2 15 24 / 95%) 0%, rgb(2 15 24 / 78%) 35%, rgb(2 15 24 / 63%) 48%, rgb(2 15 24 / 94%) 78%, #020d15 100%),
-    linear-gradient(90deg, rgb(2 15 24 / 55%), transparent 85%);
+  background: linear-gradient(180deg, rgb(2 15 24 / 96%) 0%, rgb(2 15 24 / 85%) 35%, rgb(2 15 24 / 75%) 48%, rgb(2 15 24 / 94%) 78%, #020d15 100%),
+    linear-gradient(90deg, rgb(2 15 24 / 60%), transparent 85%);
 }
 .home-hero-editorial { position: relative; z-index: 1; padding-top: 32px; padding-bottom: 24px; }
 .home-hero-story { max-width: 1080px; }
@@ -3030,6 +3036,9 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 .home-hero-source > span { font-weight: 650; }
 .home-hero-attribution { margin: 6px 0 0; color: #bdccd5; font-size: 11px; line-height: 1.5; }
 .home-hero-attribution a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.home-news-credit { padding-block: 12px; color: var(--ink-soft); font-size: 13px; }
+.home-news-credit p { margin: 0; }
+.home-news-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .home-hero-footer { display: grid; gap: 20px; margin-top: 28px; }
 .home-hero-categories { display: flex; gap: 24px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #48e0c0 transparent; }
 .home-hero-category {
@@ -3111,6 +3120,7 @@ body[data-lang="ar"] .deliv li { padding-inline-start: 0; padding-inline-end: 20
 @media (max-width: 767px) {
   /* Let wrapped text extend the hero on narrow phones instead of overlapping news. */
   .home-hero { padding-top: calc(var(--header-offset) + 40px); height: auto; min-height: max(700px, 100svh); }
+  .home-hero:not(.industry-hero) { min-height: max(700px, 100svh); }
   .home-hero-feed { flex: 1 0 auto; min-height: 340px; }
   .home-hero-search h1 { margin-bottom: 12px; font-size: 28px; }
   .home-hero-search form { padding-left: 12px; gap: 8px; }

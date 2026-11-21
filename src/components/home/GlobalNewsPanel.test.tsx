@@ -46,13 +46,12 @@ describe('full-screen domain news carousel', () => {
     expect(refresh).toHaveBeenCalledTimes(2);
   });
 
-  it('keeps the homepage credit and publication date without the detailed feed status', () => {
-    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true, providerLabel: 'APITube' }, delayed: true }]} />);
-    expect(screen.getByText(/Via APITube/)).toHaveTextContent('Feed delayed 12h+.');
-    expect(screen.getByRole('link', { name: 'Sources and rights' })).toHaveAttribute('href', '/data-portal/sources');
-    expect(screen.getByText('17 Oct 2026, 12:00 UTC')).toBeInTheDocument();
-    expect(screen.queryByText(/Feed checked|Published more than 48 hours ago/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Updated/)).not.toBeInTheDocument();
+  it('shows the publisher and publication date without the feed notice inside the homepage banner', () => {
+    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true, providerLabel: 'APITube' }, delayed: true, stale: true }]} />);
+    expect(screen.getByText('The Guardian')).toBeVisible();
+    expect(screen.getByText('17 Oct 2026, 12:00 UTC')).toBeVisible();
+    expect(screen.queryByText(/Via APITube|Feed delayed|Feed checked|Cached headline|Published more than 48 hours ago/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sources and rights' })).not.toBeInTheDocument();
   });
 
   it('rotates a single industry group, keeps its title visible, and scopes all-news navigation', () => {
@@ -82,13 +81,12 @@ describe('full-screen domain news carousel', () => {
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeDisabled();
   });
 
-  it('selects each article through its domain line segments and updates the link and freshness together', () => {
+  it('selects each article through its domain line segments and updates the article link', () => {
     render(<GlobalNewsPanel slides={threeStories()} />);
     const segment = screen.getByRole('button', { name: `Show ${HERO_CATEGORIES[0].label} article 3 of 3` });
     fireEvent.click(segment);
     expect(segment).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('link', { name: /climate article 3/ })).toHaveAttribute('href', 'https://www.theguardian.com/climate/3');
-    expect(screen.getByText(/Cached headline; refresh unavailable/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeInTheDocument();
   });
 
