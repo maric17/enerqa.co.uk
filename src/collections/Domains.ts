@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { domainLocaleFields } from '../lib/i18n/domainLocalePreview'
 
 export const Domains: CollectionConfig = {
   slug: 'domains',
@@ -13,6 +14,7 @@ export const Domains: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      ...domainLocaleFields,
       required: true,
     },
     {
@@ -32,11 +34,13 @@ export const Domains: CollectionConfig = {
     {
       name: 'heroNarrative',
       type: 'textarea',
+      ...domainLocaleFields,
       required: true,
     },
     {
       name: 'ctaText',
       type: 'text',
+      ...domainLocaleFields,
       defaultValue: 'Discuss Your Project',
     },
     // CL / EL / NL / BL - the short, domain-specific lifecycle module (pp. 28,
@@ -45,6 +49,7 @@ export const Domains: CollectionConfig = {
     {
       name: 'lifecycleNarrative',
       type: 'textarea',
+      ...domainLocaleFields,
       admin: {
         description: 'Short domain-specific lifecycle paragraph. Links back to the canonical Project Development page.',
       },
@@ -54,6 +59,7 @@ export const Domains: CollectionConfig = {
     {
       name: 'topicPhrase',
       type: 'text',
+      ...domainLocaleFields,
       admin: {
         description:
           'Exact topic phrase from the handoff, e.g. "energy systems, technology, energy efficiency and energy markets". Used in the News, Research and Publication intros.',
@@ -102,6 +108,7 @@ export const Domains: CollectionConfig = {
         {
           name: 'heading',
           type: 'text',
+          ...domainLocaleFields,
           admin: {
             description:
               'Exact website heading for this domain, e.g. "Policy and Official Updates" (climate) or "Corporate Disclosures and Finance Updates" (ESG). Handoff pp. 29, 37, 48, 59.',
@@ -110,10 +117,12 @@ export const Domains: CollectionConfig = {
         {
           name: 'narrative',
           type: 'textarea',
+          ...domainLocaleFields,
         },
         {
           name: 'sourceNote',
           type: 'textarea',
+          ...domainLocaleFields,
           admin: {
             description:
               'Editor-facing note on which verified open-access providers feed this module. Shown to visitors as the source line.',
@@ -148,6 +157,7 @@ export const Domains: CollectionConfig = {
     {
       name: 'metaTitle',
       type: 'text',
+      ...domainLocaleFields,
       admin: {
         description:
           'Unique page title (handoff p. 227). Falls back to the domain title. " | Enerqa" is appended automatically.',
@@ -156,6 +166,7 @@ export const Domains: CollectionConfig = {
     {
       name: 'metaDescription',
       type: 'textarea',
+      ...domainLocaleFields,
       admin: {
         description: 'Unique meta description, roughly 150-160 characters.',
       },

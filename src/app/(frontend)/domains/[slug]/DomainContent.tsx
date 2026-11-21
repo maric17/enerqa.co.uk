@@ -20,6 +20,7 @@ import { CuratedSources } from '@/components/feeds/CuratedSources';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { getArabicDomain } from '@/lib/i18n/domains';
+import { domainLocalePreview } from '@/lib/i18n/domainLocalePreview';
 import { pilotHref } from '@/lib/i18n/pilot';
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 
@@ -33,12 +34,13 @@ type Props = { params: Promise<{ slug: string }> };
  * makes Payload populate the relevantIndustries relationship with the actual
  * industry documents rather than just their IDs.
  */
-const getDomain = cache(async (slug: string) => {
+const getDomain = cache(async (slug: string, language: SiteLanguage) => {
   // Read saved editor selections on each request so CMS changes need no rebuild.
   await connection();
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
     collection: 'domains',
+    ...(domainLocalePreview ? { locale: language, fallbackLocale: false as const } : {}),
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 1,
@@ -51,11 +53,11 @@ const getDomain = cache(async (slug: string) => {
 // from the CMS record for this slug.
 export async function domainMetadata({ params }: Props, language: SiteLanguage = 'en'): Promise<Metadata> {
   const { slug } = await params;
-  const domain: any = await getDomain(slug);
+  const domain: any = await getDomain(slug, language);
 
   if (!domain) return { title: 'Domain not found' };
 
-  const translation = language === 'ar' ? getArabicDomain(slug) : undefined;
+  const translation = language === 'ar' && !domainLocalePreview ? getArabicDomain(slug) : undefined;
   return {
     title: translation?.title ?? (domain.metaTitle || domain.title),
     // Fall back to the first ~155 characters of the approved narrative so a
@@ -69,9 +71,9 @@ export async function domainMetadata({ params }: Props, language: SiteLanguage =
 export async function DomainContent({ params, language = 'en' }: Props & { language?: SiteLanguage }) {
   const { slug } = await params;
   const t = (text: string) => siteText(language, text);
-  const translation = language === 'ar' ? getArabicDomain(slug) : undefined;
+  const translation = language === 'ar' && !domainLocalePreview ? getArabicDomain(slug) : undefined;
 
-  const domain: any = await getDomain(slug);
+  const domain: any = await getDomain(slug, language);
 
   if (!domain) {
     notFound();
@@ -269,7 +271,7 @@ export async function DomainContent({ params, language = 'en' }: Props & { langu
           </div>
           {topic && (
             <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
-              {translation ? `تابع المستجدات في ${topic}. نختار العناوين ذات الصلة بهذا المجال، ونربطها بالناشرين الأصليين.` : `Follow developments in ${topic}. Headlines are selected for relevance to this domain and linked to their original publishers.`}
+              {language === 'ar' ? `تابع المستجدات في ${topic}. نختار العناوين ذات الصلة بهذا المجال، ونربطها بالناشرين الأصليين.` : `Follow developments in ${topic}. Headlines are selected for relevance to this domain and linked to their original publishers.`}
             </p>
           )}
           {feed ? (
@@ -295,7 +297,7 @@ export async function DomainContent({ params, language = 'en' }: Props & { langu
           </div>
           {topic && (
             <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
-              {translation ? `استكشف البحوث والمنشورات الفنية التي تدعم القرارات في ${topic}. ويذكر كل سجل أسماء المؤلفين ومصدر النشر وتاريخه، مع رابط للعمل الأصلي.` : `Explore research and technical publications that inform decisions in ${topic}. Each record identifies its authors, publication source and date, with a link to the original work.`}
+              {language === 'ar' ? `استكشف البحوث والمنشورات الفنية التي تدعم القرارات في ${topic}. ويذكر كل سجل أسماء المؤلفين ومصدر النشر وتاريخه، مع رابط للعمل الأصلي.` : `Explore research and technical publications that inform decisions in ${topic}. Each record identifies its authors, publication source and date, with a link to the original work.`}
             </p>
           )}
           {feed ? (
@@ -387,7 +389,7 @@ export async function DomainContent({ params, language = 'en' }: Props & { langu
           </div>
           {topic && (
             <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
-              {translation ? `اقرأ تحليلات إنيرقا ورؤاها العملية المتعلقة بموضوعات ${topic}.` : `Read Enerqa’s analysis and practical perspectives related to ${topic}.`}
+              {language === 'ar' ? `اقرأ تحليلات إنيرقا ورؤاها العملية المتعلقة بموضوعات ${topic}.` : `Read Enerqa’s analysis and practical perspectives related to ${topic}.`}
             </p>
           )}
           <div className="max-w-4xl">
