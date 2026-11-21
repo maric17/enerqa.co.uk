@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     'From needs assessment and feasibility to finance, delivery and MRV - the ten-stage lifecycle Enerqa applies across climate, energy, environment and ESG projects.',
   alternates: { canonical: '/project-development' },
 };
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { ProjectLifecycle } from '@/components/shared/ProjectLifecycle';

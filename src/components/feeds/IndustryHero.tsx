@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { Container } from '@/components/ui/Container';
 import { GlobalNewsPanel } from '@/components/home/GlobalNewsPanel';
 import { formatDateTimeUtc, toCard, type HeroSlide } from '@/components/home/firstFoldNews';

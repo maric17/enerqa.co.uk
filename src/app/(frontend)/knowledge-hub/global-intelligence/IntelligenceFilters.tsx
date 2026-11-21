@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { SiteGetForm } from '@/components/ui/SiteLink';
 import { COUNTRIES, CONTINENTS, REGIONS, SCOPES, changeGeography, type GeographySelection } from '@/lib/feeds/coverage';
 import { CONTENT_TYPES, type IntelligenceFilters as Filters } from '@/lib/feeds/intelligence';
 import { NEWS_BASKETS } from '@/lib/api/news/types';
@@ -39,7 +40,7 @@ export function IntelligenceFilters({ filters, domains, industries, languages, o
     </fieldset>;
   }
   const additionalCount = ['type', 'language', 'dateRange'].reduce((count, key) => count + (current[key]?.length ?? 0), 0);
-  return <form method="GET" action="/knowledge-hub/global-intelligence" role="search" className="space-y-5"
+  return <SiteGetForm action="/knowledge-hub/global-intelligence" role="search" className="space-y-5"
     onSubmit={onSearch ? event => { event.preventDefault(); onSearch(); } : undefined}>
     <div className="space-y-2">
       <label htmlFor="intelligence-query" className="sr-only">Search Global Intelligence</label>
@@ -66,5 +67,5 @@ export function IntelligenceFilters({ filters, domains, industries, languages, o
       </div>
     </details>
     <div className="flex flex-wrap items-center gap-4"><button className="rounded-lg bg-[var(--color-dark)] px-5 py-3 text-sm font-semibold text-white">Apply filters</button><a href="/knowledge-hub/global-intelligence" onClick={onClear ? event => { event.preventDefault(); onClear(); } : undefined} className="text-sm underline">Clear All</a></div>
-  </form>;
+  </SiteGetForm>;
 }

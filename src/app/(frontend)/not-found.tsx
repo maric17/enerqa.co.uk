@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { usePathname } from 'next/navigation';
 import { ArrowRight, Home, Search } from 'lucide-react';
 import { Container } from '@/components/ui/Container';

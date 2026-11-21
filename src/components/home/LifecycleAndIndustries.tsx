@@ -1,7 +1,7 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import { pilotHref } from '@/lib/i18n/pilot';
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import {
   ArrowRight,
   Banknote,

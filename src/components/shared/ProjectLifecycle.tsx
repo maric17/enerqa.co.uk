@@ -1,6 +1,6 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 
 // Both pages use the same stage names, links and responsive diagram.
 const STAGES = [

@@ -5,7 +5,7 @@ import configPromise from '@payload-config';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import CarbonCalculator from '@/components/tools/CarbonCalculator';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { publishedToolsWhere } from '@/collections/Tools';

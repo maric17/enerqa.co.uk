@@ -168,14 +168,14 @@ describe('Language toggle (p. 8, p. 227)', () => {
   })
 
   it('exposes the pressed state', () => {
-    pathname.mockReturnValue('/data-portal/explorer')
+    pathname.mockReturnValue('/unavailable')
     renderHeader()
     expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Arabic' })).toHaveAttribute('aria-pressed', 'false')
   })
 
   it('keeps the English page and explains that Arabic is not available yet', () => {
-    pathname.mockReturnValue('/data-portal/explorer')
+    pathname.mockReturnValue('/unavailable')
     renderHeader()
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'Arabic' }))
@@ -190,5 +190,24 @@ describe('Language toggle (p. 8, p. 227)', () => {
 
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(screen.getByRole('status')).toBeEmptyDOMElement()
+  })
+
+  it('keeps every desktop and mobile menu destination in Arabic', () => {
+    pathname.mockReturnValue('/ar')
+    const { container } = render(<LanguageProvider language="ar"><Header language="ar" /></LanguageProvider>)
+    const menuLinks = Array.from(container.querySelectorAll('.primary-nav a[href], #mobile-nav a[href]'))
+    expect(menuLinks.length).toBeGreaterThan(30)
+    for (const link of menuLinks) expect(link.getAttribute('href')).toMatch(/^\/ar(?:\/|$)/)
+    expect(menuLinks.some(link => link.getAttribute('href') === '/ar/data-portal/explorer')).toBe(true)
+    expect(menuLinks.some(link => link.getAttribute('href') === '/ar/about#approach')).toBe(true)
+  })
+
+  it('opens Arabic search from the Arabic header', () => {
+    pathname.mockReturnValue('/ar')
+    const { container } = render(<LanguageProvider language="ar"><Header language="ar" /></LanguageProvider>)
+    const input = container.querySelector('.search-panel input') as HTMLInputElement
+    fireEvent.change(input, { target: { value: 'solar feasibility' } })
+    fireEvent.submit(input.closest('form') as HTMLFormElement)
+    expect(push).toHaveBeenCalledWith('/ar/search?q=solar%20feasibility')
   })
 })

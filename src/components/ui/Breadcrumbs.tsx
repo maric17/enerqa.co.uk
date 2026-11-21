@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 
 type Props = {
   parents: { label: string; href: string }[];

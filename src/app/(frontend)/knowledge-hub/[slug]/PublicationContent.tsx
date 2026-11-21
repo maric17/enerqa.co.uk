@@ -9,7 +9,7 @@ import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react';
 import { resolveMediaUrl } from '@/lib/utils';
 import { PublicationCover } from '@/components/publications/PublicationCover';
@@ -114,7 +114,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const findPublication = cache(async (slug: string, language: SiteLanguage) => {
+export const findPublication = cache(async (slug: string, language: SiteLanguage) => {
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'publications',

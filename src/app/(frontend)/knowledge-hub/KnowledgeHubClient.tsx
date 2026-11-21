@@ -2,7 +2,7 @@
 
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { ArrowRight, ChevronLeft, ChevronRight, FileText, Filter, Search, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { PublicationCover } from '@/components/publications/PublicationCover';

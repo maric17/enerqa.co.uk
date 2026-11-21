@@ -2,7 +2,7 @@
 
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';

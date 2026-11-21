@@ -5,7 +5,7 @@ import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { Info, Database } from 'lucide-react';
 import DataPortalD03 from '@/components/data/DataPortalD03';

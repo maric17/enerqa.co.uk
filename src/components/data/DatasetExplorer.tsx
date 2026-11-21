@@ -1,6 +1,7 @@
 import type { DataSeries } from '@/lib/api/core/types';
 import { DataSeriesTable } from './DataSeriesTable';
 import { selectSeries, type Selection } from '@/lib/data-portal/selection';
+import Link, { SiteGetForm } from '@/components/ui/SiteLink';
 
 export function DatasetExplorer({ data, selection, slug, stale = false, actionHref, query }: { data: DataSeries[]; selection: Selection; slug: string; stale?: boolean; actionHref?: string; query?: string }) {
   const href = actionHref ?? `/data-portal/datasets/${slug}`;
@@ -12,7 +13,7 @@ export function DatasetExplorer({ data, selection, slug, stale = false, actionHr
   return <>
     <section aria-labelledby="explore-data">
       <h2 id="explore-data" className="text-2xl font-bold mb-4">Explore the Data</h2>
-      <form method="GET" action={`${href}#explore-data`} className="flex flex-wrap items-end gap-4">
+      <SiteGetForm action={`${href}#explore-data`} className="flex flex-wrap items-end gap-4">
         {retained.map(([key, value]) => <input key={key} type="hidden" name={key} value={value} />)}
         {([
           ['series', 'Series', data.map(s => [s.id, `${s.label} (${s.unit})`])],
@@ -25,12 +26,12 @@ export function DatasetExplorer({ data, selection, slug, stale = false, actionHr
           </select>
         </label>)}
         <button className="rounded bg-[var(--color-dark)] text-white px-4 py-2">Apply filters</button>
-        <a href={`${href}${retained.length ? `?${new URLSearchParams(retained)}` : ""}#explore-data`} className="underline">Clear filters</a>
-      </form>
+        <Link href={`${href}${retained.length ? `?${new URLSearchParams(retained)}` : ""}#explore-data`} className="underline">Clear filters</Link>
+      </SiteGetForm>
     </section>
     <section aria-labelledby="data-views">
       <h2 id="data-views" className="text-2xl font-bold mb-4">Chart Table and Map</h2>
-      <a href="/data-portal/sources" className="underline">Sources and Methodology</a>
+      <Link href="/data-portal/sources" className="underline">Sources and Methodology</Link>
       {selected.length === 0 && <p role="status">No data matches these filters. Change the selection or clear filters.</p>}
       {/* Separate panels preserve unlike units, frequency and measure bases. */}
       {selected.map(s => {

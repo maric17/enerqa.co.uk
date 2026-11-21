@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';

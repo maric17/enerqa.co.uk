@@ -1,6 +1,6 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { Suspense } from 'react'
-import Link from 'next/link'
+import Link from '@/components/ui/SiteLink'
 import { Hero } from '@/components/home/Hero'
 import { FirstFoldFeeds } from '@/components/home/FirstFoldFeeds'
 import { MajorMarkets } from '@/components/home/MajorMarkets'

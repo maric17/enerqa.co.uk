@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useActionState, useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { ArrowRight } from 'lucide-react';
 import { submitContactForm } from './actions';
 import { contactText, type ContactLanguage } from '@/lib/i18n/contact';

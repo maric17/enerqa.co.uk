@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { usePathname } from 'next/navigation';
 import { DOMAINS, INDUSTRIES } from './Header';
+import { useSiteLanguage } from './LanguageProvider';
+import { siteText } from '@/lib/i18n/site';
 
 export interface Crumb {
   label: string;
@@ -109,22 +111,24 @@ export function templateHasOwnTrail(pathname: string | null): boolean {
 }
 
 export default function FooterBreadcrumbs() {
-  const pathname = usePathname();
+  const route = usePathname();
+  const language = useSiteLanguage();
+  const pathname = language === 'ar' ? route?.slice('/ar'.length) ?? '/' : route;
   const trail = breadcrumbTrail(pathname);
   if (!trail || templateHasOwnTrail(pathname)) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
+    <nav aria-label={siteText(language, 'Breadcrumb')} className="mb-6">
       <ol className="flex flex-wrap items-center gap-2 text-xs text-white/60 uppercase tracking-widest font-bold list-none p-0 m-0">
         {trail.map((crumb, index) => (
           <li key={`${crumb.href ?? 'current'}-${index}`} className="flex items-center gap-2">
             {index > 0 && <span className="text-white/30" aria-hidden="true">/</span>}
             {crumb.href ? (
               <Link href={crumb.href} className="hover:text-white transition-colors no-underline">
-                {crumb.label}
+                {siteText(language, crumb.label)}
               </Link>
             ) : (
-              <span className="text-white" aria-current="page">{crumb.label}</span>
+              <span className="text-white" aria-current="page">{siteText(language, crumb.label)}</span>
             )}
           </li>
         ))}

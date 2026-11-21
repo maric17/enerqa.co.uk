@@ -94,7 +94,9 @@
 
 /* Language */
 body[data-lang="en"] .ar,
-body[data-lang="ar"] .en { display: none !important; }
+body[data-lang="ar"] .en:not([data-english-content] *),
+[data-english-content] .ar { display: none !important; }
+[data-english-content] { --sans: var(--font-en); font-family: var(--sans); }
 .ar {
   display: inline-block;
   white-space: normal;
@@ -590,12 +592,12 @@ header.site.scrolled .langswitch {
 
 /* ---------------------------------------------------------------- mobile nav */
 .mobile-nav {
-  position: fixed; top: 0; right: 0; height: 100%; width: min(320px, 86vw); z-index: 210;
+  position: fixed; top: 0; inset-inline-end: 0; height: 100%; width: min(320px, 86vw); z-index: 210;
   background: var(--dark); color: var(--paper); padding: 28px;
-  transform: translateX(100%); transition: transform .4s var(--ease);
+  transform: translateX(var(--mobile-menu-offset, 100%)); transition: transform .4s var(--ease);
   display: flex; flex-direction: column; gap: 2px;
 }
-body[data-lang="ar"] .mobile-nav { right: auto; left: 0; transform: translateX(-100%); }
+body[data-lang="ar"] .mobile-nav { --mobile-menu-offset: -100%; }
 .mobile-nav.open { transform: translateX(0); }
 .mn-top {
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;

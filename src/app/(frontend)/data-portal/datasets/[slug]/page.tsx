@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { RichText } from '@payloadcms/richtext-lexical/react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { ExternalEmbed } from '@/components/ExternalEmbed';

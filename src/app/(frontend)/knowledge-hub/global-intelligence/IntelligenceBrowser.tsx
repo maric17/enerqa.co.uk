@@ -1,10 +1,12 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { IntelligenceFilters } from './IntelligenceFilters';
 import { CONTENT_TYPES, filterIntelligence, filterUrl, readingAction, type IntelligenceFilters as Filters, type IntelligenceItem } from '@/lib/feeds/intelligence';
 import { changeGeography } from '@/lib/feeds/coverage';
 import type { LiveIntelligenceResult } from '@/lib/feeds/liveIntelligence';
+import { useSiteLanguage } from '@/components/LanguageProvider';
+import { pilotHref } from '@/lib/i18n/pilot';
 
 type Choice = { value: string; label: string };
 const PATH = '/knowledge-hub/global-intelligence';
@@ -12,6 +14,7 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
   initialItems: IntelligenceItem[]; initialFilters: Filters; initialPage: number; initialSourcesFailed: boolean;
   domains: Choice[]; industries: Choice[]; languages: Choice[]; labels: Record<string, string>;
 }) {
+  const language = useSiteLanguage();
   const [filters, setFilters] = useState<Filters>(() => ({ ...initialFilters, source: [] }));
   // Controls can change without affecting the applied results or spending a request.
   const [draftFilters, setDraftFilters] = useState<Filters>(() => ({ ...initialFilters, source: [] }));
@@ -40,7 +43,7 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
   function changePage(next: number) {
     setPage(next);
     // Pagination reuses these results instead of spending another provider request.
-    window.history.replaceState(null, '', filterUrl(filters, next));
+    window.history.replaceState(null, '', pilotHref(language, filterUrl(filters, next)));
   }
 
   async function applyFilters(next: Filters) {
@@ -48,7 +51,7 @@ export function IntelligenceBrowser({ initialItems, initialFilters, initialPage,
     controller.current?.abort();
     const id = ++sequence.current;
     setFilters(next); setPage(1); setLoading(true); setNotice(''); setRefreshed(false);
-    window.history.replaceState(null, '', filterUrl(next));
+    window.history.replaceState(null, '', pilotHref(language, filterUrl(next)));
     const abort = new AbortController();
     controller.current = abort;
     try {

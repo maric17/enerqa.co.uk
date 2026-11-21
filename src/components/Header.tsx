@@ -2,7 +2,7 @@
 'use client';
 
 import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, Menu, X, ChevronDown } from 'lucide-react';
@@ -106,7 +106,7 @@ function LanguageRouteLink({ path, to }: { path: string; to: SiteLanguage }) {
 }
 
 export function Header({ language = 'en' }: { language?: SiteLanguage } = {}) {
-  const { setLanguage, arabicNoticeOpen, dismissArabicNotice } = useLanguage();
+  const { requestLanguage, arabicNoticeOpen, dismissArabicNotice } = useLanguage();
   const route = usePathname();
   const pathname = language === 'ar' ? (route.slice('/ar'.length) || '/') : route;
   const t = (text: string) => siteText(language, text);
@@ -319,7 +319,7 @@ export function Header({ language = 'en' }: { language?: SiteLanguage } = {}) {
     const q = searchQuery.trim();
     if (!q) return;
     setIsSearchOpen(false);
-    router.push(`/search?q=${encodeURIComponent(q)}`);
+    router.push(hrefFor(`/search?q=${encodeURIComponent(q)}`));
   };
 
   const onLight = isScrolled || pathname !== '/';
@@ -438,10 +438,10 @@ export function Header({ language = 'en' }: { language?: SiteLanguage } = {}) {
             <div className="langswitch" role="group" aria-label="Language">
               {language === 'ar' ? <Suspense fallback={<a href={pathname} hrefLang="en" aria-label="English">EN</a>}>
                 <LanguageRouteLink path={pathname} to="en" />
-              </Suspense> : <button type="button" onClick={() => setLanguage('en')} className="active" aria-pressed aria-label="English">EN</button>}
+              </Suspense> : <button type="button" onClick={() => requestLanguage('en')} className="active" aria-pressed aria-label="English">EN</button>}
               {language === 'en' && arabicPath ? <Suspense fallback={<a href={arabicPath} hrefLang="ar" aria-label="Arabic">AR</a>}>
                 <LanguageRouteLink path={arabicPath} to="ar" />
-              </Suspense> : <button type="button" onClick={() => { if (language === 'en') setLanguage('ar'); }} className={language === 'ar' ? 'active' : ''} aria-pressed={language === 'ar'} aria-label="Arabic">AR</button>}
+              </Suspense> : <button type="button" onClick={() => { if (language === 'en') requestLanguage('ar'); }} className={language === 'ar' ? 'active' : ''} aria-pressed={language === 'ar'} aria-label="Arabic">AR</button>}
             </div>
             {/* Always mounted so screen readers announce the text when it
                 appears (p. 8: explain availability instead of switching). */}
