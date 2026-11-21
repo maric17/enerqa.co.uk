@@ -137,14 +137,15 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
             <span className="sr-only"> (opens the original article in a new tab)</span>
           </a>
           <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
-          <p className="home-hero-attribution" data-feed-attribution>
+          {/* Industry pages show their per-article feed details here. */}
+          {industry && <p className="home-hero-attribution" data-feed-attribution>
             {item.providerLabel && `Via ${item.providerLabel}. `}
             {story.delayed && 'Free feed delayed 12h+. '}
             {story.retrievedAt && `Feed checked ${story.retrievedAt}. `}
             {item.older && 'Published more than 48 hours ago. '}
             {story.stale && 'Cached headline; refresh unavailable. '}
             <Link href="/data-portal/sources">Sources and rights</Link>
-          </p>
+          </p>}
         </> : <div className="home-hero-empty">
           <h2>{slide.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.'}</h2>
           <p>{slide.label}</p>

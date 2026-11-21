@@ -11,6 +11,9 @@ import { GapminderAttribution } from '@/components/data/GapminderAttribution';
 import { countryName, matchIndicators, type Observation } from '@/lib/data-portal/explorer';
 import { TIME_PERIODS, aggregateTimePeriods, availableTimePeriod, effectiveTimePeriod, valueAxisBounds, type TimePeriod } from '@/lib/data-portal/timePeriods';
 
+// Switch this back on to restore the original chart and its consent prompt.
+const SHOW_ORIGINAL_GAPMINDER_CHART = false;
+
 type Dataset = {
   id: string;
   name: string;
@@ -43,7 +46,8 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
   const [xLoading, setXLoading] = useState(false);
   const [xError, setXError] = useState<string | null>(null);
 
-  const [activeTab, setActiveTab] = useState<'explorer' | 'gapminder'>('explorer');
+  const [selectedTab, setActiveTab] = useState<'explorer' | 'gapminder'>('explorer');
+  const activeTab = SHOW_ORIGINAL_GAPMINDER_CHART ? selectedTab : 'explorer';
   const [chartType, setChartType] = useState<'line' | 'bar' | 'scatter' | 'table'>('line');
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('yearly');
 
@@ -273,7 +277,7 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
             <div>
               <h1 className="text-4xl font-bold mb-4">Enerqa Data Explorer</h1>
               <p className="text-gray-300 text-lg max-w-2xl">
-                Visualize global trends, download open-source observations, or view the original Gapminder charts.
+                Visualize global trends and download open-source observations.
               </p>
             </div>
             <Link href="/data-portal/sources" className="text-sm font-medium text-blue-300 hover:text-white underline flex items-center gap-1 shrink-0 pb-1">
@@ -284,20 +288,22 @@ export default function DataExplorerClient({ initialIndicatorId = '', initialCou
       </div>
 
       <Container className="py-8 flex-1 flex flex-col">
-        <div className="flex border-b border-gray-200 mb-8">
-          <button
-            className={`py-3 px-6 font-bold text-sm ${activeTab === 'explorer' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
-            onClick={() => setActiveTab('explorer')}
-          >
-            Data Explorer
-          </button>
-          <button
-            className={`py-3 px-6 font-bold text-sm ${activeTab === 'gapminder' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
-            onClick={() => setActiveTab('gapminder')}
-          >
-            Original Gapminder Chart
-          </button>
-        </div>
+        {SHOW_ORIGINAL_GAPMINDER_CHART && (
+          <div className="flex border-b border-gray-200 mb-8">
+            <button
+              className={`py-3 px-6 font-bold text-sm ${activeTab === 'explorer' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
+              onClick={() => setActiveTab('explorer')}
+            >
+              Data Explorer
+            </button>
+            <button
+              className={`py-3 px-6 font-bold text-sm ${activeTab === 'gapminder' ? 'border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]' : 'text-gray-500 hover:text-gray-800'}`}
+              onClick={() => setActiveTab('gapminder')}
+            >
+              Original Gapminder Chart
+            </button>
+          </div>
+        )}
 
         {activeTab === 'explorer' && (
           <div className="flex flex-col gap-8">

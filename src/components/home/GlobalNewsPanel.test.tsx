@@ -46,10 +46,12 @@ describe('full-screen domain news carousel', () => {
     expect(refresh).toHaveBeenCalledTimes(2);
   });
 
-  it('separates publication age from the feed check time', () => {
-    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true } }]} />);
-    expect(screen.getByText(/Feed checked/)).toHaveTextContent('Published more than 48 hours ago.');
-    expect(screen.queryByText(/Updated/)).not.toBeInTheDocument();
+  it('shows the publisher and publication date without the feed notice inside the homepage banner', () => {
+    render(<GlobalNewsPanel slides={[{ ...slides[0], retrievedAt: '29 Oct 2026, 06:30 UTC', item: { ...slides[0].item!, older: true, providerLabel: 'APITube' }, delayed: true, stale: true }]} />);
+    expect(screen.getByText('The Guardian')).toBeVisible();
+    expect(screen.getByText('17 Oct 2026, 12:00 UTC')).toBeVisible();
+    expect(screen.queryByText(/Via APITube|Feed delayed|Feed checked|Cached headline|Published more than 48 hours ago/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sources and rights' })).not.toBeInTheDocument();
   });
 
   it('rotates a single industry group, keeps its title visible, and scopes all-news navigation', () => {
@@ -79,13 +81,12 @@ describe('full-screen domain news carousel', () => {
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeDisabled();
   });
 
-  it('selects each article through its domain line segments and updates the link and freshness together', () => {
+  it('selects each article through its domain line segments and updates the article link', () => {
     render(<GlobalNewsPanel slides={threeStories()} />);
     const segment = screen.getByRole('button', { name: `Show ${HERO_CATEGORIES[0].label} article 3 of 3` });
     fireEvent.click(segment);
     expect(segment).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('link', { name: /climate article 3/ })).toHaveAttribute('href', 'https://www.theguardian.com/climate/3');
-    expect(screen.getByText(/Article 3 refresh/)).toHaveTextContent('Cached headline; refresh unavailable.');
     expect(screen.getByRole('button', { name: 'Play slideshow' })).toBeInTheDocument();
   });
 

@@ -152,16 +152,15 @@ describe('Explorer selections and data', () => {
     expect(chart().xAxis.type).toBe('value');
   });
 
-  it('shows exact linked Gapminder attribution, original provider credit and the comparison chart', async () => {
+  it('shows Gapminder attribution and provider credit while hiding the original chart', async () => {
     await ready();
     expect(screen.getByText('Data sources and attribution')).toBeInTheDocument();
     expect(screen.getByText('Test provider')).toBeInTheDocument();
     expect(screen.getByText(/Based on free material from/)).toHaveTextContent('Based on free material from GAPMINDER.ORG, CC-BY LICENSE');
     expect(screen.getByRole('link', { name: 'CC-BY LICENSE' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by/4.0/');
     expect(screen.queryByText(/source-grade MRV/)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Original Gapminder Chart' }));
-    expect(screen.getByText(/Comparison view/)).toBeInTheDocument();
-    expect(screen.getByText(/FREE TO USE!/)).toHaveTextContent('FREE TO USE! CC-BY GAPMINDER.ORG');
+    expect(screen.queryByRole('button', { name: 'Original Gapminder Chart' })).not.toBeInTheDocument();
+    expect(screen.queryByTitle('Gapminder Tools')).not.toBeInTheDocument();
   });
 
   it('searches countries by name or code without clearing hidden selections', async () => {

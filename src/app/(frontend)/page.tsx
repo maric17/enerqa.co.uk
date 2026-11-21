@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Hero } from '@/components/home/Hero'
 import { FirstFoldFeeds } from '@/components/home/FirstFoldFeeds'
 import { MajorMarkets } from '@/components/home/MajorMarkets'
@@ -11,6 +12,9 @@ import { Tools } from '@/components/home/Tools'
 import { AboutEnerqa } from '@/components/home/AboutEnerqa'
 import { ContactCTA } from '@/components/shared/ContactCTA'
 import { getPrivacyHref } from '@/lib/policies'
+import { Container } from '@/components/ui/Container'
+import { PROVIDERS } from '@/lib/api/core/registry'
+import { PAGE_NEWS_PROVIDERS } from '@/lib/api/news/policy'
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +59,10 @@ export default async function HomePage() {
         {/* One saved headline per domain. */}
         <FirstFoldFeeds />
       </Hero>
+      {/* Credit the configured feed below the banner, away from the headlines. */}
+      <Container className="home-news-credit">
+        <p>News via {PAGE_NEWS_PROVIDERS.map(provider => PROVIDERS[provider].name).join(', ')}. <Link href="/data-portal/sources">Sources and rights</Link></p>
+      </Container>
 
       <MajorMarkets />
       <TransitionPriorities />
