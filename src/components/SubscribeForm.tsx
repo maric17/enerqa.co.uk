@@ -1,5 +1,6 @@
 'use client';
 
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useActionState, useId } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
@@ -26,12 +27,15 @@ export default function SubscribeForm({
   tone = 'dark',
   layout = 'stacked',
   privacyHref,
+  language = 'en',
 }: {
   tone?: 'dark' | 'light';
   layout?: 'stacked' | 'inline';
   /** Set only while the Privacy Notice is published (p. 4: no fake links). */
   privacyHref?: string;
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => siteText(language, text);
   const [state, formAction, isPending] = useActionState(submitNewsletterForm, initialState);
   // Unique ids: the footer and a page block can both render this form.
   const id = useId();
@@ -87,7 +91,7 @@ export default function SubscribeForm({
         <input type="text" id={`${id}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <label htmlFor={`${id}-email`} className="sr-only">Email address</label>
+      <label htmlFor={`${id}-email`} className="sr-only">{t("Email address")}</label>
       {/* Inline: field and button side by side. Tab order still matches
           what people see: email, Subscribe, then consent. */}
       {isInline ? <div className="flex gap-2">{emailInput}{submitButton}</div> : emailInput}
@@ -108,16 +112,16 @@ export default function SubscribeForm({
           htmlFor={`${id}-consent`}
           className={`text-xs leading-snug cursor-pointer ${isDark ? 'text-white/70' : 'text-gray-600'}`}
         >
-          I agree to receive the Enerqa newsletter
+          {t('I agree to receive the Enerqa newsletter')}
           {privacyHref && (
             <>
-              {' '}and have read the{' '}
+              {' '}{t('and have read the')}{' '}
               <Link href={privacyHref} className={`underline font-semibold ${isDark ? 'text-white' : 'text-[var(--color-dark)]'}`}>
-                Privacy Notice
+                {t("Privacy Notice")}
               </Link>
             </>
           )}
-          . I can unsubscribe at any time.
+          . {t('I can unsubscribe at any time.')}
         </label>
       </div>
 

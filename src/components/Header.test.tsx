@@ -5,8 +5,11 @@ import { Header } from './Header'
 import { LanguageProvider } from './LanguageProvider'
 
 const push = vi.fn()
+const pathname = vi.fn(() => '/about')
+const query = vi.fn(() => '')
 vi.mock('next/navigation', () => ({
-  usePathname: () => '/about',
+  usePathname: () => pathname(),
+  useSearchParams: () => new URLSearchParams(query()),
   useRouter: () => ({ push }),
 }))
 // Plain elements: the real next/link and next/image need the Next runtime.
@@ -29,6 +32,8 @@ const domainsTrigger = () => screen.getByRole('button', { name: /Domains and Ind
 
 beforeEach(() => {
   push.mockClear()
+  pathname.mockReturnValue('/about')
+  query.mockReturnValue('')
   document.documentElement.lang = 'en'
   document.documentElement.dir = 'ltr'
   document.body.dataset.lang = 'en'
@@ -145,6 +150,31 @@ describe('Header search dialog (p. 228)', () => {
 })
 
 describe('Language toggle (p. 8, p. 227)', () => {
+  it.each([
+    ['/', '/ar'],
+    ['/about', '/ar/about'],
+    ['/contact', '/ar/contact'],
+    ['/knowledge-hub', '/ar/knowledge-hub'],
+    ['/industries/government-regulators-public-institutions', '/ar/industries/government-regulators-public-institutions'],
+  ])('links both ways on %s and keeps the query string', (englishPath, arabicPath) => {
+    query.mockReturnValue('industry=government-regulators-public-institutions')
+    pathname.mockReturnValue(englishPath)
+    const { rerender } = render(<LanguageProvider><Header showArabicPilot /></LanguageProvider>)
+    expect(screen.getByRole('link', { name: 'Arabic' })).toHaveAttribute('href', `${arabicPath}?${query()}`)
+
+    pathname.mockReturnValue(arabicPath)
+    rerender(<LanguageProvider><Header showArabicPilot language="ar" /></LanguageProvider>)
+    expect(screen.getByRole('link', { name: 'English' })).toHaveAttribute('href', `${englishPath}?${query()}`)
+  })
+
+  it('keeps untranslated routes on the current page even with the pilot enabled', () => {
+    pathname.mockReturnValue('/data-portal/explorer')
+    render(<LanguageProvider><Header showArabicPilot /></LanguageProvider>)
+    fireEvent.click(screen.getByRole('button', { name: 'Arabic' }))
+    expect(screen.getByRole('status')).toHaveTextContent('Arabic is not available yet')
+    expect(push).not.toHaveBeenCalled()
+  })
+
   it('exposes the pressed state', () => {
     renderHeader()
     expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')

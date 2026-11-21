@@ -425,7 +425,7 @@ header.site.scrolled .header-divider {
   padding: 2px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.langswitch button {
+.langswitch :is(button, a) {
   font-size: 11px;
   font-weight: 700;
   padding: 4px 10px;
@@ -433,10 +433,10 @@ header.site.scrolled .header-divider {
   color: rgba(255, 255, 255, 0.7);
   transition: all 0.2s ease;
 }
-.langswitch button:hover {
+.langswitch :is(button, a):hover {
   color: #ffffff;
 }
-.langswitch button.active {
+.langswitch :is(button, a).active {
   background: var(--ink) !important;
   color: #ffffff !important;
 }
@@ -445,10 +445,10 @@ header.site.scrolled .langswitch {
   background: rgba(10, 25, 47, 0.06);
   border-color: rgba(10, 25, 47, 0.04);
 }
-header.site.scrolled .langswitch button {
+header.site.scrolled .langswitch :is(button, a) {
   color: var(--ink-soft);
 }
-header.site.scrolled .langswitch button:hover {
+header.site.scrolled .langswitch :is(button, a):hover {
   color: var(--ink);
 }
 
@@ -529,15 +529,17 @@ header.site.scrolled .langswitch button:hover {
   border: 1px solid rgba(0,0,0,0.05);
   border-radius: var(--r-sm); padding: 3px;
 }
-.langswitch button {
+.langswitch :is(button, a) {
   padding: 4px 11px; border-radius: var(--r-sm); font-size: 11px; font-weight: 700;
   letter-spacing: .04em; text-transform: uppercase; transition: background .25s, color .25s;
   color: var(--ink-soft);
 }
-body[data-lang="en"] .langswitch button.active,
-body[data-lang="ar"] .langswitch button.active {
+body[data-lang="en"] .langswitch :is(button, a).active,
+body[data-lang="ar"] .langswitch :is(button, a).active {
   background: var(--ink); color: #ffffff;
 }
+
+.langswitch a { text-decoration: none; }
 
 /* Scrolled language switcher adaptation */
 header.site.scrolled .langswitch {

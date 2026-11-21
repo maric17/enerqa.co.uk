@@ -1,3 +1,4 @@
+import { type SiteLanguage } from '@/lib/i18n/site';
 import { resolveMediaUrl } from "@/lib/utils";
 import React from 'react'
 import { getPayload } from 'payload'
@@ -17,7 +18,7 @@ import { Container } from '../ui/Container'
  * labelled "(date unverified)" until an editor ticks `dateVerified` (p. 225
  * "recover true dates"), the same rule the Knowledge Hub applies.
  */
-export const KnowledgeTeaser = async () => {
+export const KnowledgeTeaser = async ({ language = 'en' }: { language?: SiteLanguage } = {}) => {
   const payload = await getPayload({ config: configPromise })
 
   const { docs: publicationsData } = await payload.find({
@@ -88,7 +89,7 @@ export const KnowledgeTeaser = async () => {
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(8, 44, 69, 0.86)', zIndex: 1, pointerEvents: 'none' }}></div>
       <Container style={{ position: 'relative', zIndex: 2 }}>
         {/* Use Client Component for the slider interactiveness */}
-        <KnowledgeSlider publications={publications} />
+        <KnowledgeSlider language={language} publications={publications} />
       </Container>
     </section>
   )

@@ -1,5 +1,7 @@
 'use client'
 
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { pilotHref } from '@/lib/i18n/pilot';
 import React, { useRef } from 'react'
 import Link from 'next/link'
 import { Typography } from '../ui/Typography'
@@ -22,7 +24,9 @@ export interface SliderPublication {
   file: string | null;
 }
 
-export const KnowledgeSlider = ({ publications }: { publications: SliderPublication[] }) => {
+export const KnowledgeSlider = ({ publications, language = 'en' }: { publications: SliderPublication[]; language?: SiteLanguage }) => {
+  const t = (text: string) => siteText(language, text)
+  const rtl = language === 'ar'
   const sliderRef = useRef<HTMLUListElement>(null)
 
   const scrollPublications = (direction: 'left' | 'right') => {
@@ -31,7 +35,7 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
     // p. 228 reduced-motion support: jump instead of gliding when asked to.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     sliderRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      left: (direction === 'left' ? -scrollAmount : scrollAmount) * (rtl ? -1 : 1),
       behavior: reduceMotion ? 'auto' : 'smooth'
     })
   }
@@ -42,25 +46,25 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
     <>
       {/* Header row: heading, narrative and action on the left (p. 7), slide controls on the right */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '24px' }}>
-        <div style={{ maxWidth: '640px', textAlign: 'left' }}>
+        <div style={{ maxWidth: '640px', textAlign: 'start' }}>
           <Typography variant="h2" id="h08-enerqa-publication" className="home-h2 mb-3 text-white">
-            Publications
+            {t("Publications")}
           </Typography>
           {/* p. 14 H08 narrative, verbatim */}
           <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: '0 0 20px', fontWeight: 300 }}>
-            Research, analysis and practical perspectives on the systems, decisions and projects shaping a more sustainable future.
+            {t("Research, analysis and practical perspectives on the systems, decisions and projects shaping a more sustainable future.")}
           </p>
-          <Link href="/knowledge-hub" className="client-hover-btn" style={{ border: '1.5px solid #00cfc8', color: '#00cfc8', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
-            Explore Publications
+          <Link href={pilotHref(language, '/knowledge-hub')} className="client-hover-btn" style={{ border: '1.5px solid #00cfc8', color: '#00cfc8', background: 'transparent', padding: '10px 24px', borderRadius: '100px', fontSize: '13px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.2s', whiteSpace: 'nowrap', display: 'inline-block' }}>
+            {t("Explore Publications")}
           </Link>
         </div>
 
         {publications.length > 1 && (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button type="button" onClick={() => scrollPublications('left')} aria-label="Previous publications" aria-controls="publications-slider" className="slider-arrow-btn" style={arrowStyle}>
+            <button type="button" onClick={() => scrollPublications('left')} aria-label="Previous publications" aria-controls="publications-slider" className="slider-arrow-btn rtl:rotate-180" style={arrowStyle}>
               <svg aria-hidden="true" style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             </button>
-            <button type="button" onClick={() => scrollPublications('right')} aria-label="Next publications" aria-controls="publications-slider" className="slider-arrow-btn" style={arrowStyle}>
+            <button type="button" onClick={() => scrollPublications('right')} aria-label="Next publications" aria-controls="publications-slider" className="slider-arrow-btn rtl:rotate-180" style={arrowStyle}>
               <svg aria-hidden="true" style={{ width: '18px', height: '18px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
@@ -85,14 +89,14 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
               </div>
             </div>
             {/* Content */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'left', paddingTop: '6px' }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'start', paddingTop: '6px' }}>
               {/* p. 229: owned publications must not be confused with external items. */}
               <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', fontWeight: 600, margin: '0 0 8px' }}>
-                Publications · {pub.type}
+                {t('Publications')} · {pub.type}
               </p>
               <h3 style={{ fontSize: '21px', fontWeight: 700, lineHeight: 1.3, margin: '0 0 12px', letterSpacing: '-0.02em' }}>
                 <Link href={`/knowledge-hub/${pub.slug}`} className="publication-title-link" style={{ color: '#ffffff', textDecoration: 'none' }}>
-                  {pub.title}
+                  <bdi lang={rtl ? 'en' : undefined}>{pub.title}</bdi>
                 </Link>
               </h3>
               {/* p. 14: real author and date. An unconfirmed date is labelled as such. */}
@@ -114,7 +118,7 @@ export const KnowledgeSlider = ({ publications }: { publications: SliderPublicat
               )}
               {pub.file && (
                 <a href={pub.file} download className="client-read-btn" style={{ fontSize: '13px', fontWeight: 700, color: '#00cfc8', textDecoration: 'none', borderBottom: '1.5px solid #00cfc8', paddingBottom: '2px', width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '4px', transition: 'color 0.2s' }}>
-                  Download Full Report<span className="sr-only">: {pub.title}</span>
+                  {t('Download Full Report')}<span className="sr-only">: {pub.title}</span>
                 </a>
               )}
             </div>

@@ -1,3 +1,5 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { pilotHref } from '@/lib/i18n/pilot';
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -56,7 +58,9 @@ const INDUSTRIES: { name: string; slug: string; Icon: LucideIcon }[] = [
   { name: 'Healthcare, Education & Institutional Estates', slug: 'healthcare-education-institutional-estates', Icon: Hospital },
 ];
 
-export const LifecycleAndIndustries = () => (
+export const LifecycleAndIndustries = ({ language = 'en' }: { language?: SiteLanguage } = {}) => {
+  const t = (text: string) => siteText(language, text);
+  return (
   <>
     {/* ---------- H06 Project Development and Lifecycle Support ---------- */}
     <section className="bg-[var(--color-paper-alt)] py-16 text-[var(--color-ink)] lg:py-24">
@@ -65,10 +69,10 @@ export const LifecycleAndIndustries = () => (
         <div className="grid items-center gap-10 xl:grid-cols-[440px_1fr]">
           <div className="max-w-2xl">
             <Typography variant="h2" className="home-h2 mb-5 text-[var(--color-ink)]">
-              Project Development and Lifecycle Support
+              {t("Project Development and Lifecycle Support")}
             </Typography>
             <p className="mb-6 text-[17px] font-light leading-relaxed text-[var(--color-ink-soft)]">
-              Ideas become practical projects when the opportunity is clearly defined, tested and structured. Concept development, feasibility studies, business and financial modelling, finance preparation and implementation support connect each stage. Clients can engage Enerqa at any point in the lifecycle.
+              {t("Ideas become practical projects when the opportunity is clearly defined, tested and structured. Concept development, feasibility studies, business and financial modelling, finance preparation and implementation support connect each stage. Clients can engage Enerqa at any point in the lifecycle.")}
             </p>
             {/* Inline, not flex, with the last word and the arrow held
                 together: on phones the label wraps as "... Development /
@@ -77,13 +81,11 @@ export const LifecycleAndIndustries = () => (
               href="/project-development"
               className="font-semibold text-[var(--color-primary-deep)] no-underline transition-colors hover:text-[var(--color-ink)]"
             >
-              Explore Our Project Development{' '}
-              <span className="whitespace-nowrap">
-                Approach <ArrowRight aria-hidden="true" className="inline h-5 w-5 align-[-4px]" />
-              </span>
+              {language === 'ar' ? t('Explore Our Project Development Approach') : <>Explore Our Project Development{' '}<span className="whitespace-nowrap">Approach</span></>}{' '}
+              <ArrowRight aria-hidden="true" className="inline h-5 w-5 align-[-4px] rtl:rotate-180" />
             </Link>
           </div>
-          <ProjectLifecycle />
+          <ProjectLifecycle language={language} />
         </div>
       </Container>
     </section>
@@ -93,11 +95,11 @@ export const LifecycleAndIndustries = () => (
       <Container>
         <div className="mb-10 grid items-start gap-x-16 gap-y-4 lg:grid-cols-2">
           <Typography variant="h2" className="home-h2 text-[var(--color-ink)]">
-            Industries
+            {t("Industries")}
           </Typography>
           <div>
             <p className="m-0 text-[17px] font-light leading-relaxed text-[var(--ink-soft)]">
-              Different industries face different operational, resource and investment challenges. Our domains can be applied to public institutions, financial organisations, productive sectors, infrastructure and essential services.
+              {t("Different industries face different operational, resource and investment challenges. Our domains can be applied to public institutions, financial organisations, productive sectors, infrastructure and essential services.")}
             </p>
             {/* p. 14 H07 action; p. 7 puts the main action below the narrative.
                 Deep teal to match H06's link (it was secondary blue). */}
@@ -105,7 +107,7 @@ export const LifecycleAndIndustries = () => (
               href="/domains-and-industries#industries"
               className="mt-4 inline-flex items-center gap-2 font-semibold text-[var(--color-primary-deep)] no-underline transition-colors hover:text-[var(--color-ink)]"
             >
-              Explore All Industries <ArrowRight aria-hidden="true" className="h-5 w-5" />
+              {t("Explore All Industries")} <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </Link>
           </div>
         </div>
@@ -117,13 +119,13 @@ export const LifecycleAndIndustries = () => (
           {INDUSTRIES.map(({ name, slug, Icon }) => (
             <li key={slug} className="break-inside-avoid">
               <Link
-                href={`/industries/${slug}`}
+                href={pilotHref(language, `/industries/${slug}`)}
                 className="flex items-center gap-4 border-t border-[var(--line)] py-3.5 text-[16px] font-semibold leading-snug text-[var(--ink)] no-underline transition-colors hover:text-[var(--color-primary-deep)]"
               >
                 <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--paper-alt)] text-[var(--color-primary-deep)]">
                   <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} />
                 </span>
-                {name}
+                {t(name)}
               </Link>
             </li>
           ))}
@@ -132,3 +134,4 @@ export const LifecycleAndIndustries = () => (
     </section>
   </>
 );
+};

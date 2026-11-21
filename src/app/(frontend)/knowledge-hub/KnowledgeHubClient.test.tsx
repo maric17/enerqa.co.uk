@@ -37,4 +37,15 @@ describe('publication listing images', () => {
     expect(screen.getByRole('img', { name: 'Solar panels' })).toHaveAttribute('sizes', '(min-width: 640px) 192px, 100vw');
     expect(screen.queryByRole('group', { name: 'Author' })).toBeNull();
   });
+
+  it('routes Arabic editions to Arabic pages and labels English editions accurately', () => {
+    render(<KnowledgeHubClient language="ar" publications={[
+      publication,
+      { ...publication, id: 2, slug: 'energy-transition-ar', title: 'التحول في الطاقة', language: 'ar' },
+    ]} />);
+    expect(screen.getByRole('heading', { name: 'ابحث عن موضوع' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Energy transition' }).querySelector('bdi')).toHaveAttribute('lang', 'en');
+    expect(screen.getAllByRole('link', { name: /اقرأ المقال.*التحول في الطاقة/ })[0])
+      .toHaveAttribute('href', '/ar/knowledge-hub/energy-transition-ar');
+  });
 });
