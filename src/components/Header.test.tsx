@@ -159,34 +159,29 @@ describe('Language toggle (p. 8, p. 227)', () => {
   ])('links both ways on %s and keeps the query string', (englishPath, arabicPath) => {
     query.mockReturnValue('industry=government-regulators-public-institutions')
     pathname.mockReturnValue(englishPath)
-    const { rerender } = render(<LanguageProvider><Header showArabicPilot /></LanguageProvider>)
+    const { rerender } = render(<LanguageProvider><Header /></LanguageProvider>)
     expect(screen.getByRole('link', { name: 'Arabic' })).toHaveAttribute('href', `${arabicPath}?${query()}`)
 
     pathname.mockReturnValue(arabicPath)
-    rerender(<LanguageProvider><Header showArabicPilot language="ar" /></LanguageProvider>)
+    rerender(<LanguageProvider><Header language="ar" /></LanguageProvider>)
     expect(screen.getByRole('link', { name: 'English' })).toHaveAttribute('href', `${englishPath}?${query()}`)
   })
 
-  it('keeps untranslated routes on the current page even with the pilot enabled', () => {
-    pathname.mockReturnValue('/data-portal/explorer')
-    render(<LanguageProvider><Header showArabicPilot /></LanguageProvider>)
-    fireEvent.click(screen.getByRole('button', { name: 'Arabic' }))
-    expect(screen.getByRole('status')).toHaveTextContent('Arabic is not available yet')
-    expect(push).not.toHaveBeenCalled()
-  })
-
   it('exposes the pressed state', () => {
+    pathname.mockReturnValue('/data-portal/explorer')
     renderHeader()
     expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Arabic' })).toHaveAttribute('aria-pressed', 'false')
   })
 
   it('keeps the English page and explains that Arabic is not available yet', () => {
+    pathname.mockReturnValue('/data-portal/explorer')
     renderHeader()
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'Arabic' }))
     })
     expect(screen.getByRole('status')).toHaveTextContent('Arabic is not available yet')
+    expect(push).not.toHaveBeenCalled()
     // No lang="ar" dir="rtl" over English text, and span.en content stays visible.
     expect(document.documentElement.lang).toBe('en')
     expect(document.documentElement.dir).toBe('ltr')

@@ -105,14 +105,14 @@ function LanguageRouteLink({ path, to }: { path: string; to: SiteLanguage }) {
     }}>{to.toUpperCase()}</a>;
 }
 
-export function Header({ showArabicPilot = false, language = 'en' }: { showArabicPilot?: boolean; language?: SiteLanguage } = {}) {
+export function Header({ language = 'en' }: { language?: SiteLanguage } = {}) {
   const { setLanguage, arabicNoticeOpen, dismissArabicNotice } = useLanguage();
   const route = usePathname();
   const pathname = language === 'ar' ? (route.slice('/ar'.length) || '/') : route;
   const t = (text: string) => siteText(language, text);
   const hrefFor = (href: string) => pilotHref(language, href);
   const router = useRouter();
-  const arabicPath = showArabicPilot ? arabicPilotPath(pathname) : null;
+  const arabicPath = arabicPilotPath(pathname);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<MegaMenuId | null>(null);

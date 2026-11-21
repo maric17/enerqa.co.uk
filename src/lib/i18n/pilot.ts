@@ -16,6 +16,3 @@ export function pilotHref(language: 'en' | 'ar', href: string) {
   const translated = arabicPilotPath(path);
   return translated ? translated + href.slice(path.length) : href;
 }
-
-// Keep draft translations local until the client has reviewed them.
-export const arabicPilotEnabled = process.env.NODE_ENV === 'development';
