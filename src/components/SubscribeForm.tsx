@@ -83,6 +83,7 @@ export default function SubscribeForm({
   return (
     // React resets action forms; rebuild from returned values so a rejected save preserves input.
     <form key={JSON.stringify(state.values ?? {})} action={formAction} className={`w-full flex flex-col ${isInline ? 'gap-2' : 'gap-3'}`}>
+      <input type="hidden" name="language" value={language} />
       {/* Honeypot field (p. 228 spam protection). Hidden from people and screen
           readers. `.honeypot` clips it in place: the old `left: -9999px` made
           ~10,000px of sideways scroll whenever the page ran right-to-left. */}
@@ -130,7 +131,7 @@ export default function SubscribeForm({
       {/* role="alert" so a validation or delivery error is announced (p. 228). */}
       {state.message && (
         <div id={`${id}-status`} role="alert" className={`text-xs mt-1 px-2 ${isDark ? 'text-red-300' : 'text-red-700'}`}>
-          {state.message}
+          {t(state.message)}
         </div>
       )}
     </form>

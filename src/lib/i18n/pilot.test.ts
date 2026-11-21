@@ -8,10 +8,13 @@ describe('public Arabic links', () => {
     expect(pilotHref('en', explorer)).toBe(explorer);
   });
 
+  it('keeps newsletter confirmation in the chosen language', () => {
+    expect(pilotHref('ar', '/newsletter/confirm')).toBe('/ar/newsletter/confirm');
+  });
+
   it.each([
     '/api/data/population?country=QAT',
     '/admin/collections/publications',
-    '/newsletter/confirm?token=example',
     '/media/report.pdf',
     '/ar/tools',
     'https://example.com/tools',

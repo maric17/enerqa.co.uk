@@ -7,6 +7,7 @@ import { IndustryHero } from '@/components/feeds/IndustryHero';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
 import { INDUSTRY_FEEDS } from '@/lib/feeds/contextual';
 import { ResearchFeed } from '@/components/feeds/ResearchFeed';
 import { RelatedPublications } from '@/components/feeds/RelatedPublications';
@@ -15,6 +16,8 @@ import { relatedDataHref } from '@/lib/data-portal/relatedIndicators';
 import { FeedSkeleton } from '@/components/feeds/feedParts';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
 import { getArabicIndustry } from '@/lib/i18n/industries';
+import { getArabicDomain } from '@/lib/i18n/domains';
+import { domainLocalePreview as industryLocalePreview } from '@/lib/i18n/domainLocalePreview';
 import { pilotHref } from '@/lib/i18n/pilot';
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 
@@ -27,10 +30,12 @@ type Props = { params: Promise<{ slug: string }> };
  * single database query instead of running one each. depth 2 so each related
  * capability arrives with its parent domain, which supplies the link's path.
  */
-const getIndustry = cache(async (slug: string) => {
+const getIndustry = cache(async (slug: string, language: SiteLanguage) => {
+  if (industryLocalePreview) await connection();
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
     collection: 'industries',
+    ...(industryLocalePreview ? { locale: language, fallbackLocale: false as const } : {}),
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 2,
@@ -41,10 +46,10 @@ const getIndustry = cache(async (slug: string) => {
 // Handoff p. 227: unique descriptive title and meta description on every page.
 export async function industryMetadata({ params }: Props, language: SiteLanguage = 'en'): Promise<Metadata> {
   const { slug } = await params;
-  const industry: any = await getIndustry(slug);
+  const industry: any = await getIndustry(slug, language);
 
-  const translation = language === 'ar' ? getArabicIndustry(slug) : undefined;
-  if (!industry || (language === 'ar' && !translation)) return { title: 'Industry not found' };
+  const translation = language === 'ar' && !industryLocalePreview ? getArabicIndustry(slug) : undefined;
+  if (!industry) return { title: 'Industry not found' };
 
   return {
     title: translation?.title ?? (industry.metaTitle || industry.title),
@@ -60,10 +65,10 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
   const t = (text: string) => siteText(language, text);
   const { slug } = await params;
 
-  const industry: any = await getIndustry(slug);
+  const industry: any = await getIndustry(slug, language);
 
-  const translation = language === 'ar' ? getArabicIndustry(slug) : undefined;
-  if (!industry || (language === 'ar' && !translation)) {
+  const translation = language === 'ar' && !industryLocalePreview ? getArabicIndustry(slug) : undefined;
+  if (!industry) {
     notFound();
   }
 
@@ -74,12 +79,16 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
   // skipped rather than linked to a guessed path (p. 4: no dead links).
   const workAreas = (Array.isArray(relatedCapabilities) ? relatedCapabilities : [])
     .filter((cap: any) => cap && typeof cap === 'object' && cap.domain?.slug)
-    .map((cap: any) => ({ id: cap.id, heading: cap.heading, href: `/domains/${cap.domain.slug}#${cap.slug}` }));
+    .map((cap: any) => ({
+      id: cap.id,
+      heading: (language === 'ar' && !industryLocalePreview ? getArabicDomain(cap.domain.slug)?.capabilities[cap.slug]?.heading : undefined) ?? t(cap.heading),
+      href: `/domains/${cap.domain.slug}#${cap.slug}`,
+    }));
 
   // This industry's own news baskets and research themes from the handoff's
   // configuration page (pp. 66, 72, 78 ... 138).
   const feed = INDUSTRY_FEEDS[slug];
-  const nearest = { href: `/knowledge-hub/global-intelligence?industry=${slug}`, label: 'browse Global Intelligence' };
+  const nearest = { href: `/knowledge-hub/global-intelligence?industry=${slug}`, label: t('browse Global Intelligence') };
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--paper)]">
@@ -128,7 +137,7 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
                     href={area.href}
                     className="flex h-full items-center justify-between gap-4 bg-[var(--paper-alt)] p-6 rounded-[var(--r-md)] border border-[var(--line)] hover:border-[var(--green)] transition-colors"
                   >
-                    <span className="text-base font-bold text-[var(--ink)]">{t(area.heading)}</span>
+                    <span className="text-base font-bold text-[var(--ink)]">{area.heading}</span>
                     <ArrowRight className="w-5 h-5 text-[var(--color-secondary)] shrink-0 rtl:rotate-180" aria-hidden="true" />
                   </Link>
                 </li>
@@ -168,13 +177,13 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
             {t("Explore research, policy and technical publications relevant to this industry. Sources, authors, dates and document types make the evidence easier to assess.")}
           </p>
           {feed ? (
-            <Suspense fallback={<FeedSkeleton cards={4} mobileCards={2} columns="md:grid-cols-2" cardHeight="h-[240px]" />}>
+            <Suspense fallback={<FeedSkeleton cards={4} mobileCards={2} columns="md:grid-cols-2" cardHeight="h-[240px]" language={language} />}>
               {/* p. 65: "OpenAlex/DOAJ shared scholarly sources plus the specialist
                   sources identified in the industry mapping" (pp. 66-138). */}
-              <ResearchFeed themes={feed.researchThemes} limit={4} nearest={nearest} specialistFeeds={feed.specialistFeeds} />
+              <ResearchFeed themes={feed.researchThemes} limit={4} nearest={nearest} specialistFeeds={feed.specialistFeeds} language={language} />
             </Suspense>
           ) : (
-            <SourceUnavailable className="min-h-[240px]" />
+            <SourceUnavailable className="min-h-[240px]" language={language} />
           )}
         </Container>
       </section>
@@ -194,7 +203,7 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
               <p className="text-lg text-[var(--ink-soft)] leading-relaxed max-w-4xl mb-8">
                 {t("Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.")}
               </p>
-              <RelatedDataset field="industries" slug={slug} />
+              <RelatedDataset field="industries" slug={slug} language={language} />
             </div>
 
             {/* I{nn}K - Publications (first-party CMS only) */}
@@ -208,7 +217,7 @@ export async function IndustryContent({ params, language = 'en' }: Props & { lan
               <p className="text-lg text-[var(--ink-soft)] leading-relaxed mb-8">
                 {t("Read Enerqa\u2019s perspectives on the sustainability and project-development questions relevant to this industry.")}
               </p>
-              <RelatedPublications field="industries" id={industry.id} limit={3} />
+              <RelatedPublications field="industries" id={industry.id} limit={3} language={language} />
             </div>
           </div>
         </Container>

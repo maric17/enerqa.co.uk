@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { allowSubmission, newsletterLimiter } from '@/lib/forms/limits'
+import { pilotHref } from '@/lib/i18n/pilot'
 import { getClientKey } from '@/lib/forms/clientKey'
 import { NEWSLETTER_SOURCE, saveNewsletterSubscription, deliverPendingEnquiry } from '@/lib/forms/lifecycle'
 
@@ -29,10 +30,11 @@ export type NewsletterFormState = {
 }
 
 export async function submitNewsletterForm(prevState: NewsletterFormState, formData: FormData): Promise<NewsletterFormState> {
+  const confirmationUrl = pilotHref(formData.get('language') === 'ar' ? 'ar' : 'en', '/newsletter/confirm')
   // A filled honeypot is a bot. Send it to the same confirmation page a person
   // would see, so it learns nothing, but store nothing (p. 228 spam protection).
   if (formData.get('website')) {
-    redirect('/newsletter/confirm')
+    redirect(confirmationUrl)
   }
 
   const rawData = {
@@ -73,7 +75,7 @@ export async function submitNewsletterForm(prevState: NewsletterFormState, formD
   }
 
   // Outside the try: redirect() works by throwing, which the catch would swallow.
-  redirect('/newsletter/confirm')
+  redirect(confirmationUrl)
 }
 
 export type UnsubscribeFormState = {

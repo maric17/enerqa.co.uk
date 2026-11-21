@@ -1,3 +1,6 @@
+import copy from '@/lib/i18n/data-portal-copy.json';
+import { publicCopy, type SiteLanguage } from '@/lib/i18n/publicCopy';
+import { pilotHref } from '@/lib/i18n/pilot';
 import React from 'react';
 import { mixedMeasureReason } from '@/lib/api/core/measures';
 import type { DataSeries } from '@/lib/api/core/types';
@@ -33,12 +36,15 @@ export function DataSeriesTable({
   visuallyHidden = false,
   /** Force the stale notice. Normally worked out from each series' retrieval time. */
   stale = false,
+  language = 'en',
 }: {
   series: DataSeries[];
   caption: string;
   visuallyHidden?: boolean;
   stale?: boolean;
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => publicCopy(language, copy, text);
   if (series.length === 0) return null;
 
   // Refuse to put incompatible series side by side, and say why in words a
@@ -47,7 +53,7 @@ export function DataSeriesTable({
   if (mixed) {
     return (
       <div role="note" className="rounded-[var(--r-md)] border border-[var(--line)] bg-[var(--paper-alt)] p-4 text-sm text-[var(--ink-soft)]">
-        These series cannot be shown in one table because {mixed}. View each series on its own to compare like with like.
+        {t("These series cannot be shown in one table because")} {mixed}{t(". View each series on its own to compare like with like.")}
       </div>
     );
   }
@@ -70,21 +76,20 @@ export function DataSeriesTable({
           {caption}
           {hasMissing && (
             <span className="block text-xs mt-1">
-              An em dash means the source published no figure for that period. It does not mean zero.
+              {t("An em dash means the source published no figure for that period. It does not mean zero.")}
             </span>
           )}
           {showStale && (
             <span className="block text-xs mt-1 font-semibold text-[var(--ink)]">
-              Showing the latest cached release, retrieved{' '}
-              {new Date(oldest).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.
-              The provider could not be refreshed since - use each series&rsquo; &ldquo;View source&rdquo; link below for newer figures.
+              {t("Showing the latest cached release, retrieved")}{' '}
+              {new Date(oldest).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}{t(". The provider could not be refreshed since - use each series’ “View source” link below for newer figures.")}
             </span>
           )}
         </caption>
         <thead>
           <tr className="border-b border-[var(--line)]">
             <th scope="col" className="py-2 pr-4 font-semibold text-[var(--ink)]">
-              Period
+              {t("Period")}
             </th>
             {series.map((s) => (
               <th key={s.id} scope="col" className="py-2 pr-4 font-semibold text-[var(--ink)]">
@@ -124,18 +129,18 @@ export function DataSeriesTable({
             )}
             .{' '}
             <a href={s.provenance.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">
-              View source
+              {t("View source")}
             </a>
             {s.measureNote && <span className="block">{s.measureNote}</span>}
             {s.provenance.transformations.length > 0 && (
               <span className="block">
-                Enerqa applied: {s.provenance.transformations.join('; ')}.
+                {t("Enerqa applied:")} {s.provenance.transformations.join('; ')}.
               </span>
             )}
           </p>
         ))}
         <p className="m-0 pt-2 border-t border-[var(--line)]">
-          Read more about our approach in the <a href="/data-portal/sources" className="underline font-medium text-[var(--color-primary)]">Sources & Methodology</a> directory.
+          {t("Read more about our approach in the")} <a href={pilotHref(language, '/data-portal/sources')} className="underline font-medium text-[var(--color-primary)]">{t("Sources & Methodology")}</a> {t("directory.")}
         </p>
       </figcaption>
     </figure>

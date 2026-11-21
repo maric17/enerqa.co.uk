@@ -1,15 +1,11 @@
-import { findPublication, PublicationContent, publicationMetadata } from '../../../../(frontend)/knowledge-hub/[slug]/PublicationContent';
-import { EnglishPageContent } from '@/components/ui/EnglishPageContent';
+import { PublicationContent, publicationMetadata } from '../../../../(frontend)/knowledge-hub/[slug]/PublicationContent';
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata(props: Props) {
-  const post = await findPublication((await props.params).slug, 'en');
-  return publicationMetadata(props, post?.language === 'ar' ? 'ar' : 'en');
+export function generateMetadata(props: Props) {
+  return publicationMetadata(props);
 }
 
-export default async function Page(props: Props) {
-  const post = await findPublication((await props.params).slug, 'en');
-  if (post?.language === 'ar') return <PublicationContent {...props} language="ar" />;
-  return <EnglishPageContent><PublicationContent {...props} /></EnglishPageContent>;
+export default function Page(props: Props) {
+  return <PublicationContent {...props} language="ar" />;
 }

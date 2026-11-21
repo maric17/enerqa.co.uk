@@ -2,11 +2,11 @@ const publicPages = new Set([
   '/', '/about', '/about/careers', '/contact', '/domains-and-industries',
   '/project-development', '/tools', '/knowledge-hub', '/knowledge-hub/global-intelligence',
   '/data-portal', '/data-portal/explorer', '/data-portal/sources', '/data-portal/occurrences',
-  '/search', '/terms', '/privacy', '/cookie-choices', '/accessibility',
+  '/search', '/newsletter/confirm', '/newsletter/unsubscribe', '/terms', '/privacy', '/cookie-choices', '/accessibility',
 ]);
 
-// Only public content routes have an Arabic counterpart. API calls, downloads,
-// account actions and external links must continue to use their original URLs.
+// Localize pages that have an Arabic counterpart. API calls, downloads,
+// private routes and external links keep their original URLs.
 const detailPage = /^\/(?:domains|industries|tools|knowledge-hub|data-portal\/(?:datasets|dashboards|series))\/[a-z0-9][a-z0-9_-]*$/i;
 
 export function arabicPilotPath(pathname: string) {
