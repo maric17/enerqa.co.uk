@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { domainLocaleFields } from '../lib/i18n/domainLocalePreview'
 
 export const Capabilities: CollectionConfig = {
   slug: 'capabilities',
@@ -13,6 +14,7 @@ export const Capabilities: CollectionConfig = {
     {
       name: 'heading',
       type: 'text',
+      ...domainLocaleFields,
       required: true,
     },
     {
@@ -26,6 +28,7 @@ export const Capabilities: CollectionConfig = {
     {
       name: 'narrative',
       type: 'textarea',
+      ...domainLocaleFields,
       required: true,
     },
     {
