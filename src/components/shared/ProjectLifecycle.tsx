@@ -1,3 +1,4 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react';
 import Link from 'next/link';
 
@@ -44,7 +45,7 @@ function ringLabelStyle(index: number): React.CSSProperties {
     : { left: x - 30 - width, top: y, width, transform: 'translateY(-50%)', textAlign: 'right' };
 }
 
-const LifecycleRing = () => (
+const LifecycleRing = ({ language }: { language: SiteLanguage }) => (
   <div className="relative mx-auto hidden lg:block" style={{ width: RING.width, height: RING.height }}>
     <svg
       className="absolute inset-0"
@@ -78,7 +79,7 @@ const LifecycleRing = () => (
       ))}
     </svg>
     <p className="absolute left-[260px] top-1/2 m-0 w-[200px] -translate-y-1/2 text-center text-[22px] font-bold leading-tight tracking-[-0.01em]">
-      Start at any stage
+      {siteText(language, 'Start at any stage')}
     </p>
     {/* The <ol> keeps the reading order 01-10 for screen readers; the numbers
         drawn in the SVG are decorative. */}
@@ -90,7 +91,7 @@ const LifecycleRing = () => (
             style={ringLabelStyle(index)}
             className="absolute text-[14px] font-medium leading-[1.35] text-[var(--color-ink)] no-underline transition-colors hover:text-[var(--color-primary-deep)]"
           >
-            {stage.title}
+            {siteText(language, stage.title)}
           </Link>
         </li>
       ))}
@@ -99,9 +100,9 @@ const LifecycleRing = () => (
 );
 
 // Phones and tablets: the same stages down a vertical line.
-const LifecycleList = () => (
+const LifecycleList = ({ language }: { language: SiteLanguage }) => (
   <div className="relative lg:hidden">
-    <span aria-hidden="true" className="absolute bottom-6 left-5 top-6 w-0.5 -translate-x-1/2 bg-primary-deep/35" />
+    <span aria-hidden="true" className="absolute bottom-6 start-5 top-6 w-0.5 -translate-x-1/2 bg-primary-deep/35" />
     <ol className="relative m-0 list-none p-0">
       {STAGES.map((stage, index) => (
         <li key={stage.anchor}>
@@ -113,7 +114,7 @@ const LifecycleList = () => (
             <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-ink)] text-xs font-bold text-white">
               {stageNumber(index)}
             </span>
-            {stage.title}
+            {siteText(language, stage.title)}
           </Link>
         </li>
       ))}
@@ -121,11 +122,11 @@ const LifecycleList = () => (
   </div>
 );
 
-export function ProjectLifecycle() {
+export function ProjectLifecycle({ language = 'en' }: { language?: SiteLanguage } = {}) {
   return (
     <>
-      <LifecycleRing />
-      <LifecycleList />
+      <LifecycleRing language={language} />
+      <LifecycleList language={language} />
     </>
   );
 }

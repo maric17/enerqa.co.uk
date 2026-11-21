@@ -1,21 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ArrowRight } from 'lucide-react';
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
-import { Container } from '@/components/ui/Container';
-import { getPrivacyHref } from '@/lib/policies';
-import { PageHero } from '@/components/ui/PageHero';
-import { prefillFromSearchParams, type ContactChoices } from '@/lib/forms/contact';
-import { loadContactChoices } from '@/lib/forms/contactChoices';
-import { ContactForm } from './ContactForm';
-import { COMPANY } from '@/lib/content/company';
+import { ContactContent } from './ContactContent';
 
-// p. 227: unique title and description. Moved here from the deleted
-// pass-through contact/layout.tsx. The description is F01's own copy (p. 198).
-// `absolute`: the title already names Enerqa, so the layout's " | Enerqa"
-// suffix would double it. The canonical drops ?intent=/?tool= variants.
 export const metadata: Metadata = {
   title: { absolute: 'Contact Enerqa' },
   description:
@@ -23,66 +8,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
 };
 
-type Props = {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
-export default async function ContactPage({ searchParams }: Props) {
-  const params = await searchParams;
-
-  // The optional selects come from the CMS. If it cannot be reached the form
-  // still renders (Name, Email, Enquiry Type and Message need no CMS data);
-  // submitting then shows the F04 error, which names info@ as the fallback.
-  let choices: ContactChoices = { domains: [], industries: [], tools: [] };
-  try {
-    const { domains, industries, tools } = await loadContactChoices(await getPayload({ config: configPromise }));
-    choices = { domains, industries, tools };
-  } catch (error) {
-    console.error('Contact form choices unavailable:', error);
-  }
-
-  // p. 198 F02: `?intent=`, `?tool=`, `?domain=` and `?industry=` preselect
-  // the matching fields, which stay editable.
-  const prefill = prefillFromSearchParams(params, choices);
-
-  return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-paper)]">
-      {/* F01 Contact Enerqa (p. 198) */}
-      <PageHero
-        title="Contact Enerqa"
-        imageUrl="/images/contact_banner_people.jpg"
-        breadcrumbs={
-          <>
-            <Link href="/" className="text-white/80 hover:text-white transition-colors no-underline">Home</Link> / <span className="en text-white" aria-current="page">Contact</span>
-          </>
-        }
-      >
-        <p className="m-0 text-white/90">
-          Share an idea, a project opportunity or a question about Enerqa’s work. A complete project brief is not required to begin a conversation.
-        </p>
-        <p className="mt-4 text-white/90">
-          Email:{' '}
-          <a href="mailto:info@enerqa.co.uk" className="text-white font-semibold hover:text-[var(--color-primary)] transition-colors underline underline-offset-4 decoration-white/30">
-            info@enerqa.co.uk
-          </a>
-        </p>
-        {/* Q11 approves cities, without phone numbers or an invented Doha address. */}
-        <p className="mt-4 text-white/90">Offices: {COMPANY.offices.join(' and ')}.</p>
-        <p className="mt-2 text-sm text-white/90">Registered office: {COMPANY.address}.</p>
-        <Link href="/project-development" className="mt-6 text-[var(--color-primary)] font-bold text-sm hover:underline inline-flex items-center gap-1">
-          Learn about our approach <ArrowRight className="w-4 h-4" aria-hidden="true" />
-        </Link>
-      </PageHero>
-
-      {/* F02 Tell Us About Your Enquiry, F03 Send Your Enquiry, F04 states (p. 198) */}
-      <section className="pt-20 pb-20 md:pb-32">
-        <Container>
-          <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm mb-20">
-            <h2 className="text-2xl font-bold text-[var(--color-dark)] mb-8">Tell Us About Your Enquiry</h2>
-            <ContactForm key={JSON.stringify(prefill)} choices={choices} prefill={prefill} privacyHref={await getPrivacyHref()} />
-          </div>
-        </Container>
-      </section>
-    </div>
-  );
+export default function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  return <ContactContent searchParams={searchParams} />;
 }

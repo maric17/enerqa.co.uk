@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/refs */
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { arabicPilotPath, pilotHref } from '@/lib/i18n/pilot';
 import { Container } from './ui/Container';
 
 const SITE_INDEX = [
@@ -91,10 +93,26 @@ function trapFocus(e: React.KeyboardEvent, container: HTMLElement | null) {
   }
 }
 
-export function Header() {
-  const { language, setLanguage, arabicNoticeOpen, dismissArabicNotice } = useLanguage();
-  const pathname = usePathname();
+function LanguageRouteLink({ path, to }: { path: string; to: SiteLanguage }) {
+  const query = useSearchParams().toString();
+  const href = query ? `${path}?${query}` : path;
+  // Keep form prefill in the actual link, even before the page is interactive.
+  return <a href={href} hrefLang={to} aria-label={to === 'en' ? 'English' : 'Arabic'}
+    onClick={event => {
+      if (!window.location.hash || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      window.location.assign(href + window.location.hash);
+    }}>{to.toUpperCase()}</a>;
+}
+
+export function Header({ showArabicPilot = false, language = 'en' }: { showArabicPilot?: boolean; language?: SiteLanguage } = {}) {
+  const { setLanguage, arabicNoticeOpen, dismissArabicNotice } = useLanguage();
+  const route = usePathname();
+  const pathname = language === 'ar' ? (route.slice('/ar'.length) || '/') : route;
+  const t = (text: string) => siteText(language, text);
+  const hrefFor = (href: string) => pilotHref(language, href);
   const router = useRouter();
+  const arabicPath = showArabicPilot ? arabicPilotPath(pathname) : null;
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<MegaMenuId | null>(null);
@@ -309,7 +327,7 @@ export function Header() {
   const navLink = (href: string, en: React.ReactNode, ar?: string) => {
     const isCurrent = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
     return (
-      <Link href={href} className={isCurrent ? 'active' : ''} aria-current={pathname === href ? 'page' : undefined}>
+      <Link href={hrefFor(href)} className={isCurrent ? 'active' : ''} aria-current={pathname === href ? 'page' : undefined}>
         <span className="en">{en}</span>{ar && <span className="ar">{ar}</span>}
       </Link>
     );
@@ -319,7 +337,7 @@ export function Header() {
     <>
       <header className={`site ${onLight ? 'scrolled' : ''} ${isHiddenFooter ? 'hidden-footer' : ''}`}>
         <Container className="header-main">
-          <Link href="/" className="logo-zone relative" aria-label="Enerqa home">
+          <Link href={hrefFor('/')} className="logo-zone relative" aria-label={t("Enerqa home")}>
             <Image
               src={onLight ? "/images/logo-color.svg" : "/images/logo-white.svg"}
               alt=""
@@ -330,14 +348,14 @@ export function Header() {
           </Link>
           {/* p. 7: six primary links across the centre, starting with the short
               label Home. */}
-          <nav className="primary-nav" aria-label="Main">
+          <nav className="primary-nav" aria-label={t("Main")}>
             <div className="nav-item">{navLink('/', 'Home')}</div>
             <div className={`nav-item nav-item-static ${activeMegaMenu === 'domains' ? 'mega-open' : ''}`} {...megaItemProps('domains')}>
               <button
                 {...megaTriggerProps('domains')}
                 className={inDomainsGroup ? 'active' : ''}
               >
-                <span className="en">Domains and Industries</span><span className="ar">المجالات والصناعات</span>
+                <span className="en">{t("Domains and Industries")}</span><span className="ar">المجالات والصناعات</span>
               </button>
               <div
                 id="mega-menu-domains"
@@ -350,28 +368,28 @@ export function Header() {
                     {/* Column titles are labels, not headings: as headings they put
                         three h2/h3s before every page's own h1 (p. 227). */}
                     <div className="mega-col mega-domains">
-                      <p className="mega-col-title" id="mega-domains-label">Domains</p>
+                      <p className="mega-col-title" id="mega-domains-label">{t("Domains")}</p>
                       <ul className="mega-list" aria-labelledby="mega-domains-label">
                         {DOMAINS.map((d, index) => (
-                          <li key={d.slug}><Link href={`/domains/${d.slug}`}><span className="mega-domain-number" aria-hidden="true">0{index + 1}</span>{d.title}</Link></li>
+                          <li key={d.slug}><Link href={`/domains/${d.slug}`}><span className="mega-domain-number" aria-hidden="true">0{index + 1}</span>{t(d.title)}</Link></li>
                         ))}
                       </ul>
                     </div>
                     {/* One wider industry list keeps long names on one line. */}
                     <div className="mega-col mega-industries">
-                      <p className="mega-col-title" id="mega-industries-label">Industries</p>
+                      <p className="mega-col-title" id="mega-industries-label">{t("Industries")}</p>
                       <ul className="mega-list" aria-labelledby="mega-industries-label">
                         {INDUSTRIES.map((i) => (
-                          <li key={i.slug}><Link href={`/industries/${i.slug}`}>{i.title}</Link></li>
+                          <li key={i.slug}><Link href={hrefFor(`/industries/${i.slug}`)}>{t(i.title)}</Link></li>
                         ))}
                       </ul>
                     </div>
                   </div>
 
                   <div className="mega-featured">
-                    <Link href="/project-development" className="text-sm font-semibold text-[var(--color-dark)] hover:underline">Project Development and Lifecycle Support &rarr;</Link>
-                    <Link href="/knowledge-hub" className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">Explore the Knowledge Hub &rarr;</Link>
-                    <Link href="/domains-and-industries" className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">View All Domains and Industries &rarr;</Link>
+                    <Link href="/project-development" className="text-sm font-semibold text-[var(--color-dark)] hover:underline">{t("Project Development and Lifecycle Support")} →</Link>
+                    <Link href={hrefFor('/knowledge-hub')} className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">{t("Explore the Knowledge Hub")} →</Link>
+                    <Link href="/domains-and-industries" className="text-sm font-semibold text-[var(--color-primary-deep)] hover:underline">{t("View All Domains and Industries")} →</Link>
                   </div>
                 </div>
 
@@ -379,7 +397,7 @@ export function Header() {
                     action remains, with the project CTA label used site-wide
                     (pp. 15, 156, 174). */}
                 <div className="mega-cta">
-                  <Link href="/contact?intent=project" className="btn btn-cta">Discuss Your Project</Link>
+                  <Link href={hrefFor('/contact?intent=project')} className="btn btn-cta">{t("Discuss Your Project")}</Link>
                 </div>
               </div>
             </div>
@@ -387,12 +405,12 @@ export function Header() {
             {/* Keep the overview link and give the submenu its own keyboard-accessible toggle. */}
             <div className={`nav-item nav-item-data-portal ${activeMegaMenu === 'data-portal' ? 'mega-open' : ''}`} {...megaItemProps('data-portal')}>
               {navLink('/data-portal', 'Data Portal', 'بوابة البيانات')}
-              <button {...megaTriggerProps('data-portal')} className="data-portal-toggle" aria-label="Data Portal submenu">
+              <button {...megaTriggerProps('data-portal')} className="data-portal-toggle" aria-label={t("Data Portal submenu")}>
                 <ChevronDown size={14} aria-hidden="true" />
               </button>
               <div id="mega-menu-data-portal" className="mega data-portal-submenu" onClick={closeOnLinkClick(closeMega)}>
-                <ul aria-label="Data Portal">
-                  <li><Link href="/data-portal/explorer" aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>Data Explorer</Link></li>
+                <ul aria-label={t("Data Portal")}>
+                  <li><Link href="/data-portal/explorer" aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>{t("Data Explorer")}</Link></li>
                 </ul>
               </div>
             </div>
@@ -403,13 +421,13 @@ export function Header() {
                 className={pathname.startsWith('/about') ? 'active' : ''}
               >
                 {/* p. 7: keep the primary label "About" consistent. */}
-                <span className="en">About</span><span className="ar">من نحن</span>
+                <span className="en">{t("About")}</span><span className="ar">من نحن</span>
               </button>
               <div id="mega-menu-about" className="mega" style={{ minWidth: '280px' }} onClick={closeOnLinkClick(closeMega)}>
                 <div style={{ width: '100%' }}>
                   <ul>
                     {ABOUT_LINKS.map((l) => (
-                      <li key={l.href}><Link href={l.href}><span className="en">{l.en}</span><span className="ar">{l.ar}</span></Link></li>
+                      <li key={l.href}><Link href={hrefFor(l.href)}><span className="en">{l.en}</span><span className="ar">{l.ar}</span></Link></li>
                     ))}
                   </ul>
                 </div>
@@ -418,8 +436,12 @@ export function Header() {
           </nav>
           <div className="header-actions">
             <div className="langswitch" role="group" aria-label="Language">
-              <button type="button" onClick={() => setLanguage('en')} className={language === 'en' ? 'active' : ''} aria-pressed={language === 'en'} aria-label="English">EN</button>
-              <button type="button" onClick={() => setLanguage('ar')} className={language === 'ar' ? 'active' : ''} aria-pressed={language === 'ar'} aria-label="Arabic">AR</button>
+              {language === 'ar' ? <Suspense fallback={<a href={pathname} hrefLang="en" aria-label="English">EN</a>}>
+                <LanguageRouteLink path={pathname} to="en" />
+              </Suspense> : <button type="button" onClick={() => setLanguage('en')} className="active" aria-pressed aria-label="English">EN</button>}
+              {language === 'en' && arabicPath ? <Suspense fallback={<a href={arabicPath} hrefLang="ar" aria-label="Arabic">AR</a>}>
+                <LanguageRouteLink path={arabicPath} to="ar" />
+              </Suspense> : <button type="button" onClick={() => { if (language === 'en') setLanguage('ar'); }} className={language === 'ar' ? 'active' : ''} aria-pressed={language === 'ar'} aria-label="Arabic">AR</button>}
             </div>
             {/* Always mounted so screen readers announce the text when it
                 appears (p. 8: explain availability instead of switching). */}
@@ -438,21 +460,21 @@ export function Header() {
               type="button"
               className="icon-btn flex items-center justify-center text-white/85 bg-transparent text-[15px] rounded-full transition-all duration-200"
               onClick={() => setIsSearchOpen(true)}
-              aria-label="Search"
+              aria-label={t("Search")}
               aria-haspopup="dialog"
               title="Search"
             >
               <Search className="w-[17px] h-[17px]" aria-hidden="true" />
             </button>
-            <Link href="/contact" className="btn on-dark header-contact px-5 py-2.5 text-[13px]">
-              <span className="en">Contact</span><span className="ar">تواصل</span>
+            <Link href={hrefFor('/contact')} className="btn on-dark header-contact px-5 py-2.5 text-[13px]">
+              <span className="en">{t("Contact")}</span><span className="ar">تواصل</span>
             </Link>
             <button
               ref={menuButtonRef}
               type="button"
               className="icon-btn menu-toggle text-white/85 bg-transparent rounded-full transition-all duration-200"
               onClick={() => setIsMobileNavOpen(true)}
-              aria-label="Menu"
+              aria-label={t("Menu")}
               aria-expanded={isMobileNavOpen}
               aria-controls="mobile-nav"
             >
@@ -477,7 +499,7 @@ export function Header() {
           className="search-panel"
           role="dialog"
           aria-modal="true"
-          aria-label="Search Enerqa"
+          aria-label={t("Search Enerqa")}
           onKeyDown={(e) => trapFocus(e, searchPanelRef.current)}
         >
           <form onSubmit={submitSearch} role="search">
@@ -488,7 +510,7 @@ export function Header() {
               ref={searchInputRef}
               type="text"
               placeholder="Search enerQA…"
-              aria-label="Search"
+              aria-label={t("Search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -499,7 +521,7 @@ export function Header() {
               <div className="sr-empty">No matches — press Enter to search the whole site.</div>
             ) : (
               searchResults.slice(0, 10).map((item) => (
-                <Link key={item.url} href={item.url} onClick={() => setIsSearchOpen(false)}>{item.title}</Link>
+                <Link key={item.url} href={hrefFor(item.url)} onClick={() => setIsSearchOpen(false)}>{t(item.title)}</Link>
               ))
             )}
           </div>
@@ -517,57 +539,57 @@ export function Header() {
         className={`mobile-nav ${isMobileNavOpen ? 'open' : ''}`}
         role="dialog"
         aria-modal="true"
-        aria-label="Site menu"
+        aria-label={t("Site menu")}
         inert={!isMobileNavOpen}
         data-lenis-prevent
         onKeyDown={(e) => trapFocus(e, mobileNavRef.current)}
         onClick={closeOnLinkClick(() => setIsMobileNavOpen(false))}
       >
         <div className="mn-top">
-          <Link href="/" className="logo-zone relative block w-[140px] h-[34px]" aria-label="Enerqa home">
+          <Link href={hrefFor('/')} className="logo-zone relative block w-[140px] h-[34px]" aria-label={t("Enerqa home")}>
             <Image src="/images/logo-white.svg" alt="" fill className="object-contain object-left" />
           </Link>
-          <button type="button" className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label="Close menu"><X aria-hidden="true" /></button>
+          <button type="button" className="icon-btn mn-close" onClick={() => setIsMobileNavOpen(false)} aria-label={t("Close menu")}><X aria-hidden="true" /></button>
         </div>
 
-        <Link href="/" className={pathname === '/' ? 'active' : ''}>Home</Link>
+        <Link href={hrefFor('/')} className={pathname === '/' ? 'active' : ''}>{t("Home")}</Link>
         <details className="mn-group" open={inDomainsGroup || undefined}>
-          <summary>Domains and Industries</summary>
+          <summary>{t("Domains and Industries")}</summary>
           <div className="mn-sub">
-            <Link href="/domains-and-industries">Overview</Link>
-            <p className="mn-sub-label">Domains</p>
+            <Link href="/domains-and-industries">{t("Overview")}</Link>
+            <p className="mn-sub-label">{t("Domains")}</p>
             {DOMAINS.map((d) => (
-              <Link key={d.slug} href={`/domains/${d.slug}`} className={pathname === `/domains/${d.slug}` ? 'active' : ''}>{d.title}</Link>
+              <Link key={d.slug} href={`/domains/${d.slug}`} className={pathname === `/domains/${d.slug}` ? 'active' : ''}>{t(d.title)}</Link>
             ))}
-            <p className="mn-sub-label">Industries</p>
+            <p className="mn-sub-label">{t("Industries")}</p>
             {INDUSTRIES.map((i) => (
-              <Link key={i.slug} href={`/industries/${i.slug}`} className={pathname === `/industries/${i.slug}` ? 'active' : ''}>{i.title}</Link>
+              <Link key={i.slug} href={hrefFor(`/industries/${i.slug}`)} className={pathname === `/industries/${i.slug}` ? 'active' : ''}>{t(i.title)}</Link>
             ))}
             <p className="mn-sub-label">Method</p>
-            <Link href="/project-development" className={pathname === '/project-development' ? 'active' : ''}>Project Development and Lifecycle Support</Link>
+            <Link href="/project-development" className={pathname === '/project-development' ? 'active' : ''}>{t("Project Development and Lifecycle Support")}</Link>
           </div>
         </details>
-        <Link href="/knowledge-hub" className={pathname.startsWith('/knowledge-hub') ? 'active' : ''}>Knowledge Hub</Link>
+        <Link href={hrefFor('/knowledge-hub')} className={pathname.startsWith('/knowledge-hub') ? 'active' : ''}>{t("Knowledge Hub")}</Link>
         <details className="mn-group" open={pathname.startsWith('/data-portal') || undefined}>
-          <summary>Data Portal</summary>
+          <summary>{t("Data Portal")}</summary>
           <div className="mn-sub">
-            <Link href="/data-portal" aria-current={pathname === '/data-portal' ? 'page' : undefined}>Overview</Link>
-            <Link href="/data-portal/explorer" className={pathname === '/data-portal/explorer' ? 'active' : ''} aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>Data Explorer</Link>
+            <Link href="/data-portal" aria-current={pathname === '/data-portal' ? 'page' : undefined}>{t("Overview")}</Link>
+            <Link href="/data-portal/explorer" className={pathname === '/data-portal/explorer' ? 'active' : ''} aria-current={pathname === '/data-portal/explorer' ? 'page' : undefined}>{t("Data Explorer")}</Link>
           </div>
         </details>
-        <Link href="/tools" className={pathname.startsWith('/tools') ? 'active' : ''}>Tools</Link>
+        <Link href="/tools" className={pathname.startsWith('/tools') ? 'active' : ''}>{t("Tools")}</Link>
         {/* p. 7 "the same groups": About is a group on desktop, so it is one here. */}
         <details className="mn-group" open={pathname.startsWith('/about') || undefined}>
-          <summary>About</summary>
+          <summary>{t("About")}</summary>
           <div className="mn-sub">
             {ABOUT_LINKS.map((l) => (
-              <Link key={l.href} href={l.href}>{l.en}</Link>
+              <Link key={l.href} href={hrefFor(l.href)}>{t(l.en)}</Link>
             ))}
           </div>
         </details>
         {/* The header's Contact button is hidden on phones to fit the logo, so
             the menu carries it (p. 7 places Contact in the header). */}
-        <Link href="/contact" className={`mn-contact ${pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
+        <Link href={hrefFor('/contact')} className={`mn-contact ${pathname === '/contact' ? 'active' : ''}`}>{t("Contact")}</Link>
       </div>
     </>
   );

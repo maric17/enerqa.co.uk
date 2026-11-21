@@ -1,3 +1,4 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Database } from 'lucide-react';
@@ -35,7 +36,8 @@ function formatDay(iso: string | null | undefined): string | null {
   return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 }
 
-export const DataPortalTeaser = async () => {
+export const DataPortalTeaser = async ({ language = 'en' }: { language?: SiteLanguage } = {}) => {
+  const t = (text: string) => siteText(language, text);
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'datasets',
@@ -60,17 +62,17 @@ export const DataPortalTeaser = async () => {
         <div className={`mx-auto grid grid-cols-1 items-center gap-10 ${dataset ? 'max-w-5xl md:grid-cols-[1fr_1.1fr]' : 'max-w-3xl'}`}>
           <div>
             <Typography variant="h2" id="h09-data-portal" className="home-h2 mb-4 text-[var(--color-ink)]">
-              Explore the Data Portal
+              {t("Explore the Data Portal")}
             </Typography>
             {/* p. 14 H09 narrative, verbatim */}
             <p className="m-0 mb-6 text-[16px] font-light leading-relaxed text-[var(--ink-soft)]">
-              Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.
+              {t("Explore open-access datasets through charts and accessible tables. Each view identifies its source, geography, observation period, units and update date. Open a dataset to review the methodology and download data free of charge.")}
             </p>
             <Link
               href="/data-portal"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-7 py-3 text-[15px] font-bold text-white no-underline shadow-sm transition-colors hover:bg-[var(--ink-soft)]"
             >
-              Explore Related Data <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              {t("Explore Related Data")} <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
 
@@ -107,19 +109,19 @@ export const DataPortalTeaser = async () => {
                 )}
                 {dataset.observationPeriod && (
                   <>
-                    <dt className="font-semibold text-[var(--ink)]">Observation period</dt>
+                    <dt className="font-semibold text-[var(--ink)]">{t("Observation period")}</dt>
                     <dd className="m-0 text-[var(--ink-soft)]">{dataset.observationPeriod}</dd>
                   </>
                 )}
                 {dataset.version && (
                   <>
-                    <dt className="font-semibold text-[var(--ink)]">Source release</dt>
+                    <dt className="font-semibold text-[var(--ink)]">{t("Source release")}</dt>
                     <dd className="m-0 text-[var(--ink-soft)]">{dataset.version}</dd>
                   </>
                 )}
                 {retrieved && (
                   <>
-                    <dt className="font-semibold text-[var(--ink)]">Retrieved by Enerqa</dt>
+                    <dt className="font-semibold text-[var(--ink)]">{t("Retrieved by Enerqa")}</dt>
                     <dd className="m-0 text-[var(--ink-soft)]">{retrieved}</dd>
                   </>
                 )}

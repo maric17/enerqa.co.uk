@@ -1,3 +1,4 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -44,7 +45,8 @@ const FLAGSHIP_TOOLS = [
   },
 ] as const
 
-export const Tools = async () => {
+export const Tools = async ({ language = 'en' }: { language?: SiteLanguage } = {}) => {
+  const t = (text: string) => siteText(language, text);
   const payload = await getPayload({ config: configPromise })
   const { docs } = await payload.find({
     collection: 'tools',
@@ -59,16 +61,16 @@ export const Tools = async () => {
     <section className="bg-white py-[60px]" id="tools" aria-labelledby="h10-enerqa-tools">
       <Container>
 
-        <div className="max-w-[800px] mb-12 text-left">
+        <div className="max-w-[800px] mb-12 text-start">
           <Typography variant="h2" id="h10-enerqa-tools" className="home-h2 text-ink mb-4">
             Enerqa Tools
           </Typography>
           {/* p. 15 H10 narrative, verbatim */}
           <p className="text-[15.5px] text-ink-soft leading-[1.6] m-0 mb-6 font-light">
-            Structured tools help make assessment, modelling and project decisions more accessible. Explore ESG readiness, solar-energy assessment and sustainability and resilience evaluation.
+            {t("Structured tools help make assessment, modelling and project decisions more accessible. Explore ESG readiness, solar-energy assessment and sustainability and resilience evaluation.")}
           </p>
           <Link href="/tools" className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[var(--color-secondary)] no-underline transition-colors hover:text-[#075a93]">
-            Explore All Tools &rarr;
+            {t("Explore All Tools")} &rarr;
           </Link>
         </div>
 
@@ -85,12 +87,12 @@ export const Tools = async () => {
                     {tool.title}
                   </h3>
                   <p className="text-[13.5px] text-ink-soft leading-[1.55] m-0 font-light">
-                    {tool.desc}
+                    {t(tool.desc)}
                   </p>
                 </div>
                 {/* p. 165: "Explore Tool -> /tools/{slug}" */}
                 <Link href={`/tools/${tool.slug}`} className="text-[13px] font-bold text-[var(--color-secondary)] flex items-center gap-1 no-underline transition-colors mt-3 hover:text-[#075a93]">
-                  Explore Tool<span className="sr-only">: {tool.title}</span> &rarr;
+                  {t("Explore Tool")}<span className="sr-only">: {tool.title}</span> &rarr;
                 </Link>
               </li>
             ))}

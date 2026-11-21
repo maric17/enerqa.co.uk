@@ -6,6 +6,8 @@ import { formatDateTimeUtc, toCard, type HeroSlide } from '@/components/home/fir
 import { fetchNewsForKeywords, isNewsItemStale } from '@/lib/api/news';
 import { INDUSTRY_FEEDS, newsPhrases } from '@/lib/feeds/contextual';
 import { industryRefreshJob } from '@/lib/api/news/discovery';
+import { pilotHref } from '@/lib/i18n/pilot';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 
 type Industry = { title: string; slug: string };
 
@@ -15,9 +17,9 @@ function emptySlide({ title, slug }: Industry): HeroSlide {
 }
 
 /** Read the same saved, sector-filtered feed previously shown lower on the page. */
-export async function IndustryHeadlines({ industry }: { industry: Industry }) {
+export async function IndustryHeadlines({ industry, language = 'en' }: { industry: Industry; language?: SiteLanguage }) {
   const feed = INDUSTRY_FEEDS[industry.slug];
-  if (!feed) return <GlobalNewsPanel industry={industry} slides={[emptySlide(industry)]} />;
+  if (!feed) return <GlobalNewsPanel industry={industry} slides={[emptySlide(industry)]} language={language} />;
 
   const result = await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets,
     contextRules: feed.newsContextRules, sectorRules: feed.newsSectorRules,
@@ -30,22 +32,22 @@ export async function IndustryHeadlines({ industry }: { industry: Industry }) {
   }));
   const slide: HeroSlide = { ...emptySlide(industry), stories,
     ...stories[0], sourcesFailed: result.sourcesFailed };
-  return <GlobalNewsPanel industry={industry} slides={[slide]} />;
+  return <GlobalNewsPanel industry={industry} slides={[slide]} language={language} />;
 }
 
 /** The industry name stays outside the slideshow, including while news loads. */
-export function IndustryHero({ title, slug }: Industry) {
+export function IndustryHero({ title, slug, language = 'en' }: Industry & { language?: SiteLanguage }) {
   const industry = { title, slug };
   return <section className="home-hero industry-hero" aria-labelledby="industry-title">
     <Container className="industry-hero-heading">
-      <nav aria-label="Breadcrumb">
-        <Link href="/">Home</Link><span aria-hidden="true"> / </span>
-        <Link href="/domains-and-industries#industries">Industries</Link>
+      <nav aria-label={siteText(language, 'Breadcrumb')}>
+        <Link href={pilotHref(language, '/')}>{siteText(language, 'Home')}</Link><span aria-hidden="true"> / </span>
+        <Link href="/domains-and-industries#industries">{siteText(language, 'Industries')}</Link>
       </nav>
       <h1 id="industry-title">{title}</h1>
     </Container>
-    <Suspense fallback={<GlobalNewsPanel industry={industry} slides={[emptySlide(industry)]} loading />}>
-      <IndustryHeadlines industry={industry} />
+    <Suspense fallback={<GlobalNewsPanel industry={industry} slides={[emptySlide(industry)]} language={language} loading />}>
+      <IndustryHeadlines industry={industry} language={language} />
     </Suspense>
   </section>;
 }

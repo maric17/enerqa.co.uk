@@ -1,3 +1,4 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,6 +9,7 @@ import SubscribeForm from './SubscribeForm';
 import FooterBreadcrumbs from './FooterBreadcrumbs';
 import FooterNavGroup from './FooterNavGroup';
 import { getPublishedPolicyLinks } from '@/lib/policies';
+import { pilotHref } from '@/lib/i18n/pilot';
 import { COMPANY } from '@/lib/content/company';
 import { getPublishedCareers } from '@/lib/careers';
 
@@ -74,7 +76,8 @@ const FOOTER_GROUPS: { title: string; links: { label: string; href: string }[] }
 const contactLinkClass = 'inline-flex items-center min-h-11 md:min-h-0 text-white/70 hover:text-white transition-colors duration-200 no-underline';
 const policyLinkClass = 'inline-flex items-center min-h-8 md:min-h-0 transition-colors duration-200 no-underline text-white/60 hover:text-white';
 
-export async function Footer() {
+export async function Footer({ language = 'en' }: { language?: SiteLanguage } = {}) {
+  const t = (text: string) => siteText(language, text);
   // p. 4: "approved policy pages; no empty or fake links". Only policies whose
   // text is approved in the CMS are linked (p. 208 U02). A database error
   // hides the links instead of breaking the footer on every page.
@@ -94,12 +97,12 @@ export async function Footer() {
             separate Contact / Stay Informed band. */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12 pb-6 border-b border-white/10">
           <div className="flex flex-col gap-3 md:gap-4">
-            <Link href="/" className="no-underline inline-block self-start" aria-label="Enerqa home">
+            <Link href={pilotHref(language, '/')} className="no-underline inline-block self-start" aria-label={t('Enerqa home')}>
               <Image src="/images/logo-white.svg" alt="" width={114} height={30} className="h-[30px] w-auto block" />
             </Link>
             <div className="flex items-center gap-5 text-sm md:text-[13px]">
               <a href="mailto:info@enerqa.co.uk" className={contactLinkClass}>info@enerqa.co.uk</a>
-              <Link href="/contact" className={contactLinkClass}>Contact</Link>
+              <Link href={pilotHref(language, '/contact')} className={contactLinkClass}>{t("Contact")}</Link>
               <a
                 href="https://www.linkedin.com/company/enerqa"
                 target="_blank"
@@ -113,8 +116,8 @@ export async function Footer() {
           </div>
           <div className="flex flex-col gap-2 w-full md:max-w-[520px]">
             {/* Heading from the handoff's newsletter blocks (pp. 15, 156). */}
-            <h2 className="text-white font-semibold text-sm md:text-[13px] leading-[18px] m-0">Stay Informed</h2>
-            <SubscribeForm layout="inline" privacyHref={privacyHref} />
+            <h2 className="text-white font-semibold text-sm md:text-[13px] leading-[18px] m-0">{t("Stay Informed")}</h2>
+            <SubscribeForm language={language} layout="inline" privacyHref={privacyHref} />
           </div>
         </div>
 
@@ -124,18 +127,18 @@ export async function Footer() {
             by lines. xl: one row, with the long domain names given the widest
             column so they fit on one line. */}
         <nav
-          aria-label="Footer"
+          aria-label={t('Footer')}
           className="grid divide-y divide-white/10 md:divide-y-0 md:grid-cols-3 xl:grid-cols-[0.7fr_1.7fr_1fr_1fr_1fr_1.1fr] md:gap-x-7 md:gap-y-8 md:py-7 border-b border-white/10"
         >
           {FOOTER_GROUPS.map((group) => (
-            <FooterNavGroup key={group.title} title={group.title} links={group.links} />
+            <FooterNavGroup key={group.title} title={t(group.title)} links={group.links.map(link => ({ ...link, label: t(link.label), href: pilotHref(language, link.href) }))} />
           ))}
         </nav>
 
         {/* p. 8: expose attribution in the footer, with details kept beside the source directory. */}
         <p className="m-0 mt-5 text-xs leading-relaxed text-white/70">
-          Data sources: original providers, licences and reuse requirements are listed in{' '}
-          <Link href="/data-portal/sources#directory" className="text-white underline underline-offset-4 hover:no-underline">Sources and Methodology</Link>.
+          {t('Data sources: original providers, licences and reuse requirements are listed in')}{' '}
+          <Link href="/data-portal/sources#directory" className="text-white underline underline-offset-4 hover:no-underline">{t("Sources and Methodology")}</Link>.
         </p>
 
         {/* Bottom row: copyright and the approved policy destinations (p. 8). */}
@@ -144,13 +147,13 @@ export async function Footer() {
             <div className="w-[22px] h-[22px] rounded-full bg-[#005fcc] flex items-center justify-center text-white text-[11px] shadow-sm" aria-hidden="true">
               ♿
             </div>
-            <span className="translate-y-[1px]">© 2026 {COMPANY.name}. All Rights Reserved. Company number {COMPANY.number}.</span>
-            {careers && <Link href="/about/careers" className={contactLinkClass}>Careers</Link>}
+            <span className="translate-y-[1px]">© 2026 <bdi>{COMPANY.name}</bdi>. {t('All Rights Reserved. Company number')} {COMPANY.number}.</span>
+            {careers && <Link href="/about/careers" className={contactLinkClass}>{t("Careers")}</Link>}
           </div>
           {policyLinks.length > 0 && (
             <ul className="flex flex-wrap gap-x-5 list-none p-0 m-0">
               {policyLinks.map((link) => (
-                <li key={link.href}><Link href={link.href} className={policyLinkClass}>{link.label}</Link></li>
+                <li key={link.href}><Link href={link.href} className={policyLinkClass}>{t(link.label)}</Link></li>
               ))}
             </ul>
           )}

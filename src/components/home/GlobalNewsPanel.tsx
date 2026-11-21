@@ -1,5 +1,6 @@
 'use client';
 
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -42,7 +43,8 @@ function SlideImage({ item }: { item: NewsCardData | null }) {
 }
 
 /** Shared domain/industry stories, with keyboard controls and pausable motion. */
-export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry }: {
+export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry, language = 'en' }: {
+  language?: SiteLanguage;
   slides: HeroSlide[];
   loading?: boolean;
   diagnostics?: NewsDiagnostics;
@@ -119,7 +121,8 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
   };
 
   if (!slide) return null;
-  return <div className="home-hero-feed" role="group" aria-roledescription="carousel" aria-label={industry ? `${industry.title} news` : 'Domain news'}
+  const t = (text: string) => siteText(language, text);
+  return <div className="home-hero-feed" role="group" aria-roledescription="carousel" aria-label={industry ? `${industry.title} news` : t('Domain news')}
     aria-busy={loading} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     onFocusCapture={event => {
       // Keep manual reading stable; the play button manages its own focus and state.
@@ -129,14 +132,14 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
     <div className="home-hero-shade" aria-hidden="true" />
     <Container className="home-hero-editorial">
       <div className="home-hero-story" role="group" aria-roledescription="slide" aria-label={`${slide.label}: article ${article + 1} of ${Math.max(1, storyCount(slide))}`}>
-        <p className="home-hero-eyebrow">{industry ? 'Latest industry news' : 'Global News'}</p>
-        {loading ? <div className="home-hero-loading" role="status">Loading the latest headlines…</div> : item ? <>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="home-hero-story-link" data-news-card>
+        <p className="home-hero-eyebrow">{t(industry ? 'Latest industry news' : 'Global News')}</p>
+        {loading ? <div className="home-hero-loading" role="status">{t('Loading the latest headlines…')}</div> : item ? <>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="home-hero-story-link" lang={language === 'ar' ? 'en' : undefined} dir="auto" data-news-card>
             <h2>{item.title}<ArrowUpRight aria-hidden="true" /></h2>
             {item.teaser && <p className="home-hero-teaser">{item.teaser}</p>}
             <span className="sr-only"> (opens the original article in a new tab)</span>
           </a>
-          <p className="home-hero-source"><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
+          <p className="home-hero-source" lang={language === 'ar' ? 'en' : undefined}><span>{item.publisher}</span>{item.publishedAt && item.dateLabel && <time dateTime={item.publishedAt}>{item.dateLabel}</time>}</p>
           {/* Industry pages show their per-article feed details here. */}
           {industry && <p className="home-hero-attribution" data-feed-attribution>
             {item.providerLabel && `Via ${item.providerLabel}. `}
@@ -147,13 +150,13 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
             <Link href="/data-portal/sources">Sources and rights</Link>
           </p>}
         </> : <div className="home-hero-empty">
-          <h2>{slide.sourcesFailed ? 'This source is temporarily unavailable.' : 'No relevant updates are available.'}</h2>
-          <p>{slide.label}</p>
-          <Link href={industry ? newsHref : `${newsHref}?theme=${slide.key}`}>Browse Global Intelligence <ArrowUpRight aria-hidden="true" /></Link>
+          <h2>{slide.sourcesFailed ? t('This source is temporarily unavailable.') : t('No relevant updates are available.')}</h2>
+          <p>{t(slide.label)}</p>
+          <Link href={industry ? newsHref : `${newsHref}?theme=${slide.key}`}>{t('Browse Global Intelligence')} <ArrowUpRight aria-hidden="true" /></Link>
         </div>}
       </div>
       <div className="home-hero-footer">
-        <div ref={tabs} className="home-hero-categories" role="group" aria-label={industry ? 'Choose a headline' : 'Choose a domain'}
+        <div ref={tabs} className="home-hero-categories" role="group" aria-label={t(industry ? 'Choose a headline' : 'Choose a domain')}
           onKeyDown={event => {
             if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
               event.preventDefault();
@@ -182,15 +185,15 @@ export function GlobalNewsPanel({ slides, loading = false, diagnostics, industry
                 onClick={() => select(index, articleIndex)} />)}
             </div>
             {!industry && <button type="button" className="home-hero-domain-button" data-domain-tab aria-pressed={index === active}
-              disabled={loading} onClick={() => select(index)}>{category.label}</button>}
+              disabled={loading} onClick={() => select(index)}>{t(category.label)}</button>}
           </div>)}
         </div>
         <div className="home-hero-controls">
-          <Link href={newsHref} className="home-hero-view-all">{industry ? 'View All Industry News' : 'View All News'} <ArrowUpRight aria-hidden="true" /></Link>
+          <Link href={newsHref} className="home-hero-view-all">{t(industry ? 'View All Industry News' : 'View All News')} <ArrowUpRight aria-hidden="true" /></Link>
           <span className="home-hero-count" aria-hidden="true">{item ? article + 1 : 0} / {storyCount(slide)}</span>
-          <button type="button" aria-label="Previous headline" disabled={loading || !canRotate} onClick={() => step(-1)}><ArrowLeft aria-hidden="true" /></button>
-          <button type="button" aria-label="Next headline" disabled={loading || !canRotate} onClick={() => step(1)}><ArrowRight aria-hidden="true" /></button>
-          <button type="button" data-hero-playback aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}
+          <button type="button" aria-label={t("Previous headline")} disabled={loading || !canRotate} onClick={() => step(-1)}><ArrowLeft aria-hidden="true" /></button>
+          <button type="button" aria-label={t("Next headline")} disabled={loading || !canRotate} onClick={() => step(1)}><ArrowRight aria-hidden="true" /></button>
+          <button type="button" data-hero-playback aria-label={t(playing ? 'Pause slideshow' : 'Play slideshow')}
             disabled={loading || reducedMotion || !canRotate} onClick={() => setPaused(value => !value)}>{playing ? <Pause aria-hidden="true" /> : <Play aria-hidden="true" />}</button>
         </div>
       </div>

@@ -4,6 +4,7 @@ import React, { useActionState, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { submitContactForm } from './actions';
+import { contactText, type ContactLanguage } from '@/lib/i18n/contact';
 import {
   ENQUIRY_TYPES,
   type ContactChoices,
@@ -20,10 +21,10 @@ function inputClass(invalid: boolean) {
 }
 
 /** p. 198: "Show required/optional labels explicitly." */
-function Label({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
+function Label({ htmlFor, children, required, language }: { htmlFor: string; children: React.ReactNode; required?: boolean; language: ContactLanguage }) {
   return (
     <label htmlFor={htmlFor} className="block text-sm font-bold text-gray-700 mb-2">
-      {children} <span className="font-normal text-gray-500">({required ? 'required' : 'optional'})</span>
+      {children} <span className="font-normal text-gray-500">({contactText(language, required ? 'required' : 'optional')})</span>
     </label>
   );
 }
@@ -44,7 +45,7 @@ function describe(name: keyof ContactValues, errors?: ContactFieldErrors) {
 }
 
 // privacyHref is set only while the Privacy Notice is published (p. 4: no fake links).
-export function ContactForm({ choices, prefill, privacyHref }: { choices: ContactChoices; prefill: ContactValues; privacyHref?: string }) {
+export function ContactForm({ choices, prefill, privacyHref, language = 'en' }: { choices: ContactChoices; prefill: ContactValues; privacyHref?: string; language?: ContactLanguage }) {
   const [state, formAction, isPending] = useActionState(submitContactForm, {
     status: 'idle',
     attempt: 0,
@@ -53,7 +54,7 @@ export function ContactForm({ choices, prefill, privacyHref }: { choices: Contac
 
   // F04 success: p. 198 wording, which is also exactly what happens (the
   // enquiry is saved for staff; no response time is promised, p. 228).
-  if (state.status === 'success') return <ContactSuccess warning={state.newsletterWarning} />;
+  if (state.status === 'success') return <ContactSuccess warning={state.newsletterWarning} language={language} />;
 
   // Keyed on the attempt: each reply re-mounts the fields with the values the
   // action returned. React 19 resets a form after its action, and a select's
@@ -67,11 +68,13 @@ export function ContactForm({ choices, prefill, privacyHref }: { choices: Contac
       formAction={formAction}
       isPending={isPending}
       privacyHref={privacyHref}
+      language={language}
     />
   );
 }
 
-function ContactSuccess({ warning }: { warning?: string }) {
+function ContactSuccess({ warning, language }: { warning?: string; language: ContactLanguage }) {
+  const t = (text: string) => contactText(language, text);
   const ref = useRef<HTMLDivElement>(null);
   // The submit button that had focus is gone; move focus to the confirmation
   // so keyboard and screen-reader users land on it.
@@ -79,11 +82,11 @@ function ContactSuccess({ warning }: { warning?: string }) {
   return (
     <div ref={ref} tabIndex={-1} role="status"
       className="bg-green-50 text-green-900 p-8 rounded-xl border border-green-200 outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]">
-      <p className="text-lg font-bold m-0">Thank you. Your enquiry has been received.</p>
-      {warning && <p className="mt-3">{warning}</p>}
+      <p className="text-lg font-bold m-0">{t('Thank you. Your enquiry has been received.')}</p>
+      {warning && <p className="mt-3">{t(warning)}</p>}
       {/* A plain link (full reload) so the form starts empty. */}
-      <a href="/contact" className="inline-block mt-4 font-bold underline">
-        Send another enquiry
+      <a href={language === 'ar' ? '/ar/contact' : '/contact'} className="inline-block mt-4 font-bold underline">
+        {t('Send another enquiry')}
       </a>
     </div>
   );
@@ -95,14 +98,19 @@ function ContactFields({
   formAction,
   isPending,
   privacyHref,
+  language,
 }: {
   state: ContactFormState;
   choices: ContactChoices;
   formAction: (formData: FormData) => void;
   isPending: boolean;
   privacyHref?: string;
+  language: ContactLanguage;
 }) {
   const { values, errors } = state;
+  const t = (text: string) => contactText(language, text);
+  // Translate presentation only. The form action still stores the same validated values.
+  const fieldErrors = (field: keyof ContactValues) => errors?.[field]?.map(t);
   const [enquiryType, setEnquiryType] = useState(values.enquiryType);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -119,48 +127,48 @@ function ContactFields({
       {state.status === 'error' && (
         // F04 error, p. 198 wording.
         <div role="alert" className="bg-red-50 text-red-900 p-4 rounded-lg border border-red-200 font-medium">
-          We could not send your enquiry. Please try again or email{' '}
+          {t('We could not send your enquiry. Please try again or email')}{' '}
           <a href="mailto:info@enerqa.co.uk" className="underline">info@enerqa.co.uk</a>.
         </div>
       )}
       {state.status === 'invalid' && (
         <div role="alert" className="bg-red-50 text-red-900 p-4 rounded-lg border border-red-200 font-medium">
-          Please correct the fields marked below.
+          {t('Please correct the fields marked below.')}
         </div>
       )}
 
       {/* Honeypot (p. 228 spam protection): clipped rather than moved
           off-screen, so it cannot cause sideways scrolling in RTL. */}
       <div className="sr-only" aria-hidden="true">
-        <label htmlFor="contact-website">Leave this field empty</label>
+        <label htmlFor="contact-website">{t('Leave this field empty')}</label>
         <input type="text" id="contact-website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="contact-name" required>Name</Label>
+          <Label language={language} htmlFor="contact-name" required>{t('Name')}</Label>
           <input id="contact-name" type="text" name="name" required autoComplete="name" maxLength={200}
             defaultValue={values.name} className={inputClass(Boolean(errors?.name))} {...describe('name', errors)} />
-          <FieldError id="contact-name-error" errors={errors?.name} />
+          <FieldError id="contact-name-error" errors={fieldErrors('name')} />
         </div>
         <div>
-          <Label htmlFor="contact-email" required>Email</Label>
-          <input id="contact-email" type="email" name="email" required autoComplete="email" maxLength={200}
+          <Label language={language} htmlFor="contact-email" required>{t('Email')}</Label>
+          <input id="contact-email" type="email" name="email" dir="ltr" required autoComplete="email" maxLength={200}
             defaultValue={values.email} className={inputClass(Boolean(errors?.email))} {...describe('email', errors)} />
-          <FieldError id="contact-email-error" errors={errors?.email} />
+          <FieldError id="contact-email-error" errors={fieldErrors('email')} />
         </div>
       </div>
 
       <div>
-        <Label htmlFor="contact-organisation">Organisation</Label>
+        <Label language={language} htmlFor="contact-organisation">{t('Organisation')}</Label>
         <input id="contact-organisation" type="text" name="organisation" autoComplete="organization" maxLength={200}
           defaultValue={values.organisation} className={inputClass(Boolean(errors?.organisation))} {...describe('organisation', errors)} />
-        <FieldError id="contact-organisation-error" errors={errors?.organisation} />
+        <FieldError id="contact-organisation-error" errors={fieldErrors('organisation')} />
       </div>
 
       <fieldset role="radiogroup" aria-required="true" {...describe('enquiryType', errors)}>
         <legend className="block text-sm font-bold text-gray-700 mb-2">
-          Enquiry Type <span className="font-normal text-gray-500">(required)</span>
+          {t('Enquiry Type')} <span className="font-normal text-gray-500">({t('required')})</span>
         </legend>
         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
           {ENQUIRY_TYPES.map((t) => (
@@ -170,72 +178,72 @@ function ContactFields({
                 defaultChecked={values.enquiryType === t.value}
                 onChange={(e) => setEnquiryType(e.target.value)}
                 className="h-4 w-4 accent-[var(--color-secondary)]" />
-              <span className="text-gray-800">{t.label}</span>
+              <span className="text-gray-800">{contactText(language, t.label)}</span>
             </label>
           ))}
         </div>
-        <FieldError id="contact-enquiryType-error" errors={errors?.enquiryType} />
+        <FieldError id="contact-enquiryType-error" errors={fieldErrors('enquiryType')} />
       </fieldset>
 
       {/* Shown for Tool Access; `?tool=` preselects it but it stays editable. */}
       {enquiryType === 'tool' && choices.tools.length > 0 && (
         <div>
-          <Label htmlFor="contact-tool">Tool</Label>
+          <Label language={language} htmlFor="contact-tool">{t('Tool')}</Label>
           <select id="contact-tool" name="tool" defaultValue={values.tool}
             className={inputClass(Boolean(errors?.tool))} {...describe('tool', errors)}>
-            <option value="">Not specified</option>
+            <option value="">{t('Not specified')}</option>
             {choices.tools.map((c) => <option key={c.slug} value={c.slug}>{c.title}</option>)}
           </select>
-          <FieldError id="contact-tool-error" errors={errors?.tool} />
+          <FieldError id="contact-tool-error" errors={fieldErrors('tool')} />
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="contact-domain">Domain</Label>
+          <Label language={language} htmlFor="contact-domain">{t('Domain')}</Label>
           <select id="contact-domain" name="domain" defaultValue={values.domain}
             className={inputClass(Boolean(errors?.domain))} {...describe('domain', errors)}>
-            <option value="">Not specified</option>
+            <option value="">{t('Not specified')}</option>
             {choices.domains.map((c) => <option key={c.slug} value={c.slug}>{c.title}</option>)}
           </select>
-          <FieldError id="contact-domain-error" errors={errors?.domain} />
+          <FieldError id="contact-domain-error" errors={fieldErrors('domain')} />
         </div>
         <div>
-          <Label htmlFor="contact-industry">Industry</Label>
+          <Label language={language} htmlFor="contact-industry">{t('Industry')}</Label>
           <select id="contact-industry" name="industry" defaultValue={values.industry}
             className={inputClass(Boolean(errors?.industry))} {...describe('industry', errors)}>
-            <option value="">Not specified</option>
+            <option value="">{t('Not specified')}</option>
             {choices.industries.map((c) => <option key={c.slug} value={c.slug}>{c.title}</option>)}
           </select>
-          <FieldError id="contact-industry-error" errors={errors?.industry} />
+          <FieldError id="contact-industry-error" errors={fieldErrors('industry')} />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="contact-projectLocation">Project Location</Label>
+          <Label language={language} htmlFor="contact-projectLocation">{t('Project Location')}</Label>
           <input id="contact-projectLocation" type="text" name="projectLocation" maxLength={200} dir="auto"
             defaultValue={values.projectLocation} className={inputClass(Boolean(errors?.projectLocation))} {...describe('projectLocation', errors)} />
-          <FieldError id="contact-projectLocation-error" errors={errors?.projectLocation} />
+          <FieldError id="contact-projectLocation-error" errors={fieldErrors('projectLocation')} />
         </div>
         <div>
-          <Label htmlFor="contact-currentStage">Current Stage</Label>
+          <Label language={language} htmlFor="contact-currentStage">{t('Current Stage')}</Label>
           <input id="contact-currentStage" type="text" name="currentStage" maxLength={200} dir="auto"
             defaultValue={values.currentStage} className={inputClass(Boolean(errors?.currentStage))} {...describe('currentStage', errors)} />
-          <FieldError id="contact-currentStage-error" errors={errors?.currentStage} />
+          <FieldError id="contact-currentStage-error" errors={fieldErrors('currentStage')} />
         </div>
       </div>
 
       <div>
-        <Label htmlFor="contact-message" required>Message</Label>
+        <Label language={language} htmlFor="contact-message" required>{t('Message')}</Label>
         <textarea id="contact-message" name="message" required rows={6} maxLength={5000} dir="auto"
           defaultValue={values.message} className={`${inputClass(Boolean(errors?.message))} resize-y`} {...describe('message', errors)} />
-        <FieldError id="contact-message-error" errors={errors?.message} />
+        <FieldError id="contact-message-error" errors={fieldErrors('message')} />
       </div>
 
       {/* F03 Send Your Enquiry (p. 198) */}
       <div className="pt-6 border-t border-gray-200 space-y-5">
-        <h2 className="text-2xl font-bold text-[var(--color-dark)] m-0">Send Your Enquiry</h2>
+        <h2 className="text-2xl font-bold text-[var(--color-dark)] m-0">{t('Send Your Enquiry')}</h2>
 
         {/* p. 198: newsletter consent is a separate, unticked, optional box -
             never a condition of the enquiry. Wording from K06 (p. 156). */}
@@ -244,17 +252,17 @@ function ContactFields({
             defaultChecked={values.newsletterConsent}
             className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-primary)]" />
           <label htmlFor="contact-newsletterConsent" className="text-sm text-gray-700">
-            Receive new Enerqa publications and selected updates{' '}
-            <span className="text-gray-500">(optional)</span>
+            {t('Receive new Enerqa publications and selected updates')}{' '}
+            <span className="text-gray-500">({t('optional')})</span>
           </label>
         </div>
 
         <p className="text-sm text-gray-600 m-0">
-          We will use the information you provide to respond to your enquiry.
+          {t('We will use the information you provide to respond to your enquiry.')}
           {privacyHref && (
             <>
               {' '}
-              <Link href={privacyHref} className="underline hover:text-[var(--color-dark)]">Read our Privacy Notice.</Link>
+              <Link href={privacyHref} className="underline hover:text-[var(--color-dark)]">{t('Read our Privacy Notice.')}</Link>
             </>
           )}
         </p>
@@ -263,10 +271,10 @@ function ContactFields({
           {/* Disabled while sending, so a double click cannot submit twice (p. 198). */}
           <button type="submit" disabled={isPending}
             className="bg-[var(--color-secondary)] text-white font-bold py-4 px-10 rounded-full hover:bg-[var(--color-secondary-dark)] transition-colors inline-flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-dark)]">
-            Send Enquiry <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            {t('Send Enquiry')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
           </button>
           <p role="status" className="text-sm text-gray-600 m-0">
-            {isPending ? 'Sending your enquiry.' : ''}
+            {isPending ? t('Sending your enquiry.') : ''}
           </p>
         </div>
       </div>

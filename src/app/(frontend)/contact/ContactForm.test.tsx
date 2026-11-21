@@ -90,4 +90,22 @@ describe('ContactForm (p. 198 F02-F04)', () => {
     expect(status).toHaveTextContent('Thank you. Your enquiry has been received.');
     expect(status.textContent).not.toMatch(/shortly|within|in touch/i);
   });
+
+  it('keeps the Arabic form and its messages in Arabic across action replies', async () => {
+    const values = { ...EMPTY_CONTACT_VALUES, name: 'اسم تجريبي', enquiryType: 'project' };
+    // Mock both replies so the test never submits an enquiry or sends an email.
+    submitContactForm
+      .mockResolvedValueOnce({ status: 'invalid', attempt: 1, values, errors: { email: ['Please enter a valid email address.'] } })
+      .mockResolvedValueOnce({ status: 'success', attempt: 2, values: EMPTY_CONTACT_VALUES });
+    const { container } = render(<ContactForm language="ar" choices={CHOICES} prefill={values} />);
+    expect(screen.getByRole('radio', { name: 'مناقشة مشروع' })).toBeChecked();
+
+    await act(async () => { fireEvent.submit(container.querySelector('form')!); });
+    expect(screen.getByLabelText('الاسم (مطلوب)')).toHaveValue(values.name);
+    expect(screen.getByText('يرجى إدخال عنوان بريد إلكتروني صالح.')).toBeInTheDocument();
+
+    await act(async () => { fireEvent.submit(container.querySelector('form')!); });
+    expect(screen.getByRole('status')).toHaveTextContent('لقد تلقينا استفسارك');
+    expect(screen.getByRole('link', { name: 'أرسل استفساراً آخر' })).toHaveAttribute('href', '/ar/contact');
+  });
 });

@@ -1,5 +1,6 @@
 'use client'
 
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -40,7 +41,8 @@ const pillars = [
 ]
 
 // Restore the shared-background layout from 530691e; selection follows hover or focus.
-export const TransitionPriorities = () => {
+export const TransitionPriorities = ({ language = 'en' }: { language?: SiteLanguage } = {}) => {
+  const t = (text: string) => siteText(language, text);
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
@@ -57,11 +59,11 @@ export const TransitionPriorities = () => {
       <Container className="flex min-h-[620px] flex-col pt-12">
         <div className="max-w-[800px]">
           <Typography variant="h2" id="h05-explore-domains" className="home-h2 mb-4 text-white">
-            <span className="en">Explore Our Domains</span>
+            <span className="en">{t("Explore Our Domains")}</span>
             <span className="ar">استكشف مجالاتنا</span>
           </Typography>
-          <p className="m-0 text-[16px] font-light leading-relaxed text-white/80" lang="en">
-            Four interconnected domains combine technical analysis, project development and investment thinking. Explore the work relevant to your priorities.
+          <p className="m-0 text-[16px] font-light leading-relaxed text-white/80">
+            {t("Four interconnected domains combine technical analysis, project development and investment thinking. Explore the work relevant to your priorities.")}
           </p>
         </div>
         <div className="mt-10 flex flex-1 flex-col md:min-h-[400px] md:flex-row" id="h05-domain-cards">
@@ -70,15 +72,15 @@ export const TransitionPriorities = () => {
             return (
               <Link key={pillar.slug} href={`/domains/${pillar.slug}`} data-active={isActive}
                 onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)}
-                className={`domain-panel group relative flex flex-1 flex-col justify-end border-b border-white/15 p-6 text-white no-underline transition-[flex,background-color] duration-500 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--color-primary)] md:border-b-0 md:border-r md:p-8 md:last:border-r-0 ${isActive ? 'bg-black/10 md:flex-[1.2]' : ''}`}>
+                className={`domain-panel group relative flex flex-1 flex-col justify-end border-b border-white/15 p-6 text-white no-underline transition-[flex,background-color] duration-500 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--color-primary)] md:border-b-0 md:border-e md:p-8 md:last:border-e-0 ${isActive ? 'bg-black/10 md:flex-[1.2]' : ''}`}>
                 <div>
                   <h3 className="m-0 text-xl font-semibold leading-snug">
                     <span className="en">{pillar.title}</span><span className="ar">{pillar.arabic}</span>
                   </h3>
                   <div className="domain-panel-details">
-                    <p className="mb-5 mt-4 text-sm leading-relaxed text-white/80" lang="en">{pillar.description}</p>
+                    <p className="mb-5 mt-4 text-sm leading-relaxed text-white/80">{t(pillar.description)}</p>
                     <span className="inline-flex items-center gap-3 text-sm font-semibold text-[var(--color-primary)]">
-                      Discover <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" aria-hidden="true" />
+                      {t("Discover")} <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" aria-hidden="true" />
                     </span>
                   </div>
                 </div>

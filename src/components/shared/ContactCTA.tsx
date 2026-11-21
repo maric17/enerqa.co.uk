@@ -1,5 +1,6 @@
 'use client'
 
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useActionState, useId } from 'react'
 import { Container } from '../ui/Container'
 import { submitNewsletterForm, NewsletterFormState } from '@/app/(frontend)/actions/newsletter'
@@ -18,7 +19,8 @@ const initialState: NewsletterFormState = {
  * instead of suppressing the outline.
  */
 // privacyHref is set only while the Privacy Notice is published (p. 4: no fake links).
-export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
+export const ContactCTA = ({ privacyHref, language = 'en' }: { privacyHref?: string; language?: SiteLanguage }) => {
+  const t = (text: string) => siteText(language, text);
   const [state, formAction, isPending] = useActionState(submitNewsletterForm, initialState);
   // useId keeps the label/input pairs unique even if this block is ever rendered twice.
   const emailId = useId();
@@ -35,10 +37,10 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
           {/* H12 Stay Informed (Teal) */}
           <div className="flex min-w-0 flex-col justify-center">
             <Typography variant="h2" className="home-h2 mb-4 text-teal-300">
-              <span className="en">Stay Informed</span>
+              <span>{t("Stay Informed")}</span>
             </Typography>
             <p className="text-[15px] text-white/85 leading-relaxed mb-8 font-light">
-              <span className="en">Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.</span>
+              <span>{t("Receive Enerqa publications and selected updates on climate, energy, environment and sustainable business.")}</span>
             </p>
 
             <form style={{ display: 'flex', flexDirection: 'column', gap: '14px', width: '100%' }} action={formAction}>
@@ -57,10 +59,10 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
 
               {/* Input Row */}
               <div className="cta-input-row flex bg-white/5 border border-white/10 rounded-full overflow-hidden items-center w-full shadow-lg transition-colors focus-within:border-teal-400/50 focus-within:bg-white/10">
-                <label htmlFor={emailId} className="sr-only">Email address (required)</label>
-                <input id={emailId} type="email" name="email" autoComplete="email" placeholder="* Your email address" required className="flex-1 min-w-0 py-3.5 px-4 border-none bg-transparent text-white text-[15px] outline-none placeholder:text-white/70" disabled={state.success || isPending} />
+                <label htmlFor={emailId} className="sr-only">{t("Email address (required)")}</label>
+                <input id={emailId} type="email" name="email" autoComplete="email" placeholder={t('* Your email address')} required className="flex-1 min-w-0 py-3.5 px-4 border-none bg-transparent text-white text-[15px] outline-none placeholder:text-white/70" disabled={state.success || isPending} />
                 <button type="submit" disabled={state.success || isPending} className="bg-teal-400 hover:bg-teal-500 text-teal-950 font-semibold border-none px-4 py-3.5 text-[14px] cursor-pointer flex items-center gap-2 transition-colors whitespace-nowrap disabled:opacity-70">
-                  <span>{isPending ? 'Subscribing…' : 'Subscribe'}</span>
+                  <span>{t(isPending ? 'Subscribing…' : 'Subscribe')}</span>
                 </button>
               </div>
 
@@ -69,9 +71,9 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
                 <input type="checkbox" id={consentId} name="consent" required disabled={state.success || isPending} className="mt-1 w-4 h-4 rounded bg-transparent border border-white/30 accent-teal-400 cursor-pointer" />
                 <label htmlFor={consentId} className="text-[13px] text-white/80 leading-relaxed cursor-pointer">
                   {privacyHref ? (
-                    <>I agree with the terms of the <a href={privacyHref} className="text-teal-400 underline decoration-teal-400/30 font-medium hover:text-teal-300">Privacy Notice</a> and consent to my personal data being processed.</>
+                    <>{t("I agree with the terms of the")} <a href={privacyHref} className="text-teal-400 underline decoration-teal-400/30 font-medium hover:text-teal-300">{t("Privacy Notice")}</a> {t("and consent to my personal data being processed.")}</>
                   ) : (
-                    <>I agree to receive the Enerqa newsletter. I can unsubscribe at any time.</>
+                    <>{t("I agree to receive the Enerqa newsletter. I can unsubscribe at any time.")}</>
                   )}
                 </label>
               </div>
@@ -79,15 +81,15 @@ export const ContactCTA = ({ privacyHref }: { privacyHref?: string }) => {
           </div>
 
           {/* H13 Discuss Your Project (Navy) */}
-          <div className="flex min-w-0 flex-col justify-center border-t border-white/20 pt-8 md:border-l md:border-t-0 md:pl-12 md:pt-0">
+          <div className="flex min-w-0 flex-col justify-center border-t border-white/20 pt-8 md:border-s md:border-t-0 md:ps-12 md:pt-0">
             <Typography variant="h2" className="home-h2 mb-4 text-white">
-              <span className="en">Discuss Your Project</span>
+              <span>{t("Discuss Your Project")}</span>
             </Typography>
             <p className="text-[15px] text-white/85 leading-relaxed mb-8 font-light">
-              <span className="en">Share an idea, an investment opportunity or a challenge at any stage of development. An initial conversation can help define the evidence and support needed next.</span>
+              <span>{t("Share an idea, an investment opportunity or a challenge at any stage of development. An initial conversation can help define the evidence and support needed next.")}</span>
             </p>
-            <a href="/contact?intent=project" className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold no-underline px-8 py-3.5 rounded-full text-[14px] w-fit transition-all hover:bg-white/20 hover:border-sky-400 hover:text-sky-300">
-              <span>Discuss Your Project</span>
+            <a href={language === 'ar' ? '/ar/contact?intent=project' : '/contact?intent=project'} className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold no-underline px-8 py-3.5 rounded-full text-[14px] w-fit transition-all hover:bg-white/20 hover:border-sky-400 hover:text-sky-300">
+              <span>{t("Discuss Your Project")}</span>
               <svg aria-hidden="true" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
             </a>
           </div>

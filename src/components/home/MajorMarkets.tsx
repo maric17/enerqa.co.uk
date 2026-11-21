@@ -1,3 +1,4 @@
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
@@ -38,25 +39,26 @@ export async function MarketsCommentary() {
   </div>;
 }
 
-export function MajorMarkets() {
+export function MajorMarkets({ language = 'en' }: { language?: SiteLanguage } = {}) {
+  const t = (text: string) => siteText(language, text);
   return <section id="major-markets" className="home-markets" aria-labelledby="h04-major-markets">
     <Container>
       <header className="home-markets-heading">
-        <p className="home-markets-eyebrow">Markets & perspective</p>
-        <h2 id="h04-major-markets">Major Markets</h2>
-        <p>Track company share prices and market movements alongside stock-market reporting from New York, London and regional exchanges.</p>
+        <p className="home-markets-eyebrow">{t("Markets & perspective")}</p>
+        <h2 id="h04-major-markets">{t("Major Markets")}</h2>
+        <p>{t("Track company share prices and market movements alongside stock-market reporting from New York, London and regional exchanges.")}</p>
       </header>
       <div className="home-markets-grid">
         <section className="market-quotes-column" aria-labelledby="market-quotes-heading">
-          <div className="home-markets-column-heading"><h3 id="market-quotes-heading">Stocks & market chart</h3><span>Delayed quotes · USD</span></div>
+          <div className="home-markets-column-heading"><h3 id="market-quotes-heading">{t("Stocks & market chart")}</h3><span>{t("Delayed quotes · USD")}</span></div>
           <MarketChart />
         </section>
         <section className="market-commentary-column" aria-labelledby="market-commentary-heading">
-          <div className="home-markets-column-heading"><h3 id="market-commentary-heading">Market commentary</h3><a href="https://www.tradingview.com/markets/stocks-global-market/news/" target="_blank" rel="noopener noreferrer">View more <ArrowUpRight aria-hidden="true" /><span className="sr-only"> stock-market news (opens in a new tab)</span></a></div>
-          <Suspense fallback={<div className="market-commentary-empty" role="status">Loading market commentary…</div>}><MarketsCommentary /></Suspense>
+          <div className="home-markets-column-heading"><h3 id="market-commentary-heading">{t("Market commentary")}</h3><a href="https://www.tradingview.com/markets/stocks-global-market/news/" target="_blank" rel="noopener noreferrer">{t('View more')} <ArrowUpRight aria-hidden="true" /><span className="sr-only"> stock-market news (opens in a new tab)</span></a></div>
+          <Suspense fallback={<div className="market-commentary-empty" role="status">{t("Loading market commentary…")}</div>}><MarketsCommentary /></Suspense>
         </section>
       </div>
-      <p className="home-markets-note">Share prices are supplied by TradingView and may be delayed. The chart shows the available trading session; stock-market commentary has its own publication time. <Link href="/data-portal/sources#market-data">Sources and rights</Link>.</p>
+      <p className="home-markets-note">{t('Share prices are supplied by TradingView and may be delayed. The chart shows the available trading session; stock-market commentary has its own publication time.')} <Link href="/data-portal/sources#market-data">{t("Sources and rights")}</Link>.</p>
     </Container>
   </section>;
 }
