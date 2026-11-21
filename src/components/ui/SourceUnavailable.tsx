@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@/components/ui/SiteLink';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 
 /**
  * The one shared empty / unavailable state for external feeds.
@@ -27,6 +28,7 @@ export function SourceUnavailable({
   note,
   emptyText,
   className = '',
+  language = 'en',
 }: {
   /** The feed's `sourcesFailed` flag. True shows the unavailable state. */
   sourcesFailed?: boolean;
@@ -40,8 +42,10 @@ export function SourceUnavailable({
   emptyText?: string;
   /** Pass a min-height here so the empty box keeps the card space (no layout shift). */
   className?: string;
+  language?: SiteLanguage;
 }) {
   const unavailable = sourcesFailed ?? variant === 'unavailable';
+  const t = (text: string) => siteText(language, text);
   return (
     <div
       // A polite live region: when a streamed feed resolves to this state, a
@@ -50,17 +54,17 @@ export function SourceUnavailable({
       className={`flex flex-col items-center justify-center gap-2 rounded-[var(--r-md)] border border-[var(--line)] bg-[var(--paper-alt)] p-8 text-center ${className}`}
     >
       <p className="m-0 font-medium text-[var(--ink-soft)]">
-        {unavailable ? 'This source is temporarily unavailable.' : emptyText || 'No relevant updates are available.'}
+        {t(unavailable ? 'This source is temporarily unavailable.' : emptyText || 'No relevant updates are available.')}
       </p>
-      {note && <p className="m-0 text-sm text-[var(--ink-muted)]">{note}</p>}
+      {note && <p className="m-0 text-sm text-[var(--ink-muted)]">{t(note)}</p>}
       {unavailable && (
         <p className="m-0 text-sm text-[var(--ink-muted)]">
           <Link href="/search" className="font-semibold text-[var(--color-secondary)] hover:underline">
-            Search the site
+            {t('Search the site')}
           </Link>
           {nearest && (
             <>
-              {' '}or{' '}
+              {' '}{t('or')}{' '}
               <Link href={nearest.href} className="font-semibold text-[var(--color-secondary)] hover:underline">
                 {nearest.label}
               </Link>

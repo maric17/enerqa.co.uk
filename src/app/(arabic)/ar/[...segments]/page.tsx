@@ -9,7 +9,6 @@ type Props = { params: Promise<{ segments: string[] }>; searchParams: SearchPara
 // Keep this server-side so private routes cannot be imported by a URL segment.
 const loadPages = {
   '/about/careers': () => import('../../../(frontend)/about/careers/page'),
-  '/domains-and-industries': () => import('../../../(frontend)/domains-and-industries/page'),
   '/project-development': () => import('../../../(frontend)/project-development/page'),
   '/tools': () => import('../../../(frontend)/tools/page'),
   '/data-portal': () => import('../../../(frontend)/data-portal/page'),
@@ -30,10 +29,6 @@ async function fallbackContent(segments: string[], searchParams: SearchParams) {
   const [section, second, third] = segments;
   const slugParams = Promise.resolve({ slug: third ?? second });
   switch (section) {
-    case 'domains': {
-      const { default: Page } = await import('../../../(frontend)/domains/[slug]/page');
-      return <Page params={slugParams} />;
-    }
     case 'tools': {
       const { default: Page } = await import('../../../(frontend)/tools/[slug]/page');
       return <Page params={slugParams} />;

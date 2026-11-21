@@ -15,6 +15,9 @@ vi.mock('@/components/feeds/RelatedDataset', () => ({ RelatedDataset: () => null
 vi.mock('@/components/feeds/RelatedPublications', () => ({ RelatedPublications: () => null }));
 
 import DomainPage from './page';
+import { DomainContent, domainMetadata } from './DomainContent';
+import { LanguageProvider } from '@/components/LanguageProvider';
+import { getArabicDomain } from '@/lib/i18n/domains';
 
 const industry = (id: number, slug: string, title: string) => ({ id, slug, title });
 const energy = industry(3, 'energy-utilities', 'Energy & Utilities');
@@ -67,5 +70,28 @@ describe('CMS-managed domain industries', () => {
 
     expect(section.getAllByRole('link')).toHaveLength(2);
     expect(section.getByRole('link', { name: transport.title })).toHaveAttribute('href', '/industries/transport-logistics-mobility');
+  });
+});
+
+describe('Arabic domain pages', () => {
+  afterEach(cleanup);
+
+  it.each(domainSlugs)('translates the saved capability while preserving its anchor on %s', async (slug) => {
+    const translation = getArabicDomain(slug)!;
+    const [capabilitySlug, capability] = Object.entries(translation.capabilities)[0];
+    cms.find.mockResolvedValue({ docs: [{
+      id: 1, slug, title: 'English title', heroNarrative: 'English introduction',
+      capabilities: [{ id: 1, slug: capabilitySlug, heading: 'English heading', narrative: 'English narrative' }],
+      relevantIndustries: [energy],
+    }] });
+    const props = { params: Promise.resolve({ slug }) };
+    render(<LanguageProvider language="ar">{await DomainContent({ ...props, language: 'ar' })}</LanguageProvider>);
+
+    expect(screen.getByText(translation.introduction, { normalizer: text => text.trim() })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: capability!.heading })).toHaveAttribute('href', `#${capabilitySlug}`);
+    expect(screen.getByRole('heading', { name: capability!.heading }).closest('[id]')).toHaveAttribute('id', capabilitySlug);
+    expect(screen.getByText(capability!.narrative)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'الطاقة والمرافق' })).toHaveAttribute('href', '/ar/industries/energy-utilities');
+    expect(await domainMetadata(props, 'ar')).toMatchObject({ title: translation.title, alternates: { canonical: `/ar/domains/${slug}` } });
   });
 });
