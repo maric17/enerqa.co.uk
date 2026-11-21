@@ -1,6 +1,7 @@
 "use client"
 
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
+import { pilotHref } from '@/lib/i18n/pilot';
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Container } from '../ui/Container'
@@ -22,7 +23,7 @@ export const Hero = ({ children, language = 'en' }: { children?: React.ReactNode
     const trimmed = value.trim()
     if (!trimmed || isSubmitting) return
     setIsSubmitting(true)
-    router.push(`/search?q=${encodeURIComponent(trimmed)}`)
+    router.push(pilotHref(language, `/search?q=${encodeURIComponent(trimmed)}`))
   }
 
   return (

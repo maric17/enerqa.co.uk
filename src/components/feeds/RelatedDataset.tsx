@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { ArrowRight } from 'lucide-react';
 import { relatedIndicators } from '@/lib/data-portal/relatedIndicators';
 

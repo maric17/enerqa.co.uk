@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { getExploreData } from '@/app/(frontend)/data-portal/actions';
 import { Container } from '@/components/ui/Container';
 import { DataSeriesTable } from './DataSeriesTable';

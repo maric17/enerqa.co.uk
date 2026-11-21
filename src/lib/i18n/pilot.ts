@@ -1,15 +1,21 @@
-import { getArabicIndustry } from './industries';
+const publicPages = new Set([
+  '/', '/about', '/about/careers', '/contact', '/domains-and-industries',
+  '/project-development', '/tools', '/knowledge-hub', '/knowledge-hub/global-intelligence',
+  '/data-portal', '/data-portal/explorer', '/data-portal/sources', '/data-portal/occurrences',
+  '/search', '/terms', '/privacy', '/cookie-choices', '/accessibility',
+]);
 
-// Only the routes with a complete pilot page can be opened from the language switch.
-const englishRoutes: ReadonlySet<string> = new Set(['/', '/about', '/contact', '/knowledge-hub']);
+// Only public content routes have an Arabic counterpart. API calls, downloads,
+// account actions and external links must continue to use their original URLs.
+const detailPage = /^\/(?:domains|industries|tools|knowledge-hub|data-portal\/(?:datasets|dashboards|series))\/[a-z0-9][a-z0-9_-]*$/i;
 
 export function arabicPilotPath(pathname: string) {
-  const industry = /^\/industries\/([^/]+)$/.exec(pathname);
-  if (industry && getArabicIndustry(industry[1])) return `/ar${pathname}`;
-  return englishRoutes.has(pathname) ? (pathname === '/' ? '/ar' : `/ar${pathname}`) : null;
+  if (!pathname.startsWith('/') || pathname.startsWith('//')) return null;
+  const path = pathname.replace(/\/$/, '') || '/';
+  if (!publicPages.has(path) && !detailPage.test(path)) return null;
+  return path === '/' ? '/ar' : `/ar${path}`;
 }
 
-// During the pilot, keep links to untranslated pages reachable at their English URL.
 export function pilotHref(language: 'en' | 'ar', href: string) {
   if (language === 'en') return href;
   const path = href.split(/[?#]/, 1)[0];

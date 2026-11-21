@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useId, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 

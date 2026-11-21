@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 
 /**
  * The one shared empty / unavailable state for external feeds.

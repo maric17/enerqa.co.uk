@@ -35,7 +35,7 @@ export function WebsiteLayout({
       {/* data-lang must be present on the FIRST paint: style.css hides the
           inactive language with `body[data-lang="en"] .ar`. */}
       <body data-lang={language}>
-        <LanguageProvider>
+        <LanguageProvider language={language}>
           <SmoothScroll>
             <a className={language === 'ar' ? 'sr-only focus:not-sr-only focus:absolute focus:start-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2' : 'skip-link'} href="#main">{siteText(language, 'Skip to content')}</a>
             <Header language={language} />

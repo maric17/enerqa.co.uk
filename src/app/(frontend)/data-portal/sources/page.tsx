@@ -4,7 +4,7 @@ import configPromise from '@payload-config';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { connection } from 'next/server';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { Metadata } from 'next';

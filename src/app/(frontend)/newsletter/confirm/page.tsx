@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@/components/ui/Container';
 import { Typography } from '@/components/ui/Typography';
 import { Section } from '@/components/ui/Section';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { Metadata } from 'next';
 
 // p. 4: a transactional state (reached after a successful signup), not a menu

@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { Metadata } from 'next';
 import { Container } from '@/components/ui/Container';
 import { RichText } from '@payloadcms/richtext-lexical/react';

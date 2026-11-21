@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: string;

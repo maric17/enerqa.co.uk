@@ -1,6 +1,6 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React from 'react'
-import Link from 'next/link'
+import Link from '@/components/ui/SiteLink'
 import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'

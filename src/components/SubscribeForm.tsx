@@ -2,7 +2,7 @@
 
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { useActionState, useId } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { Button } from '@/components/ui/Button';
 import { submitNewsletterForm, NewsletterFormState } from '@/app/(frontend)/actions/newsletter';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';

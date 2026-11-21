@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import Link from 'next/link';
+import Link, { SiteGetForm } from '@/components/ui/SiteLink';
 import type { Metadata } from 'next';
 import { Search } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
@@ -132,7 +132,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             </Typography>
 
             {/* AI01 Ask and Explore: the query stays editable and in the URL (p. 202). */}
-            <form action="/search" method="GET" role="search" className="relative w-full max-w-2xl mt-4">
+            <SiteGetForm action="/search" role="search" className="relative w-full max-w-2xl mt-4">
               <label htmlFor="search-q" className="sr-only">Search Enerqa</label>
               <input
                 id="search-q"
@@ -152,7 +152,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
               >
                 <Search className="w-5 h-5" aria-hidden="true" />
               </button>
-            </form>
+            </SiteGetForm>
 
             <div className="flex flex-wrap gap-2 mt-2">
               {SUGGESTIONS.map((suggestion) => (

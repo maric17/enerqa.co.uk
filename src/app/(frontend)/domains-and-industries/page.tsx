@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@/components/ui/Container';

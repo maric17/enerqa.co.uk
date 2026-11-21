@@ -1,6 +1,6 @@
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import React, { Suspense } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/SiteLink';
 import { ArrowUpRight } from 'lucide-react';
 import { isNewsItemStale, NEWS_DELAY_HOURS, PAGE_NEWS_PROVIDERS, sourcesFailedFor } from '@/lib/api/news';
 import { getHomeNews, getMarketCommentary } from './homeNews';
