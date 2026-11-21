@@ -1,6 +1,7 @@
-import GlobalIntelligencePage from '../../../../(frontend)/knowledge-hub/global-intelligence/page';
-import { EnglishPageContent } from '@/components/ui/EnglishPageContent';
+import { GlobalIntelligenceContent, intelligenceMetadata, type IntelligencePageProps } from '../../../../(frontend)/knowledge-hub/global-intelligence/GlobalIntelligenceContent';
 
-export default function ArabicGlobalIntelligencePage(props: Parameters<typeof GlobalIntelligencePage>[0]) {
-  return <EnglishPageContent><GlobalIntelligencePage {...props} /></EnglishPageContent>;
+export const metadata = intelligenceMetadata('ar');
+
+export default function ArabicGlobalIntelligencePage(props: IntelligencePageProps) {
+  return <GlobalIntelligenceContent {...props} language="ar" />;
 }
