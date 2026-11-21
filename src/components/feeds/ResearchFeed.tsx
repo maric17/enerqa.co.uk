@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import { fetchResearchCards } from '@/lib/feeds/research';
 import type { SpecialistFeed } from '@/lib/feeds/contextual';
 import { SourceUnavailable } from '@/components/ui/SourceUnavailable';
@@ -20,16 +21,19 @@ export async function ResearchFeed({
   limit = 4,
   nearest,
   specialistFeeds,
+  language = 'en',
 }: {
   themes: string[];
   limit?: number;
   nearest: { href: string; label: string };
   specialistFeeds?: SpecialistFeed[];
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => siteText(language, text);
   const result = await fetchResearchCards({ themes, limit, specialistFeeds });
 
   if (result.cards.length === 0) {
-    return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} className="min-h-[240px]" />;
+    return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} language={language} className="min-h-[240px]" />;
   }
 
   return (
@@ -54,11 +58,11 @@ export async function ResearchFeed({
                   {/* Only for records that passed the verified_open check (p. 227). */}
                   {card.openAccess && (
                     <span className="shrink-0 rounded-sm bg-[var(--green)]/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--green-deep)]">
-                      Open access
+                      {t('Open access')}
                     </span>
                   )}
                 </div>
-                <h3 className="mb-3 text-lg font-bold leading-snug text-[var(--ink)] line-clamp-3 group-hover:text-[var(--color-secondary)] transition-colors">
+                <h3 dir={language === 'ar' ? 'auto' : undefined} className="mb-3 text-lg font-bold leading-snug text-[var(--ink)] line-clamp-3 group-hover:text-[var(--color-secondary)] transition-colors">
                   {card.title}
                 </h3>
                 {authors && <p className="mb-4 text-sm italic text-[var(--ink-soft)] line-clamp-2">{authors}</p>}
@@ -66,22 +70,22 @@ export async function ResearchFeed({
                   {card.publishedAt ? (
                     <time dateTime={card.publishedAt}>{formatDate(card.publishedAt)}</time>
                   ) : (
-                    <span>Date not stated</span>
+                    <span>{t('Date not stated')}</span>
                   )}
                   {doi && <span className="break-all">DOI {doi}</span>}
                   {/* p. 212: "Keep copyright/licence/version and preprint labels". */}
-                  {card.licence && <span>Licence: {card.licence}</span>}
+                  {card.licence && <span>{t('Licence:')} {card.licence}</span>}
                   {card.version && <span>{card.version}</span>}
                   {/* Only when the provider states it - never inferred (p. 212). */}
-                  {card.peerReviewed === true && <span className="uppercase tracking-wide">Peer reviewed</span>}
-                  <span className="sr-only">(opens the original in a new tab)</span>
+                  {card.peerReviewed === true && <span className="uppercase tracking-wide">{t('Peer reviewed')}</span>}
+                  <span className="sr-only">{t('(opens the original in a new tab)')}</span>
                 </div>
               </a>
             </li>
           );
         })}
       </ul>
-      <FeedMeta sources={result.sources} retrievedAt={result.retrievedAt} stale={result.stale} />
+      <FeedMeta language={language} sources={result.sources} retrievedAt={result.retrievedAt} stale={result.stale} />
     </div>
   );
 }

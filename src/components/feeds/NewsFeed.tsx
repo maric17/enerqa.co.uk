@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import { ArrowUpRight } from 'lucide-react';
 import { fetchNews, fetchNewsForKeywords, NEWS_DELAY_HOURS, PAGE_NEWS_PROVIDERS } from '@/lib/api/news';
 import type { NewsBasketKey } from '@/lib/api/news';
@@ -24,6 +25,7 @@ export async function NewsFeed({
   basket,
   limit = 3,
   nearest,
+  language = 'en',
 }: {
   /** Omit to preview the whole Global Intelligence news pool. */
   phrases?: string[];
@@ -33,13 +35,15 @@ export async function NewsFeed({
   basket?: NewsBasketKey;
   limit?: number;
   nearest: { href: string; label: string };
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => siteText(language, text);
   const result = phrases
     ? await fetchNewsForKeywords(phrases, limit, { baskets, basket })
     : await fetchNews('all', limit, { providers: PAGE_NEWS_PROVIDERS });
 
   if (result.items.length === 0) {
-    return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} className="min-h-[220px]" />;
+    return <SourceUnavailable sourcesFailed={result.sourcesFailed} nearest={nearest} language={language} className="min-h-[220px]" />;
   }
 
   return (
@@ -54,13 +58,13 @@ export async function NewsFeed({
               rel="noopener noreferrer"
               className="group flex h-full min-h-[220px] flex-col gap-3 rounded-[var(--r-md)] border border-[var(--line)] bg-white p-6 no-underline transition-shadow hover:shadow-md"
             >
-              <h3 className="m-0 text-lg font-bold leading-snug text-[var(--ink)] line-clamp-3 group-hover:text-[var(--color-secondary)] transition-colors">
+              <h3 dir={language === 'ar' ? 'auto' : undefined} className="m-0 text-lg font-bold leading-snug text-[var(--ink)] line-clamp-3 group-hover:text-[var(--color-secondary)] transition-colors">
                 {item.title}
               </h3>
               {/* The publisher's own teaser, only where the provider licenses one
                   (p. 210). GDELT items have none, so they show a headline only. */}
               {item.summary && (
-                <p className="m-0 text-sm text-[var(--ink-soft)] line-clamp-3">{item.summary}</p>
+                <p dir={language === 'ar' ? 'auto' : undefined} className="m-0 text-sm text-[var(--ink-soft)] line-clamp-3">{item.summary}</p>
               )}
               <div className="mt-auto flex items-center gap-2 border-t border-[var(--line)] pt-3 text-xs text-[var(--ink-muted)]">
                 <span className="font-semibold uppercase tracking-wide">{item.publisher}</span>
@@ -70,21 +74,21 @@ export async function NewsFeed({
                     <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time>
                   </>
                 )}
-                <ArrowUpRight className="ml-auto h-4 w-4 shrink-0" aria-hidden="true" />
-                <span className="sr-only">(opens the original article in a new tab)</span>
+                <ArrowUpRight className="ms-auto h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className="sr-only">{t('(opens the original article in a new tab)')}</span>
               </div>
             </a>
           </li>
         ))}
       </ul>
-      <FeedMeta
+      <FeedMeta language={language}
         sources={result.sources.map((s) => s.label)}
         retrievedAt={result.retrievedAt}
         stale={result.stale}
         // p. 37: "Show source delays rather than calling the free feed live."
         extra={[
-          result.refreshedAt ? `Feed last refreshed ${formatRetrieved(result.refreshedAt)}.` : '',
-          result.hasDelayedSource ? `Free-plan news items are delayed by at least ${NEWS_DELAY_HOURS} hours.` : '',
+          result.refreshedAt ? (language === 'ar' ? `آخر تحديث للموجز ${formatRetrieved(result.refreshedAt)}.` : `Feed last refreshed ${formatRetrieved(result.refreshedAt)}.`) : '',
+          result.hasDelayedSource ? (language === 'ar' ? `تتأخر الأخبار في الخطة المجانية ${NEWS_DELAY_HOURS} ساعة على الأقل.` : `Free-plan news items are delayed by at least ${NEWS_DELAY_HOURS} hours.`) : '',
         ].filter(Boolean).join(' ') || undefined}
       />
     </div>

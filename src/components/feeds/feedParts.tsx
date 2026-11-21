@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 
 /**
  * Suspense fallback for an external feed.
@@ -15,18 +16,19 @@ import React from 'react';
  */
 const SHOW_FROM = { sm: 'hidden sm:block', md: 'hidden md:block', lg: 'hidden lg:block', xl: 'hidden xl:block' } as const;
 
-export function FeedSkeleton({ cards = 3, mobileCards = cards, columns = 'md:grid-cols-3', cardHeight = 'h-[220px]' }: {
+export function FeedSkeleton({ cards = 3, mobileCards = cards, columns = 'md:grid-cols-3', cardHeight = 'h-[220px]', language = 'en' }: {
   cards?: number;
   mobileCards?: number;
   columns?: string;
   cardHeight?: string;
+  language?: SiteLanguage;
 }) {
   // The breakpoint at which the grid gains columns, e.g. "md" from "md:grid-cols-3".
   // Whole class names only, so Tailwind's source scan can see them.
   const breakpoint = columns.match(/^(sm|md|lg|xl):/)?.[1] as keyof typeof SHOW_FROM | undefined;
   return (
     <div className={`grid grid-cols-1 ${columns} gap-6`} aria-busy="true">
-      <span className="sr-only">Loading updates…</span>
+      <span className="sr-only">{siteText(language, 'Loading updates…')}</span>
       {Array.from({ length: cards }).map((_, i) => (
         <div
           key={i}
@@ -69,23 +71,25 @@ export function formatDate(iso: string | null): string | null {
  * p. 227 "with a stale-data notice". The connectors work the flag out from the
  * provider's own refresh interval; this is where a reader finally sees it.
  */
-export function FeedMeta({ sources, retrievedAt, extra, stale = false }: {
+export function FeedMeta({ sources, retrievedAt, extra, stale = false, language = 'en' }: {
   sources: string[];
   retrievedAt: string | null;
   extra?: string;
   stale?: boolean;
+  language?: SiteLanguage;
 }) {
   if (sources.length === 0) return null;
+  const t = (text: string) => siteText(language, text);
   const retrieved = formatRetrieved(retrievedAt);
   return (
     <p className="mt-4 text-xs text-[var(--ink-muted)]">
       {stale && (
         <strong className="font-semibold text-[var(--ink-soft)]">
-          These are cached items: the source could not be refreshed.{' '}
+          {t('These are cached items: the source could not be refreshed.')}{' '}
         </strong>
       )}
-      Sources: {sources.join(', ')}.
-      {retrieved && <> Retrieved by Enerqa {retrieved}.</>}
+      {t('Sources:')} {sources.join(', ')}.
+      {retrieved && <> {t('Retrieved by Enerqa')} {retrieved}.</>}
       {extra && <> {extra}</>}
     </p>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import Link from '@/components/ui/SiteLink';
 import { ArrowRight } from 'lucide-react';
 import { getPayload } from 'payload';
@@ -17,11 +18,14 @@ export async function RelatedPublications({
   field,
   id,
   limit = 3,
+  language = 'en',
 }: {
   field: 'domains' | 'industries';
   id: number;
   limit?: number;
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => siteText(language, text);
   const payload = await getPayload({ config: configPromise });
   const { docs } = await payload.find({
     collection: 'publications',
@@ -40,7 +44,7 @@ export async function RelatedPublications({
   });
 
   if (docs.length === 0) {
-    return <SourceUnavailable variant="empty" className="min-h-[200px]" />;
+    return <SourceUnavailable language={language} variant="empty" className="min-h-[200px]" />;
   }
 
   return (
@@ -53,20 +57,20 @@ export async function RelatedPublications({
           >
             {/* p. 229: owned publications and external items must not be confused. */}
             <span className="text-xs font-bold uppercase tracking-wider text-[var(--green-deep)]">
-              Publications{pub.type ? ` · ${pub.type}` : ''}
+              {t('Publications')}{pub.type ? ` · ${t(pub.type)}` : ''}
             </span>
             <h3 className="mt-2 mb-2 text-lg font-bold leading-snug text-[var(--ink)] group-hover:text-[var(--color-secondary)] transition-colors">
-              {pub.title}
+              {language === 'ar' ? <bdi lang={pub.language ?? 'en'}>{pub.title}</bdi> : pub.title}
             </h3>
             <p className="m-0 flex items-center gap-2 text-xs text-[var(--ink-muted)]">
-              {pub.author && <span>By {pub.author}</span>}
+              {pub.author && <span>{t('By')} {pub.author}</span>}
               {pub.date && (
                 <span>
                   {formatDate(pub.date)}
-                  {!pub.dateVerified && ' (date unverified)'}
+                  {!pub.dateVerified && ` ${t('(date unverified)')}`}
                 </span>
               )}
-              <ArrowRight className="ml-auto h-4 w-4 text-[var(--color-secondary)]" aria-hidden="true" />
+              <ArrowRight className="ms-auto h-4 w-4 rtl:rotate-180 text-[var(--color-secondary)]" aria-hidden="true" />
             </p>
           </Link>
         </li>

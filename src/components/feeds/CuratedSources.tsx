@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import { ArrowUpRight } from 'lucide-react';
 import { publishedCuratedSources } from '@/lib/feeds/curated';
 
@@ -8,7 +9,7 @@ import { publishedCuratedSources } from '@/lib/feeds/curated';
  * boundary and never waits for a provider. Each link names its organisation and
  * what the page holds; only entries checked open anonymously are listed.
  */
-export function CuratedSources({ domainSlug }: { domainSlug: string }) {
+export function CuratedSources({ domainSlug, language = 'en' }: { domainSlug: string; language?: SiteLanguage }) {
   const sources = publishedCuratedSources(domainSlug);
   if (sources.length === 0) return null;
 
@@ -16,7 +17,7 @@ export function CuratedSources({ domainSlug }: { domainSlug: string }) {
   return (
     <div className="mt-8">
       <h3 id={headingId} className="m-0 mb-4 text-lg font-bold text-[var(--ink)]">
-        Official source links
+        {siteText(language, 'Official source links')}
       </h3>
       <ul aria-labelledby={headingId} className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none p-0 m-0">
         {sources.map((source) => (
@@ -36,7 +37,7 @@ export function CuratedSources({ domainSlug }: { domainSlug: string }) {
                 </span>
               </span>
               <ArrowUpRight className="h-5 w-5 shrink-0 text-[var(--color-secondary)]" aria-hidden="true" />
-              <span className="sr-only">(opens the organisation&rsquo;s page in a new tab)</span>
+              <span className="sr-only">{siteText(language, '(opens the organisation’s page in a new tab)')}</span>
             </a>
           </li>
         ))}

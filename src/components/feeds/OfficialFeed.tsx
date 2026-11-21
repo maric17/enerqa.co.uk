@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteText, type SiteLanguage } from '@/lib/i18n/site';
 import { ArrowUpRight } from 'lucide-react';
 import { fetchOfficialUpdates, type OfficialUpdate } from '@/lib/feeds/official';
 import type { DomainFeed } from '@/lib/feeds/contextual';
@@ -25,19 +26,22 @@ export async function OfficialFeed({
   limit = 3,
   nearest,
   emptyNote,
+  language = 'en',
 }: {
   feed: DomainFeed;
   limit?: number;
   nearest: { href: string; label: string };
   /** Why a feed may be empty by design, e.g. a provider awaiting registration. */
   emptyNote?: string;
+  language?: SiteLanguage;
 }) {
+  const t = (text: string) => siteText(language, text);
   const result = await fetchOfficialUpdates(feed, limit);
 
   if (result.items.length === 0) {
     return <SourceUnavailable
       sourcesFailed={result.sourcesFailed}
-      nearest={nearest}
+      nearest={nearest} language={language}
       // A disabled source has not answered a search with zero matching reports.
       emptyText={result.notEnabled ? 'Automatic updates from this source are not yet enabled.' : undefined}
       note={emptyNote ?? (result.notEnabled ? 'Browse the official source links below for reports and updates.' : undefined)}
@@ -60,7 +64,7 @@ export async function OfficialFeed({
                 className="group flex items-start justify-between gap-4 rounded-[var(--r-md)] border border-[var(--line)] bg-white p-6 no-underline transition-shadow hover:shadow-md"
               >
                 <div>
-                  <h3 className="m-0 mb-2 text-lg font-bold leading-snug text-[var(--ink)] group-hover:text-[var(--color-secondary)] transition-colors">
+                  <h3 dir={language === 'ar' ? 'auto' : undefined} className="m-0 mb-2 text-lg font-bold leading-snug text-[var(--ink)] group-hover:text-[var(--color-secondary)] transition-colors">
                     {item.title}
                   </h3>
                   <p className="m-0 text-xs text-[var(--ink-muted)]">
@@ -71,19 +75,19 @@ export async function OfficialFeed({
                         <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time>
                       </>
                     )}
-                    {coverage && <> · Coverage: {coverage}</>}
+                    {coverage && <> · {t('Coverage:')} {coverage}</>}
                     {/* p. 216: EEA is "transparently labelled Europe-focused". */}
                     {item.focus && <> · {item.focus}</>}
                   </p>
                 </div>
                 <ArrowUpRight className="h-5 w-5 shrink-0 text-[var(--color-secondary)]" aria-hidden="true" />
-                <span className="sr-only">(opens the original document in a new tab)</span>
+                <span className="sr-only">{t('(opens the original document in a new tab)')}</span>
               </a>
             </li>
           );
         })}
       </ul>
-      <FeedMeta sources={result.sources} retrievedAt={result.retrievedAt} stale={result.stale} />
+      <FeedMeta language={language} sources={result.sources} retrievedAt={result.retrievedAt} stale={result.stale} />
     </div>
   );
 }
