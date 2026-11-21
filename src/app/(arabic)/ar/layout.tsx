@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { arabicPilotEnabled } from '@/lib/i18n/pilot';
 import { WebsiteLayout } from '../../(frontend)/WebsiteLayout';
 
 export const metadata: Metadata = {
@@ -9,6 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ArabicLayout({ children }: { children: React.ReactNode }) {
-  if (!arabicPilotEnabled) notFound();
   return <WebsiteLayout language="ar">{children}</WebsiteLayout>;
 }

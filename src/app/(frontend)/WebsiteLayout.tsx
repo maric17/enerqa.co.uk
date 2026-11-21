@@ -8,7 +8,6 @@ import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { WebsiteAnalytics } from '@/components/WebsiteAnalytics';
 import { COMPANY } from '@/lib/content/company';
 import { siteText, type SiteLanguage } from '@/lib/i18n/site';
-import { arabicPilotEnabled } from '@/lib/i18n/pilot';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,7 +38,7 @@ export function WebsiteLayout({
         <LanguageProvider>
           <SmoothScroll>
             <a className={language === 'ar' ? 'sr-only focus:not-sr-only focus:absolute focus:start-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2' : 'skip-link'} href="#main">{siteText(language, 'Skip to content')}</a>
-            <Header language={language} showArabicPilot={arabicPilotEnabled} />
+            <Header language={language} />
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
