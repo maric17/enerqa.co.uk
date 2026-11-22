@@ -1,3 +1,4 @@
+import type { Enquiry } from '@/payload-types';
 import { COMPANY } from '../content/company';
 
 // Server-only credentials. No provider errors, tokens or recipient data enter logs.
@@ -21,16 +22,58 @@ async function sendPulse(path: string, body: unknown) {
   if (result?.result !== true) throw new Error('Email service did not confirm delivery.');
 }
 
-export async function notifyEnquiry(id: number | string) {
+type RelatedChoice = { id: number; title: string } | number | null;
+type EnquiryNotification = Pick<Enquiry, 'id' | 'firstName' | 'lastName' | 'email' | 'company' |
+  'natureOfEnquiry' | 'message' | 'marketingConsent' | 'projectLocation' | 'currentStage'> & {
+  toolRequested?: RelatedChoice;
+  domain?: RelatedChoice;
+  industry?: RelatedChoice;
+};
+
+function choiceLabel(choice?: RelatedChoice) {
+  if (typeof choice === 'number') return `Record #${choice}`;
+  return choice?.title;
+}
+
+export async function notifyEnquiry(enquiry: EnquiryNotification) {
   const from = process.env.SENDPULSE_FROM_EMAIL;
   if (!from) throw new Error('A verified email sender is required.');
   const recipient = process.env.ENQUIRY_NOTIFICATION_EMAIL?.trim() || COMPANY.email;
-  // Q8: send a CMS link, not a copy of the enquiry, to minimise mailbox retention.
   const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.enerqa.co.uk';
+  const link = `${origin}/admin/collections/enquiries/${enquiry.id}`;
+  const includeDetails = process.env.ENQUIRY_NOTIFICATION_DETAILS === 'true';
+  const text = includeDetails
+    ? enquiryDetails(enquiry, link)
+    : `A new enquiry is ready in the content editor: ${link}`;
   await sendPulse('smtp/emails', { email: {
-    subject: 'New Enerqa website enquiry', text: `A new enquiry is ready in the content editor: ${origin}/admin/collections/enquiries/${encodeURIComponent(id)}`,
+    subject: 'New Enerqa website enquiry', text,
     from: { name: COMPANY.name, email: from }, to: [{ email: recipient }],
   } });
+}
+
+function enquiryDetails(enquiry: EnquiryNotification, link: string) {
+  const name = enquiry.lastName === '—' ? enquiry.firstName : `${enquiry.firstName} ${enquiry.lastName}`;
+  const fields = [
+    ['Name', name],
+    ['Email', enquiry.email],
+    ['Organisation', enquiry.company],
+    ['Enquiry type', enquiry.natureOfEnquiry],
+    ['Tool requested', choiceLabel(enquiry.toolRequested)],
+    ['Domain', choiceLabel(enquiry.domain)],
+    ['Industry', choiceLabel(enquiry.industry)],
+    ['Project location', enquiry.projectLocation],
+    ['Current stage', enquiry.currentStage],
+    ['Newsletter opt-in', enquiry.marketingConsent ? 'Yes' : 'No'],
+  ];
+  // Keep form values in the plain-text body. The sender and recipient come from server settings.
+  return [
+    ...fields.map(([label, value]) => `${label}: ${value?.replace(/\s+/g, ' ').trim() || 'Not provided'}`),
+    '',
+    'Message:',
+    enquiry.message?.trim() || 'Not provided',
+    '',
+    `Open in admin: ${link}`,
+  ].join('\n');
 }
 
 export async function syncNewsletter(email: string, subscribed: boolean) {
