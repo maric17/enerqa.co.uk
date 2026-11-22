@@ -45,13 +45,14 @@ Server environment variables (private; never prefix these with NEXT_PUBLIC):
 | SENDPULSE_CLIENT_ID | Existing Enerqa SendPulse API ID |
 | SENDPULSE_CLIENT_SECRET | Existing API secret |
 | SENDPULSE_FROM_EMAIL | A sender verified in Enerqa’s SendPulse account |
+| ENQUIRY_NOTIFICATION_EMAIL | Optional replacement recipient for enquiry notifications. Remove it to restore `info@enerqa.co.uk`. |
 | SENDPULSE_ADDRESSBOOK_ID | Numeric ID of the newsletter mailing list |
 | SENDPULSE_ENABLED | Set true only after processor/policy review and live testing |
 | CRON_SECRET | Scheduler authentication secret |
 | FORMS_RETENTION_ENABLED | Set true only after additive fields, legacy-record review and deletion verification |
 | NEWSLETTER_ENDED | Set true when the newsletter permanently closes; maintenance withdraws active subscriptions |
 
-Contact submissions remain saved if SendPulse is off or delivery fails. Notifications go to info@enerqa.co.uk and contain the protected CMS record link, not the visitor’s message or email address. Pending notifications are retried by the maintenance job. Newsletter opt-in creates a separate newsletter record, preventing ordinary enquiry expiry from deleting an active subscription. Contact submission without the newsletter checkbox creates no subscription. Unsubscribe clears exact matching contact opt-ins and turns newsletter records into minimal suppression records; provider suppression is queued if delivery is unavailable.
+Contact submissions remain saved if SendPulse is off or delivery fails. Notifications go to the configured recipient and default to info@enerqa.co.uk. The email contains the protected CMS record link. Pending notifications are retried by the maintenance job when enabled. Newsletter opt-in creates a separate newsletter record, preventing ordinary enquiry expiry from deleting an active subscription. Contact submission without the newsletter checkbox creates no subscription. Unsubscribe clears exact matching contact opt-ins and turns newsletter records into minimal suppression records; provider suppression is queued if delivery is unavailable.
 
 The separate optional newsletter save can fail after an enquiry succeeds. The contact confirmation then states the enquiry is saved and asks the visitor to retry the newsletter form. It does not ask them to resubmit the enquiry.
 
