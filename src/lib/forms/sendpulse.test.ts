@@ -6,10 +6,16 @@ beforeEach(() => { vi.stubGlobal('fetch', fetchMock); fetchMock.mockReset(); vi.
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 const replies = () => { fetchMock.mockResolvedValueOnce(Response.json({ access_token: 'test-token' })).mockResolvedValueOnce(Response.json({ result: true })); };
 
-it('notifies only info@ with a CMS link, without copying form contents', async () => {
+it.each([
+  [undefined, 'info@enerqa.co.uk'],
+  [' ', 'info@enerqa.co.uk'],
+  [' review@example.org ', 'review@example.org'],
+])('notifies the selected mailbox with only a CMS link (%s)', async (override, recipient) => {
+  vi.stubEnv('ENQUIRY_NOTIFICATION_EMAIL', override);
   replies(); await notifyEnquiry(42);
   const body = JSON.parse(fetchMock.mock.calls[1][1].body);
-  expect(body.email.to).toEqual([{ email: 'info@enerqa.co.uk' }]);
+  expect(body.email.to).toEqual([{ email: recipient }]);
+  expect(body.email.from.email).toBe('website@enerqa.co.uk');
   expect(body.email.text).toContain('/admin/collections/enquiries/42');
   expect(body.email).not.toHaveProperty('reply_to');
 });

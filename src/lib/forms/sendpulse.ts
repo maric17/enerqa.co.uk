@@ -24,11 +24,12 @@ async function sendPulse(path: string, body: unknown) {
 export async function notifyEnquiry(id: number | string) {
   const from = process.env.SENDPULSE_FROM_EMAIL;
   if (!from) throw new Error('A verified email sender is required.');
+  const recipient = process.env.ENQUIRY_NOTIFICATION_EMAIL?.trim() || COMPANY.email;
   // Q8: send a CMS link, not a copy of the enquiry, to minimise mailbox retention.
   const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.enerqa.co.uk';
   await sendPulse('smtp/emails', { email: {
     subject: 'New Enerqa website enquiry', text: `A new enquiry is ready in the content editor: ${origin}/admin/collections/enquiries/${encodeURIComponent(id)}`,
-    from: { name: COMPANY.name, email: from }, to: [{ email: COMPANY.email }],
+    from: { name: COMPANY.name, email: from }, to: [{ email: recipient }],
   } });
 }
 
