@@ -40,6 +40,18 @@ export async function notifyEnquiry(enquiry: EnquiryNotification) {
   if (!from) throw new Error('A verified email sender is required.');
   const recipient = process.env.ENQUIRY_NOTIFICATION_EMAIL?.trim() || COMPANY.email;
   const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.enerqa.co.uk';
+  const link = `${origin}/admin/collections/enquiries/${enquiry.id}`;
+  const includeDetails = process.env.ENQUIRY_NOTIFICATION_DETAILS === 'true';
+  const text = includeDetails
+    ? enquiryDetails(enquiry, link)
+    : `A new enquiry is ready in the content editor: ${link}`;
+  await sendPulse('smtp/emails', { email: {
+    subject: 'New Enerqa website enquiry', text,
+    from: { name: COMPANY.name, email: from }, to: [{ email: recipient }],
+  } });
+}
+
+function enquiryDetails(enquiry: EnquiryNotification, link: string) {
   const name = enquiry.lastName === '—' ? enquiry.firstName : `${enquiry.firstName} ${enquiry.lastName}`;
   const fields = [
     ['Name', name],
@@ -54,18 +66,14 @@ export async function notifyEnquiry(enquiry: EnquiryNotification) {
     ['Newsletter opt-in', enquiry.marketingConsent ? 'Yes' : 'No'],
   ];
   // Keep form values in the plain-text body. The sender and recipient come from server settings.
-  const text = [
+  return [
     ...fields.map(([label, value]) => `${label}: ${value?.replace(/\s+/g, ' ').trim() || 'Not provided'}`),
     '',
     'Message:',
     enquiry.message?.trim() || 'Not provided',
     '',
-    `Open in admin: ${origin}/admin/collections/enquiries/${enquiry.id}`,
+    `Open in admin: ${link}`,
   ].join('\n');
-  await sendPulse('smtp/emails', { email: {
-    subject: 'New Enerqa website enquiry', text,
-    from: { name: COMPANY.name, email: from }, to: [{ email: recipient }],
-  } });
 }
 
 export async function syncNewsletter(email: string, subscribed: boolean) {

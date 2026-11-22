@@ -18,6 +18,7 @@ it.each([
   [' review@example.org ', 'review@example.org'],
 ])('includes the enquiry details and admin link for the selected mailbox (%s)', async (override, recipient) => {
   vi.stubEnv('ENQUIRY_NOTIFICATION_EMAIL', override);
+  vi.stubEnv('ENQUIRY_NOTIFICATION_DETAILS', 'true');
   replies(); await notifyEnquiry(enquiry);
   const body = JSON.parse(fetchMock.mock.calls[1][1].body);
   expect(body.email.to).toEqual([{ email: recipient }]);
@@ -29,6 +30,14 @@ it.each([
     expect.stringContaining('/admin/collections/enquiries/42'),
   ]);
   expect(body.email).not.toHaveProperty('reply_to');
+});
+it('sends only the admin link when enquiry details are disabled', async () => {
+  vi.stubEnv('ENQUIRY_NOTIFICATION_DETAILS', undefined);
+  replies(); await notifyEnquiry(enquiry);
+  const { email } = JSON.parse(fetchMock.mock.calls[1][1].body);
+  expect(email.text).toContain('/admin/collections/enquiries/42');
+  expect(email.text).not.toContain(enquiry.email);
+  expect(email.text).not.toContain(enquiry.message);
 });
 it('adds only an email and honours newsletter unsubscribe without clearing blacklists', async () => {
   replies(); await syncNewsletter('ada@example.org', false);

@@ -46,13 +46,14 @@ Server environment variables (private; never prefix these with NEXT_PUBLIC):
 | SENDPULSE_CLIENT_SECRET | Existing API secret |
 | SENDPULSE_FROM_EMAIL | A sender verified in Enerqa’s SendPulse account |
 | ENQUIRY_NOTIFICATION_EMAIL | Optional replacement recipient for enquiry notifications. Remove it to restore `info@enerqa.co.uk`. |
+| ENQUIRY_NOTIFICATION_DETAILS | Set `true` after publishing the approved disclosure about emailing the submitted enquiry details. Defaults to a protected link only. |
 | SENDPULSE_ADDRESSBOOK_ID | Numeric ID of the newsletter mailing list |
 | SENDPULSE_ENABLED | Set true only after processor/policy review and live testing |
 | CRON_SECRET | Scheduler authentication secret |
 | FORMS_RETENTION_ENABLED | Set true only after additive fields, legacy-record review and deletion verification |
 | NEWSLETTER_ENDED | Set true when the newsletter permanently closes; maintenance withdraws active subscriptions |
 
-Contact submissions remain saved if SendPulse is off or delivery fails. Notifications default to info@enerqa.co.uk and contain the submitted enquiry fields and the protected CMS record link. The receiving mailbox and SendPulse receive a copy of the submitted details. Pending notifications are retried by the maintenance job when enabled. Newsletter opt-in creates a separate newsletter record, preventing ordinary enquiry expiry from deleting an active subscription. Contact submission without the newsletter checkbox creates no subscription. Unsubscribe clears exact matching contact opt-ins and turns newsletter records into minimal suppression records; provider suppression is queued if delivery is unavailable.
+Contact submissions remain saved if SendPulse is off or delivery fails. Notifications default to info@enerqa.co.uk and always contain the protected CMS record link. When full details are enabled, the receiving mailbox and SendPulse also receive a copy of the submitted details. Pending notifications are retried by the maintenance job when enabled. Newsletter opt-in creates a separate newsletter record, preventing ordinary enquiry expiry from deleting an active subscription. Contact submission without the newsletter checkbox creates no subscription. Unsubscribe clears exact matching contact opt-ins and turns newsletter records into minimal suppression records; provider suppression is queued if delivery is unavailable.
 
 The separate optional newsletter save can fail after an enquiry succeeds. The contact confirmation then states the enquiry is saved and asks the visitor to retry the newsletter form. It does not ask them to resubmit the enquiry.
 

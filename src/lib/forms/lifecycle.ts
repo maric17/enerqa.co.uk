@@ -22,7 +22,8 @@ export async function deliverPendingEnquiry(payload: Payload, doc: Enquiry) {
       await payload.update({ collection: 'enquiries', id: doc.id, data: { newsletterSyncedAt: new Date().toISOString() } });
     } else if (!doc.notificationSentAt) {
       // Maintenance reads shallow records. Load selected relationship names only when needed.
-      const enquiry = [doc.toolRequested, doc.domain, doc.industry].some(choice => typeof choice === 'number')
+      const enquiry = process.env.ENQUIRY_NOTIFICATION_DETAILS === 'true'
+        && [doc.toolRequested, doc.domain, doc.industry].some(choice => typeof choice === 'number')
         ? await payload.findByID({ collection: 'enquiries', id: doc.id, depth: 1 })
         : doc;
       await notifyEnquiry(enquiry);
