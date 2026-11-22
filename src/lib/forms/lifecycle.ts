@@ -21,7 +21,11 @@ export async function deliverPendingEnquiry(payload: Payload, doc: Enquiry) {
       await syncNewsletter(doc.email, doc.marketingConsent === true);
       await payload.update({ collection: 'enquiries', id: doc.id, data: { newsletterSyncedAt: new Date().toISOString() } });
     } else if (!doc.notificationSentAt) {
-      await notifyEnquiry(doc.id);
+      // Maintenance reads shallow records. Load selected relationship names only when needed.
+      const enquiry = [doc.toolRequested, doc.domain, doc.industry].some(choice => typeof choice === 'number')
+        ? await payload.findByID({ collection: 'enquiries', id: doc.id, depth: 1 })
+        : doc;
+      await notifyEnquiry(enquiry);
       await payload.update({ collection: 'enquiries', id: doc.id, data: { notificationSentAt: new Date().toISOString() } });
     }
   } catch {
