@@ -151,7 +151,7 @@ it('discovers coastal tourism impacts, saves checked originals and shares the re
   vi.mocked(fetchApiTubeQuery).mockResolvedValueOnce(ok('apitube', [candidate]));
   expect((await fetchNewsForKeywords(newsPhrases(feed), 3, { baskets: feed.newsBaskets })).items).toEqual([]);
   expect((await refreshScheduledNews(check, { manual: true, industriesOnly: true, industrySlugs: [slug] })).storedItems).toBe(1);
-  expect(fetchApiTubeQuery).toHaveBeenCalledExactlyOnceWith(feed.newsDiscoveryQuery, expect.any(Number), true, ['en'], { days: 31 });
+  expect(fetchApiTubeQuery).toHaveBeenCalledExactlyOnceWith(feed.newsDiscoveryQuery, expect.any(Number), true, ['en'], { days: 7, retryTransient: true });
   const rows = vi.mocked(storeRecords).mock.calls.flatMap(([records]) => records);
   expect(rows).toHaveLength(1);
   const saved = rows[0].record as ReturnType<typeof article>;
