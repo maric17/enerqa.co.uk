@@ -18,3 +18,6 @@
 0 10 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-3
 0 18 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job industries-3
 30 19 * * * root /usr/bin/python3 /usr/local/sbin/enerqa-job forms
+
+# Runs only during the seven-day opt-in window. Offset from the existing jobs.
+15 * * * * root /usr/bin/flock -n /run/enerqa-news-pilot.lock /usr/bin/python3 /usr/local/sbin/enerqa-job news-pilot

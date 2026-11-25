@@ -21,7 +21,7 @@ it.each(['stocks', 'industries-1', 'industries-2', 'industries-3'])('authenticat
 });
 
 it.each(['stocks', 'industries-1', 'industries-2', 'industries-3'])('selects only fixed job %s and ignores manual query parameters', async job => {
-  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 2, sourcesFailed: false, diagnostics: createNewsDiagnostics('all') });
+  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 2, newlyStoredItems: 0, sourcesFailed: false, diagnostics: createNewsDiagnostics('all') });
   const response = await GET(request(`${job}?manual=true&industry=unknown`), context(job));
   expect(response.status).toBe(200);
   expect(refreshScheduledNews).toHaveBeenCalledExactlyOnceWith(undefined, { job });
@@ -41,7 +41,7 @@ it('does not refresh caches for a duplicate stock invocation', async () => {
 });
 
 it('returns a failed stock status without exposing native errors', async () => {
-  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 1, sourcesFailed: true, diagnostics: createNewsDiagnostics('all') });
+  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 1, newlyStoredItems: 0, sourcesFailed: true, diagnostics: createNewsDiagnostics('all') });
   expect((await GET(request('stocks'), context('stocks'))).status).toBe(503);
   vi.mocked(refreshScheduledNews).mockRejectedValue(new Error('private-db-credentials'));
   const response = await GET(request('stocks'), context('stocks'));

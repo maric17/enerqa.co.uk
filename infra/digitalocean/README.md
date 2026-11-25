@@ -47,3 +47,12 @@ before switching the `current` symlink and restarts the app. If the live health
 check fails, it switches back to the previous release. It does not alter the
 database schema, the uploaded-media directory, or scheduled jobs. Old releases
 are retained; agree a cleanup policy before the disk fills up.
+
+## Seven-day headline pilot
+
+After deploying the pilot route, install the updated `run-job.py` and
+`enerqa-jobs.cron` at their existing production paths. Create
+`/etc/enerqa/news-pilot.enabled` to start the seven-day observation window, or
+remove the marker to end it early. Verify the first run with
+`journalctl -t enerqa-job --grep news-pilot`. The pilot uses the same APITube
+request ledger as the current feed. Samples stay in the server journal.

@@ -20,7 +20,7 @@ it('rejects missing configuration and wrong credentials before spending provider
 });
 
 it('invalidates the saved-news search index after an authenticated refresh', async () => {
-  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 3, sourcesFailed: false, diagnostics: createNewsDiagnostics('all') });
+  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 3, newlyStoredItems: 0, sourcesFailed: false, diagnostics: createNewsDiagnostics('all') });
   const response = await GET(request());
   expect(response.status).toBe(200);
   expect(response.headers.get('cache-control')).toBe('no-store');
@@ -44,7 +44,7 @@ it('keeps the scheduled guard even if the request asks for a manual pull', async
 });
 
 it('reports failed storage or providers without exposing native errors', async () => {
-  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 0, sourcesFailed: true, diagnostics: createNewsDiagnostics('all') });
+  vi.mocked(refreshScheduledNews).mockResolvedValue({ skipped: false, storedItems: 0, newlyStoredItems: 0, sourcesFailed: true, diagnostics: createNewsDiagnostics('all') });
   expect((await GET(request())).status).toBe(503);
   vi.mocked(refreshScheduledNews).mockRejectedValue(new Error('private-db-credentials'));
   const response = await GET(request());
