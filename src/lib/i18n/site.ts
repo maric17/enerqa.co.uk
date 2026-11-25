@@ -339,7 +339,7 @@ const arabic: Readonly<Record<string, string>> = {
   "Previous publications": "المنشورات السابقة",
   "Next publications": "المنشورات التالية",
   "Markets & perspective": "الأسواق ووجهات النظر",
-  "Track company share prices and market movements alongside stock-market reporting from New York, London and regional exchanges.": "تابع أسعار أسهم الشركات وتحركات الأسواق إلى جانب تقارير أسواق الأسهم في نيويورك ولندن والبورصات الإقليمية.",
+  "Stock-market reporting from New York, London and regional exchanges.": "تقارير أسواق الأسهم من نيويورك ولندن والبورصات الإقليمية.",
   "Stocks & market chart": "الأسهم ورسم السوق البياني",
   "Delayed quotes · USD": "أسعار متأخرة · دولار أمريكي",
   "Market commentary": "تعليقات السوق",

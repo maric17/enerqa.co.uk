@@ -3,6 +3,7 @@ import { fetchFromProvider, providerKey } from '../core/fetch';
 import { ok } from '../core/types';
 import { API_TUBE_TOPIC_SOURCES, apiTubeQuery, fetchApiTubeBasket, fetchApiTubeQuery, mapApiTubeResults, rejectApiTubeBody } from './apitube';
 import { hasApiTubeApproval, screenApiTubeItem } from './apitubeScreening';
+import { STOCK_MARKET_QUERIES } from './markets';
 import { INDUSTRY_FEEDS } from '../../feeds/contextual';
 
 vi.mock('../core/fetch', () => ({ fetchFromProvider: vi.fn(), providerKey: vi.fn() }));
@@ -34,6 +35,16 @@ it('keeps the key in a header and respects APITube source, language, category an
   expect(Date.now() - Date.parse(params.get('published_at.start')!)).toBeLessThan(31 * 86400000 + 1000);
   expect(Date.parse(params.get('published_at.end')!) - Date.parse(params.get('published_at.start')!)).toBe(31 * 86400000);
   expect(params.get('fl')).not.toMatch(/body|summary/);
+});
+
+it('searches recent stock titles from the verified market publishers', async () => {
+  await fetchApiTubeQuery(STOCK_MARKET_QUERIES[0], 3600, true, ['en'], { days: 7 });
+  const params = new URL(vi.mocked(fetchFromProvider).mock.calls[0][1]).searchParams;
+  expect(params.get('title')).toBe('stocks');
+  expect(params.get('source.domain')).toBe('wtop.com,newindianexpress.com');
+  expect(params.has('query')).toBe(false);
+  expect(params.has('category.id')).toBe(false);
+  expect(Date.parse(params.get('published_at.end')!) - Date.parse(params.get('published_at.start')!)).toBe(3 * 86400000);
 });
 
 it.each(['climate', 'energy', 'environment', 'business'] as const)('discovers recent %s stories without a redundant category restriction', async basket => {

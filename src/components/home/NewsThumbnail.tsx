@@ -8,7 +8,7 @@ const FALLBACK_IMAGE = '/images/banners/news-thumbnail-fallback.webp';
 export function NewsThumbnail({ imageUrl, lead = false, stacked = false, alt = '', variant }: { imageUrl?: string | null; lead?: boolean; stacked?: boolean; alt?: string; variant?: 'market' }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const [loadedUrl, setLoadedUrl] = useState<string | null>(null);
-  const sizes = variant === 'market' ? '(max-width: 599px) 88px, 124px' : stacked ? '(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw' : lead ? '76px' : '64px';
+  const sizes = variant === 'market' ? '(max-width: 767px) 100vw, 50vw' : stacked ? '(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw' : lead ? '76px' : '64px';
 
   return (
     <span className={`news-card-thumbnail ${lead ? 'news-card-thumbnail-lead' : ''} ${stacked ? 'news-card-thumbnail-stacked' : ''} ${variant === 'market' ? 'market-commentary-thumbnail' : ''}`}>

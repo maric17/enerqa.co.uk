@@ -51,7 +51,7 @@ describe('separate Major Markets commentary', () => {
       item('new', 'Nasdaq stocks rise'),
     ], false));
     render(await MarketsCommentary());
-    expect(screen.getAllByRole('heading', { level: 4 }).map(heading => heading.textContent)).toEqual([
+    expect(screen.getAllByRole('heading', { level: 3 }).map(heading => heading.textContent)).toEqual([
       expect.stringContaining('Nasdaq stocks rise'), expect.stringContaining('FTSE shares fall'),
     ]);
     expect(screen.getAllByText(/Feed checked/)).toHaveLength(2);
