@@ -38,7 +38,7 @@ const DEFAULT_LIMITS: Limits = { daily: 500, maxConcurrent: 4 };
 export const LIMITS: Partial<Record<ProviderId, Limits>> = {
   // Up to eight ten-article editorial batches on each of three daily news pulls.
   openai: { daily: 24, maxConcurrent: 1 },
-  apitube: { daily: 80, window: { max: 8, seconds: 60 }, minIntervalMs: 8500, maxConcurrent: 1 },
+  apitube: { daily: 180, window: { max: 8, seconds: 60 }, minIntervalMs: 8500, maxConcurrent: 1 },
   // The trial stays below Free's 100/day, including the three scheduled pulls.
   thenewsapi: { daily: 80, maxConcurrent: 2 },
   // p. 210: 200 credits/day and 30 credits per 15 minutes. Four topic and

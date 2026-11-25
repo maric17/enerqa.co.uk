@@ -187,7 +187,7 @@ async function collect(
     ? NEWS_BASKETS.filter(b => b.newsdataQuery).map(b => safeNewsCall('apitube', fetchApiTubeBasket(b.key, fresh)))
     : [safeNewsCall('apitube', fetchApiTubeBasket(basketKey, fresh))];
   const apiTubePageCalls = wants('apitube')
-    ? pageQueries.map(query => safeNewsCall('apitube', fetchApiTubeQuery(query, PAGE_BASKET_SECONDS, fresh, ['en'], { days: 31 }))) : [];
+    ? pageQueries.map(query => safeNewsCall('apitube', fetchApiTubeQuery(query, PAGE_BASKET_SECONDS, fresh, ['en'], { days: fresh ? 7 : 31, retryTransient: fresh }))) : [];
 
   // NewsData charges a credit per query, so "All" reuses the four cached topic
   // baskets instead of paying for a fifth (p. 210). Context discovery belongs
@@ -556,6 +556,8 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
     diagnostics.counts.relevant = collected.items.length;
     // Recheck still-recent saved candidates on the job, never during page visits.
     const saved = await readNewsStore(true);
+    const knownUrls = new Set(saved.items.map(item => normaliseUrl(item.url)));
+    const newlySaved = new Set<string>();
     for (const provider of providers) {
       if (!providerEnabled(provider)) continue;
       const fresh = collected.items.filter(i => i.provider === provider);
@@ -571,7 +573,13 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
       }), 500);
       const counts = createNewsDiagnostics('all');
       try {
-        await verified(candidates, 80, check, counts);
+        const approved = await verified(candidates, 80, check, counts);
+        if (saved.available) {
+          for (const item of approved) {
+            const url = normaliseUrl(item.url);
+            if (!knownUrls.has(url)) newlySaved.add(url);
+          }
+        }
       } catch {
         counts.storage = 'failed';
       }
@@ -604,7 +612,7 @@ export async function refreshScheduledNews(check?: NewsOptions['check'], options
       status: sourcesFailed ? 'failed' : 'succeeded' });
     logNewsDiagnostics(diagnostics);
     return { skipped: false as const, storedItems: diagnostics.counts.returned,
-      sourcesFailed, diagnostics };
+      sourcesFailed, newlyStoredItems: saved.available ? newlySaved.size : null, diagnostics };
   } catch {
     diagnostics.storage = 'failed';
     await finishNewsRefresh(claim, { lastCompletedAt: new Date().toISOString(), lastSuccessAt, diagnostics, status: 'failed' });

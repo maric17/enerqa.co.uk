@@ -75,7 +75,7 @@ export function mapApiTubeResults(results: unknown[], retrievedAt: string): News
 }
 
 export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH_SECONDS, fresh = false,
-  languages: string[] = ['en'], options: { days?: number; basket?: Exclude<NewsBasketKey, 'all'> } = {}): Promise<ConnectorResult<NewsItem[]>> {
+  languages: string[] = ['en'], options: { days?: number; retryTransient?: boolean; basket?: Exclude<NewsBasketKey, 'all'> } = {}): Promise<ConnectorResult<NewsItem[]>> {
   const key = providerKey('apitube');
   if (!key) return fail('apitube', 'not_configured', 'API_TUBE_API_KEY is not set.');
   const categories = options.basket ? API_TUBE_CATEGORIES[options.basket]
@@ -97,11 +97,25 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
   // Search broadly by topic; returned category evidence is still required by screening.
   // Combining both filters loses relevant stories assigned to a neighbouring category.
   if (!options.basket) params.set('category.id', categories.join(','));
-  const result = await fetchFromProvider<ApiTubePage>('apitube', `${ENDPOINT}?${params}`, {
+  const request = () => fetchFromProvider<ApiTubePage>('apitube', `${ENDPOINT}?${params}`, {
     headers: { 'X-API-Key': key }, revalidate, fresh, tags: ['news'], timeoutMs: 30000,
     rejectBody: rejectApiTubeBody, errorCode: body => String((body as ApiTubePage | null)?.errors?.[0]?.code ?? ''),
   });
-  if (!result.ok) return result;
+  let result = await request();
+  if (!result.ok && options.retryTransient && /HTTP (?:500|502|503|504)\b|timed? out|timeout/i.test(result.message)) {
+    // A smaller window reduces work on the retry. The shared provider guard spaces the calls.
+    params.set('published_at.start', new Date(end.getTime() - 3 * 86400000).toISOString());
+    result = await request();
+  }
+  if (!result.ok) {
+    if (options.retryTransient) {
+      // Identify the scheduled query without recording credentials or a full provider response.
+      const scope = Object.entries(INDUSTRY_FEEDS).find(([, feed]) => feed.newsDiscoveryQuery === query)?.[0]
+        ?? `stocks-${STOCK_MARKET_QUERIES.indexOf(query) + 1}`;
+      console.warn('[enerqa:news] APITube query failed', { scope, reason: result.reason, message: result.message });
+    }
+    return result;
+  }
   return ok('apitube', mapApiTubeResults(result.data.results as unknown[], result.retrievedAt)
     .map(item => ({ ...item, refreshSeconds: revalidate, matchedQueries: [query] })), result.retrievedAt, result.stale);
 }
