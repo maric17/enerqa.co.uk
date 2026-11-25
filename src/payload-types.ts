@@ -80,6 +80,7 @@ export interface Config {
     datasets: Dataset;
     dashboards: Dashboard;
     'external-items': ExternalItem;
+    'market-article-images': MarketArticleImage;
     glossary: Glossary;
     faqs: Faq;
     enquiries: Enquiry;
@@ -104,6 +105,7 @@ export interface Config {
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     dashboards: DashboardsSelect<false> | DashboardsSelect<true>;
     'external-items': ExternalItemsSelect<false> | ExternalItemsSelect<true>;
+    'market-article-images': MarketArticleImagesSelect<false> | MarketArticleImagesSelect<true>;
     glossary: GlossarySelect<false> | GlossarySelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
@@ -854,6 +856,23 @@ export interface ExternalItem {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "market-article-images".
+ */
+export interface MarketArticleImage {
+  id: number;
+  /**
+   * Copy the link from the headline in Major Markets. The image follows that article if its position changes.
+   */
+  articleUrl: string;
+  /**
+   * Choose a photo approved for use on Enerqa. Describe the photo in the Media alt text field.
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "glossary".
  */
 export interface Glossary {
@@ -1391,6 +1410,16 @@ export interface ExternalItemsSelect<T extends boolean = true> {
   rights?: T;
   domains?: T;
   industries?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "market-article-images_select".
+ */
+export interface MarketArticleImagesSelect<T extends boolean = true> {
+  articleUrl?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

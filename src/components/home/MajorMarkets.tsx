@@ -7,6 +7,9 @@ import { getHomeNews, getMarketCommentary } from './homeNews';
 import { buildMarketView, formatDateTimeUtc, selectHeroStoryGroups, toCard } from './firstFoldNews';
 import { Container } from '../ui/Container';
 import { MarketChart } from './MarketChart';
+import { NewsThumbnail } from './NewsThumbnail';
+import { getMarketArticleImages } from './marketArticleImages';
+import { normaliseUrl } from '@/lib/api/news/types';
 import { SourceUnavailable } from '../ui/SourceUnavailable';
 
 export async function MarketsCommentary() {
@@ -19,21 +22,27 @@ export async function MarketsCommentary() {
   const failed = sourcesFailedFor({ providerStatus: { ...pool.providerStatus, ...commentary.providerStatus } }, PAGE_NEWS_PROVIDERS);
   if (!items.length) return <SourceUnavailable variant={failed ? 'unavailable' : 'empty'}
     nearest={{ href: 'https://www.tradingview.com/markets/stocks-global-market/news/', label: 'browse market reporting' }} className="market-commentary-empty" />;
+  const images = await getMarketArticleImages(items.map(item => item.url));
   return <div className="market-commentary-stories">
     {items.map(item => {
       const card = toCard(item);
+      const editorial = images.get(normaliseUrl(card.url));
+      const imageUrl = editorial?.url ?? card.imageUrl;
       return <article key={card.id} className="market-commentary-story">
-        <p className="market-commentary-meta"><span>{card.publisher}</span>{card.publishedAt && card.dateLabel && <time dateTime={card.publishedAt}>{card.dateLabel}</time>}</p>
-        <h4><a href={card.url} target="_blank" rel="noopener noreferrer" data-market-card>{card.title}<ArrowUpRight aria-hidden="true" /><span className="sr-only"> (opens the original article in a new tab)</span></a></h4>
-        {card.teaser && <p className="market-commentary-teaser">{card.teaser}</p>}
-        <p className="market-commentary-retrieved">
-          Via {item.providerLabel}.{' '}
-          {['apitube', 'newsdata'].includes(item.provider) && `${item.providerLabel} delayed ${NEWS_DELAY_HOURS}h+. `}
-          Feed checked {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
-          {card.older && ' Published more than 48 hours ago.'}
-          {isNewsItemStale(item) && ' Cached commentary; refresh unavailable.'}
-          {item.provider === 'eia_rss' && ' U.S. energy-market commentary.'}
-        </p>
+        {imageUrl && <NewsThumbnail imageUrl={imageUrl} alt={editorial?.alt} variant="market" />}
+        <div className="market-commentary-copy">
+          <p className="market-commentary-meta"><span>{card.publisher}</span>{card.publishedAt && card.dateLabel && <time dateTime={card.publishedAt}>{card.dateLabel}</time>}</p>
+          <h4><a href={card.url} target="_blank" rel="noopener noreferrer" data-market-card>{card.title}<ArrowUpRight aria-hidden="true" /><span className="sr-only"> (opens the original article in a new tab)</span></a></h4>
+          {card.teaser && <p className="market-commentary-teaser">{card.teaser}</p>}
+          <p className="market-commentary-retrieved">
+            Via {item.providerLabel}.{' '}
+            {item.provider === 'newsdata' && `${item.providerLabel} delayed ${NEWS_DELAY_HOURS}h+. `}
+            Feed checked {formatDateTimeUtc(item.feedRefreshedAt ?? item.retrievedAt)}.
+            {card.older && ' Published more than 48 hours ago.'}
+            {isNewsItemStale(item) && ' Cached commentary; refresh unavailable.'}
+            {item.provider === 'eia_rss' && ' U.S. energy-market commentary.'}
+          </p>
+        </div>
       </article>;
     })}
   </div>;

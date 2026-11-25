@@ -16,6 +16,7 @@ import { Industries } from './collections/Industries'
 import { Datasets } from './collections/Datasets'
 import { Dashboards } from './collections/Dashboards'
 import { ExternalItems } from './collections/ExternalItems'
+import { MarketArticleImages } from './collections/MarketArticleImages'
 import { Glossary } from './collections/Glossary'
 import { FAQs } from './collections/FAQs'
 import { Enquiries } from './collections/Enquiries'
@@ -55,6 +56,7 @@ export default buildConfig({
     Datasets,
     Dashboards,
     ExternalItems,
+    MarketArticleImages,
     Glossary,
     FAQs,
     Enquiries,
