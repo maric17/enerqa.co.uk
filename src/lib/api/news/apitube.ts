@@ -8,6 +8,7 @@ import { hostnameOf, isAllowedDomain, newsImageUrl, normaliseUrl, type NewsBaske
 
 type ApiTubePage = { status?: unknown; results?: unknown; errors?: { code?: unknown }[] };
 const ENDPOINT = 'https://api.apitube.io/v1/news/everything';
+const STOCK_HEADLINE_SOURCES = ['wtop.com', 'newindianexpress.com'];
 // APITube silently drops values after the third; these are already approved publishers.
 export const API_TUBE_SOURCES = ['theguardian.com', 'bbc.co.uk', 'reuters.com'];
 export const API_TUBE_CATEGORIES = {
@@ -78,25 +79,29 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
   languages: string[] = ['en'], options: { days?: number; retryTransient?: boolean; basket?: Exclude<NewsBasketKey, 'all'> } = {}): Promise<ConnectorResult<NewsItem[]>> {
   const key = providerKey('apitube');
   if (!key) return fail('apitube', 'not_configured', 'API_TUBE_API_KEY is not set.');
+  const stockHeadlineSearch = !options.basket && query === STOCK_MARKET_QUERIES[0];
   const categories = options.basket ? API_TUBE_CATEGORIES[options.basket]
     : STOCK_MARKET_QUERIES.includes(query) ? ['medtop:04000000'] : ['medtop:06000000', 'medtop:04000000', 'medtop:08000000'];
   const sources = options.basket ? API_TUBE_TOPIC_SOURCES[options.basket]
+    : stockHeadlineSearch ? STOCK_HEADLINE_SOURCES
     : Object.values(INDUSTRY_FEEDS).find(feed => feed.newsDiscoveryQuery === query)?.newsSources ?? API_TUBE_SOURCES;
   if (!sources.length || sources.length > 3 || !sources.every(isAllowedDomain)) {
     return fail('apitube', 'unavailable', 'The sector publisher group needs review.');
   }
   const end = new Date();
-  const params = new URLSearchParams({ query: apiTubeQuery(query), 'source.domain': sources.join(','),
-    'language.code': languages.slice(0, 3).join(','), per_page: '10', 'sort.by': 'published_at', 'sort.order': 'desc',
+  const params = new URLSearchParams({ 'source.domain': sources.join(','),
+    'language.code': languages.slice(0, 3).join(','), per_page: stockHeadlineSearch ? '15' : '10', 'sort.by': 'published_at', 'sort.order': 'desc',
     // Boolean title search has a 31-day maximum, even on paid plans.
     // Pin both ends: waiting for a rate-limit slot must not widen a 31-day query.
-    'published_at.start': new Date(end.getTime() - Math.min(options.days ?? 7, 31) * 86400000).toISOString(),
+    'published_at.start': new Date(end.getTime() - Math.min(options.days ?? 7, stockHeadlineSearch ? 3 : 31) * 86400000).toISOString(),
     'published_at.end': end.toISOString(),
     fl: 'id,title,description,href,published_at,language,image,categories,source',
   });
+  // Simple title matching found recent stock coverage when the broad Boolean search returned none.
+  params.set(stockHeadlineSearch ? 'title' : 'query', stockHeadlineSearch ? 'stocks' : apiTubeQuery(query));
   // Search broadly by topic; returned category evidence is still required by screening.
   // Combining both filters loses relevant stories assigned to a neighbouring category.
-  if (!options.basket) params.set('category.id', categories.join(','));
+  if (!options.basket && !stockHeadlineSearch) params.set('category.id', categories.join(','));
   const request = () => fetchFromProvider<ApiTubePage>('apitube', `${ENDPOINT}?${params}`, {
     headers: { 'X-API-Key': key }, revalidate, fresh, tags: ['news'], timeoutMs: 30000,
     rejectBody: rejectApiTubeBody, errorCode: body => String((body as ApiTubePage | null)?.errors?.[0]?.code ?? ''),
@@ -104,7 +109,7 @@ export async function fetchApiTubeQuery(query: string, revalidate = NEWS_REFRESH
   let result = await request();
   if (!result.ok && options.retryTransient && /HTTP (?:500|502|503|504)\b|timed? out|timeout/i.test(result.message)) {
     // A smaller window reduces work on the retry. The shared provider guard spaces the calls.
-    params.set('published_at.start', new Date(end.getTime() - 3 * 86400000).toISOString());
+    params.set('published_at.start', new Date(end.getTime() - (stockHeadlineSearch ? 1 : 3) * 86400000).toISOString());
     result = await request();
   }
   if (!result.ok) {

@@ -146,7 +146,14 @@ export function buildMarketView(pool: NewsItem[], shown: NewsItem[], limit = 2):
   // Remove shown stories before the publisher cap so they do not use up its slots.
   // News and official commentary can be merged in either order; publication
   // date decides which stories get the publisher slots and the visible cards.
-  return applyGate(withoutShown(matching, shown, matching.length).sort(byNewest)).slice(0, limit);
+  const headlines = new Set<string>();
+  return applyGate(withoutShown(matching, shown, matching.length).sort(byNewest)).filter(item => {
+    // Wire stories can appear on multiple sites with the same headline.
+    const headline = item.title.toLowerCase().replace(/\s+/g, ' ').trim();
+    if (headlines.has(headline)) return false;
+    headlines.add(headline);
+    return true;
+  }).slice(0, limit);
 }
 
 export type HeroCategoryKey = Exclude<NewsBasketKey, 'all'>;

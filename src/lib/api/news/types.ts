@@ -265,6 +265,9 @@ export const SOURCE_ALLOWLIST = [
   'bbc.co.uk',
   // Stock-reporting destinations reviewed 20 Oct 2026; each URL still needs verified_open.
   'cnbc.com',
+  // Recent stock reporting verified anonymously on both sites.
+  'wtop.com',
+  'newindianexpress.com',
   // Reviewed in private browser contexts on 24 Oct 2026 for APITube sector coverage.
   // Each individual destination still needs the normal anonymous access check.
   'myjoyonline.com',
