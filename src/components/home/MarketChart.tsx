@@ -5,7 +5,7 @@ import { ChartNoAxesCombined, ArrowUpRight } from 'lucide-react';
 import { useEmbedConsent } from '@/lib/consent';
 import { Button } from '../ui/Button';
 
-import { MARKET_WIDGET_DOCUMENT, MARKET_WIDGET_MESSAGE } from './marketWidget';
+import { MARKET_SYMBOLS, MARKET_WIDGET_DOCUMENT, MARKET_WIDGET_MESSAGE } from './marketWidget';
 
 export { MARKET_SYMBOLS } from './marketWidget';
 const CHART_URL = 'https://www.tradingview.com/symbols/NYSE-NEE/';
@@ -52,9 +52,12 @@ export function MarketChart() {
   return <div className="market-chart">
     <div className="market-chart-frame">
       {allowed ? <TradingViewChart /> : <div className="market-chart-consent">
-        <ChartNoAxesCombined aria-hidden="true" />
+        <span className="market-chart-icon"><ChartNoAxesCombined aria-hidden="true" /></span>
         <h4>Explore company shares</h4>
         <p>View prices, daily changes and a price chart for energy, transition and technology companies.</p>
+        <ul className="market-chart-symbols" aria-label="Companies in this chart">
+          {MARKET_SYMBOLS.map(({ s, d }) => <li key={s} title={d}>{s.split(':')[1]}</li>)}
+        </ul>
         <p className="market-chart-privacy">The chart is hosted by TradingView and may use its own cookies. Load it when you’re ready.</p>
         <Button type="button" onClick={() => setLoadThisVisit(true)}>Load market chart</Button>
       </div>}

@@ -56,3 +56,18 @@ After deploying the pilot route, install the updated `run-job.py` and
 remove the marker to end it early. Verify the first run with
 `journalctl -t enerqa-job --grep news-pilot`. The pilot uses the same APITube
 request ledger as the current feed. Samples stay in the server journal.
+
+## Market article images
+
+Deploy the database change in migration 20261125_010000 before enabling editorial
+images. It creates the separate market_article_images table. On DigitalOcean,
+grant the runtime role (enerqa) read and write access to the table and usage on
+its ID sequence, and grant the build role SELECT on the table if the build
+renders the homepage. Apply this migration on its own on the restored
+production database so older Payload migrations are not replayed.
+
+In Payload, open Market Article Images, paste the original link from a Major
+Markets headline and select an approved photo from Media. A photo follows that
+URL as the feed changes. Clearing the selection brings back the publisher
+thumbnail when available. Upload a landscape photo and describe it in the
+Media alt text field.

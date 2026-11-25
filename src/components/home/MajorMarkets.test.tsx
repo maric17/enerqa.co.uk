@@ -2,6 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchNews, type NewsItem, type NewsResult } from '@/lib/api/news';
 import { MarketsCommentary } from './MajorMarkets';
+import { getMarketArticleImages } from './marketArticleImages';
+
+vi.mock('./marketArticleImages', () => ({ getMarketArticleImages: vi.fn(async () => new Map()) }));
 
 // Keep tests on the saved-feed selection path; no live upstream requests.
 vi.mock('@/lib/api/news', async original => ({ ...await original<typeof import('@/lib/api/news')>(), fetchNews: vi.fn() }));
@@ -26,6 +29,20 @@ describe('separate Major Markets commentary', () => {
     expect(screen.getByRole('link', { name: /FTSE shares fall/ })).toHaveAttribute('href', 'https://www.theguardian.com/prices');
     expect(fetchNews).toHaveBeenLastCalledWith('all', 40, { providers: ['apitube'], maxPerPublisher: 10, stockMarkets: true });
     expect(screen.queryByText('This source is temporarily unavailable.')).not.toBeInTheDocument();
+  });
+
+  it('uses the editor image only for its matching story and keeps other cards readable', async () => {
+    const story = item('prices', 'FTSE shares fall');
+    vi.mocked(fetchNews).mockResolvedValueOnce(result([])).mockResolvedValueOnce(result([
+      { ...story, imageUrl: 'https://images.example.com/publisher.jpg' }, item('rise', 'Nasdaq stocks rise'),
+    ]));
+    vi.mocked(getMarketArticleImages).mockResolvedValueOnce(new Map([
+      [story.url, { url: '/api/media/file/markets.jpg', alt: 'Electronic stock prices on an exchange floor' }],
+    ]));
+    const { container } = render(await MarketsCommentary());
+    expect(screen.getByAltText('Electronic stock prices on an exchange floor')).toHaveAttribute('data-article-thumbnail');
+    expect(container.querySelectorAll('.market-commentary-thumbnail')).toHaveLength(1);
+    expect(screen.getByRole('link', { name: /Nasdaq stocks rise/ })).toBeInTheDocument();
   });
 
   it('prefers the newest available market reporting, with honest timestamps', async () => {
